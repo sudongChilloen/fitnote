@@ -1,0 +1,1108 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================================
+// ENUMS
+// ============================================================
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+  DELETED
+}
+
+enum MembershipRole {
+  CENTER_ADMIN
+  TRAINER
+  MEMBER
+}
+
+enum MembershipStatus {
+  ACTIVE
+  INACTIVE
+  INVITED
+  LEFT
+}
+
+enum CenterStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum PTProductStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum PTContractStatus {
+  ACTIVE
+  COMPLETED
+  EXPIRED
+  CANCELLED
+}
+
+enum PTSessionStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+enum WorkoutRecordType {
+  PERSONAL
+  PT
+}
+
+enum WorkoutSessionStatus {
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum RoutineStatus {
+  ACTIVE
+  ARCHIVED
+}
+
+enum DietMealType {
+  BREAKFAST
+  LUNCH
+  DINNER
+  SNACK
+  OTHER
+}
+
+enum JournalStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum NotificationType {
+  JOURNAL_CREATED
+  PT_SESSION_REMINDER
+  PT_SESSION_CHANGED
+  PT_CONTRACT_EXPIRING
+  GENERAL
+}
+
+enum DevicePlatform {
+  WEB
+  IOS
+  ANDROID
+}
+
+enum GoalType {
+  WEIGHT
+  BODY_FAT
+  MUSCLE_MASS
+  WORKOUT_FREQUENCY
+  EXERCISE_PR
+  CUSTOM
+}
+
+enum GoalStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum Difficulty {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum EquipmentCategory {
+  FREE_WEIGHT
+  MACHINE
+  CABLE
+  CARDIO
+  BODYWEIGHT
+  BAND
+  OTHER
+}
+
+enum WorkoutBodyPart {
+  CHEST
+  BACK
+  SHOULDER
+  ARM
+  LEG
+  GLUTE
+  ABS
+  FULL_BODY
+  CARDIO
+  OTHER
+}
+
+enum ExerciseMovementType {
+  PUSH
+  PULL
+  SQUAT
+  HINGE
+  LUNGE
+  CARRY
+  ROTATION
+  ISOLATION
+  CARDIO
+  OTHER
+}
+
+enum AlternativeType {
+  SAME_MUSCLE
+  SAME_MOVEMENT
+  EQUIPMENT_ALTERNATIVE
+  DIFFICULTY_ALTERNATIVE
+}
+
+enum AiAnalysisStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+// ============================================================
+// USER
+// ============================================================
+
+model User {
+  id              String     @id @default(uuid())
+  email           String     @unique
+  passwordHash    String?
+  name            String
+  phone           String?
+  profileImageUrl String?
+  status          UserStatus @default(ACTIVE)
+
+  lastLoginAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // 기본 회원 프로필
+  memberProfile MemberProfile?
+
+  // 인증
+  authSessions AuthSession[]
+  deviceTokens DeviceToken[]
+
+  // 헬스장 가입 정보
+  centerMemberships CenterMembership[]
+
+  // 운동
+  routines         Routine[]
+  workoutSessions  WorkoutSession[]
+  workoutFavorites WorkoutFavorite[]
+
+  // 식단 / 신체 / 목표
+  dietRecords DietRecord[]
+  bodyRecords BodyRecord[]
+  goals       Goal[]
+
+  // 알림 / AI
+  notifications Notification[]
+  aiAnalyses    AiAnalysis[]
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+// ============================================================
+// AUTH SESSION
+// ============================================================
+
+model AuthSession {
+  id               String @id @default(uuid())
+  userId           String
+  refreshTokenHash String @unique
+
+  expiresAt  DateTime
+  lastUsedAt DateTime?
+  revokedAt  DateTime?
+
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+// ============================================================
+// DEVICE TOKEN / FCM
+// ============================================================
+
+model DeviceToken {
+  id         String         @id @default(uuid())
+  userId     String
+  token      String         @unique
+  platform   DevicePlatform
+  deviceName String?
+
+  isActive   Boolean   @default(true)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  lastUsedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isActive])
+}
+
+// ============================================================
+// CENTER
+// ============================================================
+
+model Center {
+  id          String  @id @default(uuid())
+  name        String
+  address     String?
+  phone       String?
+  description String?
+  logoUrl     String?
+
+  status CenterStatus @default(ACTIVE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  memberships CenterMembership[]
+  invitations CenterInvitation[]
+  ptProducts  PTProduct[]
+  gyms        Gym[]
+
+  @@index([status])
+}
+
+// ============================================================
+// CENTER MEMBERSHIP
+// ============================================================
+
+model CenterMembership {
+  id       String @id @default(uuid())
+  centerId String
+  userId   String
+
+  role   MembershipRole
+  status MembershipStatus @default(ACTIVE)
+
+  // MEMBER의 담당 트레이너
+  assignedTrainerMembershipId String?
+
+  joinedAt DateTime  @default(now())
+  leftAt   DateTime?
+
+  center Center @relation(fields: [centerId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // 자기 자신과의 Trainer ↔ Member 관계
+  assignedTrainerMembership CenterMembership? @relation("TrainerMembers", fields: [assignedTrainerMembershipId], references: [id], onDelete: SetNull)
+
+  assignedMembers CenterMembership[] @relation("TrainerMembers")
+
+  // 중요:
+  // TrainerProfile은 User가 아니라 Membership에 연결
+  trainerProfile TrainerProfile?
+
+  // PT
+  memberContracts  PTContract[] @relation("ContractMember")
+  trainerContracts PTContract[] @relation("ContractTrainer")
+
+  memberPTSessions  PTSession[] @relation("PTSessionMember")
+  trainerPTSessions PTSession[] @relation("PTSessionTrainer")
+
+  // Journal
+  memberJournals  Journal[] @relation("JournalMember")
+  trainerJournals Journal[] @relation("JournalTrainer")
+
+  // PT 가격
+  trainerPTPrices TrainerPTPrice[]
+
+  // 식단 피드백
+  dietFeedbacks DietFeedback[]
+
+  // 트레이너가 생성한 루틴
+  createdRoutines Routine[] @relation("TrainerCreatedRoutines")
+
+  @@unique([centerId, userId])
+  @@index([centerId, role])
+  @@index([centerId, status])
+  @@index([assignedTrainerMembershipId])
+}
+
+// ============================================================
+// CENTER INVITATION
+// ============================================================
+
+model CenterInvitation {
+  id       String @id @default(uuid())
+  centerId String
+
+  email String?
+  code  String  @unique
+
+  // 실제 API에서 TRAINER / MEMBER만 허용하도록 검증
+  role MembershipRole
+
+  expiresAt  DateTime
+  acceptedAt DateTime?
+
+  createdAt DateTime @default(now())
+
+  center Center @relation(fields: [centerId], references: [id], onDelete: Cascade)
+
+  @@index([centerId, role])
+  @@index([expiresAt])
+}
+
+// ============================================================
+// MEMBER PROFILE
+// ============================================================
+
+model MemberProfile {
+  id     String @id @default(uuid())
+  userId String @unique
+
+  birthDate DateTime?
+  gender    String?
+
+  heightCm Decimal?
+
+  fitnessLevel String?
+  primaryGoal  String?
+
+  onboardingDone Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  equipment MemberEquipment[]
+}
+
+// ============================================================
+// TRAINER PROFILE
+// ============================================================
+
+model TrainerProfile {
+  id           String @id @default(uuid())
+  membershipId String @unique
+
+  bio             String?
+  specialty       String?
+  careerYears     Int?
+  profileImageUrl String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // User가 아니라 CenterMembership과 연결
+  membership CenterMembership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+}
+
+// ============================================================
+// EQUIPMENT
+// ============================================================
+
+model Equipment {
+  id          String            @id @default(uuid())
+  name        String            @unique
+  category    EquipmentCategory
+  description String?
+  imageUrl    String?
+
+  isSystem Boolean @default(true)
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  memberEquipment   MemberEquipment[]
+  exerciseEquipment ExerciseEquipment[]
+  gymEquipment      GymEquipment[]
+
+  @@index([category])
+  @@index([isActive])
+}
+
+
+// ============================================================
+// MEMBER EQUIPMENT
+// ============================================================
+
+model MemberEquipment {
+  id          String @id @default(uuid())
+  memberId    String
+  equipmentId String
+
+  available Boolean @default(true)
+
+  // 사용자가 직접 등록한 기구
+  isCustom   Boolean @default(false)
+  customName String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  member    MemberProfile @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  equipment Equipment     @relation(fields: [equipmentId], references: [id], onDelete: Restrict)
+
+  @@unique([memberId, equipmentId])
+  @@index([memberId, available])
+  @@index([equipmentId])
+}
+
+// ============================================================
+// GYM
+// ============================================================
+
+model Gym {
+  id       String @id @default(uuid())
+  centerId String
+
+  name    String
+  address String?
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  center    Center         @relation(fields: [centerId], references: [id], onDelete: Cascade)
+  equipment GymEquipment[]
+
+  @@index([centerId, isActive])
+}
+
+// ============================================================
+// GYM EQUIPMENT
+// ============================================================
+
+model GymEquipment {
+  id          String @id @default(uuid())
+  gymId       String
+  equipmentId String
+
+  available Boolean @default(true)
+  quantity  Int     @default(1)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  gym       Gym       @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  equipment Equipment @relation(fields: [equipmentId], references: [id], onDelete: Restrict)
+
+  @@unique([gymId, equipmentId])
+  @@index([equipmentId])
+}
+
+// ============================================================
+// EXERCISE
+// ============================================================
+model Exercise {
+  id String @id @default(uuid())
+
+  name String @unique
+
+  bodyPart     WorkoutBodyPart
+  targetMuscle String?
+
+  movementType ExerciseMovementType
+  difficulty   Difficulty
+
+  description String?
+  instruction String?
+  breathing   String?
+  caution     String?
+
+  videoUrl     String?
+  thumbnailUrl String?
+
+  isSystem Boolean @default(true)
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  equipment ExerciseEquipment[]
+
+  alternativesFrom WorkoutAlternative[] @relation("AlternativeFrom")
+  alternativesTo   WorkoutAlternative[] @relation("AlternativeTo")
+
+  routineExercises RoutineExercise[]
+
+  workoutRecords WorkoutRecord[]
+  favorites      WorkoutFavorite[]
+
+  @@index([bodyPart, isActive])
+  @@index([difficulty])
+  @@index([movementType])
+}
+
+// ============================================================
+// EXERCISE ↔ EQUIPMENT
+// ============================================================
+
+model ExerciseEquipment {
+  id          String @id @default(uuid())
+  exerciseId  String
+  equipmentId String
+
+  isPrimary Boolean @default(false)
+
+  exercise  Exercise  @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  equipment Equipment @relation(fields: [equipmentId], references: [id], onDelete: Restrict)
+
+  @@unique([exerciseId, equipmentId])
+  @@index([equipmentId, exerciseId])
+}
+
+// ============================================================
+// EXERCISE ALTERNATIVE
+// ============================================================
+
+model WorkoutAlternative {
+  id String @id @default(uuid())
+
+  exerciseId            String
+  alternativeExerciseId String
+
+  type     AlternativeType
+  priority Int             @default(0)
+  reason   String?
+
+  exercise Exercise @relation("AlternativeFrom", fields: [exerciseId], references: [id], onDelete: Cascade)
+
+  alternativeExercise Exercise @relation("AlternativeTo", fields: [alternativeExerciseId], references: [id], onDelete: Cascade)
+
+  @@unique([exerciseId, alternativeExerciseId])
+  @@index([exerciseId, type])
+  @@index([alternativeExerciseId])
+}
+
+// ============================================================
+// ROUTINE
+// ============================================================
+
+model Routine {
+  id     String @id @default(uuid())
+  userId String
+
+  name        String
+  description String?
+
+  status RoutineStatus @default(ACTIVE)
+
+  // 트레이너가 생성한 루틴인 경우
+  createdByTrainerMembershipId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdByTrainer CenterMembership? @relation("TrainerCreatedRoutines", fields: [createdByTrainerMembershipId], references: [id], onDelete: SetNull)
+
+  exercises       RoutineExercise[]
+  workoutSessions WorkoutSession[]
+
+  @@index([userId, status])
+  @@index([createdByTrainerMembershipId])
+}
+
+// ============================================================
+// ROUTINE EXERCISE
+// ============================================================
+
+model RoutineExercise {
+  id         String @id @default(uuid())
+  routineId  String
+  exerciseId String
+
+  orderIndex Int
+
+  targetSets   Int?
+  targetReps   Int?
+  targetWeight Decimal?
+  restSeconds  Int?
+
+  note String?
+
+  routine  Routine  @relation(fields: [routineId], references: [id], onDelete: Cascade)
+  exercise Exercise @relation(fields: [exerciseId], references: [id], onDelete: Restrict)
+
+  @@unique([routineId, orderIndex])
+  @@index([routineId])
+  @@index([exerciseId])
+}
+
+// ============================================================
+// WORKOUT SESSION
+// ============================================================
+
+model WorkoutSession {
+  id     String @id @default(uuid())
+  userId String
+
+  routineId String?
+
+  startedAt DateTime
+  endedAt   DateTime?
+
+  durationSec Int?
+
+  status WorkoutSessionStatus @default(IN_PROGRESS)
+
+  memo String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  routine Routine? @relation(fields: [routineId], references: [id], onDelete: SetNull)
+
+  records WorkoutRecord[]
+
+  @@index([userId, startedAt])
+  @@index([userId, status])
+  @@index([routineId])
+}
+
+// ============================================================
+// WORKOUT RECORD
+// ============================================================
+
+model WorkoutRecord {
+  id         String @id @default(uuid())
+  sessionId  String
+  exerciseId String
+
+  // PT 운동 기록인 경우 연결
+  ptSessionId String?
+
+  recordType WorkoutRecordType @default(PERSONAL)
+
+  orderIndex Int @default(0)
+
+  note String?
+
+  // 해당 운동의 총 볼륨
+  totalVolume Decimal?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  session  WorkoutSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  exercise Exercise       @relation(fields: [exerciseId], references: [id], onDelete: Restrict)
+
+  ptSession PTSession? @relation(fields: [ptSessionId], references: [id], onDelete: SetNull)
+
+  sets WorkoutSet[]
+
+  @@index([sessionId, orderIndex])
+  @@index([exerciseId, createdAt])
+  @@index([ptSessionId])
+}
+
+// ============================================================
+// WORKOUT SET
+// ============================================================
+
+model WorkoutSet {
+  id String @id @default(uuid())
+
+  recordId  String
+  setNumber Int
+
+  weight Decimal?
+  reps   Int?
+
+  restSeconds Int?
+
+  completed Boolean @default(true)
+
+  rpe  Decimal?
+  note String?
+
+  createdAt DateTime @default(now())
+
+  record WorkoutRecord @relation(fields: [recordId], references: [id], onDelete: Cascade)
+
+  @@unique([recordId, setNumber])
+  @@index([recordId])
+}
+
+// ============================================================
+// WORKOUT FAVORITE
+// ============================================================
+
+model WorkoutFavorite {
+  id         String @id @default(uuid())
+  userId     String
+  exerciseId String
+
+  createdAt DateTime @default(now())
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  exercise Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, exerciseId])
+  @@index([userId, createdAt])
+}
+
+// ============================================================
+// PT PRODUCT
+// ============================================================
+
+model PTProduct {
+  id       String @id @default(uuid())
+  centerId String
+
+  name        String
+  description String?
+
+  basePrice    Decimal
+  sessionCount Int
+  durationDays Int?
+
+  isTrial Boolean @default(false)
+
+  status PTProductStatus @default(ACTIVE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  center Center @relation(fields: [centerId], references: [id], onDelete: Cascade)
+
+  trainerPrices TrainerPTPrice[]
+  contracts     PTContract[]
+
+  @@index([centerId, status])
+}
+
+// ============================================================
+// TRAINER PT PRICE
+// ============================================================
+
+model TrainerPTPrice {
+  id String @id @default(uuid())
+
+  trainerMembershipId String
+  productId           String
+
+  price Decimal
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  trainerMembership CenterMembership @relation(fields: [trainerMembershipId], references: [id], onDelete: Cascade)
+
+  product PTProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([trainerMembershipId, productId])
+  @@index([productId])
+}
+
+// ============================================================
+// PT CONTRACT
+// ============================================================
+
+model PTContract {
+  id String @id @default(uuid())
+
+  memberMembershipId  String
+  trainerMembershipId String
+  productId           String
+
+  // 계약 당시 상품 정보 Snapshot
+  productNameSnapshot String
+  priceSnapshot       Decimal
+
+  totalSessions Int
+  usedSessions  Int @default(0)
+
+  startedAt DateTime
+  expiresAt DateTime?
+
+  status PTContractStatus @default(ACTIVE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  memberMembership CenterMembership @relation("ContractMember", fields: [memberMembershipId], references: [id], onDelete: Restrict)
+
+  trainerMembership CenterMembership @relation("ContractTrainer", fields: [trainerMembershipId], references: [id], onDelete: Restrict)
+
+  product PTProduct @relation(fields: [productId], references: [id], onDelete: Restrict)
+
+  sessions PTSession[]
+
+  @@index([memberMembershipId, status])
+  @@index([trainerMembershipId, status])
+  @@index([productId])
+  @@index([expiresAt])
+}
+
+// ============================================================
+// PT SESSION
+// ============================================================
+
+model PTSession {
+  id String @id @default(uuid())
+
+  contractId String
+
+  memberMembershipId  String
+  trainerMembershipId String
+
+  sessionNumber Int
+
+  scheduledAt     DateTime
+  durationMinutes Int      @default(60)
+
+  status PTSessionStatus @default(SCHEDULED)
+
+  memo String?
+
+  completedAt DateTime?
+
+  cancelledAt  DateTime?
+  cancelReason String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  contract PTContract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+
+  memberMembership CenterMembership @relation("PTSessionMember", fields: [memberMembershipId], references: [id], onDelete: Restrict)
+
+  trainerMembership CenterMembership @relation("PTSessionTrainer", fields: [trainerMembershipId], references: [id], onDelete: Restrict)
+
+  workoutRecords WorkoutRecord[]
+  journals       Journal[]
+
+  @@unique([contractId, sessionNumber])
+  @@index([trainerMembershipId, scheduledAt])
+  @@index([memberMembershipId, scheduledAt])
+  @@index([status, scheduledAt])
+}
+
+// ============================================================
+// DIET RECORD
+// ============================================================
+
+model DietRecord {
+  id     String @id @default(uuid())
+  userId String
+
+  date     DateTime
+  mealType DietMealType
+
+  foodName String?
+  amount   String?
+
+  calories     Decimal?
+  carbohydrate Decimal?
+  protein      Decimal?
+  fat          Decimal?
+
+  memo String?
+
+  // 음식 사진
+  imageUrl String?
+
+  // 추후 AI 음식 분석
+  aiAnalyzed Boolean @default(false)
+  aiResult   Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  feedbacks DietFeedback[]
+
+  @@index([userId, date])
+  @@index([userId, mealType])
+}
+
+// ============================================================
+// DIET FEEDBACK
+// ============================================================
+
+model DietFeedback {
+  id String @id @default(uuid())
+
+  dietRecordId        String
+  trainerMembershipId String
+
+  content String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  dietRecord DietRecord @relation(fields: [dietRecordId], references: [id], onDelete: Cascade)
+
+  trainerMembership CenterMembership @relation(fields: [trainerMembershipId], references: [id], onDelete: Restrict)
+
+  @@index([dietRecordId, createdAt])
+  @@index([trainerMembershipId, createdAt])
+}
+
+// ============================================================
+// BODY RECORD
+// ============================================================
+
+model BodyRecord {
+  id     String @id @default(uuid())
+  userId String
+
+  recordedAt DateTime
+
+  weightKg         Decimal?
+  bodyFatPercent   Decimal?
+  skeletalMuscleKg Decimal?
+  waistCm          Decimal?
+
+  memo     String?
+  imageUrl String?
+
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, recordedAt])
+}
+
+// ============================================================
+// GOAL
+// ============================================================
+
+model Goal {
+  id     String @id @default(uuid())
+  userId String
+
+  type GoalType
+
+  title       String
+  description String?
+
+  targetValue  Decimal?
+  currentValue Decimal?
+  unit         String?
+
+  startDate  DateTime
+  targetDate DateTime?
+
+  status GoalStatus @default(ACTIVE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status])
+  @@index([userId, targetDate])
+}
+
+// ============================================================
+// JOURNAL
+// ============================================================
+
+model Journal {
+  id String @id @default(uuid())
+
+  memberMembershipId  String
+  trainerMembershipId String
+
+  ptSessionId String?
+
+  date DateTime
+
+  title   String?
+  content String
+
+  status JournalStatus @default(DRAFT)
+
+  workoutSummary String?
+  dietGuidance   String?
+  caution        String?
+  nextGoal       String?
+
+  publishedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  memberMembership CenterMembership @relation("JournalMember", fields: [memberMembershipId], references: [id], onDelete: Restrict)
+
+  trainerMembership CenterMembership @relation("JournalTrainer", fields: [trainerMembershipId], references: [id], onDelete: Restrict)
+
+  ptSession PTSession? @relation(fields: [ptSessionId], references: [id], onDelete: SetNull)
+
+  @@index([memberMembershipId, date])
+  @@index([trainerMembershipId, date])
+  @@index([ptSessionId])
+  @@index([status, publishedAt])
+}
+
+// ============================================================
+// NOTIFICATION
+// ============================================================
+
+model Notification {
+  id     String @id @default(uuid())
+  userId String
+
+  type    NotificationType
+  title   String
+  message String
+
+  relatedType String?
+  relatedId   String?
+
+  isRead Boolean   @default(false)
+  readAt DateTime?
+
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead, createdAt])
+  @@index([userId, createdAt])
+}
+
+// ============================================================
+// AI ANALYSIS
+// ============================================================
+
+model AiAnalysis {
+  id     String @id @default(uuid())
+  userId String
+
+  type   String
+  status AiAnalysisStatus @default(PENDING)
+
+  inputData  Json?
+  resultData Json?
+
+  errorMessage String?
+
+  createdAt   DateTime  @default(now())
+  startedAt   DateTime?
+  completedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, type])
+  @@index([userId, status])
+  @@index([createdAt])
+}
