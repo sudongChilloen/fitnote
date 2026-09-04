@@ -1,6 +1,7 @@
 import { logout } from "@/app/actions/auth";
 import { requireUser } from "@/app/lib/dal";
 import { prisma } from "@/lib/prisma";
+import Link from "next/link";
 
 export default async function HomePage() {
   const user = await requireUser();
@@ -30,6 +31,13 @@ export default async function HomePage() {
         <p className="text-sm text-gray-500">등록된 운동</p>
         <p className="text-2xl font-bold">{exerciseCount}개</p>
       </section>
+
+      <Link
+        href="/exercises"
+        className="rounded-xl bg-primary px-4 py-3 text-center text-sm font-bold text-primary-foreground"
+      >
+        운동 라이브러리 보기
+      </Link>
     </main>
   );
 }
