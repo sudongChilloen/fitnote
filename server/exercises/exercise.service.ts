@@ -155,6 +155,26 @@ function toExerciseDto(exercise: ExerciseWithRelations) {
   };
 }
 
+/**
+ * 부위별 운동 개수.
+ *
+ * 운동 이름을 모르는 사람은 검색을 못 한다. 그래서 "부위 → 운동" 으로
+ * 골라 들어가는 길을 열어 두는데, 이때 운동이 하나도 없는 부위를 눌러
+ * 빈 화면을 보게 만들면 안 되므로 개수를 함께 내려준다.
+ */
+export async function getBodyPartCounts() {
+  const rows = await prisma.exercise.groupBy({
+    by: ["bodyPart"],
+    where: { isActive: true },
+    _count: { _all: true },
+  });
+
+  return rows.reduce<Partial<Record<WorkoutBodyPart, number>>>((acc, row) => {
+    acc[row.bodyPart] = row._count._all;
+    return acc;
+  }, {});
+}
+
 export interface GetExercisesParams {
   search?: string;
   bodyPart?: WorkoutBodyPart;

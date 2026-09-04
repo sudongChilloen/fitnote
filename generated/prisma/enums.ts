@@ -82,6 +82,14 @@ export const WorkoutRecordType = {
 export type WorkoutRecordType = (typeof WorkoutRecordType)[keyof typeof WorkoutRecordType]
 
 
+export const WorkoutEntryMode = {
+  LIVE: 'LIVE',
+  MANUAL: 'MANUAL'
+} as const
+
+export type WorkoutEntryMode = (typeof WorkoutEntryMode)[keyof typeof WorkoutEntryMode]
+
+
 export const WorkoutSessionStatus = {
   IN_PROGRESS: 'IN_PROGRESS',
   COMPLETED: 'COMPLETED',

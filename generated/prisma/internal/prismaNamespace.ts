@@ -3108,6 +3108,8 @@ export const WorkoutSessionScalarFieldEnum = {
   endedAt: 'endedAt',
   durationSec: 'durationSec',
   status: 'status',
+  entryMode: 'entryMode',
+  recordedByUserId: 'recordedByUserId',
   memo: 'memo',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -3120,6 +3122,7 @@ export const WorkoutRecordScalarFieldEnum = {
   id: 'id',
   sessionId: 'sessionId',
   exerciseId: 'exerciseId',
+  userId: 'userId',
   ptSessionId: 'ptSessionId',
   recordType: 'recordType',
   orderIndex: 'orderIndex',
@@ -3623,6 +3626,20 @@ export type EnumWorkoutSessionStatusFieldRefInput<$PrismaModel> = FieldRefInputT
  * Reference to a field of type 'WorkoutSessionStatus[]'
  */
 export type ListEnumWorkoutSessionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WorkoutSessionStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'WorkoutEntryMode'
+ */
+export type EnumWorkoutEntryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WorkoutEntryMode'>
+    
+
+
+/**
+ * Reference to a field of type 'WorkoutEntryMode[]'
+ */
+export type ListEnumWorkoutEntryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WorkoutEntryMode[]'>
     
 
 

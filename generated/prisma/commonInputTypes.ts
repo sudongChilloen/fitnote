@@ -423,6 +423,13 @@ export type EnumWorkoutSessionStatusFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumWorkoutSessionStatusFilter<$PrismaModel> | $Enums.WorkoutSessionStatus
 }
 
+export type EnumWorkoutEntryModeFilter<$PrismaModel = never> = {
+  equals?: $Enums.WorkoutEntryMode | Prisma.EnumWorkoutEntryModeFieldRefInput<$PrismaModel>
+  in?: $Enums.WorkoutEntryMode[] | Prisma.ListEnumWorkoutEntryModeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.WorkoutEntryMode[] | Prisma.ListEnumWorkoutEntryModeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumWorkoutEntryModeFilter<$PrismaModel> | $Enums.WorkoutEntryMode
+}
+
 export type EnumWorkoutSessionStatusWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.WorkoutSessionStatus | Prisma.EnumWorkoutSessionStatusFieldRefInput<$PrismaModel>
   in?: $Enums.WorkoutSessionStatus[] | Prisma.ListEnumWorkoutSessionStatusFieldRefInput<$PrismaModel>
@@ -431,6 +438,16 @@ export type EnumWorkoutSessionStatusWithAggregatesFilter<$PrismaModel = never> =
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumWorkoutSessionStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumWorkoutSessionStatusFilter<$PrismaModel>
+}
+
+export type EnumWorkoutEntryModeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.WorkoutEntryMode | Prisma.EnumWorkoutEntryModeFieldRefInput<$PrismaModel>
+  in?: $Enums.WorkoutEntryMode[] | Prisma.ListEnumWorkoutEntryModeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.WorkoutEntryMode[] | Prisma.ListEnumWorkoutEntryModeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumWorkoutEntryModeWithAggregatesFilter<$PrismaModel> | $Enums.WorkoutEntryMode
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumWorkoutEntryModeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumWorkoutEntryModeFilter<$PrismaModel>
 }
 
 export type EnumWorkoutRecordTypeFilter<$PrismaModel = never> = {
@@ -1103,6 +1120,13 @@ export type NestedEnumWorkoutSessionStatusFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumWorkoutSessionStatusFilter<$PrismaModel> | $Enums.WorkoutSessionStatus
 }
 
+export type NestedEnumWorkoutEntryModeFilter<$PrismaModel = never> = {
+  equals?: $Enums.WorkoutEntryMode | Prisma.EnumWorkoutEntryModeFieldRefInput<$PrismaModel>
+  in?: $Enums.WorkoutEntryMode[] | Prisma.ListEnumWorkoutEntryModeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.WorkoutEntryMode[] | Prisma.ListEnumWorkoutEntryModeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumWorkoutEntryModeFilter<$PrismaModel> | $Enums.WorkoutEntryMode
+}
+
 export type NestedEnumWorkoutSessionStatusWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.WorkoutSessionStatus | Prisma.EnumWorkoutSessionStatusFieldRefInput<$PrismaModel>
   in?: $Enums.WorkoutSessionStatus[] | Prisma.ListEnumWorkoutSessionStatusFieldRefInput<$PrismaModel>
@@ -1111,6 +1135,16 @@ export type NestedEnumWorkoutSessionStatusWithAggregatesFilter<$PrismaModel = ne
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumWorkoutSessionStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumWorkoutSessionStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumWorkoutEntryModeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.WorkoutEntryMode | Prisma.EnumWorkoutEntryModeFieldRefInput<$PrismaModel>
+  in?: $Enums.WorkoutEntryMode[] | Prisma.ListEnumWorkoutEntryModeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.WorkoutEntryMode[] | Prisma.ListEnumWorkoutEntryModeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumWorkoutEntryModeWithAggregatesFilter<$PrismaModel> | $Enums.WorkoutEntryMode
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumWorkoutEntryModeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumWorkoutEntryModeFilter<$PrismaModel>
 }
 
 export type NestedEnumWorkoutRecordTypeFilter<$PrismaModel = never> = {

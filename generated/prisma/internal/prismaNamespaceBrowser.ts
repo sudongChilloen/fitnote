@@ -354,6 +354,8 @@ export const WorkoutSessionScalarFieldEnum = {
   endedAt: 'endedAt',
   durationSec: 'durationSec',
   status: 'status',
+  entryMode: 'entryMode',
+  recordedByUserId: 'recordedByUserId',
   memo: 'memo',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -366,6 +368,7 @@ export const WorkoutRecordScalarFieldEnum = {
   id: 'id',
   sessionId: 'sessionId',
   exerciseId: 'exerciseId',
+  userId: 'userId',
   ptSessionId: 'ptSessionId',
   recordType: 'recordType',
   orderIndex: 'orderIndex',
