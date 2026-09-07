@@ -497,14 +497,6 @@ export type GymEquipmentUncheckedUpdateManyWithoutGymNestedInput = {
   deleteMany?: Prisma.GymEquipmentScalarWhereInput | Prisma.GymEquipmentScalarWhereInput[]
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type GymEquipmentCreateWithoutEquipmentInput = {
   id?: string
   available?: boolean

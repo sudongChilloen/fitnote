@@ -31,6 +31,7 @@ export type CenterMembershipMinAggregateOutputType = {
   role: $Enums.MembershipRole | null
   status: $Enums.MembershipStatus | null
   assignedTrainerMembershipId: string | null
+  joinedViaInvitationId: string | null
   joinedAt: Date | null
   leftAt: Date | null
 }
@@ -42,6 +43,7 @@ export type CenterMembershipMaxAggregateOutputType = {
   role: $Enums.MembershipRole | null
   status: $Enums.MembershipStatus | null
   assignedTrainerMembershipId: string | null
+  joinedViaInvitationId: string | null
   joinedAt: Date | null
   leftAt: Date | null
 }
@@ -53,6 +55,7 @@ export type CenterMembershipCountAggregateOutputType = {
   role: number
   status: number
   assignedTrainerMembershipId: number
+  joinedViaInvitationId: number
   joinedAt: number
   leftAt: number
   _all: number
@@ -66,6 +69,7 @@ export type CenterMembershipMinAggregateInputType = {
   role?: true
   status?: true
   assignedTrainerMembershipId?: true
+  joinedViaInvitationId?: true
   joinedAt?: true
   leftAt?: true
 }
@@ -77,6 +81,7 @@ export type CenterMembershipMaxAggregateInputType = {
   role?: true
   status?: true
   assignedTrainerMembershipId?: true
+  joinedViaInvitationId?: true
   joinedAt?: true
   leftAt?: true
 }
@@ -88,6 +93,7 @@ export type CenterMembershipCountAggregateInputType = {
   role?: true
   status?: true
   assignedTrainerMembershipId?: true
+  joinedViaInvitationId?: true
   joinedAt?: true
   leftAt?: true
   _all?: true
@@ -172,6 +178,7 @@ export type CenterMembershipGroupByOutputType = {
   role: $Enums.MembershipRole
   status: $Enums.MembershipStatus
   assignedTrainerMembershipId: string | null
+  joinedViaInvitationId: string | null
   joinedAt: Date
   leftAt: Date | null
   _count: CenterMembershipCountAggregateOutputType | null
@@ -204,12 +211,15 @@ export type CenterMembershipWhereInput = {
   role?: Prisma.EnumMembershipRoleFilter<"CenterMembership"> | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFilter<"CenterMembership"> | $Enums.MembershipStatus
   assignedTrainerMembershipId?: Prisma.StringNullableFilter<"CenterMembership"> | string | null
+  joinedViaInvitationId?: Prisma.StringNullableFilter<"CenterMembership"> | string | null
   joinedAt?: Prisma.DateTimeFilter<"CenterMembership"> | Date | string
   leftAt?: Prisma.DateTimeNullableFilter<"CenterMembership"> | Date | string | null
   center?: Prisma.XOR<Prisma.CenterScalarRelationFilter, Prisma.CenterWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   assignedTrainerMembership?: Prisma.XOR<Prisma.CenterMembershipNullableScalarRelationFilter, Prisma.CenterMembershipWhereInput> | null
   assignedMembers?: Prisma.CenterMembershipListRelationFilter
+  createdInvitations?: Prisma.CenterInvitationListRelationFilter
+  joinedViaInvitation?: Prisma.XOR<Prisma.CenterInvitationNullableScalarRelationFilter, Prisma.CenterInvitationWhereInput> | null
   trainerProfile?: Prisma.XOR<Prisma.TrainerProfileNullableScalarRelationFilter, Prisma.TrainerProfileWhereInput> | null
   memberContracts?: Prisma.PTContractListRelationFilter
   trainerContracts?: Prisma.PTContractListRelationFilter
@@ -229,12 +239,15 @@ export type CenterMembershipOrderByWithRelationInput = {
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   assignedTrainerMembershipId?: Prisma.SortOrderInput | Prisma.SortOrder
+  joinedViaInvitationId?: Prisma.SortOrderInput | Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   leftAt?: Prisma.SortOrderInput | Prisma.SortOrder
   center?: Prisma.CenterOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
   assignedTrainerMembership?: Prisma.CenterMembershipOrderByWithRelationInput
   assignedMembers?: Prisma.CenterMembershipOrderByRelationAggregateInput
+  createdInvitations?: Prisma.CenterInvitationOrderByRelationAggregateInput
+  joinedViaInvitation?: Prisma.CenterInvitationOrderByWithRelationInput
   trainerProfile?: Prisma.TrainerProfileOrderByWithRelationInput
   memberContracts?: Prisma.PTContractOrderByRelationAggregateInput
   trainerContracts?: Prisma.PTContractOrderByRelationAggregateInput
@@ -258,12 +271,15 @@ export type CenterMembershipWhereUniqueInput = Prisma.AtLeast<{
   role?: Prisma.EnumMembershipRoleFilter<"CenterMembership"> | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFilter<"CenterMembership"> | $Enums.MembershipStatus
   assignedTrainerMembershipId?: Prisma.StringNullableFilter<"CenterMembership"> | string | null
+  joinedViaInvitationId?: Prisma.StringNullableFilter<"CenterMembership"> | string | null
   joinedAt?: Prisma.DateTimeFilter<"CenterMembership"> | Date | string
   leftAt?: Prisma.DateTimeNullableFilter<"CenterMembership"> | Date | string | null
   center?: Prisma.XOR<Prisma.CenterScalarRelationFilter, Prisma.CenterWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   assignedTrainerMembership?: Prisma.XOR<Prisma.CenterMembershipNullableScalarRelationFilter, Prisma.CenterMembershipWhereInput> | null
   assignedMembers?: Prisma.CenterMembershipListRelationFilter
+  createdInvitations?: Prisma.CenterInvitationListRelationFilter
+  joinedViaInvitation?: Prisma.XOR<Prisma.CenterInvitationNullableScalarRelationFilter, Prisma.CenterInvitationWhereInput> | null
   trainerProfile?: Prisma.XOR<Prisma.TrainerProfileNullableScalarRelationFilter, Prisma.TrainerProfileWhereInput> | null
   memberContracts?: Prisma.PTContractListRelationFilter
   trainerContracts?: Prisma.PTContractListRelationFilter
@@ -283,6 +299,7 @@ export type CenterMembershipOrderByWithAggregationInput = {
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   assignedTrainerMembershipId?: Prisma.SortOrderInput | Prisma.SortOrder
+  joinedViaInvitationId?: Prisma.SortOrderInput | Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   leftAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.CenterMembershipCountOrderByAggregateInput
@@ -300,6 +317,7 @@ export type CenterMembershipScalarWhereWithAggregatesInput = {
   role?: Prisma.EnumMembershipRoleWithAggregatesFilter<"CenterMembership"> | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusWithAggregatesFilter<"CenterMembership"> | $Enums.MembershipStatus
   assignedTrainerMembershipId?: Prisma.StringNullableWithAggregatesFilter<"CenterMembership"> | string | null
+  joinedViaInvitationId?: Prisma.StringNullableWithAggregatesFilter<"CenterMembership"> | string | null
   joinedAt?: Prisma.DateTimeWithAggregatesFilter<"CenterMembership"> | Date | string
   leftAt?: Prisma.DateTimeNullableWithAggregatesFilter<"CenterMembership"> | Date | string | null
 }
@@ -314,6 +332,8 @@ export type CenterMembershipCreateInput = {
   user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
   assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
   assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
+  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
   trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
@@ -333,9 +353,11 @@ export type CenterMembershipUncheckedCreateInput = {
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
   assignedTrainerMembershipId?: string | null
+  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
   trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
@@ -358,6 +380,8 @@ export type CenterMembershipUpdateInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
   assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
   assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
+  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
   trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
@@ -377,9 +401,11 @@ export type CenterMembershipUncheckedUpdateInput = {
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
   trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
@@ -399,6 +425,7 @@ export type CenterMembershipCreateManyInput = {
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
   assignedTrainerMembershipId?: string | null
+  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
 }
@@ -418,6 +445,7 @@ export type CenterMembershipUncheckedUpdateManyInput = {
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -449,6 +477,7 @@ export type CenterMembershipCountOrderByAggregateInput = {
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   assignedTrainerMembershipId?: Prisma.SortOrder
+  joinedViaInvitationId?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   leftAt?: Prisma.SortOrder
 }
@@ -460,6 +489,7 @@ export type CenterMembershipMaxOrderByAggregateInput = {
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   assignedTrainerMembershipId?: Prisma.SortOrder
+  joinedViaInvitationId?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   leftAt?: Prisma.SortOrder
 }
@@ -471,6 +501,7 @@ export type CenterMembershipMinOrderByAggregateInput = {
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   assignedTrainerMembershipId?: Prisma.SortOrder
+  joinedViaInvitationId?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   leftAt?: Prisma.SortOrder
 }
@@ -630,6 +661,62 @@ export type CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipN
   deleteMany?: Prisma.CenterMembershipScalarWhereInput | Prisma.CenterMembershipScalarWhereInput[]
 }
 
+export type CenterMembershipCreateNestedOneWithoutCreatedInvitationsInput = {
+  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutCreatedInvitationsInput, Prisma.CenterMembershipUncheckedCreateWithoutCreatedInvitationsInput>
+  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutCreatedInvitationsInput
+  connect?: Prisma.CenterMembershipWhereUniqueInput
+}
+
+export type CenterMembershipCreateNestedManyWithoutJoinedViaInvitationInput = {
+  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutJoinedViaInvitationInput, Prisma.CenterMembershipUncheckedCreateWithoutJoinedViaInvitationInput> | Prisma.CenterMembershipCreateWithoutJoinedViaInvitationInput[] | Prisma.CenterMembershipUncheckedCreateWithoutJoinedViaInvitationInput[]
+  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutJoinedViaInvitationInput | Prisma.CenterMembershipCreateOrConnectWithoutJoinedViaInvitationInput[]
+  createMany?: Prisma.CenterMembershipCreateManyJoinedViaInvitationInputEnvelope
+  connect?: Prisma.CenterMembershipWhereUniqueInput | Prisma.CenterMembershipWhereUniqueInput[]
+}
+
+export type CenterMembershipUncheckedCreateNestedManyWithoutJoinedViaInvitationInput = {
+  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutJoinedViaInvitationInput, Prisma.CenterMembershipUncheckedCreateWithoutJoinedViaInvitationInput> | Prisma.CenterMembershipCreateWithoutJoinedViaInvitationInput[] | Prisma.CenterMembershipUncheckedCreateWithoutJoinedViaInvitationInput[]
+  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutJoinedViaInvitationInput | Prisma.CenterMembershipCreateOrConnectWithoutJoinedViaInvitationInput[]
+  createMany?: Prisma.CenterMembershipCreateManyJoinedViaInvitationInputEnvelope
+  connect?: Prisma.CenterMembershipWhereUniqueInput | Prisma.CenterMembershipWhereUniqueInput[]
+}
+
+export type CenterMembershipUpdateOneRequiredWithoutCreatedInvitationsNestedInput = {
+  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutCreatedInvitationsInput, Prisma.CenterMembershipUncheckedCreateWithoutCreatedInvitationsInput>
+  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutCreatedInvitationsInput
+  upsert?: Prisma.CenterMembershipUpsertWithoutCreatedInvitationsInput
+  connect?: Prisma.CenterMembershipWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CenterMembershipUpdateToOneWithWhereWithoutCreatedInvitationsInput, Prisma.CenterMembershipUpdateWithoutCreatedInvitationsInput>, Prisma.CenterMembershipUncheckedUpdateWithoutCreatedInvitationsInput>
+}
+
+export type CenterMembershipUpdateManyWithoutJoinedViaInvitationNestedInput = {
+  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutJoinedViaInvitationInput, Prisma.CenterMembershipUncheckedCreateWithoutJoinedViaInvitationInput> | Prisma.CenterMembershipCreateWithoutJoinedViaInvitationInput[] | Prisma.CenterMembershipUncheckedCreateWithoutJoinedViaInvitationInput[]
+  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutJoinedViaInvitationInput | Prisma.CenterMembershipCreateOrConnectWithoutJoinedViaInvitationInput[]
+  upsert?: Prisma.CenterMembershipUpsertWithWhereUniqueWithoutJoinedViaInvitationInput | Prisma.CenterMembershipUpsertWithWhereUniqueWithoutJoinedViaInvitationInput[]
+  createMany?: Prisma.CenterMembershipCreateManyJoinedViaInvitationInputEnvelope
+  set?: Prisma.CenterMembershipWhereUniqueInput | Prisma.CenterMembershipWhereUniqueInput[]
+  disconnect?: Prisma.CenterMembershipWhereUniqueInput | Prisma.CenterMembershipWhereUniqueInput[]
+  delete?: Prisma.CenterMembershipWhereUniqueInput | Prisma.CenterMembershipWhereUniqueInput[]
+  connect?: Prisma.CenterMembershipWhereUniqueInput | Prisma.CenterMembershipWhereUniqueInput[]
+  update?: Prisma.CenterMembershipUpdateWithWhereUniqueWithoutJoinedViaInvitationInput | Prisma.CenterMembershipUpdateWithWhereUniqueWithoutJoinedViaInvitationInput[]
+  updateMany?: Prisma.CenterMembershipUpdateManyWithWhereWithoutJoinedViaInvitationInput | Prisma.CenterMembershipUpdateManyWithWhereWithoutJoinedViaInvitationInput[]
+  deleteMany?: Prisma.CenterMembershipScalarWhereInput | Prisma.CenterMembershipScalarWhereInput[]
+}
+
+export type CenterMembershipUncheckedUpdateManyWithoutJoinedViaInvitationNestedInput = {
+  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutJoinedViaInvitationInput, Prisma.CenterMembershipUncheckedCreateWithoutJoinedViaInvitationInput> | Prisma.CenterMembershipCreateWithoutJoinedViaInvitationInput[] | Prisma.CenterMembershipUncheckedCreateWithoutJoinedViaInvitationInput[]
+  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutJoinedViaInvitationInput | Prisma.CenterMembershipCreateOrConnectWithoutJoinedViaInvitationInput[]
+  upsert?: Prisma.CenterMembershipUpsertWithWhereUniqueWithoutJoinedViaInvitationInput | Prisma.CenterMembershipUpsertWithWhereUniqueWithoutJoinedViaInvitationInput[]
+  createMany?: Prisma.CenterMembershipCreateManyJoinedViaInvitationInputEnvelope
+  set?: Prisma.CenterMembershipWhereUniqueInput | Prisma.CenterMembershipWhereUniqueInput[]
+  disconnect?: Prisma.CenterMembershipWhereUniqueInput | Prisma.CenterMembershipWhereUniqueInput[]
+  delete?: Prisma.CenterMembershipWhereUniqueInput | Prisma.CenterMembershipWhereUniqueInput[]
+  connect?: Prisma.CenterMembershipWhereUniqueInput | Prisma.CenterMembershipWhereUniqueInput[]
+  update?: Prisma.CenterMembershipUpdateWithWhereUniqueWithoutJoinedViaInvitationInput | Prisma.CenterMembershipUpdateWithWhereUniqueWithoutJoinedViaInvitationInput[]
+  updateMany?: Prisma.CenterMembershipUpdateManyWithWhereWithoutJoinedViaInvitationInput | Prisma.CenterMembershipUpdateManyWithWhereWithoutJoinedViaInvitationInput[]
+  deleteMany?: Prisma.CenterMembershipScalarWhereInput | Prisma.CenterMembershipScalarWhereInput[]
+}
+
 export type CenterMembershipCreateNestedOneWithoutTrainerProfileInput = {
   create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutTrainerProfileInput, Prisma.CenterMembershipUncheckedCreateWithoutTrainerProfileInput>
   connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutTrainerProfileInput
@@ -781,6 +868,8 @@ export type CenterMembershipCreateWithoutUserInput = {
   center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
   assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
   assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
+  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
   trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
@@ -799,9 +888,11 @@ export type CenterMembershipUncheckedCreateWithoutUserInput = {
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
   assignedTrainerMembershipId?: string | null
+  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
   trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
@@ -850,6 +941,7 @@ export type CenterMembershipScalarWhereInput = {
   role?: Prisma.EnumMembershipRoleFilter<"CenterMembership"> | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFilter<"CenterMembership"> | $Enums.MembershipStatus
   assignedTrainerMembershipId?: Prisma.StringNullableFilter<"CenterMembership"> | string | null
+  joinedViaInvitationId?: Prisma.StringNullableFilter<"CenterMembership"> | string | null
   joinedAt?: Prisma.DateTimeFilter<"CenterMembership"> | Date | string
   leftAt?: Prisma.DateTimeNullableFilter<"CenterMembership"> | Date | string | null
 }
@@ -863,6 +955,8 @@ export type CenterMembershipCreateWithoutCenterInput = {
   user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
   assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
   assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
+  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
   trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
@@ -881,9 +975,11 @@ export type CenterMembershipUncheckedCreateWithoutCenterInput = {
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
   assignedTrainerMembershipId?: string | null
+  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
   trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
@@ -931,6 +1027,8 @@ export type CenterMembershipCreateWithoutAssignedMembersInput = {
   center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
   assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
+  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
+  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
   trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
@@ -950,8 +1048,10 @@ export type CenterMembershipUncheckedCreateWithoutAssignedMembersInput = {
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
   assignedTrainerMembershipId?: string | null
+  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
+  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
   trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
@@ -978,6 +1078,8 @@ export type CenterMembershipCreateWithoutAssignedTrainerMembershipInput = {
   center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
   assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
+  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
   trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
@@ -996,9 +1098,11 @@ export type CenterMembershipUncheckedCreateWithoutAssignedTrainerMembershipInput
   userId: string
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
+  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
   trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
@@ -1041,6 +1145,8 @@ export type CenterMembershipUpdateWithoutAssignedMembersInput = {
   center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
   assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
+  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
+  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
   trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
@@ -1060,8 +1166,10 @@ export type CenterMembershipUncheckedUpdateWithoutAssignedMembersInput = {
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
   trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
@@ -1090,6 +1198,186 @@ export type CenterMembershipUpdateManyWithWhereWithoutAssignedTrainerMembershipI
   data: Prisma.XOR<Prisma.CenterMembershipUpdateManyMutationInput, Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipInput>
 }
 
+export type CenterMembershipCreateWithoutCreatedInvitationsInput = {
+  id?: string
+  role: $Enums.MembershipRole
+  status?: $Enums.MembershipStatus
+  joinedAt?: Date | string
+  leftAt?: Date | string | null
+  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
+  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
+  assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
+  assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
+  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
+  memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
+  trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
+  memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
+  trainerPTSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerMembershipInput
+  memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
+  trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
+  trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
+  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
+  createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
+}
+
+export type CenterMembershipUncheckedCreateWithoutCreatedInvitationsInput = {
+  id?: string
+  centerId: string
+  userId: string
+  role: $Enums.MembershipRole
+  status?: $Enums.MembershipStatus
+  assignedTrainerMembershipId?: string | null
+  joinedViaInvitationId?: string | null
+  joinedAt?: Date | string
+  leftAt?: Date | string | null
+  assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
+  memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
+  trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
+  trainerPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
+  trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
+}
+
+export type CenterMembershipCreateOrConnectWithoutCreatedInvitationsInput = {
+  where: Prisma.CenterMembershipWhereUniqueInput
+  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutCreatedInvitationsInput, Prisma.CenterMembershipUncheckedCreateWithoutCreatedInvitationsInput>
+}
+
+export type CenterMembershipCreateWithoutJoinedViaInvitationInput = {
+  id?: string
+  role: $Enums.MembershipRole
+  status?: $Enums.MembershipStatus
+  joinedAt?: Date | string
+  leftAt?: Date | string | null
+  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
+  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
+  assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
+  assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
+  memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
+  trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
+  memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
+  trainerPTSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerMembershipInput
+  memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
+  trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
+  trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
+  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
+  createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
+}
+
+export type CenterMembershipUncheckedCreateWithoutJoinedViaInvitationInput = {
+  id?: string
+  centerId: string
+  userId: string
+  role: $Enums.MembershipRole
+  status?: $Enums.MembershipStatus
+  assignedTrainerMembershipId?: string | null
+  joinedAt?: Date | string
+  leftAt?: Date | string | null
+  assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
+  memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
+  trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
+  trainerPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
+  trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
+}
+
+export type CenterMembershipCreateOrConnectWithoutJoinedViaInvitationInput = {
+  where: Prisma.CenterMembershipWhereUniqueInput
+  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutJoinedViaInvitationInput, Prisma.CenterMembershipUncheckedCreateWithoutJoinedViaInvitationInput>
+}
+
+export type CenterMembershipCreateManyJoinedViaInvitationInputEnvelope = {
+  data: Prisma.CenterMembershipCreateManyJoinedViaInvitationInput | Prisma.CenterMembershipCreateManyJoinedViaInvitationInput[]
+  skipDuplicates?: boolean
+}
+
+export type CenterMembershipUpsertWithoutCreatedInvitationsInput = {
+  update: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutCreatedInvitationsInput, Prisma.CenterMembershipUncheckedUpdateWithoutCreatedInvitationsInput>
+  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutCreatedInvitationsInput, Prisma.CenterMembershipUncheckedCreateWithoutCreatedInvitationsInput>
+  where?: Prisma.CenterMembershipWhereInput
+}
+
+export type CenterMembershipUpdateToOneWithWhereWithoutCreatedInvitationsInput = {
+  where?: Prisma.CenterMembershipWhereInput
+  data: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutCreatedInvitationsInput, Prisma.CenterMembershipUncheckedUpdateWithoutCreatedInvitationsInput>
+}
+
+export type CenterMembershipUpdateWithoutCreatedInvitationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
+  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
+  assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
+  assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
+  memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
+  trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
+  memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
+  trainerPTSessions?: Prisma.PTSessionUpdateManyWithoutTrainerMembershipNestedInput
+  memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
+  trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
+  trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
+  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
+  createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
+}
+
+export type CenterMembershipUncheckedUpdateWithoutCreatedInvitationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  centerId?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
+  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
+  memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
+  trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
+  trainerPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
+  trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
+}
+
+export type CenterMembershipUpsertWithWhereUniqueWithoutJoinedViaInvitationInput = {
+  where: Prisma.CenterMembershipWhereUniqueInput
+  update: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutJoinedViaInvitationInput, Prisma.CenterMembershipUncheckedUpdateWithoutJoinedViaInvitationInput>
+  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutJoinedViaInvitationInput, Prisma.CenterMembershipUncheckedCreateWithoutJoinedViaInvitationInput>
+}
+
+export type CenterMembershipUpdateWithWhereUniqueWithoutJoinedViaInvitationInput = {
+  where: Prisma.CenterMembershipWhereUniqueInput
+  data: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutJoinedViaInvitationInput, Prisma.CenterMembershipUncheckedUpdateWithoutJoinedViaInvitationInput>
+}
+
+export type CenterMembershipUpdateManyWithWhereWithoutJoinedViaInvitationInput = {
+  where: Prisma.CenterMembershipScalarWhereInput
+  data: Prisma.XOR<Prisma.CenterMembershipUpdateManyMutationInput, Prisma.CenterMembershipUncheckedUpdateManyWithoutJoinedViaInvitationInput>
+}
+
 export type CenterMembershipCreateWithoutTrainerProfileInput = {
   id?: string
   role: $Enums.MembershipRole
@@ -1100,6 +1388,8 @@ export type CenterMembershipCreateWithoutTrainerProfileInput = {
   user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
   assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
   assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
+  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
   memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
   memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
@@ -1118,9 +1408,11 @@ export type CenterMembershipUncheckedCreateWithoutTrainerProfileInput = {
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
   assignedTrainerMembershipId?: string | null
+  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
   memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
   memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
@@ -1158,6 +1450,8 @@ export type CenterMembershipUpdateWithoutTrainerProfileInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
   assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
   assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
+  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
   memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
   memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
@@ -1176,9 +1470,11 @@ export type CenterMembershipUncheckedUpdateWithoutTrainerProfileInput = {
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
   memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
@@ -1200,6 +1496,8 @@ export type CenterMembershipCreateWithoutCreatedRoutinesInput = {
   user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
   assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
   assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
+  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
   trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
@@ -1218,9 +1516,11 @@ export type CenterMembershipUncheckedCreateWithoutCreatedRoutinesInput = {
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
   assignedTrainerMembershipId?: string | null
+  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
   trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
@@ -1258,6 +1558,8 @@ export type CenterMembershipUpdateWithoutCreatedRoutinesInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
   assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
   assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
+  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
   trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
@@ -1276,9 +1578,11 @@ export type CenterMembershipUncheckedUpdateWithoutCreatedRoutinesInput = {
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
   trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
@@ -1300,6 +1604,8 @@ export type CenterMembershipCreateWithoutTrainerPTPricesInput = {
   user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
   assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
   assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
+  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
   trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
@@ -1318,9 +1624,11 @@ export type CenterMembershipUncheckedCreateWithoutTrainerPTPricesInput = {
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
   assignedTrainerMembershipId?: string | null
+  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
   trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
@@ -1358,6 +1666,8 @@ export type CenterMembershipUpdateWithoutTrainerPTPricesInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
   assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
   assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
+  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
   trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
@@ -1376,9 +1686,11 @@ export type CenterMembershipUncheckedUpdateWithoutTrainerPTPricesInput = {
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
   trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
@@ -1400,6 +1712,8 @@ export type CenterMembershipCreateWithoutMemberContractsInput = {
   user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
   assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
   assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
+  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
   trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
   trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
   memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
@@ -1418,9 +1732,11 @@ export type CenterMembershipUncheckedCreateWithoutMemberContractsInput = {
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
   assignedTrainerMembershipId?: string | null
+  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
   trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
   trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
   memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
@@ -1447,6 +1763,8 @@ export type CenterMembershipCreateWithoutTrainerContractsInput = {
   user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
   assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
   assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
+  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
   trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
   memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
@@ -1465,9 +1783,11 @@ export type CenterMembershipUncheckedCreateWithoutTrainerContractsInput = {
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
   assignedTrainerMembershipId?: string | null
+  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
   trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
   memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
@@ -1505,6 +1825,8 @@ export type CenterMembershipUpdateWithoutMemberContractsInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
   assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
   assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
+  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
   trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
   trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
   memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
@@ -1523,9 +1845,11 @@ export type CenterMembershipUncheckedUpdateWithoutMemberContractsInput = {
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
   trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
   trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
@@ -1558,6 +1882,8 @@ export type CenterMembershipUpdateWithoutTrainerContractsInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
   assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
   assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
+  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
   trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
   memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
@@ -1576,9 +1902,11 @@ export type CenterMembershipUncheckedUpdateWithoutTrainerContractsInput = {
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
   trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
   memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
@@ -1600,6 +1928,8 @@ export type CenterMembershipCreateWithoutMemberPTSessionsInput = {
   user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
   assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
   assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
+  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
   trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
@@ -1618,9 +1948,11 @@ export type CenterMembershipUncheckedCreateWithoutMemberPTSessionsInput = {
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
   assignedTrainerMembershipId?: string | null
+  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
   trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
@@ -1647,6 +1979,8 @@ export type CenterMembershipCreateWithoutTrainerPTSessionsInput = {
   user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
   assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
   assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
+  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
   trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
@@ -1665,9 +1999,11 @@ export type CenterMembershipUncheckedCreateWithoutTrainerPTSessionsInput = {
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
   assignedTrainerMembershipId?: string | null
+  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
   trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
@@ -1705,6 +2041,8 @@ export type CenterMembershipUpdateWithoutMemberPTSessionsInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
   assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
   assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
+  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
   trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
@@ -1723,9 +2061,11 @@ export type CenterMembershipUncheckedUpdateWithoutMemberPTSessionsInput = {
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
   trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
@@ -1758,6 +2098,8 @@ export type CenterMembershipUpdateWithoutTrainerPTSessionsInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
   assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
   assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
+  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
   trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
@@ -1776,9 +2118,11 @@ export type CenterMembershipUncheckedUpdateWithoutTrainerPTSessionsInput = {
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
   trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
@@ -1800,6 +2144,8 @@ export type CenterMembershipCreateWithoutDietFeedbacksInput = {
   user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
   assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
   assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
+  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
   trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
@@ -1818,9 +2164,11 @@ export type CenterMembershipUncheckedCreateWithoutDietFeedbacksInput = {
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
   assignedTrainerMembershipId?: string | null
+  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
   trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
@@ -1858,6 +2206,8 @@ export type CenterMembershipUpdateWithoutDietFeedbacksInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
   assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
   assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
+  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
   trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
@@ -1876,9 +2226,11 @@ export type CenterMembershipUncheckedUpdateWithoutDietFeedbacksInput = {
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
   trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
@@ -1900,6 +2252,8 @@ export type CenterMembershipCreateWithoutMemberJournalsInput = {
   user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
   assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
   assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
+  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
   trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
@@ -1918,9 +2272,11 @@ export type CenterMembershipUncheckedCreateWithoutMemberJournalsInput = {
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
   assignedTrainerMembershipId?: string | null
+  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
   trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
@@ -1947,6 +2303,8 @@ export type CenterMembershipCreateWithoutTrainerJournalsInput = {
   user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
   assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
   assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
+  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
   trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
@@ -1965,9 +2323,11 @@ export type CenterMembershipUncheckedCreateWithoutTrainerJournalsInput = {
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
   assignedTrainerMembershipId?: string | null
+  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
   trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
   memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
   trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
@@ -2005,6 +2365,8 @@ export type CenterMembershipUpdateWithoutMemberJournalsInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
   assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
   assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
+  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
   trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
@@ -2023,9 +2385,11 @@ export type CenterMembershipUncheckedUpdateWithoutMemberJournalsInput = {
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
   trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
@@ -2058,6 +2422,8 @@ export type CenterMembershipUpdateWithoutTrainerJournalsInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
   assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
   assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
+  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
   trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
@@ -2076,9 +2442,11 @@ export type CenterMembershipUncheckedUpdateWithoutTrainerJournalsInput = {
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
   trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
@@ -2096,6 +2464,7 @@ export type CenterMembershipCreateManyUserInput = {
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
   assignedTrainerMembershipId?: string | null
+  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
 }
@@ -2109,6 +2478,8 @@ export type CenterMembershipUpdateWithoutUserInput = {
   center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
   assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
   assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
+  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
   trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
@@ -2127,9 +2498,11 @@ export type CenterMembershipUncheckedUpdateWithoutUserInput = {
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
   trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
@@ -2148,6 +2521,7 @@ export type CenterMembershipUncheckedUpdateManyWithoutUserInput = {
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -2158,6 +2532,7 @@ export type CenterMembershipCreateManyCenterInput = {
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
   assignedTrainerMembershipId?: string | null
+  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
 }
@@ -2171,6 +2546,8 @@ export type CenterMembershipUpdateWithoutCenterInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
   assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
   assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
+  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
   trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
@@ -2189,9 +2566,11 @@ export type CenterMembershipUncheckedUpdateWithoutCenterInput = {
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
   trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
@@ -2210,6 +2589,7 @@ export type CenterMembershipUncheckedUpdateManyWithoutCenterInput = {
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -2220,6 +2600,7 @@ export type CenterMembershipCreateManyAssignedTrainerMembershipInput = {
   userId: string
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
+  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
 }
@@ -2233,6 +2614,8 @@ export type CenterMembershipUpdateWithoutAssignedTrainerMembershipInput = {
   center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
   assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
+  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
   trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
@@ -2251,9 +2634,11 @@ export type CenterMembershipUncheckedUpdateWithoutAssignedTrainerMembershipInput
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
   trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
   memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
   trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
@@ -2272,6 +2657,75 @@ export type CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipI
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type CenterMembershipCreateManyJoinedViaInvitationInput = {
+  id?: string
+  centerId: string
+  userId: string
+  role: $Enums.MembershipRole
+  status?: $Enums.MembershipStatus
+  assignedTrainerMembershipId?: string | null
+  joinedAt?: Date | string
+  leftAt?: Date | string | null
+}
+
+export type CenterMembershipUpdateWithoutJoinedViaInvitationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
+  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
+  assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
+  assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
+  memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
+  trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
+  memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
+  trainerPTSessions?: Prisma.PTSessionUpdateManyWithoutTrainerMembershipNestedInput
+  memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
+  trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
+  trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
+  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
+  createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
+}
+
+export type CenterMembershipUncheckedUpdateWithoutJoinedViaInvitationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  centerId?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
+  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
+  memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
+  trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
+  trainerPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
+  trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
+}
+
+export type CenterMembershipUncheckedUpdateManyWithoutJoinedViaInvitationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  centerId?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
+  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -2283,6 +2737,7 @@ export type CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipI
 
 export type CenterMembershipCountOutputType = {
   assignedMembers: number
+  createdInvitations: number
   memberContracts: number
   trainerContracts: number
   memberPTSessions: number
@@ -2296,6 +2751,7 @@ export type CenterMembershipCountOutputType = {
 
 export type CenterMembershipCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assignedMembers?: boolean | CenterMembershipCountOutputTypeCountAssignedMembersArgs
+  createdInvitations?: boolean | CenterMembershipCountOutputTypeCountCreatedInvitationsArgs
   memberContracts?: boolean | CenterMembershipCountOutputTypeCountMemberContractsArgs
   trainerContracts?: boolean | CenterMembershipCountOutputTypeCountTrainerContractsArgs
   memberPTSessions?: boolean | CenterMembershipCountOutputTypeCountMemberPTSessionsArgs
@@ -2322,6 +2778,13 @@ export type CenterMembershipCountOutputTypeDefaultArgs<ExtArgs extends runtime.T
  */
 export type CenterMembershipCountOutputTypeCountAssignedMembersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.CenterMembershipWhereInput
+}
+
+/**
+ * CenterMembershipCountOutputType without action
+ */
+export type CenterMembershipCountOutputTypeCountCreatedInvitationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CenterInvitationWhereInput
 }
 
 /**
@@ -2395,12 +2858,15 @@ export type CenterMembershipSelect<ExtArgs extends runtime.Types.Extensions.Inte
   role?: boolean
   status?: boolean
   assignedTrainerMembershipId?: boolean
+  joinedViaInvitationId?: boolean
   joinedAt?: boolean
   leftAt?: boolean
   center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   assignedTrainerMembership?: boolean | Prisma.CenterMembership$assignedTrainerMembershipArgs<ExtArgs>
   assignedMembers?: boolean | Prisma.CenterMembership$assignedMembersArgs<ExtArgs>
+  createdInvitations?: boolean | Prisma.CenterMembership$createdInvitationsArgs<ExtArgs>
+  joinedViaInvitation?: boolean | Prisma.CenterMembership$joinedViaInvitationArgs<ExtArgs>
   trainerProfile?: boolean | Prisma.CenterMembership$trainerProfileArgs<ExtArgs>
   memberContracts?: boolean | Prisma.CenterMembership$memberContractsArgs<ExtArgs>
   trainerContracts?: boolean | Prisma.CenterMembership$trainerContractsArgs<ExtArgs>
@@ -2421,11 +2887,13 @@ export type CenterMembershipSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   role?: boolean
   status?: boolean
   assignedTrainerMembershipId?: boolean
+  joinedViaInvitationId?: boolean
   joinedAt?: boolean
   leftAt?: boolean
   center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   assignedTrainerMembership?: boolean | Prisma.CenterMembership$assignedTrainerMembershipArgs<ExtArgs>
+  joinedViaInvitation?: boolean | Prisma.CenterMembership$joinedViaInvitationArgs<ExtArgs>
 }, ExtArgs["result"]["centerMembership"]>
 
 export type CenterMembershipSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2435,11 +2903,13 @@ export type CenterMembershipSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   role?: boolean
   status?: boolean
   assignedTrainerMembershipId?: boolean
+  joinedViaInvitationId?: boolean
   joinedAt?: boolean
   leftAt?: boolean
   center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   assignedTrainerMembership?: boolean | Prisma.CenterMembership$assignedTrainerMembershipArgs<ExtArgs>
+  joinedViaInvitation?: boolean | Prisma.CenterMembership$joinedViaInvitationArgs<ExtArgs>
 }, ExtArgs["result"]["centerMembership"]>
 
 export type CenterMembershipSelectScalar = {
@@ -2449,16 +2919,19 @@ export type CenterMembershipSelectScalar = {
   role?: boolean
   status?: boolean
   assignedTrainerMembershipId?: boolean
+  joinedViaInvitationId?: boolean
   joinedAt?: boolean
   leftAt?: boolean
 }
 
-export type CenterMembershipOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "centerId" | "userId" | "role" | "status" | "assignedTrainerMembershipId" | "joinedAt" | "leftAt", ExtArgs["result"]["centerMembership"]>
+export type CenterMembershipOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "centerId" | "userId" | "role" | "status" | "assignedTrainerMembershipId" | "joinedViaInvitationId" | "joinedAt" | "leftAt", ExtArgs["result"]["centerMembership"]>
 export type CenterMembershipInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   assignedTrainerMembership?: boolean | Prisma.CenterMembership$assignedTrainerMembershipArgs<ExtArgs>
   assignedMembers?: boolean | Prisma.CenterMembership$assignedMembersArgs<ExtArgs>
+  createdInvitations?: boolean | Prisma.CenterMembership$createdInvitationsArgs<ExtArgs>
+  joinedViaInvitation?: boolean | Prisma.CenterMembership$joinedViaInvitationArgs<ExtArgs>
   trainerProfile?: boolean | Prisma.CenterMembership$trainerProfileArgs<ExtArgs>
   memberContracts?: boolean | Prisma.CenterMembership$memberContractsArgs<ExtArgs>
   trainerContracts?: boolean | Prisma.CenterMembership$trainerContractsArgs<ExtArgs>
@@ -2475,11 +2948,13 @@ export type CenterMembershipIncludeCreateManyAndReturn<ExtArgs extends runtime.T
   center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   assignedTrainerMembership?: boolean | Prisma.CenterMembership$assignedTrainerMembershipArgs<ExtArgs>
+  joinedViaInvitation?: boolean | Prisma.CenterMembership$joinedViaInvitationArgs<ExtArgs>
 }
 export type CenterMembershipIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   assignedTrainerMembership?: boolean | Prisma.CenterMembership$assignedTrainerMembershipArgs<ExtArgs>
+  joinedViaInvitation?: boolean | Prisma.CenterMembership$joinedViaInvitationArgs<ExtArgs>
 }
 
 export type $CenterMembershipPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2489,6 +2964,8 @@ export type $CenterMembershipPayload<ExtArgs extends runtime.Types.Extensions.In
     user: Prisma.$UserPayload<ExtArgs>
     assignedTrainerMembership: Prisma.$CenterMembershipPayload<ExtArgs> | null
     assignedMembers: Prisma.$CenterMembershipPayload<ExtArgs>[]
+    createdInvitations: Prisma.$CenterInvitationPayload<ExtArgs>[]
+    joinedViaInvitation: Prisma.$CenterInvitationPayload<ExtArgs> | null
     trainerProfile: Prisma.$TrainerProfilePayload<ExtArgs> | null
     memberContracts: Prisma.$PTContractPayload<ExtArgs>[]
     trainerContracts: Prisma.$PTContractPayload<ExtArgs>[]
@@ -2507,6 +2984,7 @@ export type $CenterMembershipPayload<ExtArgs extends runtime.Types.Extensions.In
     role: $Enums.MembershipRole
     status: $Enums.MembershipStatus
     assignedTrainerMembershipId: string | null
+    joinedViaInvitationId: string | null
     joinedAt: Date
     leftAt: Date | null
   }, ExtArgs["result"]["centerMembership"]>
@@ -2907,6 +3385,8 @@ export interface Prisma__CenterMembershipClient<T, Null = never, ExtArgs extends
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   assignedTrainerMembership<T extends Prisma.CenterMembership$assignedTrainerMembershipArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$assignedTrainerMembershipArgs<ExtArgs>>): Prisma.Prisma__CenterMembershipClient<runtime.Types.Result.GetResult<Prisma.$CenterMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   assignedMembers<T extends Prisma.CenterMembership$assignedMembersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$assignedMembersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CenterMembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  createdInvitations<T extends Prisma.CenterMembership$createdInvitationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$createdInvitationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CenterInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  joinedViaInvitation<T extends Prisma.CenterMembership$joinedViaInvitationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$joinedViaInvitationArgs<ExtArgs>>): Prisma.Prisma__CenterInvitationClient<runtime.Types.Result.GetResult<Prisma.$CenterInvitationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   trainerProfile<T extends Prisma.CenterMembership$trainerProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$trainerProfileArgs<ExtArgs>>): Prisma.Prisma__TrainerProfileClient<runtime.Types.Result.GetResult<Prisma.$TrainerProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   memberContracts<T extends Prisma.CenterMembership$memberContractsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$memberContractsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PTContractPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   trainerContracts<T extends Prisma.CenterMembership$trainerContractsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$trainerContractsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PTContractPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2952,6 +3432,7 @@ export interface CenterMembershipFieldRefs {
   readonly role: Prisma.FieldRef<"CenterMembership", 'MembershipRole'>
   readonly status: Prisma.FieldRef<"CenterMembership", 'MembershipStatus'>
   readonly assignedTrainerMembershipId: Prisma.FieldRef<"CenterMembership", 'String'>
+  readonly joinedViaInvitationId: Prisma.FieldRef<"CenterMembership", 'String'>
   readonly joinedAt: Prisma.FieldRef<"CenterMembership", 'DateTime'>
   readonly leftAt: Prisma.FieldRef<"CenterMembership", 'DateTime'>
 }
@@ -3395,6 +3876,49 @@ export type CenterMembership$assignedMembersArgs<ExtArgs extends runtime.Types.E
   take?: number
   skip?: number
   distinct?: Prisma.CenterMembershipScalarFieldEnum | Prisma.CenterMembershipScalarFieldEnum[]
+}
+
+/**
+ * CenterMembership.createdInvitations
+ */
+export type CenterMembership$createdInvitationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CenterInvitation
+   */
+  select?: Prisma.CenterInvitationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CenterInvitation
+   */
+  omit?: Prisma.CenterInvitationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CenterInvitationInclude<ExtArgs> | null
+  where?: Prisma.CenterInvitationWhereInput
+  orderBy?: Prisma.CenterInvitationOrderByWithRelationInput | Prisma.CenterInvitationOrderByWithRelationInput[]
+  cursor?: Prisma.CenterInvitationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CenterInvitationScalarFieldEnum | Prisma.CenterInvitationScalarFieldEnum[]
+}
+
+/**
+ * CenterMembership.joinedViaInvitation
+ */
+export type CenterMembership$joinedViaInvitationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CenterInvitation
+   */
+  select?: Prisma.CenterInvitationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CenterInvitation
+   */
+  omit?: Prisma.CenterInvitationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CenterInvitationInclude<ExtArgs> | null
+  where?: Prisma.CenterInvitationWhereInput
 }
 
 /**

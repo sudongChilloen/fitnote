@@ -167,6 +167,7 @@ export const CenterMembershipScalarFieldEnum = {
   role: 'role',
   status: 'status',
   assignedTrainerMembershipId: 'assignedTrainerMembershipId',
+  joinedViaInvitationId: 'joinedViaInvitationId',
   joinedAt: 'joinedAt',
   leftAt: 'leftAt'
 } as const
@@ -180,8 +181,11 @@ export const CenterInvitationScalarFieldEnum = {
   email: 'email',
   code: 'code',
   role: 'role',
+  createdByMembershipId: 'createdByMembershipId',
+  maxUses: 'maxUses',
+  usedCount: 'usedCount',
   expiresAt: 'expiresAt',
-  acceptedAt: 'acceptedAt',
+  revokedAt: 'revokedAt',
   createdAt: 'createdAt'
 } as const
 

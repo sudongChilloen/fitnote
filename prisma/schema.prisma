@@ -313,6 +313,10 @@ model CenterMembership {
   // MEMBER의 담당 트레이너
   assignedTrainerMembershipId String?
 
+  // 어느 코드로 들어왔는지. 코드를 여러 명이 쓸 수 있으므로
+  // 이게 없으면 "누가 뿌린 코드로 들어온 회원인지" 를 되짚을 수 없다.
+  joinedViaInvitationId String?
+
   joinedAt DateTime  @default(now())
   leftAt   DateTime?
 
@@ -323,6 +327,10 @@ model CenterMembership {
   assignedTrainerMembership CenterMembership? @relation("TrainerMembers", fields: [assignedTrainerMembershipId], references: [id], onDelete: SetNull)
 
   assignedMembers CenterMembership[] @relation("TrainerMembers")
+
+  // 초대
+  createdInvitations CenterInvitation[] @relation("CreatedInvitations")
+  joinedViaInvitation CenterInvitation? @relation("JoinedViaInvitation", fields: [joinedViaInvitationId], references: [id], onDelete: SetNull)
 
   // 중요:
   // TrainerProfile은 User가 아니라 Membership에 연결
@@ -368,15 +376,31 @@ model CenterInvitation {
   // 실제 API에서 TRAINER / MEMBER만 허용하도록 검증
   role MembershipRole
 
-  expiresAt  DateTime
-  acceptedAt DateTime?
+  // 누가 발급했는지.
+  // 코드 종류를 따로 두지 않고 이 값에서 파생한다. 트레이너가 발급한 코드로
+  // 들어오면 담당 배정까지 이어진다. 종류를 컬럼으로 또 두면 role /
+  // createdBy.role / type 셋이 서로 어긋날 수 있다.
+  createdByMembershipId String
+
+  // 회원 코드는 여러 명이 쓰고, 트레이너 코드는 한 명만 쓴다.
+  // 회원 100명에게 코드를 100번 발급할 수는 없다.
+  maxUses   Int @default(1)
+  usedCount Int @default(0)
+
+  expiresAt DateTime
+  // 코드가 단톡방에 돌았을 때 끄는 수단. 만료일만으로는 못 막는다.
+  revokedAt DateTime?
 
   createdAt DateTime @default(now())
 
-  center Center @relation(fields: [centerId], references: [id], onDelete: Cascade)
+  center    Center           @relation(fields: [centerId], references: [id], onDelete: Cascade)
+  createdBy CenterMembership @relation("CreatedInvitations", fields: [createdByMembershipId], references: [id], onDelete: Cascade)
+
+  joinedMemberships CenterMembership[] @relation("JoinedViaInvitation")
 
   @@index([centerId, role])
   @@index([expiresAt])
+  @@index([createdByMembershipId])
 }
 
 // ============================================================

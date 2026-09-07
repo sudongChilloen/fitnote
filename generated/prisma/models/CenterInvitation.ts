@@ -20,8 +20,20 @@ export type CenterInvitationModel = runtime.Types.Result.DefaultSelection<Prisma
 
 export type AggregateCenterInvitation = {
   _count: CenterInvitationCountAggregateOutputType | null
+  _avg: CenterInvitationAvgAggregateOutputType | null
+  _sum: CenterInvitationSumAggregateOutputType | null
   _min: CenterInvitationMinAggregateOutputType | null
   _max: CenterInvitationMaxAggregateOutputType | null
+}
+
+export type CenterInvitationAvgAggregateOutputType = {
+  maxUses: number | null
+  usedCount: number | null
+}
+
+export type CenterInvitationSumAggregateOutputType = {
+  maxUses: number | null
+  usedCount: number | null
 }
 
 export type CenterInvitationMinAggregateOutputType = {
@@ -30,8 +42,11 @@ export type CenterInvitationMinAggregateOutputType = {
   email: string | null
   code: string | null
   role: $Enums.MembershipRole | null
+  createdByMembershipId: string | null
+  maxUses: number | null
+  usedCount: number | null
   expiresAt: Date | null
-  acceptedAt: Date | null
+  revokedAt: Date | null
   createdAt: Date | null
 }
 
@@ -41,8 +56,11 @@ export type CenterInvitationMaxAggregateOutputType = {
   email: string | null
   code: string | null
   role: $Enums.MembershipRole | null
+  createdByMembershipId: string | null
+  maxUses: number | null
+  usedCount: number | null
   expiresAt: Date | null
-  acceptedAt: Date | null
+  revokedAt: Date | null
   createdAt: Date | null
 }
 
@@ -52,12 +70,25 @@ export type CenterInvitationCountAggregateOutputType = {
   email: number
   code: number
   role: number
+  createdByMembershipId: number
+  maxUses: number
+  usedCount: number
   expiresAt: number
-  acceptedAt: number
+  revokedAt: number
   createdAt: number
   _all: number
 }
 
+
+export type CenterInvitationAvgAggregateInputType = {
+  maxUses?: true
+  usedCount?: true
+}
+
+export type CenterInvitationSumAggregateInputType = {
+  maxUses?: true
+  usedCount?: true
+}
 
 export type CenterInvitationMinAggregateInputType = {
   id?: true
@@ -65,8 +96,11 @@ export type CenterInvitationMinAggregateInputType = {
   email?: true
   code?: true
   role?: true
+  createdByMembershipId?: true
+  maxUses?: true
+  usedCount?: true
   expiresAt?: true
-  acceptedAt?: true
+  revokedAt?: true
   createdAt?: true
 }
 
@@ -76,8 +110,11 @@ export type CenterInvitationMaxAggregateInputType = {
   email?: true
   code?: true
   role?: true
+  createdByMembershipId?: true
+  maxUses?: true
+  usedCount?: true
   expiresAt?: true
-  acceptedAt?: true
+  revokedAt?: true
   createdAt?: true
 }
 
@@ -87,8 +124,11 @@ export type CenterInvitationCountAggregateInputType = {
   email?: true
   code?: true
   role?: true
+  createdByMembershipId?: true
+  maxUses?: true
+  usedCount?: true
   expiresAt?: true
-  acceptedAt?: true
+  revokedAt?: true
   createdAt?: true
   _all?: true
 }
@@ -131,6 +171,18 @@ export type CenterInvitationAggregateArgs<ExtArgs extends runtime.Types.Extensio
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: CenterInvitationAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: CenterInvitationSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: CenterInvitationMinAggregateInputType
@@ -161,6 +213,8 @@ export type CenterInvitationGroupByArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   _count?: CenterInvitationCountAggregateInputType | true
+  _avg?: CenterInvitationAvgAggregateInputType
+  _sum?: CenterInvitationSumAggregateInputType
   _min?: CenterInvitationMinAggregateInputType
   _max?: CenterInvitationMaxAggregateInputType
 }
@@ -171,10 +225,15 @@ export type CenterInvitationGroupByOutputType = {
   email: string | null
   code: string
   role: $Enums.MembershipRole
+  createdByMembershipId: string
+  maxUses: number
+  usedCount: number
   expiresAt: Date
-  acceptedAt: Date | null
+  revokedAt: Date | null
   createdAt: Date
   _count: CenterInvitationCountAggregateOutputType | null
+  _avg: CenterInvitationAvgAggregateOutputType | null
+  _sum: CenterInvitationSumAggregateOutputType | null
   _min: CenterInvitationMinAggregateOutputType | null
   _max: CenterInvitationMaxAggregateOutputType | null
 }
@@ -203,10 +262,15 @@ export type CenterInvitationWhereInput = {
   email?: Prisma.StringNullableFilter<"CenterInvitation"> | string | null
   code?: Prisma.StringFilter<"CenterInvitation"> | string
   role?: Prisma.EnumMembershipRoleFilter<"CenterInvitation"> | $Enums.MembershipRole
+  createdByMembershipId?: Prisma.StringFilter<"CenterInvitation"> | string
+  maxUses?: Prisma.IntFilter<"CenterInvitation"> | number
+  usedCount?: Prisma.IntFilter<"CenterInvitation"> | number
   expiresAt?: Prisma.DateTimeFilter<"CenterInvitation"> | Date | string
-  acceptedAt?: Prisma.DateTimeNullableFilter<"CenterInvitation"> | Date | string | null
+  revokedAt?: Prisma.DateTimeNullableFilter<"CenterInvitation"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"CenterInvitation"> | Date | string
   center?: Prisma.XOR<Prisma.CenterScalarRelationFilter, Prisma.CenterWhereInput>
+  createdBy?: Prisma.XOR<Prisma.CenterMembershipScalarRelationFilter, Prisma.CenterMembershipWhereInput>
+  joinedMemberships?: Prisma.CenterMembershipListRelationFilter
 }
 
 export type CenterInvitationOrderByWithRelationInput = {
@@ -215,10 +279,15 @@ export type CenterInvitationOrderByWithRelationInput = {
   email?: Prisma.SortOrderInput | Prisma.SortOrder
   code?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  createdByMembershipId?: Prisma.SortOrder
+  maxUses?: Prisma.SortOrder
+  usedCount?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
-  acceptedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  revokedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   center?: Prisma.CenterOrderByWithRelationInput
+  createdBy?: Prisma.CenterMembershipOrderByWithRelationInput
+  joinedMemberships?: Prisma.CenterMembershipOrderByRelationAggregateInput
 }
 
 export type CenterInvitationWhereUniqueInput = Prisma.AtLeast<{
@@ -230,10 +299,15 @@ export type CenterInvitationWhereUniqueInput = Prisma.AtLeast<{
   centerId?: Prisma.StringFilter<"CenterInvitation"> | string
   email?: Prisma.StringNullableFilter<"CenterInvitation"> | string | null
   role?: Prisma.EnumMembershipRoleFilter<"CenterInvitation"> | $Enums.MembershipRole
+  createdByMembershipId?: Prisma.StringFilter<"CenterInvitation"> | string
+  maxUses?: Prisma.IntFilter<"CenterInvitation"> | number
+  usedCount?: Prisma.IntFilter<"CenterInvitation"> | number
   expiresAt?: Prisma.DateTimeFilter<"CenterInvitation"> | Date | string
-  acceptedAt?: Prisma.DateTimeNullableFilter<"CenterInvitation"> | Date | string | null
+  revokedAt?: Prisma.DateTimeNullableFilter<"CenterInvitation"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"CenterInvitation"> | Date | string
   center?: Prisma.XOR<Prisma.CenterScalarRelationFilter, Prisma.CenterWhereInput>
+  createdBy?: Prisma.XOR<Prisma.CenterMembershipScalarRelationFilter, Prisma.CenterMembershipWhereInput>
+  joinedMemberships?: Prisma.CenterMembershipListRelationFilter
 }, "id" | "code">
 
 export type CenterInvitationOrderByWithAggregationInput = {
@@ -242,12 +316,17 @@ export type CenterInvitationOrderByWithAggregationInput = {
   email?: Prisma.SortOrderInput | Prisma.SortOrder
   code?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  createdByMembershipId?: Prisma.SortOrder
+  maxUses?: Prisma.SortOrder
+  usedCount?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
-  acceptedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  revokedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.CenterInvitationCountOrderByAggregateInput
+  _avg?: Prisma.CenterInvitationAvgOrderByAggregateInput
   _max?: Prisma.CenterInvitationMaxOrderByAggregateInput
   _min?: Prisma.CenterInvitationMinOrderByAggregateInput
+  _sum?: Prisma.CenterInvitationSumOrderByAggregateInput
 }
 
 export type CenterInvitationScalarWhereWithAggregatesInput = {
@@ -259,8 +338,11 @@ export type CenterInvitationScalarWhereWithAggregatesInput = {
   email?: Prisma.StringNullableWithAggregatesFilter<"CenterInvitation"> | string | null
   code?: Prisma.StringWithAggregatesFilter<"CenterInvitation"> | string
   role?: Prisma.EnumMembershipRoleWithAggregatesFilter<"CenterInvitation"> | $Enums.MembershipRole
+  createdByMembershipId?: Prisma.StringWithAggregatesFilter<"CenterInvitation"> | string
+  maxUses?: Prisma.IntWithAggregatesFilter<"CenterInvitation"> | number
+  usedCount?: Prisma.IntWithAggregatesFilter<"CenterInvitation"> | number
   expiresAt?: Prisma.DateTimeWithAggregatesFilter<"CenterInvitation"> | Date | string
-  acceptedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"CenterInvitation"> | Date | string | null
+  revokedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"CenterInvitation"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CenterInvitation"> | Date | string
 }
 
@@ -269,10 +351,14 @@ export type CenterInvitationCreateInput = {
   email?: string | null
   code: string
   role: $Enums.MembershipRole
+  maxUses?: number
+  usedCount?: number
   expiresAt: Date | string
-  acceptedAt?: Date | string | null
+  revokedAt?: Date | string | null
   createdAt?: Date | string
   center: Prisma.CenterCreateNestedOneWithoutInvitationsInput
+  createdBy: Prisma.CenterMembershipCreateNestedOneWithoutCreatedInvitationsInput
+  joinedMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutJoinedViaInvitationInput
 }
 
 export type CenterInvitationUncheckedCreateInput = {
@@ -281,9 +367,13 @@ export type CenterInvitationUncheckedCreateInput = {
   email?: string | null
   code: string
   role: $Enums.MembershipRole
+  createdByMembershipId: string
+  maxUses?: number
+  usedCount?: number
   expiresAt: Date | string
-  acceptedAt?: Date | string | null
+  revokedAt?: Date | string | null
   createdAt?: Date | string
+  joinedMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutJoinedViaInvitationInput
 }
 
 export type CenterInvitationUpdateInput = {
@@ -291,10 +381,14 @@ export type CenterInvitationUpdateInput = {
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
+  maxUses?: Prisma.IntFieldUpdateOperationsInput | number
+  usedCount?: Prisma.IntFieldUpdateOperationsInput | number
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   center?: Prisma.CenterUpdateOneRequiredWithoutInvitationsNestedInput
+  createdBy?: Prisma.CenterMembershipUpdateOneRequiredWithoutCreatedInvitationsNestedInput
+  joinedMemberships?: Prisma.CenterMembershipUpdateManyWithoutJoinedViaInvitationNestedInput
 }
 
 export type CenterInvitationUncheckedUpdateInput = {
@@ -303,9 +397,13 @@ export type CenterInvitationUncheckedUpdateInput = {
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
+  createdByMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  maxUses?: Prisma.IntFieldUpdateOperationsInput | number
+  usedCount?: Prisma.IntFieldUpdateOperationsInput | number
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  joinedMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutJoinedViaInvitationNestedInput
 }
 
 export type CenterInvitationCreateManyInput = {
@@ -314,8 +412,11 @@ export type CenterInvitationCreateManyInput = {
   email?: string | null
   code: string
   role: $Enums.MembershipRole
+  createdByMembershipId: string
+  maxUses?: number
+  usedCount?: number
   expiresAt: Date | string
-  acceptedAt?: Date | string | null
+  revokedAt?: Date | string | null
   createdAt?: Date | string
 }
 
@@ -324,8 +425,10 @@ export type CenterInvitationUpdateManyMutationInput = {
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
+  maxUses?: Prisma.IntFieldUpdateOperationsInput | number
+  usedCount?: Prisma.IntFieldUpdateOperationsInput | number
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -335,8 +438,11 @@ export type CenterInvitationUncheckedUpdateManyInput = {
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
+  createdByMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  maxUses?: Prisma.IntFieldUpdateOperationsInput | number
+  usedCount?: Prisma.IntFieldUpdateOperationsInput | number
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -350,15 +456,28 @@ export type CenterInvitationOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type CenterInvitationNullableScalarRelationFilter = {
+  is?: Prisma.CenterInvitationWhereInput | null
+  isNot?: Prisma.CenterInvitationWhereInput | null
+}
+
 export type CenterInvitationCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   centerId?: Prisma.SortOrder
   email?: Prisma.SortOrder
   code?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  createdByMembershipId?: Prisma.SortOrder
+  maxUses?: Prisma.SortOrder
+  usedCount?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
-  acceptedAt?: Prisma.SortOrder
+  revokedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type CenterInvitationAvgOrderByAggregateInput = {
+  maxUses?: Prisma.SortOrder
+  usedCount?: Prisma.SortOrder
 }
 
 export type CenterInvitationMaxOrderByAggregateInput = {
@@ -367,8 +486,11 @@ export type CenterInvitationMaxOrderByAggregateInput = {
   email?: Prisma.SortOrder
   code?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  createdByMembershipId?: Prisma.SortOrder
+  maxUses?: Prisma.SortOrder
+  usedCount?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
-  acceptedAt?: Prisma.SortOrder
+  revokedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -378,9 +500,17 @@ export type CenterInvitationMinOrderByAggregateInput = {
   email?: Prisma.SortOrder
   code?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  createdByMembershipId?: Prisma.SortOrder
+  maxUses?: Prisma.SortOrder
+  usedCount?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
-  acceptedAt?: Prisma.SortOrder
+  revokedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type CenterInvitationSumOrderByAggregateInput = {
+  maxUses?: Prisma.SortOrder
+  usedCount?: Prisma.SortOrder
 }
 
 export type CenterInvitationCreateNestedManyWithoutCenterInput = {
@@ -425,14 +555,84 @@ export type CenterInvitationUncheckedUpdateManyWithoutCenterNestedInput = {
   deleteMany?: Prisma.CenterInvitationScalarWhereInput | Prisma.CenterInvitationScalarWhereInput[]
 }
 
+export type CenterInvitationCreateNestedManyWithoutCreatedByInput = {
+  create?: Prisma.XOR<Prisma.CenterInvitationCreateWithoutCreatedByInput, Prisma.CenterInvitationUncheckedCreateWithoutCreatedByInput> | Prisma.CenterInvitationCreateWithoutCreatedByInput[] | Prisma.CenterInvitationUncheckedCreateWithoutCreatedByInput[]
+  connectOrCreate?: Prisma.CenterInvitationCreateOrConnectWithoutCreatedByInput | Prisma.CenterInvitationCreateOrConnectWithoutCreatedByInput[]
+  createMany?: Prisma.CenterInvitationCreateManyCreatedByInputEnvelope
+  connect?: Prisma.CenterInvitationWhereUniqueInput | Prisma.CenterInvitationWhereUniqueInput[]
+}
+
+export type CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput = {
+  create?: Prisma.XOR<Prisma.CenterInvitationCreateWithoutJoinedMembershipsInput, Prisma.CenterInvitationUncheckedCreateWithoutJoinedMembershipsInput>
+  connectOrCreate?: Prisma.CenterInvitationCreateOrConnectWithoutJoinedMembershipsInput
+  connect?: Prisma.CenterInvitationWhereUniqueInput
+}
+
+export type CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput = {
+  create?: Prisma.XOR<Prisma.CenterInvitationCreateWithoutCreatedByInput, Prisma.CenterInvitationUncheckedCreateWithoutCreatedByInput> | Prisma.CenterInvitationCreateWithoutCreatedByInput[] | Prisma.CenterInvitationUncheckedCreateWithoutCreatedByInput[]
+  connectOrCreate?: Prisma.CenterInvitationCreateOrConnectWithoutCreatedByInput | Prisma.CenterInvitationCreateOrConnectWithoutCreatedByInput[]
+  createMany?: Prisma.CenterInvitationCreateManyCreatedByInputEnvelope
+  connect?: Prisma.CenterInvitationWhereUniqueInput | Prisma.CenterInvitationWhereUniqueInput[]
+}
+
+export type CenterInvitationUpdateManyWithoutCreatedByNestedInput = {
+  create?: Prisma.XOR<Prisma.CenterInvitationCreateWithoutCreatedByInput, Prisma.CenterInvitationUncheckedCreateWithoutCreatedByInput> | Prisma.CenterInvitationCreateWithoutCreatedByInput[] | Prisma.CenterInvitationUncheckedCreateWithoutCreatedByInput[]
+  connectOrCreate?: Prisma.CenterInvitationCreateOrConnectWithoutCreatedByInput | Prisma.CenterInvitationCreateOrConnectWithoutCreatedByInput[]
+  upsert?: Prisma.CenterInvitationUpsertWithWhereUniqueWithoutCreatedByInput | Prisma.CenterInvitationUpsertWithWhereUniqueWithoutCreatedByInput[]
+  createMany?: Prisma.CenterInvitationCreateManyCreatedByInputEnvelope
+  set?: Prisma.CenterInvitationWhereUniqueInput | Prisma.CenterInvitationWhereUniqueInput[]
+  disconnect?: Prisma.CenterInvitationWhereUniqueInput | Prisma.CenterInvitationWhereUniqueInput[]
+  delete?: Prisma.CenterInvitationWhereUniqueInput | Prisma.CenterInvitationWhereUniqueInput[]
+  connect?: Prisma.CenterInvitationWhereUniqueInput | Prisma.CenterInvitationWhereUniqueInput[]
+  update?: Prisma.CenterInvitationUpdateWithWhereUniqueWithoutCreatedByInput | Prisma.CenterInvitationUpdateWithWhereUniqueWithoutCreatedByInput[]
+  updateMany?: Prisma.CenterInvitationUpdateManyWithWhereWithoutCreatedByInput | Prisma.CenterInvitationUpdateManyWithWhereWithoutCreatedByInput[]
+  deleteMany?: Prisma.CenterInvitationScalarWhereInput | Prisma.CenterInvitationScalarWhereInput[]
+}
+
+export type CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput = {
+  create?: Prisma.XOR<Prisma.CenterInvitationCreateWithoutJoinedMembershipsInput, Prisma.CenterInvitationUncheckedCreateWithoutJoinedMembershipsInput>
+  connectOrCreate?: Prisma.CenterInvitationCreateOrConnectWithoutJoinedMembershipsInput
+  upsert?: Prisma.CenterInvitationUpsertWithoutJoinedMembershipsInput
+  disconnect?: Prisma.CenterInvitationWhereInput | boolean
+  delete?: Prisma.CenterInvitationWhereInput | boolean
+  connect?: Prisma.CenterInvitationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CenterInvitationUpdateToOneWithWhereWithoutJoinedMembershipsInput, Prisma.CenterInvitationUpdateWithoutJoinedMembershipsInput>, Prisma.CenterInvitationUncheckedUpdateWithoutJoinedMembershipsInput>
+}
+
+export type CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput = {
+  create?: Prisma.XOR<Prisma.CenterInvitationCreateWithoutCreatedByInput, Prisma.CenterInvitationUncheckedCreateWithoutCreatedByInput> | Prisma.CenterInvitationCreateWithoutCreatedByInput[] | Prisma.CenterInvitationUncheckedCreateWithoutCreatedByInput[]
+  connectOrCreate?: Prisma.CenterInvitationCreateOrConnectWithoutCreatedByInput | Prisma.CenterInvitationCreateOrConnectWithoutCreatedByInput[]
+  upsert?: Prisma.CenterInvitationUpsertWithWhereUniqueWithoutCreatedByInput | Prisma.CenterInvitationUpsertWithWhereUniqueWithoutCreatedByInput[]
+  createMany?: Prisma.CenterInvitationCreateManyCreatedByInputEnvelope
+  set?: Prisma.CenterInvitationWhereUniqueInput | Prisma.CenterInvitationWhereUniqueInput[]
+  disconnect?: Prisma.CenterInvitationWhereUniqueInput | Prisma.CenterInvitationWhereUniqueInput[]
+  delete?: Prisma.CenterInvitationWhereUniqueInput | Prisma.CenterInvitationWhereUniqueInput[]
+  connect?: Prisma.CenterInvitationWhereUniqueInput | Prisma.CenterInvitationWhereUniqueInput[]
+  update?: Prisma.CenterInvitationUpdateWithWhereUniqueWithoutCreatedByInput | Prisma.CenterInvitationUpdateWithWhereUniqueWithoutCreatedByInput[]
+  updateMany?: Prisma.CenterInvitationUpdateManyWithWhereWithoutCreatedByInput | Prisma.CenterInvitationUpdateManyWithWhereWithoutCreatedByInput[]
+  deleteMany?: Prisma.CenterInvitationScalarWhereInput | Prisma.CenterInvitationScalarWhereInput[]
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type CenterInvitationCreateWithoutCenterInput = {
   id?: string
   email?: string | null
   code: string
   role: $Enums.MembershipRole
+  maxUses?: number
+  usedCount?: number
   expiresAt: Date | string
-  acceptedAt?: Date | string | null
+  revokedAt?: Date | string | null
   createdAt?: Date | string
+  createdBy: Prisma.CenterMembershipCreateNestedOneWithoutCreatedInvitationsInput
+  joinedMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutJoinedViaInvitationInput
 }
 
 export type CenterInvitationUncheckedCreateWithoutCenterInput = {
@@ -440,9 +640,13 @@ export type CenterInvitationUncheckedCreateWithoutCenterInput = {
   email?: string | null
   code: string
   role: $Enums.MembershipRole
+  createdByMembershipId: string
+  maxUses?: number
+  usedCount?: number
   expiresAt: Date | string
-  acceptedAt?: Date | string | null
+  revokedAt?: Date | string | null
   createdAt?: Date | string
+  joinedMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutJoinedViaInvitationInput
 }
 
 export type CenterInvitationCreateOrConnectWithoutCenterInput = {
@@ -480,9 +684,138 @@ export type CenterInvitationScalarWhereInput = {
   email?: Prisma.StringNullableFilter<"CenterInvitation"> | string | null
   code?: Prisma.StringFilter<"CenterInvitation"> | string
   role?: Prisma.EnumMembershipRoleFilter<"CenterInvitation"> | $Enums.MembershipRole
+  createdByMembershipId?: Prisma.StringFilter<"CenterInvitation"> | string
+  maxUses?: Prisma.IntFilter<"CenterInvitation"> | number
+  usedCount?: Prisma.IntFilter<"CenterInvitation"> | number
   expiresAt?: Prisma.DateTimeFilter<"CenterInvitation"> | Date | string
-  acceptedAt?: Prisma.DateTimeNullableFilter<"CenterInvitation"> | Date | string | null
+  revokedAt?: Prisma.DateTimeNullableFilter<"CenterInvitation"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"CenterInvitation"> | Date | string
+}
+
+export type CenterInvitationCreateWithoutCreatedByInput = {
+  id?: string
+  email?: string | null
+  code: string
+  role: $Enums.MembershipRole
+  maxUses?: number
+  usedCount?: number
+  expiresAt: Date | string
+  revokedAt?: Date | string | null
+  createdAt?: Date | string
+  center: Prisma.CenterCreateNestedOneWithoutInvitationsInput
+  joinedMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutJoinedViaInvitationInput
+}
+
+export type CenterInvitationUncheckedCreateWithoutCreatedByInput = {
+  id?: string
+  centerId: string
+  email?: string | null
+  code: string
+  role: $Enums.MembershipRole
+  maxUses?: number
+  usedCount?: number
+  expiresAt: Date | string
+  revokedAt?: Date | string | null
+  createdAt?: Date | string
+  joinedMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutJoinedViaInvitationInput
+}
+
+export type CenterInvitationCreateOrConnectWithoutCreatedByInput = {
+  where: Prisma.CenterInvitationWhereUniqueInput
+  create: Prisma.XOR<Prisma.CenterInvitationCreateWithoutCreatedByInput, Prisma.CenterInvitationUncheckedCreateWithoutCreatedByInput>
+}
+
+export type CenterInvitationCreateManyCreatedByInputEnvelope = {
+  data: Prisma.CenterInvitationCreateManyCreatedByInput | Prisma.CenterInvitationCreateManyCreatedByInput[]
+  skipDuplicates?: boolean
+}
+
+export type CenterInvitationCreateWithoutJoinedMembershipsInput = {
+  id?: string
+  email?: string | null
+  code: string
+  role: $Enums.MembershipRole
+  maxUses?: number
+  usedCount?: number
+  expiresAt: Date | string
+  revokedAt?: Date | string | null
+  createdAt?: Date | string
+  center: Prisma.CenterCreateNestedOneWithoutInvitationsInput
+  createdBy: Prisma.CenterMembershipCreateNestedOneWithoutCreatedInvitationsInput
+}
+
+export type CenterInvitationUncheckedCreateWithoutJoinedMembershipsInput = {
+  id?: string
+  centerId: string
+  email?: string | null
+  code: string
+  role: $Enums.MembershipRole
+  createdByMembershipId: string
+  maxUses?: number
+  usedCount?: number
+  expiresAt: Date | string
+  revokedAt?: Date | string | null
+  createdAt?: Date | string
+}
+
+export type CenterInvitationCreateOrConnectWithoutJoinedMembershipsInput = {
+  where: Prisma.CenterInvitationWhereUniqueInput
+  create: Prisma.XOR<Prisma.CenterInvitationCreateWithoutJoinedMembershipsInput, Prisma.CenterInvitationUncheckedCreateWithoutJoinedMembershipsInput>
+}
+
+export type CenterInvitationUpsertWithWhereUniqueWithoutCreatedByInput = {
+  where: Prisma.CenterInvitationWhereUniqueInput
+  update: Prisma.XOR<Prisma.CenterInvitationUpdateWithoutCreatedByInput, Prisma.CenterInvitationUncheckedUpdateWithoutCreatedByInput>
+  create: Prisma.XOR<Prisma.CenterInvitationCreateWithoutCreatedByInput, Prisma.CenterInvitationUncheckedCreateWithoutCreatedByInput>
+}
+
+export type CenterInvitationUpdateWithWhereUniqueWithoutCreatedByInput = {
+  where: Prisma.CenterInvitationWhereUniqueInput
+  data: Prisma.XOR<Prisma.CenterInvitationUpdateWithoutCreatedByInput, Prisma.CenterInvitationUncheckedUpdateWithoutCreatedByInput>
+}
+
+export type CenterInvitationUpdateManyWithWhereWithoutCreatedByInput = {
+  where: Prisma.CenterInvitationScalarWhereInput
+  data: Prisma.XOR<Prisma.CenterInvitationUpdateManyMutationInput, Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByInput>
+}
+
+export type CenterInvitationUpsertWithoutJoinedMembershipsInput = {
+  update: Prisma.XOR<Prisma.CenterInvitationUpdateWithoutJoinedMembershipsInput, Prisma.CenterInvitationUncheckedUpdateWithoutJoinedMembershipsInput>
+  create: Prisma.XOR<Prisma.CenterInvitationCreateWithoutJoinedMembershipsInput, Prisma.CenterInvitationUncheckedCreateWithoutJoinedMembershipsInput>
+  where?: Prisma.CenterInvitationWhereInput
+}
+
+export type CenterInvitationUpdateToOneWithWhereWithoutJoinedMembershipsInput = {
+  where?: Prisma.CenterInvitationWhereInput
+  data: Prisma.XOR<Prisma.CenterInvitationUpdateWithoutJoinedMembershipsInput, Prisma.CenterInvitationUncheckedUpdateWithoutJoinedMembershipsInput>
+}
+
+export type CenterInvitationUpdateWithoutJoinedMembershipsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
+  maxUses?: Prisma.IntFieldUpdateOperationsInput | number
+  usedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  center?: Prisma.CenterUpdateOneRequiredWithoutInvitationsNestedInput
+  createdBy?: Prisma.CenterMembershipUpdateOneRequiredWithoutCreatedInvitationsNestedInput
+}
+
+export type CenterInvitationUncheckedUpdateWithoutJoinedMembershipsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  centerId?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
+  createdByMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  maxUses?: Prisma.IntFieldUpdateOperationsInput | number
+  usedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CenterInvitationCreateManyCenterInput = {
@@ -490,8 +823,11 @@ export type CenterInvitationCreateManyCenterInput = {
   email?: string | null
   code: string
   role: $Enums.MembershipRole
+  createdByMembershipId: string
+  maxUses?: number
+  usedCount?: number
   expiresAt: Date | string
-  acceptedAt?: Date | string | null
+  revokedAt?: Date | string | null
   createdAt?: Date | string
 }
 
@@ -500,9 +836,13 @@ export type CenterInvitationUpdateWithoutCenterInput = {
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
+  maxUses?: Prisma.IntFieldUpdateOperationsInput | number
+  usedCount?: Prisma.IntFieldUpdateOperationsInput | number
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.CenterMembershipUpdateOneRequiredWithoutCreatedInvitationsNestedInput
+  joinedMemberships?: Prisma.CenterMembershipUpdateManyWithoutJoinedViaInvitationNestedInput
 }
 
 export type CenterInvitationUncheckedUpdateWithoutCenterInput = {
@@ -510,9 +850,13 @@ export type CenterInvitationUncheckedUpdateWithoutCenterInput = {
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
+  createdByMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  maxUses?: Prisma.IntFieldUpdateOperationsInput | number
+  usedCount?: Prisma.IntFieldUpdateOperationsInput | number
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  joinedMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutJoinedViaInvitationNestedInput
 }
 
 export type CenterInvitationUncheckedUpdateManyWithoutCenterInput = {
@@ -520,11 +864,97 @@ export type CenterInvitationUncheckedUpdateManyWithoutCenterInput = {
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
+  createdByMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  maxUses?: Prisma.IntFieldUpdateOperationsInput | number
+  usedCount?: Prisma.IntFieldUpdateOperationsInput | number
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type CenterInvitationCreateManyCreatedByInput = {
+  id?: string
+  centerId: string
+  email?: string | null
+  code: string
+  role: $Enums.MembershipRole
+  maxUses?: number
+  usedCount?: number
+  expiresAt: Date | string
+  revokedAt?: Date | string | null
+  createdAt?: Date | string
+}
+
+export type CenterInvitationUpdateWithoutCreatedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
+  maxUses?: Prisma.IntFieldUpdateOperationsInput | number
+  usedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  center?: Prisma.CenterUpdateOneRequiredWithoutInvitationsNestedInput
+  joinedMemberships?: Prisma.CenterMembershipUpdateManyWithoutJoinedViaInvitationNestedInput
+}
+
+export type CenterInvitationUncheckedUpdateWithoutCreatedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  centerId?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
+  maxUses?: Prisma.IntFieldUpdateOperationsInput | number
+  usedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  joinedMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutJoinedViaInvitationNestedInput
+}
+
+export type CenterInvitationUncheckedUpdateManyWithoutCreatedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  centerId?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
+  maxUses?: Prisma.IntFieldUpdateOperationsInput | number
+  usedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+
+/**
+ * Count Type CenterInvitationCountOutputType
+ */
+
+export type CenterInvitationCountOutputType = {
+  joinedMemberships: number
+}
+
+export type CenterInvitationCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  joinedMemberships?: boolean | CenterInvitationCountOutputTypeCountJoinedMembershipsArgs
+}
+
+/**
+ * CenterInvitationCountOutputType without action
+ */
+export type CenterInvitationCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CenterInvitationCountOutputType
+   */
+  select?: Prisma.CenterInvitationCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * CenterInvitationCountOutputType without action
+ */
+export type CenterInvitationCountOutputTypeCountJoinedMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CenterMembershipWhereInput
+}
 
 
 export type CenterInvitationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -533,10 +963,16 @@ export type CenterInvitationSelect<ExtArgs extends runtime.Types.Extensions.Inte
   email?: boolean
   code?: boolean
   role?: boolean
+  createdByMembershipId?: boolean
+  maxUses?: boolean
+  usedCount?: boolean
   expiresAt?: boolean
-  acceptedAt?: boolean
+  revokedAt?: boolean
   createdAt?: boolean
   center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
+  createdBy?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  joinedMemberships?: boolean | Prisma.CenterInvitation$joinedMembershipsArgs<ExtArgs>
+  _count?: boolean | Prisma.CenterInvitationCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["centerInvitation"]>
 
 export type CenterInvitationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -545,10 +981,14 @@ export type CenterInvitationSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   email?: boolean
   code?: boolean
   role?: boolean
+  createdByMembershipId?: boolean
+  maxUses?: boolean
+  usedCount?: boolean
   expiresAt?: boolean
-  acceptedAt?: boolean
+  revokedAt?: boolean
   createdAt?: boolean
   center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
+  createdBy?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["centerInvitation"]>
 
 export type CenterInvitationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -557,10 +997,14 @@ export type CenterInvitationSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   email?: boolean
   code?: boolean
   role?: boolean
+  createdByMembershipId?: boolean
+  maxUses?: boolean
+  usedCount?: boolean
   expiresAt?: boolean
-  acceptedAt?: boolean
+  revokedAt?: boolean
   createdAt?: boolean
   center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
+  createdBy?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["centerInvitation"]>
 
 export type CenterInvitationSelectScalar = {
@@ -569,26 +1013,36 @@ export type CenterInvitationSelectScalar = {
   email?: boolean
   code?: boolean
   role?: boolean
+  createdByMembershipId?: boolean
+  maxUses?: boolean
+  usedCount?: boolean
   expiresAt?: boolean
-  acceptedAt?: boolean
+  revokedAt?: boolean
   createdAt?: boolean
 }
 
-export type CenterInvitationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "centerId" | "email" | "code" | "role" | "expiresAt" | "acceptedAt" | "createdAt", ExtArgs["result"]["centerInvitation"]>
+export type CenterInvitationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "centerId" | "email" | "code" | "role" | "createdByMembershipId" | "maxUses" | "usedCount" | "expiresAt" | "revokedAt" | "createdAt", ExtArgs["result"]["centerInvitation"]>
 export type CenterInvitationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
+  createdBy?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  joinedMemberships?: boolean | Prisma.CenterInvitation$joinedMembershipsArgs<ExtArgs>
+  _count?: boolean | Prisma.CenterInvitationCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CenterInvitationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
+  createdBy?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
 }
 export type CenterInvitationIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
+  createdBy?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
 }
 
 export type $CenterInvitationPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "CenterInvitation"
   objects: {
     center: Prisma.$CenterPayload<ExtArgs>
+    createdBy: Prisma.$CenterMembershipPayload<ExtArgs>
+    joinedMemberships: Prisma.$CenterMembershipPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -596,8 +1050,11 @@ export type $CenterInvitationPayload<ExtArgs extends runtime.Types.Extensions.In
     email: string | null
     code: string
     role: $Enums.MembershipRole
+    createdByMembershipId: string
+    maxUses: number
+    usedCount: number
     expiresAt: Date
-    acceptedAt: Date | null
+    revokedAt: Date | null
     createdAt: Date
   }, ExtArgs["result"]["centerInvitation"]>
   composites: {}
@@ -994,6 +1451,8 @@ readonly fields: CenterInvitationFieldRefs;
 export interface Prisma__CenterInvitationClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   center<T extends Prisma.CenterDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterDefaultArgs<ExtArgs>>): Prisma.Prisma__CenterClient<runtime.Types.Result.GetResult<Prisma.$CenterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  createdBy<T extends Prisma.CenterMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__CenterMembershipClient<runtime.Types.Result.GetResult<Prisma.$CenterMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  joinedMemberships<T extends Prisma.CenterInvitation$joinedMembershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterInvitation$joinedMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CenterMembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1028,8 +1487,11 @@ export interface CenterInvitationFieldRefs {
   readonly email: Prisma.FieldRef<"CenterInvitation", 'String'>
   readonly code: Prisma.FieldRef<"CenterInvitation", 'String'>
   readonly role: Prisma.FieldRef<"CenterInvitation", 'MembershipRole'>
+  readonly createdByMembershipId: Prisma.FieldRef<"CenterInvitation", 'String'>
+  readonly maxUses: Prisma.FieldRef<"CenterInvitation", 'Int'>
+  readonly usedCount: Prisma.FieldRef<"CenterInvitation", 'Int'>
   readonly expiresAt: Prisma.FieldRef<"CenterInvitation", 'DateTime'>
-  readonly acceptedAt: Prisma.FieldRef<"CenterInvitation", 'DateTime'>
+  readonly revokedAt: Prisma.FieldRef<"CenterInvitation", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"CenterInvitation", 'DateTime'>
 }
     
@@ -1429,6 +1891,30 @@ export type CenterInvitationDeleteManyArgs<ExtArgs extends runtime.Types.Extensi
    * Limit how many CenterInvitations to delete.
    */
   limit?: number
+}
+
+/**
+ * CenterInvitation.joinedMemberships
+ */
+export type CenterInvitation$joinedMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CenterMembership
+   */
+  select?: Prisma.CenterMembershipSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CenterMembership
+   */
+  omit?: Prisma.CenterMembershipOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CenterMembershipInclude<ExtArgs> | null
+  where?: Prisma.CenterMembershipWhereInput
+  orderBy?: Prisma.CenterMembershipOrderByWithRelationInput | Prisma.CenterMembershipOrderByWithRelationInput[]
+  cursor?: Prisma.CenterMembershipWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CenterMembershipScalarFieldEnum | Prisma.CenterMembershipScalarFieldEnum[]
 }
 
 /**
