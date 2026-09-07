@@ -1,5 +1,3 @@
-
-
 import { Prisma } from "@/generated/prisma/client";
 import {
   Difficulty,
@@ -182,6 +180,14 @@ export interface GetExercisesParams {
   movementType?: ExerciseMovementType;
   equipmentId?: string;
 
+  /**
+   * 이 사람이 즐겨찾기한 운동만.
+   *
+   * 즐겨찾기는 사람마다 다르므로 userId 없이는 거를 수 없다. 값이 없으면
+   * 거르지 않는다 — 로그인 안 한 곳에서 실수로 빈 목록이 나오지 않게 한다.
+   */
+  favoriteOfUserId?: string;
+
   page?: number;
   limit?: number;
 }
@@ -192,6 +198,7 @@ export async function getExercises({
   difficulty,
   movementType,
   equipmentId,
+  favoriteOfUserId,
   page = 1,
   limit = 20,
 }: GetExercisesParams) {
@@ -236,6 +243,14 @@ export async function getExercises({
             some: {
               equipmentId,
             },
+          },
+        }
+      : {}),
+
+    ...(favoriteOfUserId
+      ? {
+          favorites: {
+            some: { userId: favoriteOfUserId },
           },
         }
       : {}),

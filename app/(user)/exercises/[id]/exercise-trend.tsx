@@ -13,9 +13,14 @@ import { getExerciseTrend } from "@/server/workouts/workout.service";
 export async function ExerciseTrend({
   userId,
   exerciseId,
+  expanded = false,
+  moreHref,
 }: {
   userId: string;
   exerciseId: string;
+  /** 접힌 상태에서는 다섯 줄만 보여준다. */
+  expanded?: boolean;
+  moreHref?: string;
 }) {
   const trend = await getExerciseTrend(userId, exerciseId);
 
@@ -31,6 +36,11 @@ export async function ExerciseTrend({
   }
 
   const maxVolume = Math.max(...trend.entries.map((entry) => entry.volume), 1);
+
+  // 색 길이의 기준은 접기 전 전체다. 접었다 폈다 할 때마다 같은 줄의 길이가
+  // 달라지면 늘었는지 줄었는지를 눈으로 못 읽는다.
+  const shown = expanded ? trend.entries : trend.entries.slice(0, 5);
+  const hidden = trend.entries.length - shown.length;
 
   return (
     <section className="rounded-2xl border border-border bg-card p-5">
@@ -65,7 +75,7 @@ export async function ExerciseTrend({
       </dl>
 
       <ul className="mt-3 flex flex-col gap-1.5">
-        {trend.entries.map((entry) => (
+        {shown.map((entry) => (
           <li key={entry.recordId}>
             <Link
               href={`/workouts/${entry.sessionId}`}
@@ -111,7 +121,15 @@ export async function ExerciseTrend({
         ))}
       </ul>
 
-      {trend.totalCount > trend.entries.length ? (
+      {hidden > 0 && moreHref ? (
+        <Link
+          href={moreHref}
+          scroll={false}
+          className="mt-3 flex h-10 items-center justify-center rounded-xl bg-secondary text-sm font-semibold"
+        >
+          {hidden}회 더 보기
+        </Link>
+      ) : trend.totalCount > trend.entries.length ? (
         <p className="mt-3 text-center text-xs text-muted-foreground">
           최근 {trend.entries.length}회만 보여주고 있어요
         </p>

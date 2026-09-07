@@ -1,5 +1,9 @@
 import { requireUser } from "@/app/lib/dal";
 import { MembershipRole } from "@/generated/prisma/enums";
+import Link from "next/link";
+
+import { ArrowLeftRight } from "lucide-react";
+
 import {
   canActAsTrainer,
   getCurrentMembership,
@@ -60,6 +64,22 @@ export default async function ProfilePage() {
                   : "트레이너에게 받은 코드를 넣어주세요."}
               </p>
               <JoinCenterForm hasCenter />
+            </div>
+          ) : null}
+
+          {asTrainer ? (
+            <div className="mt-4 border-t border-border pt-4">
+              <p className="text-sm font-bold">트레이너 화면</p>
+              <p className="mt-1 mb-2 text-xs text-muted-foreground">
+                담당 회원과 오늘 수업, 알림장을 여기서 관리해요.
+              </p>
+              <Link
+                href="/trainer"
+                className="inline-flex h-11 items-center gap-1.5 rounded-xl bg-primary px-4 text-sm font-bold text-primary-foreground"
+              >
+                <ArrowLeftRight className="size-4" aria-hidden />
+                트레이너 화면으로
+              </Link>
             </div>
           ) : null}
         </section>

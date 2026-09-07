@@ -1156,10 +1156,16 @@ model JournalPhoto {
   id        String @id @default(uuid())
   journalId String
 
-  url String
+  /**
+   * 저장소 안의 경로. 주소가 아니다.
+   *
+   * 비공개 버킷이라 주소는 볼 때마다 서명해서 만든다. 서명된 주소를 저장하면
+   * 한 시간 뒤에 죽은 값이 DB 에 남는다.
+   */
+  storagePath String
 
-  // 목록에서 첫 장만 작게 보여줄 때 쓴다. 없으면 원본을 받아야 한다.
-  thumbnailUrl String?
+  // 목록에서 작게 보여줄 때 쓴다. 원본을 받으면 목록 한 번에 수 MB 가 나간다.
+  thumbnailPath String?
 
   orderIndex Int @default(0)
 

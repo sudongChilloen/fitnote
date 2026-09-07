@@ -147,7 +147,18 @@ export function ExerciseFilters({ total }: { total: number }) {
             type="button"
             onClick={() => {
               setSearch("");
-              startTransition(() => router.replace(pathname, { scroll: false }));
+              // 즐겨찾기 탭은 필터가 아니라 보는 범위다. 초기화로 탭까지
+              // 바뀌면 눌러 둔 곳이 말없이 옮겨간다.
+              const params = new URLSearchParams();
+              if (searchParams.get("favorite") === "1") {
+                params.set("favorite", "1");
+              }
+              const query = params.toString();
+              startTransition(() =>
+                router.replace(query ? `${pathname}?${query}` : pathname, {
+                  scroll: false,
+                }),
+              );
             }}
             className="text-xs font-semibold text-muted-foreground underline underline-offset-4 hover:text-foreground"
           >
