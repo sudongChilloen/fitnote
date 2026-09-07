@@ -61,6 +61,8 @@ export default async function WorkoutSessionPage({
 
   const prCount = summary?.prCount ?? 0;
 
+  const addedExerciseIds = session.records.map((record) => record.exercise.id);
+
   return (
     <main className="flex flex-col gap-4 px-5 pt-6">
       <header className="flex items-center gap-2">
@@ -145,6 +147,7 @@ export default async function WorkoutSessionPage({
               sessionId={session.id}
               bodyPartCounts={bodyPartCounts}
               favoriteIds={favoriteIds}
+              addedExerciseIds={addedExerciseIds}
             />
           }
           records={session.records}
@@ -166,6 +169,7 @@ export default async function WorkoutSessionPage({
             sessionId={session.id}
             bodyPartCounts={bodyPartCounts}
             favoriteIds={favoriteIds}
+            addedExerciseIds={addedExerciseIds}
           />
           <FinishWorkoutButton sessionId={session.id} manual={manual} />
         </div>
