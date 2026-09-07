@@ -856,3 +856,148 @@ export async function deleteSet(userId: string, setId: string) {
     return loadRecord(tx, owned.recordId);
   });
 }
+
+// ---------------------------------------------------------------------------
+// 세션 요약
+// ---------------------------------------------------------------------------
+
+/**
+ * 추정 1RM (Epley 공식).
+ *
+ * 고반복으로 갈수록 실제보다 크게 나오는 공식이라 12회까지만 계산한다.
+ * 20회 한 세트를 1RM 으로 환산해 "신기록" 이라고 알려 주면 틀린 정보다.
+ */
+export function estimateOneRm(weight: number, reps: number): number | null {
+  if (weight <= 0 || reps <= 0 || reps > 12) return null;
+  if (reps === 1) return weight;
+
+  return Math.round(weight * (1 + reps / 30) * 10) / 10;
+}
+
+type SetLike = {
+  weight: number | null;
+  reps: number | null;
+  completed: boolean;
+};
+
+/** 볼륨과 같은 기준. 체크하지 않았거나 값이 빠진 세트는 기록으로 치지 않는다. */
+function countsTowardRecord<T extends SetLike>(
+  set: T,
+): set is T & { weight: number; reps: number } {
+  return set.completed && set.weight !== null && set.reps !== null;
+}
+
+/**
+ * 운동 하나를 끝낸 뒤 보여줄 요약.
+ *
+ * 신기록 판정은 저장해 두지 않고 볼 때마다 계산한다. 완료한 기록도 나중에
+ * 고칠 수 있기 때문에, 판정을 박아 두면 값을 고쳐도 배지가 그대로 남는다.
+ */
+export async function getSessionSummary(userId: string, sessionId: string) {
+  const session = await prisma.workoutSession.findFirst({
+    where: { id: sessionId, userId },
+    include: sessionInclude,
+  });
+
+  if (!session) return null;
+
+  const dto = toSessionDto(session);
+  const exerciseIds = [...new Set(dto.records.map((record) => record.exercise.id))];
+
+  /**
+   * 이 세션에 나온 운동들의 과거 최고 기록.
+   *
+   * 운동마다 따로 조회하면 열 번을 왕복하므로 한 번에 가져온다.
+   * startedAt 이 이 세션보다 앞선 것만 본다. 지난 운동을 나중에 몰아서
+   * 입력하면 나중에 만들어진 세션이 더 과거일 수 있어서, 만든 시각이 아니라
+   * 운동한 시각을 기준으로 삼아야 한다.
+   */
+  const pastSets =
+    exerciseIds.length === 0
+      ? []
+      : await prisma.workoutSet.findMany({
+          where: {
+            completed: true,
+            weight: { not: null },
+            reps: { not: null },
+            record: {
+              userId,
+              exerciseId: { in: exerciseIds },
+              session: {
+                id: { not: sessionId },
+                // 취소한 운동은 없던 일이므로 신기록의 근거가 될 수 없다.
+                status: { not: WorkoutSessionStatus.CANCELLED },
+                startedAt: { lt: session.startedAt },
+              },
+            },
+          },
+          select: {
+            weight: true,
+            reps: true,
+            record: { select: { exerciseId: true } },
+          },
+        });
+
+  const best = new Map<string, { weight: number; oneRm: number }>();
+
+  for (const set of pastSets) {
+    const weight = toNumber(set.weight) ?? 0;
+    const reps = set.reps ?? 0;
+    const exerciseId = set.record.exerciseId;
+    const previous = best.get(exerciseId);
+
+    best.set(exerciseId, {
+      weight: Math.max(previous?.weight ?? 0, weight),
+      oneRm: Math.max(previous?.oneRm ?? 0, estimateOneRm(weight, reps) ?? 0),
+    });
+  }
+
+  const records = dto.records.map((record) => {
+    const counted = record.sets.filter(countsTowardRecord);
+
+    let topSet: { weight: number; reps: number } | null = null;
+    let oneRm: number | null = null;
+
+    for (const set of counted) {
+      // 같은 중량이면 횟수가 많은 쪽이 더 좋은 세트다.
+      if (
+        !topSet ||
+        set.weight > topSet.weight ||
+        (set.weight === topSet.weight && set.reps > topSet.reps)
+      ) {
+        topSet = { weight: set.weight, reps: set.reps };
+      }
+
+      const estimate = estimateOneRm(set.weight, set.reps);
+      if (estimate !== null && (oneRm === null || estimate > oneRm)) {
+        oneRm = estimate;
+      }
+    }
+
+    const history = best.get(record.exercise.id);
+
+    return {
+      ...record,
+      countedSets: counted.length,
+      skippedSets: record.sets.length - counted.length,
+      topSet,
+      oneRm,
+      /**
+       * 처음 해 본 운동은 신기록이라고 하지 않는다.
+       * 전부 신기록이면 배지가 의미를 잃는다.
+       */
+      firstTime: !history,
+      weightPr: Boolean(history && topSet && topSet.weight > history.weight),
+      oneRmPr: Boolean(history && oneRm !== null && oneRm > history.oneRm),
+      previousBestWeight: history?.weight ?? null,
+    };
+  });
+
+  return {
+    ...dto,
+    records,
+    countedSets: records.reduce((sum, record) => sum + record.countedSets, 0),
+    skippedSets: records.reduce((sum, record) => sum + record.skippedSets, 0),
+    prCount: records.filter((record) => record.weightPr || record.oneRmPr).length,
+  };
+}

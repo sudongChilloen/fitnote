@@ -146,6 +146,13 @@ export default async function WorkoutSessionPage({
           />
           <FinishWorkoutButton sessionId={session.id} manual={manual} />
         </div>
+      ) : session.status === "COMPLETED" ? (
+        <Link
+          href={`/workouts/${session.id}/summary`}
+          className="flex h-12 items-center justify-center rounded-xl border border-border font-bold"
+        >
+          요약 보기
+        </Link>
       ) : null}
     </main>
   );
