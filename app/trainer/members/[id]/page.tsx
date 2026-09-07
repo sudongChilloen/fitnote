@@ -1,7 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { CalendarClock, Check, Lock, MessageSquare } from "lucide-react";
+import {
+  CalendarClock,
+  Check,
+  Lock,
+  MessageSquare,
+  PenLine,
+} from "lucide-react";
 
 import { requireUser } from "@/app/lib/dal";
 import { formatKstDateLabel } from "@/lib/date";
@@ -9,6 +15,8 @@ import {
   getMemberDetail,
   TrainerError,
 } from "@/server/trainers/trainer.service";
+
+import { beginJournal } from "../../journals/actions";
 
 export async function generateMetadata({
   params,
@@ -134,12 +142,31 @@ export default async function TrainerMemberPage({
 
                 {session.journalId ? (
                   <Link
-                    href={`/journal/${session.journalId}`}
+                    href={`/trainer/journals/${session.journalId}`}
                     className="shrink-0 text-xs font-semibold text-brand-strong"
                   >
                     알림장
                   </Link>
-                ) : null}
+                ) : (
+                  <form action={beginJournal} className="shrink-0">
+                    <input
+                      type="hidden"
+                      name="memberMembershipId"
+                      value={member.membershipId}
+                    />
+                    <input
+                      type="hidden"
+                      name="ptSessionId"
+                      value={session.id}
+                    />
+                    <button
+                      type="submit"
+                      className="text-xs font-semibold text-brand-strong"
+                    >
+                      알림장 쓰기
+                    </button>
+                  </form>
+                )}
               </li>
             ))}
           </ul>
@@ -147,7 +174,24 @@ export default async function TrainerMemberPage({
       </section>
 
       <section className="mt-7">
-        <h2 className="text-base font-bold">알림장</h2>
+        <div className="flex items-baseline justify-between">
+          <h2 className="text-base font-bold">알림장</h2>
+
+          <form action={beginJournal}>
+            <input
+              type="hidden"
+              name="memberMembershipId"
+              value={member.membershipId}
+            />
+            <button
+              type="submit"
+              className="flex items-center gap-1 text-sm font-semibold text-brand-strong"
+            >
+              <PenLine className="size-3.5" aria-hidden />
+              새로 쓰기
+            </button>
+          </form>
+        </div>
 
         {member.journals.length === 0 ? (
           <p className="mt-2 rounded-2xl border border-border bg-card p-4 text-xs text-muted-foreground">
@@ -158,7 +202,7 @@ export default async function TrainerMemberPage({
             {member.journals.map((journal) => (
               <li key={journal.id}>
                 <Link
-                  href={`/journal/${journal.id}`}
+                  href={`/trainer/journals/${journal.id}`}
                   className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4"
                 >
                   <span className="min-w-0 flex-1">

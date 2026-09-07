@@ -576,8 +576,8 @@ export type JournalScalarFieldEnum = (typeof JournalScalarFieldEnum)[keyof typeo
 export const JournalPhotoScalarFieldEnum = {
   id: 'id',
   journalId: 'journalId',
-  url: 'url',
-  thumbnailUrl: 'thumbnailUrl',
+  storagePath: 'storagePath',
+  thumbnailPath: 'thumbnailPath',
   orderIndex: 'orderIndex',
   createdAt: 'createdAt'
 } as const
