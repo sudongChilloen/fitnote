@@ -1,3 +1,4 @@
+import { Plus } from "lucide-react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
@@ -12,8 +13,12 @@ import {
 } from "@/lib/exercise-labels";
 import { cn } from "@/lib/utils";
 import { getExerciseById } from "@/server/exercises/exercise.service";
+import { isFavorite } from "@/server/workouts/favorite.service";
+import { getActiveSession } from "@/server/workouts/workout.service";
 
+import { recordThisExercise, toggleFavorite } from "../actions";
 import { ExerciseTrend } from "./exercise-trend";
+import { FavoriteToggleButton } from "./favorite-toggle-button";
 
 export async function generateMetadata({
   params,
@@ -43,6 +48,7 @@ function Section({
 
 export default async function ExerciseDetailPage({
   params,
+  searchParams,
 }: PageProps<"/exercises/[id]">) {
   const user = await requireUser();
 
@@ -52,6 +58,19 @@ export default async function ExerciseDetailPage({
   if (!exercise) {
     notFound();
   }
+
+  const expanded = (await searchParams).records === "all";
+
+  const [favorite, activeSession] = await Promise.all([
+    isFavorite(user.id, exercise.id),
+    getActiveSession(user.id),
+  ]);
+
+  // 이미 오늘 운동에 들어 있으면 또 넣지 않고 그리로 보낸다.
+  const alreadyAdded =
+    activeSession?.records.some(
+      (record) => record.exercise.id === exercise.id,
+    ) ?? false;
 
   return (
     <main className="flex flex-col gap-5 px-5 pt-6">
@@ -82,13 +101,41 @@ export default async function ExerciseDetailPage({
         </span>
       </header>
 
+      {/*
+        운동 라이브러리는 설명을 읽는 곳이 아니라 기록의 출발점이어야 한다.
+        여기서 "운동 시작 → 운동 추가 → 검색 → 이 운동 찾기" 를 다시 하게 만들면
+        방금 보고 있던 운동을 처음부터 다시 찾는 셈이다.
+      */}
+      <div className="flex items-center gap-2">
+        <form action={recordThisExercise} className="flex-1">
+          <input type="hidden" name="exerciseId" value={exercise.id} />
+          <button
+            type="submit"
+            className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary text-sm font-bold text-primary-foreground"
+          >
+            <Plus className="size-4" />
+            {alreadyAdded
+              ? "오늘 운동에서 이어서 하기"
+              : activeSession
+                ? "오늘 운동에 추가하기"
+                : "이 운동 기록하기"}
+          </button>
+        </form>
+
+        <form action={toggleFavorite}>
+          <input type="hidden" name="exerciseId" value={exercise.id} />
+          {/* 서버는 "뒤집어라" 가 아니라 "이렇게 만들어라" 를 받는다.
+              두 번 눌리거나 화면이 두 개 열려 있어도 결과가 같다. */}
+          <input type="hidden" name="on" value={favorite ? "0" : "1"} />
+          <FavoriteToggleButton on={favorite} />
+        </form>
+      </div>
+
       {exercise.description && (
         <p className="text-sm leading-6 text-muted-foreground">
           {exercise.description}
         </p>
       )}
-
-      <ExerciseTrend userId={user.id} exerciseId={exercise.id} />
 
       <Section title="필요한 기구">
         {exercise.equipment.length === 0 ? (
@@ -151,6 +198,17 @@ export default async function ExerciseDetailPage({
         </section>
       )}
 
+      {/*
+        내 기록은 운동 방법 아래에 둔다. 처음 하는 운동일수록 방법이 궁금한데,
+        기록을 위에 두면 열두 줄 밑으로 밀려난다.
+      */}
+      <ExerciseTrend
+        userId={user.id}
+        exerciseId={exercise.id}
+        expanded={expanded}
+        moreHref={`/exercises/${exercise.id}?records=all`}
+      />
+
       <Section title="이 운동 대신 할 수 있어요">
         {exercise.alternatives.length === 0 ? (
           <p className="text-sm text-muted-foreground">
@@ -180,7 +238,9 @@ export default async function ExerciseDetailPage({
                   {alternative.equipment.length > 0 && (
                     <p className="text-xs text-muted-foreground">
                       필요 기구:{" "}
-                      {alternative.equipment.map((item) => item.name).join(", ")}
+                      {alternative.equipment
+                        .map((item) => item.name)
+                        .join(", ")}
                     </p>
                   )}
                 </Link>

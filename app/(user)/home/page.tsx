@@ -1,15 +1,22 @@
-import { ChevronRight, Dumbbell, Flame } from "lucide-react";
+import { ChevronRight, Dumbbell, Flame, X } from "lucide-react";
 import Link from "next/link";
 
 import { logout } from "@/app/actions/auth";
 import { requireUser } from "@/app/lib/dal";
 import { ElapsedTime } from "@/components/elapsed-time";
 import { Button } from "@/components/ui/button";
-import { kstDaysAgo, kstWeekdayLabel, toKstDateKey } from "@/lib/date";
+import {
+  formatDuration,
+  formatKstDateLabel,
+  kstDaysAgo,
+  kstWeekdayLabel,
+  toKstDateKey,
+} from "@/lib/date";
 import { cn } from "@/lib/utils";
 import {
   getActiveSession,
   getRecentWorkoutDays,
+  getSessionsByDate,
 } from "@/server/workouts/workout.service";
 
 import { LogPastWorkoutButton } from "../workouts/log-past-button";
@@ -24,16 +31,49 @@ function recentDays() {
   return Array.from({ length: 7 }, (_, index) => kstDaysAgo(6 - index));
 }
 
-export default async function HomePage() {
+/**
+ * "40kg × 10회 3세트" 처럼 한 줄로 줄인다.
+ *
+ * 무게와 횟수가 세트마다 다르면 하나로 못 줄이므로 세트 수만 말한다.
+ * 억지로 평균을 내면 실제로 하지 않은 무게가 화면에 뜬다.
+ */
+function summarizeSets(sets: { weight: number | null; reps: number | null }[]) {
+  if (sets.length === 0) return "기록 없음";
+
+  const [first] = sets;
+  const same = sets.every(
+    (set) => set.weight === first.weight && set.reps === first.reps,
+  );
+
+  if (!same || first.reps === null) return `${sets.length}세트`;
+
+  const weight = first.weight ? `${first.weight}kg × ` : "";
+
+  return `${weight}${first.reps}회 ${sets.length}세트`;
+}
+
+export default async function HomePage({ searchParams }: PageProps<"/home">) {
   const user = await requireUser();
 
-  const [activeSession, workoutDays] = await Promise.all([
+  const days = recentDays();
+  const dayKeys = days.map(toKstDateKey);
+  const todayKey = toKstDateKey(new Date());
+
+  const params = await searchParams;
+
+  // 주소로 들어오는 값이라 그대로 믿지 않는다.
+  // 화면에 그린 7일 중 하나일 때만 연다. 아무 날짜나 열어주면 홈이
+  // 캘린더 노릇을 하게 되는데, 그건 캘린더 탭이 할 일이다.
+  const selectedKey =
+    typeof params.day === "string" && dayKeys.includes(params.day)
+      ? params.day
+      : null;
+
+  const [activeSession, workoutDays, daySessions] = await Promise.all([
     getActiveSession(user.id),
     getRecentWorkoutDays(user.id),
+    selectedKey ? getSessionsByDate(user.id, selectedKey) : null,
   ]);
-
-  const days = recentDays();
-  const todayKey = toKstDateKey(new Date());
 
   return (
     <main className="flex flex-col gap-5 px-5 pt-8">
@@ -44,7 +84,12 @@ export default async function HomePage() {
         </div>
 
         <form action={logout}>
-          <Button variant="ghost" size="sm" type="submit" className="text-muted-foreground">
+          <Button
+            variant="ghost"
+            size="sm"
+            type="submit"
+            className="text-muted-foreground"
+          >
             로그아웃
           </Button>
         </form>
@@ -104,27 +149,135 @@ export default async function HomePage() {
             const key = toKstDateKey(day);
             const done = workoutDays.has(key);
             const isToday = key === todayKey;
+            const isSelected = key === selectedKey;
 
             return (
               <li key={key} className="flex flex-col items-center gap-1.5">
                 <span className="text-[0.6875rem] text-muted-foreground">
                   {kstWeekdayLabel(day)}
                 </span>
-                <span
+                {/*
+                  한 번 더 누르면 닫힌다. 열기만 되고 닫히지 않으면
+                  잘못 눌렀을 때 빠져나갈 방법이 없다.
+                */}
+                <Link
+                  href={isSelected ? "/home" : `/home?day=${key}`}
+                  scroll={false}
+                  aria-current={isSelected ? "date" : undefined}
+                  aria-label={`${formatKstDateLabel(day)} 기록 ${
+                    isSelected ? "닫기" : "보기"
+                  }`}
                   className={cn(
-                    "flex aspect-square w-full items-center justify-center rounded-xl text-xs font-bold",
+                    "flex aspect-square w-full items-center justify-center rounded-xl text-xs font-bold transition-colors",
                     done
                       ? "bg-brand text-brand-foreground"
                       : "bg-muted text-muted-foreground",
-                    isToday && !done && "ring-2 ring-brand ring-offset-2 ring-offset-card",
+                    isToday &&
+                      !done &&
+                      "ring-2 ring-brand ring-offset-2 ring-offset-card",
+                    isSelected &&
+                      "ring-2 ring-primary ring-offset-2 ring-offset-card",
                   )}
                 >
                   {done ? <Dumbbell className="size-4" /> : key.slice(-2)}
-                </span>
+                </Link>
               </li>
             );
           })}
         </ul>
+
+        {selectedKey && daySessions ? (
+          <div className="mt-4 border-t border-border pt-4">
+            <div className="mb-3 flex items-center justify-between gap-2">
+              <h3 className="text-sm font-bold">
+                {formatKstDateLabel(new Date(`${selectedKey}T00:00:00+09:00`))}
+                {selectedKey === todayKey ? " · 오늘" : ""}
+              </h3>
+
+              <Link
+                href="/home"
+                scroll={false}
+                aria-label="닫기"
+                className="flex size-7 items-center justify-center rounded-lg text-muted-foreground hover:bg-secondary"
+              >
+                <X className="size-4" />
+              </Link>
+            </div>
+
+            {daySessions.length === 0 ? (
+              <p className="rounded-xl border border-dashed border-border py-6 text-center text-sm text-muted-foreground">
+                이 날은 기록이 없어요.
+              </p>
+            ) : (
+              <ul className="flex flex-col gap-2">
+                {daySessions.map((session) => (
+                  <li key={session.id}>
+                    <Link
+                      href={`/workouts/${session.id}`}
+                      className="block rounded-xl bg-secondary/60 p-3"
+                    >
+                      <span className="flex items-baseline justify-between gap-2">
+                        <span className="text-sm font-bold">
+                          {session.records.length > 0
+                            ? `${session.records[0].exercise.name}${
+                                session.records.length > 1
+                                  ? ` 외 ${session.records.length - 1}개`
+                                  : ""
+                              }`
+                            : "기록한 운동이 없어요"}
+                        </span>
+                        <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
+                          {session.totalSets}세트
+                          {session.totalVolume > 0
+                            ? ` · ${session.totalVolume.toLocaleString()}kg`
+                            : ""}
+                          {session.durationSec
+                            ? ` · ${formatDuration(session.durationSec)}`
+                            : ""}
+                        </span>
+                      </span>
+
+                      {/*
+                        운동 이름만 나열하면 "그날 뭘 했는지" 는 알아도
+                        "얼마나 했는지" 는 모른다. 무게와 횟수까지 보여야
+                        굳이 상세로 들어가지 않는다.
+                      */}
+                      {session.records.length > 0 ? (
+                        <span className="mt-2 flex flex-col gap-0.5">
+                          {session.records.map((record) => (
+                            <span
+                              key={record.id}
+                              className="flex items-baseline justify-between gap-2 text-xs"
+                            >
+                              <span className="truncate text-muted-foreground">
+                                {record.exercise.name}
+                              </span>
+                              <span className="shrink-0 text-muted-foreground tabular-nums">
+                                {summarizeSets(record.sets)}
+                              </span>
+                            </span>
+                          ))}
+                        </span>
+                      ) : null}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <div className="mt-3">
+              <LogPastWorkoutButton
+                defaultDate={selectedKey}
+                label={
+                  daySessions.length > 0
+                    ? "이 날짜에 기록 추가"
+                    : "이 날짜 기록하기"
+                }
+                hideDateInput
+              />
+            </div>
+          </div>
+        ) : null}
       </section>
 
       <Link

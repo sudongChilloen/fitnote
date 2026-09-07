@@ -1,6 +1,7 @@
 import "server-only";
 
 import { prisma } from "@/lib/prisma";
+import { createSignedReadUrls } from "@/lib/storage";
 import { JournalStatus, NoticeScope } from "@/generated/prisma/enums";
 import { getCurrentMembership } from "@/server/centers/center.service";
 
@@ -208,6 +209,40 @@ export async function getTimeline(userId: string, limit = 30) {
  *
  * 여는 순간 읽음으로 표시한다. 목록에서 배지를 지우려면 여기 말고는 걸 곳이 없다.
  */
+/**
+ * 저장소 경로에 서명 주소를 붙인다.
+ *
+ * 서명에 실패한 사진은 빼지 않고 주소를 null 로 둔다. 사진 한 장 때문에 알림장
+ * 전체가 안 열리면 안 되고, 없는 척하면 트레이너는 올렸는데 회원은 못 보는 상태가
+ * 왜 생겼는지 알 수 없다.
+ */
+async function withSignedUrls(
+  photos: { id: string; storagePath: string; thumbnailPath: string | null }[],
+) {
+  if (photos.length === 0) return [];
+
+  const paths = photos.flatMap((photo) =>
+    photo.thumbnailPath
+      ? [photo.storagePath, photo.thumbnailPath]
+      : [photo.storagePath],
+  );
+
+  let signed = new Map<string, string>();
+  try {
+    signed = await createSignedReadUrls(paths);
+  } catch (error) {
+    console.error("photo sign error:", error);
+  }
+
+  return photos.map((photo) => ({
+    id: photo.id,
+    url: signed.get(photo.storagePath) ?? null,
+    thumbnailUrl: photo.thumbnailPath
+      ? (signed.get(photo.thumbnailPath) ?? null)
+      : null,
+  }));
+}
+
 export async function getJournalDetail(userId: string, journalId: string) {
   const membership = await getCurrentMembership(userId);
 
@@ -236,7 +271,7 @@ export async function getJournalDetail(userId: string, journalId: string) {
       },
       photos: {
         orderBy: { orderIndex: "asc" },
-        select: { id: true, url: true, thumbnailUrl: true },
+        select: { id: true, storagePath: true, thumbnailPath: true },
       },
       comments: {
         where: { deletedAt: null },
@@ -293,9 +328,11 @@ export async function getJournalDetail(userId: string, journalId: string) {
   }
 
   const workoutSession = journal.ptSession?.workoutSession ?? null;
+  const photos = await withSignedUrls(journal.photos);
 
   return {
     ...journal,
+    photos,
     myMembershipId: membership.id,
     workout:
       workoutSession === null

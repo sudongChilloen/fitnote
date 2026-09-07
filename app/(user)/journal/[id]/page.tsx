@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -60,17 +59,27 @@ export default async function JournalDetailPage({
 
       {journal.photos.length > 0 ? (
         <ul className="mt-4 -mx-5 flex snap-x gap-2 overflow-x-auto px-5">
-          {journal.photos.map((photo) => (
-            <li key={photo.id} className="shrink-0 snap-start">
-              <Image
-                src={photo.thumbnailUrl ?? photo.url}
-                alt=""
-                width={240}
-                height={240}
-                className="size-60 rounded-2xl object-cover"
-              />
-            </li>
-          ))}
+          {journal.photos.map((photo) => {
+            const src = photo.thumbnailUrl ?? photo.url;
+            if (src === null) return null;
+
+            return (
+              <li key={photo.id} className="shrink-0 snap-start">
+                {/*
+                  next/image 를 쓰지 않는다. 서명 주소는 열 때마다 값이 달라서 이미지
+                  최적화 캐시가 매번 빗나가고, 그때마다 원본을 다시 받아 온다.
+                  올릴 때 이미 줄여서 저장하므로 최적화로 얻을 것도 없다.
+                */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={src}
+                  alt=""
+                  loading="lazy"
+                  className="size-60 rounded-2xl bg-secondary object-cover"
+                />
+              </li>
+            );
+          })}
         </ul>
       ) : null}
 
