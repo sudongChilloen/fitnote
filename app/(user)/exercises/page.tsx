@@ -7,6 +7,7 @@ import {
   MOVEMENT_TYPE_LABEL,
 } from "@/lib/exercise-labels";
 import { getExercises } from "@/server/exercises/exercise.service";
+import { cn } from "@/lib/utils";
 
 import { ExerciseCard } from "./exercise-card";
 import { ExerciseFilters } from "./exercise-filters";
@@ -34,7 +35,7 @@ function toPage(value: string | string[] | undefined) {
 export default async function ExercisesPage({
   searchParams,
 }: PageProps<"/exercises">) {
-  await requireUser();
+  const user = await requireUser();
 
   const params = await searchParams;
 
@@ -42,6 +43,7 @@ export default async function ExercisesPage({
   const bodyPart = pickEnum(BODY_PART_LABEL, params.bodyPart);
   const difficulty = pickEnum(DIFFICULTY_LABEL, params.difficulty);
   const movementType = pickEnum(MOVEMENT_TYPE_LABEL, params.movementType);
+  const favoriteOnly = params.favorite === "1";
   const page = toPage(params.page);
 
   const { data, pagination } = await getExercises({
@@ -49,6 +51,7 @@ export default async function ExercisesPage({
     bodyPart,
     difficulty,
     movementType,
+    favoriteOfUserId: favoriteOnly ? user.id : undefined,
     page,
     limit: 20,
   });
@@ -60,7 +63,22 @@ export default async function ExercisesPage({
     if (bodyPart) next.set("bodyPart", bodyPart);
     if (difficulty) next.set("difficulty", difficulty);
     if (movementType) next.set("movementType", movementType);
+    if (favoriteOnly) next.set("favorite", "1");
     if (target > 1) next.set("page", String(target));
+
+    const query = next.toString();
+    return query ? `/exercises?${query}` : "/exercises";
+  }
+
+  /** 즐겨찾기 탭을 오갈 때 검색·부위 조건은 그대로 두고 페이지만 1로 돌린다. */
+  function scopeHref(target: boolean) {
+    const next = new URLSearchParams();
+
+    if (search) next.set("search", search);
+    if (bodyPart) next.set("bodyPart", bodyPart);
+    if (difficulty) next.set("difficulty", difficulty);
+    if (movementType) next.set("movementType", movementType);
+    if (target) next.set("favorite", "1");
 
     const query = next.toString();
     return query ? `/exercises?${query}` : "/exercises";
@@ -77,13 +95,38 @@ export default async function ExercisesPage({
         </h1>
       </header>
 
+      <nav aria-label="목록 범위" className="flex gap-2">
+        {(
+          [
+            { label: "전체", value: false },
+            { label: "즐겨찾기", value: true },
+          ] as const
+        ).map((tab) => (
+          <Link
+            key={tab.label}
+            href={scopeHref(tab.value)}
+            aria-current={favoriteOnly === tab.value ? "page" : undefined}
+            className={cn(
+              "rounded-full px-4 py-2 text-sm font-semibold transition-colors",
+              favoriteOnly === tab.value
+                ? "bg-primary text-primary-foreground"
+                : "bg-secondary text-secondary-foreground hover:bg-muted",
+            )}
+          >
+            {tab.label}
+          </Link>
+        ))}
+      </nav>
+
       <section className="rounded-2xl border border-border bg-card p-4">
         <ExerciseFilters total={pagination.total} />
       </section>
 
       {data.length === 0 ? (
         <p className="rounded-2xl border border-dashed border-border py-16 text-center text-sm text-muted-foreground">
-          조건에 맞는 운동이 없어요.
+          {favoriteOnly
+            ? "즐겨찾기한 운동이 없어요. 운동 상세에서 하트를 눌러 두면 여기 모여요."
+            : "조건에 맞는 운동이 없어요."}
         </p>
       ) : (
         <ul className="grid gap-3 sm:grid-cols-2">

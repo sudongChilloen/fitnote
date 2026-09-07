@@ -1,4 +1,4 @@
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Trophy } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -7,7 +7,11 @@ import { formatKstDateLabel } from "@/lib/date";
 import { ElapsedTime } from "@/components/elapsed-time";
 import { getBodyPartCounts } from "@/server/exercises/exercise.service";
 import { getFavoriteExerciseIds } from "@/server/workouts/favorite.service";
-import { getLastRecord, getSessionById } from "@/server/workouts/workout.service";
+import {
+  getLastRecord,
+  getSessionById,
+  getSessionSummary,
+} from "@/server/workouts/workout.service";
 
 import { AddExerciseDrawer } from "./add-exercise-drawer";
 import { FinishWorkoutButton } from "./finish-workout-button";
@@ -37,17 +41,25 @@ export default async function WorkoutSessionPage({
    * [userId, exerciseId, createdAt DESC] 인덱스를 타고, 한 세션의 운동 수는
    * 많아야 열 개 남짓이라 병렬로 한 번에 가져온다.
    */
-  const [previousRecords, bodyPartCounts, favoriteIds] = await Promise.all([
-    Promise.all(
-      session.records.map((record) =>
-        getLastRecord(user.id, record.exercise.id, session.id),
+  const [previousRecords, bodyPartCounts, favoriteIds, summary] =
+    await Promise.all([
+      Promise.all(
+        session.records.map((record) =>
+          getLastRecord(user.id, record.exercise.id, session.id),
+        ),
       ),
-    ),
-    // 운동 추가 드로어의 "부위로 찾기" 첫 화면. 여기서 미리 넘겨 두면
-    // 드로어를 열자마자 목록이 보인다.
-    getBodyPartCounts(),
-    getFavoriteExerciseIds(user.id),
-  ]);
+      // 운동 추가 드로어의 "부위로 찾기" 첫 화면. 여기서 미리 넘겨 두면
+      // 드로어를 열자마자 목록이 보인다.
+      getBodyPartCounts(),
+      getFavoriteExerciseIds(user.id),
+      // 신기록은 끝난 운동에서만 의미가 있다. 진행 중에는 세트가 계속
+      // 바뀌므로 세트를 하나 지울 때마다 배지가 붙었다 떨어진다.
+      session.status === "COMPLETED"
+        ? getSessionSummary(user.id, session.id)
+        : null,
+    ]);
+
+  const prCount = summary?.prCount ?? 0;
 
   return (
     <main className="flex flex-col gap-4 px-5 pt-6">
@@ -74,6 +86,17 @@ export default async function WorkoutSessionPage({
       </header>
 
       <section className="rounded-2xl border border-border bg-card p-5">
+        {/*
+          신기록은 이 운동에서 가장 자랑스러운 한 줄이라 맨 위에 둔다.
+          이걸 보려고 요약 화면을 한 번 더 열게 만들 이유가 없다.
+        */}
+        {prCount > 0 ? (
+          <p className="mb-4 flex items-center justify-center gap-1.5 rounded-xl bg-accent py-2 text-sm font-bold text-accent-foreground">
+            <Trophy className="size-4" />
+            신기록 {prCount}개를 세웠어요
+          </p>
+        ) : null}
+
         <dl className="grid grid-cols-3 gap-2 text-center">
           <div>
             <dt className="text-xs text-muted-foreground">시간</dt>
@@ -146,13 +169,6 @@ export default async function WorkoutSessionPage({
           />
           <FinishWorkoutButton sessionId={session.id} manual={manual} />
         </div>
-      ) : session.status === "COMPLETED" ? (
-        <Link
-          href={`/workouts/${session.id}/summary`}
-          className="flex h-12 items-center justify-center rounded-xl border border-border font-bold"
-        >
-          요약 보기
-        </Link>
       ) : null}
     </main>
   );
