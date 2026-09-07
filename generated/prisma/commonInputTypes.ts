@@ -450,23 +450,6 @@ export type EnumWorkoutEntryModeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumWorkoutEntryModeFilter<$PrismaModel>
 }
 
-export type EnumWorkoutRecordTypeFilter<$PrismaModel = never> = {
-  equals?: $Enums.WorkoutRecordType | Prisma.EnumWorkoutRecordTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.WorkoutRecordType[] | Prisma.ListEnumWorkoutRecordTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.WorkoutRecordType[] | Prisma.ListEnumWorkoutRecordTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumWorkoutRecordTypeFilter<$PrismaModel> | $Enums.WorkoutRecordType
-}
-
-export type EnumWorkoutRecordTypeWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.WorkoutRecordType | Prisma.EnumWorkoutRecordTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.WorkoutRecordType[] | Prisma.ListEnumWorkoutRecordTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.WorkoutRecordType[] | Prisma.ListEnumWorkoutRecordTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumWorkoutRecordTypeWithAggregatesFilter<$PrismaModel> | $Enums.WorkoutRecordType
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumWorkoutRecordTypeFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumWorkoutRecordTypeFilter<$PrismaModel>
-}
-
 export type DecimalFilter<$PrismaModel = never> = {
   equals?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel>
   in?: runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[] | Prisma.ListDecimalFieldRefInput<$PrismaModel>
@@ -662,6 +645,23 @@ export type EnumJournalStatusWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumJournalStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumJournalStatusFilter<$PrismaModel>
+}
+
+export type EnumNoticeScopeFilter<$PrismaModel = never> = {
+  equals?: $Enums.NoticeScope | Prisma.EnumNoticeScopeFieldRefInput<$PrismaModel>
+  in?: $Enums.NoticeScope[] | Prisma.ListEnumNoticeScopeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.NoticeScope[] | Prisma.ListEnumNoticeScopeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumNoticeScopeFilter<$PrismaModel> | $Enums.NoticeScope
+}
+
+export type EnumNoticeScopeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.NoticeScope | Prisma.EnumNoticeScopeFieldRefInput<$PrismaModel>
+  in?: $Enums.NoticeScope[] | Prisma.ListEnumNoticeScopeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.NoticeScope[] | Prisma.ListEnumNoticeScopeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumNoticeScopeWithAggregatesFilter<$PrismaModel> | $Enums.NoticeScope
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumNoticeScopeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumNoticeScopeFilter<$PrismaModel>
 }
 
 export type EnumNotificationTypeFilter<$PrismaModel = never> = {
@@ -1147,23 +1147,6 @@ export type NestedEnumWorkoutEntryModeWithAggregatesFilter<$PrismaModel = never>
   _max?: Prisma.NestedEnumWorkoutEntryModeFilter<$PrismaModel>
 }
 
-export type NestedEnumWorkoutRecordTypeFilter<$PrismaModel = never> = {
-  equals?: $Enums.WorkoutRecordType | Prisma.EnumWorkoutRecordTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.WorkoutRecordType[] | Prisma.ListEnumWorkoutRecordTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.WorkoutRecordType[] | Prisma.ListEnumWorkoutRecordTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumWorkoutRecordTypeFilter<$PrismaModel> | $Enums.WorkoutRecordType
-}
-
-export type NestedEnumWorkoutRecordTypeWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.WorkoutRecordType | Prisma.EnumWorkoutRecordTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.WorkoutRecordType[] | Prisma.ListEnumWorkoutRecordTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.WorkoutRecordType[] | Prisma.ListEnumWorkoutRecordTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumWorkoutRecordTypeWithAggregatesFilter<$PrismaModel> | $Enums.WorkoutRecordType
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumWorkoutRecordTypeFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumWorkoutRecordTypeFilter<$PrismaModel>
-}
-
 export type NestedDecimalFilter<$PrismaModel = never> = {
   equals?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel>
   in?: runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[] | Prisma.ListDecimalFieldRefInput<$PrismaModel>
@@ -1332,6 +1315,23 @@ export type NestedEnumJournalStatusWithAggregatesFilter<$PrismaModel = never> = 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumJournalStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumJournalStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumNoticeScopeFilter<$PrismaModel = never> = {
+  equals?: $Enums.NoticeScope | Prisma.EnumNoticeScopeFieldRefInput<$PrismaModel>
+  in?: $Enums.NoticeScope[] | Prisma.ListEnumNoticeScopeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.NoticeScope[] | Prisma.ListEnumNoticeScopeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumNoticeScopeFilter<$PrismaModel> | $Enums.NoticeScope
+}
+
+export type NestedEnumNoticeScopeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.NoticeScope | Prisma.EnumNoticeScopeFieldRefInput<$PrismaModel>
+  in?: $Enums.NoticeScope[] | Prisma.ListEnumNoticeScopeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.NoticeScope[] | Prisma.ListEnumNoticeScopeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumNoticeScopeWithAggregatesFilter<$PrismaModel> | $Enums.NoticeScope
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumNoticeScopeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumNoticeScopeFilter<$PrismaModel>
 }
 
 export type NestedEnumNotificationTypeFilter<$PrismaModel = never> = {

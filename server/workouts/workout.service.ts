@@ -87,7 +87,6 @@ function toRecordDto(record: RecordPayload) {
   return {
     id: record.id,
     orderIndex: record.orderIndex,
-    recordType: record.recordType,
     note: record.note,
     totalVolume: toNumber(record.totalVolume),
     exercise: record.exercise,

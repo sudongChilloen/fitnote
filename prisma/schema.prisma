@@ -55,11 +55,6 @@ enum PTSessionStatus {
   NO_SHOW
 }
 
-enum WorkoutRecordType {
-  PERSONAL
-  PT
-}
-
 /**
  * 기록을 남긴 방식.
  *
@@ -69,6 +64,17 @@ enum WorkoutRecordType {
  * 둘 다 편집하는 동안 IN_PROGRESS 여야 하는데, 구분이 없으면 어제 기록을
  * 입력하는 중에 홈에 "운동 진행중" 이 뜨고 새 운동 시작이 막힌다.
  */
+/**
+ * 공지를 누가 보는가.
+ *
+ * CENTER          센터 소속 전체
+ * TRAINER_MEMBERS 작성한 트레이너가 담당하는 회원만
+ */
+enum NoticeScope {
+  CENTER
+  TRAINER_MEMBERS
+}
+
 enum WorkoutEntryMode {
   LIVE
   MANUAL
@@ -294,6 +300,7 @@ model Center {
   invitations CenterInvitation[]
   ptProducts  PTProduct[]
   gyms        Gym[]
+  notices     Notice[]
 
   @@index([status])
 }
@@ -352,6 +359,11 @@ model CenterMembership {
 
   // 식단 피드백
   dietFeedbacks DietFeedback[]
+
+  // 알림장 댓글 / 공지
+  journalComments JournalComment[] @relation("JournalCommentAuthor")
+  authoredNotices Notice[]         @relation("NoticeAuthor")
+  noticeReads     NoticeRead[]     @relation("NoticeReader")
 
   // 트레이너가 생성한 루틴
   createdRoutines Routine[] @relation("TrainerCreatedRoutines")
@@ -703,6 +715,18 @@ model WorkoutSession {
 
   entryMode WorkoutEntryMode @default(LIVE)
 
+  /**
+   * PT 수업이면 그 수업. 없으면 개인 운동.
+   *
+   * 운동 하나하나가 아니라 세션에 붙인다. "누가 적었나"(recordedByUserId)가
+   * 이미 세션 단위여서, PT 여부만 운동 단위로 두면 트레이너가 적어 준 세션에
+   * PT 가 아닌 운동이 섞이는 설명할 수 없는 상태가 생긴다.
+   *
+   * PT 를 받고 남아서 혼자 유산소를 하면 세션이 나뉜다. 하루에 세션이 여러 개인
+   * 것은 이미 지원한다.
+   */
+  ptSessionId String? @unique
+
   // 누가 입력했는지. null 이면 본인.
   //
   // entryMode 와는 다른 축이다. entryMode 는 "어떻게"(실시간/몰아서),
@@ -722,6 +746,8 @@ model WorkoutSession {
   routine Routine? @relation(fields: [routineId], references: [id], onDelete: SetNull)
 
   recordedBy User? @relation("WorkoutSessionRecordedBy", fields: [recordedByUserId], references: [id], onDelete: SetNull)
+
+  ptSession PTSession? @relation(fields: [ptSessionId], references: [id], onDelete: SetNull)
 
   records WorkoutRecord[]
 
@@ -748,11 +774,6 @@ model WorkoutRecord {
   // hot path 인데, 세션까지 조인하면 전체 사용자의 기록을 훑게 된다.
   userId String
 
-  // PT 운동 기록인 경우 연결
-  ptSessionId String?
-
-  recordType WorkoutRecordType @default(PERSONAL)
-
   orderIndex Int @default(0)
 
   note String?
@@ -767,8 +788,6 @@ model WorkoutRecord {
   exercise Exercise       @relation(fields: [exerciseId], references: [id], onDelete: Restrict)
   user     User           @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  ptSession PTSession? @relation(fields: [ptSessionId], references: [id], onDelete: SetNull)
-
   sets WorkoutSet[]
 
   @@index([sessionId, orderIndex])
@@ -776,7 +795,6 @@ model WorkoutRecord {
   @@index([userId, exerciseId, createdAt(sort: Desc)])
   // exerciseId 단독 조회(Exercise 삭제 시 Restrict 검사, 전체 통계)를 위해 유지
   @@index([exerciseId, createdAt])
-  @@index([ptSessionId])
 }
 
 // ============================================================
@@ -953,7 +971,7 @@ model PTSession {
 
   trainerMembership CenterMembership @relation("PTSessionTrainer", fields: [trainerMembershipId], references: [id], onDelete: Restrict)
 
-  workoutRecords WorkoutRecord[]
+  workoutSession WorkoutSession?
   journals       Journal[]
 
   @@unique([contractId, sessionNumber])
@@ -1106,6 +1124,14 @@ model Journal {
 
   publishedAt DateTime?
 
+  /**
+   * 회원이 읽은 시각.
+   *
+   * 이게 없으면 홈의 "오늘 확인할 것" 을 고를 수 없다. 안 읽은 것을 세는 게
+   * 아니라 "무엇을 보여줄지" 를 정하는 데 쓴다.
+   */
+  memberReadAt DateTime?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -1115,10 +1141,119 @@ model Journal {
 
   ptSession PTSession? @relation(fields: [ptSessionId], references: [id], onDelete: SetNull)
 
+  photos   JournalPhoto[]
+  comments JournalComment[]
+
   @@index([memberMembershipId, date])
   @@index([trainerMembershipId, date])
   @@index([ptSessionId])
   @@index([status, publishedAt])
+  // 회원 홈: 아직 안 읽은 알림장
+  @@index([memberMembershipId, memberReadAt])
+}
+
+model JournalPhoto {
+  id        String @id @default(uuid())
+  journalId String
+
+  url String
+
+  // 목록에서 첫 장만 작게 보여줄 때 쓴다. 없으면 원본을 받아야 한다.
+  thumbnailUrl String?
+
+  orderIndex Int @default(0)
+
+  createdAt DateTime @default(now())
+
+  journal Journal @relation(fields: [journalId], references: [id], onDelete: Cascade)
+
+  @@index([journalId, orderIndex])
+}
+
+/**
+ * 알림장 댓글.
+ *
+ * 식단 댓글(DietFeedback)과 합치지 않았다. 대상이 다른 댓글을 한 테이블에 담으려면
+ * (targetType, targetId) 로 가리켜야 하는데 그러면 외래키를 걸 수 없어서, 알림장을
+ * 지워도 댓글이 남는다.
+ */
+model JournalComment {
+  id        String @id @default(uuid())
+  journalId String
+
+  // 트레이너와 회원이 같은 테이블에 쓴다. 누가 썼는지는 소속으로 가른다.
+  authorMembershipId String
+
+  content String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // 지우면 대화가 끊기므로 남긴다.
+  deletedAt DateTime?
+
+  journal Journal @relation(fields: [journalId], references: [id], onDelete: Cascade)
+
+  authorMembership CenterMembership @relation("JournalCommentAuthor", fields: [authorMembershipId], references: [id], onDelete: Restrict)
+
+  @@index([journalId, createdAt])
+  @@index([authorMembershipId])
+}
+
+// ============================================================
+// NOTICE
+// ============================================================
+
+/**
+ * 공지사항.
+ *
+ * 알림장이 한 회원에게 가는 글이라면 이건 여러 명에게 간다. 대상을 회원 목록으로
+ * 펼쳐 저장하지 않는다. 회원이 늘거나 나갈 때마다 대상을 고쳐야 하기 때문이다.
+ * 대신 범위만 저장하고 읽을 때 계산한다.
+ */
+model Notice {
+  id       String @id @default(uuid())
+  centerId String
+
+  authorMembershipId String
+
+  scope NoticeScope @default(CENTER)
+
+  title   String
+  content String
+
+  // 목록 맨 위에 고정.
+  pinnedAt DateTime?
+
+  publishedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  center Center @relation(fields: [centerId], references: [id], onDelete: Cascade)
+
+  authorMembership CenterMembership @relation("NoticeAuthor", fields: [authorMembershipId], references: [id], onDelete: Restrict)
+
+  reads NoticeRead[]
+
+  @@index([centerId, publishedAt])
+  @@index([authorMembershipId])
+}
+
+model NoticeRead {
+  id       String @id @default(uuid())
+  noticeId String
+
+  membershipId String
+
+  readAt DateTime @default(now())
+
+  notice Notice @relation(fields: [noticeId], references: [id], onDelete: Cascade)
+
+  membership CenterMembership @relation("NoticeReader", fields: [membershipId], references: [id], onDelete: Cascade)
+
+  @@unique([noticeId, membershipId])
+  @@index([membershipId])
 }
 
 // ============================================================

@@ -45,6 +45,7 @@ const membershipSelect = {
   status: true,
   joinedAt: true,
   centerId: true,
+  assignedTrainerMembershipId: true,
   center: { select: { id: true, name: true, status: true } },
   assignedTrainerMembership: {
     select: { id: true, user: { select: { id: true, name: true } } },

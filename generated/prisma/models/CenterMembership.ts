@@ -229,6 +229,9 @@ export type CenterMembershipWhereInput = {
   trainerJournals?: Prisma.JournalListRelationFilter
   trainerPTPrices?: Prisma.TrainerPTPriceListRelationFilter
   dietFeedbacks?: Prisma.DietFeedbackListRelationFilter
+  journalComments?: Prisma.JournalCommentListRelationFilter
+  authoredNotices?: Prisma.NoticeListRelationFilter
+  noticeReads?: Prisma.NoticeReadListRelationFilter
   createdRoutines?: Prisma.RoutineListRelationFilter
 }
 
@@ -257,6 +260,9 @@ export type CenterMembershipOrderByWithRelationInput = {
   trainerJournals?: Prisma.JournalOrderByRelationAggregateInput
   trainerPTPrices?: Prisma.TrainerPTPriceOrderByRelationAggregateInput
   dietFeedbacks?: Prisma.DietFeedbackOrderByRelationAggregateInput
+  journalComments?: Prisma.JournalCommentOrderByRelationAggregateInput
+  authoredNotices?: Prisma.NoticeOrderByRelationAggregateInput
+  noticeReads?: Prisma.NoticeReadOrderByRelationAggregateInput
   createdRoutines?: Prisma.RoutineOrderByRelationAggregateInput
 }
 
@@ -289,6 +295,9 @@ export type CenterMembershipWhereUniqueInput = Prisma.AtLeast<{
   trainerJournals?: Prisma.JournalListRelationFilter
   trainerPTPrices?: Prisma.TrainerPTPriceListRelationFilter
   dietFeedbacks?: Prisma.DietFeedbackListRelationFilter
+  journalComments?: Prisma.JournalCommentListRelationFilter
+  authoredNotices?: Prisma.NoticeListRelationFilter
+  noticeReads?: Prisma.NoticeReadListRelationFilter
   createdRoutines?: Prisma.RoutineListRelationFilter
 }, "id" | "centerId_userId">
 
@@ -343,6 +352,9 @@ export type CenterMembershipCreateInput = {
   trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -367,6 +379,9 @@ export type CenterMembershipUncheckedCreateInput = {
   trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -391,6 +406,9 @@ export type CenterMembershipUpdateInput = {
   trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -415,6 +433,9 @@ export type CenterMembershipUncheckedUpdateInput = {
   trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -859,6 +880,48 @@ export type CenterMembershipUpdateOneRequiredWithoutTrainerJournalsNestedInput =
   update?: Prisma.XOR<Prisma.XOR<Prisma.CenterMembershipUpdateToOneWithWhereWithoutTrainerJournalsInput, Prisma.CenterMembershipUpdateWithoutTrainerJournalsInput>, Prisma.CenterMembershipUncheckedUpdateWithoutTrainerJournalsInput>
 }
 
+export type CenterMembershipCreateNestedOneWithoutJournalCommentsInput = {
+  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutJournalCommentsInput, Prisma.CenterMembershipUncheckedCreateWithoutJournalCommentsInput>
+  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutJournalCommentsInput
+  connect?: Prisma.CenterMembershipWhereUniqueInput
+}
+
+export type CenterMembershipUpdateOneRequiredWithoutJournalCommentsNestedInput = {
+  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutJournalCommentsInput, Prisma.CenterMembershipUncheckedCreateWithoutJournalCommentsInput>
+  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutJournalCommentsInput
+  upsert?: Prisma.CenterMembershipUpsertWithoutJournalCommentsInput
+  connect?: Prisma.CenterMembershipWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CenterMembershipUpdateToOneWithWhereWithoutJournalCommentsInput, Prisma.CenterMembershipUpdateWithoutJournalCommentsInput>, Prisma.CenterMembershipUncheckedUpdateWithoutJournalCommentsInput>
+}
+
+export type CenterMembershipCreateNestedOneWithoutAuthoredNoticesInput = {
+  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutAuthoredNoticesInput, Prisma.CenterMembershipUncheckedCreateWithoutAuthoredNoticesInput>
+  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutAuthoredNoticesInput
+  connect?: Prisma.CenterMembershipWhereUniqueInput
+}
+
+export type CenterMembershipUpdateOneRequiredWithoutAuthoredNoticesNestedInput = {
+  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutAuthoredNoticesInput, Prisma.CenterMembershipUncheckedCreateWithoutAuthoredNoticesInput>
+  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutAuthoredNoticesInput
+  upsert?: Prisma.CenterMembershipUpsertWithoutAuthoredNoticesInput
+  connect?: Prisma.CenterMembershipWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CenterMembershipUpdateToOneWithWhereWithoutAuthoredNoticesInput, Prisma.CenterMembershipUpdateWithoutAuthoredNoticesInput>, Prisma.CenterMembershipUncheckedUpdateWithoutAuthoredNoticesInput>
+}
+
+export type CenterMembershipCreateNestedOneWithoutNoticeReadsInput = {
+  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutNoticeReadsInput, Prisma.CenterMembershipUncheckedCreateWithoutNoticeReadsInput>
+  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutNoticeReadsInput
+  connect?: Prisma.CenterMembershipWhereUniqueInput
+}
+
+export type CenterMembershipUpdateOneRequiredWithoutNoticeReadsNestedInput = {
+  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutNoticeReadsInput, Prisma.CenterMembershipUncheckedCreateWithoutNoticeReadsInput>
+  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutNoticeReadsInput
+  upsert?: Prisma.CenterMembershipUpsertWithoutNoticeReadsInput
+  connect?: Prisma.CenterMembershipWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CenterMembershipUpdateToOneWithWhereWithoutNoticeReadsInput, Prisma.CenterMembershipUpdateWithoutNoticeReadsInput>, Prisma.CenterMembershipUncheckedUpdateWithoutNoticeReadsInput>
+}
+
 export type CenterMembershipCreateWithoutUserInput = {
   id?: string
   role: $Enums.MembershipRole
@@ -879,6 +942,9 @@ export type CenterMembershipCreateWithoutUserInput = {
   trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -902,6 +968,9 @@ export type CenterMembershipUncheckedCreateWithoutUserInput = {
   trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -966,6 +1035,9 @@ export type CenterMembershipCreateWithoutCenterInput = {
   trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -989,6 +1061,9 @@ export type CenterMembershipUncheckedCreateWithoutCenterInput = {
   trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -1038,6 +1113,9 @@ export type CenterMembershipCreateWithoutAssignedMembersInput = {
   trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -1061,6 +1139,9 @@ export type CenterMembershipUncheckedCreateWithoutAssignedMembersInput = {
   trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -1089,6 +1170,9 @@ export type CenterMembershipCreateWithoutAssignedTrainerMembershipInput = {
   trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -1112,6 +1196,9 @@ export type CenterMembershipUncheckedCreateWithoutAssignedTrainerMembershipInput
   trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -1156,6 +1243,9 @@ export type CenterMembershipUpdateWithoutAssignedMembersInput = {
   trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -1179,6 +1269,9 @@ export type CenterMembershipUncheckedUpdateWithoutAssignedMembersInput = {
   trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -1218,6 +1311,9 @@ export type CenterMembershipCreateWithoutCreatedInvitationsInput = {
   trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -1241,6 +1337,9 @@ export type CenterMembershipUncheckedCreateWithoutCreatedInvitationsInput = {
   trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -1269,6 +1368,9 @@ export type CenterMembershipCreateWithoutJoinedViaInvitationInput = {
   trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -1292,6 +1394,9 @@ export type CenterMembershipUncheckedCreateWithoutJoinedViaInvitationInput = {
   trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -1336,6 +1441,9 @@ export type CenterMembershipUpdateWithoutCreatedInvitationsInput = {
   trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -1359,6 +1467,9 @@ export type CenterMembershipUncheckedUpdateWithoutCreatedInvitationsInput = {
   trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -1398,6 +1509,9 @@ export type CenterMembershipCreateWithoutTrainerProfileInput = {
   trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -1421,6 +1535,9 @@ export type CenterMembershipUncheckedCreateWithoutTrainerProfileInput = {
   trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -1460,6 +1577,9 @@ export type CenterMembershipUpdateWithoutTrainerProfileInput = {
   trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -1483,6 +1603,9 @@ export type CenterMembershipUncheckedUpdateWithoutTrainerProfileInput = {
   trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -1507,6 +1630,9 @@ export type CenterMembershipCreateWithoutCreatedRoutinesInput = {
   trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
 }
 
 export type CenterMembershipUncheckedCreateWithoutCreatedRoutinesInput = {
@@ -1530,6 +1656,9 @@ export type CenterMembershipUncheckedCreateWithoutCreatedRoutinesInput = {
   trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
 }
 
 export type CenterMembershipCreateOrConnectWithoutCreatedRoutinesInput = {
@@ -1569,6 +1698,9 @@ export type CenterMembershipUpdateWithoutCreatedRoutinesInput = {
   trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
 }
 
 export type CenterMembershipUncheckedUpdateWithoutCreatedRoutinesInput = {
@@ -1592,6 +1724,9 @@ export type CenterMembershipUncheckedUpdateWithoutCreatedRoutinesInput = {
   trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
 export type CenterMembershipCreateWithoutTrainerPTPricesInput = {
@@ -1614,6 +1749,9 @@ export type CenterMembershipCreateWithoutTrainerPTPricesInput = {
   memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
   trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -1637,6 +1775,9 @@ export type CenterMembershipUncheckedCreateWithoutTrainerPTPricesInput = {
   memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
   trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -1676,6 +1817,9 @@ export type CenterMembershipUpdateWithoutTrainerPTPricesInput = {
   memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
   trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -1699,6 +1843,9 @@ export type CenterMembershipUncheckedUpdateWithoutTrainerPTPricesInput = {
   memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
   trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -1722,6 +1869,9 @@ export type CenterMembershipCreateWithoutMemberContractsInput = {
   trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -1745,6 +1895,9 @@ export type CenterMembershipUncheckedCreateWithoutMemberContractsInput = {
   trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -1773,6 +1926,9 @@ export type CenterMembershipCreateWithoutTrainerContractsInput = {
   trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -1796,6 +1952,9 @@ export type CenterMembershipUncheckedCreateWithoutTrainerContractsInput = {
   trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -1835,6 +1994,9 @@ export type CenterMembershipUpdateWithoutMemberContractsInput = {
   trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -1858,6 +2020,9 @@ export type CenterMembershipUncheckedUpdateWithoutMemberContractsInput = {
   trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -1892,6 +2057,9 @@ export type CenterMembershipUpdateWithoutTrainerContractsInput = {
   trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -1915,6 +2083,9 @@ export type CenterMembershipUncheckedUpdateWithoutTrainerContractsInput = {
   trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -1938,6 +2109,9 @@ export type CenterMembershipCreateWithoutMemberPTSessionsInput = {
   trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -1961,6 +2135,9 @@ export type CenterMembershipUncheckedCreateWithoutMemberPTSessionsInput = {
   trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -1989,6 +2166,9 @@ export type CenterMembershipCreateWithoutTrainerPTSessionsInput = {
   trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -2012,6 +2192,9 @@ export type CenterMembershipUncheckedCreateWithoutTrainerPTSessionsInput = {
   trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -2051,6 +2234,9 @@ export type CenterMembershipUpdateWithoutMemberPTSessionsInput = {
   trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -2074,6 +2260,9 @@ export type CenterMembershipUncheckedUpdateWithoutMemberPTSessionsInput = {
   trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -2108,6 +2297,9 @@ export type CenterMembershipUpdateWithoutTrainerPTSessionsInput = {
   trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -2131,6 +2323,9 @@ export type CenterMembershipUncheckedUpdateWithoutTrainerPTSessionsInput = {
   trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -2154,6 +2349,9 @@ export type CenterMembershipCreateWithoutDietFeedbacksInput = {
   memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
   trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -2177,6 +2375,9 @@ export type CenterMembershipUncheckedCreateWithoutDietFeedbacksInput = {
   memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
   trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -2216,6 +2417,9 @@ export type CenterMembershipUpdateWithoutDietFeedbacksInput = {
   memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
   trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -2239,6 +2443,9 @@ export type CenterMembershipUncheckedUpdateWithoutDietFeedbacksInput = {
   memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
   trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -2262,6 +2469,9 @@ export type CenterMembershipCreateWithoutMemberJournalsInput = {
   trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -2285,6 +2495,9 @@ export type CenterMembershipUncheckedCreateWithoutMemberJournalsInput = {
   trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -2313,6 +2526,9 @@ export type CenterMembershipCreateWithoutTrainerJournalsInput = {
   memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -2336,6 +2552,9 @@ export type CenterMembershipUncheckedCreateWithoutTrainerJournalsInput = {
   memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
 }
 
@@ -2375,6 +2594,9 @@ export type CenterMembershipUpdateWithoutMemberJournalsInput = {
   trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -2398,6 +2620,9 @@ export type CenterMembershipUncheckedUpdateWithoutMemberJournalsInput = {
   trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -2432,6 +2657,9 @@ export type CenterMembershipUpdateWithoutTrainerJournalsInput = {
   memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -2455,6 +2683,369 @@ export type CenterMembershipUncheckedUpdateWithoutTrainerJournalsInput = {
   memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
+  createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
+}
+
+export type CenterMembershipCreateWithoutJournalCommentsInput = {
+  id?: string
+  role: $Enums.MembershipRole
+  status?: $Enums.MembershipStatus
+  joinedAt?: Date | string
+  leftAt?: Date | string | null
+  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
+  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
+  assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
+  assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
+  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
+  memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
+  trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
+  memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
+  trainerPTSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerMembershipInput
+  memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
+  trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
+  trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
+  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
+  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
+  createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
+}
+
+export type CenterMembershipUncheckedCreateWithoutJournalCommentsInput = {
+  id?: string
+  centerId: string
+  userId: string
+  role: $Enums.MembershipRole
+  status?: $Enums.MembershipStatus
+  assignedTrainerMembershipId?: string | null
+  joinedViaInvitationId?: string | null
+  joinedAt?: Date | string
+  leftAt?: Date | string | null
+  assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
+  memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
+  trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
+  trainerPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
+  trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
+  createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
+}
+
+export type CenterMembershipCreateOrConnectWithoutJournalCommentsInput = {
+  where: Prisma.CenterMembershipWhereUniqueInput
+  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutJournalCommentsInput, Prisma.CenterMembershipUncheckedCreateWithoutJournalCommentsInput>
+}
+
+export type CenterMembershipUpsertWithoutJournalCommentsInput = {
+  update: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutJournalCommentsInput, Prisma.CenterMembershipUncheckedUpdateWithoutJournalCommentsInput>
+  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutJournalCommentsInput, Prisma.CenterMembershipUncheckedCreateWithoutJournalCommentsInput>
+  where?: Prisma.CenterMembershipWhereInput
+}
+
+export type CenterMembershipUpdateToOneWithWhereWithoutJournalCommentsInput = {
+  where?: Prisma.CenterMembershipWhereInput
+  data: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutJournalCommentsInput, Prisma.CenterMembershipUncheckedUpdateWithoutJournalCommentsInput>
+}
+
+export type CenterMembershipUpdateWithoutJournalCommentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
+  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
+  assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
+  assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
+  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
+  memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
+  trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
+  memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
+  trainerPTSessions?: Prisma.PTSessionUpdateManyWithoutTrainerMembershipNestedInput
+  memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
+  trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
+  trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
+  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
+  createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
+}
+
+export type CenterMembershipUncheckedUpdateWithoutJournalCommentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  centerId?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
+  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
+  memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
+  trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
+  trainerPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
+  trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
+  createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
+}
+
+export type CenterMembershipCreateWithoutAuthoredNoticesInput = {
+  id?: string
+  role: $Enums.MembershipRole
+  status?: $Enums.MembershipStatus
+  joinedAt?: Date | string
+  leftAt?: Date | string | null
+  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
+  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
+  assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
+  assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
+  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
+  memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
+  trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
+  memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
+  trainerPTSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerMembershipInput
+  memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
+  trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
+  trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
+  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
+  createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
+}
+
+export type CenterMembershipUncheckedCreateWithoutAuthoredNoticesInput = {
+  id?: string
+  centerId: string
+  userId: string
+  role: $Enums.MembershipRole
+  status?: $Enums.MembershipStatus
+  assignedTrainerMembershipId?: string | null
+  joinedViaInvitationId?: string | null
+  joinedAt?: Date | string
+  leftAt?: Date | string | null
+  assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
+  memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
+  trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
+  trainerPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
+  trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
+  createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
+}
+
+export type CenterMembershipCreateOrConnectWithoutAuthoredNoticesInput = {
+  where: Prisma.CenterMembershipWhereUniqueInput
+  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutAuthoredNoticesInput, Prisma.CenterMembershipUncheckedCreateWithoutAuthoredNoticesInput>
+}
+
+export type CenterMembershipUpsertWithoutAuthoredNoticesInput = {
+  update: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutAuthoredNoticesInput, Prisma.CenterMembershipUncheckedUpdateWithoutAuthoredNoticesInput>
+  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutAuthoredNoticesInput, Prisma.CenterMembershipUncheckedCreateWithoutAuthoredNoticesInput>
+  where?: Prisma.CenterMembershipWhereInput
+}
+
+export type CenterMembershipUpdateToOneWithWhereWithoutAuthoredNoticesInput = {
+  where?: Prisma.CenterMembershipWhereInput
+  data: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutAuthoredNoticesInput, Prisma.CenterMembershipUncheckedUpdateWithoutAuthoredNoticesInput>
+}
+
+export type CenterMembershipUpdateWithoutAuthoredNoticesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
+  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
+  assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
+  assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
+  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
+  memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
+  trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
+  memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
+  trainerPTSessions?: Prisma.PTSessionUpdateManyWithoutTrainerMembershipNestedInput
+  memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
+  trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
+  trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
+  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
+  createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
+}
+
+export type CenterMembershipUncheckedUpdateWithoutAuthoredNoticesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  centerId?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
+  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
+  memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
+  trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
+  trainerPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
+  trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
+  createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
+}
+
+export type CenterMembershipCreateWithoutNoticeReadsInput = {
+  id?: string
+  role: $Enums.MembershipRole
+  status?: $Enums.MembershipStatus
+  joinedAt?: Date | string
+  leftAt?: Date | string | null
+  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
+  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
+  assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
+  assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
+  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
+  memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
+  trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
+  memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
+  trainerPTSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerMembershipInput
+  memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
+  trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
+  trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
+  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
+  createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
+}
+
+export type CenterMembershipUncheckedCreateWithoutNoticeReadsInput = {
+  id?: string
+  centerId: string
+  userId: string
+  role: $Enums.MembershipRole
+  status?: $Enums.MembershipStatus
+  assignedTrainerMembershipId?: string | null
+  joinedViaInvitationId?: string | null
+  joinedAt?: Date | string
+  leftAt?: Date | string | null
+  assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
+  memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
+  trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
+  trainerPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
+  trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
+  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
+  createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
+}
+
+export type CenterMembershipCreateOrConnectWithoutNoticeReadsInput = {
+  where: Prisma.CenterMembershipWhereUniqueInput
+  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutNoticeReadsInput, Prisma.CenterMembershipUncheckedCreateWithoutNoticeReadsInput>
+}
+
+export type CenterMembershipUpsertWithoutNoticeReadsInput = {
+  update: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutNoticeReadsInput, Prisma.CenterMembershipUncheckedUpdateWithoutNoticeReadsInput>
+  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutNoticeReadsInput, Prisma.CenterMembershipUncheckedCreateWithoutNoticeReadsInput>
+  where?: Prisma.CenterMembershipWhereInput
+}
+
+export type CenterMembershipUpdateToOneWithWhereWithoutNoticeReadsInput = {
+  where?: Prisma.CenterMembershipWhereInput
+  data: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutNoticeReadsInput, Prisma.CenterMembershipUncheckedUpdateWithoutNoticeReadsInput>
+}
+
+export type CenterMembershipUpdateWithoutNoticeReadsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
+  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
+  assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
+  assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
+  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
+  memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
+  trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
+  memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
+  trainerPTSessions?: Prisma.PTSessionUpdateManyWithoutTrainerMembershipNestedInput
+  memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
+  trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
+  trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
+  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
+  createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
+}
+
+export type CenterMembershipUncheckedUpdateWithoutNoticeReadsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  centerId?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
+  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
+  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
+  memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
+  trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
+  trainerPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
+  trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -2489,6 +3080,9 @@ export type CenterMembershipUpdateWithoutUserInput = {
   trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -2512,6 +3106,9 @@ export type CenterMembershipUncheckedUpdateWithoutUserInput = {
   trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -2557,6 +3154,9 @@ export type CenterMembershipUpdateWithoutCenterInput = {
   trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -2580,6 +3180,9 @@ export type CenterMembershipUncheckedUpdateWithoutCenterInput = {
   trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -2625,6 +3228,9 @@ export type CenterMembershipUpdateWithoutAssignedTrainerMembershipInput = {
   trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -2648,6 +3254,9 @@ export type CenterMembershipUncheckedUpdateWithoutAssignedTrainerMembershipInput
   trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -2693,6 +3302,9 @@ export type CenterMembershipUpdateWithoutJoinedViaInvitationInput = {
   trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -2716,6 +3328,9 @@ export type CenterMembershipUncheckedUpdateWithoutJoinedViaInvitationInput = {
   trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
   dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
+  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
+  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
@@ -2746,6 +3361,9 @@ export type CenterMembershipCountOutputType = {
   trainerJournals: number
   trainerPTPrices: number
   dietFeedbacks: number
+  journalComments: number
+  authoredNotices: number
+  noticeReads: number
   createdRoutines: number
 }
 
@@ -2760,6 +3378,9 @@ export type CenterMembershipCountOutputTypeSelect<ExtArgs extends runtime.Types.
   trainerJournals?: boolean | CenterMembershipCountOutputTypeCountTrainerJournalsArgs
   trainerPTPrices?: boolean | CenterMembershipCountOutputTypeCountTrainerPTPricesArgs
   dietFeedbacks?: boolean | CenterMembershipCountOutputTypeCountDietFeedbacksArgs
+  journalComments?: boolean | CenterMembershipCountOutputTypeCountJournalCommentsArgs
+  authoredNotices?: boolean | CenterMembershipCountOutputTypeCountAuthoredNoticesArgs
+  noticeReads?: boolean | CenterMembershipCountOutputTypeCountNoticeReadsArgs
   createdRoutines?: boolean | CenterMembershipCountOutputTypeCountCreatedRoutinesArgs
 }
 
@@ -2846,6 +3467,27 @@ export type CenterMembershipCountOutputTypeCountDietFeedbacksArgs<ExtArgs extend
 /**
  * CenterMembershipCountOutputType without action
  */
+export type CenterMembershipCountOutputTypeCountJournalCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.JournalCommentWhereInput
+}
+
+/**
+ * CenterMembershipCountOutputType without action
+ */
+export type CenterMembershipCountOutputTypeCountAuthoredNoticesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NoticeWhereInput
+}
+
+/**
+ * CenterMembershipCountOutputType without action
+ */
+export type CenterMembershipCountOutputTypeCountNoticeReadsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NoticeReadWhereInput
+}
+
+/**
+ * CenterMembershipCountOutputType without action
+ */
 export type CenterMembershipCountOutputTypeCountCreatedRoutinesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.RoutineWhereInput
 }
@@ -2876,6 +3518,9 @@ export type CenterMembershipSelect<ExtArgs extends runtime.Types.Extensions.Inte
   trainerJournals?: boolean | Prisma.CenterMembership$trainerJournalsArgs<ExtArgs>
   trainerPTPrices?: boolean | Prisma.CenterMembership$trainerPTPricesArgs<ExtArgs>
   dietFeedbacks?: boolean | Prisma.CenterMembership$dietFeedbacksArgs<ExtArgs>
+  journalComments?: boolean | Prisma.CenterMembership$journalCommentsArgs<ExtArgs>
+  authoredNotices?: boolean | Prisma.CenterMembership$authoredNoticesArgs<ExtArgs>
+  noticeReads?: boolean | Prisma.CenterMembership$noticeReadsArgs<ExtArgs>
   createdRoutines?: boolean | Prisma.CenterMembership$createdRoutinesArgs<ExtArgs>
   _count?: boolean | Prisma.CenterMembershipCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["centerMembership"]>
@@ -2941,6 +3586,9 @@ export type CenterMembershipInclude<ExtArgs extends runtime.Types.Extensions.Int
   trainerJournals?: boolean | Prisma.CenterMembership$trainerJournalsArgs<ExtArgs>
   trainerPTPrices?: boolean | Prisma.CenterMembership$trainerPTPricesArgs<ExtArgs>
   dietFeedbacks?: boolean | Prisma.CenterMembership$dietFeedbacksArgs<ExtArgs>
+  journalComments?: boolean | Prisma.CenterMembership$journalCommentsArgs<ExtArgs>
+  authoredNotices?: boolean | Prisma.CenterMembership$authoredNoticesArgs<ExtArgs>
+  noticeReads?: boolean | Prisma.CenterMembership$noticeReadsArgs<ExtArgs>
   createdRoutines?: boolean | Prisma.CenterMembership$createdRoutinesArgs<ExtArgs>
   _count?: boolean | Prisma.CenterMembershipCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -2975,6 +3623,9 @@ export type $CenterMembershipPayload<ExtArgs extends runtime.Types.Extensions.In
     trainerJournals: Prisma.$JournalPayload<ExtArgs>[]
     trainerPTPrices: Prisma.$TrainerPTPricePayload<ExtArgs>[]
     dietFeedbacks: Prisma.$DietFeedbackPayload<ExtArgs>[]
+    journalComments: Prisma.$JournalCommentPayload<ExtArgs>[]
+    authoredNotices: Prisma.$NoticePayload<ExtArgs>[]
+    noticeReads: Prisma.$NoticeReadPayload<ExtArgs>[]
     createdRoutines: Prisma.$RoutinePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -3396,6 +4047,9 @@ export interface Prisma__CenterMembershipClient<T, Null = never, ExtArgs extends
   trainerJournals<T extends Prisma.CenterMembership$trainerJournalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$trainerJournalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   trainerPTPrices<T extends Prisma.CenterMembership$trainerPTPricesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$trainerPTPricesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrainerPTPricePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   dietFeedbacks<T extends Prisma.CenterMembership$dietFeedbacksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$dietFeedbacksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DietFeedbackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  journalComments<T extends Prisma.CenterMembership$journalCommentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$journalCommentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  authoredNotices<T extends Prisma.CenterMembership$authoredNoticesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$authoredNoticesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NoticePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  noticeReads<T extends Prisma.CenterMembership$noticeReadsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$noticeReadsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NoticeReadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdRoutines<T extends Prisma.CenterMembership$createdRoutinesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$createdRoutinesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RoutinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -4130,6 +4784,78 @@ export type CenterMembership$dietFeedbacksArgs<ExtArgs extends runtime.Types.Ext
   take?: number
   skip?: number
   distinct?: Prisma.DietFeedbackScalarFieldEnum | Prisma.DietFeedbackScalarFieldEnum[]
+}
+
+/**
+ * CenterMembership.journalComments
+ */
+export type CenterMembership$journalCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the JournalComment
+   */
+  select?: Prisma.JournalCommentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the JournalComment
+   */
+  omit?: Prisma.JournalCommentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.JournalCommentInclude<ExtArgs> | null
+  where?: Prisma.JournalCommentWhereInput
+  orderBy?: Prisma.JournalCommentOrderByWithRelationInput | Prisma.JournalCommentOrderByWithRelationInput[]
+  cursor?: Prisma.JournalCommentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.JournalCommentScalarFieldEnum | Prisma.JournalCommentScalarFieldEnum[]
+}
+
+/**
+ * CenterMembership.authoredNotices
+ */
+export type CenterMembership$authoredNoticesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Notice
+   */
+  select?: Prisma.NoticeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Notice
+   */
+  omit?: Prisma.NoticeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NoticeInclude<ExtArgs> | null
+  where?: Prisma.NoticeWhereInput
+  orderBy?: Prisma.NoticeOrderByWithRelationInput | Prisma.NoticeOrderByWithRelationInput[]
+  cursor?: Prisma.NoticeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NoticeScalarFieldEnum | Prisma.NoticeScalarFieldEnum[]
+}
+
+/**
+ * CenterMembership.noticeReads
+ */
+export type CenterMembership$noticeReadsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the NoticeRead
+   */
+  select?: Prisma.NoticeReadSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the NoticeRead
+   */
+  omit?: Prisma.NoticeReadOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NoticeReadInclude<ExtArgs> | null
+  where?: Prisma.NoticeReadWhereInput
+  orderBy?: Prisma.NoticeReadOrderByWithRelationInput | Prisma.NoticeReadOrderByWithRelationInput[]
+  cursor?: Prisma.NoticeReadWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NoticeReadScalarFieldEnum | Prisma.NoticeReadScalarFieldEnum[]
 }
 
 /**
