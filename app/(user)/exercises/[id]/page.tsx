@@ -13,6 +13,8 @@ import {
 import { cn } from "@/lib/utils";
 import { getExerciseById } from "@/server/exercises/exercise.service";
 
+import { ExerciseTrend } from "./exercise-trend";
+
 export async function generateMetadata({
   params,
 }: PageProps<"/exercises/[id]">) {
@@ -42,7 +44,7 @@ function Section({
 export default async function ExerciseDetailPage({
   params,
 }: PageProps<"/exercises/[id]">) {
-  await requireUser();
+  const user = await requireUser();
 
   const { id } = await params;
   const exercise = await getExerciseById(id);
@@ -85,6 +87,8 @@ export default async function ExerciseDetailPage({
           {exercise.description}
         </p>
       )}
+
+      <ExerciseTrend userId={user.id} exerciseId={exercise.id} />
 
       <Section title="필요한 기구">
         {exercise.equipment.length === 0 ? (

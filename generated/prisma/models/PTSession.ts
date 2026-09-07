@@ -295,7 +295,7 @@ export type PTSessionWhereInput = {
   contract?: Prisma.XOR<Prisma.PTContractScalarRelationFilter, Prisma.PTContractWhereInput>
   memberMembership?: Prisma.XOR<Prisma.CenterMembershipScalarRelationFilter, Prisma.CenterMembershipWhereInput>
   trainerMembership?: Prisma.XOR<Prisma.CenterMembershipScalarRelationFilter, Prisma.CenterMembershipWhereInput>
-  workoutRecords?: Prisma.WorkoutRecordListRelationFilter
+  workoutSession?: Prisma.XOR<Prisma.WorkoutSessionNullableScalarRelationFilter, Prisma.WorkoutSessionWhereInput> | null
   journals?: Prisma.JournalListRelationFilter
 }
 
@@ -317,7 +317,7 @@ export type PTSessionOrderByWithRelationInput = {
   contract?: Prisma.PTContractOrderByWithRelationInput
   memberMembership?: Prisma.CenterMembershipOrderByWithRelationInput
   trainerMembership?: Prisma.CenterMembershipOrderByWithRelationInput
-  workoutRecords?: Prisma.WorkoutRecordOrderByRelationAggregateInput
+  workoutSession?: Prisma.WorkoutSessionOrderByWithRelationInput
   journals?: Prisma.JournalOrderByRelationAggregateInput
 }
 
@@ -343,7 +343,7 @@ export type PTSessionWhereUniqueInput = Prisma.AtLeast<{
   contract?: Prisma.XOR<Prisma.PTContractScalarRelationFilter, Prisma.PTContractWhereInput>
   memberMembership?: Prisma.XOR<Prisma.CenterMembershipScalarRelationFilter, Prisma.CenterMembershipWhereInput>
   trainerMembership?: Prisma.XOR<Prisma.CenterMembershipScalarRelationFilter, Prisma.CenterMembershipWhereInput>
-  workoutRecords?: Prisma.WorkoutRecordListRelationFilter
+  workoutSession?: Prisma.XOR<Prisma.WorkoutSessionNullableScalarRelationFilter, Prisma.WorkoutSessionWhereInput> | null
   journals?: Prisma.JournalListRelationFilter
 }, "id" | "contractId_sessionNumber">
 
@@ -404,7 +404,7 @@ export type PTSessionCreateInput = {
   contract: Prisma.PTContractCreateNestedOneWithoutSessionsInput
   memberMembership: Prisma.CenterMembershipCreateNestedOneWithoutMemberPTSessionsInput
   trainerMembership: Prisma.CenterMembershipCreateNestedOneWithoutTrainerPTSessionsInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutPtSessionInput
+  workoutSession?: Prisma.WorkoutSessionCreateNestedOneWithoutPtSessionInput
   journals?: Prisma.JournalCreateNestedManyWithoutPtSessionInput
 }
 
@@ -423,7 +423,7 @@ export type PTSessionUncheckedCreateInput = {
   cancelReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutPtSessionInput
+  workoutSession?: Prisma.WorkoutSessionUncheckedCreateNestedOneWithoutPtSessionInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutPtSessionInput
 }
 
@@ -442,7 +442,7 @@ export type PTSessionUpdateInput = {
   contract?: Prisma.PTContractUpdateOneRequiredWithoutSessionsNestedInput
   memberMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutMemberPTSessionsNestedInput
   trainerMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutTrainerPTSessionsNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutPtSessionNestedInput
+  workoutSession?: Prisma.WorkoutSessionUpdateOneWithoutPtSessionNestedInput
   journals?: Prisma.JournalUpdateManyWithoutPtSessionNestedInput
 }
 
@@ -461,7 +461,7 @@ export type PTSessionUncheckedUpdateInput = {
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutPtSessionNestedInput
+  workoutSession?: Prisma.WorkoutSessionUncheckedUpdateOneWithoutPtSessionNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutPtSessionNestedInput
 }
 
@@ -678,20 +678,20 @@ export type PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput = {
   deleteMany?: Prisma.PTSessionScalarWhereInput | Prisma.PTSessionScalarWhereInput[]
 }
 
-export type PTSessionCreateNestedOneWithoutWorkoutRecordsInput = {
-  create?: Prisma.XOR<Prisma.PTSessionCreateWithoutWorkoutRecordsInput, Prisma.PTSessionUncheckedCreateWithoutWorkoutRecordsInput>
-  connectOrCreate?: Prisma.PTSessionCreateOrConnectWithoutWorkoutRecordsInput
+export type PTSessionCreateNestedOneWithoutWorkoutSessionInput = {
+  create?: Prisma.XOR<Prisma.PTSessionCreateWithoutWorkoutSessionInput, Prisma.PTSessionUncheckedCreateWithoutWorkoutSessionInput>
+  connectOrCreate?: Prisma.PTSessionCreateOrConnectWithoutWorkoutSessionInput
   connect?: Prisma.PTSessionWhereUniqueInput
 }
 
-export type PTSessionUpdateOneWithoutWorkoutRecordsNestedInput = {
-  create?: Prisma.XOR<Prisma.PTSessionCreateWithoutWorkoutRecordsInput, Prisma.PTSessionUncheckedCreateWithoutWorkoutRecordsInput>
-  connectOrCreate?: Prisma.PTSessionCreateOrConnectWithoutWorkoutRecordsInput
-  upsert?: Prisma.PTSessionUpsertWithoutWorkoutRecordsInput
+export type PTSessionUpdateOneWithoutWorkoutSessionNestedInput = {
+  create?: Prisma.XOR<Prisma.PTSessionCreateWithoutWorkoutSessionInput, Prisma.PTSessionUncheckedCreateWithoutWorkoutSessionInput>
+  connectOrCreate?: Prisma.PTSessionCreateOrConnectWithoutWorkoutSessionInput
+  upsert?: Prisma.PTSessionUpsertWithoutWorkoutSessionInput
   disconnect?: Prisma.PTSessionWhereInput | boolean
   delete?: Prisma.PTSessionWhereInput | boolean
   connect?: Prisma.PTSessionWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.PTSessionUpdateToOneWithWhereWithoutWorkoutRecordsInput, Prisma.PTSessionUpdateWithoutWorkoutRecordsInput>, Prisma.PTSessionUncheckedUpdateWithoutWorkoutRecordsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PTSessionUpdateToOneWithWhereWithoutWorkoutSessionInput, Prisma.PTSessionUpdateWithoutWorkoutSessionInput>, Prisma.PTSessionUncheckedUpdateWithoutWorkoutSessionInput>
 }
 
 export type PTSessionCreateNestedManyWithoutContractInput = {
@@ -770,7 +770,7 @@ export type PTSessionCreateWithoutMemberMembershipInput = {
   updatedAt?: Date | string
   contract: Prisma.PTContractCreateNestedOneWithoutSessionsInput
   trainerMembership: Prisma.CenterMembershipCreateNestedOneWithoutTrainerPTSessionsInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutPtSessionInput
+  workoutSession?: Prisma.WorkoutSessionCreateNestedOneWithoutPtSessionInput
   journals?: Prisma.JournalCreateNestedManyWithoutPtSessionInput
 }
 
@@ -788,7 +788,7 @@ export type PTSessionUncheckedCreateWithoutMemberMembershipInput = {
   cancelReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutPtSessionInput
+  workoutSession?: Prisma.WorkoutSessionUncheckedCreateNestedOneWithoutPtSessionInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutPtSessionInput
 }
 
@@ -816,7 +816,7 @@ export type PTSessionCreateWithoutTrainerMembershipInput = {
   updatedAt?: Date | string
   contract: Prisma.PTContractCreateNestedOneWithoutSessionsInput
   memberMembership: Prisma.CenterMembershipCreateNestedOneWithoutMemberPTSessionsInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutPtSessionInput
+  workoutSession?: Prisma.WorkoutSessionCreateNestedOneWithoutPtSessionInput
   journals?: Prisma.JournalCreateNestedManyWithoutPtSessionInput
 }
 
@@ -834,7 +834,7 @@ export type PTSessionUncheckedCreateWithoutTrainerMembershipInput = {
   cancelReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutPtSessionInput
+  workoutSession?: Prisma.WorkoutSessionUncheckedCreateNestedOneWithoutPtSessionInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutPtSessionInput
 }
 
@@ -900,7 +900,7 @@ export type PTSessionUpdateManyWithWhereWithoutTrainerMembershipInput = {
   data: Prisma.XOR<Prisma.PTSessionUpdateManyMutationInput, Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipInput>
 }
 
-export type PTSessionCreateWithoutWorkoutRecordsInput = {
+export type PTSessionCreateWithoutWorkoutSessionInput = {
   id?: string
   sessionNumber: number
   scheduledAt: Date | string
@@ -918,7 +918,7 @@ export type PTSessionCreateWithoutWorkoutRecordsInput = {
   journals?: Prisma.JournalCreateNestedManyWithoutPtSessionInput
 }
 
-export type PTSessionUncheckedCreateWithoutWorkoutRecordsInput = {
+export type PTSessionUncheckedCreateWithoutWorkoutSessionInput = {
   id?: string
   contractId: string
   memberMembershipId: string
@@ -936,23 +936,23 @@ export type PTSessionUncheckedCreateWithoutWorkoutRecordsInput = {
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutPtSessionInput
 }
 
-export type PTSessionCreateOrConnectWithoutWorkoutRecordsInput = {
+export type PTSessionCreateOrConnectWithoutWorkoutSessionInput = {
   where: Prisma.PTSessionWhereUniqueInput
-  create: Prisma.XOR<Prisma.PTSessionCreateWithoutWorkoutRecordsInput, Prisma.PTSessionUncheckedCreateWithoutWorkoutRecordsInput>
+  create: Prisma.XOR<Prisma.PTSessionCreateWithoutWorkoutSessionInput, Prisma.PTSessionUncheckedCreateWithoutWorkoutSessionInput>
 }
 
-export type PTSessionUpsertWithoutWorkoutRecordsInput = {
-  update: Prisma.XOR<Prisma.PTSessionUpdateWithoutWorkoutRecordsInput, Prisma.PTSessionUncheckedUpdateWithoutWorkoutRecordsInput>
-  create: Prisma.XOR<Prisma.PTSessionCreateWithoutWorkoutRecordsInput, Prisma.PTSessionUncheckedCreateWithoutWorkoutRecordsInput>
+export type PTSessionUpsertWithoutWorkoutSessionInput = {
+  update: Prisma.XOR<Prisma.PTSessionUpdateWithoutWorkoutSessionInput, Prisma.PTSessionUncheckedUpdateWithoutWorkoutSessionInput>
+  create: Prisma.XOR<Prisma.PTSessionCreateWithoutWorkoutSessionInput, Prisma.PTSessionUncheckedCreateWithoutWorkoutSessionInput>
   where?: Prisma.PTSessionWhereInput
 }
 
-export type PTSessionUpdateToOneWithWhereWithoutWorkoutRecordsInput = {
+export type PTSessionUpdateToOneWithWhereWithoutWorkoutSessionInput = {
   where?: Prisma.PTSessionWhereInput
-  data: Prisma.XOR<Prisma.PTSessionUpdateWithoutWorkoutRecordsInput, Prisma.PTSessionUncheckedUpdateWithoutWorkoutRecordsInput>
+  data: Prisma.XOR<Prisma.PTSessionUpdateWithoutWorkoutSessionInput, Prisma.PTSessionUncheckedUpdateWithoutWorkoutSessionInput>
 }
 
-export type PTSessionUpdateWithoutWorkoutRecordsInput = {
+export type PTSessionUpdateWithoutWorkoutSessionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sessionNumber?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -970,7 +970,7 @@ export type PTSessionUpdateWithoutWorkoutRecordsInput = {
   journals?: Prisma.JournalUpdateManyWithoutPtSessionNestedInput
 }
 
-export type PTSessionUncheckedUpdateWithoutWorkoutRecordsInput = {
+export type PTSessionUncheckedUpdateWithoutWorkoutSessionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   contractId?: Prisma.StringFieldUpdateOperationsInput | string
   memberMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1002,7 +1002,7 @@ export type PTSessionCreateWithoutContractInput = {
   updatedAt?: Date | string
   memberMembership: Prisma.CenterMembershipCreateNestedOneWithoutMemberPTSessionsInput
   trainerMembership: Prisma.CenterMembershipCreateNestedOneWithoutTrainerPTSessionsInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutPtSessionInput
+  workoutSession?: Prisma.WorkoutSessionCreateNestedOneWithoutPtSessionInput
   journals?: Prisma.JournalCreateNestedManyWithoutPtSessionInput
 }
 
@@ -1020,7 +1020,7 @@ export type PTSessionUncheckedCreateWithoutContractInput = {
   cancelReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutPtSessionInput
+  workoutSession?: Prisma.WorkoutSessionUncheckedCreateNestedOneWithoutPtSessionInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutPtSessionInput
 }
 
@@ -1065,7 +1065,7 @@ export type PTSessionCreateWithoutJournalsInput = {
   contract: Prisma.PTContractCreateNestedOneWithoutSessionsInput
   memberMembership: Prisma.CenterMembershipCreateNestedOneWithoutMemberPTSessionsInput
   trainerMembership: Prisma.CenterMembershipCreateNestedOneWithoutTrainerPTSessionsInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutPtSessionInput
+  workoutSession?: Prisma.WorkoutSessionCreateNestedOneWithoutPtSessionInput
 }
 
 export type PTSessionUncheckedCreateWithoutJournalsInput = {
@@ -1083,7 +1083,7 @@ export type PTSessionUncheckedCreateWithoutJournalsInput = {
   cancelReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutPtSessionInput
+  workoutSession?: Prisma.WorkoutSessionUncheckedCreateNestedOneWithoutPtSessionInput
 }
 
 export type PTSessionCreateOrConnectWithoutJournalsInput = {
@@ -1117,7 +1117,7 @@ export type PTSessionUpdateWithoutJournalsInput = {
   contract?: Prisma.PTContractUpdateOneRequiredWithoutSessionsNestedInput
   memberMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutMemberPTSessionsNestedInput
   trainerMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutTrainerPTSessionsNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutPtSessionNestedInput
+  workoutSession?: Prisma.WorkoutSessionUpdateOneWithoutPtSessionNestedInput
 }
 
 export type PTSessionUncheckedUpdateWithoutJournalsInput = {
@@ -1135,7 +1135,7 @@ export type PTSessionUncheckedUpdateWithoutJournalsInput = {
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutPtSessionNestedInput
+  workoutSession?: Prisma.WorkoutSessionUncheckedUpdateOneWithoutPtSessionNestedInput
 }
 
 export type PTSessionCreateManyMemberMembershipInput = {
@@ -1184,7 +1184,7 @@ export type PTSessionUpdateWithoutMemberMembershipInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   contract?: Prisma.PTContractUpdateOneRequiredWithoutSessionsNestedInput
   trainerMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutTrainerPTSessionsNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutPtSessionNestedInput
+  workoutSession?: Prisma.WorkoutSessionUpdateOneWithoutPtSessionNestedInput
   journals?: Prisma.JournalUpdateManyWithoutPtSessionNestedInput
 }
 
@@ -1202,7 +1202,7 @@ export type PTSessionUncheckedUpdateWithoutMemberMembershipInput = {
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutPtSessionNestedInput
+  workoutSession?: Prisma.WorkoutSessionUncheckedUpdateOneWithoutPtSessionNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutPtSessionNestedInput
 }
 
@@ -1236,7 +1236,7 @@ export type PTSessionUpdateWithoutTrainerMembershipInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   contract?: Prisma.PTContractUpdateOneRequiredWithoutSessionsNestedInput
   memberMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutMemberPTSessionsNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutPtSessionNestedInput
+  workoutSession?: Prisma.WorkoutSessionUpdateOneWithoutPtSessionNestedInput
   journals?: Prisma.JournalUpdateManyWithoutPtSessionNestedInput
 }
 
@@ -1254,7 +1254,7 @@ export type PTSessionUncheckedUpdateWithoutTrainerMembershipInput = {
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutPtSessionNestedInput
+  workoutSession?: Prisma.WorkoutSessionUncheckedUpdateOneWithoutPtSessionNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutPtSessionNestedInput
 }
 
@@ -1304,7 +1304,7 @@ export type PTSessionUpdateWithoutContractInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   memberMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutMemberPTSessionsNestedInput
   trainerMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutTrainerPTSessionsNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutPtSessionNestedInput
+  workoutSession?: Prisma.WorkoutSessionUpdateOneWithoutPtSessionNestedInput
   journals?: Prisma.JournalUpdateManyWithoutPtSessionNestedInput
 }
 
@@ -1322,7 +1322,7 @@ export type PTSessionUncheckedUpdateWithoutContractInput = {
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutPtSessionNestedInput
+  workoutSession?: Prisma.WorkoutSessionUncheckedUpdateOneWithoutPtSessionNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutPtSessionNestedInput
 }
 
@@ -1348,12 +1348,10 @@ export type PTSessionUncheckedUpdateManyWithoutContractInput = {
  */
 
 export type PTSessionCountOutputType = {
-  workoutRecords: number
   journals: number
 }
 
 export type PTSessionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  workoutRecords?: boolean | PTSessionCountOutputTypeCountWorkoutRecordsArgs
   journals?: boolean | PTSessionCountOutputTypeCountJournalsArgs
 }
 
@@ -1365,13 +1363,6 @@ export type PTSessionCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ex
    * Select specific fields to fetch from the PTSessionCountOutputType
    */
   select?: Prisma.PTSessionCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * PTSessionCountOutputType without action
- */
-export type PTSessionCountOutputTypeCountWorkoutRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.WorkoutRecordWhereInput
 }
 
 /**
@@ -1400,7 +1391,7 @@ export type PTSessionSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   contract?: boolean | Prisma.PTContractDefaultArgs<ExtArgs>
   memberMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
   trainerMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
-  workoutRecords?: boolean | Prisma.PTSession$workoutRecordsArgs<ExtArgs>
+  workoutSession?: boolean | Prisma.PTSession$workoutSessionArgs<ExtArgs>
   journals?: boolean | Prisma.PTSession$journalsArgs<ExtArgs>
   _count?: boolean | Prisma.PTSessionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["pTSession"]>
@@ -1467,7 +1458,7 @@ export type PTSessionInclude<ExtArgs extends runtime.Types.Extensions.InternalAr
   contract?: boolean | Prisma.PTContractDefaultArgs<ExtArgs>
   memberMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
   trainerMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
-  workoutRecords?: boolean | Prisma.PTSession$workoutRecordsArgs<ExtArgs>
+  workoutSession?: boolean | Prisma.PTSession$workoutSessionArgs<ExtArgs>
   journals?: boolean | Prisma.PTSession$journalsArgs<ExtArgs>
   _count?: boolean | Prisma.PTSessionCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1488,7 +1479,7 @@ export type $PTSessionPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     contract: Prisma.$PTContractPayload<ExtArgs>
     memberMembership: Prisma.$CenterMembershipPayload<ExtArgs>
     trainerMembership: Prisma.$CenterMembershipPayload<ExtArgs>
-    workoutRecords: Prisma.$WorkoutRecordPayload<ExtArgs>[]
+    workoutSession: Prisma.$WorkoutSessionPayload<ExtArgs> | null
     journals: Prisma.$JournalPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1903,7 +1894,7 @@ export interface Prisma__PTSessionClient<T, Null = never, ExtArgs extends runtim
   contract<T extends Prisma.PTContractDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PTContractDefaultArgs<ExtArgs>>): Prisma.Prisma__PTContractClient<runtime.Types.Result.GetResult<Prisma.$PTContractPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   memberMembership<T extends Prisma.CenterMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__CenterMembershipClient<runtime.Types.Result.GetResult<Prisma.$CenterMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   trainerMembership<T extends Prisma.CenterMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__CenterMembershipClient<runtime.Types.Result.GetResult<Prisma.$CenterMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  workoutRecords<T extends Prisma.PTSession$workoutRecordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PTSession$workoutRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorkoutRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  workoutSession<T extends Prisma.PTSession$workoutSessionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PTSession$workoutSessionArgs<ExtArgs>>): Prisma.Prisma__WorkoutSessionClient<runtime.Types.Result.GetResult<Prisma.$WorkoutSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   journals<T extends Prisma.PTSession$journalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PTSession$journalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2349,27 +2340,22 @@ export type PTSessionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
- * PTSession.workoutRecords
+ * PTSession.workoutSession
  */
-export type PTSession$workoutRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type PTSession$workoutSessionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the WorkoutRecord
+   * Select specific fields to fetch from the WorkoutSession
    */
-  select?: Prisma.WorkoutRecordSelect<ExtArgs> | null
+  select?: Prisma.WorkoutSessionSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the WorkoutRecord
+   * Omit specific fields from the WorkoutSession
    */
-  omit?: Prisma.WorkoutRecordOmit<ExtArgs> | null
+  omit?: Prisma.WorkoutSessionOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.WorkoutRecordInclude<ExtArgs> | null
-  where?: Prisma.WorkoutRecordWhereInput
-  orderBy?: Prisma.WorkoutRecordOrderByWithRelationInput | Prisma.WorkoutRecordOrderByWithRelationInput[]
-  cursor?: Prisma.WorkoutRecordWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.WorkoutRecordScalarFieldEnum | Prisma.WorkoutRecordScalarFieldEnum[]
+  include?: Prisma.WorkoutSessionInclude<ExtArgs> | null
+  where?: Prisma.WorkoutSessionWhereInput
 }
 
 /**

@@ -41,8 +41,6 @@ export type WorkoutRecordMinAggregateOutputType = {
   sessionId: string | null
   exerciseId: string | null
   userId: string | null
-  ptSessionId: string | null
-  recordType: $Enums.WorkoutRecordType | null
   orderIndex: number | null
   note: string | null
   totalVolume: runtime.Decimal | null
@@ -55,8 +53,6 @@ export type WorkoutRecordMaxAggregateOutputType = {
   sessionId: string | null
   exerciseId: string | null
   userId: string | null
-  ptSessionId: string | null
-  recordType: $Enums.WorkoutRecordType | null
   orderIndex: number | null
   note: string | null
   totalVolume: runtime.Decimal | null
@@ -69,8 +65,6 @@ export type WorkoutRecordCountAggregateOutputType = {
   sessionId: number
   exerciseId: number
   userId: number
-  ptSessionId: number
-  recordType: number
   orderIndex: number
   note: number
   totalVolume: number
@@ -95,8 +89,6 @@ export type WorkoutRecordMinAggregateInputType = {
   sessionId?: true
   exerciseId?: true
   userId?: true
-  ptSessionId?: true
-  recordType?: true
   orderIndex?: true
   note?: true
   totalVolume?: true
@@ -109,8 +101,6 @@ export type WorkoutRecordMaxAggregateInputType = {
   sessionId?: true
   exerciseId?: true
   userId?: true
-  ptSessionId?: true
-  recordType?: true
   orderIndex?: true
   note?: true
   totalVolume?: true
@@ -123,8 +113,6 @@ export type WorkoutRecordCountAggregateInputType = {
   sessionId?: true
   exerciseId?: true
   userId?: true
-  ptSessionId?: true
-  recordType?: true
   orderIndex?: true
   note?: true
   totalVolume?: true
@@ -224,8 +212,6 @@ export type WorkoutRecordGroupByOutputType = {
   sessionId: string
   exerciseId: string
   userId: string
-  ptSessionId: string | null
-  recordType: $Enums.WorkoutRecordType
   orderIndex: number
   note: string | null
   totalVolume: runtime.Decimal | null
@@ -261,8 +247,6 @@ export type WorkoutRecordWhereInput = {
   sessionId?: Prisma.StringFilter<"WorkoutRecord"> | string
   exerciseId?: Prisma.StringFilter<"WorkoutRecord"> | string
   userId?: Prisma.StringFilter<"WorkoutRecord"> | string
-  ptSessionId?: Prisma.StringNullableFilter<"WorkoutRecord"> | string | null
-  recordType?: Prisma.EnumWorkoutRecordTypeFilter<"WorkoutRecord"> | $Enums.WorkoutRecordType
   orderIndex?: Prisma.IntFilter<"WorkoutRecord"> | number
   note?: Prisma.StringNullableFilter<"WorkoutRecord"> | string | null
   totalVolume?: Prisma.DecimalNullableFilter<"WorkoutRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -271,7 +255,6 @@ export type WorkoutRecordWhereInput = {
   session?: Prisma.XOR<Prisma.WorkoutSessionScalarRelationFilter, Prisma.WorkoutSessionWhereInput>
   exercise?: Prisma.XOR<Prisma.ExerciseScalarRelationFilter, Prisma.ExerciseWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  ptSession?: Prisma.XOR<Prisma.PTSessionNullableScalarRelationFilter, Prisma.PTSessionWhereInput> | null
   sets?: Prisma.WorkoutSetListRelationFilter
 }
 
@@ -280,8 +263,6 @@ export type WorkoutRecordOrderByWithRelationInput = {
   sessionId?: Prisma.SortOrder
   exerciseId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  ptSessionId?: Prisma.SortOrderInput | Prisma.SortOrder
-  recordType?: Prisma.SortOrder
   orderIndex?: Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   totalVolume?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -290,7 +271,6 @@ export type WorkoutRecordOrderByWithRelationInput = {
   session?: Prisma.WorkoutSessionOrderByWithRelationInput
   exercise?: Prisma.ExerciseOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
-  ptSession?: Prisma.PTSessionOrderByWithRelationInput
   sets?: Prisma.WorkoutSetOrderByRelationAggregateInput
 }
 
@@ -302,8 +282,6 @@ export type WorkoutRecordWhereUniqueInput = Prisma.AtLeast<{
   sessionId?: Prisma.StringFilter<"WorkoutRecord"> | string
   exerciseId?: Prisma.StringFilter<"WorkoutRecord"> | string
   userId?: Prisma.StringFilter<"WorkoutRecord"> | string
-  ptSessionId?: Prisma.StringNullableFilter<"WorkoutRecord"> | string | null
-  recordType?: Prisma.EnumWorkoutRecordTypeFilter<"WorkoutRecord"> | $Enums.WorkoutRecordType
   orderIndex?: Prisma.IntFilter<"WorkoutRecord"> | number
   note?: Prisma.StringNullableFilter<"WorkoutRecord"> | string | null
   totalVolume?: Prisma.DecimalNullableFilter<"WorkoutRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -312,7 +290,6 @@ export type WorkoutRecordWhereUniqueInput = Prisma.AtLeast<{
   session?: Prisma.XOR<Prisma.WorkoutSessionScalarRelationFilter, Prisma.WorkoutSessionWhereInput>
   exercise?: Prisma.XOR<Prisma.ExerciseScalarRelationFilter, Prisma.ExerciseWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  ptSession?: Prisma.XOR<Prisma.PTSessionNullableScalarRelationFilter, Prisma.PTSessionWhereInput> | null
   sets?: Prisma.WorkoutSetListRelationFilter
 }, "id">
 
@@ -321,8 +298,6 @@ export type WorkoutRecordOrderByWithAggregationInput = {
   sessionId?: Prisma.SortOrder
   exerciseId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  ptSessionId?: Prisma.SortOrderInput | Prisma.SortOrder
-  recordType?: Prisma.SortOrder
   orderIndex?: Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   totalVolume?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -343,8 +318,6 @@ export type WorkoutRecordScalarWhereWithAggregatesInput = {
   sessionId?: Prisma.StringWithAggregatesFilter<"WorkoutRecord"> | string
   exerciseId?: Prisma.StringWithAggregatesFilter<"WorkoutRecord"> | string
   userId?: Prisma.StringWithAggregatesFilter<"WorkoutRecord"> | string
-  ptSessionId?: Prisma.StringNullableWithAggregatesFilter<"WorkoutRecord"> | string | null
-  recordType?: Prisma.EnumWorkoutRecordTypeWithAggregatesFilter<"WorkoutRecord"> | $Enums.WorkoutRecordType
   orderIndex?: Prisma.IntWithAggregatesFilter<"WorkoutRecord"> | number
   note?: Prisma.StringNullableWithAggregatesFilter<"WorkoutRecord"> | string | null
   totalVolume?: Prisma.DecimalNullableWithAggregatesFilter<"WorkoutRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -354,7 +327,6 @@ export type WorkoutRecordScalarWhereWithAggregatesInput = {
 
 export type WorkoutRecordCreateInput = {
   id?: string
-  recordType?: $Enums.WorkoutRecordType
   orderIndex?: number
   note?: string | null
   totalVolume?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -363,7 +335,6 @@ export type WorkoutRecordCreateInput = {
   session: Prisma.WorkoutSessionCreateNestedOneWithoutRecordsInput
   exercise: Prisma.ExerciseCreateNestedOneWithoutWorkoutRecordsInput
   user: Prisma.UserCreateNestedOneWithoutWorkoutRecordsInput
-  ptSession?: Prisma.PTSessionCreateNestedOneWithoutWorkoutRecordsInput
   sets?: Prisma.WorkoutSetCreateNestedManyWithoutRecordInput
 }
 
@@ -372,8 +343,6 @@ export type WorkoutRecordUncheckedCreateInput = {
   sessionId: string
   exerciseId: string
   userId: string
-  ptSessionId?: string | null
-  recordType?: $Enums.WorkoutRecordType
   orderIndex?: number
   note?: string | null
   totalVolume?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -384,7 +353,6 @@ export type WorkoutRecordUncheckedCreateInput = {
 
 export type WorkoutRecordUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  recordType?: Prisma.EnumWorkoutRecordTypeFieldUpdateOperationsInput | $Enums.WorkoutRecordType
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalVolume?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -393,7 +361,6 @@ export type WorkoutRecordUpdateInput = {
   session?: Prisma.WorkoutSessionUpdateOneRequiredWithoutRecordsNestedInput
   exercise?: Prisma.ExerciseUpdateOneRequiredWithoutWorkoutRecordsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutWorkoutRecordsNestedInput
-  ptSession?: Prisma.PTSessionUpdateOneWithoutWorkoutRecordsNestedInput
   sets?: Prisma.WorkoutSetUpdateManyWithoutRecordNestedInput
 }
 
@@ -402,8 +369,6 @@ export type WorkoutRecordUncheckedUpdateInput = {
   sessionId?: Prisma.StringFieldUpdateOperationsInput | string
   exerciseId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  ptSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordType?: Prisma.EnumWorkoutRecordTypeFieldUpdateOperationsInput | $Enums.WorkoutRecordType
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalVolume?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -417,8 +382,6 @@ export type WorkoutRecordCreateManyInput = {
   sessionId: string
   exerciseId: string
   userId: string
-  ptSessionId?: string | null
-  recordType?: $Enums.WorkoutRecordType
   orderIndex?: number
   note?: string | null
   totalVolume?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -428,7 +391,6 @@ export type WorkoutRecordCreateManyInput = {
 
 export type WorkoutRecordUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  recordType?: Prisma.EnumWorkoutRecordTypeFieldUpdateOperationsInput | $Enums.WorkoutRecordType
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalVolume?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -441,8 +403,6 @@ export type WorkoutRecordUncheckedUpdateManyInput = {
   sessionId?: Prisma.StringFieldUpdateOperationsInput | string
   exerciseId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  ptSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordType?: Prisma.EnumWorkoutRecordTypeFieldUpdateOperationsInput | $Enums.WorkoutRecordType
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalVolume?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -465,8 +425,6 @@ export type WorkoutRecordCountOrderByAggregateInput = {
   sessionId?: Prisma.SortOrder
   exerciseId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  ptSessionId?: Prisma.SortOrder
-  recordType?: Prisma.SortOrder
   orderIndex?: Prisma.SortOrder
   note?: Prisma.SortOrder
   totalVolume?: Prisma.SortOrder
@@ -484,8 +442,6 @@ export type WorkoutRecordMaxOrderByAggregateInput = {
   sessionId?: Prisma.SortOrder
   exerciseId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  ptSessionId?: Prisma.SortOrder
-  recordType?: Prisma.SortOrder
   orderIndex?: Prisma.SortOrder
   note?: Prisma.SortOrder
   totalVolume?: Prisma.SortOrder
@@ -498,8 +454,6 @@ export type WorkoutRecordMinOrderByAggregateInput = {
   sessionId?: Prisma.SortOrder
   exerciseId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  ptSessionId?: Prisma.SortOrder
-  recordType?: Prisma.SortOrder
   orderIndex?: Prisma.SortOrder
   note?: Prisma.SortOrder
   totalVolume?: Prisma.SortOrder
@@ -643,10 +597,6 @@ export type WorkoutRecordUncheckedUpdateManyWithoutSessionNestedInput = {
   deleteMany?: Prisma.WorkoutRecordScalarWhereInput | Prisma.WorkoutRecordScalarWhereInput[]
 }
 
-export type EnumWorkoutRecordTypeFieldUpdateOperationsInput = {
-  set?: $Enums.WorkoutRecordType
-}
-
 export type WorkoutRecordCreateNestedOneWithoutSetsInput = {
   create?: Prisma.XOR<Prisma.WorkoutRecordCreateWithoutSetsInput, Prisma.WorkoutRecordUncheckedCreateWithoutSetsInput>
   connectOrCreate?: Prisma.WorkoutRecordCreateOrConnectWithoutSetsInput
@@ -661,51 +611,8 @@ export type WorkoutRecordUpdateOneRequiredWithoutSetsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.WorkoutRecordUpdateToOneWithWhereWithoutSetsInput, Prisma.WorkoutRecordUpdateWithoutSetsInput>, Prisma.WorkoutRecordUncheckedUpdateWithoutSetsInput>
 }
 
-export type WorkoutRecordCreateNestedManyWithoutPtSessionInput = {
-  create?: Prisma.XOR<Prisma.WorkoutRecordCreateWithoutPtSessionInput, Prisma.WorkoutRecordUncheckedCreateWithoutPtSessionInput> | Prisma.WorkoutRecordCreateWithoutPtSessionInput[] | Prisma.WorkoutRecordUncheckedCreateWithoutPtSessionInput[]
-  connectOrCreate?: Prisma.WorkoutRecordCreateOrConnectWithoutPtSessionInput | Prisma.WorkoutRecordCreateOrConnectWithoutPtSessionInput[]
-  createMany?: Prisma.WorkoutRecordCreateManyPtSessionInputEnvelope
-  connect?: Prisma.WorkoutRecordWhereUniqueInput | Prisma.WorkoutRecordWhereUniqueInput[]
-}
-
-export type WorkoutRecordUncheckedCreateNestedManyWithoutPtSessionInput = {
-  create?: Prisma.XOR<Prisma.WorkoutRecordCreateWithoutPtSessionInput, Prisma.WorkoutRecordUncheckedCreateWithoutPtSessionInput> | Prisma.WorkoutRecordCreateWithoutPtSessionInput[] | Prisma.WorkoutRecordUncheckedCreateWithoutPtSessionInput[]
-  connectOrCreate?: Prisma.WorkoutRecordCreateOrConnectWithoutPtSessionInput | Prisma.WorkoutRecordCreateOrConnectWithoutPtSessionInput[]
-  createMany?: Prisma.WorkoutRecordCreateManyPtSessionInputEnvelope
-  connect?: Prisma.WorkoutRecordWhereUniqueInput | Prisma.WorkoutRecordWhereUniqueInput[]
-}
-
-export type WorkoutRecordUpdateManyWithoutPtSessionNestedInput = {
-  create?: Prisma.XOR<Prisma.WorkoutRecordCreateWithoutPtSessionInput, Prisma.WorkoutRecordUncheckedCreateWithoutPtSessionInput> | Prisma.WorkoutRecordCreateWithoutPtSessionInput[] | Prisma.WorkoutRecordUncheckedCreateWithoutPtSessionInput[]
-  connectOrCreate?: Prisma.WorkoutRecordCreateOrConnectWithoutPtSessionInput | Prisma.WorkoutRecordCreateOrConnectWithoutPtSessionInput[]
-  upsert?: Prisma.WorkoutRecordUpsertWithWhereUniqueWithoutPtSessionInput | Prisma.WorkoutRecordUpsertWithWhereUniqueWithoutPtSessionInput[]
-  createMany?: Prisma.WorkoutRecordCreateManyPtSessionInputEnvelope
-  set?: Prisma.WorkoutRecordWhereUniqueInput | Prisma.WorkoutRecordWhereUniqueInput[]
-  disconnect?: Prisma.WorkoutRecordWhereUniqueInput | Prisma.WorkoutRecordWhereUniqueInput[]
-  delete?: Prisma.WorkoutRecordWhereUniqueInput | Prisma.WorkoutRecordWhereUniqueInput[]
-  connect?: Prisma.WorkoutRecordWhereUniqueInput | Prisma.WorkoutRecordWhereUniqueInput[]
-  update?: Prisma.WorkoutRecordUpdateWithWhereUniqueWithoutPtSessionInput | Prisma.WorkoutRecordUpdateWithWhereUniqueWithoutPtSessionInput[]
-  updateMany?: Prisma.WorkoutRecordUpdateManyWithWhereWithoutPtSessionInput | Prisma.WorkoutRecordUpdateManyWithWhereWithoutPtSessionInput[]
-  deleteMany?: Prisma.WorkoutRecordScalarWhereInput | Prisma.WorkoutRecordScalarWhereInput[]
-}
-
-export type WorkoutRecordUncheckedUpdateManyWithoutPtSessionNestedInput = {
-  create?: Prisma.XOR<Prisma.WorkoutRecordCreateWithoutPtSessionInput, Prisma.WorkoutRecordUncheckedCreateWithoutPtSessionInput> | Prisma.WorkoutRecordCreateWithoutPtSessionInput[] | Prisma.WorkoutRecordUncheckedCreateWithoutPtSessionInput[]
-  connectOrCreate?: Prisma.WorkoutRecordCreateOrConnectWithoutPtSessionInput | Prisma.WorkoutRecordCreateOrConnectWithoutPtSessionInput[]
-  upsert?: Prisma.WorkoutRecordUpsertWithWhereUniqueWithoutPtSessionInput | Prisma.WorkoutRecordUpsertWithWhereUniqueWithoutPtSessionInput[]
-  createMany?: Prisma.WorkoutRecordCreateManyPtSessionInputEnvelope
-  set?: Prisma.WorkoutRecordWhereUniqueInput | Prisma.WorkoutRecordWhereUniqueInput[]
-  disconnect?: Prisma.WorkoutRecordWhereUniqueInput | Prisma.WorkoutRecordWhereUniqueInput[]
-  delete?: Prisma.WorkoutRecordWhereUniqueInput | Prisma.WorkoutRecordWhereUniqueInput[]
-  connect?: Prisma.WorkoutRecordWhereUniqueInput | Prisma.WorkoutRecordWhereUniqueInput[]
-  update?: Prisma.WorkoutRecordUpdateWithWhereUniqueWithoutPtSessionInput | Prisma.WorkoutRecordUpdateWithWhereUniqueWithoutPtSessionInput[]
-  updateMany?: Prisma.WorkoutRecordUpdateManyWithWhereWithoutPtSessionInput | Prisma.WorkoutRecordUpdateManyWithWhereWithoutPtSessionInput[]
-  deleteMany?: Prisma.WorkoutRecordScalarWhereInput | Prisma.WorkoutRecordScalarWhereInput[]
-}
-
 export type WorkoutRecordCreateWithoutUserInput = {
   id?: string
-  recordType?: $Enums.WorkoutRecordType
   orderIndex?: number
   note?: string | null
   totalVolume?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -713,7 +620,6 @@ export type WorkoutRecordCreateWithoutUserInput = {
   updatedAt?: Date | string
   session: Prisma.WorkoutSessionCreateNestedOneWithoutRecordsInput
   exercise: Prisma.ExerciseCreateNestedOneWithoutWorkoutRecordsInput
-  ptSession?: Prisma.PTSessionCreateNestedOneWithoutWorkoutRecordsInput
   sets?: Prisma.WorkoutSetCreateNestedManyWithoutRecordInput
 }
 
@@ -721,8 +627,6 @@ export type WorkoutRecordUncheckedCreateWithoutUserInput = {
   id?: string
   sessionId: string
   exerciseId: string
-  ptSessionId?: string | null
-  recordType?: $Enums.WorkoutRecordType
   orderIndex?: number
   note?: string | null
   totalVolume?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -765,8 +669,6 @@ export type WorkoutRecordScalarWhereInput = {
   sessionId?: Prisma.StringFilter<"WorkoutRecord"> | string
   exerciseId?: Prisma.StringFilter<"WorkoutRecord"> | string
   userId?: Prisma.StringFilter<"WorkoutRecord"> | string
-  ptSessionId?: Prisma.StringNullableFilter<"WorkoutRecord"> | string | null
-  recordType?: Prisma.EnumWorkoutRecordTypeFilter<"WorkoutRecord"> | $Enums.WorkoutRecordType
   orderIndex?: Prisma.IntFilter<"WorkoutRecord"> | number
   note?: Prisma.StringNullableFilter<"WorkoutRecord"> | string | null
   totalVolume?: Prisma.DecimalNullableFilter<"WorkoutRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -776,7 +678,6 @@ export type WorkoutRecordScalarWhereInput = {
 
 export type WorkoutRecordCreateWithoutExerciseInput = {
   id?: string
-  recordType?: $Enums.WorkoutRecordType
   orderIndex?: number
   note?: string | null
   totalVolume?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -784,7 +685,6 @@ export type WorkoutRecordCreateWithoutExerciseInput = {
   updatedAt?: Date | string
   session: Prisma.WorkoutSessionCreateNestedOneWithoutRecordsInput
   user: Prisma.UserCreateNestedOneWithoutWorkoutRecordsInput
-  ptSession?: Prisma.PTSessionCreateNestedOneWithoutWorkoutRecordsInput
   sets?: Prisma.WorkoutSetCreateNestedManyWithoutRecordInput
 }
 
@@ -792,8 +692,6 @@ export type WorkoutRecordUncheckedCreateWithoutExerciseInput = {
   id?: string
   sessionId: string
   userId: string
-  ptSessionId?: string | null
-  recordType?: $Enums.WorkoutRecordType
   orderIndex?: number
   note?: string | null
   totalVolume?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -830,7 +728,6 @@ export type WorkoutRecordUpdateManyWithWhereWithoutExerciseInput = {
 
 export type WorkoutRecordCreateWithoutSessionInput = {
   id?: string
-  recordType?: $Enums.WorkoutRecordType
   orderIndex?: number
   note?: string | null
   totalVolume?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -838,7 +735,6 @@ export type WorkoutRecordCreateWithoutSessionInput = {
   updatedAt?: Date | string
   exercise: Prisma.ExerciseCreateNestedOneWithoutWorkoutRecordsInput
   user: Prisma.UserCreateNestedOneWithoutWorkoutRecordsInput
-  ptSession?: Prisma.PTSessionCreateNestedOneWithoutWorkoutRecordsInput
   sets?: Prisma.WorkoutSetCreateNestedManyWithoutRecordInput
 }
 
@@ -846,8 +742,6 @@ export type WorkoutRecordUncheckedCreateWithoutSessionInput = {
   id?: string
   exerciseId: string
   userId: string
-  ptSessionId?: string | null
-  recordType?: $Enums.WorkoutRecordType
   orderIndex?: number
   note?: string | null
   totalVolume?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -884,7 +778,6 @@ export type WorkoutRecordUpdateManyWithWhereWithoutSessionInput = {
 
 export type WorkoutRecordCreateWithoutSetsInput = {
   id?: string
-  recordType?: $Enums.WorkoutRecordType
   orderIndex?: number
   note?: string | null
   totalVolume?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -893,7 +786,6 @@ export type WorkoutRecordCreateWithoutSetsInput = {
   session: Prisma.WorkoutSessionCreateNestedOneWithoutRecordsInput
   exercise: Prisma.ExerciseCreateNestedOneWithoutWorkoutRecordsInput
   user: Prisma.UserCreateNestedOneWithoutWorkoutRecordsInput
-  ptSession?: Prisma.PTSessionCreateNestedOneWithoutWorkoutRecordsInput
 }
 
 export type WorkoutRecordUncheckedCreateWithoutSetsInput = {
@@ -901,8 +793,6 @@ export type WorkoutRecordUncheckedCreateWithoutSetsInput = {
   sessionId: string
   exerciseId: string
   userId: string
-  ptSessionId?: string | null
-  recordType?: $Enums.WorkoutRecordType
   orderIndex?: number
   note?: string | null
   totalVolume?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -928,7 +818,6 @@ export type WorkoutRecordUpdateToOneWithWhereWithoutSetsInput = {
 
 export type WorkoutRecordUpdateWithoutSetsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  recordType?: Prisma.EnumWorkoutRecordTypeFieldUpdateOperationsInput | $Enums.WorkoutRecordType
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalVolume?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -937,7 +826,6 @@ export type WorkoutRecordUpdateWithoutSetsInput = {
   session?: Prisma.WorkoutSessionUpdateOneRequiredWithoutRecordsNestedInput
   exercise?: Prisma.ExerciseUpdateOneRequiredWithoutWorkoutRecordsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutWorkoutRecordsNestedInput
-  ptSession?: Prisma.PTSessionUpdateOneWithoutWorkoutRecordsNestedInput
 }
 
 export type WorkoutRecordUncheckedUpdateWithoutSetsInput = {
@@ -945,8 +833,6 @@ export type WorkoutRecordUncheckedUpdateWithoutSetsInput = {
   sessionId?: Prisma.StringFieldUpdateOperationsInput | string
   exerciseId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  ptSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordType?: Prisma.EnumWorkoutRecordTypeFieldUpdateOperationsInput | $Enums.WorkoutRecordType
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalVolume?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -954,66 +840,10 @@ export type WorkoutRecordUncheckedUpdateWithoutSetsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type WorkoutRecordCreateWithoutPtSessionInput = {
-  id?: string
-  recordType?: $Enums.WorkoutRecordType
-  orderIndex?: number
-  note?: string | null
-  totalVolume?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  session: Prisma.WorkoutSessionCreateNestedOneWithoutRecordsInput
-  exercise: Prisma.ExerciseCreateNestedOneWithoutWorkoutRecordsInput
-  user: Prisma.UserCreateNestedOneWithoutWorkoutRecordsInput
-  sets?: Prisma.WorkoutSetCreateNestedManyWithoutRecordInput
-}
-
-export type WorkoutRecordUncheckedCreateWithoutPtSessionInput = {
-  id?: string
-  sessionId: string
-  exerciseId: string
-  userId: string
-  recordType?: $Enums.WorkoutRecordType
-  orderIndex?: number
-  note?: string | null
-  totalVolume?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  sets?: Prisma.WorkoutSetUncheckedCreateNestedManyWithoutRecordInput
-}
-
-export type WorkoutRecordCreateOrConnectWithoutPtSessionInput = {
-  where: Prisma.WorkoutRecordWhereUniqueInput
-  create: Prisma.XOR<Prisma.WorkoutRecordCreateWithoutPtSessionInput, Prisma.WorkoutRecordUncheckedCreateWithoutPtSessionInput>
-}
-
-export type WorkoutRecordCreateManyPtSessionInputEnvelope = {
-  data: Prisma.WorkoutRecordCreateManyPtSessionInput | Prisma.WorkoutRecordCreateManyPtSessionInput[]
-  skipDuplicates?: boolean
-}
-
-export type WorkoutRecordUpsertWithWhereUniqueWithoutPtSessionInput = {
-  where: Prisma.WorkoutRecordWhereUniqueInput
-  update: Prisma.XOR<Prisma.WorkoutRecordUpdateWithoutPtSessionInput, Prisma.WorkoutRecordUncheckedUpdateWithoutPtSessionInput>
-  create: Prisma.XOR<Prisma.WorkoutRecordCreateWithoutPtSessionInput, Prisma.WorkoutRecordUncheckedCreateWithoutPtSessionInput>
-}
-
-export type WorkoutRecordUpdateWithWhereUniqueWithoutPtSessionInput = {
-  where: Prisma.WorkoutRecordWhereUniqueInput
-  data: Prisma.XOR<Prisma.WorkoutRecordUpdateWithoutPtSessionInput, Prisma.WorkoutRecordUncheckedUpdateWithoutPtSessionInput>
-}
-
-export type WorkoutRecordUpdateManyWithWhereWithoutPtSessionInput = {
-  where: Prisma.WorkoutRecordScalarWhereInput
-  data: Prisma.XOR<Prisma.WorkoutRecordUpdateManyMutationInput, Prisma.WorkoutRecordUncheckedUpdateManyWithoutPtSessionInput>
-}
-
 export type WorkoutRecordCreateManyUserInput = {
   id?: string
   sessionId: string
   exerciseId: string
-  ptSessionId?: string | null
-  recordType?: $Enums.WorkoutRecordType
   orderIndex?: number
   note?: string | null
   totalVolume?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1023,7 +853,6 @@ export type WorkoutRecordCreateManyUserInput = {
 
 export type WorkoutRecordUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  recordType?: Prisma.EnumWorkoutRecordTypeFieldUpdateOperationsInput | $Enums.WorkoutRecordType
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalVolume?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1031,7 +860,6 @@ export type WorkoutRecordUpdateWithoutUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   session?: Prisma.WorkoutSessionUpdateOneRequiredWithoutRecordsNestedInput
   exercise?: Prisma.ExerciseUpdateOneRequiredWithoutWorkoutRecordsNestedInput
-  ptSession?: Prisma.PTSessionUpdateOneWithoutWorkoutRecordsNestedInput
   sets?: Prisma.WorkoutSetUpdateManyWithoutRecordNestedInput
 }
 
@@ -1039,8 +867,6 @@ export type WorkoutRecordUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sessionId?: Prisma.StringFieldUpdateOperationsInput | string
   exerciseId?: Prisma.StringFieldUpdateOperationsInput | string
-  ptSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordType?: Prisma.EnumWorkoutRecordTypeFieldUpdateOperationsInput | $Enums.WorkoutRecordType
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalVolume?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1053,8 +879,6 @@ export type WorkoutRecordUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sessionId?: Prisma.StringFieldUpdateOperationsInput | string
   exerciseId?: Prisma.StringFieldUpdateOperationsInput | string
-  ptSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordType?: Prisma.EnumWorkoutRecordTypeFieldUpdateOperationsInput | $Enums.WorkoutRecordType
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalVolume?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1066,8 +890,6 @@ export type WorkoutRecordCreateManyExerciseInput = {
   id?: string
   sessionId: string
   userId: string
-  ptSessionId?: string | null
-  recordType?: $Enums.WorkoutRecordType
   orderIndex?: number
   note?: string | null
   totalVolume?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1077,7 +899,6 @@ export type WorkoutRecordCreateManyExerciseInput = {
 
 export type WorkoutRecordUpdateWithoutExerciseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  recordType?: Prisma.EnumWorkoutRecordTypeFieldUpdateOperationsInput | $Enums.WorkoutRecordType
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalVolume?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1085,7 +906,6 @@ export type WorkoutRecordUpdateWithoutExerciseInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   session?: Prisma.WorkoutSessionUpdateOneRequiredWithoutRecordsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutWorkoutRecordsNestedInput
-  ptSession?: Prisma.PTSessionUpdateOneWithoutWorkoutRecordsNestedInput
   sets?: Prisma.WorkoutSetUpdateManyWithoutRecordNestedInput
 }
 
@@ -1093,8 +913,6 @@ export type WorkoutRecordUncheckedUpdateWithoutExerciseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sessionId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  ptSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordType?: Prisma.EnumWorkoutRecordTypeFieldUpdateOperationsInput | $Enums.WorkoutRecordType
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalVolume?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1107,8 +925,6 @@ export type WorkoutRecordUncheckedUpdateManyWithoutExerciseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sessionId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  ptSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordType?: Prisma.EnumWorkoutRecordTypeFieldUpdateOperationsInput | $Enums.WorkoutRecordType
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalVolume?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1120,8 +936,6 @@ export type WorkoutRecordCreateManySessionInput = {
   id?: string
   exerciseId: string
   userId: string
-  ptSessionId?: string | null
-  recordType?: $Enums.WorkoutRecordType
   orderIndex?: number
   note?: string | null
   totalVolume?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1131,7 +945,6 @@ export type WorkoutRecordCreateManySessionInput = {
 
 export type WorkoutRecordUpdateWithoutSessionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  recordType?: Prisma.EnumWorkoutRecordTypeFieldUpdateOperationsInput | $Enums.WorkoutRecordType
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalVolume?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1139,7 +952,6 @@ export type WorkoutRecordUpdateWithoutSessionInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   exercise?: Prisma.ExerciseUpdateOneRequiredWithoutWorkoutRecordsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutWorkoutRecordsNestedInput
-  ptSession?: Prisma.PTSessionUpdateOneWithoutWorkoutRecordsNestedInput
   sets?: Prisma.WorkoutSetUpdateManyWithoutRecordNestedInput
 }
 
@@ -1147,8 +959,6 @@ export type WorkoutRecordUncheckedUpdateWithoutSessionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   exerciseId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  ptSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordType?: Prisma.EnumWorkoutRecordTypeFieldUpdateOperationsInput | $Enums.WorkoutRecordType
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalVolume?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1161,62 +971,6 @@ export type WorkoutRecordUncheckedUpdateManyWithoutSessionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   exerciseId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  ptSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordType?: Prisma.EnumWorkoutRecordTypeFieldUpdateOperationsInput | $Enums.WorkoutRecordType
-  orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
-  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  totalVolume?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type WorkoutRecordCreateManyPtSessionInput = {
-  id?: string
-  sessionId: string
-  exerciseId: string
-  userId: string
-  recordType?: $Enums.WorkoutRecordType
-  orderIndex?: number
-  note?: string | null
-  totalVolume?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type WorkoutRecordUpdateWithoutPtSessionInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  recordType?: Prisma.EnumWorkoutRecordTypeFieldUpdateOperationsInput | $Enums.WorkoutRecordType
-  orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
-  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  totalVolume?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  session?: Prisma.WorkoutSessionUpdateOneRequiredWithoutRecordsNestedInput
-  exercise?: Prisma.ExerciseUpdateOneRequiredWithoutWorkoutRecordsNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutWorkoutRecordsNestedInput
-  sets?: Prisma.WorkoutSetUpdateManyWithoutRecordNestedInput
-}
-
-export type WorkoutRecordUncheckedUpdateWithoutPtSessionInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  sessionId?: Prisma.StringFieldUpdateOperationsInput | string
-  exerciseId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  recordType?: Prisma.EnumWorkoutRecordTypeFieldUpdateOperationsInput | $Enums.WorkoutRecordType
-  orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
-  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  totalVolume?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sets?: Prisma.WorkoutSetUncheckedUpdateManyWithoutRecordNestedInput
-}
-
-export type WorkoutRecordUncheckedUpdateManyWithoutPtSessionInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  sessionId?: Prisma.StringFieldUpdateOperationsInput | string
-  exerciseId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  recordType?: Prisma.EnumWorkoutRecordTypeFieldUpdateOperationsInput | $Enums.WorkoutRecordType
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalVolume?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1260,8 +1014,6 @@ export type WorkoutRecordSelect<ExtArgs extends runtime.Types.Extensions.Interna
   sessionId?: boolean
   exerciseId?: boolean
   userId?: boolean
-  ptSessionId?: boolean
-  recordType?: boolean
   orderIndex?: boolean
   note?: boolean
   totalVolume?: boolean
@@ -1270,7 +1022,6 @@ export type WorkoutRecordSelect<ExtArgs extends runtime.Types.Extensions.Interna
   session?: boolean | Prisma.WorkoutSessionDefaultArgs<ExtArgs>
   exercise?: boolean | Prisma.ExerciseDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  ptSession?: boolean | Prisma.WorkoutRecord$ptSessionArgs<ExtArgs>
   sets?: boolean | Prisma.WorkoutRecord$setsArgs<ExtArgs>
   _count?: boolean | Prisma.WorkoutRecordCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["workoutRecord"]>
@@ -1280,8 +1031,6 @@ export type WorkoutRecordSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   sessionId?: boolean
   exerciseId?: boolean
   userId?: boolean
-  ptSessionId?: boolean
-  recordType?: boolean
   orderIndex?: boolean
   note?: boolean
   totalVolume?: boolean
@@ -1290,7 +1039,6 @@ export type WorkoutRecordSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   session?: boolean | Prisma.WorkoutSessionDefaultArgs<ExtArgs>
   exercise?: boolean | Prisma.ExerciseDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  ptSession?: boolean | Prisma.WorkoutRecord$ptSessionArgs<ExtArgs>
 }, ExtArgs["result"]["workoutRecord"]>
 
 export type WorkoutRecordSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1298,8 +1046,6 @@ export type WorkoutRecordSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   sessionId?: boolean
   exerciseId?: boolean
   userId?: boolean
-  ptSessionId?: boolean
-  recordType?: boolean
   orderIndex?: boolean
   note?: boolean
   totalVolume?: boolean
@@ -1308,7 +1054,6 @@ export type WorkoutRecordSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   session?: boolean | Prisma.WorkoutSessionDefaultArgs<ExtArgs>
   exercise?: boolean | Prisma.ExerciseDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  ptSession?: boolean | Prisma.WorkoutRecord$ptSessionArgs<ExtArgs>
 }, ExtArgs["result"]["workoutRecord"]>
 
 export type WorkoutRecordSelectScalar = {
@@ -1316,8 +1061,6 @@ export type WorkoutRecordSelectScalar = {
   sessionId?: boolean
   exerciseId?: boolean
   userId?: boolean
-  ptSessionId?: boolean
-  recordType?: boolean
   orderIndex?: boolean
   note?: boolean
   totalVolume?: boolean
@@ -1325,12 +1068,11 @@ export type WorkoutRecordSelectScalar = {
   updatedAt?: boolean
 }
 
-export type WorkoutRecordOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sessionId" | "exerciseId" | "userId" | "ptSessionId" | "recordType" | "orderIndex" | "note" | "totalVolume" | "createdAt" | "updatedAt", ExtArgs["result"]["workoutRecord"]>
+export type WorkoutRecordOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sessionId" | "exerciseId" | "userId" | "orderIndex" | "note" | "totalVolume" | "createdAt" | "updatedAt", ExtArgs["result"]["workoutRecord"]>
 export type WorkoutRecordInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   session?: boolean | Prisma.WorkoutSessionDefaultArgs<ExtArgs>
   exercise?: boolean | Prisma.ExerciseDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  ptSession?: boolean | Prisma.WorkoutRecord$ptSessionArgs<ExtArgs>
   sets?: boolean | Prisma.WorkoutRecord$setsArgs<ExtArgs>
   _count?: boolean | Prisma.WorkoutRecordCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1338,13 +1080,11 @@ export type WorkoutRecordIncludeCreateManyAndReturn<ExtArgs extends runtime.Type
   session?: boolean | Prisma.WorkoutSessionDefaultArgs<ExtArgs>
   exercise?: boolean | Prisma.ExerciseDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  ptSession?: boolean | Prisma.WorkoutRecord$ptSessionArgs<ExtArgs>
 }
 export type WorkoutRecordIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   session?: boolean | Prisma.WorkoutSessionDefaultArgs<ExtArgs>
   exercise?: boolean | Prisma.ExerciseDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  ptSession?: boolean | Prisma.WorkoutRecord$ptSessionArgs<ExtArgs>
 }
 
 export type $WorkoutRecordPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1353,7 +1093,6 @@ export type $WorkoutRecordPayload<ExtArgs extends runtime.Types.Extensions.Inter
     session: Prisma.$WorkoutSessionPayload<ExtArgs>
     exercise: Prisma.$ExercisePayload<ExtArgs>
     user: Prisma.$UserPayload<ExtArgs>
-    ptSession: Prisma.$PTSessionPayload<ExtArgs> | null
     sets: Prisma.$WorkoutSetPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1361,8 +1100,6 @@ export type $WorkoutRecordPayload<ExtArgs extends runtime.Types.Extensions.Inter
     sessionId: string
     exerciseId: string
     userId: string
-    ptSessionId: string | null
-    recordType: $Enums.WorkoutRecordType
     orderIndex: number
     note: string | null
     totalVolume: runtime.Decimal | null
@@ -1765,7 +1502,6 @@ export interface Prisma__WorkoutRecordClient<T, Null = never, ExtArgs extends ru
   session<T extends Prisma.WorkoutSessionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WorkoutSessionDefaultArgs<ExtArgs>>): Prisma.Prisma__WorkoutSessionClient<runtime.Types.Result.GetResult<Prisma.$WorkoutSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   exercise<T extends Prisma.ExerciseDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ExerciseDefaultArgs<ExtArgs>>): Prisma.Prisma__ExerciseClient<runtime.Types.Result.GetResult<Prisma.$ExercisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  ptSession<T extends Prisma.WorkoutRecord$ptSessionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WorkoutRecord$ptSessionArgs<ExtArgs>>): Prisma.Prisma__PTSessionClient<runtime.Types.Result.GetResult<Prisma.$PTSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   sets<T extends Prisma.WorkoutRecord$setsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WorkoutRecord$setsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorkoutSetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1800,8 +1536,6 @@ export interface WorkoutRecordFieldRefs {
   readonly sessionId: Prisma.FieldRef<"WorkoutRecord", 'String'>
   readonly exerciseId: Prisma.FieldRef<"WorkoutRecord", 'String'>
   readonly userId: Prisma.FieldRef<"WorkoutRecord", 'String'>
-  readonly ptSessionId: Prisma.FieldRef<"WorkoutRecord", 'String'>
-  readonly recordType: Prisma.FieldRef<"WorkoutRecord", 'WorkoutRecordType'>
   readonly orderIndex: Prisma.FieldRef<"WorkoutRecord", 'Int'>
   readonly note: Prisma.FieldRef<"WorkoutRecord", 'String'>
   readonly totalVolume: Prisma.FieldRef<"WorkoutRecord", 'Decimal'>
@@ -2205,25 +1939,6 @@ export type WorkoutRecordDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many WorkoutRecords to delete.
    */
   limit?: number
-}
-
-/**
- * WorkoutRecord.ptSession
- */
-export type WorkoutRecord$ptSessionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the PTSession
-   */
-  select?: Prisma.PTSessionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the PTSession
-   */
-  omit?: Prisma.PTSessionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PTSessionInclude<ExtArgs> | null
-  where?: Prisma.PTSessionWhereInput
 }
 
 /**

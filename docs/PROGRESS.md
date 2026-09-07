@@ -34,27 +34,27 @@ MEMBER (회원)
 
 ### 핵심 설계 판단
 
-| 결정 | 이유 |
-|---|---|
-| **기구 카탈로그는 플랫폼이 시드로 제공** | 덤벨·바벨·머신 등은 어느 헬스장이나 이름이 같다. 헬스장이 등록해줄 때까지 기다리면 콜드스타트에 걸린다 |
-| **기본값 = 전체 운동 노출** | "내가 쓸 수 있는 기구 체크"를 가입 조건으로 두면 이탈한다. 헬스장 연결은 나중에 옵션으로 |
-| **User 는 헬스장 없이도 존재 가능** | 헬스장 고객이 0명이어도 개인 사용자로 서비스가 돌아가야 한다 |
-| **웹소켓 미도입, FCM 만 사용** | 알림장·PT 일정은 비동기 이벤트다. 실시간 양방향 통신이 필요한 기능이 없다 |
-| **AI 는 `AiAnalysis` 범용 테이블로 자리만 확보** | LLM 비용 부담이 커서 MVP 에서 제외. 나중에 붙일 때 스키마 변경 불필요 |
+| 결정                                             | 이유                                                                                                   |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| **기구 카탈로그는 플랫폼이 시드로 제공**         | 덤벨·바벨·머신 등은 어느 헬스장이나 이름이 같다. 헬스장이 등록해줄 때까지 기다리면 콜드스타트에 걸린다 |
+| **기본값 = 전체 운동 노출**                      | "내가 쓸 수 있는 기구 체크"를 가입 조건으로 두면 이탈한다. 헬스장 연결은 나중에 옵션으로               |
+| **User 는 헬스장 없이도 존재 가능**              | 헬스장 고객이 0명이어도 개인 사용자로 서비스가 돌아가야 한다                                           |
+| **웹소켓 미도입, FCM 만 사용**                   | 알림장·PT 일정은 비동기 이벤트다. 실시간 양방향 통신이 필요한 기능이 없다                              |
+| **AI 는 `AiAnalysis` 범용 테이블로 자리만 확보** | LLM 비용 부담이 커서 MVP 에서 제외. 나중에 붙일 때 스키마 변경 불필요                                  |
 
 ---
 
 ## 2. 기술 스택
 
-| 영역 | 선택 |
-|---|---|
-| 프레임워크 | Next.js **16.3.4** (Turbopack, App Router) |
-| ORM | Prisma **7.10.0** + `@prisma/adapter-pg` (driver adapter) |
-| DB | Supabase Postgres |
-| 인증 | 직접 구현 (JWT `jose` + `bcryptjs`) |
-| 검증 | zod 4 |
-| 스타일 | Tailwind CSS 4 + shadcn (`base-nova`) |
-| 패키지 매니저 | **npm** (pnpm 아님 — 3장 참고) |
+| 영역          | 선택                                                      |
+| ------------- | --------------------------------------------------------- |
+| 프레임워크    | Next.js **16.3.4** (Turbopack, App Router)                |
+| ORM           | Prisma **7.10.0** + `@prisma/adapter-pg` (driver adapter) |
+| DB            | Supabase Postgres                                         |
+| 인증          | 직접 구현 (JWT `jose` + `bcryptjs`)                       |
+| 검증          | zod 4                                                     |
+| 스타일        | Tailwind CSS 4 + shadcn (`base-nova`)                     |
+| 패키지 매니저 | **npm** (pnpm 아님 — 3장 참고)                            |
 
 ### Next.js 16 주의사항
 
@@ -105,11 +105,11 @@ Error: Failed to collect page data for /api/exercises
 
 Vercel > Settings > Environment Variables 에 등록할 값:
 
-| 변수 | 용도 | 비고 |
-|---|---|---|
-| `DATABASE_URL` | 앱 런타임 | Supabase **pgbouncer 6543** (transaction 모드) |
-| `DIRECT_URL` | 마이그레이션 | Supabase **5432** (session 모드) |
-| `SESSION_SECRET` | JWT 서명 | `openssl rand -base64 32` |
+| 변수             | 용도         | 비고                                           |
+| ---------------- | ------------ | ---------------------------------------------- |
+| `DATABASE_URL`   | 앱 런타임    | Supabase **pgbouncer 6543** (transaction 모드) |
+| `DIRECT_URL`     | 마이그레이션 | Supabase **5432** (session 모드)               |
+| `SESSION_SECRET` | JWT 서명     | `openssl rand -base64 32`                      |
 
 > **연결 이원화가 중요하다.** 서버리스는 커넥션이 폭증하므로 런타임은 pooler(6543)를
 > 써야 하고, 마이그레이션은 advisory lock 때문에 direct(5432)를 써야 한다.
@@ -137,14 +137,14 @@ Vercel > Settings > Environment Variables 에 등록할 값:
 
 주요 설계:
 
-| 모델 | 포인트 |
-|---|---|
-| `CenterMembership` | role 통합 + 자기참조로 트레이너 배정. `@@unique([centerId, userId])` |
-| `PTContract` | `productNameSnapshot` / `priceSnapshot` — 상품가가 바뀌어도 과거 계약 보호 |
-| `TrainerPTPrice` | 트레이너별 단가를 상품과 분리 |
-| `AiAnalysis` | PENDING/PROCESSING/COMPLETED/FAILED 범용 비동기 작업 테이블 |
-| `ExerciseEquipment` | `isPrimary` 로 핵심 장비 구분 |
-| `WorkoutAlternative` | `type` / `priority` / `reason` 을 가진 대체 운동 그래프 |
+| 모델                 | 포인트                                                                     |
+| -------------------- | -------------------------------------------------------------------------- |
+| `CenterMembership`   | role 통합 + 자기참조로 트레이너 배정. `@@unique([centerId, userId])`       |
+| `PTContract`         | `productNameSnapshot` / `priceSnapshot` — 상품가가 바뀌어도 과거 계약 보호 |
+| `TrainerPTPrice`     | 트레이너별 단가를 상품과 분리                                              |
+| `AiAnalysis`         | PENDING/PROCESSING/COMPLETED/FAILED 범용 비동기 작업 테이블                |
+| `ExerciseEquipment`  | `isPrimary` 로 핵심 장비 구분                                              |
+| `WorkoutAlternative` | `type` / `priority` / `reason` 을 가진 대체 운동 그래프                    |
 
 > `PTSession` 완료 시 `usedSessions` 차감은 스키마가 아니라
 > **앱 트랜잭션 로직**으로 처리해야 한다. (아직 미구현)
@@ -172,14 +172,14 @@ proxy.ts        쿠키의 JWT 서명만 확인 (낙관적, DB 접근 없음)
 app/lib/dal.ts  실제 DB 조회로 세션 유효성 검증 (실질적 방어선)
 ```
 
-| 파일 | 역할 |
-|---|---|
-| `app/lib/jwt.ts` | JWT 서명/검증 **전용**. Prisma 의존 없음 |
-| `app/lib/session.ts` | `createSession` / `deleteSession` |
-| `app/lib/dal.ts` | `getOptionalSession` / `verifySession` / `getCurrentUser` / `requireUser` |
-| `app/lib/definitions.ts` | zod 스키마 |
-| `app/actions/auth.ts` | signup / login / logout Server Actions |
-| `proxy.ts` | 라우트 보호 |
+| 파일                     | 역할                                                                      |
+| ------------------------ | ------------------------------------------------------------------------- |
+| `app/lib/jwt.ts`         | JWT 서명/검증 **전용**. Prisma 의존 없음                                  |
+| `app/lib/session.ts`     | `createSession` / `deleteSession`                                         |
+| `app/lib/dal.ts`         | `getOptionalSession` / `verifySession` / `getCurrentUser` / `requireUser` |
+| `app/lib/definitions.ts` | zod 스키마                                                                |
+| `app/actions/auth.ts`    | signup / login / logout Server Actions                                    |
+| `proxy.ts`               | 라우트 보호                                                               |
 
 **jwt.ts 를 분리한 이유**: `proxy.ts` 가 `session.ts` 를 import 하면 Prisma 와
 `server-only` 가 proxy 번들에 딸려 들어간다. `jwt.ts` 는 `jose` 만 의존한다.
@@ -195,12 +195,12 @@ app/lib/dal.ts  실제 DB 조회로 세션 유효성 검증 (실질적 방어선
 
 v2 프로토타입(v0 생성물)에서 **프론트만 선별 이식**했다.
 
-| 가져온 것 | 내용 |
-|---|---|
+| 가져온 것         | 내용                                                                             |
+| ----------------- | -------------------------------------------------------------------------------- |
 | `app/globals.css` | shadcn 전체 토큰(light / `.dark` / system dark 3중), sidebar·chart·radius 스케일 |
-| `components.json` | `base-nova` 스타일, lucide 아이콘 |
-| `lib/utils.ts` | `cn()` |
-| `app/layout.tsx` | `lang="ko"`, metadata, `viewport.colorScheme` / `themeColor` |
+| `components.json` | `base-nova` 스타일, lucide 아이콘                                                |
+| `lib/utils.ts`    | `cn()`                                                                           |
+| `app/layout.tsx`  | `lang="ko"`, metadata, `viewport.colorScheme` / `themeColor`                     |
 
 **의도적으로 버린 것**
 
@@ -215,25 +215,26 @@ v2 프로토타입(v0 생성물)에서 **프론트만 선별 이식**했다.
 한글 폰트 처리: Geist 에 한글 글리프가 없어 폴백을 명시했다.
 
 ```css
---font-sans: var(--font-geist-sans), "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+--font-sans:
+  var(--font-geist-sans), "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
 ```
 
 #### 색: 파스텔 주황을 "버튼 색"으로 쓸 수 없다
 
 포인트는 파스텔 주황, 기본은 어두운 색으로 정했다. 그런데 파스텔 주황 위에
 흰 글씨는 **어떤 밝기를 골라도 WCAG AA(4.5:1)를 넘지 못한다.** oklch 명도를
-0.62~0.78 로 바꿔가며 sRGB 로 변환해 직접 계산해 봤고 대비는 2.0~3.8 에 머물렀다.
+0.62~~0.78 로 바꿔가며 sRGB 로 변환해 직접 계산해 봤고 대비는 2.0~~3.8 에 머물렀다.
 밝기를 더 낮추면 대비는 오르지만 그 시점엔 이미 파스텔이 아니다.
 
 그래서 색을 하나로 쓰지 않고 **역할을 쪼갰다.**
 
-| 토큰 | hex | 역할 | 대비 |
-|---|---|---|---|
-| `primary` | `#261d18` | 기본 버튼·강조 배경 (웜 차콜) | 흰 글씨 15.8:1 |
-| `brand` | `#f7a062` | **면을 채울 때만** — 진행바, 배지, 아이콘 타일 | (글자 금지) |
-| `brand-strong` | `#a84811` | **글자·아이콘용** 주황 | 흰 배경 5.8:1 |
-| `accent` | `#ffecdc` | 옅은 칩 배경 | + `accent-foreground` 7.8:1 |
-| `background` | `#fcfaf6` | 웜 화이트 (순백을 피해 주황과 안 싸우게) | |
+| 토큰           | hex       | 역할                                           | 대비                        |
+| -------------- | --------- | ---------------------------------------------- | --------------------------- |
+| `primary`      | `#261d18` | 기본 버튼·강조 배경 (웜 차콜)                  | 흰 글씨 15.8:1              |
+| `brand`        | `#f7a062` | **면을 채울 때만** — 진행바, 배지, 아이콘 타일 | (글자 금지)                 |
+| `brand-strong` | `#a84811` | **글자·아이콘용** 주황                         | 흰 배경 5.8:1               |
+| `accent`       | `#ffecdc` | 옅은 칩 배경                                   | + `accent-foreground` 7.8:1 |
+| `background`   | `#fcfaf6` | 웜 화이트 (순백을 피해 주황과 안 싸우게)       |                             |
 
 **규칙: `brand` 위에 글자를 올리지 않는다. 주황 글자가 필요하면 `brand-strong`.**
 이 규칙과 대비 수치는 `app/globals.css` 상단 주석에도 적어 뒀다.
@@ -245,10 +246,10 @@ v2 프로토타입(v0 생성물)에서 **프론트만 선별 이식**했다.
 
 ### 4-5. 운동 API
 
-| 엔드포인트 | 설명 |
-|---|---|
-| `GET /api/exercises` | 목록. `search` / `bodyPart` / `difficulty` / `movementType` / `equipmentId` / `page` / `limit` |
-| `GET /api/exercises/[id]` | 상세. 없으면 404 |
+| 엔드포인트                | 설명                                                                                           |
+| ------------------------- | ---------------------------------------------------------------------------------------------- |
+| `GET /api/exercises`      | 목록. `search` / `bodyPart` / `difficulty` / `movementType` / `equipmentId` / `page` / `limit` |
+| `GET /api/exercises/[id]` | 상세. 없으면 404                                                                               |
 
 `server/exercises/exercise.service.ts` 에서 **공통 `exerciseInclude` + `toExerciseDto()`**
 를 쓴다. 목록과 상세가 각자 매퍼를 가지면 응답 형태가 어긋나기 쉽기 때문이다.
@@ -258,13 +259,13 @@ v2 프로토타입(v0 생성물)에서 **프론트만 선별 이식**했다.
 
 ### 4-6. 운동 화면
 
-| 경로 | 파일 |
-|---|---|
-| `/exercises` | `app/(user)/exercises/page.tsx` (서버 컴포넌트) |
-| | `exercise-filters.tsx` (클라이언트: 검색 + 필터 칩) |
-| | `exercise-card.tsx` |
-| `/exercises/[id]` | `app/(user)/exercises/[id]/page.tsx` |
-| 공통 | `lib/exercise-labels.ts` — enum → 한글 라벨 |
+| 경로              | 파일                                                |
+| ----------------- | --------------------------------------------------- |
+| `/exercises`      | `app/(user)/exercises/page.tsx` (서버 컴포넌트)     |
+|                   | `exercise-filters.tsx` (클라이언트: 검색 + 필터 칩) |
+|                   | `exercise-card.tsx`                                 |
+| `/exercises/[id]` | `app/(user)/exercises/[id]/page.tsx`                |
+| 공통              | `lib/exercise-labels.ts` — enum → 한글 라벨         |
 
 설계 판단:
 
@@ -289,18 +290,18 @@ if (syncedSearch !== currentSearch) {
 
 ### 4-7. 운동 기록 API
 
-| 엔드포인트 | 설명 |
-|---|---|
-| `POST /api/workouts/sessions` | 세션 시작 |
-| `GET /api/workouts/sessions` | 지난 기록 목록 (페이지네이션, 기간 필터) |
-| `GET /api/workouts/sessions/active` | 진행중 세션 조회 (없으면 200 + `null`) |
-| `GET /api/workouts/sessions/[id]` | 세션 상세 |
-| `PATCH /api/workouts/sessions/[id]` | 종료 / 취소 / 메모 |
-| `POST /api/workouts/sessions/[id]/records` | 운동 추가 (+ 직전 기록 반환) |
-| `DELETE /api/workouts/records/[id]` | 운동 제거 |
-| `POST /api/workouts/records/[id]` | 세트 추가 |
-| `PATCH`·`DELETE` `/api/workouts/sets/[id]` | 세트 수정 / 삭제 |
-| `GET /api/workouts/last-record?exerciseId=` | 직전 기록 조회 |
+| 엔드포인트                                  | 설명                                     |
+| ------------------------------------------- | ---------------------------------------- |
+| `POST /api/workouts/sessions`               | 세션 시작                                |
+| `GET /api/workouts/sessions`                | 지난 기록 목록 (페이지네이션, 기간 필터) |
+| `GET /api/workouts/sessions/active`         | 진행중 세션 조회 (없으면 200 + `null`)   |
+| `GET /api/workouts/sessions/[id]`           | 세션 상세                                |
+| `PATCH /api/workouts/sessions/[id]`         | 종료 / 취소 / 메모                       |
+| `POST /api/workouts/sessions/[id]/records`  | 운동 추가 (+ 직전 기록 반환)             |
+| `DELETE /api/workouts/records/[id]`         | 운동 제거                                |
+| `POST /api/workouts/records/[id]`           | 세트 추가                                |
+| `PATCH`·`DELETE` `/api/workouts/sets/[id]`  | 세트 수정 / 삭제                         |
+| `GET /api/workouts/last-record?exerciseId=` | 직전 기록 조회                           |
 
 **하루 여러 번 운동** — `WorkoutSession` 에 날짜 유니크 제약이 없고 `startedAt`
 (DateTime)을 쓰므로 자연히 지원된다. 대신 종료하지 않은 세션이 쌓이지 않도록
@@ -325,11 +326,11 @@ GET /api/workouts/sessions/active
 `active` 는 홈 화면의 "운동 중" 배너에도 쓴다. POST 만으로도 409 로 알 수 있지만,
 그 경우 사용자가 이미 시작 버튼을 누른 뒤라 흐름이 끊긴다.
 
-| mode | 동작 |
-|---|---|
-| `ask` (기본) | 진행중 세션이 있으면 **409 + activeSession** 반환 → 사용자에게 질문 |
-| `resume` | 기존 세션을 이어서 사용 |
-| `new` | 기존 세션을 마감하고 새로 시작. **기록이 없으면 CANCELLED** 로 정리해 빈 세션이 이력에 남지 않게 함 |
+| mode         | 동작                                                                                                |
+| ------------ | --------------------------------------------------------------------------------------------------- |
+| `ask` (기본) | 진행중 세션이 있으면 **409 + activeSession** 반환 → 사용자에게 질문                                 |
+| `resume`     | 기존 세션을 이어서 사용                                                                             |
+| `new`        | 기존 세션을 마감하고 새로 시작. **기록이 없으면 CANCELLED** 로 정리해 빈 세션이 이력에 남지 않게 함 |
 
 > `new` 로 기존 세션을 마감하는 이유: `getActiveSession` 은 `findFirst` 라서
 > IN_PROGRESS 가 둘 이상이면 나머지는 영영 조회되지 않는 유령 세션이 된다.
@@ -398,12 +399,12 @@ GET /api/workouts/sessions/active
 
 ### 4-9. 세트 입력 화면
 
-| 파일 | 역할 |
-|---|---|
-| `app/(user)/workouts/[id]/page.tsx` | 세션 화면 (서버 컴포넌트) |
-| `add-exercise-drawer.tsx` | 운동 검색 + 추가 |
-| `record-card.tsx` | 운동 카드 + `SetRow` 인라인 편집 |
-| `actions.ts` | 서버 액션 6종 |
+| 파일                                | 역할                             |
+| ----------------------------------- | -------------------------------- |
+| `app/(user)/workouts/[id]/page.tsx` | 세션 화면 (서버 컴포넌트)        |
+| `add-exercise-drawer.tsx`           | 운동 검색 + 추가                 |
+| `record-card.tsx`                   | 운동 카드 + `SetRow` 인라인 편집 |
+| `actions.ts`                        | 서버 액션 6종                    |
 
 **운동 추가는 Drawer 로.** `/exercises` 로 이동시키면 "어느 세션에 담는 중이었나"
 라는 맥락이 끊긴다. 검색은 250ms 디바운스 + `AbortController` 로 이전 요청을 끊는다.
@@ -457,10 +458,10 @@ GET /api/workouts/sessions/active
 
 `WorkoutSession` 에 **서로 다른 축 두 개**를 넣었다. 하나로 합칠 수 없다.
 
-| 필드 | 질문 | 값 |
-|---|---|---|
-| `entryMode` | **어떻게** 입력했나 | `LIVE` / `MANUAL` |
-| `recordedByUserId` | **누가** 입력했나 | `null`=본인 / 트레이너 id |
+| 필드               | 질문                | 값                        |
+| ------------------ | ------------------- | ------------------------- |
+| `entryMode`        | **어떻게** 입력했나 | `LIVE` / `MANUAL`         |
+| `recordedByUserId` | **누가** 입력했나   | `null`=본인 / 트레이너 id |
 
 **`entryMode` 가 필요한 이유.** 둘 다 편집하는 동안 `IN_PROGRESS` 여야 하는데,
 구분이 없으면 어제 기록을 입력하는 중에 홈에 "운동 진행중" 타이머가 뜨고
@@ -519,11 +520,11 @@ GET /api/workouts/sessions/active
 
 `assertEditable()` 한 곳으로 모아 다섯 군데에 모두 걸었다.
 
-| 상태 | 수정 |
-|---|---|
-| `IN_PROGRESS` | 가능 |
-| `COMPLETED` | **가능** ← 바뀐 부분 |
-| `CANCELLED` | 차단 |
+| 상태          | 수정                 |
+| ------------- | -------------------- |
+| `IN_PROGRESS` | 가능                 |
+| `COMPLETED`   | **가능** ← 바뀐 부분 |
+| `CANCELLED`   | 차단                 |
 
 화면에서는 완료된 세션에 **`수정` 토글**을 둔다. 항상 입력칸을 띄워 두면 지난 기록을
 훑어보다가 실수로 값이 바뀌는데 그게 더 나쁘다. 수정 모드에서는 운동 추가도 열어 준다 —
@@ -532,16 +533,123 @@ GET /api/workouts/sessions/active
 **수정해도 `durationSec` 과 `status` 는 건드리지 않는다.** 나중에 고쳤다고 운동 시간이
 다시 측정되면 안 된다.
 
+### 4-14. 운동 요약 화면
+
+종료하면 홈이 아니라 `/workouts/[id]/summary` 로 보낸다. 방금 한 운동이 어땠는지를
+바로 보여줘야 다음에 또 열게 된다.
+
+**신기록은 저장하지 않고 볼 때마다 계산한다.** 완료한 기록도 고칠 수 있으므로 박아 두면
+값을 내려도 배지가 남는다. 비교 대상은 `startedAt` 이 앞선 세션뿐이다 — 몰아서 입력하면
+만든 순서와 실제로 운동한 순서가 뒤집힌다.
+
+처음 해 본 운동은 신기록이 아니라 **"첫 기록"** 이다. 전부 신기록이면 배지가 의미를 잃는다.
+
+1RM 은 Epley (`w x (1 + reps/30)`) 를 쓰되 **12회를 넘으면 계산하지 않는다.** 20회를
+환산해 신기록이라고 말하면 틀린 정보다.
+
+### 4-15. 운동별 기록 추이
+
+운동 상세에 "내 기록" 을 넣었다. 지난번에 몇 kg 을 들었는지 모르면 오늘 무게를 정할 수 없다.
+
+작업 중 **요약과 추이가 서로 다른 말을 하는 걸 찾았다.** 요약은 첫 운동을 "첫 기록" 이라
+하는데 추이는 "신기록" 이라고 했다. 판정 규칙을 한 곳으로 모았다.
+
+**가장 무거운 세트가 곧 최고 1RM 이 아니다.** 65kg x 8회(82.3)가 70kg x 5회(81.7)보다
+높다. 그래서 최고 중량과 최고 1RM 을 각각 집계 쿼리로 묻지 않고, 세트를 한 번만 가져와
+함께 계산한다. 따로 물으면 두 값의 기준이 어긋난다.
+
+차트 라이브러리는 넣지 않았다. 줄 뒤에 볼륨 비례 막대를 깔면 충분하고, 12줄을 그리려고
+번들을 늘릴 이유가 없다.
+
+### 4-16. 센터 소속과 초대 코드
+
+**초대 코드는 관계가 아니라 임시 토큰이다.** 검증 -> 소속 생성 -> 사용 처리로 끝나고,
+`CenterMembership` 이 실제 관계를 갖는다.
+
+**코드 종류를 컬럼으로 두지 않았다.** 발급자(`createdBy.role`)에서 파생한다. 종류를 또
+저장하면 `role` / `createdBy.role` / `type` 셋이 서로 어긋날 수 있다.
+
+|                      | 발급자   | 자리수       | 결과                      |
+| -------------------- | -------- | ------------ | ------------------------- |
+| 트레이너 코드        | 관리자만 | **1로 강제** | 센터 소속 (담당 없음)     |
+| 회원 코드 (관리자)   | 관리자   | 기본 50      | 센터 소속만               |
+| 회원 코드 (트레이너) | 트레이너 | 기본 50      | 센터 소속 + **담당 배정** |
+
+트레이너 권한은 남의 기록을 보므로 코드가 단톡방에 돌면 피해가 크다. 그래서 한 명만
+쓸 수 있게 막았다.
+
+**센터 가입과 담당 배정은 다른 관계다.** 관리자 코드로 들어오면 담당 트레이너는 비어 있다.
+가입했다고 아무 트레이너에게나 붙이면 안 된다.
+
+**담당 교체는 같은 센터의 다른 트레이너 코드를 넣는 것이다.** 트레이너가 바뀌는 건 예외가
+아니라 일상인데 관리자를 거치게 하면 병목이 된다. 코드를 받아야 하므로 트레이너가 동의한
+셈이기도 하다.
+
+**프리랜서 트레이너는 1인 센터로 푼다.** `@@unique([centerId, userId])` 때문에 관리자와
+트레이너 소속을 따로 가질 수 없어서, 권한을 포함관계로 뒀다 — `CENTER_ADMIN` 이
+트레이너 기능도 쓴다 (`canActAsTrainer()`).
+
+**나가도 행을 지우지 않는다.** PT 계약과 알림장이 이 소속을 참조하므로 지우면 지난 기록이
+함께 사라진다. `LEFT` 로 남기고, 다시 들어오면 그 행을 되살린다.
+
+**여러 센터는 아직 막아 두되 구조는 열어 뒀다.** 서비스는 전부 `membershipId` 를 받고
+`getCurrentMembership()` 하나만 "한 곳뿐" 을 가정한다. 나중에 이 함수만 바꾸면 된다.
+
+작업 중 **빌드는 통과하는데 요청하면 500 이 나는 결함**을 찾았다. `"use server"` 파일이
+함수가 아닌 값(`OK` 상수)을 export 하고 있었다. 또 나가기 버튼을 화살표 함수로 감쌌더니
+서버 액션 참조가 아니게 되어 `action="javascript:throw ..."` 로 그려졌다 —
+자바스크립트가 없으면 동작하지 않는 폼이었다. 둘 다 브라우저로 눌러보기 전에는 안 보인다.
+
+---
+
+### 4-17. 알림장 · 공지 · 댓글
+
+**알림장은 화면이지 저장소가 아니다.** PT 수업에서 한 운동의 원본은 `WorkoutSession` 이고
+알림장은 그것을 트레이너의 글과 함께 보여줄 뿐이다. 알림장에 운동 내용을 따로 적어 두면
+같은 사실이 두 곳에 저장되어 한쪽만 고쳐지는 순간 어긋난다.
+
+**PT 수업 여부는 세션 단위로 표시한다.** `WorkoutSession.ptSessionId` (`@unique`, PTSession
+과 1:1) 하나로 끝내고, 레코드에 있던 `ptSessionId` / `recordType` 과 `WorkoutRecordType`
+enum 은 지웠다. 근거는 **누가 적었는지(`recordedByUserId`)가 이미 세션 단위**라는 것이다.
+"PT 수업인가" 만 레코드 단위로 두면 두 축이 어긋나 "PT 세션인데 개인 기록", "회원이 적은
+PT 기록" 같은 표현 불가능한 상태가 생긴다. 하루에 세션을 여러 개 만들 수 있으므로
+PT 끝나고 혼자 유산소를 해도 세션이 나뉘어 섞이지 않는다.
+
+**타임라인에 알림장 · 공지 · 내 운동을 섞는다.** PT 는 주 2회 정도라 알림장만 모으면 화면이
+자주 빈다. 매일 열어볼 이유가 있어야 알림장도 읽힌다. 고정 공지(`pinnedAt`)만 날짜와
+무관하게 맨 위에 둔다.
+
+**공지 대상은 미리 펼치지 않고 읽을 때 계산한다.** `Notice` 하나에 대상자 수만큼 행을
+만들면 나중에 들어온 회원이 지난 공지를 못 본다. `scope=CENTER` 면 센터 전체,
+`TRAINER_MEMBERS` 면 작성자가 내 담당일 때만 보이도록 조회 조건으로 푼다.
+
+**댓글을 `(targetType, targetId)` 공통 모델로 합치지 않았다.** 그렇게 하면 외래키를 걸 수
+없어 알림장을 지워도 댓글이 남는다. `JournalComment` 로 따로 뒀다.
+
+**읽음 표시를 넣었다.** 사용자는 상관없다고 했지만, 없으면 "오늘 확인할 것"을 고를 수 없어
+알림장이 그냥 지나가는 화면이 된다. `Journal.memberReadAt` 은 상세를 열 때 기록하고,
+`NoticeRead` 는 `upsert` 로 처음 연 시각을 유지한다.
+
+**회원은 PT 운동 기록을 열람만 한다.** 트레이너가 적은 수업 기록을 회원이 고칠 수 있으면
+기록의 근거가 사라진다.
+
+여기서도 §4-16 과 **같은 결함이 재발했다** — 댓글 폼이 입력칸을 비우려고 서버 액션을
+화살표 함수로 감싸는 바람에 자바스크립트 없이는 폼이 동작하지 않았다. 서버 액션을 그대로
+넘기고, 성공할 때마다 바뀌는 `token` 을 입력칸의 `key` 로 걸어 비우는 방식으로 고쳤다.
+타입 검사와 빌드로는 잡히지 않으므로 **히든 필드 유무를 검증에 넣었다.**
+
 ---
 
 ## 5. 검증 완료 항목
 
 **인증**
+
 - 미로그인 `/home`, `/exercises` → `/login` 307 리다이렉트
 - 실제 DB E2E: 회원생성 → 비밀번호 정/오 검증 → JWT 왕복 → 위조 토큰 거부 →
   DAL 조회 → 로그아웃 무효화
 
 **운동 목록/상세** (실제 로그인 세션으로 렌더 확인)
+
 - 카드 20개 / 총 50개 / 필터 칩 23개(부위10 + 난이도3 + 동작10)
 - 필터 `bodyPart=CHEST` → 7개, `BEGINNER + SQUAT` → 2개
 - 한글 검색 "스쿼트" 6개 / "프레스" 10개 / 없는 검색어 → 빈 상태 UI
@@ -552,10 +660,12 @@ GET /api/workouts/sessions/active
 - 없는 id → 404
 
 **빌드**
+
 - `next build` / `tsc --noEmit` / `eslint` 통과
 - `npm ci --dry-run` 통과 (락파일 일관성)
 
 **운동 기록 API** — E2E 38개 항목 전부 통과
+
 - 미인증 요청 → 401 JSON (리다이렉트 아님)
 - 진행중 세션 있을 때 재시작 → 409 + activeSession / `resume` → 동일 세션
 - 볼륨: 60×10 + 70×8 + 70×6 = **1580** 정확
@@ -589,18 +699,21 @@ GET /api/workouts/sessions/active
 - 종료된 세션에 운동 추가 차단
 
 **운동 선택** — 18개
+
 - 부위 집계 합 = 전체 활성 운동 수 / 0개 부위 제외 / 없는 검색어 → 200 + 빈 배열
 - 일괄 추가 시 고른 순서 유지, `orderIndex` 0,1,2 → 이어서 넣으면 3,4
 - 빈 선택 / 없는 운동 / 유효+무효 혼합 시 유효한 것만 추가
 - 타인 세션·종료 세션 차단, 즐겨찾기 추가/해제/없는 운동
 
 **지난 운동 몰아서 기록** — 20개
+
 - **MANUAL 이 "진행중" 으로 안 잡힘** → 그 상태에서 새 운동 시작 가능(409 아님)
 - `entryMode=MANUAL`, `startedAt` 이 지정한 날짜(KST), `recordedByUserId=null`
 - 저장 시 `durationSec=null`, `endedAt=startedAt` / LIVE 는 그대로 시간 계산
 - 미래 날짜·잘못된 형식 거부, 같은 날 재진입 시 재사용, 완료본은 새로 생성
 
 **캘린더** — 18개 + 월 그리드 34개
+
 - 하루 두 번 운동한 날 세션 2개 모두 표시, 취소 세션은 목록·점 모두 제외
 - 달 이동해도 선택 날짜 목록 유지, `입력 중` / `진행 중` 배지 구분
 - 잘못된 파라미터(`?date=aaa&month=zz`)에도 500 아님 → 오늘로 되돌아감
@@ -608,10 +721,55 @@ GET /api/workouts/sessions/active
 - 월 그리드: 7의 배수, 첫 칸이 일요일, 날짜 연속성(윤년 2024-02 / 연말 2025-12 포함)
 
 **완료 후 수정** — 20개
+
 - 완료된 세션의 세트 수정/추가/삭제 + 운동 추가 가능, 볼륨 재계산
 - **수정해도 `durationSec`·`status` 유지**
 - 취소 세션 5종 전부 차단(세트 수정/삭제/추가, 운동 추가/삭제) — 값이 그대로인지까지 확인
 - 완료 세션엔 수정 버튼 / 진행중 세션엔 없음
+
+**운동 요약 + 신기록** — 38개
+
+- 종료하면 요약으로 이동, MANUAL 은 소요 시간 대신 `—`
+- 첫 운동은 "첫 기록", 두 번째부터 신기록 판정
+- 12회 초과 세트는 1RM 계산에서 빠짐, 미완료·맨몸 세트는 집계 제외
+- 취소한 세션은 비교 대상에서 제외
+- 완료 아닌 세션의 요약 접근 시 리다이렉트
+
+**운동별 기록 추이** — 23개
+
+- 최고 중량과 최고 1RM 이 서로 다른 세트일 때 각각 맞게 나옴
+- 화면에 보이는 12줄 밖의 기록도 최고 기록 계산에 포함
+- 요약과 추이의 신기록 판정이 일치
+
+**센터 소속 / 초대 코드** — 서비스 23 + 화면 4 + 서버 액션 8 = 35개
+
+- 트레이너 코드 `maxUses` 1 강제, 한 번 쓰면 소진
+- 관리자 코드로 가입 시 담당 트레이너 없음 / 트레이너 코드는 자동 배정
+- 다른 트레이너 코드 입력 시 담당 교체, 같은 트레이너면 `ALREADY_ASSIGNED`
+- 만료·중지·소진·없는 코드·8자리 아님 전부 거부
+- 발급자가 센터를 떠나면 그가 뿌린 코드도 무효
+- 다른 센터 소속이면 `ALREADY_IN_CENTER`, 나갔다 재가입 시 행 되살림(중복 행 없음)
+- 회원은 코드 발급 불가, 트레이너는 트레이너 코드 발급 불가, 남의 코드 취소 불가
+- 트레이너는 자기 코드만 / 관리자는 센터 전체 코드 조회
+- 소문자·하이픈·공백 정규화
+- **폼에 `role=CENTER_ADMIN` 을 끼워 넣어도 거절** (화면에 없는 값도 서버가 막는지)
+- 자바스크립트 없이 폼을 낸 것과 같은 방식(서버가 그린 히든 필드 그대로 제출)으로 검증
+
+**알림장 / 공지 / 댓글** — 서비스 15 + 화면 6 + 서버 액션 4 + 화면 스모크 8 = 33개
+
+- 타임라인에 알림장·공지·운동이 섞여 최신순으로 나옴
+- 고정 공지는 날짜와 무관하게 맨 위
+- 초안 알림장 · 미게시 공지 · 취소한 운동 세션은 안 보임
+- 다른 트레이너의 담당 회원 공지, 다른 센터 공지는 안 보임
+- 안 읽은 개수는 알림장 + 공지만 셈 (운동은 안 셈)
+- 상세를 열면 읽음으로 바뀌고, 공지는 두 번 열어도 읽음 행이 하나
+- 남의 알림장 · 초안 · 남의 트레이너 공지는 404
+- 댓글은 회원 본인과 담당 트레이너만, 빈 댓글과 1000자 초과는 거절
+- 지운 댓글은 상세에서 빠짐
+- **댓글 폼에 히든 필드가 있는지 확인** (자바스크립트 없이 동작하는지)
+- `journalId` 를 남의 것으로 바꿔 보내도 서버가 막음
+- 세션 단위 PT 표시로 바꾼 뒤 `/home` `/calendar` `/exercises` `/workouts/[id]`
+  `/workouts/[id]/summary` `/journal` `/profile` 전부 200
 
 ---
 
@@ -642,18 +800,19 @@ role 은 `CenterMembership` 에 있다. 가입 화면에 "관리자로 가입"�
 항목을 늘릴 때마다 컬럼을 늘려야 하고, 무엇보다 **회원이 기록할 때마다 스위치를
 눌러야 해서 결국 아무도 안 켠다.** 설정은 **회원 × 트레이너 1개**로 둔다.
 
-| 항목 | 공유 |
-|---|---|
-| 식단 (사진 / 내용 / 시간) | 선택 |
-| 체중 · 체성분 | 선택 |
-| 운동 기록 · 중량 / 횟수 · 메모 | 선택 |
-| 개인 루틴 | 선택 |
-| **PT 수업 운동 기록** | **자동** (동의 불필요) |
-| 트레이너가 쓴 일지 | 회원에게 공개 |
+| 항목                           | 공유                   |
+| ------------------------------ | ---------------------- |
+| 식단 (사진 / 내용 / 시간)      | 선택                   |
+| 체중 · 체성분                  | 선택                   |
+| 운동 기록 · 중량 / 횟수 · 메모 | 선택                   |
+| 개인 루틴                      | 선택                   |
+| **PT 수업 운동 기록**          | **자동** (동의 불필요) |
+| 트레이너가 쓴 일지             | 회원에게 공개          |
 
 **PT 수업 기록만 예외**인 이유: 트레이너가 적어 준 기록을 회원이 다시 공유해 줘야
 보인다면 말이 안 된다. 이건 스키마에 이미 있다 — `WorkoutRecord.ptSessionId`
-+ `recordType(PERSONAL | PT)`.
+
+- `recordType(PERSONAL | PT)`.
 
 **기본값은 코드에 박지 않는다.** 기본 ON 은 결국 회원이 모르는 채로 공개되는 것이다.
 대신 **트레이너와 연결되는 순간 "무엇을 공유할까요?" 화면을 한 번** 띄우고,
