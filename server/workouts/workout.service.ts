@@ -1001,3 +1001,156 @@ export async function getSessionSummary(userId: string, sessionId: string) {
     prCount: records.filter((record) => record.weightPr || record.oneRmPr).length,
   };
 }
+
+// ---------------------------------------------------------------------------
+// 운동별 기록 추이
+// ---------------------------------------------------------------------------
+
+/**
+ * 운동 하나를 시간순으로 모아 본다.
+ *
+ * 요약 화면은 한 번의 운동 안에서만 신기록을 알려 주기 때문에, 화면을 나가면
+ * "내가 이 운동을 얼마나 올렸는지" 를 볼 곳이 없다.
+ */
+export async function getExerciseTrend(
+  userId: string,
+  exerciseId: string,
+  limit = 12,
+) {
+  const where = {
+    userId,
+    exerciseId,
+    // 취소한 운동은 없던 일이다.
+    session: { status: { not: WorkoutSessionStatus.CANCELLED } },
+    sets: { some: {} },
+  } satisfies Prisma.WorkoutRecordWhereInput;
+
+  const [records, totalCount] = await Promise.all([
+    prisma.workoutRecord.findMany({
+      where,
+      // 만든 시각이 아니라 운동한 시각 기준이다. 지난 운동을 나중에 몰아서
+      // 입력하면 두 순서가 어긋난다.
+      orderBy: { session: { startedAt: "desc" } },
+      take: limit,
+      select: {
+        id: true,
+        totalVolume: true,
+        sessionId: true,
+        session: { select: { startedAt: true } },
+        sets: { orderBy: { setNumber: "asc" }, select: setSelect },
+      },
+    }),
+    prisma.workoutRecord.count({ where }),
+  ]);
+
+  if (records.length === 0) {
+    return { entries: [], totalCount: 0, bestWeight: null, bestOneRm: null };
+  }
+
+  const oldestShown = records[records.length - 1].session.startedAt;
+
+  /**
+   * 이 운동의 전체 기록.
+   *
+   * 최고 기록은 화면에 보이는 구간이 아니라 전체를 기준으로 해야 한다.
+   * 열두 번 전에 세운 기록을 못 보고 신기록이라고 하면 안 된다.
+   *
+   * 운동 하나에 딸린 세트만 가져오고 두 칸만 읽으므로, 몇 년을 모아도
+   * 수백 행이다. 최고 중량과 추정 1RM 을 따로 물으면 기준이 어긋나기
+   * 쉬워서 한 번에 가져와 함께 계산한다.
+   */
+  const allSets = await prisma.workoutSet.findMany({
+    where: {
+      completed: true,
+      weight: { not: null },
+      reps: { not: null },
+      record: {
+        userId,
+        exerciseId,
+        session: { status: { not: WorkoutSessionStatus.CANCELLED } },
+      },
+    },
+    select: {
+      weight: true,
+      reps: true,
+      record: { select: { session: { select: { startedAt: true } } } },
+    },
+  });
+
+  let bestWeight: number | null = null;
+  let bestOneRm: number | null = null;
+  // 화면에 보이는 구간보다 앞선 최고 중량. 신기록 판정의 출발점이 된다.
+  let runningBest = 0;
+  // 이 구간보다 앞선 기록이 있었는지. 없으면 첫 줄이 "첫 기록" 이다.
+  let seenAny = false;
+
+  for (const set of allSets) {
+    const weight = toNumber(set.weight) ?? 0;
+    const reps = set.reps ?? 0;
+    const oneRm = estimateOneRm(weight, reps);
+
+    if (bestWeight === null || weight > bestWeight) bestWeight = weight;
+    if (oneRm !== null && (bestOneRm === null || oneRm > bestOneRm)) {
+      bestOneRm = oneRm;
+    }
+    if (set.record.session.startedAt < oldestShown) {
+      runningBest = Math.max(runningBest, weight);
+      seenAny = true;
+    }
+  }
+
+  // 오래된 것부터 훑어야 "그 시점까지의 최고" 를 알 수 있다.
+  const ascending = [...records].reverse().map((record) => {
+    const counted = record.sets.map(toSetDto).filter(countsTowardRecord);
+
+    let topSet: { weight: number; reps: number } | null = null;
+    let oneRm: number | null = null;
+
+    for (const set of counted) {
+      if (
+        !topSet ||
+        set.weight > topSet.weight ||
+        (set.weight === topSet.weight && set.reps > topSet.reps)
+      ) {
+        topSet = { weight: set.weight, reps: set.reps };
+      }
+
+      const estimate = estimateOneRm(set.weight, set.reps);
+      if (estimate !== null && (oneRm === null || estimate > oneRm)) {
+        oneRm = estimate;
+      }
+    }
+
+    // 처음 해 본 날을 신기록이라고 하지 않는 것은 요약 화면과 같은 규칙이다.
+    // 같은 기록을 두 화면이 다르게 부르면 안 된다.
+    const firstTime = !seenAny;
+    const isPr = Boolean(seenAny && topSet && topSet.weight > runningBest);
+
+    if (topSet) {
+      runningBest = Math.max(runningBest, topSet.weight);
+    }
+    if (counted.length > 0) {
+      seenAny = true;
+    }
+
+    return {
+      recordId: record.id,
+      sessionId: record.sessionId,
+      performedAt: record.session.startedAt,
+      volume: toNumber(record.totalVolume) ?? 0,
+      setCount: counted.length,
+      topSet,
+      oneRm,
+      isPr,
+      firstTime,
+    };
+  });
+
+  return {
+    // 화면에는 최근 것부터 보여준다.
+    entries: ascending.reverse(),
+    totalCount,
+    bestWeight,
+    bestOneRm,
+  };
+}

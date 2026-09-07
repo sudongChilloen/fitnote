@@ -103,9 +103,12 @@ export default async function WorkoutSummaryPage({
             >
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0">
-                  <p className="truncate font-semibold">
+                  <Link
+                    href={`/exercises/${record.exercise.id}`}
+                    className="block truncate font-semibold underline-offset-4 hover:underline"
+                  >
                     {record.exercise.name}
-                  </p>
+                  </Link>
                   <p className="mt-0.5 text-xs text-muted-foreground tabular-nums">
                     {record.countedSets}세트 ·{" "}
                     {(record.totalVolume ?? 0).toLocaleString()}kg
