@@ -4,6 +4,7 @@ import {
   ChevronRight,
   Dumbbell,
   UserRound,
+  UtensilsCrossed,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -16,6 +17,7 @@ import {
   toKstDateKey,
 } from "@/lib/date";
 import { cn } from "@/lib/utils";
+import { getDietByDate, MEAL_LABEL } from "@/server/diet/diet.service";
 import {
   getMonthSummary,
   getSessionsByDate,
@@ -50,9 +52,10 @@ export default async function CalendarPage({
       ? params.month
       : selected.slice(0, 7);
 
-  const [summary, sessions] = await Promise.all([
+  const [summary, sessions, diet] = await Promise.all([
     getMonthSummary(user.id, month),
     getSessionsByDate(user.id, selected),
+    getDietByDate(user.id, selected),
   ]);
 
   const cells = buildMonthGrid(month);
@@ -172,11 +175,13 @@ export default async function CalendarPage({
           {selected === today ? " · 오늘" : ""}
         </h2>
 
-        {sessions.length === 0 ? (
+        {sessions.length === 0 && diet.length === 0 ? (
           <p className="rounded-2xl border border-dashed border-border py-10 text-center text-sm text-muted-foreground">
             이 날은 기록이 없어요.
           </p>
-        ) : (
+        ) : null}
+
+        {sessions.length === 0 ? null : (
           <ul className="flex flex-col gap-2">
             {sessions.map((session) => (
               <li key={session.id}>
@@ -257,6 +262,70 @@ export default async function CalendarPage({
           }
           hideDateInput
         />
+      </section>
+
+      {/*
+        같은 날의 식단.
+        운동과 식단을 다른 화면에 두면 "그날 뭘 하고 뭘 먹었나" 를 보려고 두 곳을
+        오가야 한다. 날짜가 이미 잡혀 있는 이 화면이 둘을 나란히 놓기 가장 좋다.
+      */}
+      <section className="flex flex-col gap-3">
+        <div className="flex items-baseline justify-between">
+          <h2 className="text-sm font-bold">식단</h2>
+          <Link
+            href={`/diet?date=${selected}`}
+            className="text-sm font-semibold text-brand-strong"
+          >
+            {diet.length > 0 ? "전체 보기" : "남기기"}
+          </Link>
+        </div>
+
+        {diet.length === 0 ? (
+          <p className="rounded-2xl border border-dashed border-border py-6 text-center text-xs text-muted-foreground">
+            이 날 남긴 식단이 없어요.
+          </p>
+        ) : (
+          <ul className="flex flex-col gap-2">
+            {diet.map((record) => (
+              <li key={record.id}>
+                <Link
+                  href={`/diet/${record.id}`}
+                  className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3"
+                >
+                  {record.thumbnailUrl ? (
+                    // 서명 주소는 열 때마다 값이 달라 최적화 캐시가 빗나간다.
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={record.thumbnailUrl}
+                      alt=""
+                      loading="lazy"
+                      className="size-12 shrink-0 rounded-xl bg-secondary object-cover"
+                    />
+                  ) : (
+                    <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
+                      <UtensilsCrossed className="size-4.5" />
+                    </span>
+                  )}
+
+                  <span className="min-w-0 flex-1">
+                    <span className="text-xs font-bold text-brand-strong">
+                      {MEAL_LABEL[record.mealType]}
+                    </span>
+                    <span className="mt-0.5 block truncate text-sm font-bold">
+                      {record.foodName ?? record.memo ?? "사진만 남겼어요"}
+                    </span>
+                  </span>
+
+                  {record.feedbackCount > 0 ? (
+                    <span className="shrink-0 rounded-full bg-accent px-2 py-0.5 text-[0.65rem] font-bold text-brand-strong">
+                      피드백 {record.feedbackCount}
+                    </span>
+                  ) : null}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
     </main>
   );

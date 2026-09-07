@@ -7,10 +7,13 @@ import {
   Lock,
   MessageSquare,
   PenLine,
+  UtensilsCrossed,
 } from "lucide-react";
 
 import { requireUser } from "@/app/lib/dal";
 import { formatKstDateLabel } from "@/lib/date";
+import { listMemberDiet } from "@/server/diet/diet-trainer.service";
+import { MEAL_LABEL } from "@/server/diet/diet.service";
 import {
   getMemberPersonalWorkouts,
   getSharingForTrainer,
@@ -64,9 +67,17 @@ export default async function TrainerMemberPage({
   // 공유 설정을 먼저 읽고, 켜진 것만 가져온다. 꺼져 있으면 조회 자체를 하지
   // 않으므로 "안 보여주는데 읽기는 했다" 는 상황이 생기지 않는다.
   const sharing = await getSharingForTrainer(user.id, id);
-  const personalWorkouts = sharing.sharePersonalWorkout
-    ? await getMemberPersonalWorkouts(user.id, id, 5)
-    : [];
+
+  const [personalWorkouts, recentDiet] = await Promise.all([
+    sharing.sharePersonalWorkout
+      ? getMemberPersonalWorkouts(user.id, id, 5)
+      : [],
+    sharing.shareDiet
+      ? listMemberDiet(user.id, id, 3).then(({ days }) =>
+          days.flatMap((day) => day.records),
+        )
+      : [],
+  ]);
 
   return (
     <main className="px-5 pt-5 pb-16">
@@ -312,15 +323,78 @@ export default async function TrainerMemberPage({
         )}
       </section>
 
-      <section className="mt-7 rounded-2xl border border-dashed border-border p-4">
-        <span className="flex size-8 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
-          <Lock className="size-4" aria-hidden />
-        </span>
-        <p className="mt-2.5 text-sm font-bold">식단은 아직 보이지 않아요</p>
-        <p className="mt-1 text-xs text-muted-foreground">
-          회원이 식단을 올리는 화면을 만들고 있어요. 회원이 공유를 켜 두면
-          올라오는 대로 여기에 나타나요.
-        </p>
+      <section className="mt-7">
+        <div className="flex items-baseline justify-between">
+          <h2 className="text-base font-bold">식단</h2>
+          {sharing.shareDiet ? (
+            <Link
+              href={`/trainer/members/${id}/diet`}
+              className="text-sm font-semibold text-brand-strong"
+            >
+              전체 보기
+            </Link>
+          ) : null}
+        </div>
+
+        {!sharing.shareDiet ? (
+          <div className="mt-2 rounded-2xl border border-dashed border-border p-4">
+            <span className="flex size-8 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
+              <Lock className="size-4" aria-hidden />
+            </span>
+            <p className="mt-2.5 text-sm font-bold">
+              회원이 식단을 공유하지 않았어요
+            </p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              회원이 내 정보 &gt; 공유 설정에서 켜면 여기에 나타나요.
+            </p>
+          </div>
+        ) : recentDiet.length === 0 ? (
+          <p className="mt-2 rounded-2xl border border-border bg-card p-4 text-xs text-muted-foreground">
+            아직 올린 식단이 없어요.
+          </p>
+        ) : (
+          <ul className="mt-2 flex flex-col gap-2">
+            {recentDiet.map((record) => (
+              <li key={record.id}>
+                <Link
+                  href={`/trainer/members/${id}/diet/${record.id}`}
+                  className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3"
+                >
+                  {record.thumbnailUrl ? (
+                    // 서명 주소는 열 때마다 값이 달라 최적화 캐시가 빗나간다.
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={record.thumbnailUrl}
+                      alt=""
+                      loading="lazy"
+                      className="size-14 shrink-0 rounded-xl bg-secondary object-cover"
+                    />
+                  ) : (
+                    <span className="flex size-14 shrink-0 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
+                      <UtensilsCrossed className="size-4.5" aria-hidden />
+                    </span>
+                  )}
+
+                  <span className="min-w-0 flex-1">
+                    <span className="text-xs text-muted-foreground">
+                      {formatKstDateLabel(record.date)} ·{" "}
+                      {MEAL_LABEL[record.mealType]}
+                    </span>
+                    <span className="mt-0.5 block truncate text-sm font-bold">
+                      {record.foodName ?? record.memo ?? "사진만 올렸어요"}
+                    </span>
+                  </span>
+
+                  {record.feedbackCount === 0 ? (
+                    <span className="shrink-0 rounded-full bg-brand px-2 py-0.5 text-[0.6875rem] font-bold text-primary">
+                      피드백 대기
+                    </span>
+                  ) : null}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
     </main>
   );

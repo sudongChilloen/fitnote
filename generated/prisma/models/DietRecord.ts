@@ -52,7 +52,8 @@ export type DietRecordMinAggregateOutputType = {
   protein: runtime.Decimal | null
   fat: runtime.Decimal | null
   memo: string | null
-  imageUrl: string | null
+  imagePath: string | null
+  thumbnailPath: string | null
   aiAnalyzed: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -70,7 +71,8 @@ export type DietRecordMaxAggregateOutputType = {
   protein: runtime.Decimal | null
   fat: runtime.Decimal | null
   memo: string | null
-  imageUrl: string | null
+  imagePath: string | null
+  thumbnailPath: string | null
   aiAnalyzed: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -88,7 +90,8 @@ export type DietRecordCountAggregateOutputType = {
   protein: number
   fat: number
   memo: number
-  imageUrl: number
+  imagePath: number
+  thumbnailPath: number
   aiAnalyzed: number
   aiResult: number
   createdAt: number
@@ -123,7 +126,8 @@ export type DietRecordMinAggregateInputType = {
   protein?: true
   fat?: true
   memo?: true
-  imageUrl?: true
+  imagePath?: true
+  thumbnailPath?: true
   aiAnalyzed?: true
   createdAt?: true
   updatedAt?: true
@@ -141,7 +145,8 @@ export type DietRecordMaxAggregateInputType = {
   protein?: true
   fat?: true
   memo?: true
-  imageUrl?: true
+  imagePath?: true
+  thumbnailPath?: true
   aiAnalyzed?: true
   createdAt?: true
   updatedAt?: true
@@ -159,7 +164,8 @@ export type DietRecordCountAggregateInputType = {
   protein?: true
   fat?: true
   memo?: true
-  imageUrl?: true
+  imagePath?: true
+  thumbnailPath?: true
   aiAnalyzed?: true
   aiResult?: true
   createdAt?: true
@@ -265,7 +271,8 @@ export type DietRecordGroupByOutputType = {
   protein: runtime.Decimal | null
   fat: runtime.Decimal | null
   memo: string | null
-  imageUrl: string | null
+  imagePath: string | null
+  thumbnailPath: string | null
   aiAnalyzed: boolean
   aiResult: runtime.JsonValue | null
   createdAt: Date
@@ -307,7 +314,8 @@ export type DietRecordWhereInput = {
   protein?: Prisma.DecimalNullableFilter<"DietRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fat?: Prisma.DecimalNullableFilter<"DietRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   memo?: Prisma.StringNullableFilter<"DietRecord"> | string | null
-  imageUrl?: Prisma.StringNullableFilter<"DietRecord"> | string | null
+  imagePath?: Prisma.StringNullableFilter<"DietRecord"> | string | null
+  thumbnailPath?: Prisma.StringNullableFilter<"DietRecord"> | string | null
   aiAnalyzed?: Prisma.BoolFilter<"DietRecord"> | boolean
   aiResult?: Prisma.JsonNullableFilter<"DietRecord">
   createdAt?: Prisma.DateTimeFilter<"DietRecord"> | Date | string
@@ -328,7 +336,8 @@ export type DietRecordOrderByWithRelationInput = {
   protein?: Prisma.SortOrderInput | Prisma.SortOrder
   fat?: Prisma.SortOrderInput | Prisma.SortOrder
   memo?: Prisma.SortOrderInput | Prisma.SortOrder
-  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  imagePath?: Prisma.SortOrderInput | Prisma.SortOrder
+  thumbnailPath?: Prisma.SortOrderInput | Prisma.SortOrder
   aiAnalyzed?: Prisma.SortOrder
   aiResult?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -352,7 +361,8 @@ export type DietRecordWhereUniqueInput = Prisma.AtLeast<{
   protein?: Prisma.DecimalNullableFilter<"DietRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fat?: Prisma.DecimalNullableFilter<"DietRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   memo?: Prisma.StringNullableFilter<"DietRecord"> | string | null
-  imageUrl?: Prisma.StringNullableFilter<"DietRecord"> | string | null
+  imagePath?: Prisma.StringNullableFilter<"DietRecord"> | string | null
+  thumbnailPath?: Prisma.StringNullableFilter<"DietRecord"> | string | null
   aiAnalyzed?: Prisma.BoolFilter<"DietRecord"> | boolean
   aiResult?: Prisma.JsonNullableFilter<"DietRecord">
   createdAt?: Prisma.DateTimeFilter<"DietRecord"> | Date | string
@@ -373,7 +383,8 @@ export type DietRecordOrderByWithAggregationInput = {
   protein?: Prisma.SortOrderInput | Prisma.SortOrder
   fat?: Prisma.SortOrderInput | Prisma.SortOrder
   memo?: Prisma.SortOrderInput | Prisma.SortOrder
-  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  imagePath?: Prisma.SortOrderInput | Prisma.SortOrder
+  thumbnailPath?: Prisma.SortOrderInput | Prisma.SortOrder
   aiAnalyzed?: Prisma.SortOrder
   aiResult?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -400,7 +411,8 @@ export type DietRecordScalarWhereWithAggregatesInput = {
   protein?: Prisma.DecimalNullableWithAggregatesFilter<"DietRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fat?: Prisma.DecimalNullableWithAggregatesFilter<"DietRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   memo?: Prisma.StringNullableWithAggregatesFilter<"DietRecord"> | string | null
-  imageUrl?: Prisma.StringNullableWithAggregatesFilter<"DietRecord"> | string | null
+  imagePath?: Prisma.StringNullableWithAggregatesFilter<"DietRecord"> | string | null
+  thumbnailPath?: Prisma.StringNullableWithAggregatesFilter<"DietRecord"> | string | null
   aiAnalyzed?: Prisma.BoolWithAggregatesFilter<"DietRecord"> | boolean
   aiResult?: Prisma.JsonNullableWithAggregatesFilter<"DietRecord">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"DietRecord"> | Date | string
@@ -418,7 +430,8 @@ export type DietRecordCreateInput = {
   protein?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   memo?: string | null
-  imageUrl?: string | null
+  imagePath?: string | null
+  thumbnailPath?: string | null
   aiAnalyzed?: boolean
   aiResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -439,7 +452,8 @@ export type DietRecordUncheckedCreateInput = {
   protein?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   memo?: string | null
-  imageUrl?: string | null
+  imagePath?: string | null
+  thumbnailPath?: string | null
   aiAnalyzed?: boolean
   aiResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -458,7 +472,8 @@ export type DietRecordUpdateInput = {
   protein?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiAnalyzed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -479,7 +494,8 @@ export type DietRecordUncheckedUpdateInput = {
   protein?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiAnalyzed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -499,7 +515,8 @@ export type DietRecordCreateManyInput = {
   protein?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   memo?: string | null
-  imageUrl?: string | null
+  imagePath?: string | null
+  thumbnailPath?: string | null
   aiAnalyzed?: boolean
   aiResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -517,7 +534,8 @@ export type DietRecordUpdateManyMutationInput = {
   protein?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiAnalyzed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -536,7 +554,8 @@ export type DietRecordUncheckedUpdateManyInput = {
   protein?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiAnalyzed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -565,7 +584,8 @@ export type DietRecordCountOrderByAggregateInput = {
   protein?: Prisma.SortOrder
   fat?: Prisma.SortOrder
   memo?: Prisma.SortOrder
-  imageUrl?: Prisma.SortOrder
+  imagePath?: Prisma.SortOrder
+  thumbnailPath?: Prisma.SortOrder
   aiAnalyzed?: Prisma.SortOrder
   aiResult?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -591,7 +611,8 @@ export type DietRecordMaxOrderByAggregateInput = {
   protein?: Prisma.SortOrder
   fat?: Prisma.SortOrder
   memo?: Prisma.SortOrder
-  imageUrl?: Prisma.SortOrder
+  imagePath?: Prisma.SortOrder
+  thumbnailPath?: Prisma.SortOrder
   aiAnalyzed?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -609,7 +630,8 @@ export type DietRecordMinOrderByAggregateInput = {
   protein?: Prisma.SortOrder
   fat?: Prisma.SortOrder
   memo?: Prisma.SortOrder
-  imageUrl?: Prisma.SortOrder
+  imagePath?: Prisma.SortOrder
+  thumbnailPath?: Prisma.SortOrder
   aiAnalyzed?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -698,7 +720,8 @@ export type DietRecordCreateWithoutUserInput = {
   protein?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   memo?: string | null
-  imageUrl?: string | null
+  imagePath?: string | null
+  thumbnailPath?: string | null
   aiAnalyzed?: boolean
   aiResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -717,7 +740,8 @@ export type DietRecordUncheckedCreateWithoutUserInput = {
   protein?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   memo?: string | null
-  imageUrl?: string | null
+  imagePath?: string | null
+  thumbnailPath?: string | null
   aiAnalyzed?: boolean
   aiResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -766,7 +790,8 @@ export type DietRecordScalarWhereInput = {
   protein?: Prisma.DecimalNullableFilter<"DietRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fat?: Prisma.DecimalNullableFilter<"DietRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   memo?: Prisma.StringNullableFilter<"DietRecord"> | string | null
-  imageUrl?: Prisma.StringNullableFilter<"DietRecord"> | string | null
+  imagePath?: Prisma.StringNullableFilter<"DietRecord"> | string | null
+  thumbnailPath?: Prisma.StringNullableFilter<"DietRecord"> | string | null
   aiAnalyzed?: Prisma.BoolFilter<"DietRecord"> | boolean
   aiResult?: Prisma.JsonNullableFilter<"DietRecord">
   createdAt?: Prisma.DateTimeFilter<"DietRecord"> | Date | string
@@ -784,7 +809,8 @@ export type DietRecordCreateWithoutFeedbacksInput = {
   protein?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   memo?: string | null
-  imageUrl?: string | null
+  imagePath?: string | null
+  thumbnailPath?: string | null
   aiAnalyzed?: boolean
   aiResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -804,7 +830,8 @@ export type DietRecordUncheckedCreateWithoutFeedbacksInput = {
   protein?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   memo?: string | null
-  imageUrl?: string | null
+  imagePath?: string | null
+  thumbnailPath?: string | null
   aiAnalyzed?: boolean
   aiResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -838,7 +865,8 @@ export type DietRecordUpdateWithoutFeedbacksInput = {
   protein?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiAnalyzed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -858,7 +886,8 @@ export type DietRecordUncheckedUpdateWithoutFeedbacksInput = {
   protein?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiAnalyzed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -876,7 +905,8 @@ export type DietRecordCreateManyUserInput = {
   protein?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   memo?: string | null
-  imageUrl?: string | null
+  imagePath?: string | null
+  thumbnailPath?: string | null
   aiAnalyzed?: boolean
   aiResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -894,7 +924,8 @@ export type DietRecordUpdateWithoutUserInput = {
   protein?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiAnalyzed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -913,7 +944,8 @@ export type DietRecordUncheckedUpdateWithoutUserInput = {
   protein?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiAnalyzed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -932,7 +964,8 @@ export type DietRecordUncheckedUpdateManyWithoutUserInput = {
   protein?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiAnalyzed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -982,7 +1015,8 @@ export type DietRecordSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   protein?: boolean
   fat?: boolean
   memo?: boolean
-  imageUrl?: boolean
+  imagePath?: boolean
+  thumbnailPath?: boolean
   aiAnalyzed?: boolean
   aiResult?: boolean
   createdAt?: boolean
@@ -1004,7 +1038,8 @@ export type DietRecordSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   protein?: boolean
   fat?: boolean
   memo?: boolean
-  imageUrl?: boolean
+  imagePath?: boolean
+  thumbnailPath?: boolean
   aiAnalyzed?: boolean
   aiResult?: boolean
   createdAt?: boolean
@@ -1024,7 +1059,8 @@ export type DietRecordSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   protein?: boolean
   fat?: boolean
   memo?: boolean
-  imageUrl?: boolean
+  imagePath?: boolean
+  thumbnailPath?: boolean
   aiAnalyzed?: boolean
   aiResult?: boolean
   createdAt?: boolean
@@ -1044,14 +1080,15 @@ export type DietRecordSelectScalar = {
   protein?: boolean
   fat?: boolean
   memo?: boolean
-  imageUrl?: boolean
+  imagePath?: boolean
+  thumbnailPath?: boolean
   aiAnalyzed?: boolean
   aiResult?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type DietRecordOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "date" | "mealType" | "foodName" | "amount" | "calories" | "carbohydrate" | "protein" | "fat" | "memo" | "imageUrl" | "aiAnalyzed" | "aiResult" | "createdAt" | "updatedAt", ExtArgs["result"]["dietRecord"]>
+export type DietRecordOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "date" | "mealType" | "foodName" | "amount" | "calories" | "carbohydrate" | "protein" | "fat" | "memo" | "imagePath" | "thumbnailPath" | "aiAnalyzed" | "aiResult" | "createdAt" | "updatedAt", ExtArgs["result"]["dietRecord"]>
 export type DietRecordInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   feedbacks?: boolean | Prisma.DietRecord$feedbacksArgs<ExtArgs>
@@ -1082,7 +1119,8 @@ export type $DietRecordPayload<ExtArgs extends runtime.Types.Extensions.Internal
     protein: runtime.Decimal | null
     fat: runtime.Decimal | null
     memo: string | null
-    imageUrl: string | null
+    imagePath: string | null
+    thumbnailPath: string | null
     aiAnalyzed: boolean
     aiResult: runtime.JsonValue | null
     createdAt: Date
@@ -1523,7 +1561,8 @@ export interface DietRecordFieldRefs {
   readonly protein: Prisma.FieldRef<"DietRecord", 'Decimal'>
   readonly fat: Prisma.FieldRef<"DietRecord", 'Decimal'>
   readonly memo: Prisma.FieldRef<"DietRecord", 'String'>
-  readonly imageUrl: Prisma.FieldRef<"DietRecord", 'String'>
+  readonly imagePath: Prisma.FieldRef<"DietRecord", 'String'>
+  readonly thumbnailPath: Prisma.FieldRef<"DietRecord", 'String'>
   readonly aiAnalyzed: Prisma.FieldRef<"DietRecord", 'Boolean'>
   readonly aiResult: Prisma.FieldRef<"DietRecord", 'Json'>
   readonly createdAt: Prisma.FieldRef<"DietRecord", 'DateTime'>

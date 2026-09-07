@@ -1,6 +1,7 @@
 import "server-only";
 
 import { prisma } from "@/lib/prisma";
+import { MEAL_LABEL } from "@/server/diet/diet.service";
 import { createSignedReadUrls } from "@/lib/storage";
 import { JournalStatus, NoticeScope } from "@/generated/prisma/enums";
 import { getCurrentMembership } from "@/server/centers/center.service";
@@ -45,6 +46,16 @@ export type TimelineEntry =
       preview: string;
       authorName: string | null;
       isPt: boolean;
+    }
+  | {
+      kind: "DIET";
+      id: string;
+      date: Date;
+      title: string;
+      preview: string;
+      /** 피드백을 남긴 트레이너. 아직 없으면 null. */
+      authorName: string | null;
+      feedbackCount: number;
     };
 
 function preview(text: string, length = 60) {
@@ -87,7 +98,7 @@ function noticeVisibility(membership: {
 export async function getTimeline(userId: string, limit = 30) {
   const membership = await getCurrentMembership(userId);
 
-  const [journals, notices, sessions] = await Promise.all([
+  const [journals, notices, sessions, diets] = await Promise.all([
     membership
       ? prisma.journal.findMany({
           where: {
@@ -141,6 +152,26 @@ export async function getTimeline(userId: string, limit = 30) {
         },
       },
     }),
+    prisma.dietRecord.findMany({
+      where: { userId },
+      orderBy: [{ date: "desc" }, { createdAt: "desc" }],
+      take: limit,
+      select: {
+        id: true,
+        date: true,
+        mealType: true,
+        foodName: true,
+        memo: true,
+        imagePath: true,
+        feedbacks: {
+          orderBy: { createdAt: "desc" },
+          select: {
+            createdAt: true,
+            trainerMembership: { select: { user: { select: { name: true } } } },
+          },
+        },
+      },
+    }),
   ]);
 
   const entries: TimelineEntry[] = [
@@ -185,6 +216,34 @@ export async function getTimeline(userId: string, limit = 30) {
         isPt,
       };
     }),
+    /*
+      식단과 그 피드백.
+
+      회원이 올린 것도 같은 흐름에 놓아야 알림장이 "트레이너가 쓰는 게시판" 이
+      아니라 양쪽이 오가는 곳이 된다. 피드백을 별도 줄로 만들지 않고 식단 줄에
+      붙이는 이유는, 한 식단에 댓글이 셋 달리면 같은 사진이 네 번 나오기 때문이다.
+
+      피드백이 달렸으면 줄의 날짜를 피드백 시각으로 올린다. 사흘 전 식단에 오늘
+      답이 달렸는데 사흘 전 자리에 그대로 있으면 아무도 못 본다.
+    */
+    ...diets.map((diet): TimelineEntry => {
+      const latest = diet.feedbacks[0];
+      const body = diet.foodName ?? diet.memo;
+
+      return {
+        kind: "DIET",
+        id: diet.id,
+        date: latest ? latest.createdAt : diet.date,
+        title: `${MEAL_LABEL[diet.mealType]} 식단`,
+        preview: body
+          ? preview(body)
+          : diet.imagePath
+            ? "사진만 남겼어요"
+            : "내용 없이 끼니만 남겼어요",
+        authorName: latest?.trainerMembership.user.name ?? null,
+        feedbackCount: diet.feedbacks.length,
+      };
+    }),
   ];
 
   // 고정 공지는 날짜와 무관하게 맨 위. 나머지는 최신순.
@@ -198,7 +257,8 @@ export async function getTimeline(userId: string, limit = 30) {
   return {
     hasCenter: membership !== null,
     unreadCount: entries.filter(
-      (entry) => entry.kind !== "WORKOUT" && entry.unread,
+      (entry) =>
+        entry.kind !== "WORKOUT" && entry.kind !== "DIET" && entry.unread,
     ).length,
     entries: entries.slice(0, limit),
   };

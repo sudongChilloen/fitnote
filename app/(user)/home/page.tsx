@@ -4,6 +4,7 @@ import {
   Dumbbell,
   Flame,
   UserRound,
+  UtensilsCrossed,
   X,
 } from "lucide-react";
 import Link from "next/link";
@@ -26,6 +27,7 @@ import {
   getRecentWorkoutDays,
   getSessionsByDate,
 } from "@/server/workouts/workout.service";
+import { countDietOnDate } from "@/server/diet/diet.service";
 import { getUnreadCounts } from "@/server/journals/journal.service";
 
 import { LogPastWorkoutButton } from "../workouts/log-past-button";
@@ -78,14 +80,21 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
       ? params.day
       : null;
 
-  const [activeSession, workoutDays, daySessions, unread, recentSessions] =
-    await Promise.all([
-      getActiveSession(user.id),
-      getRecentWorkoutDays(user.id),
-      selectedKey ? getSessionsByDate(user.id, selectedKey) : null,
-      getUnreadCounts(user.id),
-      getRecentSessions(user.id, 3),
-    ]);
+  const [
+    activeSession,
+    workoutDays,
+    daySessions,
+    unread,
+    recentSessions,
+    todayDiet,
+  ] = await Promise.all([
+    getActiveSession(user.id),
+    getRecentWorkoutDays(user.id),
+    selectedKey ? getSessionsByDate(user.id, selectedKey) : null,
+    getUnreadCounts(user.id),
+    getRecentSessions(user.id, 3),
+    countDietOnDate(user.id, todayKey),
+  ]);
 
   return (
     <main className="flex flex-col gap-5 px-5 pt-8">
@@ -401,6 +410,30 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
           </ul>
         </section>
       ) : null}
+
+      {/*
+        오늘 식단.
+        식단은 하루 서너 번 짧게 남기는 기록이라 진입이 깊으면 안 올린다. 홈에서
+        한 번에 닿게 두고, 몇 끼를 남겼는지만 말한다. 목표 끼니 수 같은 건 정하지
+        않았다 — 하루 두 끼 먹는 사람에게 "1/3" 은 못 채운 것처럼 보인다.
+      */}
+      <Link
+        href="/diet"
+        className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4"
+      >
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
+          <UtensilsCrossed className="size-5" />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block text-sm font-bold">오늘 식단</span>
+          <span className="block text-xs text-muted-foreground">
+            {todayDiet === 0
+              ? "사진 한 장이면 트레이너가 볼 수 있어요"
+              : `${todayDiet}끼 남겼어요`}
+          </span>
+        </span>
+        <ChevronRight className="size-5 shrink-0 text-muted-foreground" />
+      </Link>
 
       <Link
         href="/exercises"
