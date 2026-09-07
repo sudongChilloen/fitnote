@@ -81,6 +81,10 @@ export const ModelName = {
   BodyRecord: 'BodyRecord',
   Goal: 'Goal',
   Journal: 'Journal',
+  JournalPhoto: 'JournalPhoto',
+  JournalComment: 'JournalComment',
+  Notice: 'Notice',
+  NoticeRead: 'NoticeRead',
   Notification: 'Notification',
   AiAnalysis: 'AiAnalysis'
 } as const
@@ -167,6 +171,7 @@ export const CenterMembershipScalarFieldEnum = {
   role: 'role',
   status: 'status',
   assignedTrainerMembershipId: 'assignedTrainerMembershipId',
+  joinedViaInvitationId: 'joinedViaInvitationId',
   joinedAt: 'joinedAt',
   leftAt: 'leftAt'
 } as const
@@ -180,8 +185,11 @@ export const CenterInvitationScalarFieldEnum = {
   email: 'email',
   code: 'code',
   role: 'role',
+  createdByMembershipId: 'createdByMembershipId',
+  maxUses: 'maxUses',
+  usedCount: 'usedCount',
   expiresAt: 'expiresAt',
-  acceptedAt: 'acceptedAt',
+  revokedAt: 'revokedAt',
   createdAt: 'createdAt'
 } as const
 
@@ -355,6 +363,7 @@ export const WorkoutSessionScalarFieldEnum = {
   durationSec: 'durationSec',
   status: 'status',
   entryMode: 'entryMode',
+  ptSessionId: 'ptSessionId',
   recordedByUserId: 'recordedByUserId',
   memo: 'memo',
   createdAt: 'createdAt',
@@ -369,8 +378,6 @@ export const WorkoutRecordScalarFieldEnum = {
   sessionId: 'sessionId',
   exerciseId: 'exerciseId',
   userId: 'userId',
-  ptSessionId: 'ptSessionId',
-  recordType: 'recordType',
   orderIndex: 'orderIndex',
   note: 'note',
   totalVolume: 'totalVolume',
@@ -558,11 +565,63 @@ export const JournalScalarFieldEnum = {
   caution: 'caution',
   nextGoal: 'nextGoal',
   publishedAt: 'publishedAt',
+  memberReadAt: 'memberReadAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type JournalScalarFieldEnum = (typeof JournalScalarFieldEnum)[keyof typeof JournalScalarFieldEnum]
+
+
+export const JournalPhotoScalarFieldEnum = {
+  id: 'id',
+  journalId: 'journalId',
+  url: 'url',
+  thumbnailUrl: 'thumbnailUrl',
+  orderIndex: 'orderIndex',
+  createdAt: 'createdAt'
+} as const
+
+export type JournalPhotoScalarFieldEnum = (typeof JournalPhotoScalarFieldEnum)[keyof typeof JournalPhotoScalarFieldEnum]
+
+
+export const JournalCommentScalarFieldEnum = {
+  id: 'id',
+  journalId: 'journalId',
+  authorMembershipId: 'authorMembershipId',
+  content: 'content',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+} as const
+
+export type JournalCommentScalarFieldEnum = (typeof JournalCommentScalarFieldEnum)[keyof typeof JournalCommentScalarFieldEnum]
+
+
+export const NoticeScalarFieldEnum = {
+  id: 'id',
+  centerId: 'centerId',
+  authorMembershipId: 'authorMembershipId',
+  scope: 'scope',
+  title: 'title',
+  content: 'content',
+  pinnedAt: 'pinnedAt',
+  publishedAt: 'publishedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NoticeScalarFieldEnum = (typeof NoticeScalarFieldEnum)[keyof typeof NoticeScalarFieldEnum]
+
+
+export const NoticeReadScalarFieldEnum = {
+  id: 'id',
+  noticeId: 'noticeId',
+  membershipId: 'membershipId',
+  readAt: 'readAt'
+} as const
+
+export type NoticeReadScalarFieldEnum = (typeof NoticeReadScalarFieldEnum)[keyof typeof NoticeReadScalarFieldEnum]
 
 
 export const NotificationScalarFieldEnum = {

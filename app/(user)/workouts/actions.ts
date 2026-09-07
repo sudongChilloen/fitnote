@@ -96,7 +96,9 @@ export async function finishWorkout(sessionId: string) {
 
   revalidatePath("/home");
   revalidatePath("/calendar");
-  redirect("/home");
+  revalidatePath(`/workouts/${sessionId}`);
+  // 끝내자마자 홈으로 튕기면 방금 한 운동이 어땠는지 볼 곳이 없다.
+  redirect(`/workouts/${sessionId}/summary`);
 }
 
 export type ActionResult = { error: string | null };

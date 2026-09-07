@@ -74,12 +74,12 @@ export const PTSessionStatus = {
 export type PTSessionStatus = (typeof PTSessionStatus)[keyof typeof PTSessionStatus]
 
 
-export const WorkoutRecordType = {
-  PERSONAL: 'PERSONAL',
-  PT: 'PT'
+export const NoticeScope = {
+  CENTER: 'CENTER',
+  TRAINER_MEMBERS: 'TRAINER_MEMBERS'
 } as const
 
-export type WorkoutRecordType = (typeof WorkoutRecordType)[keyof typeof WorkoutRecordType]
+export type NoticeScope = (typeof NoticeScope)[keyof typeof NoticeScope]
 
 
 export const WorkoutEntryMode = {
