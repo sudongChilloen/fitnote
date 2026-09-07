@@ -60,6 +60,9 @@ const sessionInclude = {
     orderBy: { orderIndex: "asc" },
     include: recordInclude,
   },
+  // PT 수업으로 한 운동인지, 누가 대신 적어 줬는지.
+  // 세션 한 줄에 딸린 값이라 목록에서 함께 가져와도 비용이 없다.
+  recordedBy: { select: { name: true } },
 } satisfies Prisma.WorkoutSessionInclude;
 
 type SetPayload = Prisma.WorkoutSetGetPayload<{ select: typeof setSelect }>;
@@ -105,6 +108,15 @@ function toSessionDto(session: SessionPayload) {
     endedAt: session.endedAt,
     durationSec: session.durationSec,
     entryMode: session.entryMode,
+    /**
+     * PT 수업으로 한 운동인지.
+     *
+     * 개인 기록으로 복사하지 않고 표시만 한다. 복사하면 같은 운동이 두 번
+     * 남아서 이번 주 몇 번 했는지부터 어긋난다.
+     */
+    isPt: session.ptSessionId !== null,
+    /** PT 라면 대신 적어 준 트레이너 이름. */
+    recordedByName: session.recordedBy?.name ?? null,
     // 진행중 세션의 경과 시간. 서버에서 계산해 두면 화면이 첫 렌더부터
     // 올바른 값을 그릴 수 있고, 컴포넌트가 렌더 중 Date.now() 를 부르지 않아도 된다.
     //
@@ -267,7 +279,9 @@ export async function finishSession(
         ? null
         : Math.max(
             0,
-            Math.round((endedAt.getTime() - session.startedAt.getTime()) / 1000),
+            Math.round(
+              (endedAt.getTime() - session.startedAt.getTime()) / 1000,
+            ),
           ),
     },
     include: sessionInclude,
@@ -418,6 +432,50 @@ export async function listSessions(
 // ---------------------------------------------------------------------------
 
 /**
+ * 홈에 띄울 최근 운동 몇 개.
+ *
+ * listSessions 는 세트까지 전부 끌어오므로 홈에 쓰기엔 무겁다. 홈에서 필요한 건
+ * "언제 · 무슨 운동 · 몇 세트" 뿐이라 이름과 개수만 센다.
+ */
+export async function getRecentSessions(userId: string, limit = 3) {
+  const sessions = await prisma.workoutSession.findMany({
+    where: {
+      userId,
+      status: WorkoutSessionStatus.COMPLETED,
+    },
+    orderBy: { startedAt: "desc" },
+    take: limit,
+    select: {
+      id: true,
+      startedAt: true,
+      durationSec: true,
+      ptSessionId: true,
+      recordedBy: { select: { name: true } },
+      records: {
+        orderBy: { orderIndex: "asc" },
+        select: {
+          exercise: { select: { name: true } },
+          _count: { select: { sets: true } },
+        },
+      },
+    },
+  });
+
+  return sessions.map((session) => ({
+    id: session.id,
+    startedAt: session.startedAt,
+    durationSec: session.durationSec,
+    isPt: session.ptSessionId !== null,
+    recordedByName: session.recordedBy?.name ?? null,
+    exerciseNames: session.records.map((record) => record.exercise.name),
+    totalSets: session.records.reduce(
+      (sum, record) => sum + record._count.sets,
+      0,
+    ),
+  }));
+}
+
+/**
  * 최근 n 일간 운동한 날짜 목록. 홈 화면의 주간 스트립에 쓴다.
  *
  * 세트까지 끌어오면 홈을 열 때마다 불필요하게 무거워지므로
@@ -459,21 +517,28 @@ export async function getMonthSummary(userId: string, monthKey: string) {
     orderBy: { startedAt: "asc" },
     select: {
       startedAt: true,
+      ptSessionId: true,
       records: { select: { _count: { select: { sets: true } } } },
     },
   });
 
-  const byDate = new Map<string, { sessions: number; sets: number }>();
+  const byDate = new Map<
+    string,
+    { sessions: number; sets: number; hasPt: boolean }
+  >();
 
   for (const session of sessions) {
     const key = toKstDateKey(session.startedAt);
-    const entry = byDate.get(key) ?? { sessions: 0, sets: 0 };
+    const entry = byDate.get(key) ?? { sessions: 0, sets: 0, hasPt: false };
 
     entry.sessions += 1;
     entry.sets += session.records.reduce(
       (sum, record) => sum + record._count.sets,
       0,
     );
+    // 하루에 PT 와 개인 운동을 둘 다 했으면 PT 쪽으로 센다.
+    // 달력 칸 하나에 점을 두 개 찍으면 무슨 뜻인지 알 수 없다.
+    entry.hasPt = entry.hasPt || session.ptSessionId !== null;
 
     byDate.set(key, entry);
   }
@@ -715,7 +780,10 @@ export async function addRecords(
     })),
   });
 
-  return { added: ordered.length, skipped: exerciseIds.length - ordered.length };
+  return {
+    added: ordered.length,
+    skipped: exerciseIds.length - ordered.length,
+  };
 }
 
 export async function deleteRecord(userId: string, recordId: string) {
@@ -746,7 +814,11 @@ export interface SetInput {
   note?: string | null;
 }
 
-export async function addSet(userId: string, recordId: string, input: SetInput) {
+export async function addSet(
+  userId: string,
+  recordId: string,
+  input: SetInput,
+) {
   const record = await prisma.workoutRecord.findFirst({
     where: { id: recordId, userId },
     select: { id: true, session: { select: { status: true } } },
@@ -901,7 +973,9 @@ export async function getSessionSummary(userId: string, sessionId: string) {
   if (!session) return null;
 
   const dto = toSessionDto(session);
-  const exerciseIds = [...new Set(dto.records.map((record) => record.exercise.id))];
+  const exerciseIds = [
+    ...new Set(dto.records.map((record) => record.exercise.id)),
+  ];
 
   /**
    * 이 세션에 나온 운동들의 과거 최고 기록.
@@ -997,7 +1071,8 @@ export async function getSessionSummary(userId: string, sessionId: string) {
     records,
     countedSets: records.reduce((sum, record) => sum + record.countedSets, 0),
     skippedSets: records.reduce((sum, record) => sum + record.skippedSets, 0),
-    prCount: records.filter((record) => record.weightPr || record.oneRmPr).length,
+    prCount: records.filter((record) => record.weightPr || record.oneRmPr)
+      .length,
   };
 }
 

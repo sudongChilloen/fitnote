@@ -205,6 +205,43 @@ export async function getTimeline(userId: string, limit = 30) {
 }
 
 /**
+ * 홈에 띄울 "새로운 소식" 개수.
+ *
+ * getTimeline 은 알림장 · 공지 · 운동을 30개씩 끌어와 섞는다. 홈에서 필요한 건
+ * 숫자 하나뿐이라 세는 것으로 끝낸다.
+ *
+ * 안 읽은 알림장과 공지를 따로 돌려준다. 합쳐서 "3" 이라고만 하면 눌러서 열기
+ * 전까지 뭘 봐야 하는지 모른다.
+ */
+export async function getUnreadCounts(userId: string) {
+  const membership = await getCurrentMembership(userId);
+
+  if (!membership) {
+    return { journals: 0, notices: 0, total: 0 };
+  }
+
+  const [journals, notices] = await Promise.all([
+    prisma.journal.count({
+      where: {
+        memberMembershipId: membership.id,
+        status: JournalStatus.PUBLISHED,
+        memberReadAt: null,
+      },
+    }),
+    prisma.notice.count({
+      where: {
+        ...noticeVisibility(membership),
+        // 읽음 표시가 하나도 없는 것만. 공지는 여러 사람이 보므로
+        // "내 것" 만 걸러야 한다.
+        reads: { none: { membershipId: membership.id } },
+      },
+    }),
+  ]);
+
+  return { journals, notices, total: journals + notices };
+}
+
+/**
  * 알림장 상세.
  *
  * 여는 순간 읽음으로 표시한다. 목록에서 배지를 지우려면 여기 말고는 걸 곳이 없다.

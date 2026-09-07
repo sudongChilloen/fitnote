@@ -1,4 +1,11 @@
-import { ChevronRight, Dumbbell, Flame, X } from "lucide-react";
+import {
+  Bell,
+  ChevronRight,
+  Dumbbell,
+  Flame,
+  UserRound,
+  X,
+} from "lucide-react";
 import Link from "next/link";
 
 import { logout } from "@/app/actions/auth";
@@ -15,9 +22,11 @@ import {
 import { cn } from "@/lib/utils";
 import {
   getActiveSession,
+  getRecentSessions,
   getRecentWorkoutDays,
   getSessionsByDate,
 } from "@/server/workouts/workout.service";
+import { getUnreadCounts } from "@/server/journals/journal.service";
 
 import { LogPastWorkoutButton } from "../workouts/log-past-button";
 import { StartWorkoutButton } from "../workouts/start-workout-button";
@@ -69,11 +78,14 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
       ? params.day
       : null;
 
-  const [activeSession, workoutDays, daySessions] = await Promise.all([
-    getActiveSession(user.id),
-    getRecentWorkoutDays(user.id),
-    selectedKey ? getSessionsByDate(user.id, selectedKey) : null,
-  ]);
+  const [activeSession, workoutDays, daySessions, unread, recentSessions] =
+    await Promise.all([
+      getActiveSession(user.id),
+      getRecentWorkoutDays(user.id),
+      selectedKey ? getSessionsByDate(user.id, selectedKey) : null,
+      getUnreadCounts(user.id),
+      getRecentSessions(user.id, 3),
+    ]);
 
   return (
     <main className="flex flex-col gap-5 px-5 pt-8">
@@ -134,6 +146,39 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
       )}
 
       <LogPastWorkoutButton />
+
+      {/*
+        새로운 소식.
+        읽을 게 없으면 아예 안 그린다. "새 소식 0개" 는 알려 주는 게 아니라
+        자리만 차지한다. 알림장 · 공지를 나눠 적는 이유는 눌러 열기 전에
+        무엇이 왔는지 알려주기 위해서다.
+      */}
+      {unread.total > 0 ? (
+        <Link
+          href="/journal"
+          className="flex items-center gap-3 rounded-2xl border border-brand/40 bg-accent p-4"
+        >
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand text-brand-foreground">
+            <Bell className="size-5" />
+          </span>
+
+          <span className="min-w-0 flex-1">
+            <span className="block text-sm font-bold text-accent-foreground">
+              새로운 소식 {unread.total}개
+            </span>
+            <span className="block text-xs text-accent-foreground/80">
+              {[
+                unread.journals > 0 ? `알림장 ${unread.journals}개` : null,
+                unread.notices > 0 ? `공지 ${unread.notices}개` : null,
+              ]
+                .filter(Boolean)
+                .join(" · ")}
+            </span>
+          </span>
+
+          <ChevronRight className="size-5 shrink-0 text-brand-strong" />
+        </Link>
+      ) : null}
 
       <section className="rounded-2xl border border-border bg-card p-5">
         <div className="mb-4 flex items-center gap-2">
@@ -217,14 +262,21 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
                       className="block rounded-xl bg-secondary/60 p-3"
                     >
                       <span className="flex items-baseline justify-between gap-2">
-                        <span className="text-sm font-bold">
-                          {session.records.length > 0
-                            ? `${session.records[0].exercise.name}${
-                                session.records.length > 1
-                                  ? ` 외 ${session.records.length - 1}개`
-                                  : ""
-                              }`
-                            : "기록한 운동이 없어요"}
+                        <span className="flex min-w-0 items-baseline gap-1.5">
+                          {session.isPt ? (
+                            <span className="shrink-0 rounded-full bg-accent px-2 py-0.5 text-[0.65rem] font-bold text-brand-strong">
+                              PT
+                            </span>
+                          ) : null}
+                          <span className="truncate text-sm font-bold">
+                            {session.records.length > 0
+                              ? `${session.records[0].exercise.name}${
+                                  session.records.length > 1
+                                    ? ` 외 ${session.records.length - 1}개`
+                                    : ""
+                                }`
+                              : "기록한 운동이 없어요"}
+                          </span>
                         </span>
                         <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
                           {session.totalSets}세트
@@ -279,6 +331,76 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
           </div>
         ) : null}
       </section>
+
+      {/*
+        최근 운동.
+        주간 스트립은 "며칠 했는가" 만 말한다. 무엇을 했는지는 날짜를 눌러야
+        나오는데, 지난 운동을 이어서 하려는 사람은 대개 날짜를 기억하지 못한다.
+      */}
+      {recentSessions.length > 0 ? (
+        <section className="flex flex-col gap-2">
+          <h2 className="text-sm font-bold">최근 운동</h2>
+
+          <ul className="flex flex-col gap-2">
+            {recentSessions.map((session) => (
+              <li key={session.id}>
+                <Link
+                  href={`/workouts/${session.id}`}
+                  className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4"
+                >
+                  <span
+                    className={cn(
+                      "flex size-10 shrink-0 items-center justify-center rounded-xl",
+                      session.isPt
+                        ? "bg-brand text-brand-foreground"
+                        : "bg-secondary text-muted-foreground",
+                    )}
+                  >
+                    {session.isPt ? (
+                      <UserRound className="size-5" />
+                    ) : (
+                      <Dumbbell className="size-5" />
+                    )}
+                  </span>
+
+                  <span className="min-w-0 flex-1">
+                    <span className="flex items-center gap-1.5">
+                      {/* PT 인지 개인 운동인지는 색이 아니라 글자로도 말한다. */}
+                      {session.isPt ? (
+                        <span className="shrink-0 rounded-full bg-accent px-2 py-0.5 text-[0.65rem] font-bold text-brand-strong">
+                          PT
+                        </span>
+                      ) : null}
+                      <span className="truncate text-sm font-bold">
+                        {session.exerciseNames.length > 0
+                          ? `${session.exerciseNames[0]}${
+                              session.exerciseNames.length > 1
+                                ? ` 외 ${session.exerciseNames.length - 1}개`
+                                : ""
+                            }`
+                          : "기록한 운동이 없어요"}
+                      </span>
+                    </span>
+
+                    <span className="block text-xs text-muted-foreground tabular-nums">
+                      {formatKstDateLabel(session.startedAt)} ·{" "}
+                      {session.totalSets}세트
+                      {session.durationSec
+                        ? ` · ${formatDuration(session.durationSec)}`
+                        : ""}
+                      {session.isPt && session.recordedByName
+                        ? ` · ${session.recordedByName} 트레이너`
+                        : ""}
+                    </span>
+                  </span>
+
+                  <ChevronRight className="size-5 shrink-0 text-muted-foreground" />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       <Link
         href="/exercises"
