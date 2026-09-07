@@ -52,7 +52,7 @@ export default async function ExerciseDetailPage({
   }
 
   return (
-    <main className="mx-auto flex w-full max-w-2xl flex-col gap-5 px-5 py-8">
+    <main className="flex flex-col gap-5 px-5 pt-6">
       <Link
         href="/exercises"
         className="text-sm font-semibold text-muted-foreground hover:text-foreground"

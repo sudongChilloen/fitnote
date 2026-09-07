@@ -42,6 +42,8 @@ export type WorkoutSessionMinAggregateOutputType = {
   endedAt: Date | null
   durationSec: number | null
   status: $Enums.WorkoutSessionStatus | null
+  entryMode: $Enums.WorkoutEntryMode | null
+  recordedByUserId: string | null
   memo: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -55,6 +57,8 @@ export type WorkoutSessionMaxAggregateOutputType = {
   endedAt: Date | null
   durationSec: number | null
   status: $Enums.WorkoutSessionStatus | null
+  entryMode: $Enums.WorkoutEntryMode | null
+  recordedByUserId: string | null
   memo: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -68,6 +72,8 @@ export type WorkoutSessionCountAggregateOutputType = {
   endedAt: number
   durationSec: number
   status: number
+  entryMode: number
+  recordedByUserId: number
   memo: number
   createdAt: number
   updatedAt: number
@@ -91,6 +97,8 @@ export type WorkoutSessionMinAggregateInputType = {
   endedAt?: true
   durationSec?: true
   status?: true
+  entryMode?: true
+  recordedByUserId?: true
   memo?: true
   createdAt?: true
   updatedAt?: true
@@ -104,6 +112,8 @@ export type WorkoutSessionMaxAggregateInputType = {
   endedAt?: true
   durationSec?: true
   status?: true
+  entryMode?: true
+  recordedByUserId?: true
   memo?: true
   createdAt?: true
   updatedAt?: true
@@ -117,6 +127,8 @@ export type WorkoutSessionCountAggregateInputType = {
   endedAt?: true
   durationSec?: true
   status?: true
+  entryMode?: true
+  recordedByUserId?: true
   memo?: true
   createdAt?: true
   updatedAt?: true
@@ -217,6 +229,8 @@ export type WorkoutSessionGroupByOutputType = {
   endedAt: Date | null
   durationSec: number | null
   status: $Enums.WorkoutSessionStatus
+  entryMode: $Enums.WorkoutEntryMode
+  recordedByUserId: string | null
   memo: string | null
   createdAt: Date
   updatedAt: Date
@@ -253,11 +267,14 @@ export type WorkoutSessionWhereInput = {
   endedAt?: Prisma.DateTimeNullableFilter<"WorkoutSession"> | Date | string | null
   durationSec?: Prisma.IntNullableFilter<"WorkoutSession"> | number | null
   status?: Prisma.EnumWorkoutSessionStatusFilter<"WorkoutSession"> | $Enums.WorkoutSessionStatus
+  entryMode?: Prisma.EnumWorkoutEntryModeFilter<"WorkoutSession"> | $Enums.WorkoutEntryMode
+  recordedByUserId?: Prisma.StringNullableFilter<"WorkoutSession"> | string | null
   memo?: Prisma.StringNullableFilter<"WorkoutSession"> | string | null
   createdAt?: Prisma.DateTimeFilter<"WorkoutSession"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"WorkoutSession"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   routine?: Prisma.XOR<Prisma.RoutineNullableScalarRelationFilter, Prisma.RoutineWhereInput> | null
+  recordedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   records?: Prisma.WorkoutRecordListRelationFilter
 }
 
@@ -269,11 +286,14 @@ export type WorkoutSessionOrderByWithRelationInput = {
   endedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   durationSec?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  entryMode?: Prisma.SortOrder
+  recordedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   memo?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   routine?: Prisma.RoutineOrderByWithRelationInput
+  recordedBy?: Prisma.UserOrderByWithRelationInput
   records?: Prisma.WorkoutRecordOrderByRelationAggregateInput
 }
 
@@ -288,11 +308,14 @@ export type WorkoutSessionWhereUniqueInput = Prisma.AtLeast<{
   endedAt?: Prisma.DateTimeNullableFilter<"WorkoutSession"> | Date | string | null
   durationSec?: Prisma.IntNullableFilter<"WorkoutSession"> | number | null
   status?: Prisma.EnumWorkoutSessionStatusFilter<"WorkoutSession"> | $Enums.WorkoutSessionStatus
+  entryMode?: Prisma.EnumWorkoutEntryModeFilter<"WorkoutSession"> | $Enums.WorkoutEntryMode
+  recordedByUserId?: Prisma.StringNullableFilter<"WorkoutSession"> | string | null
   memo?: Prisma.StringNullableFilter<"WorkoutSession"> | string | null
   createdAt?: Prisma.DateTimeFilter<"WorkoutSession"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"WorkoutSession"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   routine?: Prisma.XOR<Prisma.RoutineNullableScalarRelationFilter, Prisma.RoutineWhereInput> | null
+  recordedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   records?: Prisma.WorkoutRecordListRelationFilter
 }, "id">
 
@@ -304,6 +327,8 @@ export type WorkoutSessionOrderByWithAggregationInput = {
   endedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   durationSec?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  entryMode?: Prisma.SortOrder
+  recordedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   memo?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -325,6 +350,8 @@ export type WorkoutSessionScalarWhereWithAggregatesInput = {
   endedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"WorkoutSession"> | Date | string | null
   durationSec?: Prisma.IntNullableWithAggregatesFilter<"WorkoutSession"> | number | null
   status?: Prisma.EnumWorkoutSessionStatusWithAggregatesFilter<"WorkoutSession"> | $Enums.WorkoutSessionStatus
+  entryMode?: Prisma.EnumWorkoutEntryModeWithAggregatesFilter<"WorkoutSession"> | $Enums.WorkoutEntryMode
+  recordedByUserId?: Prisma.StringNullableWithAggregatesFilter<"WorkoutSession"> | string | null
   memo?: Prisma.StringNullableWithAggregatesFilter<"WorkoutSession"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"WorkoutSession"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"WorkoutSession"> | Date | string
@@ -336,11 +363,13 @@ export type WorkoutSessionCreateInput = {
   endedAt?: Date | string | null
   durationSec?: number | null
   status?: $Enums.WorkoutSessionStatus
+  entryMode?: $Enums.WorkoutEntryMode
   memo?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutWorkoutSessionsInput
   routine?: Prisma.RoutineCreateNestedOneWithoutWorkoutSessionsInput
+  recordedBy?: Prisma.UserCreateNestedOneWithoutRecordedWorkoutSessionsInput
   records?: Prisma.WorkoutRecordCreateNestedManyWithoutSessionInput
 }
 
@@ -352,6 +381,8 @@ export type WorkoutSessionUncheckedCreateInput = {
   endedAt?: Date | string | null
   durationSec?: number | null
   status?: $Enums.WorkoutSessionStatus
+  entryMode?: $Enums.WorkoutEntryMode
+  recordedByUserId?: string | null
   memo?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -364,11 +395,13 @@ export type WorkoutSessionUpdateInput = {
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkoutSessionStatusFieldUpdateOperationsInput | $Enums.WorkoutSessionStatus
+  entryMode?: Prisma.EnumWorkoutEntryModeFieldUpdateOperationsInput | $Enums.WorkoutEntryMode
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutWorkoutSessionsNestedInput
   routine?: Prisma.RoutineUpdateOneWithoutWorkoutSessionsNestedInput
+  recordedBy?: Prisma.UserUpdateOneWithoutRecordedWorkoutSessionsNestedInput
   records?: Prisma.WorkoutRecordUpdateManyWithoutSessionNestedInput
 }
 
@@ -380,6 +413,8 @@ export type WorkoutSessionUncheckedUpdateInput = {
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkoutSessionStatusFieldUpdateOperationsInput | $Enums.WorkoutSessionStatus
+  entryMode?: Prisma.EnumWorkoutEntryModeFieldUpdateOperationsInput | $Enums.WorkoutEntryMode
+  recordedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -394,6 +429,8 @@ export type WorkoutSessionCreateManyInput = {
   endedAt?: Date | string | null
   durationSec?: number | null
   status?: $Enums.WorkoutSessionStatus
+  entryMode?: $Enums.WorkoutEntryMode
+  recordedByUserId?: string | null
   memo?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -405,6 +442,7 @@ export type WorkoutSessionUpdateManyMutationInput = {
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkoutSessionStatusFieldUpdateOperationsInput | $Enums.WorkoutSessionStatus
+  entryMode?: Prisma.EnumWorkoutEntryModeFieldUpdateOperationsInput | $Enums.WorkoutEntryMode
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -418,6 +456,8 @@ export type WorkoutSessionUncheckedUpdateManyInput = {
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkoutSessionStatusFieldUpdateOperationsInput | $Enums.WorkoutSessionStatus
+  entryMode?: Prisma.EnumWorkoutEntryModeFieldUpdateOperationsInput | $Enums.WorkoutEntryMode
+  recordedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -441,6 +481,8 @@ export type WorkoutSessionCountOrderByAggregateInput = {
   endedAt?: Prisma.SortOrder
   durationSec?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  entryMode?: Prisma.SortOrder
+  recordedByUserId?: Prisma.SortOrder
   memo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -458,6 +500,8 @@ export type WorkoutSessionMaxOrderByAggregateInput = {
   endedAt?: Prisma.SortOrder
   durationSec?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  entryMode?: Prisma.SortOrder
+  recordedByUserId?: Prisma.SortOrder
   memo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -471,6 +515,8 @@ export type WorkoutSessionMinOrderByAggregateInput = {
   endedAt?: Prisma.SortOrder
   durationSec?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  entryMode?: Prisma.SortOrder
+  recordedByUserId?: Prisma.SortOrder
   memo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -492,10 +538,24 @@ export type WorkoutSessionCreateNestedManyWithoutUserInput = {
   connect?: Prisma.WorkoutSessionWhereUniqueInput | Prisma.WorkoutSessionWhereUniqueInput[]
 }
 
+export type WorkoutSessionCreateNestedManyWithoutRecordedByInput = {
+  create?: Prisma.XOR<Prisma.WorkoutSessionCreateWithoutRecordedByInput, Prisma.WorkoutSessionUncheckedCreateWithoutRecordedByInput> | Prisma.WorkoutSessionCreateWithoutRecordedByInput[] | Prisma.WorkoutSessionUncheckedCreateWithoutRecordedByInput[]
+  connectOrCreate?: Prisma.WorkoutSessionCreateOrConnectWithoutRecordedByInput | Prisma.WorkoutSessionCreateOrConnectWithoutRecordedByInput[]
+  createMany?: Prisma.WorkoutSessionCreateManyRecordedByInputEnvelope
+  connect?: Prisma.WorkoutSessionWhereUniqueInput | Prisma.WorkoutSessionWhereUniqueInput[]
+}
+
 export type WorkoutSessionUncheckedCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.WorkoutSessionCreateWithoutUserInput, Prisma.WorkoutSessionUncheckedCreateWithoutUserInput> | Prisma.WorkoutSessionCreateWithoutUserInput[] | Prisma.WorkoutSessionUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.WorkoutSessionCreateOrConnectWithoutUserInput | Prisma.WorkoutSessionCreateOrConnectWithoutUserInput[]
   createMany?: Prisma.WorkoutSessionCreateManyUserInputEnvelope
+  connect?: Prisma.WorkoutSessionWhereUniqueInput | Prisma.WorkoutSessionWhereUniqueInput[]
+}
+
+export type WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput = {
+  create?: Prisma.XOR<Prisma.WorkoutSessionCreateWithoutRecordedByInput, Prisma.WorkoutSessionUncheckedCreateWithoutRecordedByInput> | Prisma.WorkoutSessionCreateWithoutRecordedByInput[] | Prisma.WorkoutSessionUncheckedCreateWithoutRecordedByInput[]
+  connectOrCreate?: Prisma.WorkoutSessionCreateOrConnectWithoutRecordedByInput | Prisma.WorkoutSessionCreateOrConnectWithoutRecordedByInput[]
+  createMany?: Prisma.WorkoutSessionCreateManyRecordedByInputEnvelope
   connect?: Prisma.WorkoutSessionWhereUniqueInput | Prisma.WorkoutSessionWhereUniqueInput[]
 }
 
@@ -513,6 +573,20 @@ export type WorkoutSessionUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.WorkoutSessionScalarWhereInput | Prisma.WorkoutSessionScalarWhereInput[]
 }
 
+export type WorkoutSessionUpdateManyWithoutRecordedByNestedInput = {
+  create?: Prisma.XOR<Prisma.WorkoutSessionCreateWithoutRecordedByInput, Prisma.WorkoutSessionUncheckedCreateWithoutRecordedByInput> | Prisma.WorkoutSessionCreateWithoutRecordedByInput[] | Prisma.WorkoutSessionUncheckedCreateWithoutRecordedByInput[]
+  connectOrCreate?: Prisma.WorkoutSessionCreateOrConnectWithoutRecordedByInput | Prisma.WorkoutSessionCreateOrConnectWithoutRecordedByInput[]
+  upsert?: Prisma.WorkoutSessionUpsertWithWhereUniqueWithoutRecordedByInput | Prisma.WorkoutSessionUpsertWithWhereUniqueWithoutRecordedByInput[]
+  createMany?: Prisma.WorkoutSessionCreateManyRecordedByInputEnvelope
+  set?: Prisma.WorkoutSessionWhereUniqueInput | Prisma.WorkoutSessionWhereUniqueInput[]
+  disconnect?: Prisma.WorkoutSessionWhereUniqueInput | Prisma.WorkoutSessionWhereUniqueInput[]
+  delete?: Prisma.WorkoutSessionWhereUniqueInput | Prisma.WorkoutSessionWhereUniqueInput[]
+  connect?: Prisma.WorkoutSessionWhereUniqueInput | Prisma.WorkoutSessionWhereUniqueInput[]
+  update?: Prisma.WorkoutSessionUpdateWithWhereUniqueWithoutRecordedByInput | Prisma.WorkoutSessionUpdateWithWhereUniqueWithoutRecordedByInput[]
+  updateMany?: Prisma.WorkoutSessionUpdateManyWithWhereWithoutRecordedByInput | Prisma.WorkoutSessionUpdateManyWithWhereWithoutRecordedByInput[]
+  deleteMany?: Prisma.WorkoutSessionScalarWhereInput | Prisma.WorkoutSessionScalarWhereInput[]
+}
+
 export type WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput = {
   create?: Prisma.XOR<Prisma.WorkoutSessionCreateWithoutUserInput, Prisma.WorkoutSessionUncheckedCreateWithoutUserInput> | Prisma.WorkoutSessionCreateWithoutUserInput[] | Prisma.WorkoutSessionUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.WorkoutSessionCreateOrConnectWithoutUserInput | Prisma.WorkoutSessionCreateOrConnectWithoutUserInput[]
@@ -524,6 +598,20 @@ export type WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput = {
   connect?: Prisma.WorkoutSessionWhereUniqueInput | Prisma.WorkoutSessionWhereUniqueInput[]
   update?: Prisma.WorkoutSessionUpdateWithWhereUniqueWithoutUserInput | Prisma.WorkoutSessionUpdateWithWhereUniqueWithoutUserInput[]
   updateMany?: Prisma.WorkoutSessionUpdateManyWithWhereWithoutUserInput | Prisma.WorkoutSessionUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.WorkoutSessionScalarWhereInput | Prisma.WorkoutSessionScalarWhereInput[]
+}
+
+export type WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput = {
+  create?: Prisma.XOR<Prisma.WorkoutSessionCreateWithoutRecordedByInput, Prisma.WorkoutSessionUncheckedCreateWithoutRecordedByInput> | Prisma.WorkoutSessionCreateWithoutRecordedByInput[] | Prisma.WorkoutSessionUncheckedCreateWithoutRecordedByInput[]
+  connectOrCreate?: Prisma.WorkoutSessionCreateOrConnectWithoutRecordedByInput | Prisma.WorkoutSessionCreateOrConnectWithoutRecordedByInput[]
+  upsert?: Prisma.WorkoutSessionUpsertWithWhereUniqueWithoutRecordedByInput | Prisma.WorkoutSessionUpsertWithWhereUniqueWithoutRecordedByInput[]
+  createMany?: Prisma.WorkoutSessionCreateManyRecordedByInputEnvelope
+  set?: Prisma.WorkoutSessionWhereUniqueInput | Prisma.WorkoutSessionWhereUniqueInput[]
+  disconnect?: Prisma.WorkoutSessionWhereUniqueInput | Prisma.WorkoutSessionWhereUniqueInput[]
+  delete?: Prisma.WorkoutSessionWhereUniqueInput | Prisma.WorkoutSessionWhereUniqueInput[]
+  connect?: Prisma.WorkoutSessionWhereUniqueInput | Prisma.WorkoutSessionWhereUniqueInput[]
+  update?: Prisma.WorkoutSessionUpdateWithWhereUniqueWithoutRecordedByInput | Prisma.WorkoutSessionUpdateWithWhereUniqueWithoutRecordedByInput[]
+  updateMany?: Prisma.WorkoutSessionUpdateManyWithWhereWithoutRecordedByInput | Prisma.WorkoutSessionUpdateManyWithWhereWithoutRecordedByInput[]
   deleteMany?: Prisma.WorkoutSessionScalarWhereInput | Prisma.WorkoutSessionScalarWhereInput[]
 }
 
@@ -573,6 +661,10 @@ export type EnumWorkoutSessionStatusFieldUpdateOperationsInput = {
   set?: $Enums.WorkoutSessionStatus
 }
 
+export type EnumWorkoutEntryModeFieldUpdateOperationsInput = {
+  set?: $Enums.WorkoutEntryMode
+}
+
 export type WorkoutSessionCreateNestedOneWithoutRecordsInput = {
   create?: Prisma.XOR<Prisma.WorkoutSessionCreateWithoutRecordsInput, Prisma.WorkoutSessionUncheckedCreateWithoutRecordsInput>
   connectOrCreate?: Prisma.WorkoutSessionCreateOrConnectWithoutRecordsInput
@@ -593,10 +685,12 @@ export type WorkoutSessionCreateWithoutUserInput = {
   endedAt?: Date | string | null
   durationSec?: number | null
   status?: $Enums.WorkoutSessionStatus
+  entryMode?: $Enums.WorkoutEntryMode
   memo?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   routine?: Prisma.RoutineCreateNestedOneWithoutWorkoutSessionsInput
+  recordedBy?: Prisma.UserCreateNestedOneWithoutRecordedWorkoutSessionsInput
   records?: Prisma.WorkoutRecordCreateNestedManyWithoutSessionInput
 }
 
@@ -607,6 +701,8 @@ export type WorkoutSessionUncheckedCreateWithoutUserInput = {
   endedAt?: Date | string | null
   durationSec?: number | null
   status?: $Enums.WorkoutSessionStatus
+  entryMode?: $Enums.WorkoutEntryMode
+  recordedByUserId?: string | null
   memo?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -620,6 +716,46 @@ export type WorkoutSessionCreateOrConnectWithoutUserInput = {
 
 export type WorkoutSessionCreateManyUserInputEnvelope = {
   data: Prisma.WorkoutSessionCreateManyUserInput | Prisma.WorkoutSessionCreateManyUserInput[]
+  skipDuplicates?: boolean
+}
+
+export type WorkoutSessionCreateWithoutRecordedByInput = {
+  id?: string
+  startedAt: Date | string
+  endedAt?: Date | string | null
+  durationSec?: number | null
+  status?: $Enums.WorkoutSessionStatus
+  entryMode?: $Enums.WorkoutEntryMode
+  memo?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutWorkoutSessionsInput
+  routine?: Prisma.RoutineCreateNestedOneWithoutWorkoutSessionsInput
+  records?: Prisma.WorkoutRecordCreateNestedManyWithoutSessionInput
+}
+
+export type WorkoutSessionUncheckedCreateWithoutRecordedByInput = {
+  id?: string
+  userId: string
+  routineId?: string | null
+  startedAt: Date | string
+  endedAt?: Date | string | null
+  durationSec?: number | null
+  status?: $Enums.WorkoutSessionStatus
+  entryMode?: $Enums.WorkoutEntryMode
+  memo?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  records?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutSessionInput
+}
+
+export type WorkoutSessionCreateOrConnectWithoutRecordedByInput = {
+  where: Prisma.WorkoutSessionWhereUniqueInput
+  create: Prisma.XOR<Prisma.WorkoutSessionCreateWithoutRecordedByInput, Prisma.WorkoutSessionUncheckedCreateWithoutRecordedByInput>
+}
+
+export type WorkoutSessionCreateManyRecordedByInputEnvelope = {
+  data: Prisma.WorkoutSessionCreateManyRecordedByInput | Prisma.WorkoutSessionCreateManyRecordedByInput[]
   skipDuplicates?: boolean
 }
 
@@ -650,9 +786,27 @@ export type WorkoutSessionScalarWhereInput = {
   endedAt?: Prisma.DateTimeNullableFilter<"WorkoutSession"> | Date | string | null
   durationSec?: Prisma.IntNullableFilter<"WorkoutSession"> | number | null
   status?: Prisma.EnumWorkoutSessionStatusFilter<"WorkoutSession"> | $Enums.WorkoutSessionStatus
+  entryMode?: Prisma.EnumWorkoutEntryModeFilter<"WorkoutSession"> | $Enums.WorkoutEntryMode
+  recordedByUserId?: Prisma.StringNullableFilter<"WorkoutSession"> | string | null
   memo?: Prisma.StringNullableFilter<"WorkoutSession"> | string | null
   createdAt?: Prisma.DateTimeFilter<"WorkoutSession"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"WorkoutSession"> | Date | string
+}
+
+export type WorkoutSessionUpsertWithWhereUniqueWithoutRecordedByInput = {
+  where: Prisma.WorkoutSessionWhereUniqueInput
+  update: Prisma.XOR<Prisma.WorkoutSessionUpdateWithoutRecordedByInput, Prisma.WorkoutSessionUncheckedUpdateWithoutRecordedByInput>
+  create: Prisma.XOR<Prisma.WorkoutSessionCreateWithoutRecordedByInput, Prisma.WorkoutSessionUncheckedCreateWithoutRecordedByInput>
+}
+
+export type WorkoutSessionUpdateWithWhereUniqueWithoutRecordedByInput = {
+  where: Prisma.WorkoutSessionWhereUniqueInput
+  data: Prisma.XOR<Prisma.WorkoutSessionUpdateWithoutRecordedByInput, Prisma.WorkoutSessionUncheckedUpdateWithoutRecordedByInput>
+}
+
+export type WorkoutSessionUpdateManyWithWhereWithoutRecordedByInput = {
+  where: Prisma.WorkoutSessionScalarWhereInput
+  data: Prisma.XOR<Prisma.WorkoutSessionUpdateManyMutationInput, Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByInput>
 }
 
 export type WorkoutSessionCreateWithoutRoutineInput = {
@@ -661,10 +815,12 @@ export type WorkoutSessionCreateWithoutRoutineInput = {
   endedAt?: Date | string | null
   durationSec?: number | null
   status?: $Enums.WorkoutSessionStatus
+  entryMode?: $Enums.WorkoutEntryMode
   memo?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutWorkoutSessionsInput
+  recordedBy?: Prisma.UserCreateNestedOneWithoutRecordedWorkoutSessionsInput
   records?: Prisma.WorkoutRecordCreateNestedManyWithoutSessionInput
 }
 
@@ -675,6 +831,8 @@ export type WorkoutSessionUncheckedCreateWithoutRoutineInput = {
   endedAt?: Date | string | null
   durationSec?: number | null
   status?: $Enums.WorkoutSessionStatus
+  entryMode?: $Enums.WorkoutEntryMode
+  recordedByUserId?: string | null
   memo?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -713,11 +871,13 @@ export type WorkoutSessionCreateWithoutRecordsInput = {
   endedAt?: Date | string | null
   durationSec?: number | null
   status?: $Enums.WorkoutSessionStatus
+  entryMode?: $Enums.WorkoutEntryMode
   memo?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutWorkoutSessionsInput
   routine?: Prisma.RoutineCreateNestedOneWithoutWorkoutSessionsInput
+  recordedBy?: Prisma.UserCreateNestedOneWithoutRecordedWorkoutSessionsInput
 }
 
 export type WorkoutSessionUncheckedCreateWithoutRecordsInput = {
@@ -728,6 +888,8 @@ export type WorkoutSessionUncheckedCreateWithoutRecordsInput = {
   endedAt?: Date | string | null
   durationSec?: number | null
   status?: $Enums.WorkoutSessionStatus
+  entryMode?: $Enums.WorkoutEntryMode
+  recordedByUserId?: string | null
   memo?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -755,11 +917,13 @@ export type WorkoutSessionUpdateWithoutRecordsInput = {
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkoutSessionStatusFieldUpdateOperationsInput | $Enums.WorkoutSessionStatus
+  entryMode?: Prisma.EnumWorkoutEntryModeFieldUpdateOperationsInput | $Enums.WorkoutEntryMode
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutWorkoutSessionsNestedInput
   routine?: Prisma.RoutineUpdateOneWithoutWorkoutSessionsNestedInput
+  recordedBy?: Prisma.UserUpdateOneWithoutRecordedWorkoutSessionsNestedInput
 }
 
 export type WorkoutSessionUncheckedUpdateWithoutRecordsInput = {
@@ -770,6 +934,8 @@ export type WorkoutSessionUncheckedUpdateWithoutRecordsInput = {
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkoutSessionStatusFieldUpdateOperationsInput | $Enums.WorkoutSessionStatus
+  entryMode?: Prisma.EnumWorkoutEntryModeFieldUpdateOperationsInput | $Enums.WorkoutEntryMode
+  recordedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -782,6 +948,22 @@ export type WorkoutSessionCreateManyUserInput = {
   endedAt?: Date | string | null
   durationSec?: number | null
   status?: $Enums.WorkoutSessionStatus
+  entryMode?: $Enums.WorkoutEntryMode
+  recordedByUserId?: string | null
+  memo?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type WorkoutSessionCreateManyRecordedByInput = {
+  id?: string
+  userId: string
+  routineId?: string | null
+  startedAt: Date | string
+  endedAt?: Date | string | null
+  durationSec?: number | null
+  status?: $Enums.WorkoutSessionStatus
+  entryMode?: $Enums.WorkoutEntryMode
   memo?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -793,10 +975,12 @@ export type WorkoutSessionUpdateWithoutUserInput = {
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkoutSessionStatusFieldUpdateOperationsInput | $Enums.WorkoutSessionStatus
+  entryMode?: Prisma.EnumWorkoutEntryModeFieldUpdateOperationsInput | $Enums.WorkoutEntryMode
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   routine?: Prisma.RoutineUpdateOneWithoutWorkoutSessionsNestedInput
+  recordedBy?: Prisma.UserUpdateOneWithoutRecordedWorkoutSessionsNestedInput
   records?: Prisma.WorkoutRecordUpdateManyWithoutSessionNestedInput
 }
 
@@ -807,6 +991,8 @@ export type WorkoutSessionUncheckedUpdateWithoutUserInput = {
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkoutSessionStatusFieldUpdateOperationsInput | $Enums.WorkoutSessionStatus
+  entryMode?: Prisma.EnumWorkoutEntryModeFieldUpdateOperationsInput | $Enums.WorkoutEntryMode
+  recordedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -820,6 +1006,52 @@ export type WorkoutSessionUncheckedUpdateManyWithoutUserInput = {
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkoutSessionStatusFieldUpdateOperationsInput | $Enums.WorkoutSessionStatus
+  entryMode?: Prisma.EnumWorkoutEntryModeFieldUpdateOperationsInput | $Enums.WorkoutEntryMode
+  recordedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type WorkoutSessionUpdateWithoutRecordedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.EnumWorkoutSessionStatusFieldUpdateOperationsInput | $Enums.WorkoutSessionStatus
+  entryMode?: Prisma.EnumWorkoutEntryModeFieldUpdateOperationsInput | $Enums.WorkoutEntryMode
+  memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutWorkoutSessionsNestedInput
+  routine?: Prisma.RoutineUpdateOneWithoutWorkoutSessionsNestedInput
+  records?: Prisma.WorkoutRecordUpdateManyWithoutSessionNestedInput
+}
+
+export type WorkoutSessionUncheckedUpdateWithoutRecordedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  routineId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.EnumWorkoutSessionStatusFieldUpdateOperationsInput | $Enums.WorkoutSessionStatus
+  entryMode?: Prisma.EnumWorkoutEntryModeFieldUpdateOperationsInput | $Enums.WorkoutEntryMode
+  memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  records?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutSessionNestedInput
+}
+
+export type WorkoutSessionUncheckedUpdateManyWithoutRecordedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  routineId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.EnumWorkoutSessionStatusFieldUpdateOperationsInput | $Enums.WorkoutSessionStatus
+  entryMode?: Prisma.EnumWorkoutEntryModeFieldUpdateOperationsInput | $Enums.WorkoutEntryMode
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -832,6 +1064,8 @@ export type WorkoutSessionCreateManyRoutineInput = {
   endedAt?: Date | string | null
   durationSec?: number | null
   status?: $Enums.WorkoutSessionStatus
+  entryMode?: $Enums.WorkoutEntryMode
+  recordedByUserId?: string | null
   memo?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -843,10 +1077,12 @@ export type WorkoutSessionUpdateWithoutRoutineInput = {
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkoutSessionStatusFieldUpdateOperationsInput | $Enums.WorkoutSessionStatus
+  entryMode?: Prisma.EnumWorkoutEntryModeFieldUpdateOperationsInput | $Enums.WorkoutEntryMode
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutWorkoutSessionsNestedInput
+  recordedBy?: Prisma.UserUpdateOneWithoutRecordedWorkoutSessionsNestedInput
   records?: Prisma.WorkoutRecordUpdateManyWithoutSessionNestedInput
 }
 
@@ -857,6 +1093,8 @@ export type WorkoutSessionUncheckedUpdateWithoutRoutineInput = {
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkoutSessionStatusFieldUpdateOperationsInput | $Enums.WorkoutSessionStatus
+  entryMode?: Prisma.EnumWorkoutEntryModeFieldUpdateOperationsInput | $Enums.WorkoutEntryMode
+  recordedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -870,6 +1108,8 @@ export type WorkoutSessionUncheckedUpdateManyWithoutRoutineInput = {
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkoutSessionStatusFieldUpdateOperationsInput | $Enums.WorkoutSessionStatus
+  entryMode?: Prisma.EnumWorkoutEntryModeFieldUpdateOperationsInput | $Enums.WorkoutEntryMode
+  recordedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -914,11 +1154,14 @@ export type WorkoutSessionSelect<ExtArgs extends runtime.Types.Extensions.Intern
   endedAt?: boolean
   durationSec?: boolean
   status?: boolean
+  entryMode?: boolean
+  recordedByUserId?: boolean
   memo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   routine?: boolean | Prisma.WorkoutSession$routineArgs<ExtArgs>
+  recordedBy?: boolean | Prisma.WorkoutSession$recordedByArgs<ExtArgs>
   records?: boolean | Prisma.WorkoutSession$recordsArgs<ExtArgs>
   _count?: boolean | Prisma.WorkoutSessionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["workoutSession"]>
@@ -931,11 +1174,14 @@ export type WorkoutSessionSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   endedAt?: boolean
   durationSec?: boolean
   status?: boolean
+  entryMode?: boolean
+  recordedByUserId?: boolean
   memo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   routine?: boolean | Prisma.WorkoutSession$routineArgs<ExtArgs>
+  recordedBy?: boolean | Prisma.WorkoutSession$recordedByArgs<ExtArgs>
 }, ExtArgs["result"]["workoutSession"]>
 
 export type WorkoutSessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -946,11 +1192,14 @@ export type WorkoutSessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   endedAt?: boolean
   durationSec?: boolean
   status?: boolean
+  entryMode?: boolean
+  recordedByUserId?: boolean
   memo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   routine?: boolean | Prisma.WorkoutSession$routineArgs<ExtArgs>
+  recordedBy?: boolean | Prisma.WorkoutSession$recordedByArgs<ExtArgs>
 }, ExtArgs["result"]["workoutSession"]>
 
 export type WorkoutSessionSelectScalar = {
@@ -961,25 +1210,30 @@ export type WorkoutSessionSelectScalar = {
   endedAt?: boolean
   durationSec?: boolean
   status?: boolean
+  entryMode?: boolean
+  recordedByUserId?: boolean
   memo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type WorkoutSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "routineId" | "startedAt" | "endedAt" | "durationSec" | "status" | "memo" | "createdAt" | "updatedAt", ExtArgs["result"]["workoutSession"]>
+export type WorkoutSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "routineId" | "startedAt" | "endedAt" | "durationSec" | "status" | "entryMode" | "recordedByUserId" | "memo" | "createdAt" | "updatedAt", ExtArgs["result"]["workoutSession"]>
 export type WorkoutSessionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   routine?: boolean | Prisma.WorkoutSession$routineArgs<ExtArgs>
+  recordedBy?: boolean | Prisma.WorkoutSession$recordedByArgs<ExtArgs>
   records?: boolean | Prisma.WorkoutSession$recordsArgs<ExtArgs>
   _count?: boolean | Prisma.WorkoutSessionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type WorkoutSessionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   routine?: boolean | Prisma.WorkoutSession$routineArgs<ExtArgs>
+  recordedBy?: boolean | Prisma.WorkoutSession$recordedByArgs<ExtArgs>
 }
 export type WorkoutSessionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   routine?: boolean | Prisma.WorkoutSession$routineArgs<ExtArgs>
+  recordedBy?: boolean | Prisma.WorkoutSession$recordedByArgs<ExtArgs>
 }
 
 export type $WorkoutSessionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -987,6 +1241,7 @@ export type $WorkoutSessionPayload<ExtArgs extends runtime.Types.Extensions.Inte
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
     routine: Prisma.$RoutinePayload<ExtArgs> | null
+    recordedBy: Prisma.$UserPayload<ExtArgs> | null
     records: Prisma.$WorkoutRecordPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -997,6 +1252,8 @@ export type $WorkoutSessionPayload<ExtArgs extends runtime.Types.Extensions.Inte
     endedAt: Date | null
     durationSec: number | null
     status: $Enums.WorkoutSessionStatus
+    entryMode: $Enums.WorkoutEntryMode
+    recordedByUserId: string | null
     memo: string | null
     createdAt: Date
     updatedAt: Date
@@ -1396,6 +1653,7 @@ export interface Prisma__WorkoutSessionClient<T, Null = never, ExtArgs extends r
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   routine<T extends Prisma.WorkoutSession$routineArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WorkoutSession$routineArgs<ExtArgs>>): Prisma.Prisma__RoutineClient<runtime.Types.Result.GetResult<Prisma.$RoutinePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  recordedBy<T extends Prisma.WorkoutSession$recordedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WorkoutSession$recordedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   records<T extends Prisma.WorkoutSession$recordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WorkoutSession$recordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorkoutRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1433,6 +1691,8 @@ export interface WorkoutSessionFieldRefs {
   readonly endedAt: Prisma.FieldRef<"WorkoutSession", 'DateTime'>
   readonly durationSec: Prisma.FieldRef<"WorkoutSession", 'Int'>
   readonly status: Prisma.FieldRef<"WorkoutSession", 'WorkoutSessionStatus'>
+  readonly entryMode: Prisma.FieldRef<"WorkoutSession", 'WorkoutEntryMode'>
+  readonly recordedByUserId: Prisma.FieldRef<"WorkoutSession", 'String'>
   readonly memo: Prisma.FieldRef<"WorkoutSession", 'String'>
   readonly createdAt: Prisma.FieldRef<"WorkoutSession", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"WorkoutSession", 'DateTime'>
@@ -1853,6 +2113,25 @@ export type WorkoutSession$routineArgs<ExtArgs extends runtime.Types.Extensions.
    */
   include?: Prisma.RoutineInclude<ExtArgs> | null
   where?: Prisma.RoutineWhereInput
+}
+
+/**
+ * WorkoutSession.recordedBy
+ */
+export type WorkoutSession$recordedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**
