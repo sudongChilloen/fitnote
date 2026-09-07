@@ -86,7 +86,8 @@ export const ModelName = {
   Notice: 'Notice',
   NoticeRead: 'NoticeRead',
   Notification: 'Notification',
-  AiAnalysis: 'AiAnalysis'
+  AiAnalysis: 'AiAnalysis',
+  TrainerSharingSetting: 'TrainerSharingSetting'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -654,6 +655,20 @@ export const AiAnalysisScalarFieldEnum = {
 } as const
 
 export type AiAnalysisScalarFieldEnum = (typeof AiAnalysisScalarFieldEnum)[keyof typeof AiAnalysisScalarFieldEnum]
+
+
+export const TrainerSharingSettingScalarFieldEnum = {
+  id: 'id',
+  membershipId: 'membershipId',
+  shareDiet: 'shareDiet',
+  shareDietPhoto: 'shareDietPhoto',
+  sharePersonalWorkout: 'sharePersonalWorkout',
+  shareBody: 'shareBody',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TrainerSharingSettingScalarFieldEnum = (typeof TrainerSharingSettingScalarFieldEnum)[keyof typeof TrainerSharingSettingScalarFieldEnum]
 
 
 export const SortOrder = {

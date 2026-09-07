@@ -176,7 +176,6 @@ export type JournalPhoto = Prisma.JournalPhotoModel
  * Model JournalComment
  * *
  *  * 알림장 댓글.
- *  *
  *  * 식단 댓글(DietFeedback)과 합치지 않았다. 대상이 다른 댓글을 한 테이블에 담으려면
  *  * (targetType, targetId) 로 가리켜야 하는데 그러면 외래키를 걸 수 없어서, 알림장을
  *  * 지워도 댓글이 남는다.
@@ -186,7 +185,6 @@ export type JournalComment = Prisma.JournalCommentModel
  * Model Notice
  * *
  *  * 공지사항.
- *  *
  *  * 알림장이 한 회원에게 가는 글이라면 이건 여러 명에게 간다. 대상을 회원 목록으로
  *  * 펼쳐 저장하지 않는다. 회원이 늘거나 나갈 때마다 대상을 고쳐야 하기 때문이다.
  *  * 대신 범위만 저장하고 읽을 때 계산한다.
@@ -207,3 +205,13 @@ export type Notification = Prisma.NotificationModel
  * 
  */
 export type AiAnalysis = Prisma.AiAnalysisModel
+/**
+ * Model TrainerSharingSetting
+ * *
+ *  * 회원이 담당 트레이너에게 무엇까지 보여줄지.
+ *  * 센터 소속마다 따로 둔다. 헬스장을 옮기면 새 트레이너에게 지난 센터의
+ *  * 설정이 그대로 따라가면 안 된다. 회원 계정이 아니라 소속에 붙이는 이유다.
+ *  * PT 수업 기록은 여기에 없다. 그건 트레이너가 직접 적은 것이라 회원이
+ *  * 가릴 대상이 아니다. 회원이 스스로 남긴 것만 고를 수 있게 한다.
+ */
+export type TrainerSharingSetting = Prisma.TrainerSharingSettingModel

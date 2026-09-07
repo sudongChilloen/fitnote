@@ -1554,7 +1554,6 @@ export type $JournalPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     /**
      * *
      *    * 회원이 읽은 시각.
-     *    *
      *    * 이게 없으면 홈의 "오늘 확인할 것" 을 고를 수 없다. 안 읽은 것을 세는 게
      *    * 아니라 "무엇을 보여줄지" 를 정하는 데 쓴다.
      */

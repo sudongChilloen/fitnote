@@ -57,16 +57,13 @@ enum PTSessionStatus {
 
 /**
  * 기록을 남긴 방식.
- *
  * LIVE   운동하면서 실시간으로 기록. 홈의 "진행중" 배너와 타이머가 붙는다.
  * MANUAL 운동을 끝낸 뒤(또는 지난 날짜를) 몰아서 입력.
- *
  * 둘 다 편집하는 동안 IN_PROGRESS 여야 하는데, 구분이 없으면 어제 기록을
  * 입력하는 중에 홈에 "운동 진행중" 이 뜨고 새 운동 시작이 막힌다.
  */
 /**
  * 공지를 누가 보는가.
- *
  * CENTER          센터 소속 전체
  * TRAINER_MEMBERS 작성한 트레이너가 담당하는 회원만
  */
@@ -217,12 +214,12 @@ model User {
   centerMemberships CenterMembership[]
 
   // 운동
-  routines         Routine[]
-  workoutSessions  WorkoutSession[]
+  routines                Routine[]
+  workoutSessions         WorkoutSession[]
   // 트레이너로서 회원을 대신해 적어 준 기록
-  recordedWorkoutSessions WorkoutSession[] @relation("WorkoutSessionRecordedBy")
-  workoutRecords   WorkoutRecord[]
-  workoutFavorites WorkoutFavorite[]
+  recordedWorkoutSessions WorkoutSession[]  @relation("WorkoutSessionRecordedBy")
+  workoutRecords          WorkoutRecord[]
+  workoutFavorites        WorkoutFavorite[]
 
   // 식단 / 신체 / 목표
   dietRecords DietRecord[]
@@ -336,12 +333,15 @@ model CenterMembership {
   assignedMembers CenterMembership[] @relation("TrainerMembers")
 
   // 초대
-  createdInvitations CenterInvitation[] @relation("CreatedInvitations")
-  joinedViaInvitation CenterInvitation? @relation("JoinedViaInvitation", fields: [joinedViaInvitationId], references: [id], onDelete: SetNull)
+  createdInvitations  CenterInvitation[] @relation("CreatedInvitations")
+  joinedViaInvitation CenterInvitation?  @relation("JoinedViaInvitation", fields: [joinedViaInvitationId], references: [id], onDelete: SetNull)
 
   // 중요:
   // TrainerProfile은 User가 아니라 Membership에 연결
   trainerProfile TrainerProfile?
+
+  // 회원이 담당 트레이너에게 무엇까지 보여줄지
+  sharingSetting TrainerSharingSetting?
 
   // PT
   memberContracts  PTContract[] @relation("ContractMember")
@@ -717,11 +717,9 @@ model WorkoutSession {
 
   /**
    * PT 수업이면 그 수업. 없으면 개인 운동.
-   *
    * 운동 하나하나가 아니라 세션에 붙인다. "누가 적었나"(recordedByUserId)가
    * 이미 세션 단위여서, PT 여부만 운동 단위로 두면 트레이너가 적어 준 세션에
    * PT 가 아닌 운동이 섞이는 설명할 수 없는 상태가 생긴다.
-   *
    * PT 를 받고 남아서 혼자 유산소를 하면 세션이 나뉜다. 하루에 세션이 여러 개인
    * 것은 이미 지원한다.
    */
@@ -1126,7 +1124,6 @@ model Journal {
 
   /**
    * 회원이 읽은 시각.
-   *
    * 이게 없으면 홈의 "오늘 확인할 것" 을 고를 수 없다. 안 읽은 것을 세는 게
    * 아니라 "무엇을 보여줄지" 를 정하는 데 쓴다.
    */
@@ -1158,7 +1155,6 @@ model JournalPhoto {
 
   /**
    * 저장소 안의 경로. 주소가 아니다.
-   *
    * 비공개 버킷이라 주소는 볼 때마다 서명해서 만든다. 서명된 주소를 저장하면
    * 한 시간 뒤에 죽은 값이 DB 에 남는다.
    */
@@ -1178,7 +1174,6 @@ model JournalPhoto {
 
 /**
  * 알림장 댓글.
- *
  * 식단 댓글(DietFeedback)과 합치지 않았다. 대상이 다른 댓글을 한 테이블에 담으려면
  * (targetType, targetId) 로 가리켜야 하는데 그러면 외래키를 걸 수 없어서, 알림장을
  * 지워도 댓글이 남는다.
@@ -1212,7 +1207,6 @@ model JournalComment {
 
 /**
  * 공지사항.
- *
  * 알림장이 한 회원에게 가는 글이라면 이건 여러 명에게 간다. 대상을 회원 목록으로
  * 펼쳐 저장하지 않는다. 회원이 늘거나 나갈 때마다 대상을 고쳐야 하기 때문이다.
  * 대신 범위만 저장하고 읽을 때 계산한다.
@@ -1313,4 +1307,37 @@ model AiAnalysis {
   @@index([userId, type])
   @@index([userId, status])
   @@index([createdAt])
+}
+
+/**
+ * 회원이 담당 트레이너에게 무엇까지 보여줄지.
+ * 센터 소속마다 따로 둔다. 헬스장을 옮기면 새 트레이너에게 지난 센터의
+ * 설정이 그대로 따라가면 안 된다. 회원 계정이 아니라 소속에 붙이는 이유다.
+ * PT 수업 기록은 여기에 없다. 그건 트레이너가 직접 적은 것이라 회원이
+ * 가릴 대상이 아니다. 회원이 스스로 남긴 것만 고를 수 있게 한다.
+ */
+model TrainerSharingSetting {
+  id           String @id @default(uuid())
+  membershipId String @unique
+
+  /**
+   * 식단은 기본으로 켠다.
+   * 회원이 식단을 올리는 이유가 대개 피드백을 받기 위해서다. 기본이 꺼져
+   * 있으면 올려 두고 "왜 답이 없지" 하게 된다.
+   */
+  shareDiet      Boolean @default(true)
+  shareDietPhoto Boolean @default(true)
+
+  /**
+   * 개인 운동과 체중은 기본으로 끈다.
+   * 혼자 한 운동과 몸무게는 보여주려고 적는 게 아니다. 켜는 건 회원이
+   * 정하게 한다.
+   */
+  sharePersonalWorkout Boolean @default(false)
+  shareBody            Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  membership CenterMembership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
 }

@@ -2,7 +2,7 @@ import { requireUser } from "@/app/lib/dal";
 import { MembershipRole } from "@/generated/prisma/enums";
 import Link from "next/link";
 
-import { ArrowLeftRight } from "lucide-react";
+import { ArrowLeftRight, ShieldCheck } from "lucide-react";
 
 import {
   canActAsTrainer,
@@ -64,6 +64,22 @@ export default async function ProfilePage() {
                   : "트레이너에게 받은 코드를 넣어주세요."}
               </p>
               <JoinCenterForm hasCenter />
+            </div>
+          ) : null}
+
+          {membership.role === MembershipRole.MEMBER ? (
+            <div className="mt-4 border-t border-border pt-4">
+              <p className="text-sm font-bold">트레이너와 공유</p>
+              <p className="mt-1 mb-2 text-xs text-muted-foreground">
+                식단과 개인 운동 기록 중 무엇을 보여줄지 직접 고를 수 있어요.
+              </p>
+              <Link
+                href="/profile/sharing"
+                className="inline-flex h-11 items-center gap-1.5 rounded-xl border border-border px-4 text-sm font-bold"
+              >
+                <ShieldCheck className="size-4" aria-hidden />
+                공유 설정
+              </Link>
             </div>
           ) : null}
 

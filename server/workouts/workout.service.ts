@@ -437,11 +437,25 @@ export async function listSessions(
  * listSessions 는 세트까지 전부 끌어오므로 홈에 쓰기엔 무겁다. 홈에서 필요한 건
  * "언제 · 무슨 운동 · 몇 세트" 뿐이라 이름과 개수만 센다.
  */
-export async function getRecentSessions(userId: string, limit = 3) {
+export async function getRecentSessions(
+  userId: string,
+  limit = 3,
+  options?: {
+    /**
+     * PT 수업에서 트레이너가 적어 준 기록을 뺀다.
+     *
+     * 트레이너가 회원 기록을 볼 때 쓴다. 트레이너에게 자기가 적은 기록을 다시
+     * 보여줄 이유가 없고, 무엇보다 회원이 공유하기로 한 건 "개인 운동" 뿐이라
+     * 여기서 섞이면 공유 설정이 의미를 잃는다.
+     */
+    personalOnly?: boolean;
+  },
+) {
   const sessions = await prisma.workoutSession.findMany({
     where: {
       userId,
       status: WorkoutSessionStatus.COMPLETED,
+      ...(options?.personalOnly ? { ptSessionId: null } : {}),
     },
     orderBy: { startedAt: "desc" },
     take: limit,

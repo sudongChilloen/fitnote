@@ -16,7 +16,6 @@ import type * as Prisma from "../internal/prismaNamespace"
  * Model JournalComment
  * *
  *  * 알림장 댓글.
- *  *
  *  * 식단 댓글(DietFeedback)과 합치지 않았다. 대상이 다른 댓글을 한 테이블에 담으려면
  *  * (targetType, targetId) 로 가리켜야 하는데 그러면 외래키를 걸 수 없어서, 알림장을
  *  * 지워도 댓글이 남는다.

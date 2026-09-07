@@ -12,6 +12,10 @@ import {
 import { requireUser } from "@/app/lib/dal";
 import { formatKstDateLabel } from "@/lib/date";
 import {
+  getMemberPersonalWorkouts,
+  getSharingForTrainer,
+} from "@/server/sharing/sharing.service";
+import {
   getMemberDetail,
   TrainerError,
 } from "@/server/trainers/trainer.service";
@@ -56,6 +60,13 @@ export default async function TrainerMemberPage({
     if (error instanceof TrainerError) notFound();
     throw error;
   }
+
+  // 공유 설정을 먼저 읽고, 켜진 것만 가져온다. 꺼져 있으면 조회 자체를 하지
+  // 않으므로 "안 보여주는데 읽기는 했다" 는 상황이 생기지 않는다.
+  const sharing = await getSharingForTrainer(user.id, id);
+  const personalWorkouts = sharing.sharePersonalWorkout
+    ? await getMemberPersonalWorkouts(user.id, id, 5)
+    : [];
 
   return (
     <main className="px-5 pt-5 pb-16">
@@ -248,16 +259,67 @@ export default async function TrainerMemberPage({
         )}
       </section>
 
+      <section className="mt-7">
+        <div className="flex items-baseline justify-between">
+          <h2 className="text-base font-bold">개인 운동 기록</h2>
+          {sharing.sharePersonalWorkout ? (
+            <span className="text-xs text-muted-foreground">
+              회원이 공유 중
+            </span>
+          ) : null}
+        </div>
+
+        {!sharing.sharePersonalWorkout ? (
+          <div className="mt-2 rounded-2xl border border-dashed border-border p-4">
+            <span className="flex size-8 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
+              <Lock className="size-4" aria-hidden />
+            </span>
+            <p className="mt-2.5 text-sm font-bold">
+              회원이 개인 운동 기록을 공유하지 않았어요
+            </p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              회원이 내 정보 &gt; 공유 설정에서 켜면 여기에 나타나요. PT
+              수업에서 직접 적은 기록은 알림장에서 계속 볼 수 있어요.
+            </p>
+          </div>
+        ) : personalWorkouts.length === 0 ? (
+          <p className="mt-2 rounded-2xl border border-border bg-card p-4 text-xs text-muted-foreground">
+            아직 혼자 한 운동 기록이 없어요.
+          </p>
+        ) : (
+          <ul className="mt-2 flex flex-col gap-2">
+            {personalWorkouts.map((session) => (
+              <li
+                key={session.id}
+                className="rounded-2xl border border-border bg-card p-4"
+              >
+                <div className="flex items-baseline justify-between gap-2">
+                  <p className="text-sm font-bold">
+                    {formatKstDateLabel(session.startedAt)}
+                  </p>
+                  <p className="shrink-0 text-xs text-muted-foreground tabular-nums">
+                    {session.totalSets}세트
+                  </p>
+                </div>
+                <p className="mt-1 truncate text-xs text-muted-foreground">
+                  {session.exerciseNames.length === 0
+                    ? "기록한 운동이 없어요"
+                    : session.exerciseNames.join(" · ")}
+                </p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
       <section className="mt-7 rounded-2xl border border-dashed border-border p-4">
         <span className="flex size-8 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
           <Lock className="size-4" aria-hidden />
         </span>
-        <p className="mt-2.5 text-sm font-bold">
-          식단과 개인 운동기록은 아직 보이지 않아요
-        </p>
+        <p className="mt-2.5 text-sm font-bold">식단은 아직 보이지 않아요</p>
         <p className="mt-1 text-xs text-muted-foreground">
-          회원이 무엇을 공유할지 직접 고르는 화면을 만들고 있어요. 회원이 켠
-          항목만 여기에 나타나요.
+          회원이 식단을 올리는 화면을 만들고 있어요. 회원이 공유를 켜 두면
+          올라오는 대로 여기에 나타나요.
         </p>
       </section>
     </main>

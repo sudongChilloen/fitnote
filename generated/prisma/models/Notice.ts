@@ -16,7 +16,6 @@ import type * as Prisma from "../internal/prismaNamespace"
  * Model Notice
  * *
  *  * 공지사항.
- *  *
  *  * 알림장이 한 회원에게 가는 글이라면 이건 여러 명에게 간다. 대상을 회원 목록으로
  *  * 펼쳐 저장하지 않는다. 회원이 늘거나 나갈 때마다 대상을 고쳐야 하기 때문이다.
  *  * 대신 범위만 저장하고 읽을 때 계산한다.

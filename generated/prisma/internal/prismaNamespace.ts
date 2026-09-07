@@ -432,7 +432,8 @@ export const ModelName = {
   Notice: 'Notice',
   NoticeRead: 'NoticeRead',
   Notification: 'Notification',
-  AiAnalysis: 'AiAnalysis'
+  AiAnalysis: 'AiAnalysis',
+  TrainerSharingSetting: 'TrainerSharingSetting'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -448,7 +449,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "authSession" | "deviceToken" | "center" | "centerMembership" | "centerInvitation" | "memberProfile" | "trainerProfile" | "equipment" | "memberEquipment" | "gym" | "gymEquipment" | "exercise" | "exerciseEquipment" | "workoutAlternative" | "routine" | "routineExercise" | "workoutSession" | "workoutRecord" | "workoutSet" | "workoutFavorite" | "pTProduct" | "trainerPTPrice" | "pTContract" | "pTSession" | "dietRecord" | "dietFeedback" | "bodyRecord" | "goal" | "journal" | "journalPhoto" | "journalComment" | "notice" | "noticeRead" | "notification" | "aiAnalysis"
+    modelProps: "user" | "authSession" | "deviceToken" | "center" | "centerMembership" | "centerInvitation" | "memberProfile" | "trainerProfile" | "equipment" | "memberEquipment" | "gym" | "gymEquipment" | "exercise" | "exerciseEquipment" | "workoutAlternative" | "routine" | "routineExercise" | "workoutSession" | "workoutRecord" | "workoutSet" | "workoutFavorite" | "pTProduct" | "trainerPTPrice" | "pTContract" | "pTSession" | "dietRecord" | "dietFeedback" | "bodyRecord" | "goal" | "journal" | "journalPhoto" | "journalComment" | "notice" | "noticeRead" | "notification" | "aiAnalysis" | "trainerSharingSetting"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -3116,6 +3117,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    TrainerSharingSetting: {
+      payload: Prisma.$TrainerSharingSettingPayload<ExtArgs>
+      fields: Prisma.TrainerSharingSettingFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TrainerSharingSettingFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainerSharingSettingPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TrainerSharingSettingFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainerSharingSettingPayload>
+        }
+        findFirst: {
+          args: Prisma.TrainerSharingSettingFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainerSharingSettingPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TrainerSharingSettingFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainerSharingSettingPayload>
+        }
+        findMany: {
+          args: Prisma.TrainerSharingSettingFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainerSharingSettingPayload>[]
+        }
+        create: {
+          args: Prisma.TrainerSharingSettingCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainerSharingSettingPayload>
+        }
+        createMany: {
+          args: Prisma.TrainerSharingSettingCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TrainerSharingSettingCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainerSharingSettingPayload>[]
+        }
+        delete: {
+          args: Prisma.TrainerSharingSettingDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainerSharingSettingPayload>
+        }
+        update: {
+          args: Prisma.TrainerSharingSettingUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainerSharingSettingPayload>
+        }
+        deleteMany: {
+          args: Prisma.TrainerSharingSettingDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TrainerSharingSettingUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TrainerSharingSettingUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainerSharingSettingPayload>[]
+        }
+        upsert: {
+          args: Prisma.TrainerSharingSettingUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainerSharingSettingPayload>
+        }
+        aggregate: {
+          args: Prisma.TrainerSharingSettingAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTrainerSharingSetting>
+        }
+        groupBy: {
+          args: Prisma.TrainerSharingSettingGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrainerSharingSettingGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TrainerSharingSettingCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrainerSharingSettingCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -3704,6 +3779,20 @@ export const AiAnalysisScalarFieldEnum = {
 } as const
 
 export type AiAnalysisScalarFieldEnum = (typeof AiAnalysisScalarFieldEnum)[keyof typeof AiAnalysisScalarFieldEnum]
+
+
+export const TrainerSharingSettingScalarFieldEnum = {
+  id: 'id',
+  membershipId: 'membershipId',
+  shareDiet: 'shareDiet',
+  shareDietPhoto: 'shareDietPhoto',
+  sharePersonalWorkout: 'sharePersonalWorkout',
+  shareBody: 'shareBody',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TrainerSharingSettingScalarFieldEnum = (typeof TrainerSharingSettingScalarFieldEnum)[keyof typeof TrainerSharingSettingScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -4352,6 +4441,7 @@ export type GlobalOmitConfig = {
   noticeRead?: Prisma.NoticeReadOmit
   notification?: Prisma.NotificationOmit
   aiAnalysis?: Prisma.AiAnalysisOmit
+  trainerSharingSetting?: Prisma.TrainerSharingSettingOmit
 }
 
 /* Types for Logging */
