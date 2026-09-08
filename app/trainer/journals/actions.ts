@@ -14,6 +14,10 @@ import {
   startJournal,
   type UploadTicket,
 } from "@/server/journals/journal-editor.service";
+import {
+  deleteJournalWorkout,
+  openJournalWorkout,
+} from "@/server/journals/journal-workout.service";
 import { TrainerError } from "@/server/trainers/trainer.service";
 
 export type SaveState = {
@@ -143,4 +147,38 @@ export async function removePhotoAction(formData: FormData) {
 
   revalidatePath(`/trainer/journals/${journalId}`);
   revalidatePath(`/journal/${journalId}`);
+}
+
+/**
+ * PT 수업 운동 기록을 연다.
+ *
+ * 알림장에 수업이 붙어 있어야 한다. 붙어 있지 않으면 이 운동을 회원의 어느
+ * 수업에 매달아야 할지 알 수 없다.
+ */
+export async function openWorkoutAction(journalId: string) {
+  const user = await requireUser();
+
+  try {
+    await openJournalWorkout(user.id, journalId);
+  } catch (error) {
+    return { error: messageOf(error) };
+  }
+
+  revalidatePath(`/trainer/journals/${journalId}`);
+
+  return { error: null };
+}
+
+export async function removeWorkoutAction(journalId: string) {
+  const user = await requireUser();
+
+  try {
+    await deleteJournalWorkout(user.id, journalId);
+  } catch (error) {
+    return { error: messageOf(error) };
+  }
+
+  revalidatePath(`/trainer/journals/${journalId}`);
+
+  return { error: null };
 }

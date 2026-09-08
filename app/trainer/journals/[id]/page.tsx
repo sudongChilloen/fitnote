@@ -11,12 +11,21 @@ import {
   JournalEditError,
   MAX_PHOTOS,
 } from "@/server/journals/journal-editor.service";
+import { getJournalWorkout } from "@/server/journals/journal-workout.service";
+import { getSharingForTrainer } from "@/server/sharing/sharing.service";
+import { getBodyPartCounts } from "@/server/exercises/exercise.service";
+import { getFavoriteExerciseIds } from "@/server/workouts/favorite.service";
+import { getLastRecord } from "@/server/workouts/workout.service";
 import { TrainerError } from "@/server/trainers/trainer.service";
+
+import { AddExerciseDrawer } from "@/app/(user)/workouts/[id]/add-exercise-drawer";
+import { RecordList } from "@/app/(user)/workouts/[id]/record-list";
 
 import { deleteDraftAction } from "../actions";
 
 import { JournalForm } from "./journal-form";
 import { PhotoUploader } from "./photo-uploader";
+import { WorkoutControls } from "./workout-controls";
 
 export const metadata = { title: "알림장 작성 | FitNote" };
 
@@ -50,6 +59,31 @@ export default async function JournalEditorPage({
   }
 
   const published = draft.status === "PUBLISHED";
+
+  /*
+    PT 수업 운동 기록.
+
+    회원 화면과 똑같은 컴포넌트로 그린다. 세트를 고치는 화면이 두 벌이 되면
+    언젠가 한쪽만 고쳐진다. 서비스에서 이미 "이 세션에 손댈 수 있는 사람인가"
+    를 판단하므로 같은 서버 액션을 그대로 쓴다.
+  */
+  const workout = await getJournalWorkout(user.id, id);
+
+  // 직전 기록 힌트에 회원의 개인 운동이 섞이면 공유 설정을 지나간다.
+  const sharing = await getSharingForTrainer(user.id, draft.connectionId);
+
+  const [previousRecords, bodyPartCounts, favoriteIds] = await Promise.all([
+    Promise.all(
+      (workout?.records ?? []).map((record) =>
+        getLastRecord(draft.memberUserId, record.exercise.id, workout!.id, {
+          ptOnly: !sharing.sharePersonalWorkout,
+        }),
+      ),
+    ),
+    workout ? getBodyPartCounts() : Promise.resolve({}),
+    // 트레이너 자신의 즐겨찾기다. 자주 처방하는 운동을 빨리 찾으라고 둔다.
+    workout ? getFavoriteExerciseIds(user.id) : Promise.resolve([]),
+  ]);
 
   return (
     <main className="px-5 pt-4 pb-16">
@@ -97,6 +131,63 @@ export default async function JournalEditorPage({
             사진 저장소가 아직 설정되지 않아 사진은 올릴 수 없어요.
           </p>
         )}
+      </section>
+
+      <section className="mt-6">
+        <div className="flex items-center justify-between gap-2">
+          <div>
+            <h2 className="text-base font-bold">수업에서 한 운동</h2>
+            <p className="mt-0.5 text-xs text-muted-foreground">
+              여기 적으면 회원의 운동 기록에 PT 로 함께 남아요.
+            </p>
+          </div>
+          <WorkoutControls
+            journalId={draft.id}
+            hasWorkout={workout !== null}
+            canDelete={!published}
+          />
+        </div>
+
+        {draft.ptSessionId === null ? (
+          <p className="mt-3 rounded-xl border border-dashed border-border px-3.5 py-2.5 text-xs text-muted-foreground">
+            아래에서 어떤 수업인지 먼저 골라 주세요. 수업에 붙어야 회원 기록으로
+            들어가요.
+          </p>
+        ) : null}
+
+        {workout ? (
+          <div className="mt-3 flex flex-col gap-3">
+            {workout.records.length === 0 ? (
+              <p className="rounded-xl border border-dashed border-border px-3.5 py-2.5 text-xs text-muted-foreground">
+                아직 담은 운동이 없어요.
+              </p>
+            ) : (
+              <RecordList
+                sessionId={workout.id}
+                records={workout.records}
+                previousRecords={workout.records.map((_, index) => {
+                  const previous = previousRecords[index];
+                  return previous
+                    ? {
+                        performedAt: previous.performedAt.toISOString(),
+                        sets: previous.sets,
+                      }
+                    : null;
+                })}
+                alwaysEditable
+              />
+            )}
+
+            <AddExerciseDrawer
+              sessionId={workout.id}
+              bodyPartCounts={bodyPartCounts}
+              favoriteIds={favoriteIds}
+              addedExerciseIds={workout.records.map(
+                (record) => record.exercise.id,
+              )}
+            />
+          </div>
+        ) : null}
       </section>
 
       <div className="mt-6">

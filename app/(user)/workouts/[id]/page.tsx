@@ -85,7 +85,25 @@ export default async function WorkoutSessionPage({
             기록 입력 중
           </span>
         ) : null}
+        {session.isPt ? (
+          <span className="rounded-full bg-brand/15 px-2.5 py-1 text-xs font-bold text-brand-strong">
+            PT
+          </span>
+        ) : null}
       </header>
+
+      {/*
+        누가 적어 준 기록인지 밝힌다. 고칠 수 없는 화면을 이유 없이 내놓으면
+        회원은 앱이 고장 난 줄 안다.
+      */}
+      {session.isPt ? (
+        <p className="rounded-xl border border-border px-3.5 py-2.5 text-xs text-muted-foreground">
+          {session.recordedByName
+            ? `${session.recordedByName} 트레이너가 수업에서 적어 준 기록이에요.`
+            : "수업에서 적힌 기록이에요."}{" "}
+          고치려면 트레이너에게 말씀해 주세요.
+        </p>
+      ) : null}
 
       <section className="rounded-2xl border border-border bg-card p-5">
         {/*
@@ -142,6 +160,7 @@ export default async function WorkoutSessionPage({
         <RecordList
           sessionId={session.id}
           alwaysEditable={inProgress}
+          readOnly={session.isPt}
           addSlot={
             <AddExerciseDrawer
               sessionId={session.id}
