@@ -3,7 +3,11 @@ import "server-only";
 import { prisma } from "@/lib/prisma";
 import { MEAL_LABEL } from "@/server/diet/diet.service";
 import { createSignedReadUrls } from "@/lib/storage";
-import { JournalStatus, NoticeScope } from "@/generated/prisma/enums";
+import {
+  ConnectionStatus,
+  JournalStatus,
+  NoticeScope,
+} from "@/generated/prisma/enums";
 import { getCurrentMembership } from "@/server/centers/center.service";
 
 export class JournalError extends Error {
@@ -69,16 +73,19 @@ function preview(text: string, length = 60) {
  * 대상을 회원 목록으로 펼쳐 저장하지 않고 여기서 계산한다. 미리 펼치면 회원이
  * 들어오고 나갈 때마다 지난 공지의 대상까지 손봐야 한다.
  */
-function noticeVisibility(membership: {
-  centerId: string;
-  assignedTrainerMembershipId: string | null;
-}) {
+function noticeVisibility(
+  membership: { id: string; centerId: string },
+  trainerUserIds: string[],
+) {
   const scopes: object[] = [{ scope: NoticeScope.CENTER }];
 
-  if (membership.assignedTrainerMembershipId) {
+  // 담당 트레이너가 쓴 공지. 담당 관계는 이제 센터 소속이 아니라 연결에 있어서
+  // 작성자의 소속 id 대신 작성자가 누구인지로 찾는다. 한 사람이 센터를 옮겨도
+  // 같은 사람이면 계속 걸린다.
+  if (trainerUserIds.length > 0) {
     scopes.push({
       scope: NoticeScope.TRAINER_MEMBERS,
-      authorMembershipId: membership.assignedTrainerMembershipId,
+      authorMembership: { userId: { in: trainerUserIds } },
     });
   }
 
@@ -89,6 +96,16 @@ function noticeVisibility(membership: {
   };
 }
 
+/** 나를 지금 봐 주고 있는 트레이너들의 userId. */
+async function activeTrainerUserIds(memberUserId: string) {
+  const rows = await prisma.trainerMemberConnection.findMany({
+    where: { memberUserId, status: ConnectionStatus.ACTIVE },
+    select: { trainerProfile: { select: { userId: true } } },
+  });
+
+  return rows.map((row) => row.trainerProfile.userId);
+}
+
 /**
  * 알림장 · 공지 · 내 운동을 한 줄로 섞은 목록.
  *
@@ -96,31 +113,34 @@ function noticeVisibility(membership: {
  * 때문이다. 개인 운동까지 함께 흐르면 그 사이가 메워진다.
  */
 export async function getTimeline(userId: string, limit = 30) {
-  const membership = await getCurrentMembership(userId);
+  const [membership, trainerUserIds] = await Promise.all([
+    getCurrentMembership(userId),
+    activeTrainerUserIds(userId),
+  ]);
 
   const [journals, notices, sessions, diets] = await Promise.all([
-    membership
-      ? prisma.journal.findMany({
-          where: {
-            memberMembershipId: membership.id,
-            status: JournalStatus.PUBLISHED,
-          },
-          orderBy: { date: "desc" },
-          take: limit,
-          select: {
-            id: true,
-            date: true,
-            title: true,
-            content: true,
-            memberReadAt: true,
-            trainerMembership: { select: { user: { select: { name: true } } } },
-            _count: { select: { photos: true, comments: true } },
-          },
-        })
-      : [],
+    prisma.journal.findMany({
+      where: {
+        memberUserId: userId,
+        status: JournalStatus.PUBLISHED,
+      },
+      select: {
+        id: true,
+        date: true,
+        title: true,
+        content: true,
+        memberReadAt: true,
+        trainerProfile: {
+          select: { displayName: true, user: { select: { name: true } } },
+        },
+        _count: { select: { photos: true, comments: true } },
+      },
+      orderBy: { date: "desc" },
+      take: limit,
+    }),
     membership
       ? prisma.notice.findMany({
-          where: noticeVisibility(membership),
+          where: noticeVisibility(membership, trainerUserIds),
           orderBy: { publishedAt: "desc" },
           take: limit,
           select: {
@@ -167,7 +187,9 @@ export async function getTimeline(userId: string, limit = 30) {
           orderBy: { createdAt: "desc" },
           select: {
             createdAt: true,
-            trainerMembership: { select: { user: { select: { name: true } } } },
+            trainerProfile: {
+              select: { displayName: true, user: { select: { name: true } } },
+            },
           },
         },
       },
@@ -181,7 +203,8 @@ export async function getTimeline(userId: string, limit = 30) {
       date: journal.date,
       title: journal.title ?? "PT 알림장",
       preview: preview(journal.content),
-      authorName: journal.trainerMembership.user.name,
+      authorName:
+        journal.trainerProfile.displayName ?? journal.trainerProfile.user.name,
       photoCount: journal._count.photos,
       commentCount: journal._count.comments,
       unread: journal.memberReadAt === null,
@@ -240,7 +263,10 @@ export async function getTimeline(userId: string, limit = 30) {
           : diet.imagePath
             ? "사진만 남겼어요"
             : "내용 없이 끼니만 남겼어요",
-        authorName: latest?.trainerMembership.user.name ?? null,
+        authorName: latest
+          ? (latest.trainerProfile.displayName ??
+            latest.trainerProfile.user.name)
+          : null,
         feedbackCount: diet.feedbacks.length,
       };
     }),
@@ -274,28 +300,29 @@ export async function getTimeline(userId: string, limit = 30) {
  * 전까지 뭘 봐야 하는지 모른다.
  */
 export async function getUnreadCounts(userId: string) {
-  const membership = await getCurrentMembership(userId);
-
-  if (!membership) {
-    return { journals: 0, notices: 0, total: 0 };
-  }
+  const [membership, trainerUserIds] = await Promise.all([
+    getCurrentMembership(userId),
+    activeTrainerUserIds(userId),
+  ]);
 
   const [journals, notices] = await Promise.all([
     prisma.journal.count({
       where: {
-        memberMembershipId: membership.id,
+        memberUserId: userId,
         status: JournalStatus.PUBLISHED,
         memberReadAt: null,
       },
     }),
-    prisma.notice.count({
-      where: {
-        ...noticeVisibility(membership),
-        // 읽음 표시가 하나도 없는 것만. 공지는 여러 사람이 보므로
-        // "내 것" 만 걸러야 한다.
-        reads: { none: { membershipId: membership.id } },
-      },
-    }),
+    membership
+      ? prisma.notice.count({
+          where: {
+            ...noticeVisibility(membership, trainerUserIds),
+            // 읽음 표시가 하나도 없는 것만. 공지는 여러 사람이 보므로
+            // "내 것" 만 걸러야 한다.
+            reads: { none: { membershipId: membership.id } },
+          },
+        })
+      : 0,
   ]);
 
   return { journals, notices, total: journals + notices };
@@ -341,16 +368,10 @@ async function withSignedUrls(
 }
 
 export async function getJournalDetail(userId: string, journalId: string) {
-  const membership = await getCurrentMembership(userId);
-
-  if (!membership) {
-    throw new JournalError("NO_MEMBERSHIP", "센터에 소속되어 있지 않아요.");
-  }
-
   const journal = await prisma.journal.findFirst({
     where: {
       id: journalId,
-      memberMembershipId: membership.id,
+      memberUserId: userId,
       status: JournalStatus.PUBLISHED,
     },
     select: {
@@ -363,8 +384,13 @@ export async function getJournalDetail(userId: string, journalId: string) {
       caution: true,
       nextGoal: true,
       memberReadAt: true,
-      trainerMembership: {
-        select: { id: true, user: { select: { name: true } } },
+      trainerProfile: {
+        select: {
+          id: true,
+          userId: true,
+          displayName: true,
+          user: { select: { name: true } },
+        },
       },
       photos: {
         orderBy: { orderIndex: "asc" },
@@ -377,10 +403,8 @@ export async function getJournalDetail(userId: string, journalId: string) {
           id: true,
           content: true,
           createdAt: true,
-          authorMembershipId: true,
-          authorMembership: {
-            select: { role: true, user: { select: { name: true } } },
-          },
+          authorUserId: true,
+          author: { select: { name: true } },
         },
       },
       ptSession: {
@@ -430,7 +454,7 @@ export async function getJournalDetail(userId: string, journalId: string) {
   return {
     ...journal,
     photos,
-    myMembershipId: membership.id,
+    myUserId: userId,
     workout:
       workoutSession === null
         ? null
@@ -453,12 +477,6 @@ export async function addJournalComment(
   journalId: string,
   content: string,
 ) {
-  const membership = await getCurrentMembership(userId);
-
-  if (!membership) {
-    throw new JournalError("NO_MEMBERSHIP", "센터에 소속되어 있지 않아요.");
-  }
-
   const trimmed = content.trim();
 
   if (trimmed.length === 0) {
@@ -477,10 +495,7 @@ export async function addJournalComment(
     where: {
       id: journalId,
       status: JournalStatus.PUBLISHED,
-      OR: [
-        { memberMembershipId: membership.id },
-        { trainerMembershipId: membership.id },
-      ],
+      OR: [{ memberUserId: userId }, { trainerProfile: { userId } }],
     },
     select: { id: true },
   });
@@ -492,7 +507,7 @@ export async function addJournalComment(
   return prisma.journalComment.create({
     data: {
       journalId: journal.id,
-      authorMembershipId: membership.id,
+      authorUserId: userId,
       content: trimmed,
     },
     select: { id: true },
@@ -507,7 +522,10 @@ export async function getNoticeDetail(userId: string, noticeId: string) {
   }
 
   const notice = await prisma.notice.findFirst({
-    where: { id: noticeId, ...noticeVisibility(membership) },
+    where: {
+      id: noticeId,
+      ...noticeVisibility(membership, await activeTrainerUserIds(userId)),
+    },
     select: {
       id: true,
       title: true,

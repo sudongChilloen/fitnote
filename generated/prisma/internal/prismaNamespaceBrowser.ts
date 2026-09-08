@@ -59,6 +59,8 @@ export const ModelName = {
   CenterInvitation: 'CenterInvitation',
   MemberProfile: 'MemberProfile',
   TrainerProfile: 'TrainerProfile',
+  TrainerMemberConnection: 'TrainerMemberConnection',
+  TrainerInvitation: 'TrainerInvitation',
   Equipment: 'Equipment',
   MemberEquipment: 'MemberEquipment',
   Gym: 'Gym',
@@ -171,7 +173,6 @@ export const CenterMembershipScalarFieldEnum = {
   userId: 'userId',
   role: 'role',
   status: 'status',
-  assignedTrainerMembershipId: 'assignedTrainerMembershipId',
   joinedViaInvitationId: 'joinedViaInvitationId',
   joinedAt: 'joinedAt',
   leftAt: 'leftAt'
@@ -215,7 +216,8 @@ export type MemberProfileScalarFieldEnum = (typeof MemberProfileScalarFieldEnum)
 
 export const TrainerProfileScalarFieldEnum = {
   id: 'id',
-  membershipId: 'membershipId',
+  userId: 'userId',
+  displayName: 'displayName',
   bio: 'bio',
   specialty: 'specialty',
   careerYears: 'careerYears',
@@ -225,6 +227,35 @@ export const TrainerProfileScalarFieldEnum = {
 } as const
 
 export type TrainerProfileScalarFieldEnum = (typeof TrainerProfileScalarFieldEnum)[keyof typeof TrainerProfileScalarFieldEnum]
+
+
+export const TrainerMemberConnectionScalarFieldEnum = {
+  id: 'id',
+  trainerProfileId: 'trainerProfileId',
+  memberUserId: 'memberUserId',
+  status: 'status',
+  originCenterId: 'originCenterId',
+  startedAt: 'startedAt',
+  endedAt: 'endedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TrainerMemberConnectionScalarFieldEnum = (typeof TrainerMemberConnectionScalarFieldEnum)[keyof typeof TrainerMemberConnectionScalarFieldEnum]
+
+
+export const TrainerInvitationScalarFieldEnum = {
+  id: 'id',
+  trainerProfileId: 'trainerProfileId',
+  code: 'code',
+  maxUses: 'maxUses',
+  usedCount: 'usedCount',
+  expiresAt: 'expiresAt',
+  revokedAt: 'revokedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type TrainerInvitationScalarFieldEnum = (typeof TrainerInvitationScalarFieldEnum)[keyof typeof TrainerInvitationScalarFieldEnum]
 
 
 export const EquipmentScalarFieldEnum = {
@@ -332,7 +363,7 @@ export const RoutineScalarFieldEnum = {
   name: 'name',
   description: 'description',
   status: 'status',
-  createdByTrainerMembershipId: 'createdByTrainerMembershipId',
+  createdByTrainerProfileId: 'createdByTrainerProfileId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -434,7 +465,7 @@ export type PTProductScalarFieldEnum = (typeof PTProductScalarFieldEnum)[keyof t
 
 export const TrainerPTPriceScalarFieldEnum = {
   id: 'id',
-  trainerMembershipId: 'trainerMembershipId',
+  trainerProfileId: 'trainerProfileId',
   productId: 'productId',
   price: 'price',
   createdAt: 'createdAt',
@@ -446,9 +477,10 @@ export type TrainerPTPriceScalarFieldEnum = (typeof TrainerPTPriceScalarFieldEnu
 
 export const PTContractScalarFieldEnum = {
   id: 'id',
-  memberMembershipId: 'memberMembershipId',
-  trainerMembershipId: 'trainerMembershipId',
+  memberUserId: 'memberUserId',
+  trainerProfileId: 'trainerProfileId',
   productId: 'productId',
+  centerId: 'centerId',
   productNameSnapshot: 'productNameSnapshot',
   priceSnapshot: 'priceSnapshot',
   totalSessions: 'totalSessions',
@@ -466,8 +498,8 @@ export type PTContractScalarFieldEnum = (typeof PTContractScalarFieldEnum)[keyof
 export const PTSessionScalarFieldEnum = {
   id: 'id',
   contractId: 'contractId',
-  memberMembershipId: 'memberMembershipId',
-  trainerMembershipId: 'trainerMembershipId',
+  memberUserId: 'memberUserId',
+  trainerProfileId: 'trainerProfileId',
   sessionNumber: 'sessionNumber',
   scheduledAt: 'scheduledAt',
   durationMinutes: 'durationMinutes',
@@ -509,7 +541,7 @@ export type DietRecordScalarFieldEnum = (typeof DietRecordScalarFieldEnum)[keyof
 export const DietFeedbackScalarFieldEnum = {
   id: 'id',
   dietRecordId: 'dietRecordId',
-  trainerMembershipId: 'trainerMembershipId',
+  trainerProfileId: 'trainerProfileId',
   content: 'content',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -555,8 +587,8 @@ export type GoalScalarFieldEnum = (typeof GoalScalarFieldEnum)[keyof typeof Goal
 
 export const JournalScalarFieldEnum = {
   id: 'id',
-  memberMembershipId: 'memberMembershipId',
-  trainerMembershipId: 'trainerMembershipId',
+  memberUserId: 'memberUserId',
+  trainerProfileId: 'trainerProfileId',
   ptSessionId: 'ptSessionId',
   date: 'date',
   title: 'title',
@@ -590,7 +622,7 @@ export type JournalPhotoScalarFieldEnum = (typeof JournalPhotoScalarFieldEnum)[k
 export const JournalCommentScalarFieldEnum = {
   id: 'id',
   journalId: 'journalId',
-  authorMembershipId: 'authorMembershipId',
+  authorUserId: 'authorUserId',
   content: 'content',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -660,7 +692,7 @@ export type AiAnalysisScalarFieldEnum = (typeof AiAnalysisScalarFieldEnum)[keyof
 
 export const TrainerSharingSettingScalarFieldEnum = {
   id: 'id',
-  membershipId: 'membershipId',
+  userId: 'userId',
   shareDiet: 'shareDiet',
   shareDietPhoto: 'shareDietPhoto',
   sharePersonalWorkout: 'sharePersonalWorkout',

@@ -59,7 +59,10 @@ export function DietPhotoPicker() {
       // 이미 고른 사진이 있었다면 그건 이제 아무도 안 쓴다.
       if (paths) void discardDietPhotoAction(paths.full);
 
-      setPaths({ full: ticket.ticket.path, thumb: ticket.ticket.thumbnailPath });
+      setPaths({
+        full: ticket.ticket.path,
+        thumb: ticket.ticket.thumbnailPath,
+      });
       setPreview(URL.createObjectURL(thumbnail));
     } catch (uploadError) {
       setError(

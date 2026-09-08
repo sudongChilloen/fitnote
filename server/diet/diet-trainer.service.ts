@@ -52,17 +52,17 @@ export interface MemberDietDay {
  */
 export async function listMemberDiet(
   trainerUserId: string,
-  memberMembershipId: string,
+  connectionId: string,
   limit = 12,
 ): Promise<{ days: MemberDietDay[]; setting: SharingSetting }> {
   const { member, setting } = await assertTrainerCanView(
     trainerUserId,
-    memberMembershipId,
+    connectionId,
     "DIET",
   );
 
   const rows = await prisma.dietRecord.findMany({
-    where: { userId: member.user.id },
+    where: { userId: member.memberUserId },
     orderBy: [{ date: "desc" }, { createdAt: "desc" }],
     take: limit,
     select: listSelect,
@@ -115,17 +115,17 @@ export async function listMemberDiet(
 
 export async function getMemberDietDetail(
   trainerUserId: string,
-  memberMembershipId: string,
+  connectionId: string,
   dietId: string,
 ) {
   const { member, setting } = await assertTrainerCanView(
     trainerUserId,
-    memberMembershipId,
+    connectionId,
     "DIET",
   );
 
   const detail = await getDietDetailForTrainer(
-    member.user.id,
+    member.memberUserId,
     dietId,
     setting.shareDietPhoto,
   );
@@ -141,13 +141,13 @@ export async function getMemberDietDetail(
  */
 export async function addDietFeedback(
   trainerUserId: string,
-  memberMembershipId: string,
+  connectionId: string,
   dietId: string,
   content: unknown,
 ) {
   const { trainer, member } = await assertTrainerCanView(
     trainerUserId,
-    memberMembershipId,
+    connectionId,
     "DIET",
   );
 
@@ -158,7 +158,7 @@ export async function addDietFeedback(
   }
 
   const diet = await prisma.dietRecord.findFirst({
-    where: { id: dietId, userId: member.user.id },
+    where: { id: dietId, userId: member.memberUserId },
     select: { id: true },
   });
 
@@ -169,7 +169,7 @@ export async function addDietFeedback(
   return prisma.dietFeedback.create({
     data: {
       dietRecordId: diet.id,
-      trainerMembershipId: trainer.id,
+      trainerProfileId: trainer.id,
       content: text,
     },
     select: { id: true },
@@ -179,17 +179,17 @@ export async function addDietFeedback(
 /** 내가 쓴 피드백만 지운다. 회원의 글이 아니라 내 글이므로 회원은 못 지운다. */
 export async function deleteDietFeedback(
   trainerUserId: string,
-  memberMembershipId: string,
+  connectionId: string,
   feedbackId: string,
 ) {
   const { trainer } = await assertTrainerCanView(
     trainerUserId,
-    memberMembershipId,
+    connectionId,
     "DIET",
   );
 
   const feedback = await prisma.dietFeedback.findFirst({
-    where: { id: feedbackId, trainerMembershipId: trainer.id },
+    where: { id: feedbackId, trainerProfileId: trainer.id },
     select: { id: true },
   });
 

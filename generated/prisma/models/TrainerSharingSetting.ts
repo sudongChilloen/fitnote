@@ -16,8 +16,10 @@ import type * as Prisma from "../internal/prismaNamespace"
  * Model TrainerSharingSetting
  * *
  *  * 회원이 담당 트레이너에게 무엇까지 보여줄지.
- *  * 센터 소속마다 따로 둔다. 헬스장을 옮기면 새 트레이너에게 지난 센터의
- *  * 설정이 그대로 따라가면 안 된다. 회원 계정이 아니라 소속에 붙이는 이유다.
+ *  * 회원 계정에 붙인다. 예전에는 센터 소속에 붙였는데, 이제 코칭 관계가 센터와
+ *  * 무관하게 이어지므로 소속에 매달면 센터를 옮길 때마다 설정이 초기화된다.
+ *  * 켜 둔 줄 알았던 것이 조용히 꺼지는 쪽이, 지난 설정이 따라오는 것보다 나쁘다.
+ *  * 트레이너를 여럿 두게 되면 이 표가 연결(TrainerMemberConnection)로 내려간다.
  *  * PT 수업 기록은 여기에 없다. 그건 트레이너가 직접 적은 것이라 회원이
  *  * 가릴 대상이 아니다. 회원이 스스로 남긴 것만 고를 수 있게 한다.
  */
@@ -31,7 +33,7 @@ export type AggregateTrainerSharingSetting = {
 
 export type TrainerSharingSettingMinAggregateOutputType = {
   id: string | null
-  membershipId: string | null
+  userId: string | null
   shareDiet: boolean | null
   shareDietPhoto: boolean | null
   sharePersonalWorkout: boolean | null
@@ -42,7 +44,7 @@ export type TrainerSharingSettingMinAggregateOutputType = {
 
 export type TrainerSharingSettingMaxAggregateOutputType = {
   id: string | null
-  membershipId: string | null
+  userId: string | null
   shareDiet: boolean | null
   shareDietPhoto: boolean | null
   sharePersonalWorkout: boolean | null
@@ -53,7 +55,7 @@ export type TrainerSharingSettingMaxAggregateOutputType = {
 
 export type TrainerSharingSettingCountAggregateOutputType = {
   id: number
-  membershipId: number
+  userId: number
   shareDiet: number
   shareDietPhoto: number
   sharePersonalWorkout: number
@@ -66,7 +68,7 @@ export type TrainerSharingSettingCountAggregateOutputType = {
 
 export type TrainerSharingSettingMinAggregateInputType = {
   id?: true
-  membershipId?: true
+  userId?: true
   shareDiet?: true
   shareDietPhoto?: true
   sharePersonalWorkout?: true
@@ -77,7 +79,7 @@ export type TrainerSharingSettingMinAggregateInputType = {
 
 export type TrainerSharingSettingMaxAggregateInputType = {
   id?: true
-  membershipId?: true
+  userId?: true
   shareDiet?: true
   shareDietPhoto?: true
   sharePersonalWorkout?: true
@@ -88,7 +90,7 @@ export type TrainerSharingSettingMaxAggregateInputType = {
 
 export type TrainerSharingSettingCountAggregateInputType = {
   id?: true
-  membershipId?: true
+  userId?: true
   shareDiet?: true
   shareDietPhoto?: true
   sharePersonalWorkout?: true
@@ -172,7 +174,7 @@ export type TrainerSharingSettingGroupByArgs<ExtArgs extends runtime.Types.Exten
 
 export type TrainerSharingSettingGroupByOutputType = {
   id: string
-  membershipId: string
+  userId: string
   shareDiet: boolean
   shareDietPhoto: boolean
   sharePersonalWorkout: boolean
@@ -204,31 +206,31 @@ export type TrainerSharingSettingWhereInput = {
   OR?: Prisma.TrainerSharingSettingWhereInput[]
   NOT?: Prisma.TrainerSharingSettingWhereInput | Prisma.TrainerSharingSettingWhereInput[]
   id?: Prisma.StringFilter<"TrainerSharingSetting"> | string
-  membershipId?: Prisma.StringFilter<"TrainerSharingSetting"> | string
+  userId?: Prisma.StringFilter<"TrainerSharingSetting"> | string
   shareDiet?: Prisma.BoolFilter<"TrainerSharingSetting"> | boolean
   shareDietPhoto?: Prisma.BoolFilter<"TrainerSharingSetting"> | boolean
   sharePersonalWorkout?: Prisma.BoolFilter<"TrainerSharingSetting"> | boolean
   shareBody?: Prisma.BoolFilter<"TrainerSharingSetting"> | boolean
   createdAt?: Prisma.DateTimeFilter<"TrainerSharingSetting"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TrainerSharingSetting"> | Date | string
-  membership?: Prisma.XOR<Prisma.CenterMembershipScalarRelationFilter, Prisma.CenterMembershipWhereInput>
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type TrainerSharingSettingOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  membershipId?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   shareDiet?: Prisma.SortOrder
   shareDietPhoto?: Prisma.SortOrder
   sharePersonalWorkout?: Prisma.SortOrder
   shareBody?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  membership?: Prisma.CenterMembershipOrderByWithRelationInput
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type TrainerSharingSettingWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  membershipId?: string
+  userId?: string
   AND?: Prisma.TrainerSharingSettingWhereInput | Prisma.TrainerSharingSettingWhereInput[]
   OR?: Prisma.TrainerSharingSettingWhereInput[]
   NOT?: Prisma.TrainerSharingSettingWhereInput | Prisma.TrainerSharingSettingWhereInput[]
@@ -238,12 +240,12 @@ export type TrainerSharingSettingWhereUniqueInput = Prisma.AtLeast<{
   shareBody?: Prisma.BoolFilter<"TrainerSharingSetting"> | boolean
   createdAt?: Prisma.DateTimeFilter<"TrainerSharingSetting"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TrainerSharingSetting"> | Date | string
-  membership?: Prisma.XOR<Prisma.CenterMembershipScalarRelationFilter, Prisma.CenterMembershipWhereInput>
-}, "id" | "membershipId">
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+}, "id" | "userId">
 
 export type TrainerSharingSettingOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  membershipId?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   shareDiet?: Prisma.SortOrder
   shareDietPhoto?: Prisma.SortOrder
   sharePersonalWorkout?: Prisma.SortOrder
@@ -260,7 +262,7 @@ export type TrainerSharingSettingScalarWhereWithAggregatesInput = {
   OR?: Prisma.TrainerSharingSettingScalarWhereWithAggregatesInput[]
   NOT?: Prisma.TrainerSharingSettingScalarWhereWithAggregatesInput | Prisma.TrainerSharingSettingScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"TrainerSharingSetting"> | string
-  membershipId?: Prisma.StringWithAggregatesFilter<"TrainerSharingSetting"> | string
+  userId?: Prisma.StringWithAggregatesFilter<"TrainerSharingSetting"> | string
   shareDiet?: Prisma.BoolWithAggregatesFilter<"TrainerSharingSetting"> | boolean
   shareDietPhoto?: Prisma.BoolWithAggregatesFilter<"TrainerSharingSetting"> | boolean
   sharePersonalWorkout?: Prisma.BoolWithAggregatesFilter<"TrainerSharingSetting"> | boolean
@@ -277,12 +279,12 @@ export type TrainerSharingSettingCreateInput = {
   shareBody?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  membership: Prisma.CenterMembershipCreateNestedOneWithoutSharingSettingInput
+  user: Prisma.UserCreateNestedOneWithoutSharingSettingInput
 }
 
 export type TrainerSharingSettingUncheckedCreateInput = {
   id?: string
-  membershipId: string
+  userId: string
   shareDiet?: boolean
   shareDietPhoto?: boolean
   sharePersonalWorkout?: boolean
@@ -299,12 +301,12 @@ export type TrainerSharingSettingUpdateInput = {
   shareBody?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  membership?: Prisma.CenterMembershipUpdateOneRequiredWithoutSharingSettingNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutSharingSettingNestedInput
 }
 
 export type TrainerSharingSettingUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  membershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   shareDiet?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shareDietPhoto?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sharePersonalWorkout?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -315,7 +317,7 @@ export type TrainerSharingSettingUncheckedUpdateInput = {
 
 export type TrainerSharingSettingCreateManyInput = {
   id?: string
-  membershipId: string
+  userId: string
   shareDiet?: boolean
   shareDietPhoto?: boolean
   sharePersonalWorkout?: boolean
@@ -336,7 +338,7 @@ export type TrainerSharingSettingUpdateManyMutationInput = {
 
 export type TrainerSharingSettingUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  membershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   shareDiet?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shareDietPhoto?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sharePersonalWorkout?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -352,7 +354,7 @@ export type TrainerSharingSettingNullableScalarRelationFilter = {
 
 export type TrainerSharingSettingCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  membershipId?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   shareDiet?: Prisma.SortOrder
   shareDietPhoto?: Prisma.SortOrder
   sharePersonalWorkout?: Prisma.SortOrder
@@ -363,7 +365,7 @@ export type TrainerSharingSettingCountOrderByAggregateInput = {
 
 export type TrainerSharingSettingMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  membershipId?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   shareDiet?: Prisma.SortOrder
   shareDietPhoto?: Prisma.SortOrder
   sharePersonalWorkout?: Prisma.SortOrder
@@ -374,7 +376,7 @@ export type TrainerSharingSettingMaxOrderByAggregateInput = {
 
 export type TrainerSharingSettingMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  membershipId?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   shareDiet?: Prisma.SortOrder
   shareDietPhoto?: Prisma.SortOrder
   sharePersonalWorkout?: Prisma.SortOrder
@@ -383,39 +385,39 @@ export type TrainerSharingSettingMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
-export type TrainerSharingSettingCreateNestedOneWithoutMembershipInput = {
-  create?: Prisma.XOR<Prisma.TrainerSharingSettingCreateWithoutMembershipInput, Prisma.TrainerSharingSettingUncheckedCreateWithoutMembershipInput>
-  connectOrCreate?: Prisma.TrainerSharingSettingCreateOrConnectWithoutMembershipInput
+export type TrainerSharingSettingCreateNestedOneWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.TrainerSharingSettingCreateWithoutUserInput, Prisma.TrainerSharingSettingUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.TrainerSharingSettingCreateOrConnectWithoutUserInput
   connect?: Prisma.TrainerSharingSettingWhereUniqueInput
 }
 
-export type TrainerSharingSettingUncheckedCreateNestedOneWithoutMembershipInput = {
-  create?: Prisma.XOR<Prisma.TrainerSharingSettingCreateWithoutMembershipInput, Prisma.TrainerSharingSettingUncheckedCreateWithoutMembershipInput>
-  connectOrCreate?: Prisma.TrainerSharingSettingCreateOrConnectWithoutMembershipInput
+export type TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.TrainerSharingSettingCreateWithoutUserInput, Prisma.TrainerSharingSettingUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.TrainerSharingSettingCreateOrConnectWithoutUserInput
   connect?: Prisma.TrainerSharingSettingWhereUniqueInput
 }
 
-export type TrainerSharingSettingUpdateOneWithoutMembershipNestedInput = {
-  create?: Prisma.XOR<Prisma.TrainerSharingSettingCreateWithoutMembershipInput, Prisma.TrainerSharingSettingUncheckedCreateWithoutMembershipInput>
-  connectOrCreate?: Prisma.TrainerSharingSettingCreateOrConnectWithoutMembershipInput
-  upsert?: Prisma.TrainerSharingSettingUpsertWithoutMembershipInput
+export type TrainerSharingSettingUpdateOneWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.TrainerSharingSettingCreateWithoutUserInput, Prisma.TrainerSharingSettingUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.TrainerSharingSettingCreateOrConnectWithoutUserInput
+  upsert?: Prisma.TrainerSharingSettingUpsertWithoutUserInput
   disconnect?: Prisma.TrainerSharingSettingWhereInput | boolean
   delete?: Prisma.TrainerSharingSettingWhereInput | boolean
   connect?: Prisma.TrainerSharingSettingWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TrainerSharingSettingUpdateToOneWithWhereWithoutMembershipInput, Prisma.TrainerSharingSettingUpdateWithoutMembershipInput>, Prisma.TrainerSharingSettingUncheckedUpdateWithoutMembershipInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TrainerSharingSettingUpdateToOneWithWhereWithoutUserInput, Prisma.TrainerSharingSettingUpdateWithoutUserInput>, Prisma.TrainerSharingSettingUncheckedUpdateWithoutUserInput>
 }
 
-export type TrainerSharingSettingUncheckedUpdateOneWithoutMembershipNestedInput = {
-  create?: Prisma.XOR<Prisma.TrainerSharingSettingCreateWithoutMembershipInput, Prisma.TrainerSharingSettingUncheckedCreateWithoutMembershipInput>
-  connectOrCreate?: Prisma.TrainerSharingSettingCreateOrConnectWithoutMembershipInput
-  upsert?: Prisma.TrainerSharingSettingUpsertWithoutMembershipInput
+export type TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.TrainerSharingSettingCreateWithoutUserInput, Prisma.TrainerSharingSettingUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.TrainerSharingSettingCreateOrConnectWithoutUserInput
+  upsert?: Prisma.TrainerSharingSettingUpsertWithoutUserInput
   disconnect?: Prisma.TrainerSharingSettingWhereInput | boolean
   delete?: Prisma.TrainerSharingSettingWhereInput | boolean
   connect?: Prisma.TrainerSharingSettingWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TrainerSharingSettingUpdateToOneWithWhereWithoutMembershipInput, Prisma.TrainerSharingSettingUpdateWithoutMembershipInput>, Prisma.TrainerSharingSettingUncheckedUpdateWithoutMembershipInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TrainerSharingSettingUpdateToOneWithWhereWithoutUserInput, Prisma.TrainerSharingSettingUpdateWithoutUserInput>, Prisma.TrainerSharingSettingUncheckedUpdateWithoutUserInput>
 }
 
-export type TrainerSharingSettingCreateWithoutMembershipInput = {
+export type TrainerSharingSettingCreateWithoutUserInput = {
   id?: string
   shareDiet?: boolean
   shareDietPhoto?: boolean
@@ -425,7 +427,7 @@ export type TrainerSharingSettingCreateWithoutMembershipInput = {
   updatedAt?: Date | string
 }
 
-export type TrainerSharingSettingUncheckedCreateWithoutMembershipInput = {
+export type TrainerSharingSettingUncheckedCreateWithoutUserInput = {
   id?: string
   shareDiet?: boolean
   shareDietPhoto?: boolean
@@ -435,23 +437,23 @@ export type TrainerSharingSettingUncheckedCreateWithoutMembershipInput = {
   updatedAt?: Date | string
 }
 
-export type TrainerSharingSettingCreateOrConnectWithoutMembershipInput = {
+export type TrainerSharingSettingCreateOrConnectWithoutUserInput = {
   where: Prisma.TrainerSharingSettingWhereUniqueInput
-  create: Prisma.XOR<Prisma.TrainerSharingSettingCreateWithoutMembershipInput, Prisma.TrainerSharingSettingUncheckedCreateWithoutMembershipInput>
+  create: Prisma.XOR<Prisma.TrainerSharingSettingCreateWithoutUserInput, Prisma.TrainerSharingSettingUncheckedCreateWithoutUserInput>
 }
 
-export type TrainerSharingSettingUpsertWithoutMembershipInput = {
-  update: Prisma.XOR<Prisma.TrainerSharingSettingUpdateWithoutMembershipInput, Prisma.TrainerSharingSettingUncheckedUpdateWithoutMembershipInput>
-  create: Prisma.XOR<Prisma.TrainerSharingSettingCreateWithoutMembershipInput, Prisma.TrainerSharingSettingUncheckedCreateWithoutMembershipInput>
+export type TrainerSharingSettingUpsertWithoutUserInput = {
+  update: Prisma.XOR<Prisma.TrainerSharingSettingUpdateWithoutUserInput, Prisma.TrainerSharingSettingUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.TrainerSharingSettingCreateWithoutUserInput, Prisma.TrainerSharingSettingUncheckedCreateWithoutUserInput>
   where?: Prisma.TrainerSharingSettingWhereInput
 }
 
-export type TrainerSharingSettingUpdateToOneWithWhereWithoutMembershipInput = {
+export type TrainerSharingSettingUpdateToOneWithWhereWithoutUserInput = {
   where?: Prisma.TrainerSharingSettingWhereInput
-  data: Prisma.XOR<Prisma.TrainerSharingSettingUpdateWithoutMembershipInput, Prisma.TrainerSharingSettingUncheckedUpdateWithoutMembershipInput>
+  data: Prisma.XOR<Prisma.TrainerSharingSettingUpdateWithoutUserInput, Prisma.TrainerSharingSettingUncheckedUpdateWithoutUserInput>
 }
 
-export type TrainerSharingSettingUpdateWithoutMembershipInput = {
+export type TrainerSharingSettingUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   shareDiet?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shareDietPhoto?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -461,7 +463,7 @@ export type TrainerSharingSettingUpdateWithoutMembershipInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type TrainerSharingSettingUncheckedUpdateWithoutMembershipInput = {
+export type TrainerSharingSettingUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   shareDiet?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shareDietPhoto?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -475,43 +477,43 @@ export type TrainerSharingSettingUncheckedUpdateWithoutMembershipInput = {
 
 export type TrainerSharingSettingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  membershipId?: boolean
+  userId?: boolean
   shareDiet?: boolean
   shareDietPhoto?: boolean
   sharePersonalWorkout?: boolean
   shareBody?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  membership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["trainerSharingSetting"]>
 
 export type TrainerSharingSettingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  membershipId?: boolean
+  userId?: boolean
   shareDiet?: boolean
   shareDietPhoto?: boolean
   sharePersonalWorkout?: boolean
   shareBody?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  membership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["trainerSharingSetting"]>
 
 export type TrainerSharingSettingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  membershipId?: boolean
+  userId?: boolean
   shareDiet?: boolean
   shareDietPhoto?: boolean
   sharePersonalWorkout?: boolean
   shareBody?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  membership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["trainerSharingSetting"]>
 
 export type TrainerSharingSettingSelectScalar = {
   id?: boolean
-  membershipId?: boolean
+  userId?: boolean
   shareDiet?: boolean
   shareDietPhoto?: boolean
   sharePersonalWorkout?: boolean
@@ -520,25 +522,25 @@ export type TrainerSharingSettingSelectScalar = {
   updatedAt?: boolean
 }
 
-export type TrainerSharingSettingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "membershipId" | "shareDiet" | "shareDietPhoto" | "sharePersonalWorkout" | "shareBody" | "createdAt" | "updatedAt", ExtArgs["result"]["trainerSharingSetting"]>
+export type TrainerSharingSettingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "shareDiet" | "shareDietPhoto" | "sharePersonalWorkout" | "shareBody" | "createdAt" | "updatedAt", ExtArgs["result"]["trainerSharingSetting"]>
 export type TrainerSharingSettingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  membership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type TrainerSharingSettingIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  membership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type TrainerSharingSettingIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  membership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $TrainerSharingSettingPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "TrainerSharingSetting"
   objects: {
-    membership: Prisma.$CenterMembershipPayload<ExtArgs>
+    user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    membershipId: string
+    userId: string
     /**
      * *
      *    * 식단은 기본으로 켠다.
@@ -951,7 +953,7 @@ readonly fields: TrainerSharingSettingFieldRefs;
  */
 export interface Prisma__TrainerSharingSettingClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  membership<T extends Prisma.CenterMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__CenterMembershipClient<runtime.Types.Result.GetResult<Prisma.$CenterMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -982,7 +984,7 @@ export interface Prisma__TrainerSharingSettingClient<T, Null = never, ExtArgs ex
  */
 export interface TrainerSharingSettingFieldRefs {
   readonly id: Prisma.FieldRef<"TrainerSharingSetting", 'String'>
-  readonly membershipId: Prisma.FieldRef<"TrainerSharingSetting", 'String'>
+  readonly userId: Prisma.FieldRef<"TrainerSharingSetting", 'String'>
   readonly shareDiet: Prisma.FieldRef<"TrainerSharingSetting", 'Boolean'>
   readonly shareDietPhoto: Prisma.FieldRef<"TrainerSharingSetting", 'Boolean'>
   readonly sharePersonalWorkout: Prisma.FieldRef<"TrainerSharingSetting", 'Boolean'>

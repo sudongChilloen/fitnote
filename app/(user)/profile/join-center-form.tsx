@@ -2,19 +2,19 @@
 
 import { useActionState } from "react";
 
-import { joinCenter, type CenterActionState } from "./actions";
+import { redeemCode, type CenterActionState } from "./actions";
 
 /**
- * 초대 코드 입력.
+ * 코드 입력.
  *
- * 소속이 없으면 센터 가입, 이미 있으면 담당 트레이너 변경에 쓰인다.
- * 서버가 두 경우를 알아서 가르므로 화면은 하나면 된다.
+ * 트레이너 코드든 센터 코드든 이 한 칸으로 받는다. 어느 쪽인지는 코드가 알고
+ * 있어서 서버가 가른다. 회원에게 칸을 두 개 보여 주면 절반은 틀린 칸에 넣는다.
  */
-export function JoinCenterForm({ hasCenter }: { hasCenter: boolean }) {
+export function JoinCenterForm() {
   const [state, formAction, pending] = useActionState<
     CenterActionState | undefined,
     FormData
-  >(joinCenter, undefined);
+  >(redeemCode, undefined);
 
   return (
     <form action={formAction} className="flex flex-col gap-2">
@@ -27,7 +27,7 @@ export function JoinCenterForm({ hasCenter }: { hasCenter: boolean }) {
           autoCorrect="off"
           spellCheck={false}
           maxLength={12}
-          placeholder="ABCD2345"
+          placeholder="TR-ABCD2345"
           aria-label="초대 코드"
           className="h-12 min-w-0 flex-1 rounded-xl border border-border bg-background px-4 font-mono text-base tracking-widest uppercase placeholder:tracking-normal placeholder:normal-case"
         />
@@ -36,7 +36,7 @@ export function JoinCenterForm({ hasCenter }: { hasCenter: boolean }) {
           disabled={pending}
           className="h-12 shrink-0 rounded-xl bg-primary px-5 font-bold text-primary-foreground disabled:opacity-50"
         >
-          {pending ? "확인 중" : hasCenter ? "연결" : "가입"}
+          {pending ? "확인 중" : "연결"}
         </button>
       </div>
 

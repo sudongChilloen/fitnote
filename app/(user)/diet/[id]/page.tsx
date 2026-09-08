@@ -5,7 +5,11 @@ import { ChevronLeft, MessageSquare, UtensilsCrossed } from "lucide-react";
 
 import { requireUser } from "@/app/lib/dal";
 import { formatKstDateLabel, toKstDateKey } from "@/lib/date";
-import { DietError, getMyDietDetail, MEAL_LABEL } from "@/server/diet/diet.service";
+import {
+  DietError,
+  getMyDietDetail,
+  MEAL_LABEL,
+} from "@/server/diet/diet.service";
 
 import { deleteDietRecord } from "../actions";
 import { DietSharingNotice } from "../diet-sharing-notice";

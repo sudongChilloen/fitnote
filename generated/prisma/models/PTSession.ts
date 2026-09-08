@@ -39,8 +39,8 @@ export type PTSessionSumAggregateOutputType = {
 export type PTSessionMinAggregateOutputType = {
   id: string | null
   contractId: string | null
-  memberMembershipId: string | null
-  trainerMembershipId: string | null
+  memberUserId: string | null
+  trainerProfileId: string | null
   sessionNumber: number | null
   scheduledAt: Date | null
   durationMinutes: number | null
@@ -56,8 +56,8 @@ export type PTSessionMinAggregateOutputType = {
 export type PTSessionMaxAggregateOutputType = {
   id: string | null
   contractId: string | null
-  memberMembershipId: string | null
-  trainerMembershipId: string | null
+  memberUserId: string | null
+  trainerProfileId: string | null
   sessionNumber: number | null
   scheduledAt: Date | null
   durationMinutes: number | null
@@ -73,8 +73,8 @@ export type PTSessionMaxAggregateOutputType = {
 export type PTSessionCountAggregateOutputType = {
   id: number
   contractId: number
-  memberMembershipId: number
-  trainerMembershipId: number
+  memberUserId: number
+  trainerProfileId: number
   sessionNumber: number
   scheduledAt: number
   durationMinutes: number
@@ -102,8 +102,8 @@ export type PTSessionSumAggregateInputType = {
 export type PTSessionMinAggregateInputType = {
   id?: true
   contractId?: true
-  memberMembershipId?: true
-  trainerMembershipId?: true
+  memberUserId?: true
+  trainerProfileId?: true
   sessionNumber?: true
   scheduledAt?: true
   durationMinutes?: true
@@ -119,8 +119,8 @@ export type PTSessionMinAggregateInputType = {
 export type PTSessionMaxAggregateInputType = {
   id?: true
   contractId?: true
-  memberMembershipId?: true
-  trainerMembershipId?: true
+  memberUserId?: true
+  trainerProfileId?: true
   sessionNumber?: true
   scheduledAt?: true
   durationMinutes?: true
@@ -136,8 +136,8 @@ export type PTSessionMaxAggregateInputType = {
 export type PTSessionCountAggregateInputType = {
   id?: true
   contractId?: true
-  memberMembershipId?: true
-  trainerMembershipId?: true
+  memberUserId?: true
+  trainerProfileId?: true
   sessionNumber?: true
   scheduledAt?: true
   durationMinutes?: true
@@ -240,8 +240,8 @@ export type PTSessionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 export type PTSessionGroupByOutputType = {
   id: string
   contractId: string
-  memberMembershipId: string
-  trainerMembershipId: string
+  memberUserId: string
+  trainerProfileId: string
   sessionNumber: number
   scheduledAt: Date
   durationMinutes: number
@@ -280,8 +280,8 @@ export type PTSessionWhereInput = {
   NOT?: Prisma.PTSessionWhereInput | Prisma.PTSessionWhereInput[]
   id?: Prisma.StringFilter<"PTSession"> | string
   contractId?: Prisma.StringFilter<"PTSession"> | string
-  memberMembershipId?: Prisma.StringFilter<"PTSession"> | string
-  trainerMembershipId?: Prisma.StringFilter<"PTSession"> | string
+  memberUserId?: Prisma.StringFilter<"PTSession"> | string
+  trainerProfileId?: Prisma.StringFilter<"PTSession"> | string
   sessionNumber?: Prisma.IntFilter<"PTSession"> | number
   scheduledAt?: Prisma.DateTimeFilter<"PTSession"> | Date | string
   durationMinutes?: Prisma.IntFilter<"PTSession"> | number
@@ -293,8 +293,8 @@ export type PTSessionWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"PTSession"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PTSession"> | Date | string
   contract?: Prisma.XOR<Prisma.PTContractScalarRelationFilter, Prisma.PTContractWhereInput>
-  memberMembership?: Prisma.XOR<Prisma.CenterMembershipScalarRelationFilter, Prisma.CenterMembershipWhereInput>
-  trainerMembership?: Prisma.XOR<Prisma.CenterMembershipScalarRelationFilter, Prisma.CenterMembershipWhereInput>
+  memberUser?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  trainerProfile?: Prisma.XOR<Prisma.TrainerProfileScalarRelationFilter, Prisma.TrainerProfileWhereInput>
   workoutSession?: Prisma.XOR<Prisma.WorkoutSessionNullableScalarRelationFilter, Prisma.WorkoutSessionWhereInput> | null
   journals?: Prisma.JournalListRelationFilter
 }
@@ -302,8 +302,8 @@ export type PTSessionWhereInput = {
 export type PTSessionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   contractId?: Prisma.SortOrder
-  memberMembershipId?: Prisma.SortOrder
-  trainerMembershipId?: Prisma.SortOrder
+  memberUserId?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
   sessionNumber?: Prisma.SortOrder
   scheduledAt?: Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
@@ -315,8 +315,8 @@ export type PTSessionOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   contract?: Prisma.PTContractOrderByWithRelationInput
-  memberMembership?: Prisma.CenterMembershipOrderByWithRelationInput
-  trainerMembership?: Prisma.CenterMembershipOrderByWithRelationInput
+  memberUser?: Prisma.UserOrderByWithRelationInput
+  trainerProfile?: Prisma.TrainerProfileOrderByWithRelationInput
   workoutSession?: Prisma.WorkoutSessionOrderByWithRelationInput
   journals?: Prisma.JournalOrderByRelationAggregateInput
 }
@@ -328,8 +328,8 @@ export type PTSessionWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.PTSessionWhereInput[]
   NOT?: Prisma.PTSessionWhereInput | Prisma.PTSessionWhereInput[]
   contractId?: Prisma.StringFilter<"PTSession"> | string
-  memberMembershipId?: Prisma.StringFilter<"PTSession"> | string
-  trainerMembershipId?: Prisma.StringFilter<"PTSession"> | string
+  memberUserId?: Prisma.StringFilter<"PTSession"> | string
+  trainerProfileId?: Prisma.StringFilter<"PTSession"> | string
   sessionNumber?: Prisma.IntFilter<"PTSession"> | number
   scheduledAt?: Prisma.DateTimeFilter<"PTSession"> | Date | string
   durationMinutes?: Prisma.IntFilter<"PTSession"> | number
@@ -341,8 +341,8 @@ export type PTSessionWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"PTSession"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PTSession"> | Date | string
   contract?: Prisma.XOR<Prisma.PTContractScalarRelationFilter, Prisma.PTContractWhereInput>
-  memberMembership?: Prisma.XOR<Prisma.CenterMembershipScalarRelationFilter, Prisma.CenterMembershipWhereInput>
-  trainerMembership?: Prisma.XOR<Prisma.CenterMembershipScalarRelationFilter, Prisma.CenterMembershipWhereInput>
+  memberUser?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  trainerProfile?: Prisma.XOR<Prisma.TrainerProfileScalarRelationFilter, Prisma.TrainerProfileWhereInput>
   workoutSession?: Prisma.XOR<Prisma.WorkoutSessionNullableScalarRelationFilter, Prisma.WorkoutSessionWhereInput> | null
   journals?: Prisma.JournalListRelationFilter
 }, "id" | "contractId_sessionNumber">
@@ -350,8 +350,8 @@ export type PTSessionWhereUniqueInput = Prisma.AtLeast<{
 export type PTSessionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   contractId?: Prisma.SortOrder
-  memberMembershipId?: Prisma.SortOrder
-  trainerMembershipId?: Prisma.SortOrder
+  memberUserId?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
   sessionNumber?: Prisma.SortOrder
   scheduledAt?: Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
@@ -375,8 +375,8 @@ export type PTSessionScalarWhereWithAggregatesInput = {
   NOT?: Prisma.PTSessionScalarWhereWithAggregatesInput | Prisma.PTSessionScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"PTSession"> | string
   contractId?: Prisma.StringWithAggregatesFilter<"PTSession"> | string
-  memberMembershipId?: Prisma.StringWithAggregatesFilter<"PTSession"> | string
-  trainerMembershipId?: Prisma.StringWithAggregatesFilter<"PTSession"> | string
+  memberUserId?: Prisma.StringWithAggregatesFilter<"PTSession"> | string
+  trainerProfileId?: Prisma.StringWithAggregatesFilter<"PTSession"> | string
   sessionNumber?: Prisma.IntWithAggregatesFilter<"PTSession"> | number
   scheduledAt?: Prisma.DateTimeWithAggregatesFilter<"PTSession"> | Date | string
   durationMinutes?: Prisma.IntWithAggregatesFilter<"PTSession"> | number
@@ -402,8 +402,8 @@ export type PTSessionCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   contract: Prisma.PTContractCreateNestedOneWithoutSessionsInput
-  memberMembership: Prisma.CenterMembershipCreateNestedOneWithoutMemberPTSessionsInput
-  trainerMembership: Prisma.CenterMembershipCreateNestedOneWithoutTrainerPTSessionsInput
+  memberUser: Prisma.UserCreateNestedOneWithoutPtSessionsInput
+  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutPtSessionsInput
   workoutSession?: Prisma.WorkoutSessionCreateNestedOneWithoutPtSessionInput
   journals?: Prisma.JournalCreateNestedManyWithoutPtSessionInput
 }
@@ -411,8 +411,8 @@ export type PTSessionCreateInput = {
 export type PTSessionUncheckedCreateInput = {
   id?: string
   contractId: string
-  memberMembershipId: string
-  trainerMembershipId: string
+  memberUserId: string
+  trainerProfileId: string
   sessionNumber: number
   scheduledAt: Date | string
   durationMinutes?: number
@@ -440,8 +440,8 @@ export type PTSessionUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   contract?: Prisma.PTContractUpdateOneRequiredWithoutSessionsNestedInput
-  memberMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutMemberPTSessionsNestedInput
-  trainerMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutTrainerPTSessionsNestedInput
+  memberUser?: Prisma.UserUpdateOneRequiredWithoutPtSessionsNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutPtSessionsNestedInput
   workoutSession?: Prisma.WorkoutSessionUpdateOneWithoutPtSessionNestedInput
   journals?: Prisma.JournalUpdateManyWithoutPtSessionNestedInput
 }
@@ -449,8 +449,8 @@ export type PTSessionUpdateInput = {
 export type PTSessionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   contractId?: Prisma.StringFieldUpdateOperationsInput | string
-  memberMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   sessionNumber?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
@@ -468,8 +468,8 @@ export type PTSessionUncheckedUpdateInput = {
 export type PTSessionCreateManyInput = {
   id?: string
   contractId: string
-  memberMembershipId: string
-  trainerMembershipId: string
+  memberUserId: string
+  trainerProfileId: string
   sessionNumber: number
   scheduledAt: Date | string
   durationMinutes?: number
@@ -499,8 +499,8 @@ export type PTSessionUpdateManyMutationInput = {
 export type PTSessionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   contractId?: Prisma.StringFieldUpdateOperationsInput | string
-  memberMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   sessionNumber?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
@@ -536,8 +536,8 @@ export type PTSessionContractIdSessionNumberCompoundUniqueInput = {
 export type PTSessionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   contractId?: Prisma.SortOrder
-  memberMembershipId?: Prisma.SortOrder
-  trainerMembershipId?: Prisma.SortOrder
+  memberUserId?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
   sessionNumber?: Prisma.SortOrder
   scheduledAt?: Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
@@ -558,8 +558,8 @@ export type PTSessionAvgOrderByAggregateInput = {
 export type PTSessionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   contractId?: Prisma.SortOrder
-  memberMembershipId?: Prisma.SortOrder
-  trainerMembershipId?: Prisma.SortOrder
+  memberUserId?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
   sessionNumber?: Prisma.SortOrder
   scheduledAt?: Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
@@ -575,8 +575,8 @@ export type PTSessionMaxOrderByAggregateInput = {
 export type PTSessionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   contractId?: Prisma.SortOrder
-  memberMembershipId?: Prisma.SortOrder
-  trainerMembershipId?: Prisma.SortOrder
+  memberUserId?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
   sessionNumber?: Prisma.SortOrder
   scheduledAt?: Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
@@ -594,87 +594,87 @@ export type PTSessionSumOrderByAggregateInput = {
   durationMinutes?: Prisma.SortOrder
 }
 
-export type PTSessionCreateNestedManyWithoutMemberMembershipInput = {
-  create?: Prisma.XOR<Prisma.PTSessionCreateWithoutMemberMembershipInput, Prisma.PTSessionUncheckedCreateWithoutMemberMembershipInput> | Prisma.PTSessionCreateWithoutMemberMembershipInput[] | Prisma.PTSessionUncheckedCreateWithoutMemberMembershipInput[]
-  connectOrCreate?: Prisma.PTSessionCreateOrConnectWithoutMemberMembershipInput | Prisma.PTSessionCreateOrConnectWithoutMemberMembershipInput[]
-  createMany?: Prisma.PTSessionCreateManyMemberMembershipInputEnvelope
+export type PTSessionCreateNestedManyWithoutMemberUserInput = {
+  create?: Prisma.XOR<Prisma.PTSessionCreateWithoutMemberUserInput, Prisma.PTSessionUncheckedCreateWithoutMemberUserInput> | Prisma.PTSessionCreateWithoutMemberUserInput[] | Prisma.PTSessionUncheckedCreateWithoutMemberUserInput[]
+  connectOrCreate?: Prisma.PTSessionCreateOrConnectWithoutMemberUserInput | Prisma.PTSessionCreateOrConnectWithoutMemberUserInput[]
+  createMany?: Prisma.PTSessionCreateManyMemberUserInputEnvelope
   connect?: Prisma.PTSessionWhereUniqueInput | Prisma.PTSessionWhereUniqueInput[]
 }
 
-export type PTSessionCreateNestedManyWithoutTrainerMembershipInput = {
-  create?: Prisma.XOR<Prisma.PTSessionCreateWithoutTrainerMembershipInput, Prisma.PTSessionUncheckedCreateWithoutTrainerMembershipInput> | Prisma.PTSessionCreateWithoutTrainerMembershipInput[] | Prisma.PTSessionUncheckedCreateWithoutTrainerMembershipInput[]
-  connectOrCreate?: Prisma.PTSessionCreateOrConnectWithoutTrainerMembershipInput | Prisma.PTSessionCreateOrConnectWithoutTrainerMembershipInput[]
-  createMany?: Prisma.PTSessionCreateManyTrainerMembershipInputEnvelope
+export type PTSessionUncheckedCreateNestedManyWithoutMemberUserInput = {
+  create?: Prisma.XOR<Prisma.PTSessionCreateWithoutMemberUserInput, Prisma.PTSessionUncheckedCreateWithoutMemberUserInput> | Prisma.PTSessionCreateWithoutMemberUserInput[] | Prisma.PTSessionUncheckedCreateWithoutMemberUserInput[]
+  connectOrCreate?: Prisma.PTSessionCreateOrConnectWithoutMemberUserInput | Prisma.PTSessionCreateOrConnectWithoutMemberUserInput[]
+  createMany?: Prisma.PTSessionCreateManyMemberUserInputEnvelope
   connect?: Prisma.PTSessionWhereUniqueInput | Prisma.PTSessionWhereUniqueInput[]
 }
 
-export type PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput = {
-  create?: Prisma.XOR<Prisma.PTSessionCreateWithoutMemberMembershipInput, Prisma.PTSessionUncheckedCreateWithoutMemberMembershipInput> | Prisma.PTSessionCreateWithoutMemberMembershipInput[] | Prisma.PTSessionUncheckedCreateWithoutMemberMembershipInput[]
-  connectOrCreate?: Prisma.PTSessionCreateOrConnectWithoutMemberMembershipInput | Prisma.PTSessionCreateOrConnectWithoutMemberMembershipInput[]
-  createMany?: Prisma.PTSessionCreateManyMemberMembershipInputEnvelope
-  connect?: Prisma.PTSessionWhereUniqueInput | Prisma.PTSessionWhereUniqueInput[]
-}
-
-export type PTSessionUncheckedCreateNestedManyWithoutTrainerMembershipInput = {
-  create?: Prisma.XOR<Prisma.PTSessionCreateWithoutTrainerMembershipInput, Prisma.PTSessionUncheckedCreateWithoutTrainerMembershipInput> | Prisma.PTSessionCreateWithoutTrainerMembershipInput[] | Prisma.PTSessionUncheckedCreateWithoutTrainerMembershipInput[]
-  connectOrCreate?: Prisma.PTSessionCreateOrConnectWithoutTrainerMembershipInput | Prisma.PTSessionCreateOrConnectWithoutTrainerMembershipInput[]
-  createMany?: Prisma.PTSessionCreateManyTrainerMembershipInputEnvelope
-  connect?: Prisma.PTSessionWhereUniqueInput | Prisma.PTSessionWhereUniqueInput[]
-}
-
-export type PTSessionUpdateManyWithoutMemberMembershipNestedInput = {
-  create?: Prisma.XOR<Prisma.PTSessionCreateWithoutMemberMembershipInput, Prisma.PTSessionUncheckedCreateWithoutMemberMembershipInput> | Prisma.PTSessionCreateWithoutMemberMembershipInput[] | Prisma.PTSessionUncheckedCreateWithoutMemberMembershipInput[]
-  connectOrCreate?: Prisma.PTSessionCreateOrConnectWithoutMemberMembershipInput | Prisma.PTSessionCreateOrConnectWithoutMemberMembershipInput[]
-  upsert?: Prisma.PTSessionUpsertWithWhereUniqueWithoutMemberMembershipInput | Prisma.PTSessionUpsertWithWhereUniqueWithoutMemberMembershipInput[]
-  createMany?: Prisma.PTSessionCreateManyMemberMembershipInputEnvelope
+export type PTSessionUpdateManyWithoutMemberUserNestedInput = {
+  create?: Prisma.XOR<Prisma.PTSessionCreateWithoutMemberUserInput, Prisma.PTSessionUncheckedCreateWithoutMemberUserInput> | Prisma.PTSessionCreateWithoutMemberUserInput[] | Prisma.PTSessionUncheckedCreateWithoutMemberUserInput[]
+  connectOrCreate?: Prisma.PTSessionCreateOrConnectWithoutMemberUserInput | Prisma.PTSessionCreateOrConnectWithoutMemberUserInput[]
+  upsert?: Prisma.PTSessionUpsertWithWhereUniqueWithoutMemberUserInput | Prisma.PTSessionUpsertWithWhereUniqueWithoutMemberUserInput[]
+  createMany?: Prisma.PTSessionCreateManyMemberUserInputEnvelope
   set?: Prisma.PTSessionWhereUniqueInput | Prisma.PTSessionWhereUniqueInput[]
   disconnect?: Prisma.PTSessionWhereUniqueInput | Prisma.PTSessionWhereUniqueInput[]
   delete?: Prisma.PTSessionWhereUniqueInput | Prisma.PTSessionWhereUniqueInput[]
   connect?: Prisma.PTSessionWhereUniqueInput | Prisma.PTSessionWhereUniqueInput[]
-  update?: Prisma.PTSessionUpdateWithWhereUniqueWithoutMemberMembershipInput | Prisma.PTSessionUpdateWithWhereUniqueWithoutMemberMembershipInput[]
-  updateMany?: Prisma.PTSessionUpdateManyWithWhereWithoutMemberMembershipInput | Prisma.PTSessionUpdateManyWithWhereWithoutMemberMembershipInput[]
+  update?: Prisma.PTSessionUpdateWithWhereUniqueWithoutMemberUserInput | Prisma.PTSessionUpdateWithWhereUniqueWithoutMemberUserInput[]
+  updateMany?: Prisma.PTSessionUpdateManyWithWhereWithoutMemberUserInput | Prisma.PTSessionUpdateManyWithWhereWithoutMemberUserInput[]
   deleteMany?: Prisma.PTSessionScalarWhereInput | Prisma.PTSessionScalarWhereInput[]
 }
 
-export type PTSessionUpdateManyWithoutTrainerMembershipNestedInput = {
-  create?: Prisma.XOR<Prisma.PTSessionCreateWithoutTrainerMembershipInput, Prisma.PTSessionUncheckedCreateWithoutTrainerMembershipInput> | Prisma.PTSessionCreateWithoutTrainerMembershipInput[] | Prisma.PTSessionUncheckedCreateWithoutTrainerMembershipInput[]
-  connectOrCreate?: Prisma.PTSessionCreateOrConnectWithoutTrainerMembershipInput | Prisma.PTSessionCreateOrConnectWithoutTrainerMembershipInput[]
-  upsert?: Prisma.PTSessionUpsertWithWhereUniqueWithoutTrainerMembershipInput | Prisma.PTSessionUpsertWithWhereUniqueWithoutTrainerMembershipInput[]
-  createMany?: Prisma.PTSessionCreateManyTrainerMembershipInputEnvelope
+export type PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput = {
+  create?: Prisma.XOR<Prisma.PTSessionCreateWithoutMemberUserInput, Prisma.PTSessionUncheckedCreateWithoutMemberUserInput> | Prisma.PTSessionCreateWithoutMemberUserInput[] | Prisma.PTSessionUncheckedCreateWithoutMemberUserInput[]
+  connectOrCreate?: Prisma.PTSessionCreateOrConnectWithoutMemberUserInput | Prisma.PTSessionCreateOrConnectWithoutMemberUserInput[]
+  upsert?: Prisma.PTSessionUpsertWithWhereUniqueWithoutMemberUserInput | Prisma.PTSessionUpsertWithWhereUniqueWithoutMemberUserInput[]
+  createMany?: Prisma.PTSessionCreateManyMemberUserInputEnvelope
   set?: Prisma.PTSessionWhereUniqueInput | Prisma.PTSessionWhereUniqueInput[]
   disconnect?: Prisma.PTSessionWhereUniqueInput | Prisma.PTSessionWhereUniqueInput[]
   delete?: Prisma.PTSessionWhereUniqueInput | Prisma.PTSessionWhereUniqueInput[]
   connect?: Prisma.PTSessionWhereUniqueInput | Prisma.PTSessionWhereUniqueInput[]
-  update?: Prisma.PTSessionUpdateWithWhereUniqueWithoutTrainerMembershipInput | Prisma.PTSessionUpdateWithWhereUniqueWithoutTrainerMembershipInput[]
-  updateMany?: Prisma.PTSessionUpdateManyWithWhereWithoutTrainerMembershipInput | Prisma.PTSessionUpdateManyWithWhereWithoutTrainerMembershipInput[]
+  update?: Prisma.PTSessionUpdateWithWhereUniqueWithoutMemberUserInput | Prisma.PTSessionUpdateWithWhereUniqueWithoutMemberUserInput[]
+  updateMany?: Prisma.PTSessionUpdateManyWithWhereWithoutMemberUserInput | Prisma.PTSessionUpdateManyWithWhereWithoutMemberUserInput[]
   deleteMany?: Prisma.PTSessionScalarWhereInput | Prisma.PTSessionScalarWhereInput[]
 }
 
-export type PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput = {
-  create?: Prisma.XOR<Prisma.PTSessionCreateWithoutMemberMembershipInput, Prisma.PTSessionUncheckedCreateWithoutMemberMembershipInput> | Prisma.PTSessionCreateWithoutMemberMembershipInput[] | Prisma.PTSessionUncheckedCreateWithoutMemberMembershipInput[]
-  connectOrCreate?: Prisma.PTSessionCreateOrConnectWithoutMemberMembershipInput | Prisma.PTSessionCreateOrConnectWithoutMemberMembershipInput[]
-  upsert?: Prisma.PTSessionUpsertWithWhereUniqueWithoutMemberMembershipInput | Prisma.PTSessionUpsertWithWhereUniqueWithoutMemberMembershipInput[]
-  createMany?: Prisma.PTSessionCreateManyMemberMembershipInputEnvelope
+export type PTSessionCreateNestedManyWithoutTrainerProfileInput = {
+  create?: Prisma.XOR<Prisma.PTSessionCreateWithoutTrainerProfileInput, Prisma.PTSessionUncheckedCreateWithoutTrainerProfileInput> | Prisma.PTSessionCreateWithoutTrainerProfileInput[] | Prisma.PTSessionUncheckedCreateWithoutTrainerProfileInput[]
+  connectOrCreate?: Prisma.PTSessionCreateOrConnectWithoutTrainerProfileInput | Prisma.PTSessionCreateOrConnectWithoutTrainerProfileInput[]
+  createMany?: Prisma.PTSessionCreateManyTrainerProfileInputEnvelope
+  connect?: Prisma.PTSessionWhereUniqueInput | Prisma.PTSessionWhereUniqueInput[]
+}
+
+export type PTSessionUncheckedCreateNestedManyWithoutTrainerProfileInput = {
+  create?: Prisma.XOR<Prisma.PTSessionCreateWithoutTrainerProfileInput, Prisma.PTSessionUncheckedCreateWithoutTrainerProfileInput> | Prisma.PTSessionCreateWithoutTrainerProfileInput[] | Prisma.PTSessionUncheckedCreateWithoutTrainerProfileInput[]
+  connectOrCreate?: Prisma.PTSessionCreateOrConnectWithoutTrainerProfileInput | Prisma.PTSessionCreateOrConnectWithoutTrainerProfileInput[]
+  createMany?: Prisma.PTSessionCreateManyTrainerProfileInputEnvelope
+  connect?: Prisma.PTSessionWhereUniqueInput | Prisma.PTSessionWhereUniqueInput[]
+}
+
+export type PTSessionUpdateManyWithoutTrainerProfileNestedInput = {
+  create?: Prisma.XOR<Prisma.PTSessionCreateWithoutTrainerProfileInput, Prisma.PTSessionUncheckedCreateWithoutTrainerProfileInput> | Prisma.PTSessionCreateWithoutTrainerProfileInput[] | Prisma.PTSessionUncheckedCreateWithoutTrainerProfileInput[]
+  connectOrCreate?: Prisma.PTSessionCreateOrConnectWithoutTrainerProfileInput | Prisma.PTSessionCreateOrConnectWithoutTrainerProfileInput[]
+  upsert?: Prisma.PTSessionUpsertWithWhereUniqueWithoutTrainerProfileInput | Prisma.PTSessionUpsertWithWhereUniqueWithoutTrainerProfileInput[]
+  createMany?: Prisma.PTSessionCreateManyTrainerProfileInputEnvelope
   set?: Prisma.PTSessionWhereUniqueInput | Prisma.PTSessionWhereUniqueInput[]
   disconnect?: Prisma.PTSessionWhereUniqueInput | Prisma.PTSessionWhereUniqueInput[]
   delete?: Prisma.PTSessionWhereUniqueInput | Prisma.PTSessionWhereUniqueInput[]
   connect?: Prisma.PTSessionWhereUniqueInput | Prisma.PTSessionWhereUniqueInput[]
-  update?: Prisma.PTSessionUpdateWithWhereUniqueWithoutMemberMembershipInput | Prisma.PTSessionUpdateWithWhereUniqueWithoutMemberMembershipInput[]
-  updateMany?: Prisma.PTSessionUpdateManyWithWhereWithoutMemberMembershipInput | Prisma.PTSessionUpdateManyWithWhereWithoutMemberMembershipInput[]
+  update?: Prisma.PTSessionUpdateWithWhereUniqueWithoutTrainerProfileInput | Prisma.PTSessionUpdateWithWhereUniqueWithoutTrainerProfileInput[]
+  updateMany?: Prisma.PTSessionUpdateManyWithWhereWithoutTrainerProfileInput | Prisma.PTSessionUpdateManyWithWhereWithoutTrainerProfileInput[]
   deleteMany?: Prisma.PTSessionScalarWhereInput | Prisma.PTSessionScalarWhereInput[]
 }
 
-export type PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput = {
-  create?: Prisma.XOR<Prisma.PTSessionCreateWithoutTrainerMembershipInput, Prisma.PTSessionUncheckedCreateWithoutTrainerMembershipInput> | Prisma.PTSessionCreateWithoutTrainerMembershipInput[] | Prisma.PTSessionUncheckedCreateWithoutTrainerMembershipInput[]
-  connectOrCreate?: Prisma.PTSessionCreateOrConnectWithoutTrainerMembershipInput | Prisma.PTSessionCreateOrConnectWithoutTrainerMembershipInput[]
-  upsert?: Prisma.PTSessionUpsertWithWhereUniqueWithoutTrainerMembershipInput | Prisma.PTSessionUpsertWithWhereUniqueWithoutTrainerMembershipInput[]
-  createMany?: Prisma.PTSessionCreateManyTrainerMembershipInputEnvelope
+export type PTSessionUncheckedUpdateManyWithoutTrainerProfileNestedInput = {
+  create?: Prisma.XOR<Prisma.PTSessionCreateWithoutTrainerProfileInput, Prisma.PTSessionUncheckedCreateWithoutTrainerProfileInput> | Prisma.PTSessionCreateWithoutTrainerProfileInput[] | Prisma.PTSessionUncheckedCreateWithoutTrainerProfileInput[]
+  connectOrCreate?: Prisma.PTSessionCreateOrConnectWithoutTrainerProfileInput | Prisma.PTSessionCreateOrConnectWithoutTrainerProfileInput[]
+  upsert?: Prisma.PTSessionUpsertWithWhereUniqueWithoutTrainerProfileInput | Prisma.PTSessionUpsertWithWhereUniqueWithoutTrainerProfileInput[]
+  createMany?: Prisma.PTSessionCreateManyTrainerProfileInputEnvelope
   set?: Prisma.PTSessionWhereUniqueInput | Prisma.PTSessionWhereUniqueInput[]
   disconnect?: Prisma.PTSessionWhereUniqueInput | Prisma.PTSessionWhereUniqueInput[]
   delete?: Prisma.PTSessionWhereUniqueInput | Prisma.PTSessionWhereUniqueInput[]
   connect?: Prisma.PTSessionWhereUniqueInput | Prisma.PTSessionWhereUniqueInput[]
-  update?: Prisma.PTSessionUpdateWithWhereUniqueWithoutTrainerMembershipInput | Prisma.PTSessionUpdateWithWhereUniqueWithoutTrainerMembershipInput[]
-  updateMany?: Prisma.PTSessionUpdateManyWithWhereWithoutTrainerMembershipInput | Prisma.PTSessionUpdateManyWithWhereWithoutTrainerMembershipInput[]
+  update?: Prisma.PTSessionUpdateWithWhereUniqueWithoutTrainerProfileInput | Prisma.PTSessionUpdateWithWhereUniqueWithoutTrainerProfileInput[]
+  updateMany?: Prisma.PTSessionUpdateManyWithWhereWithoutTrainerProfileInput | Prisma.PTSessionUpdateManyWithWhereWithoutTrainerProfileInput[]
   deleteMany?: Prisma.PTSessionScalarWhereInput | Prisma.PTSessionScalarWhereInput[]
 }
 
@@ -756,7 +756,7 @@ export type PTSessionUpdateOneWithoutJournalsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.PTSessionUpdateToOneWithWhereWithoutJournalsInput, Prisma.PTSessionUpdateWithoutJournalsInput>, Prisma.PTSessionUncheckedUpdateWithoutJournalsInput>
 }
 
-export type PTSessionCreateWithoutMemberMembershipInput = {
+export type PTSessionCreateWithoutMemberUserInput = {
   id?: string
   sessionNumber: number
   scheduledAt: Date | string
@@ -769,15 +769,15 @@ export type PTSessionCreateWithoutMemberMembershipInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   contract: Prisma.PTContractCreateNestedOneWithoutSessionsInput
-  trainerMembership: Prisma.CenterMembershipCreateNestedOneWithoutTrainerPTSessionsInput
+  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutPtSessionsInput
   workoutSession?: Prisma.WorkoutSessionCreateNestedOneWithoutPtSessionInput
   journals?: Prisma.JournalCreateNestedManyWithoutPtSessionInput
 }
 
-export type PTSessionUncheckedCreateWithoutMemberMembershipInput = {
+export type PTSessionUncheckedCreateWithoutMemberUserInput = {
   id?: string
   contractId: string
-  trainerMembershipId: string
+  trainerProfileId: string
   sessionNumber: number
   scheduledAt: Date | string
   durationMinutes?: number
@@ -792,76 +792,30 @@ export type PTSessionUncheckedCreateWithoutMemberMembershipInput = {
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutPtSessionInput
 }
 
-export type PTSessionCreateOrConnectWithoutMemberMembershipInput = {
+export type PTSessionCreateOrConnectWithoutMemberUserInput = {
   where: Prisma.PTSessionWhereUniqueInput
-  create: Prisma.XOR<Prisma.PTSessionCreateWithoutMemberMembershipInput, Prisma.PTSessionUncheckedCreateWithoutMemberMembershipInput>
+  create: Prisma.XOR<Prisma.PTSessionCreateWithoutMemberUserInput, Prisma.PTSessionUncheckedCreateWithoutMemberUserInput>
 }
 
-export type PTSessionCreateManyMemberMembershipInputEnvelope = {
-  data: Prisma.PTSessionCreateManyMemberMembershipInput | Prisma.PTSessionCreateManyMemberMembershipInput[]
+export type PTSessionCreateManyMemberUserInputEnvelope = {
+  data: Prisma.PTSessionCreateManyMemberUserInput | Prisma.PTSessionCreateManyMemberUserInput[]
   skipDuplicates?: boolean
 }
 
-export type PTSessionCreateWithoutTrainerMembershipInput = {
-  id?: string
-  sessionNumber: number
-  scheduledAt: Date | string
-  durationMinutes?: number
-  status?: $Enums.PTSessionStatus
-  memo?: string | null
-  completedAt?: Date | string | null
-  cancelledAt?: Date | string | null
-  cancelReason?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  contract: Prisma.PTContractCreateNestedOneWithoutSessionsInput
-  memberMembership: Prisma.CenterMembershipCreateNestedOneWithoutMemberPTSessionsInput
-  workoutSession?: Prisma.WorkoutSessionCreateNestedOneWithoutPtSessionInput
-  journals?: Prisma.JournalCreateNestedManyWithoutPtSessionInput
-}
-
-export type PTSessionUncheckedCreateWithoutTrainerMembershipInput = {
-  id?: string
-  contractId: string
-  memberMembershipId: string
-  sessionNumber: number
-  scheduledAt: Date | string
-  durationMinutes?: number
-  status?: $Enums.PTSessionStatus
-  memo?: string | null
-  completedAt?: Date | string | null
-  cancelledAt?: Date | string | null
-  cancelReason?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  workoutSession?: Prisma.WorkoutSessionUncheckedCreateNestedOneWithoutPtSessionInput
-  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutPtSessionInput
-}
-
-export type PTSessionCreateOrConnectWithoutTrainerMembershipInput = {
+export type PTSessionUpsertWithWhereUniqueWithoutMemberUserInput = {
   where: Prisma.PTSessionWhereUniqueInput
-  create: Prisma.XOR<Prisma.PTSessionCreateWithoutTrainerMembershipInput, Prisma.PTSessionUncheckedCreateWithoutTrainerMembershipInput>
+  update: Prisma.XOR<Prisma.PTSessionUpdateWithoutMemberUserInput, Prisma.PTSessionUncheckedUpdateWithoutMemberUserInput>
+  create: Prisma.XOR<Prisma.PTSessionCreateWithoutMemberUserInput, Prisma.PTSessionUncheckedCreateWithoutMemberUserInput>
 }
 
-export type PTSessionCreateManyTrainerMembershipInputEnvelope = {
-  data: Prisma.PTSessionCreateManyTrainerMembershipInput | Prisma.PTSessionCreateManyTrainerMembershipInput[]
-  skipDuplicates?: boolean
-}
-
-export type PTSessionUpsertWithWhereUniqueWithoutMemberMembershipInput = {
+export type PTSessionUpdateWithWhereUniqueWithoutMemberUserInput = {
   where: Prisma.PTSessionWhereUniqueInput
-  update: Prisma.XOR<Prisma.PTSessionUpdateWithoutMemberMembershipInput, Prisma.PTSessionUncheckedUpdateWithoutMemberMembershipInput>
-  create: Prisma.XOR<Prisma.PTSessionCreateWithoutMemberMembershipInput, Prisma.PTSessionUncheckedCreateWithoutMemberMembershipInput>
+  data: Prisma.XOR<Prisma.PTSessionUpdateWithoutMemberUserInput, Prisma.PTSessionUncheckedUpdateWithoutMemberUserInput>
 }
 
-export type PTSessionUpdateWithWhereUniqueWithoutMemberMembershipInput = {
-  where: Prisma.PTSessionWhereUniqueInput
-  data: Prisma.XOR<Prisma.PTSessionUpdateWithoutMemberMembershipInput, Prisma.PTSessionUncheckedUpdateWithoutMemberMembershipInput>
-}
-
-export type PTSessionUpdateManyWithWhereWithoutMemberMembershipInput = {
+export type PTSessionUpdateManyWithWhereWithoutMemberUserInput = {
   where: Prisma.PTSessionScalarWhereInput
-  data: Prisma.XOR<Prisma.PTSessionUpdateManyMutationInput, Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipInput>
+  data: Prisma.XOR<Prisma.PTSessionUpdateManyMutationInput, Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserInput>
 }
 
 export type PTSessionScalarWhereInput = {
@@ -870,8 +824,8 @@ export type PTSessionScalarWhereInput = {
   NOT?: Prisma.PTSessionScalarWhereInput | Prisma.PTSessionScalarWhereInput[]
   id?: Prisma.StringFilter<"PTSession"> | string
   contractId?: Prisma.StringFilter<"PTSession"> | string
-  memberMembershipId?: Prisma.StringFilter<"PTSession"> | string
-  trainerMembershipId?: Prisma.StringFilter<"PTSession"> | string
+  memberUserId?: Prisma.StringFilter<"PTSession"> | string
+  trainerProfileId?: Prisma.StringFilter<"PTSession"> | string
   sessionNumber?: Prisma.IntFilter<"PTSession"> | number
   scheduledAt?: Prisma.DateTimeFilter<"PTSession"> | Date | string
   durationMinutes?: Prisma.IntFilter<"PTSession"> | number
@@ -884,20 +838,66 @@ export type PTSessionScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"PTSession"> | Date | string
 }
 
-export type PTSessionUpsertWithWhereUniqueWithoutTrainerMembershipInput = {
-  where: Prisma.PTSessionWhereUniqueInput
-  update: Prisma.XOR<Prisma.PTSessionUpdateWithoutTrainerMembershipInput, Prisma.PTSessionUncheckedUpdateWithoutTrainerMembershipInput>
-  create: Prisma.XOR<Prisma.PTSessionCreateWithoutTrainerMembershipInput, Prisma.PTSessionUncheckedCreateWithoutTrainerMembershipInput>
+export type PTSessionCreateWithoutTrainerProfileInput = {
+  id?: string
+  sessionNumber: number
+  scheduledAt: Date | string
+  durationMinutes?: number
+  status?: $Enums.PTSessionStatus
+  memo?: string | null
+  completedAt?: Date | string | null
+  cancelledAt?: Date | string | null
+  cancelReason?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  contract: Prisma.PTContractCreateNestedOneWithoutSessionsInput
+  memberUser: Prisma.UserCreateNestedOneWithoutPtSessionsInput
+  workoutSession?: Prisma.WorkoutSessionCreateNestedOneWithoutPtSessionInput
+  journals?: Prisma.JournalCreateNestedManyWithoutPtSessionInput
 }
 
-export type PTSessionUpdateWithWhereUniqueWithoutTrainerMembershipInput = {
-  where: Prisma.PTSessionWhereUniqueInput
-  data: Prisma.XOR<Prisma.PTSessionUpdateWithoutTrainerMembershipInput, Prisma.PTSessionUncheckedUpdateWithoutTrainerMembershipInput>
+export type PTSessionUncheckedCreateWithoutTrainerProfileInput = {
+  id?: string
+  contractId: string
+  memberUserId: string
+  sessionNumber: number
+  scheduledAt: Date | string
+  durationMinutes?: number
+  status?: $Enums.PTSessionStatus
+  memo?: string | null
+  completedAt?: Date | string | null
+  cancelledAt?: Date | string | null
+  cancelReason?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  workoutSession?: Prisma.WorkoutSessionUncheckedCreateNestedOneWithoutPtSessionInput
+  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutPtSessionInput
 }
 
-export type PTSessionUpdateManyWithWhereWithoutTrainerMembershipInput = {
+export type PTSessionCreateOrConnectWithoutTrainerProfileInput = {
+  where: Prisma.PTSessionWhereUniqueInput
+  create: Prisma.XOR<Prisma.PTSessionCreateWithoutTrainerProfileInput, Prisma.PTSessionUncheckedCreateWithoutTrainerProfileInput>
+}
+
+export type PTSessionCreateManyTrainerProfileInputEnvelope = {
+  data: Prisma.PTSessionCreateManyTrainerProfileInput | Prisma.PTSessionCreateManyTrainerProfileInput[]
+  skipDuplicates?: boolean
+}
+
+export type PTSessionUpsertWithWhereUniqueWithoutTrainerProfileInput = {
+  where: Prisma.PTSessionWhereUniqueInput
+  update: Prisma.XOR<Prisma.PTSessionUpdateWithoutTrainerProfileInput, Prisma.PTSessionUncheckedUpdateWithoutTrainerProfileInput>
+  create: Prisma.XOR<Prisma.PTSessionCreateWithoutTrainerProfileInput, Prisma.PTSessionUncheckedCreateWithoutTrainerProfileInput>
+}
+
+export type PTSessionUpdateWithWhereUniqueWithoutTrainerProfileInput = {
+  where: Prisma.PTSessionWhereUniqueInput
+  data: Prisma.XOR<Prisma.PTSessionUpdateWithoutTrainerProfileInput, Prisma.PTSessionUncheckedUpdateWithoutTrainerProfileInput>
+}
+
+export type PTSessionUpdateManyWithWhereWithoutTrainerProfileInput = {
   where: Prisma.PTSessionScalarWhereInput
-  data: Prisma.XOR<Prisma.PTSessionUpdateManyMutationInput, Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipInput>
+  data: Prisma.XOR<Prisma.PTSessionUpdateManyMutationInput, Prisma.PTSessionUncheckedUpdateManyWithoutTrainerProfileInput>
 }
 
 export type PTSessionCreateWithoutWorkoutSessionInput = {
@@ -913,16 +913,16 @@ export type PTSessionCreateWithoutWorkoutSessionInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   contract: Prisma.PTContractCreateNestedOneWithoutSessionsInput
-  memberMembership: Prisma.CenterMembershipCreateNestedOneWithoutMemberPTSessionsInput
-  trainerMembership: Prisma.CenterMembershipCreateNestedOneWithoutTrainerPTSessionsInput
+  memberUser: Prisma.UserCreateNestedOneWithoutPtSessionsInput
+  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutPtSessionsInput
   journals?: Prisma.JournalCreateNestedManyWithoutPtSessionInput
 }
 
 export type PTSessionUncheckedCreateWithoutWorkoutSessionInput = {
   id?: string
   contractId: string
-  memberMembershipId: string
-  trainerMembershipId: string
+  memberUserId: string
+  trainerProfileId: string
   sessionNumber: number
   scheduledAt: Date | string
   durationMinutes?: number
@@ -965,16 +965,16 @@ export type PTSessionUpdateWithoutWorkoutSessionInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   contract?: Prisma.PTContractUpdateOneRequiredWithoutSessionsNestedInput
-  memberMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutMemberPTSessionsNestedInput
-  trainerMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutTrainerPTSessionsNestedInput
+  memberUser?: Prisma.UserUpdateOneRequiredWithoutPtSessionsNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutPtSessionsNestedInput
   journals?: Prisma.JournalUpdateManyWithoutPtSessionNestedInput
 }
 
 export type PTSessionUncheckedUpdateWithoutWorkoutSessionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   contractId?: Prisma.StringFieldUpdateOperationsInput | string
-  memberMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   sessionNumber?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1000,16 +1000,16 @@ export type PTSessionCreateWithoutContractInput = {
   cancelReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberMembership: Prisma.CenterMembershipCreateNestedOneWithoutMemberPTSessionsInput
-  trainerMembership: Prisma.CenterMembershipCreateNestedOneWithoutTrainerPTSessionsInput
+  memberUser: Prisma.UserCreateNestedOneWithoutPtSessionsInput
+  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutPtSessionsInput
   workoutSession?: Prisma.WorkoutSessionCreateNestedOneWithoutPtSessionInput
   journals?: Prisma.JournalCreateNestedManyWithoutPtSessionInput
 }
 
 export type PTSessionUncheckedCreateWithoutContractInput = {
   id?: string
-  memberMembershipId: string
-  trainerMembershipId: string
+  memberUserId: string
+  trainerProfileId: string
   sessionNumber: number
   scheduledAt: Date | string
   durationMinutes?: number
@@ -1063,16 +1063,16 @@ export type PTSessionCreateWithoutJournalsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   contract: Prisma.PTContractCreateNestedOneWithoutSessionsInput
-  memberMembership: Prisma.CenterMembershipCreateNestedOneWithoutMemberPTSessionsInput
-  trainerMembership: Prisma.CenterMembershipCreateNestedOneWithoutTrainerPTSessionsInput
+  memberUser: Prisma.UserCreateNestedOneWithoutPtSessionsInput
+  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutPtSessionsInput
   workoutSession?: Prisma.WorkoutSessionCreateNestedOneWithoutPtSessionInput
 }
 
 export type PTSessionUncheckedCreateWithoutJournalsInput = {
   id?: string
   contractId: string
-  memberMembershipId: string
-  trainerMembershipId: string
+  memberUserId: string
+  trainerProfileId: string
   sessionNumber: number
   scheduledAt: Date | string
   durationMinutes?: number
@@ -1115,16 +1115,16 @@ export type PTSessionUpdateWithoutJournalsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   contract?: Prisma.PTContractUpdateOneRequiredWithoutSessionsNestedInput
-  memberMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutMemberPTSessionsNestedInput
-  trainerMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutTrainerPTSessionsNestedInput
+  memberUser?: Prisma.UserUpdateOneRequiredWithoutPtSessionsNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutPtSessionsNestedInput
   workoutSession?: Prisma.WorkoutSessionUpdateOneWithoutPtSessionNestedInput
 }
 
 export type PTSessionUncheckedUpdateWithoutJournalsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   contractId?: Prisma.StringFieldUpdateOperationsInput | string
-  memberMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   sessionNumber?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1138,10 +1138,10 @@ export type PTSessionUncheckedUpdateWithoutJournalsInput = {
   workoutSession?: Prisma.WorkoutSessionUncheckedUpdateOneWithoutPtSessionNestedInput
 }
 
-export type PTSessionCreateManyMemberMembershipInput = {
+export type PTSessionCreateManyMemberUserInput = {
   id?: string
   contractId: string
-  trainerMembershipId: string
+  trainerProfileId: string
   sessionNumber: number
   scheduledAt: Date | string
   durationMinutes?: number
@@ -1154,23 +1154,7 @@ export type PTSessionCreateManyMemberMembershipInput = {
   updatedAt?: Date | string
 }
 
-export type PTSessionCreateManyTrainerMembershipInput = {
-  id?: string
-  contractId: string
-  memberMembershipId: string
-  sessionNumber: number
-  scheduledAt: Date | string
-  durationMinutes?: number
-  status?: $Enums.PTSessionStatus
-  memo?: string | null
-  completedAt?: Date | string | null
-  cancelledAt?: Date | string | null
-  cancelReason?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type PTSessionUpdateWithoutMemberMembershipInput = {
+export type PTSessionUpdateWithoutMemberUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sessionNumber?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1183,15 +1167,15 @@ export type PTSessionUpdateWithoutMemberMembershipInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   contract?: Prisma.PTContractUpdateOneRequiredWithoutSessionsNestedInput
-  trainerMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutTrainerPTSessionsNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutPtSessionsNestedInput
   workoutSession?: Prisma.WorkoutSessionUpdateOneWithoutPtSessionNestedInput
   journals?: Prisma.JournalUpdateManyWithoutPtSessionNestedInput
 }
 
-export type PTSessionUncheckedUpdateWithoutMemberMembershipInput = {
+export type PTSessionUncheckedUpdateWithoutMemberUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   contractId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   sessionNumber?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1206,10 +1190,10 @@ export type PTSessionUncheckedUpdateWithoutMemberMembershipInput = {
   journals?: Prisma.JournalUncheckedUpdateManyWithoutPtSessionNestedInput
 }
 
-export type PTSessionUncheckedUpdateManyWithoutMemberMembershipInput = {
+export type PTSessionUncheckedUpdateManyWithoutMemberUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   contractId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   sessionNumber?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1222,7 +1206,23 @@ export type PTSessionUncheckedUpdateManyWithoutMemberMembershipInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type PTSessionUpdateWithoutTrainerMembershipInput = {
+export type PTSessionCreateManyTrainerProfileInput = {
+  id?: string
+  contractId: string
+  memberUserId: string
+  sessionNumber: number
+  scheduledAt: Date | string
+  durationMinutes?: number
+  status?: $Enums.PTSessionStatus
+  memo?: string | null
+  completedAt?: Date | string | null
+  cancelledAt?: Date | string | null
+  cancelReason?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type PTSessionUpdateWithoutTrainerProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sessionNumber?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1235,15 +1235,15 @@ export type PTSessionUpdateWithoutTrainerMembershipInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   contract?: Prisma.PTContractUpdateOneRequiredWithoutSessionsNestedInput
-  memberMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutMemberPTSessionsNestedInput
+  memberUser?: Prisma.UserUpdateOneRequiredWithoutPtSessionsNestedInput
   workoutSession?: Prisma.WorkoutSessionUpdateOneWithoutPtSessionNestedInput
   journals?: Prisma.JournalUpdateManyWithoutPtSessionNestedInput
 }
 
-export type PTSessionUncheckedUpdateWithoutTrainerMembershipInput = {
+export type PTSessionUncheckedUpdateWithoutTrainerProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   contractId?: Prisma.StringFieldUpdateOperationsInput | string
-  memberMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
   sessionNumber?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1258,10 +1258,10 @@ export type PTSessionUncheckedUpdateWithoutTrainerMembershipInput = {
   journals?: Prisma.JournalUncheckedUpdateManyWithoutPtSessionNestedInput
 }
 
-export type PTSessionUncheckedUpdateManyWithoutTrainerMembershipInput = {
+export type PTSessionUncheckedUpdateManyWithoutTrainerProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   contractId?: Prisma.StringFieldUpdateOperationsInput | string
-  memberMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
   sessionNumber?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1276,8 +1276,8 @@ export type PTSessionUncheckedUpdateManyWithoutTrainerMembershipInput = {
 
 export type PTSessionCreateManyContractInput = {
   id?: string
-  memberMembershipId: string
-  trainerMembershipId: string
+  memberUserId: string
+  trainerProfileId: string
   sessionNumber: number
   scheduledAt: Date | string
   durationMinutes?: number
@@ -1302,16 +1302,16 @@ export type PTSessionUpdateWithoutContractInput = {
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutMemberPTSessionsNestedInput
-  trainerMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutTrainerPTSessionsNestedInput
+  memberUser?: Prisma.UserUpdateOneRequiredWithoutPtSessionsNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutPtSessionsNestedInput
   workoutSession?: Prisma.WorkoutSessionUpdateOneWithoutPtSessionNestedInput
   journals?: Prisma.JournalUpdateManyWithoutPtSessionNestedInput
 }
 
 export type PTSessionUncheckedUpdateWithoutContractInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  memberMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   sessionNumber?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1328,8 +1328,8 @@ export type PTSessionUncheckedUpdateWithoutContractInput = {
 
 export type PTSessionUncheckedUpdateManyWithoutContractInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  memberMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   sessionNumber?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1376,8 +1376,8 @@ export type PTSessionCountOutputTypeCountJournalsArgs<ExtArgs extends runtime.Ty
 export type PTSessionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   contractId?: boolean
-  memberMembershipId?: boolean
-  trainerMembershipId?: boolean
+  memberUserId?: boolean
+  trainerProfileId?: boolean
   sessionNumber?: boolean
   scheduledAt?: boolean
   durationMinutes?: boolean
@@ -1389,8 +1389,8 @@ export type PTSessionSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   createdAt?: boolean
   updatedAt?: boolean
   contract?: boolean | Prisma.PTContractDefaultArgs<ExtArgs>
-  memberMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
-  trainerMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   workoutSession?: boolean | Prisma.PTSession$workoutSessionArgs<ExtArgs>
   journals?: boolean | Prisma.PTSession$journalsArgs<ExtArgs>
   _count?: boolean | Prisma.PTSessionCountOutputTypeDefaultArgs<ExtArgs>
@@ -1399,8 +1399,8 @@ export type PTSessionSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type PTSessionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   contractId?: boolean
-  memberMembershipId?: boolean
-  trainerMembershipId?: boolean
+  memberUserId?: boolean
+  trainerProfileId?: boolean
   sessionNumber?: boolean
   scheduledAt?: boolean
   durationMinutes?: boolean
@@ -1412,15 +1412,15 @@ export type PTSessionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   createdAt?: boolean
   updatedAt?: boolean
   contract?: boolean | Prisma.PTContractDefaultArgs<ExtArgs>
-  memberMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
-  trainerMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["pTSession"]>
 
 export type PTSessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   contractId?: boolean
-  memberMembershipId?: boolean
-  trainerMembershipId?: boolean
+  memberUserId?: boolean
+  trainerProfileId?: boolean
   sessionNumber?: boolean
   scheduledAt?: boolean
   durationMinutes?: boolean
@@ -1432,15 +1432,15 @@ export type PTSessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   createdAt?: boolean
   updatedAt?: boolean
   contract?: boolean | Prisma.PTContractDefaultArgs<ExtArgs>
-  memberMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
-  trainerMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["pTSession"]>
 
 export type PTSessionSelectScalar = {
   id?: boolean
   contractId?: boolean
-  memberMembershipId?: boolean
-  trainerMembershipId?: boolean
+  memberUserId?: boolean
+  trainerProfileId?: boolean
   sessionNumber?: boolean
   scheduledAt?: boolean
   durationMinutes?: boolean
@@ -1453,40 +1453,40 @@ export type PTSessionSelectScalar = {
   updatedAt?: boolean
 }
 
-export type PTSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "contractId" | "memberMembershipId" | "trainerMembershipId" | "sessionNumber" | "scheduledAt" | "durationMinutes" | "status" | "memo" | "completedAt" | "cancelledAt" | "cancelReason" | "createdAt" | "updatedAt", ExtArgs["result"]["pTSession"]>
+export type PTSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "contractId" | "memberUserId" | "trainerProfileId" | "sessionNumber" | "scheduledAt" | "durationMinutes" | "status" | "memo" | "completedAt" | "cancelledAt" | "cancelReason" | "createdAt" | "updatedAt", ExtArgs["result"]["pTSession"]>
 export type PTSessionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   contract?: boolean | Prisma.PTContractDefaultArgs<ExtArgs>
-  memberMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
-  trainerMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   workoutSession?: boolean | Prisma.PTSession$workoutSessionArgs<ExtArgs>
   journals?: boolean | Prisma.PTSession$journalsArgs<ExtArgs>
   _count?: boolean | Prisma.PTSessionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PTSessionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   contract?: boolean | Prisma.PTContractDefaultArgs<ExtArgs>
-  memberMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
-  trainerMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
 }
 export type PTSessionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   contract?: boolean | Prisma.PTContractDefaultArgs<ExtArgs>
-  memberMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
-  trainerMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
 }
 
 export type $PTSessionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PTSession"
   objects: {
     contract: Prisma.$PTContractPayload<ExtArgs>
-    memberMembership: Prisma.$CenterMembershipPayload<ExtArgs>
-    trainerMembership: Prisma.$CenterMembershipPayload<ExtArgs>
+    memberUser: Prisma.$UserPayload<ExtArgs>
+    trainerProfile: Prisma.$TrainerProfilePayload<ExtArgs>
     workoutSession: Prisma.$WorkoutSessionPayload<ExtArgs> | null
     journals: Prisma.$JournalPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     contractId: string
-    memberMembershipId: string
-    trainerMembershipId: string
+    memberUserId: string
+    trainerProfileId: string
     sessionNumber: number
     scheduledAt: Date
     durationMinutes: number
@@ -1892,8 +1892,8 @@ readonly fields: PTSessionFieldRefs;
 export interface Prisma__PTSessionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   contract<T extends Prisma.PTContractDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PTContractDefaultArgs<ExtArgs>>): Prisma.Prisma__PTContractClient<runtime.Types.Result.GetResult<Prisma.$PTContractPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  memberMembership<T extends Prisma.CenterMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__CenterMembershipClient<runtime.Types.Result.GetResult<Prisma.$CenterMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  trainerMembership<T extends Prisma.CenterMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__CenterMembershipClient<runtime.Types.Result.GetResult<Prisma.$CenterMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  memberUser<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  trainerProfile<T extends Prisma.TrainerProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__TrainerProfileClient<runtime.Types.Result.GetResult<Prisma.$TrainerProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   workoutSession<T extends Prisma.PTSession$workoutSessionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PTSession$workoutSessionArgs<ExtArgs>>): Prisma.Prisma__WorkoutSessionClient<runtime.Types.Result.GetResult<Prisma.$WorkoutSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   journals<T extends Prisma.PTSession$journalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PTSession$journalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1927,8 +1927,8 @@ export interface Prisma__PTSessionClient<T, Null = never, ExtArgs extends runtim
 export interface PTSessionFieldRefs {
   readonly id: Prisma.FieldRef<"PTSession", 'String'>
   readonly contractId: Prisma.FieldRef<"PTSession", 'String'>
-  readonly memberMembershipId: Prisma.FieldRef<"PTSession", 'String'>
-  readonly trainerMembershipId: Prisma.FieldRef<"PTSession", 'String'>
+  readonly memberUserId: Prisma.FieldRef<"PTSession", 'String'>
+  readonly trainerProfileId: Prisma.FieldRef<"PTSession", 'String'>
   readonly sessionNumber: Prisma.FieldRef<"PTSession", 'Int'>
   readonly scheduledAt: Prisma.FieldRef<"PTSession", 'DateTime'>
   readonly durationMinutes: Prisma.FieldRef<"PTSession", 'Int'>

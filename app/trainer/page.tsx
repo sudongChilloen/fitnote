@@ -112,9 +112,9 @@ export default async function TrainerHomePage() {
             const todo = todoOf(member);
 
             return (
-              <li key={member.membershipId}>
+              <li key={member.connectionId}>
                 <Link
-                  href={`/trainer/members/${member.membershipId}`}
+                  href={`/trainer/members/${member.connectionId}`}
                   className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4"
                 >
                   <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-secondary text-sm font-bold">

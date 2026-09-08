@@ -1,12 +1,10 @@
 import "server-only";
 
-import { MembershipStatus } from "@/generated/prisma/enums";
+import { ConnectionStatus } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
-import { getCurrentMembership } from "@/server/centers/center.service";
 import {
-  TrainerError,
   requireMyMember,
-  requireTrainerMembership,
+  requireTrainerProfile,
 } from "@/server/trainers/trainer.service";
 import { getRecentSessions } from "@/server/workouts/workout.service";
 
@@ -72,40 +70,45 @@ function toSetting(row: SharingSetting | null): SharingSetting {
 }
 
 /**
- * 내 공유 설정. 센터에 속하지 않았으면 null.
+ * 내 공유 설정.
  *
- * 담당 트레이너가 없어도 설정은 보여준다. 배정을 기다리는 동안 미리 정해 둘 수
- * 있어야 하고, 배정된 순간부터 바로 적용되기 때문이다. 대신 화면에서 "아직 담당
- * 트레이너가 없다" 고 알려 준다.
+ * 담당 트레이너가 없어도 설정은 보여준다. 연결되기 전에 미리 정해 둘 수 있어야
+ * 하고, 연결된 순간부터 바로 적용되기 때문이다. 설정을 센터가 아니라 사람에게
+ * 매단 이유는, 센터를 옮겼다고 해서 무엇을 보여줄지에 대한 뜻이 초기화되면
+ * 안 되기 때문이다.
  */
 export async function getMySharing(userId: string) {
-  const membership = await getCurrentMembership(userId);
-
-  if (!membership) return null;
-
-  const row = await prisma.trainerSharingSetting.findUnique({
-    where: { membershipId: membership.id },
-    select,
-  });
+  const [row, connection] = await Promise.all([
+    prisma.trainerSharingSetting.findUnique({
+      where: { userId },
+      select,
+    }),
+    prisma.trainerMemberConnection.findFirst({
+      where: { memberUserId: userId, status: ConnectionStatus.ACTIVE },
+      orderBy: { startedAt: "desc" },
+      select: {
+        id: true,
+        trainerProfile: {
+          select: { displayName: true, user: { select: { name: true } } },
+        },
+      },
+    }),
+  ]);
 
   return {
-    membershipId: membership.id,
-    centerName: membership.center.name,
-    trainerName: membership.assignedTrainerMembership?.user.name ?? null,
+    connectionId: connection?.id ?? null,
+    trainerName: connection
+      ? (connection.trainerProfile.displayName ??
+        connection.trainerProfile.user.name)
+      : null,
     setting: toSetting(row),
   };
 }
 
 export async function updateMySharing(userId: string, next: SharingSetting) {
-  const membership = await getCurrentMembership(userId);
-
-  if (!membership) {
-    throw new TrainerError("NOT_FOUND", "소속된 센터가 없어요.");
-  }
-
   const row = await prisma.trainerSharingSetting.upsert({
-    where: { membershipId: membership.id },
-    create: { membershipId: membership.id, ...next },
+    where: { userId },
+    create: { userId, ...next },
     update: next,
     select,
   });
@@ -127,25 +130,32 @@ export class SharingError extends Error {
  * 트레이너가 이 회원의 이 기록을 볼 수 있는가. 못 보면 던진다.
  *
  * 네 단계를 모두 지나야 한다.
- *   1. 트레이너로 활동 중인 소속인가
- *   2. 이 회원이 내 담당인가 (관리자도 예외 없음)
- *   3. 회원이 아직 이 센터에 있는가 — requireMyMember 가 ACTIVE 만 찾는다
+ *   1. 트레이너 프로필이 있는가
+ *   2. 이 연결이 내 것인가
+ *   3. 연결이 아직 살아 있는가 — requireMyMember 가 ACTIVE 만 찾는다
  *   4. 회원이 그 종류를 공유하기로 했는가
  *
  * 앞의 셋은 TrainerError 로 "없는 사람" 이라 답하고, 마지막 하나만 "회원이
  * 공유하지 않았다" 고 말한다. 담당 회원이라는 건 트레이너가 이미 아는 사실이라
  * 숨길 이유가 없지만, 담당이 아닌 회원은 존재 자체를 알려선 안 된다.
+ *
+ * 관계가 끝나면(ENDED) 3번에서 막힌다. 트레이너가 자기 손으로 쓴 알림장은
+ * 계속 볼 수 있지만, 회원이 올린 것은 관계가 끝난 순간 닫힌다. 회원이 공유를
+ * 켠 상대는 "지금 나를 봐 주는 트레이너" 이지 과거의 아무 트레이너가 아니다.
+ *
+ * since 는 이 관계가 시작된 날이다. 회원이 그 전에 남긴 기록은 이 트레이너를
+ * 염두에 두고 쓴 것이 아니므로, 읽는 쪽에서 이 값으로 잘라야 한다.
  */
 export async function assertTrainerCanView(
   trainerUserId: string,
-  memberMembershipId: string,
+  connectionId: string,
   kind: SharingKind,
 ) {
-  const trainer = await requireTrainerMembership(trainerUserId);
-  const member = await requireMyMember(trainer.id, memberMembershipId);
+  const trainer = await requireTrainerProfile(trainerUserId);
+  const member = await requireMyMember(trainer.id, connectionId);
 
   const row = await prisma.trainerSharingSetting.findUnique({
-    where: { membershipId: memberMembershipId },
+    where: { userId: member.memberUserId },
     select,
   });
 
@@ -158,7 +168,7 @@ export async function assertTrainerCanView(
     );
   }
 
-  return { trainer, member, setting };
+  return { trainer, member, setting, since: member.startedAt };
 }
 
 /**
@@ -169,25 +179,13 @@ export async function assertTrainerCanView(
  */
 export async function getSharingForTrainer(
   trainerUserId: string,
-  memberMembershipId: string,
+  connectionId: string,
 ): Promise<SharingSetting> {
-  const trainer = await requireTrainerMembership(trainerUserId);
-
-  const member = await prisma.centerMembership.findFirst({
-    where: {
-      id: memberMembershipId,
-      assignedTrainerMembershipId: trainer.id,
-      status: MembershipStatus.ACTIVE,
-    },
-    select: { id: true },
-  });
-
-  if (!member) {
-    throw new TrainerError("NOT_MY_MEMBER", "담당 회원이 아니에요.");
-  }
+  const trainer = await requireTrainerProfile(trainerUserId);
+  const member = await requireMyMember(trainer.id, connectionId);
 
   const row = await prisma.trainerSharingSetting.findUnique({
-    where: { membershipId: memberMembershipId },
+    where: { userId: member.memberUserId },
     select,
   });
 
@@ -202,14 +200,17 @@ export async function getSharingForTrainer(
  */
 export async function getMemberPersonalWorkouts(
   trainerUserId: string,
-  memberMembershipId: string,
+  connectionId: string,
   limit = 5,
 ) {
-  const { member } = await assertTrainerCanView(
+  const { member, since } = await assertTrainerCanView(
     trainerUserId,
-    memberMembershipId,
+    connectionId,
     "PERSONAL_WORKOUT",
   );
 
-  return getRecentSessions(member.user.id, limit, { personalOnly: true });
+  return getRecentSessions(member.memberUserId, limit, {
+    personalOnly: true,
+    since,
+  });
 }

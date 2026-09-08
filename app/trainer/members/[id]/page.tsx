@@ -83,7 +83,7 @@ export default async function TrainerMemberPage({
     <main className="px-5 pt-5 pb-16">
       <h1 className="text-xl font-bold">{member.name}</h1>
       <p className="mt-1 text-sm text-muted-foreground">
-        {formatKstDateLabel(member.joinedAt)} 담당 시작
+        {formatKstDateLabel(member.startedAt)} 담당 시작
       </p>
 
       <section className="mt-6">
@@ -174,7 +174,7 @@ export default async function TrainerMemberPage({
                     <input
                       type="hidden"
                       name="memberMembershipId"
-                      value={member.membershipId}
+                      value={member.connectionId}
                     />
                     <input
                       type="hidden"
@@ -203,7 +203,7 @@ export default async function TrainerMemberPage({
             <input
               type="hidden"
               name="memberMembershipId"
-              value={member.membershipId}
+              value={member.connectionId}
             />
             <button
               type="submit"

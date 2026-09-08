@@ -36,7 +36,7 @@ export type TrainerPTPriceSumAggregateOutputType = {
 
 export type TrainerPTPriceMinAggregateOutputType = {
   id: string | null
-  trainerMembershipId: string | null
+  trainerProfileId: string | null
   productId: string | null
   price: runtime.Decimal | null
   createdAt: Date | null
@@ -45,7 +45,7 @@ export type TrainerPTPriceMinAggregateOutputType = {
 
 export type TrainerPTPriceMaxAggregateOutputType = {
   id: string | null
-  trainerMembershipId: string | null
+  trainerProfileId: string | null
   productId: string | null
   price: runtime.Decimal | null
   createdAt: Date | null
@@ -54,7 +54,7 @@ export type TrainerPTPriceMaxAggregateOutputType = {
 
 export type TrainerPTPriceCountAggregateOutputType = {
   id: number
-  trainerMembershipId: number
+  trainerProfileId: number
   productId: number
   price: number
   createdAt: number
@@ -73,7 +73,7 @@ export type TrainerPTPriceSumAggregateInputType = {
 
 export type TrainerPTPriceMinAggregateInputType = {
   id?: true
-  trainerMembershipId?: true
+  trainerProfileId?: true
   productId?: true
   price?: true
   createdAt?: true
@@ -82,7 +82,7 @@ export type TrainerPTPriceMinAggregateInputType = {
 
 export type TrainerPTPriceMaxAggregateInputType = {
   id?: true
-  trainerMembershipId?: true
+  trainerProfileId?: true
   productId?: true
   price?: true
   createdAt?: true
@@ -91,7 +91,7 @@ export type TrainerPTPriceMaxAggregateInputType = {
 
 export type TrainerPTPriceCountAggregateInputType = {
   id?: true
-  trainerMembershipId?: true
+  trainerProfileId?: true
   productId?: true
   price?: true
   createdAt?: true
@@ -187,7 +187,7 @@ export type TrainerPTPriceGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
 
 export type TrainerPTPriceGroupByOutputType = {
   id: string
-  trainerMembershipId: string
+  trainerProfileId: string
   productId: string
   price: runtime.Decimal
   createdAt: Date
@@ -219,44 +219,44 @@ export type TrainerPTPriceWhereInput = {
   OR?: Prisma.TrainerPTPriceWhereInput[]
   NOT?: Prisma.TrainerPTPriceWhereInput | Prisma.TrainerPTPriceWhereInput[]
   id?: Prisma.StringFilter<"TrainerPTPrice"> | string
-  trainerMembershipId?: Prisma.StringFilter<"TrainerPTPrice"> | string
+  trainerProfileId?: Prisma.StringFilter<"TrainerPTPrice"> | string
   productId?: Prisma.StringFilter<"TrainerPTPrice"> | string
   price?: Prisma.DecimalFilter<"TrainerPTPrice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeFilter<"TrainerPTPrice"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TrainerPTPrice"> | Date | string
-  trainerMembership?: Prisma.XOR<Prisma.CenterMembershipScalarRelationFilter, Prisma.CenterMembershipWhereInput>
+  trainerProfile?: Prisma.XOR<Prisma.TrainerProfileScalarRelationFilter, Prisma.TrainerProfileWhereInput>
   product?: Prisma.XOR<Prisma.PTProductScalarRelationFilter, Prisma.PTProductWhereInput>
 }
 
 export type TrainerPTPriceOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  trainerMembershipId?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
   price?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  trainerMembership?: Prisma.CenterMembershipOrderByWithRelationInput
+  trainerProfile?: Prisma.TrainerProfileOrderByWithRelationInput
   product?: Prisma.PTProductOrderByWithRelationInput
 }
 
 export type TrainerPTPriceWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  trainerMembershipId_productId?: Prisma.TrainerPTPriceTrainerMembershipIdProductIdCompoundUniqueInput
+  trainerProfileId_productId?: Prisma.TrainerPTPriceTrainerProfileIdProductIdCompoundUniqueInput
   AND?: Prisma.TrainerPTPriceWhereInput | Prisma.TrainerPTPriceWhereInput[]
   OR?: Prisma.TrainerPTPriceWhereInput[]
   NOT?: Prisma.TrainerPTPriceWhereInput | Prisma.TrainerPTPriceWhereInput[]
-  trainerMembershipId?: Prisma.StringFilter<"TrainerPTPrice"> | string
+  trainerProfileId?: Prisma.StringFilter<"TrainerPTPrice"> | string
   productId?: Prisma.StringFilter<"TrainerPTPrice"> | string
   price?: Prisma.DecimalFilter<"TrainerPTPrice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeFilter<"TrainerPTPrice"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TrainerPTPrice"> | Date | string
-  trainerMembership?: Prisma.XOR<Prisma.CenterMembershipScalarRelationFilter, Prisma.CenterMembershipWhereInput>
+  trainerProfile?: Prisma.XOR<Prisma.TrainerProfileScalarRelationFilter, Prisma.TrainerProfileWhereInput>
   product?: Prisma.XOR<Prisma.PTProductScalarRelationFilter, Prisma.PTProductWhereInput>
-}, "id" | "trainerMembershipId_productId">
+}, "id" | "trainerProfileId_productId">
 
 export type TrainerPTPriceOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  trainerMembershipId?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
   price?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -273,7 +273,7 @@ export type TrainerPTPriceScalarWhereWithAggregatesInput = {
   OR?: Prisma.TrainerPTPriceScalarWhereWithAggregatesInput[]
   NOT?: Prisma.TrainerPTPriceScalarWhereWithAggregatesInput | Prisma.TrainerPTPriceScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"TrainerPTPrice"> | string
-  trainerMembershipId?: Prisma.StringWithAggregatesFilter<"TrainerPTPrice"> | string
+  trainerProfileId?: Prisma.StringWithAggregatesFilter<"TrainerPTPrice"> | string
   productId?: Prisma.StringWithAggregatesFilter<"TrainerPTPrice"> | string
   price?: Prisma.DecimalWithAggregatesFilter<"TrainerPTPrice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"TrainerPTPrice"> | Date | string
@@ -285,13 +285,13 @@ export type TrainerPTPriceCreateInput = {
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  trainerMembership: Prisma.CenterMembershipCreateNestedOneWithoutTrainerPTPricesInput
+  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutPtPricesInput
   product: Prisma.PTProductCreateNestedOneWithoutTrainerPricesInput
 }
 
 export type TrainerPTPriceUncheckedCreateInput = {
   id?: string
-  trainerMembershipId: string
+  trainerProfileId: string
   productId: string
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Date | string
@@ -303,13 +303,13 @@ export type TrainerPTPriceUpdateInput = {
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  trainerMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutTrainerPTPricesNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutPtPricesNestedInput
   product?: Prisma.PTProductUpdateOneRequiredWithoutTrainerPricesNestedInput
 }
 
 export type TrainerPTPriceUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -318,7 +318,7 @@ export type TrainerPTPriceUncheckedUpdateInput = {
 
 export type TrainerPTPriceCreateManyInput = {
   id?: string
-  trainerMembershipId: string
+  trainerProfileId: string
   productId: string
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Date | string
@@ -334,7 +334,7 @@ export type TrainerPTPriceUpdateManyMutationInput = {
 
 export type TrainerPTPriceUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -351,14 +351,14 @@ export type TrainerPTPriceOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type TrainerPTPriceTrainerMembershipIdProductIdCompoundUniqueInput = {
-  trainerMembershipId: string
+export type TrainerPTPriceTrainerProfileIdProductIdCompoundUniqueInput = {
+  trainerProfileId: string
   productId: string
 }
 
 export type TrainerPTPriceCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  trainerMembershipId?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
   price?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -371,7 +371,7 @@ export type TrainerPTPriceAvgOrderByAggregateInput = {
 
 export type TrainerPTPriceMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  trainerMembershipId?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
   price?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -380,7 +380,7 @@ export type TrainerPTPriceMaxOrderByAggregateInput = {
 
 export type TrainerPTPriceMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  trainerMembershipId?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
   price?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -391,45 +391,45 @@ export type TrainerPTPriceSumOrderByAggregateInput = {
   price?: Prisma.SortOrder
 }
 
-export type TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput = {
-  create?: Prisma.XOR<Prisma.TrainerPTPriceCreateWithoutTrainerMembershipInput, Prisma.TrainerPTPriceUncheckedCreateWithoutTrainerMembershipInput> | Prisma.TrainerPTPriceCreateWithoutTrainerMembershipInput[] | Prisma.TrainerPTPriceUncheckedCreateWithoutTrainerMembershipInput[]
-  connectOrCreate?: Prisma.TrainerPTPriceCreateOrConnectWithoutTrainerMembershipInput | Prisma.TrainerPTPriceCreateOrConnectWithoutTrainerMembershipInput[]
-  createMany?: Prisma.TrainerPTPriceCreateManyTrainerMembershipInputEnvelope
+export type TrainerPTPriceCreateNestedManyWithoutTrainerProfileInput = {
+  create?: Prisma.XOR<Prisma.TrainerPTPriceCreateWithoutTrainerProfileInput, Prisma.TrainerPTPriceUncheckedCreateWithoutTrainerProfileInput> | Prisma.TrainerPTPriceCreateWithoutTrainerProfileInput[] | Prisma.TrainerPTPriceUncheckedCreateWithoutTrainerProfileInput[]
+  connectOrCreate?: Prisma.TrainerPTPriceCreateOrConnectWithoutTrainerProfileInput | Prisma.TrainerPTPriceCreateOrConnectWithoutTrainerProfileInput[]
+  createMany?: Prisma.TrainerPTPriceCreateManyTrainerProfileInputEnvelope
   connect?: Prisma.TrainerPTPriceWhereUniqueInput | Prisma.TrainerPTPriceWhereUniqueInput[]
 }
 
-export type TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput = {
-  create?: Prisma.XOR<Prisma.TrainerPTPriceCreateWithoutTrainerMembershipInput, Prisma.TrainerPTPriceUncheckedCreateWithoutTrainerMembershipInput> | Prisma.TrainerPTPriceCreateWithoutTrainerMembershipInput[] | Prisma.TrainerPTPriceUncheckedCreateWithoutTrainerMembershipInput[]
-  connectOrCreate?: Prisma.TrainerPTPriceCreateOrConnectWithoutTrainerMembershipInput | Prisma.TrainerPTPriceCreateOrConnectWithoutTrainerMembershipInput[]
-  createMany?: Prisma.TrainerPTPriceCreateManyTrainerMembershipInputEnvelope
+export type TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerProfileInput = {
+  create?: Prisma.XOR<Prisma.TrainerPTPriceCreateWithoutTrainerProfileInput, Prisma.TrainerPTPriceUncheckedCreateWithoutTrainerProfileInput> | Prisma.TrainerPTPriceCreateWithoutTrainerProfileInput[] | Prisma.TrainerPTPriceUncheckedCreateWithoutTrainerProfileInput[]
+  connectOrCreate?: Prisma.TrainerPTPriceCreateOrConnectWithoutTrainerProfileInput | Prisma.TrainerPTPriceCreateOrConnectWithoutTrainerProfileInput[]
+  createMany?: Prisma.TrainerPTPriceCreateManyTrainerProfileInputEnvelope
   connect?: Prisma.TrainerPTPriceWhereUniqueInput | Prisma.TrainerPTPriceWhereUniqueInput[]
 }
 
-export type TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput = {
-  create?: Prisma.XOR<Prisma.TrainerPTPriceCreateWithoutTrainerMembershipInput, Prisma.TrainerPTPriceUncheckedCreateWithoutTrainerMembershipInput> | Prisma.TrainerPTPriceCreateWithoutTrainerMembershipInput[] | Prisma.TrainerPTPriceUncheckedCreateWithoutTrainerMembershipInput[]
-  connectOrCreate?: Prisma.TrainerPTPriceCreateOrConnectWithoutTrainerMembershipInput | Prisma.TrainerPTPriceCreateOrConnectWithoutTrainerMembershipInput[]
-  upsert?: Prisma.TrainerPTPriceUpsertWithWhereUniqueWithoutTrainerMembershipInput | Prisma.TrainerPTPriceUpsertWithWhereUniqueWithoutTrainerMembershipInput[]
-  createMany?: Prisma.TrainerPTPriceCreateManyTrainerMembershipInputEnvelope
+export type TrainerPTPriceUpdateManyWithoutTrainerProfileNestedInput = {
+  create?: Prisma.XOR<Prisma.TrainerPTPriceCreateWithoutTrainerProfileInput, Prisma.TrainerPTPriceUncheckedCreateWithoutTrainerProfileInput> | Prisma.TrainerPTPriceCreateWithoutTrainerProfileInput[] | Prisma.TrainerPTPriceUncheckedCreateWithoutTrainerProfileInput[]
+  connectOrCreate?: Prisma.TrainerPTPriceCreateOrConnectWithoutTrainerProfileInput | Prisma.TrainerPTPriceCreateOrConnectWithoutTrainerProfileInput[]
+  upsert?: Prisma.TrainerPTPriceUpsertWithWhereUniqueWithoutTrainerProfileInput | Prisma.TrainerPTPriceUpsertWithWhereUniqueWithoutTrainerProfileInput[]
+  createMany?: Prisma.TrainerPTPriceCreateManyTrainerProfileInputEnvelope
   set?: Prisma.TrainerPTPriceWhereUniqueInput | Prisma.TrainerPTPriceWhereUniqueInput[]
   disconnect?: Prisma.TrainerPTPriceWhereUniqueInput | Prisma.TrainerPTPriceWhereUniqueInput[]
   delete?: Prisma.TrainerPTPriceWhereUniqueInput | Prisma.TrainerPTPriceWhereUniqueInput[]
   connect?: Prisma.TrainerPTPriceWhereUniqueInput | Prisma.TrainerPTPriceWhereUniqueInput[]
-  update?: Prisma.TrainerPTPriceUpdateWithWhereUniqueWithoutTrainerMembershipInput | Prisma.TrainerPTPriceUpdateWithWhereUniqueWithoutTrainerMembershipInput[]
-  updateMany?: Prisma.TrainerPTPriceUpdateManyWithWhereWithoutTrainerMembershipInput | Prisma.TrainerPTPriceUpdateManyWithWhereWithoutTrainerMembershipInput[]
+  update?: Prisma.TrainerPTPriceUpdateWithWhereUniqueWithoutTrainerProfileInput | Prisma.TrainerPTPriceUpdateWithWhereUniqueWithoutTrainerProfileInput[]
+  updateMany?: Prisma.TrainerPTPriceUpdateManyWithWhereWithoutTrainerProfileInput | Prisma.TrainerPTPriceUpdateManyWithWhereWithoutTrainerProfileInput[]
   deleteMany?: Prisma.TrainerPTPriceScalarWhereInput | Prisma.TrainerPTPriceScalarWhereInput[]
 }
 
-export type TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput = {
-  create?: Prisma.XOR<Prisma.TrainerPTPriceCreateWithoutTrainerMembershipInput, Prisma.TrainerPTPriceUncheckedCreateWithoutTrainerMembershipInput> | Prisma.TrainerPTPriceCreateWithoutTrainerMembershipInput[] | Prisma.TrainerPTPriceUncheckedCreateWithoutTrainerMembershipInput[]
-  connectOrCreate?: Prisma.TrainerPTPriceCreateOrConnectWithoutTrainerMembershipInput | Prisma.TrainerPTPriceCreateOrConnectWithoutTrainerMembershipInput[]
-  upsert?: Prisma.TrainerPTPriceUpsertWithWhereUniqueWithoutTrainerMembershipInput | Prisma.TrainerPTPriceUpsertWithWhereUniqueWithoutTrainerMembershipInput[]
-  createMany?: Prisma.TrainerPTPriceCreateManyTrainerMembershipInputEnvelope
+export type TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileNestedInput = {
+  create?: Prisma.XOR<Prisma.TrainerPTPriceCreateWithoutTrainerProfileInput, Prisma.TrainerPTPriceUncheckedCreateWithoutTrainerProfileInput> | Prisma.TrainerPTPriceCreateWithoutTrainerProfileInput[] | Prisma.TrainerPTPriceUncheckedCreateWithoutTrainerProfileInput[]
+  connectOrCreate?: Prisma.TrainerPTPriceCreateOrConnectWithoutTrainerProfileInput | Prisma.TrainerPTPriceCreateOrConnectWithoutTrainerProfileInput[]
+  upsert?: Prisma.TrainerPTPriceUpsertWithWhereUniqueWithoutTrainerProfileInput | Prisma.TrainerPTPriceUpsertWithWhereUniqueWithoutTrainerProfileInput[]
+  createMany?: Prisma.TrainerPTPriceCreateManyTrainerProfileInputEnvelope
   set?: Prisma.TrainerPTPriceWhereUniqueInput | Prisma.TrainerPTPriceWhereUniqueInput[]
   disconnect?: Prisma.TrainerPTPriceWhereUniqueInput | Prisma.TrainerPTPriceWhereUniqueInput[]
   delete?: Prisma.TrainerPTPriceWhereUniqueInput | Prisma.TrainerPTPriceWhereUniqueInput[]
   connect?: Prisma.TrainerPTPriceWhereUniqueInput | Prisma.TrainerPTPriceWhereUniqueInput[]
-  update?: Prisma.TrainerPTPriceUpdateWithWhereUniqueWithoutTrainerMembershipInput | Prisma.TrainerPTPriceUpdateWithWhereUniqueWithoutTrainerMembershipInput[]
-  updateMany?: Prisma.TrainerPTPriceUpdateManyWithWhereWithoutTrainerMembershipInput | Prisma.TrainerPTPriceUpdateManyWithWhereWithoutTrainerMembershipInput[]
+  update?: Prisma.TrainerPTPriceUpdateWithWhereUniqueWithoutTrainerProfileInput | Prisma.TrainerPTPriceUpdateWithWhereUniqueWithoutTrainerProfileInput[]
+  updateMany?: Prisma.TrainerPTPriceUpdateManyWithWhereWithoutTrainerProfileInput | Prisma.TrainerPTPriceUpdateManyWithWhereWithoutTrainerProfileInput[]
   deleteMany?: Prisma.TrainerPTPriceScalarWhereInput | Prisma.TrainerPTPriceScalarWhereInput[]
 }
 
@@ -475,7 +475,7 @@ export type TrainerPTPriceUncheckedUpdateManyWithoutProductNestedInput = {
   deleteMany?: Prisma.TrainerPTPriceScalarWhereInput | Prisma.TrainerPTPriceScalarWhereInput[]
 }
 
-export type TrainerPTPriceCreateWithoutTrainerMembershipInput = {
+export type TrainerPTPriceCreateWithoutTrainerProfileInput = {
   id?: string
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Date | string
@@ -483,7 +483,7 @@ export type TrainerPTPriceCreateWithoutTrainerMembershipInput = {
   product: Prisma.PTProductCreateNestedOneWithoutTrainerPricesInput
 }
 
-export type TrainerPTPriceUncheckedCreateWithoutTrainerMembershipInput = {
+export type TrainerPTPriceUncheckedCreateWithoutTrainerProfileInput = {
   id?: string
   productId: string
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -491,30 +491,30 @@ export type TrainerPTPriceUncheckedCreateWithoutTrainerMembershipInput = {
   updatedAt?: Date | string
 }
 
-export type TrainerPTPriceCreateOrConnectWithoutTrainerMembershipInput = {
+export type TrainerPTPriceCreateOrConnectWithoutTrainerProfileInput = {
   where: Prisma.TrainerPTPriceWhereUniqueInput
-  create: Prisma.XOR<Prisma.TrainerPTPriceCreateWithoutTrainerMembershipInput, Prisma.TrainerPTPriceUncheckedCreateWithoutTrainerMembershipInput>
+  create: Prisma.XOR<Prisma.TrainerPTPriceCreateWithoutTrainerProfileInput, Prisma.TrainerPTPriceUncheckedCreateWithoutTrainerProfileInput>
 }
 
-export type TrainerPTPriceCreateManyTrainerMembershipInputEnvelope = {
-  data: Prisma.TrainerPTPriceCreateManyTrainerMembershipInput | Prisma.TrainerPTPriceCreateManyTrainerMembershipInput[]
+export type TrainerPTPriceCreateManyTrainerProfileInputEnvelope = {
+  data: Prisma.TrainerPTPriceCreateManyTrainerProfileInput | Prisma.TrainerPTPriceCreateManyTrainerProfileInput[]
   skipDuplicates?: boolean
 }
 
-export type TrainerPTPriceUpsertWithWhereUniqueWithoutTrainerMembershipInput = {
+export type TrainerPTPriceUpsertWithWhereUniqueWithoutTrainerProfileInput = {
   where: Prisma.TrainerPTPriceWhereUniqueInput
-  update: Prisma.XOR<Prisma.TrainerPTPriceUpdateWithoutTrainerMembershipInput, Prisma.TrainerPTPriceUncheckedUpdateWithoutTrainerMembershipInput>
-  create: Prisma.XOR<Prisma.TrainerPTPriceCreateWithoutTrainerMembershipInput, Prisma.TrainerPTPriceUncheckedCreateWithoutTrainerMembershipInput>
+  update: Prisma.XOR<Prisma.TrainerPTPriceUpdateWithoutTrainerProfileInput, Prisma.TrainerPTPriceUncheckedUpdateWithoutTrainerProfileInput>
+  create: Prisma.XOR<Prisma.TrainerPTPriceCreateWithoutTrainerProfileInput, Prisma.TrainerPTPriceUncheckedCreateWithoutTrainerProfileInput>
 }
 
-export type TrainerPTPriceUpdateWithWhereUniqueWithoutTrainerMembershipInput = {
+export type TrainerPTPriceUpdateWithWhereUniqueWithoutTrainerProfileInput = {
   where: Prisma.TrainerPTPriceWhereUniqueInput
-  data: Prisma.XOR<Prisma.TrainerPTPriceUpdateWithoutTrainerMembershipInput, Prisma.TrainerPTPriceUncheckedUpdateWithoutTrainerMembershipInput>
+  data: Prisma.XOR<Prisma.TrainerPTPriceUpdateWithoutTrainerProfileInput, Prisma.TrainerPTPriceUncheckedUpdateWithoutTrainerProfileInput>
 }
 
-export type TrainerPTPriceUpdateManyWithWhereWithoutTrainerMembershipInput = {
+export type TrainerPTPriceUpdateManyWithWhereWithoutTrainerProfileInput = {
   where: Prisma.TrainerPTPriceScalarWhereInput
-  data: Prisma.XOR<Prisma.TrainerPTPriceUpdateManyMutationInput, Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipInput>
+  data: Prisma.XOR<Prisma.TrainerPTPriceUpdateManyMutationInput, Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileInput>
 }
 
 export type TrainerPTPriceScalarWhereInput = {
@@ -522,7 +522,7 @@ export type TrainerPTPriceScalarWhereInput = {
   OR?: Prisma.TrainerPTPriceScalarWhereInput[]
   NOT?: Prisma.TrainerPTPriceScalarWhereInput | Prisma.TrainerPTPriceScalarWhereInput[]
   id?: Prisma.StringFilter<"TrainerPTPrice"> | string
-  trainerMembershipId?: Prisma.StringFilter<"TrainerPTPrice"> | string
+  trainerProfileId?: Prisma.StringFilter<"TrainerPTPrice"> | string
   productId?: Prisma.StringFilter<"TrainerPTPrice"> | string
   price?: Prisma.DecimalFilter<"TrainerPTPrice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeFilter<"TrainerPTPrice"> | Date | string
@@ -534,12 +534,12 @@ export type TrainerPTPriceCreateWithoutProductInput = {
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  trainerMembership: Prisma.CenterMembershipCreateNestedOneWithoutTrainerPTPricesInput
+  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutPtPricesInput
 }
 
 export type TrainerPTPriceUncheckedCreateWithoutProductInput = {
   id?: string
-  trainerMembershipId: string
+  trainerProfileId: string
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -571,7 +571,7 @@ export type TrainerPTPriceUpdateManyWithWhereWithoutProductInput = {
   data: Prisma.XOR<Prisma.TrainerPTPriceUpdateManyMutationInput, Prisma.TrainerPTPriceUncheckedUpdateManyWithoutProductInput>
 }
 
-export type TrainerPTPriceCreateManyTrainerMembershipInput = {
+export type TrainerPTPriceCreateManyTrainerProfileInput = {
   id?: string
   productId: string
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -579,7 +579,7 @@ export type TrainerPTPriceCreateManyTrainerMembershipInput = {
   updatedAt?: Date | string
 }
 
-export type TrainerPTPriceUpdateWithoutTrainerMembershipInput = {
+export type TrainerPTPriceUpdateWithoutTrainerProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -587,7 +587,7 @@ export type TrainerPTPriceUpdateWithoutTrainerMembershipInput = {
   product?: Prisma.PTProductUpdateOneRequiredWithoutTrainerPricesNestedInput
 }
 
-export type TrainerPTPriceUncheckedUpdateWithoutTrainerMembershipInput = {
+export type TrainerPTPriceUncheckedUpdateWithoutTrainerProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -595,7 +595,7 @@ export type TrainerPTPriceUncheckedUpdateWithoutTrainerMembershipInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipInput = {
+export type TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -605,7 +605,7 @@ export type TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipInput = {
 
 export type TrainerPTPriceCreateManyProductInput = {
   id?: string
-  trainerMembershipId: string
+  trainerProfileId: string
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -616,12 +616,12 @@ export type TrainerPTPriceUpdateWithoutProductInput = {
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  trainerMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutTrainerPTPricesNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutPtPricesNestedInput
 }
 
 export type TrainerPTPriceUncheckedUpdateWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -629,7 +629,7 @@ export type TrainerPTPriceUncheckedUpdateWithoutProductInput = {
 
 export type TrainerPTPriceUncheckedUpdateManyWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -639,69 +639,69 @@ export type TrainerPTPriceUncheckedUpdateManyWithoutProductInput = {
 
 export type TrainerPTPriceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  trainerMembershipId?: boolean
+  trainerProfileId?: boolean
   productId?: boolean
   price?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  trainerMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   product?: boolean | Prisma.PTProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["trainerPTPrice"]>
 
 export type TrainerPTPriceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  trainerMembershipId?: boolean
+  trainerProfileId?: boolean
   productId?: boolean
   price?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  trainerMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   product?: boolean | Prisma.PTProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["trainerPTPrice"]>
 
 export type TrainerPTPriceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  trainerMembershipId?: boolean
+  trainerProfileId?: boolean
   productId?: boolean
   price?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  trainerMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   product?: boolean | Prisma.PTProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["trainerPTPrice"]>
 
 export type TrainerPTPriceSelectScalar = {
   id?: boolean
-  trainerMembershipId?: boolean
+  trainerProfileId?: boolean
   productId?: boolean
   price?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type TrainerPTPriceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "trainerMembershipId" | "productId" | "price" | "createdAt" | "updatedAt", ExtArgs["result"]["trainerPTPrice"]>
+export type TrainerPTPriceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "trainerProfileId" | "productId" | "price" | "createdAt" | "updatedAt", ExtArgs["result"]["trainerPTPrice"]>
 export type TrainerPTPriceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  trainerMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   product?: boolean | Prisma.PTProductDefaultArgs<ExtArgs>
 }
 export type TrainerPTPriceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  trainerMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   product?: boolean | Prisma.PTProductDefaultArgs<ExtArgs>
 }
 export type TrainerPTPriceIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  trainerMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   product?: boolean | Prisma.PTProductDefaultArgs<ExtArgs>
 }
 
 export type $TrainerPTPricePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "TrainerPTPrice"
   objects: {
-    trainerMembership: Prisma.$CenterMembershipPayload<ExtArgs>
+    trainerProfile: Prisma.$TrainerProfilePayload<ExtArgs>
     product: Prisma.$PTProductPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    trainerMembershipId: string
+    trainerProfileId: string
     productId: string
     price: runtime.Decimal
     createdAt: Date
@@ -1100,7 +1100,7 @@ readonly fields: TrainerPTPriceFieldRefs;
  */
 export interface Prisma__TrainerPTPriceClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  trainerMembership<T extends Prisma.CenterMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__CenterMembershipClient<runtime.Types.Result.GetResult<Prisma.$CenterMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  trainerProfile<T extends Prisma.TrainerProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__TrainerProfileClient<runtime.Types.Result.GetResult<Prisma.$TrainerProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   product<T extends Prisma.PTProductDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PTProductDefaultArgs<ExtArgs>>): Prisma.Prisma__PTProductClient<runtime.Types.Result.GetResult<Prisma.$PTProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1132,7 +1132,7 @@ export interface Prisma__TrainerPTPriceClient<T, Null = never, ExtArgs extends r
  */
 export interface TrainerPTPriceFieldRefs {
   readonly id: Prisma.FieldRef<"TrainerPTPrice", 'String'>
-  readonly trainerMembershipId: Prisma.FieldRef<"TrainerPTPrice", 'String'>
+  readonly trainerProfileId: Prisma.FieldRef<"TrainerPTPrice", 'String'>
   readonly productId: Prisma.FieldRef<"TrainerPTPrice", 'String'>
   readonly price: Prisma.FieldRef<"TrainerPTPrice", 'Decimal'>
   readonly createdAt: Prisma.FieldRef<"TrainerPTPrice", 'DateTime'>

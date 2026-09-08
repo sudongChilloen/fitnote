@@ -54,7 +54,7 @@ export default async function JournalEditorPage({
   return (
     <main className="px-5 pt-4 pb-16">
       <Link
-        href={`/trainer/members/${draft.memberMembershipId}`}
+        href={`/trainer/members/${draft.connectionId}`}
         className="inline-flex items-center gap-1 text-sm text-muted-foreground"
       >
         <ChevronLeft className="size-4" aria-hidden />
@@ -133,7 +133,7 @@ export default async function JournalEditorPage({
           <input
             type="hidden"
             name="memberMembershipId"
-            value={draft.memberMembershipId}
+            value={draft.connectionId}
           />
           <button
             type="submit"

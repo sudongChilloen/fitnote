@@ -31,6 +31,18 @@ enum MembershipStatus {
   LEFT
 }
 
+/**
+ * 트레이너와 회원의 코칭 관계 상태.
+ * PENDING(승인 대기)을 일부러 넣지 않았다. 지금은 트레이너가 회원에게 코드를
+ * 직접 건네는 방식이라 코드를 가진 시점에 이미 승인된 것과 같다. 여기에 승인
+ * 단계를 두면 회원은 코드를 넣고도 "왜 안 되지" 하며 기다린다.
+ * 나중에 트레이너 공개 프로필에서 아무나 신청할 수 있게 되면 그때 넣는다.
+ */
+enum ConnectionStatus {
+  ACTIVE
+  ENDED
+}
+
 enum CenterStatus {
   ACTIVE
   INACTIVE
@@ -204,7 +216,22 @@ model User {
   updatedAt   DateTime  @updatedAt
 
   // 기본 회원 프로필
-  memberProfile MemberProfile?
+  memberProfile  MemberProfile?
+  trainerProfile TrainerProfile?
+
+  // 이 사람을 코칭하는 트레이너와의 관계
+  trainerConnections TrainerMemberConnection[]
+
+  // 트레이너에게 무엇까지 보여줄지
+  sharingSetting TrainerSharingSetting?
+
+  // PT (회원 쪽)
+  ptContracts PTContract[] @relation("ContractMember")
+  ptSessions  PTSession[]  @relation("PTSessionMember")
+
+  // 알림장 (회원 쪽) · 댓글은 트레이너와 회원이 같이 쓴다
+  journals        Journal[]        @relation("JournalMember")
+  journalComments JournalComment[] @relation("JournalCommentAuthor")
 
   // 인증
   authSessions AuthSession[]
@@ -295,9 +322,13 @@ model Center {
 
   memberships CenterMembership[]
   invitations CenterInvitation[]
-  ptProducts  PTProduct[]
-  gyms        Gym[]
-  notices     Notice[]
+
+  // 이 센터에서 시작된 코칭 관계 · 이 센터에서 맺어진 PT 계약
+  startedConnections TrainerMemberConnection[]
+  ptContracts        PTContract[]
+  ptProducts         PTProduct[]
+  gyms               Gym[]
+  notices            Notice[]
 
   @@index([status])
 }
@@ -314,9 +345,6 @@ model CenterMembership {
   role   MembershipRole
   status MembershipStatus @default(ACTIVE)
 
-  // MEMBER의 담당 트레이너
-  assignedTrainerMembershipId String?
-
   // 어느 코드로 들어왔는지. 코드를 여러 명이 쓸 수 있으므로
   // 이게 없으면 "누가 뿌린 코드로 들어온 회원인지" 를 되짚을 수 없다.
   joinedViaInvitationId String?
@@ -327,51 +355,17 @@ model CenterMembership {
   center Center @relation(fields: [centerId], references: [id], onDelete: Cascade)
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  // 자기 자신과의 Trainer ↔ Member 관계
-  assignedTrainerMembership CenterMembership? @relation("TrainerMembers", fields: [assignedTrainerMembershipId], references: [id], onDelete: SetNull)
-
-  assignedMembers CenterMembership[] @relation("TrainerMembers")
-
   // 초대
   createdInvitations  CenterInvitation[] @relation("CreatedInvitations")
   joinedViaInvitation CenterInvitation?  @relation("JoinedViaInvitation", fields: [joinedViaInvitationId], references: [id], onDelete: SetNull)
 
-  // 중요:
-  // TrainerProfile은 User가 아니라 Membership에 연결
-  trainerProfile TrainerProfile?
-
-  // 회원이 담당 트레이너에게 무엇까지 보여줄지
-  sharingSetting TrainerSharingSetting?
-
-  // PT
-  memberContracts  PTContract[] @relation("ContractMember")
-  trainerContracts PTContract[] @relation("ContractTrainer")
-
-  memberPTSessions  PTSession[] @relation("PTSessionMember")
-  trainerPTSessions PTSession[] @relation("PTSessionTrainer")
-
-  // Journal
-  memberJournals  Journal[] @relation("JournalMember")
-  trainerJournals Journal[] @relation("JournalTrainer")
-
-  // PT 가격
-  trainerPTPrices TrainerPTPrice[]
-
-  // 식단 피드백
-  dietFeedbacks DietFeedback[]
-
-  // 알림장 댓글 / 공지
-  journalComments JournalComment[] @relation("JournalCommentAuthor")
-  authoredNotices Notice[]         @relation("NoticeAuthor")
-  noticeReads     NoticeRead[]     @relation("NoticeReader")
-
-  // 트레이너가 생성한 루틴
-  createdRoutines Routine[] @relation("TrainerCreatedRoutines")
+  // 센터 공지. 센터가 없으면 공지도 없으므로 여기 남는다.
+  authoredNotices Notice[]     @relation("NoticeAuthor")
+  noticeReads     NoticeRead[] @relation("NoticeReader")
 
   @@unique([centerId, userId])
   @@index([centerId, role])
   @@index([centerId, status])
-  @@index([assignedTrainerMembershipId])
 }
 
 // ============================================================
@@ -388,10 +382,7 @@ model CenterInvitation {
   // 실제 API에서 TRAINER / MEMBER만 허용하도록 검증
   role MembershipRole
 
-  // 누가 발급했는지.
-  // 코드 종류를 따로 두지 않고 이 값에서 파생한다. 트레이너가 발급한 코드로
-  // 들어오면 담당 배정까지 이어진다. 종류를 컬럼으로 또 두면 role /
-  // createdBy.role / type 셋이 서로 어긋날 수 있다.
+  // 누가 발급했는지. 관리자가 뿌린 코드인지 트레이너가 뿌린 코드인지를 가른다.
   createdByMembershipId String
 
   // 회원 코드는 여러 명이 쓰고, 트레이너 코드는 한 명만 쓴다.
@@ -445,10 +436,20 @@ model MemberProfile {
 // TRAINER PROFILE
 // ============================================================
 
+/**
+ * 트레이너라는 신분.
+ * 센터가 아니라 사람에 붙는다. 센터에 매달아 두면 센터 없는 트레이너가 존재할
+ * 수 없고, 트레이너가 센터를 옮기는 순간 그가 쌓은 회원 관계와 알림장이 전부
+ * 끊긴다. 회원의 여정을 보여주겠다면서 여정이 이직 한 번에 사라지면 앞뒤가
+ * 맞지 않는다.
+ * 센터 소속 여부는 같은 User 의 CenterMembership 이 있는가로 따로 본다.
+ */
 model TrainerProfile {
-  id           String @id @default(uuid())
-  membershipId String @unique
+  id     String @id @default(uuid())
+  userId String @unique
 
+  // 활동명. 본명과 다르게 쓰는 사람이 있어 따로 둔다. 없으면 User.name 을 쓴다.
+  displayName     String?
   bio             String?
   specialty       String?
   careerYears     Int?
@@ -457,8 +458,86 @@ model TrainerProfile {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // User가 아니라 CenterMembership과 연결
-  membership CenterMembership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  connections TrainerMemberConnection[]
+  invitations TrainerInvitation[]
+
+  contracts  PTContract[]
+  ptSessions PTSession[]
+  journals   Journal[]
+  ptPrices   TrainerPTPrice[]
+
+  dietFeedbacks   DietFeedback[]
+  createdRoutines Routine[]      @relation("TrainerCreatedRoutines")
+}
+
+/**
+ * 트레이너와 회원의 코칭 관계.
+ * PT 관계의 단 하나뿐인 진실이다. 예전에는 CenterMembership 이 자기 자신을
+ * 가리켜 담당을 표현했는데, 그러면 센터가 없으면 관계도 없고 센터를 옮기면
+ * 관계가 끊겼다.
+ * 센터 가입과는 별개다. 센터에만 등록하고 PT 는 안 받는 회원이 정상 상태여야
+ * 하는데, 예전 구조에서는 그런 사람이 "담당이 비어 있는 이상한 회원" 이었다.
+ */
+model TrainerMemberConnection {
+  id String @id @default(uuid())
+
+  trainerProfileId String
+  memberUserId     String
+
+  status ConnectionStatus @default(ACTIVE)
+
+  /**
+   * 이 관계가 어느 센터에서 시작됐는지. 무소속 트레이너면 null.
+   * 지금은 쓰지 않지만 나중에 센터가 트레이너 좌석을 결제하는 구조가 되면
+   * "센터가 데려온 회원인가, 트레이너가 데려온 회원인가" 를 반드시 묻게 된다.
+   * 그때 가서 넣으면 이미 생긴 관계들의 출처를 알 방법이 없다.
+   */
+  originCenterId String?
+
+  startedAt DateTime  @default(now())
+  endedAt   DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  trainerProfile TrainerProfile @relation(fields: [trainerProfileId], references: [id], onDelete: Cascade)
+  memberUser     User           @relation(fields: [memberUserId], references: [id], onDelete: Cascade)
+  originCenter   Center?        @relation(fields: [originCenterId], references: [id], onDelete: SetNull)
+
+  // 같은 트레이너와 같은 회원이 두 줄을 갖지 않는다. 끊었다 다시 이으면
+  // 같은 줄을 ACTIVE 로 되살린다. 새 줄을 만들면 지난 기간이 사라진다.
+  @@unique([trainerProfileId, memberUserId])
+  @@index([memberUserId, status])
+  @@index([trainerProfileId, status])
+}
+
+/**
+ * 트레이너가 회원을 부르는 코드.
+ * 센터 코드와 나눈 이유는 두 코드가 하는 일이 다르기 때문이다. 센터 코드는
+ * "이 센터의 회원이 된다" 이고, 트레이너 코드는 "이 트레이너에게 코칭받는다"
+ * 이다. 무소속 트레이너에게는 센터가 없어 센터 코드를 만들 수도 없다.
+ */
+model TrainerInvitation {
+  id               String @id @default(uuid())
+  trainerProfileId String
+
+  code String @unique
+
+  // 회원 여럿이 같은 코드를 쓴다. 회원 30명에게 코드를 30번 발급할 수는 없다.
+  maxUses   Int @default(50)
+  usedCount Int @default(0)
+
+  expiresAt DateTime
+  revokedAt DateTime?
+
+  createdAt DateTime @default(now())
+
+  trainerProfile TrainerProfile @relation(fields: [trainerProfileId], references: [id], onDelete: Cascade)
+
+  @@index([trainerProfileId])
+  @@index([expiresAt])
 }
 
 // ============================================================
@@ -653,21 +732,21 @@ model Routine {
 
   status RoutineStatus @default(ACTIVE)
 
-  // 트레이너가 생성한 루틴인 경우
-  createdByTrainerMembershipId String?
+  // 트레이너가 만들어 준 루틴인 경우
+  createdByTrainerProfileId String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  createdByTrainer CenterMembership? @relation("TrainerCreatedRoutines", fields: [createdByTrainerMembershipId], references: [id], onDelete: SetNull)
+  createdByTrainer TrainerProfile? @relation("TrainerCreatedRoutines", fields: [createdByTrainerProfileId], references: [id], onDelete: SetNull)
 
   exercises       RoutineExercise[]
   workoutSessions WorkoutSession[]
 
   @@index([userId, status])
-  @@index([createdByTrainerMembershipId])
+  @@index([createdByTrainerProfileId])
 }
 
 // ============================================================
@@ -878,19 +957,19 @@ model PTProduct {
 model TrainerPTPrice {
   id String @id @default(uuid())
 
-  trainerMembershipId String
-  productId           String
+  trainerProfileId String
+  productId        String
 
   price Decimal
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  trainerMembership CenterMembership @relation(fields: [trainerMembershipId], references: [id], onDelete: Cascade)
+  trainerProfile TrainerProfile @relation(fields: [trainerProfileId], references: [id], onDelete: Cascade)
 
   product PTProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
 
-  @@unique([trainerMembershipId, productId])
+  @@unique([trainerProfileId, productId])
   @@index([productId])
 }
 
@@ -901,9 +980,17 @@ model TrainerPTPrice {
 model PTContract {
   id String @id @default(uuid())
 
-  memberMembershipId  String
-  trainerMembershipId String
-  productId           String
+  memberUserId     String
+  trainerProfileId String
+  productId        String
+
+  /**
+   * 이 계약이 어느 센터에서 맺어졌는지. 개인 트레이너면 null.
+   * 관계가 시작된 센터(TrainerMemberConnection.originCenterId)와 다를 수 있다.
+   * 트레이너가 이직한 뒤 같은 회원과 새로 맺은 계약은 새 센터의 것이다.
+   * 나중에 센터가 "우리 센터에서 나간 PT" 를 셀 때 이 값이 없으면 답할 수 없다.
+   */
+  centerId String?
 
   // 계약 당시 상품 정보 Snapshot
   productNameSnapshot String
@@ -920,16 +1007,19 @@ model PTContract {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  memberMembership CenterMembership @relation("ContractMember", fields: [memberMembershipId], references: [id], onDelete: Restrict)
+  memberUser     User           @relation("ContractMember", fields: [memberUserId], references: [id], onDelete: Restrict)
+  trainerProfile TrainerProfile @relation(fields: [trainerProfileId], references: [id], onDelete: Restrict)
 
-  trainerMembership CenterMembership @relation("ContractTrainer", fields: [trainerMembershipId], references: [id], onDelete: Restrict)
+  // 센터가 문을 닫아도 계약 기록은 남는다. 회원의 운동 이력이기도 하다.
+  center Center? @relation(fields: [centerId], references: [id], onDelete: SetNull)
 
   product PTProduct @relation(fields: [productId], references: [id], onDelete: Restrict)
 
   sessions PTSession[]
 
-  @@index([memberMembershipId, status])
-  @@index([trainerMembershipId, status])
+  @@index([memberUserId, status])
+  @@index([trainerProfileId, status])
+  @@index([centerId, status])
   @@index([productId])
   @@index([expiresAt])
 }
@@ -943,8 +1033,8 @@ model PTSession {
 
   contractId String
 
-  memberMembershipId  String
-  trainerMembershipId String
+  memberUserId     String
+  trainerProfileId String
 
   sessionNumber Int
 
@@ -965,16 +1055,15 @@ model PTSession {
 
   contract PTContract @relation(fields: [contractId], references: [id], onDelete: Cascade)
 
-  memberMembership CenterMembership @relation("PTSessionMember", fields: [memberMembershipId], references: [id], onDelete: Restrict)
-
-  trainerMembership CenterMembership @relation("PTSessionTrainer", fields: [trainerMembershipId], references: [id], onDelete: Restrict)
+  memberUser     User           @relation("PTSessionMember", fields: [memberUserId], references: [id], onDelete: Restrict)
+  trainerProfile TrainerProfile @relation(fields: [trainerProfileId], references: [id], onDelete: Restrict)
 
   workoutSession WorkoutSession?
   journals       Journal[]
 
   @@unique([contractId, sessionNumber])
-  @@index([trainerMembershipId, scheduledAt])
-  @@index([memberMembershipId, scheduledAt])
+  @@index([trainerProfileId, scheduledAt])
+  @@index([memberUserId, scheduledAt])
   @@index([status, scheduledAt])
 }
 
@@ -1033,8 +1122,8 @@ model DietRecord {
 model DietFeedback {
   id String @id @default(uuid())
 
-  dietRecordId        String
-  trainerMembershipId String
+  dietRecordId     String
+  trainerProfileId String
 
   content String
 
@@ -1043,10 +1132,10 @@ model DietFeedback {
 
   dietRecord DietRecord @relation(fields: [dietRecordId], references: [id], onDelete: Cascade)
 
-  trainerMembership CenterMembership @relation(fields: [trainerMembershipId], references: [id], onDelete: Restrict)
+  trainerProfile TrainerProfile @relation(fields: [trainerProfileId], references: [id], onDelete: Restrict)
 
   @@index([dietRecordId, createdAt])
-  @@index([trainerMembershipId, createdAt])
+  @@index([trainerProfileId, createdAt])
 }
 
 // ============================================================
@@ -1112,8 +1201,8 @@ model Goal {
 model Journal {
   id String @id @default(uuid())
 
-  memberMembershipId  String
-  trainerMembershipId String
+  memberUserId     String
+  trainerProfileId String
 
   ptSessionId String?
 
@@ -1141,21 +1230,20 @@ model Journal {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  memberMembership CenterMembership @relation("JournalMember", fields: [memberMembershipId], references: [id], onDelete: Restrict)
-
-  trainerMembership CenterMembership @relation("JournalTrainer", fields: [trainerMembershipId], references: [id], onDelete: Restrict)
+  memberUser     User           @relation("JournalMember", fields: [memberUserId], references: [id], onDelete: Restrict)
+  trainerProfile TrainerProfile @relation(fields: [trainerProfileId], references: [id], onDelete: Restrict)
 
   ptSession PTSession? @relation(fields: [ptSessionId], references: [id], onDelete: SetNull)
 
   photos   JournalPhoto[]
   comments JournalComment[]
 
-  @@index([memberMembershipId, date])
-  @@index([trainerMembershipId, date])
+  @@index([memberUserId, date])
+  @@index([trainerProfileId, date])
   @@index([ptSessionId])
   @@index([status, publishedAt])
   // 회원 홈: 아직 안 읽은 알림장
-  @@index([memberMembershipId, memberReadAt])
+  @@index([memberUserId, memberReadAt])
 }
 
 model JournalPhoto {
@@ -1191,8 +1279,9 @@ model JournalComment {
   id        String @id @default(uuid())
   journalId String
 
-  // 트레이너와 회원이 같은 테이블에 쓴다. 누가 썼는지는 소속으로 가른다.
-  authorMembershipId String
+  // 트레이너와 회원이 같은 표에 쓴다. 둘의 공통 신분은 User 뿐이라 여기에 건다.
+  // 트레이너가 쓴 글인지는 알림장의 trainerProfile.userId 와 견줘서 안다.
+  authorUserId String
 
   content String
 
@@ -1204,10 +1293,10 @@ model JournalComment {
 
   journal Journal @relation(fields: [journalId], references: [id], onDelete: Cascade)
 
-  authorMembership CenterMembership @relation("JournalCommentAuthor", fields: [authorMembershipId], references: [id], onDelete: Restrict)
+  author User @relation("JournalCommentAuthor", fields: [authorUserId], references: [id], onDelete: Restrict)
 
   @@index([journalId, createdAt])
-  @@index([authorMembershipId])
+  @@index([authorUserId])
 }
 
 // ============================================================
@@ -1320,14 +1409,16 @@ model AiAnalysis {
 
 /**
  * 회원이 담당 트레이너에게 무엇까지 보여줄지.
- * 센터 소속마다 따로 둔다. 헬스장을 옮기면 새 트레이너에게 지난 센터의
- * 설정이 그대로 따라가면 안 된다. 회원 계정이 아니라 소속에 붙이는 이유다.
+ * 회원 계정에 붙인다. 예전에는 센터 소속에 붙였는데, 이제 코칭 관계가 센터와
+ * 무관하게 이어지므로 소속에 매달면 센터를 옮길 때마다 설정이 초기화된다.
+ * 켜 둔 줄 알았던 것이 조용히 꺼지는 쪽이, 지난 설정이 따라오는 것보다 나쁘다.
+ * 트레이너를 여럿 두게 되면 이 표가 연결(TrainerMemberConnection)로 내려간다.
  * PT 수업 기록은 여기에 없다. 그건 트레이너가 직접 적은 것이라 회원이
  * 가릴 대상이 아니다. 회원이 스스로 남긴 것만 고를 수 있게 한다.
  */
 model TrainerSharingSetting {
-  id           String @id @default(uuid())
-  membershipId String @unique
+  id     String @id @default(uuid())
+  userId String @unique
 
   /**
    * 식단은 기본으로 켠다.
@@ -1348,5 +1439,5 @@ model TrainerSharingSetting {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  membership CenterMembership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

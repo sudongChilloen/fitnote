@@ -71,7 +71,7 @@ export default async function TrainerMemberDietPage({
         className="-ml-1 inline-flex items-center gap-0.5 text-sm text-muted-foreground"
       >
         <ChevronLeft className="size-4" aria-hidden />
-        {member.user.name} 회원 식단
+        {member.memberUser.name} 회원 식단
       </Link>
 
       <p className="mt-2 text-sm font-bold text-brand-strong">

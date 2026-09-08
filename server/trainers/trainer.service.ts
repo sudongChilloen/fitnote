@@ -1,16 +1,8 @@
 import "server-only";
 
-import {
-  JournalStatus,
-  MembershipRole,
-  MembershipStatus,
-} from "@/generated/prisma/enums";
+import { ConnectionStatus, JournalStatus } from "@/generated/prisma/enums";
 import { kstStartOfDay } from "@/lib/date";
 import { prisma } from "@/lib/prisma";
-import {
-  canActAsTrainer,
-  getCurrentMembership,
-} from "@/server/centers/center.service";
 
 export class TrainerError extends Error {
   constructor(
@@ -23,54 +15,99 @@ export class TrainerError extends Error {
 }
 
 /**
- * 트레이너로 활동 중인 소속.
+ * 트레이너 프로필.
  *
- * 회원 화면과 달리 트레이너 화면은 "소속이 없으면 빈 화면" 이 아니라 아예 들어오면
- * 안 되는 곳이다. 남의 기록을 보는 화면이라 애매하게 열어 두면 안 된다.
+ * 트레이너라는 신분은 센터 소속이 아니라 프로필 자체다. 센터에 속하지 않은
+ * 트레이너도 회원을 받고 알림장을 쓴다. 프로필이 없으면 아예 들어오면 안 되는
+ * 화면이라 여기서 던진다.
  */
-export async function requireTrainerMembership(userId: string) {
-  const membership = await getCurrentMembership(userId);
+export async function requireTrainerProfile(userId: string) {
+  const profile = await prisma.trainerProfile.findUnique({
+    where: { userId },
+    select: {
+      id: true,
+      userId: true,
+      displayName: true,
+      user: { select: { name: true } },
+    },
+  });
 
-  if (!membership || !canActAsTrainer(membership)) {
+  if (!profile) {
     throw new TrainerError("NOT_TRAINER", "트레이너만 볼 수 있는 화면이에요.");
   }
 
-  return membership;
+  return {
+    id: profile.id,
+    userId: profile.userId,
+    name: profile.displayName ?? profile.user.name,
+  };
 }
 
 /**
  * 이 회원이 내 담당인지 확인한다.
  *
- * 같은 센터라는 것만으로는 부족하다. 센터에 트레이너가 다섯이면 남의 회원 기록까지
- * 다 열리기 때문이다. 관리자도 예외를 두지 않았다 — 관리자가 회원의 체중과 식단
- * 사진을 볼 이유는 없고, 필요하면 담당으로 배정하면 된다.
+ * 트레이너 화면의 회원 식별자는 회원의 userId 가 아니라 연결의 id 다. 연결에는
+ * 언제부터 봐 주기 시작했는지가 담겨 있고, 남의 기록을 읽을 때 그 시점이
+ * 기준이 되기 때문이다. userId 를 주소에 쓰면 그 기준을 매번 다시 찾아야 한다.
  */
 export async function requireMyMember(
-  trainerMembershipId: string,
-  memberMembershipId: string,
+  trainerProfileId: string,
+  connectionId: string,
 ) {
-  const member = await prisma.centerMembership.findFirst({
+  const connection = await prisma.trainerMemberConnection.findFirst({
     where: {
-      id: memberMembershipId,
-      assignedTrainerMembershipId: trainerMembershipId,
-      status: MembershipStatus.ACTIVE,
+      id: connectionId,
+      trainerProfileId,
+      status: ConnectionStatus.ACTIVE,
     },
     select: {
       id: true,
-      joinedAt: true,
-      user: { select: { id: true, name: true } },
+      startedAt: true,
+      memberUserId: true,
+      memberUser: { select: { id: true, name: true } },
     },
   });
 
-  if (!member) {
+  if (!connection) {
     throw new TrainerError("NOT_MY_MEMBER", "담당 회원이 아니에요.");
   }
 
-  return member;
+  return connection;
+}
+
+/**
+ * 회원의 userId 로 연결을 찾는다.
+ *
+ * 알림장처럼 이미 회원이 정해진 기록에서 출발할 때 쓴다. 주소로 들어오는
+ * 경로에는 쓰지 않는다 — 그쪽은 연결 id 로 받아야 남의 회원을 찍어 볼 수 없다.
+ */
+export async function requireMyMemberByUserId(
+  trainerProfileId: string,
+  memberUserId: string,
+) {
+  const connection = await prisma.trainerMemberConnection.findUnique({
+    where: {
+      trainerProfileId_memberUserId: { trainerProfileId, memberUserId },
+    },
+    select: {
+      id: true,
+      status: true,
+      startedAt: true,
+      memberUserId: true,
+      memberUser: { select: { id: true, name: true } },
+    },
+  });
+
+  if (!connection || connection.status !== ConnectionStatus.ACTIVE) {
+    throw new TrainerError("NOT_MY_MEMBER", "담당 회원이 아니에요.");
+  }
+
+  return connection;
 }
 
 export interface TrainerMemberRow {
-  membershipId: string;
+  /** 트레이너 화면의 회원 식별자. 연결의 id 다. */
+  connectionId: string;
   userId: string;
   name: string;
   /** 오늘 잡힌 PT 수업. 없으면 null. */
@@ -89,9 +126,8 @@ export interface TrainerMemberRow {
 }
 
 export interface TrainerHome {
-  membershipId: string;
-  centerName: string;
-  role: MembershipRole;
+  trainerProfileId: string;
+  trainerName: string;
   todayCount: number;
   /** 오늘 수업이 있는데 알림장을 아직 게시하지 않은 건수. */
   pendingJournalCount: number;
@@ -107,27 +143,25 @@ export interface TrainerHome {
  * 트레이너가 하루에 여러 번 여는 화면이라 목록보다 할 일이 먼저다.
  */
 export async function getTrainerHome(userId: string): Promise<TrainerHome> {
-  const trainer = await requireTrainerMembership(userId);
+  const trainer = await requireTrainerProfile(userId);
 
   const todayStart = kstStartOfDay();
   const todayEnd = new Date(todayStart.getTime() + 24 * 60 * 60 * 1000);
 
-  const [members, todaySessions, journals] = await Promise.all([
-    prisma.centerMembership.findMany({
-      where: {
-        assignedTrainerMembershipId: trainer.id,
-        status: MembershipStatus.ACTIVE,
-      },
-      orderBy: { joinedAt: "asc" },
+  const [connections, todaySessions, journals] = await Promise.all([
+    prisma.trainerMemberConnection.findMany({
+      where: { trainerProfileId: trainer.id, status: ConnectionStatus.ACTIVE },
+      orderBy: { startedAt: "asc" },
       select: {
         id: true,
-        user: { select: { id: true, name: true } },
+        memberUserId: true,
+        memberUser: { select: { id: true, name: true } },
       },
     }),
 
     prisma.pTSession.findMany({
       where: {
-        trainerMembershipId: trainer.id,
+        trainerProfileId: trainer.id,
         scheduledAt: { gte: todayStart, lt: todayEnd },
       },
       orderBy: { scheduledAt: "asc" },
@@ -135,7 +169,7 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
         id: true,
         scheduledAt: true,
         status: true,
-        memberMembershipId: true,
+        memberUserId: true,
         journals: {
           orderBy: { createdAt: "desc" },
           take: 1,
@@ -147,7 +181,7 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
     // 최근 두 달만 본다. 반년 전 댓글에 이제 와서 답하라고 띄울 이유가 없다.
     prisma.journal.findMany({
       where: {
-        trainerMembershipId: trainer.id,
+        trainerProfileId: trainer.id,
         date: {
           gte: new Date(todayStart.getTime() - 60 * 24 * 60 * 60 * 1000),
         },
@@ -157,33 +191,35 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
         id: true,
         date: true,
         status: true,
-        memberMembershipId: true,
+        memberUserId: true,
         memberReadAt: true,
         comments: {
           orderBy: { createdAt: "desc" },
-          select: { id: true, createdAt: true, authorMembershipId: true },
+          select: { id: true, createdAt: true, authorUserId: true },
         },
       },
     }),
   ]);
 
   const sessionByMember = new Map(
-    todaySessions.map((session) => [session.memberMembershipId, session]),
+    todaySessions.map((session) => [session.memberUserId, session]),
   );
 
-  const rows: TrainerMemberRow[] = members.map((member) => {
-    const session = sessionByMember.get(member.id) ?? null;
-    const mine = journals.filter((j) => j.memberMembershipId === member.id);
+  const rows: TrainerMemberRow[] = connections.map((connection) => {
+    const session = sessionByMember.get(connection.memberUserId) ?? null;
+    const mine = journals.filter(
+      (j) => j.memberUserId === connection.memberUserId,
+    );
 
     const awaitingReply = mine
       .map((journal) => {
         // 마지막 댓글이 회원 것이면 답을 기다리는 중이다. 읽음 표시를 따로 두지
         // 않은 이유는, 트레이너에게 필요한 건 "봤는가" 가 아니라 "답했는가" 라서다.
         const [latest] = journal.comments;
-        if (!latest || latest.authorMembershipId === trainer.id) return null;
+        if (!latest || latest.authorUserId === trainer.userId) return null;
 
         const count = journal.comments.filter(
-          (c) => c.authorMembershipId !== trainer.id,
+          (c) => c.authorUserId !== trainer.userId,
         ).length;
 
         return { journalId: journal.id, date: journal.date, count };
@@ -193,9 +229,9 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
     const published = mine.filter((j) => j.status === JournalStatus.PUBLISHED);
 
     return {
-      membershipId: member.id,
-      userId: member.user.id,
-      name: member.user.name,
+      connectionId: connection.id,
+      userId: connection.memberUser.id,
+      name: connection.memberUser.name,
       todaySession: session
         ? {
             id: session.id,
@@ -236,9 +272,8 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
   });
 
   return {
-    membershipId: trainer.id,
-    centerName: trainer.center.name,
-    role: trainer.role,
+    trainerProfileId: trainer.id,
+    trainerName: trainer.name,
     todayCount: todaySessions.length,
     pendingJournalCount,
     awaitingReplyCount: rows.filter((r) => r.awaitingReply.length > 0).length,
@@ -247,10 +282,12 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
 }
 
 export interface TrainerMemberDetail {
-  trainerMembershipId: string;
-  membershipId: string;
+  trainerProfileId: string;
+  connectionId: string;
+  userId: string;
   name: string;
-  joinedAt: Date;
+  /** 이 트레이너가 이 회원을 봐 주기 시작한 날. */
+  startedAt: Date;
   /** 진행 중인 PT 계약. 여러 개일 수 있어 목록으로 둔다. */
   contracts: {
     id: string;
@@ -282,24 +319,23 @@ export interface TrainerMemberDetail {
 /**
  * 담당 회원 한 명.
  *
- * 여기서 회원의 개인 운동기록과 식단은 아직 보여주지 않는다. 공유 설정을 만들기
- * 전까지는 회원이 동의한 적이 없기 때문이다. PT 수업 기록과 내가 쓴 알림장은
- * 원래 양쪽이 보는 것이라 지금도 보여준다.
+ * 회원이 혼자 남긴 기록(식단·개인 운동·체중)은 공유 설정을 지나야만 보인다.
+ * PT 수업 기록과 내가 쓴 알림장은 원래 양쪽이 보는 것이라 여기서 바로 준다.
  */
 export async function getMemberDetail(
   userId: string,
-  memberMembershipId: string,
+  connectionId: string,
 ): Promise<TrainerMemberDetail> {
-  const trainer = await requireTrainerMembership(userId);
-  const member = await requireMyMember(trainer.id, memberMembershipId);
+  const trainer = await requireTrainerProfile(userId);
+  const connection = await requireMyMember(trainer.id, connectionId);
 
   const todayStart = kstStartOfDay();
 
   const [contracts, upcoming, journals] = await Promise.all([
     prisma.pTContract.findMany({
       where: {
-        memberMembershipId: member.id,
-        trainerMembershipId: trainer.id,
+        memberUserId: connection.memberUserId,
+        trainerProfileId: trainer.id,
         status: "ACTIVE",
       },
       orderBy: { startedAt: "desc" },
@@ -314,8 +350,8 @@ export async function getMemberDetail(
 
     prisma.pTSession.findMany({
       where: {
-        memberMembershipId: member.id,
-        trainerMembershipId: trainer.id,
+        memberUserId: connection.memberUserId,
+        trainerProfileId: trainer.id,
         scheduledAt: { gte: todayStart },
       },
       orderBy: { scheduledAt: "asc" },
@@ -335,8 +371,8 @@ export async function getMemberDetail(
 
     prisma.journal.findMany({
       where: {
-        memberMembershipId: member.id,
-        trainerMembershipId: trainer.id,
+        memberUserId: connection.memberUserId,
+        trainerProfileId: trainer.id,
       },
       orderBy: { date: "desc" },
       take: 20,
@@ -348,17 +384,18 @@ export async function getMemberDetail(
         memberReadAt: true,
         comments: {
           orderBy: { createdAt: "desc" },
-          select: { id: true, authorMembershipId: true },
+          select: { id: true, authorUserId: true },
         },
       },
     }),
   ]);
 
   return {
-    trainerMembershipId: trainer.id,
-    membershipId: member.id,
-    name: member.user.name,
-    joinedAt: member.joinedAt,
+    trainerProfileId: trainer.id,
+    connectionId: connection.id,
+    userId: connection.memberUser.id,
+    name: connection.memberUser.name,
+    startedAt: connection.startedAt,
     contracts: contracts.map((contract) => ({
       id: contract.id,
       productName: contract.productNameSnapshot,
@@ -384,7 +421,7 @@ export async function getMemberDetail(
         readByMember: journal.memberReadAt !== null,
         commentCount: journal.comments.length,
         awaitingReply:
-          latest !== undefined && latest.authorMembershipId !== trainer.id,
+          latest !== undefined && latest.authorUserId !== trainer.userId,
       };
     }),
   };

@@ -40,9 +40,10 @@ export type PTContractSumAggregateOutputType = {
 
 export type PTContractMinAggregateOutputType = {
   id: string | null
-  memberMembershipId: string | null
-  trainerMembershipId: string | null
+  memberUserId: string | null
+  trainerProfileId: string | null
   productId: string | null
+  centerId: string | null
   productNameSnapshot: string | null
   priceSnapshot: runtime.Decimal | null
   totalSessions: number | null
@@ -56,9 +57,10 @@ export type PTContractMinAggregateOutputType = {
 
 export type PTContractMaxAggregateOutputType = {
   id: string | null
-  memberMembershipId: string | null
-  trainerMembershipId: string | null
+  memberUserId: string | null
+  trainerProfileId: string | null
   productId: string | null
+  centerId: string | null
   productNameSnapshot: string | null
   priceSnapshot: runtime.Decimal | null
   totalSessions: number | null
@@ -72,9 +74,10 @@ export type PTContractMaxAggregateOutputType = {
 
 export type PTContractCountAggregateOutputType = {
   id: number
-  memberMembershipId: number
-  trainerMembershipId: number
+  memberUserId: number
+  trainerProfileId: number
   productId: number
+  centerId: number
   productNameSnapshot: number
   priceSnapshot: number
   totalSessions: number
@@ -102,9 +105,10 @@ export type PTContractSumAggregateInputType = {
 
 export type PTContractMinAggregateInputType = {
   id?: true
-  memberMembershipId?: true
-  trainerMembershipId?: true
+  memberUserId?: true
+  trainerProfileId?: true
   productId?: true
+  centerId?: true
   productNameSnapshot?: true
   priceSnapshot?: true
   totalSessions?: true
@@ -118,9 +122,10 @@ export type PTContractMinAggregateInputType = {
 
 export type PTContractMaxAggregateInputType = {
   id?: true
-  memberMembershipId?: true
-  trainerMembershipId?: true
+  memberUserId?: true
+  trainerProfileId?: true
   productId?: true
+  centerId?: true
   productNameSnapshot?: true
   priceSnapshot?: true
   totalSessions?: true
@@ -134,9 +139,10 @@ export type PTContractMaxAggregateInputType = {
 
 export type PTContractCountAggregateInputType = {
   id?: true
-  memberMembershipId?: true
-  trainerMembershipId?: true
+  memberUserId?: true
+  trainerProfileId?: true
   productId?: true
+  centerId?: true
   productNameSnapshot?: true
   priceSnapshot?: true
   totalSessions?: true
@@ -237,9 +243,10 @@ export type PTContractGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 
 export type PTContractGroupByOutputType = {
   id: string
-  memberMembershipId: string
-  trainerMembershipId: string
+  memberUserId: string
+  trainerProfileId: string
   productId: string
+  centerId: string | null
   productNameSnapshot: string
   priceSnapshot: runtime.Decimal
   totalSessions: number
@@ -276,9 +283,10 @@ export type PTContractWhereInput = {
   OR?: Prisma.PTContractWhereInput[]
   NOT?: Prisma.PTContractWhereInput | Prisma.PTContractWhereInput[]
   id?: Prisma.StringFilter<"PTContract"> | string
-  memberMembershipId?: Prisma.StringFilter<"PTContract"> | string
-  trainerMembershipId?: Prisma.StringFilter<"PTContract"> | string
+  memberUserId?: Prisma.StringFilter<"PTContract"> | string
+  trainerProfileId?: Prisma.StringFilter<"PTContract"> | string
   productId?: Prisma.StringFilter<"PTContract"> | string
+  centerId?: Prisma.StringNullableFilter<"PTContract"> | string | null
   productNameSnapshot?: Prisma.StringFilter<"PTContract"> | string
   priceSnapshot?: Prisma.DecimalFilter<"PTContract"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalSessions?: Prisma.IntFilter<"PTContract"> | number
@@ -288,17 +296,19 @@ export type PTContractWhereInput = {
   status?: Prisma.EnumPTContractStatusFilter<"PTContract"> | $Enums.PTContractStatus
   createdAt?: Prisma.DateTimeFilter<"PTContract"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PTContract"> | Date | string
-  memberMembership?: Prisma.XOR<Prisma.CenterMembershipScalarRelationFilter, Prisma.CenterMembershipWhereInput>
-  trainerMembership?: Prisma.XOR<Prisma.CenterMembershipScalarRelationFilter, Prisma.CenterMembershipWhereInput>
+  memberUser?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  trainerProfile?: Prisma.XOR<Prisma.TrainerProfileScalarRelationFilter, Prisma.TrainerProfileWhereInput>
+  center?: Prisma.XOR<Prisma.CenterNullableScalarRelationFilter, Prisma.CenterWhereInput> | null
   product?: Prisma.XOR<Prisma.PTProductScalarRelationFilter, Prisma.PTProductWhereInput>
   sessions?: Prisma.PTSessionListRelationFilter
 }
 
 export type PTContractOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  memberMembershipId?: Prisma.SortOrder
-  trainerMembershipId?: Prisma.SortOrder
+  memberUserId?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
+  centerId?: Prisma.SortOrderInput | Prisma.SortOrder
   productNameSnapshot?: Prisma.SortOrder
   priceSnapshot?: Prisma.SortOrder
   totalSessions?: Prisma.SortOrder
@@ -308,8 +318,9 @@ export type PTContractOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  memberMembership?: Prisma.CenterMembershipOrderByWithRelationInput
-  trainerMembership?: Prisma.CenterMembershipOrderByWithRelationInput
+  memberUser?: Prisma.UserOrderByWithRelationInput
+  trainerProfile?: Prisma.TrainerProfileOrderByWithRelationInput
+  center?: Prisma.CenterOrderByWithRelationInput
   product?: Prisma.PTProductOrderByWithRelationInput
   sessions?: Prisma.PTSessionOrderByRelationAggregateInput
 }
@@ -319,9 +330,10 @@ export type PTContractWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.PTContractWhereInput | Prisma.PTContractWhereInput[]
   OR?: Prisma.PTContractWhereInput[]
   NOT?: Prisma.PTContractWhereInput | Prisma.PTContractWhereInput[]
-  memberMembershipId?: Prisma.StringFilter<"PTContract"> | string
-  trainerMembershipId?: Prisma.StringFilter<"PTContract"> | string
+  memberUserId?: Prisma.StringFilter<"PTContract"> | string
+  trainerProfileId?: Prisma.StringFilter<"PTContract"> | string
   productId?: Prisma.StringFilter<"PTContract"> | string
+  centerId?: Prisma.StringNullableFilter<"PTContract"> | string | null
   productNameSnapshot?: Prisma.StringFilter<"PTContract"> | string
   priceSnapshot?: Prisma.DecimalFilter<"PTContract"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalSessions?: Prisma.IntFilter<"PTContract"> | number
@@ -331,17 +343,19 @@ export type PTContractWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumPTContractStatusFilter<"PTContract"> | $Enums.PTContractStatus
   createdAt?: Prisma.DateTimeFilter<"PTContract"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PTContract"> | Date | string
-  memberMembership?: Prisma.XOR<Prisma.CenterMembershipScalarRelationFilter, Prisma.CenterMembershipWhereInput>
-  trainerMembership?: Prisma.XOR<Prisma.CenterMembershipScalarRelationFilter, Prisma.CenterMembershipWhereInput>
+  memberUser?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  trainerProfile?: Prisma.XOR<Prisma.TrainerProfileScalarRelationFilter, Prisma.TrainerProfileWhereInput>
+  center?: Prisma.XOR<Prisma.CenterNullableScalarRelationFilter, Prisma.CenterWhereInput> | null
   product?: Prisma.XOR<Prisma.PTProductScalarRelationFilter, Prisma.PTProductWhereInput>
   sessions?: Prisma.PTSessionListRelationFilter
 }, "id">
 
 export type PTContractOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  memberMembershipId?: Prisma.SortOrder
-  trainerMembershipId?: Prisma.SortOrder
+  memberUserId?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
+  centerId?: Prisma.SortOrderInput | Prisma.SortOrder
   productNameSnapshot?: Prisma.SortOrder
   priceSnapshot?: Prisma.SortOrder
   totalSessions?: Prisma.SortOrder
@@ -363,9 +377,10 @@ export type PTContractScalarWhereWithAggregatesInput = {
   OR?: Prisma.PTContractScalarWhereWithAggregatesInput[]
   NOT?: Prisma.PTContractScalarWhereWithAggregatesInput | Prisma.PTContractScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"PTContract"> | string
-  memberMembershipId?: Prisma.StringWithAggregatesFilter<"PTContract"> | string
-  trainerMembershipId?: Prisma.StringWithAggregatesFilter<"PTContract"> | string
+  memberUserId?: Prisma.StringWithAggregatesFilter<"PTContract"> | string
+  trainerProfileId?: Prisma.StringWithAggregatesFilter<"PTContract"> | string
   productId?: Prisma.StringWithAggregatesFilter<"PTContract"> | string
+  centerId?: Prisma.StringNullableWithAggregatesFilter<"PTContract"> | string | null
   productNameSnapshot?: Prisma.StringWithAggregatesFilter<"PTContract"> | string
   priceSnapshot?: Prisma.DecimalWithAggregatesFilter<"PTContract"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalSessions?: Prisma.IntWithAggregatesFilter<"PTContract"> | number
@@ -388,17 +403,19 @@ export type PTContractCreateInput = {
   status?: $Enums.PTContractStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberMembership: Prisma.CenterMembershipCreateNestedOneWithoutMemberContractsInput
-  trainerMembership: Prisma.CenterMembershipCreateNestedOneWithoutTrainerContractsInput
+  memberUser: Prisma.UserCreateNestedOneWithoutPtContractsInput
+  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutContractsInput
+  center?: Prisma.CenterCreateNestedOneWithoutPtContractsInput
   product: Prisma.PTProductCreateNestedOneWithoutContractsInput
   sessions?: Prisma.PTSessionCreateNestedManyWithoutContractInput
 }
 
 export type PTContractUncheckedCreateInput = {
   id?: string
-  memberMembershipId: string
-  trainerMembershipId: string
+  memberUserId: string
+  trainerProfileId: string
   productId: string
+  centerId?: string | null
   productNameSnapshot: string
   priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalSessions: number
@@ -422,17 +439,19 @@ export type PTContractUpdateInput = {
   status?: Prisma.EnumPTContractStatusFieldUpdateOperationsInput | $Enums.PTContractStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutMemberContractsNestedInput
-  trainerMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutTrainerContractsNestedInput
+  memberUser?: Prisma.UserUpdateOneRequiredWithoutPtContractsNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutContractsNestedInput
+  center?: Prisma.CenterUpdateOneWithoutPtContractsNestedInput
   product?: Prisma.PTProductUpdateOneRequiredWithoutContractsNestedInput
   sessions?: Prisma.PTSessionUpdateManyWithoutContractNestedInput
 }
 
 export type PTContractUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  memberMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
+  centerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
@@ -447,9 +466,10 @@ export type PTContractUncheckedUpdateInput = {
 
 export type PTContractCreateManyInput = {
   id?: string
-  memberMembershipId: string
-  trainerMembershipId: string
+  memberUserId: string
+  trainerProfileId: string
   productId: string
+  centerId?: string | null
   productNameSnapshot: string
   priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalSessions: number
@@ -476,9 +496,10 @@ export type PTContractUpdateManyMutationInput = {
 
 export type PTContractUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  memberMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
+  centerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
@@ -502,9 +523,10 @@ export type PTContractOrderByRelationAggregateInput = {
 
 export type PTContractCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  memberMembershipId?: Prisma.SortOrder
-  trainerMembershipId?: Prisma.SortOrder
+  memberUserId?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
+  centerId?: Prisma.SortOrder
   productNameSnapshot?: Prisma.SortOrder
   priceSnapshot?: Prisma.SortOrder
   totalSessions?: Prisma.SortOrder
@@ -524,9 +546,10 @@ export type PTContractAvgOrderByAggregateInput = {
 
 export type PTContractMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  memberMembershipId?: Prisma.SortOrder
-  trainerMembershipId?: Prisma.SortOrder
+  memberUserId?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
+  centerId?: Prisma.SortOrder
   productNameSnapshot?: Prisma.SortOrder
   priceSnapshot?: Prisma.SortOrder
   totalSessions?: Prisma.SortOrder
@@ -540,9 +563,10 @@ export type PTContractMaxOrderByAggregateInput = {
 
 export type PTContractMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  memberMembershipId?: Prisma.SortOrder
-  trainerMembershipId?: Prisma.SortOrder
+  memberUserId?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
+  centerId?: Prisma.SortOrder
   productNameSnapshot?: Prisma.SortOrder
   priceSnapshot?: Prisma.SortOrder
   totalSessions?: Prisma.SortOrder
@@ -565,87 +589,129 @@ export type PTContractScalarRelationFilter = {
   isNot?: Prisma.PTContractWhereInput
 }
 
-export type PTContractCreateNestedManyWithoutMemberMembershipInput = {
-  create?: Prisma.XOR<Prisma.PTContractCreateWithoutMemberMembershipInput, Prisma.PTContractUncheckedCreateWithoutMemberMembershipInput> | Prisma.PTContractCreateWithoutMemberMembershipInput[] | Prisma.PTContractUncheckedCreateWithoutMemberMembershipInput[]
-  connectOrCreate?: Prisma.PTContractCreateOrConnectWithoutMemberMembershipInput | Prisma.PTContractCreateOrConnectWithoutMemberMembershipInput[]
-  createMany?: Prisma.PTContractCreateManyMemberMembershipInputEnvelope
+export type PTContractCreateNestedManyWithoutMemberUserInput = {
+  create?: Prisma.XOR<Prisma.PTContractCreateWithoutMemberUserInput, Prisma.PTContractUncheckedCreateWithoutMemberUserInput> | Prisma.PTContractCreateWithoutMemberUserInput[] | Prisma.PTContractUncheckedCreateWithoutMemberUserInput[]
+  connectOrCreate?: Prisma.PTContractCreateOrConnectWithoutMemberUserInput | Prisma.PTContractCreateOrConnectWithoutMemberUserInput[]
+  createMany?: Prisma.PTContractCreateManyMemberUserInputEnvelope
   connect?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
 }
 
-export type PTContractCreateNestedManyWithoutTrainerMembershipInput = {
-  create?: Prisma.XOR<Prisma.PTContractCreateWithoutTrainerMembershipInput, Prisma.PTContractUncheckedCreateWithoutTrainerMembershipInput> | Prisma.PTContractCreateWithoutTrainerMembershipInput[] | Prisma.PTContractUncheckedCreateWithoutTrainerMembershipInput[]
-  connectOrCreate?: Prisma.PTContractCreateOrConnectWithoutTrainerMembershipInput | Prisma.PTContractCreateOrConnectWithoutTrainerMembershipInput[]
-  createMany?: Prisma.PTContractCreateManyTrainerMembershipInputEnvelope
+export type PTContractUncheckedCreateNestedManyWithoutMemberUserInput = {
+  create?: Prisma.XOR<Prisma.PTContractCreateWithoutMemberUserInput, Prisma.PTContractUncheckedCreateWithoutMemberUserInput> | Prisma.PTContractCreateWithoutMemberUserInput[] | Prisma.PTContractUncheckedCreateWithoutMemberUserInput[]
+  connectOrCreate?: Prisma.PTContractCreateOrConnectWithoutMemberUserInput | Prisma.PTContractCreateOrConnectWithoutMemberUserInput[]
+  createMany?: Prisma.PTContractCreateManyMemberUserInputEnvelope
   connect?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
 }
 
-export type PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput = {
-  create?: Prisma.XOR<Prisma.PTContractCreateWithoutMemberMembershipInput, Prisma.PTContractUncheckedCreateWithoutMemberMembershipInput> | Prisma.PTContractCreateWithoutMemberMembershipInput[] | Prisma.PTContractUncheckedCreateWithoutMemberMembershipInput[]
-  connectOrCreate?: Prisma.PTContractCreateOrConnectWithoutMemberMembershipInput | Prisma.PTContractCreateOrConnectWithoutMemberMembershipInput[]
-  createMany?: Prisma.PTContractCreateManyMemberMembershipInputEnvelope
-  connect?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
-}
-
-export type PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput = {
-  create?: Prisma.XOR<Prisma.PTContractCreateWithoutTrainerMembershipInput, Prisma.PTContractUncheckedCreateWithoutTrainerMembershipInput> | Prisma.PTContractCreateWithoutTrainerMembershipInput[] | Prisma.PTContractUncheckedCreateWithoutTrainerMembershipInput[]
-  connectOrCreate?: Prisma.PTContractCreateOrConnectWithoutTrainerMembershipInput | Prisma.PTContractCreateOrConnectWithoutTrainerMembershipInput[]
-  createMany?: Prisma.PTContractCreateManyTrainerMembershipInputEnvelope
-  connect?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
-}
-
-export type PTContractUpdateManyWithoutMemberMembershipNestedInput = {
-  create?: Prisma.XOR<Prisma.PTContractCreateWithoutMemberMembershipInput, Prisma.PTContractUncheckedCreateWithoutMemberMembershipInput> | Prisma.PTContractCreateWithoutMemberMembershipInput[] | Prisma.PTContractUncheckedCreateWithoutMemberMembershipInput[]
-  connectOrCreate?: Prisma.PTContractCreateOrConnectWithoutMemberMembershipInput | Prisma.PTContractCreateOrConnectWithoutMemberMembershipInput[]
-  upsert?: Prisma.PTContractUpsertWithWhereUniqueWithoutMemberMembershipInput | Prisma.PTContractUpsertWithWhereUniqueWithoutMemberMembershipInput[]
-  createMany?: Prisma.PTContractCreateManyMemberMembershipInputEnvelope
+export type PTContractUpdateManyWithoutMemberUserNestedInput = {
+  create?: Prisma.XOR<Prisma.PTContractCreateWithoutMemberUserInput, Prisma.PTContractUncheckedCreateWithoutMemberUserInput> | Prisma.PTContractCreateWithoutMemberUserInput[] | Prisma.PTContractUncheckedCreateWithoutMemberUserInput[]
+  connectOrCreate?: Prisma.PTContractCreateOrConnectWithoutMemberUserInput | Prisma.PTContractCreateOrConnectWithoutMemberUserInput[]
+  upsert?: Prisma.PTContractUpsertWithWhereUniqueWithoutMemberUserInput | Prisma.PTContractUpsertWithWhereUniqueWithoutMemberUserInput[]
+  createMany?: Prisma.PTContractCreateManyMemberUserInputEnvelope
   set?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
   disconnect?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
   delete?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
   connect?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
-  update?: Prisma.PTContractUpdateWithWhereUniqueWithoutMemberMembershipInput | Prisma.PTContractUpdateWithWhereUniqueWithoutMemberMembershipInput[]
-  updateMany?: Prisma.PTContractUpdateManyWithWhereWithoutMemberMembershipInput | Prisma.PTContractUpdateManyWithWhereWithoutMemberMembershipInput[]
+  update?: Prisma.PTContractUpdateWithWhereUniqueWithoutMemberUserInput | Prisma.PTContractUpdateWithWhereUniqueWithoutMemberUserInput[]
+  updateMany?: Prisma.PTContractUpdateManyWithWhereWithoutMemberUserInput | Prisma.PTContractUpdateManyWithWhereWithoutMemberUserInput[]
   deleteMany?: Prisma.PTContractScalarWhereInput | Prisma.PTContractScalarWhereInput[]
 }
 
-export type PTContractUpdateManyWithoutTrainerMembershipNestedInput = {
-  create?: Prisma.XOR<Prisma.PTContractCreateWithoutTrainerMembershipInput, Prisma.PTContractUncheckedCreateWithoutTrainerMembershipInput> | Prisma.PTContractCreateWithoutTrainerMembershipInput[] | Prisma.PTContractUncheckedCreateWithoutTrainerMembershipInput[]
-  connectOrCreate?: Prisma.PTContractCreateOrConnectWithoutTrainerMembershipInput | Prisma.PTContractCreateOrConnectWithoutTrainerMembershipInput[]
-  upsert?: Prisma.PTContractUpsertWithWhereUniqueWithoutTrainerMembershipInput | Prisma.PTContractUpsertWithWhereUniqueWithoutTrainerMembershipInput[]
-  createMany?: Prisma.PTContractCreateManyTrainerMembershipInputEnvelope
+export type PTContractUncheckedUpdateManyWithoutMemberUserNestedInput = {
+  create?: Prisma.XOR<Prisma.PTContractCreateWithoutMemberUserInput, Prisma.PTContractUncheckedCreateWithoutMemberUserInput> | Prisma.PTContractCreateWithoutMemberUserInput[] | Prisma.PTContractUncheckedCreateWithoutMemberUserInput[]
+  connectOrCreate?: Prisma.PTContractCreateOrConnectWithoutMemberUserInput | Prisma.PTContractCreateOrConnectWithoutMemberUserInput[]
+  upsert?: Prisma.PTContractUpsertWithWhereUniqueWithoutMemberUserInput | Prisma.PTContractUpsertWithWhereUniqueWithoutMemberUserInput[]
+  createMany?: Prisma.PTContractCreateManyMemberUserInputEnvelope
   set?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
   disconnect?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
   delete?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
   connect?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
-  update?: Prisma.PTContractUpdateWithWhereUniqueWithoutTrainerMembershipInput | Prisma.PTContractUpdateWithWhereUniqueWithoutTrainerMembershipInput[]
-  updateMany?: Prisma.PTContractUpdateManyWithWhereWithoutTrainerMembershipInput | Prisma.PTContractUpdateManyWithWhereWithoutTrainerMembershipInput[]
+  update?: Prisma.PTContractUpdateWithWhereUniqueWithoutMemberUserInput | Prisma.PTContractUpdateWithWhereUniqueWithoutMemberUserInput[]
+  updateMany?: Prisma.PTContractUpdateManyWithWhereWithoutMemberUserInput | Prisma.PTContractUpdateManyWithWhereWithoutMemberUserInput[]
   deleteMany?: Prisma.PTContractScalarWhereInput | Prisma.PTContractScalarWhereInput[]
 }
 
-export type PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput = {
-  create?: Prisma.XOR<Prisma.PTContractCreateWithoutMemberMembershipInput, Prisma.PTContractUncheckedCreateWithoutMemberMembershipInput> | Prisma.PTContractCreateWithoutMemberMembershipInput[] | Prisma.PTContractUncheckedCreateWithoutMemberMembershipInput[]
-  connectOrCreate?: Prisma.PTContractCreateOrConnectWithoutMemberMembershipInput | Prisma.PTContractCreateOrConnectWithoutMemberMembershipInput[]
-  upsert?: Prisma.PTContractUpsertWithWhereUniqueWithoutMemberMembershipInput | Prisma.PTContractUpsertWithWhereUniqueWithoutMemberMembershipInput[]
-  createMany?: Prisma.PTContractCreateManyMemberMembershipInputEnvelope
+export type PTContractCreateNestedManyWithoutCenterInput = {
+  create?: Prisma.XOR<Prisma.PTContractCreateWithoutCenterInput, Prisma.PTContractUncheckedCreateWithoutCenterInput> | Prisma.PTContractCreateWithoutCenterInput[] | Prisma.PTContractUncheckedCreateWithoutCenterInput[]
+  connectOrCreate?: Prisma.PTContractCreateOrConnectWithoutCenterInput | Prisma.PTContractCreateOrConnectWithoutCenterInput[]
+  createMany?: Prisma.PTContractCreateManyCenterInputEnvelope
+  connect?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
+}
+
+export type PTContractUncheckedCreateNestedManyWithoutCenterInput = {
+  create?: Prisma.XOR<Prisma.PTContractCreateWithoutCenterInput, Prisma.PTContractUncheckedCreateWithoutCenterInput> | Prisma.PTContractCreateWithoutCenterInput[] | Prisma.PTContractUncheckedCreateWithoutCenterInput[]
+  connectOrCreate?: Prisma.PTContractCreateOrConnectWithoutCenterInput | Prisma.PTContractCreateOrConnectWithoutCenterInput[]
+  createMany?: Prisma.PTContractCreateManyCenterInputEnvelope
+  connect?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
+}
+
+export type PTContractUpdateManyWithoutCenterNestedInput = {
+  create?: Prisma.XOR<Prisma.PTContractCreateWithoutCenterInput, Prisma.PTContractUncheckedCreateWithoutCenterInput> | Prisma.PTContractCreateWithoutCenterInput[] | Prisma.PTContractUncheckedCreateWithoutCenterInput[]
+  connectOrCreate?: Prisma.PTContractCreateOrConnectWithoutCenterInput | Prisma.PTContractCreateOrConnectWithoutCenterInput[]
+  upsert?: Prisma.PTContractUpsertWithWhereUniqueWithoutCenterInput | Prisma.PTContractUpsertWithWhereUniqueWithoutCenterInput[]
+  createMany?: Prisma.PTContractCreateManyCenterInputEnvelope
   set?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
   disconnect?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
   delete?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
   connect?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
-  update?: Prisma.PTContractUpdateWithWhereUniqueWithoutMemberMembershipInput | Prisma.PTContractUpdateWithWhereUniqueWithoutMemberMembershipInput[]
-  updateMany?: Prisma.PTContractUpdateManyWithWhereWithoutMemberMembershipInput | Prisma.PTContractUpdateManyWithWhereWithoutMemberMembershipInput[]
+  update?: Prisma.PTContractUpdateWithWhereUniqueWithoutCenterInput | Prisma.PTContractUpdateWithWhereUniqueWithoutCenterInput[]
+  updateMany?: Prisma.PTContractUpdateManyWithWhereWithoutCenterInput | Prisma.PTContractUpdateManyWithWhereWithoutCenterInput[]
   deleteMany?: Prisma.PTContractScalarWhereInput | Prisma.PTContractScalarWhereInput[]
 }
 
-export type PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput = {
-  create?: Prisma.XOR<Prisma.PTContractCreateWithoutTrainerMembershipInput, Prisma.PTContractUncheckedCreateWithoutTrainerMembershipInput> | Prisma.PTContractCreateWithoutTrainerMembershipInput[] | Prisma.PTContractUncheckedCreateWithoutTrainerMembershipInput[]
-  connectOrCreate?: Prisma.PTContractCreateOrConnectWithoutTrainerMembershipInput | Prisma.PTContractCreateOrConnectWithoutTrainerMembershipInput[]
-  upsert?: Prisma.PTContractUpsertWithWhereUniqueWithoutTrainerMembershipInput | Prisma.PTContractUpsertWithWhereUniqueWithoutTrainerMembershipInput[]
-  createMany?: Prisma.PTContractCreateManyTrainerMembershipInputEnvelope
+export type PTContractUncheckedUpdateManyWithoutCenterNestedInput = {
+  create?: Prisma.XOR<Prisma.PTContractCreateWithoutCenterInput, Prisma.PTContractUncheckedCreateWithoutCenterInput> | Prisma.PTContractCreateWithoutCenterInput[] | Prisma.PTContractUncheckedCreateWithoutCenterInput[]
+  connectOrCreate?: Prisma.PTContractCreateOrConnectWithoutCenterInput | Prisma.PTContractCreateOrConnectWithoutCenterInput[]
+  upsert?: Prisma.PTContractUpsertWithWhereUniqueWithoutCenterInput | Prisma.PTContractUpsertWithWhereUniqueWithoutCenterInput[]
+  createMany?: Prisma.PTContractCreateManyCenterInputEnvelope
   set?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
   disconnect?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
   delete?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
   connect?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
-  update?: Prisma.PTContractUpdateWithWhereUniqueWithoutTrainerMembershipInput | Prisma.PTContractUpdateWithWhereUniqueWithoutTrainerMembershipInput[]
-  updateMany?: Prisma.PTContractUpdateManyWithWhereWithoutTrainerMembershipInput | Prisma.PTContractUpdateManyWithWhereWithoutTrainerMembershipInput[]
+  update?: Prisma.PTContractUpdateWithWhereUniqueWithoutCenterInput | Prisma.PTContractUpdateWithWhereUniqueWithoutCenterInput[]
+  updateMany?: Prisma.PTContractUpdateManyWithWhereWithoutCenterInput | Prisma.PTContractUpdateManyWithWhereWithoutCenterInput[]
+  deleteMany?: Prisma.PTContractScalarWhereInput | Prisma.PTContractScalarWhereInput[]
+}
+
+export type PTContractCreateNestedManyWithoutTrainerProfileInput = {
+  create?: Prisma.XOR<Prisma.PTContractCreateWithoutTrainerProfileInput, Prisma.PTContractUncheckedCreateWithoutTrainerProfileInput> | Prisma.PTContractCreateWithoutTrainerProfileInput[] | Prisma.PTContractUncheckedCreateWithoutTrainerProfileInput[]
+  connectOrCreate?: Prisma.PTContractCreateOrConnectWithoutTrainerProfileInput | Prisma.PTContractCreateOrConnectWithoutTrainerProfileInput[]
+  createMany?: Prisma.PTContractCreateManyTrainerProfileInputEnvelope
+  connect?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
+}
+
+export type PTContractUncheckedCreateNestedManyWithoutTrainerProfileInput = {
+  create?: Prisma.XOR<Prisma.PTContractCreateWithoutTrainerProfileInput, Prisma.PTContractUncheckedCreateWithoutTrainerProfileInput> | Prisma.PTContractCreateWithoutTrainerProfileInput[] | Prisma.PTContractUncheckedCreateWithoutTrainerProfileInput[]
+  connectOrCreate?: Prisma.PTContractCreateOrConnectWithoutTrainerProfileInput | Prisma.PTContractCreateOrConnectWithoutTrainerProfileInput[]
+  createMany?: Prisma.PTContractCreateManyTrainerProfileInputEnvelope
+  connect?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
+}
+
+export type PTContractUpdateManyWithoutTrainerProfileNestedInput = {
+  create?: Prisma.XOR<Prisma.PTContractCreateWithoutTrainerProfileInput, Prisma.PTContractUncheckedCreateWithoutTrainerProfileInput> | Prisma.PTContractCreateWithoutTrainerProfileInput[] | Prisma.PTContractUncheckedCreateWithoutTrainerProfileInput[]
+  connectOrCreate?: Prisma.PTContractCreateOrConnectWithoutTrainerProfileInput | Prisma.PTContractCreateOrConnectWithoutTrainerProfileInput[]
+  upsert?: Prisma.PTContractUpsertWithWhereUniqueWithoutTrainerProfileInput | Prisma.PTContractUpsertWithWhereUniqueWithoutTrainerProfileInput[]
+  createMany?: Prisma.PTContractCreateManyTrainerProfileInputEnvelope
+  set?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
+  disconnect?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
+  delete?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
+  connect?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
+  update?: Prisma.PTContractUpdateWithWhereUniqueWithoutTrainerProfileInput | Prisma.PTContractUpdateWithWhereUniqueWithoutTrainerProfileInput[]
+  updateMany?: Prisma.PTContractUpdateManyWithWhereWithoutTrainerProfileInput | Prisma.PTContractUpdateManyWithWhereWithoutTrainerProfileInput[]
+  deleteMany?: Prisma.PTContractScalarWhereInput | Prisma.PTContractScalarWhereInput[]
+}
+
+export type PTContractUncheckedUpdateManyWithoutTrainerProfileNestedInput = {
+  create?: Prisma.XOR<Prisma.PTContractCreateWithoutTrainerProfileInput, Prisma.PTContractUncheckedCreateWithoutTrainerProfileInput> | Prisma.PTContractCreateWithoutTrainerProfileInput[] | Prisma.PTContractUncheckedCreateWithoutTrainerProfileInput[]
+  connectOrCreate?: Prisma.PTContractCreateOrConnectWithoutTrainerProfileInput | Prisma.PTContractCreateOrConnectWithoutTrainerProfileInput[]
+  upsert?: Prisma.PTContractUpsertWithWhereUniqueWithoutTrainerProfileInput | Prisma.PTContractUpsertWithWhereUniqueWithoutTrainerProfileInput[]
+  createMany?: Prisma.PTContractCreateManyTrainerProfileInputEnvelope
+  set?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
+  disconnect?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
+  delete?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
+  connect?: Prisma.PTContractWhereUniqueInput | Prisma.PTContractWhereUniqueInput[]
+  update?: Prisma.PTContractUpdateWithWhereUniqueWithoutTrainerProfileInput | Prisma.PTContractUpdateWithWhereUniqueWithoutTrainerProfileInput[]
+  updateMany?: Prisma.PTContractUpdateManyWithWhereWithoutTrainerProfileInput | Prisma.PTContractUpdateManyWithWhereWithoutTrainerProfileInput[]
   deleteMany?: Prisma.PTContractScalarWhereInput | Prisma.PTContractScalarWhereInput[]
 }
 
@@ -709,7 +775,7 @@ export type PTContractUpdateOneRequiredWithoutSessionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.PTContractUpdateToOneWithWhereWithoutSessionsInput, Prisma.PTContractUpdateWithoutSessionsInput>, Prisma.PTContractUncheckedUpdateWithoutSessionsInput>
 }
 
-export type PTContractCreateWithoutMemberMembershipInput = {
+export type PTContractCreateWithoutMemberUserInput = {
   id?: string
   productNameSnapshot: string
   priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -720,15 +786,17 @@ export type PTContractCreateWithoutMemberMembershipInput = {
   status?: $Enums.PTContractStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  trainerMembership: Prisma.CenterMembershipCreateNestedOneWithoutTrainerContractsInput
+  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutContractsInput
+  center?: Prisma.CenterCreateNestedOneWithoutPtContractsInput
   product: Prisma.PTProductCreateNestedOneWithoutContractsInput
   sessions?: Prisma.PTSessionCreateNestedManyWithoutContractInput
 }
 
-export type PTContractUncheckedCreateWithoutMemberMembershipInput = {
+export type PTContractUncheckedCreateWithoutMemberUserInput = {
   id?: string
-  trainerMembershipId: string
+  trainerProfileId: string
   productId: string
+  centerId?: string | null
   productNameSnapshot: string
   priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalSessions: number
@@ -741,72 +809,30 @@ export type PTContractUncheckedCreateWithoutMemberMembershipInput = {
   sessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutContractInput
 }
 
-export type PTContractCreateOrConnectWithoutMemberMembershipInput = {
+export type PTContractCreateOrConnectWithoutMemberUserInput = {
   where: Prisma.PTContractWhereUniqueInput
-  create: Prisma.XOR<Prisma.PTContractCreateWithoutMemberMembershipInput, Prisma.PTContractUncheckedCreateWithoutMemberMembershipInput>
+  create: Prisma.XOR<Prisma.PTContractCreateWithoutMemberUserInput, Prisma.PTContractUncheckedCreateWithoutMemberUserInput>
 }
 
-export type PTContractCreateManyMemberMembershipInputEnvelope = {
-  data: Prisma.PTContractCreateManyMemberMembershipInput | Prisma.PTContractCreateManyMemberMembershipInput[]
+export type PTContractCreateManyMemberUserInputEnvelope = {
+  data: Prisma.PTContractCreateManyMemberUserInput | Prisma.PTContractCreateManyMemberUserInput[]
   skipDuplicates?: boolean
 }
 
-export type PTContractCreateWithoutTrainerMembershipInput = {
-  id?: string
-  productNameSnapshot: string
-  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
-  totalSessions: number
-  usedSessions?: number
-  startedAt: Date | string
-  expiresAt?: Date | string | null
-  status?: $Enums.PTContractStatus
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  memberMembership: Prisma.CenterMembershipCreateNestedOneWithoutMemberContractsInput
-  product: Prisma.PTProductCreateNestedOneWithoutContractsInput
-  sessions?: Prisma.PTSessionCreateNestedManyWithoutContractInput
-}
-
-export type PTContractUncheckedCreateWithoutTrainerMembershipInput = {
-  id?: string
-  memberMembershipId: string
-  productId: string
-  productNameSnapshot: string
-  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
-  totalSessions: number
-  usedSessions?: number
-  startedAt: Date | string
-  expiresAt?: Date | string | null
-  status?: $Enums.PTContractStatus
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  sessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutContractInput
-}
-
-export type PTContractCreateOrConnectWithoutTrainerMembershipInput = {
+export type PTContractUpsertWithWhereUniqueWithoutMemberUserInput = {
   where: Prisma.PTContractWhereUniqueInput
-  create: Prisma.XOR<Prisma.PTContractCreateWithoutTrainerMembershipInput, Prisma.PTContractUncheckedCreateWithoutTrainerMembershipInput>
+  update: Prisma.XOR<Prisma.PTContractUpdateWithoutMemberUserInput, Prisma.PTContractUncheckedUpdateWithoutMemberUserInput>
+  create: Prisma.XOR<Prisma.PTContractCreateWithoutMemberUserInput, Prisma.PTContractUncheckedCreateWithoutMemberUserInput>
 }
 
-export type PTContractCreateManyTrainerMembershipInputEnvelope = {
-  data: Prisma.PTContractCreateManyTrainerMembershipInput | Prisma.PTContractCreateManyTrainerMembershipInput[]
-  skipDuplicates?: boolean
-}
-
-export type PTContractUpsertWithWhereUniqueWithoutMemberMembershipInput = {
+export type PTContractUpdateWithWhereUniqueWithoutMemberUserInput = {
   where: Prisma.PTContractWhereUniqueInput
-  update: Prisma.XOR<Prisma.PTContractUpdateWithoutMemberMembershipInput, Prisma.PTContractUncheckedUpdateWithoutMemberMembershipInput>
-  create: Prisma.XOR<Prisma.PTContractCreateWithoutMemberMembershipInput, Prisma.PTContractUncheckedCreateWithoutMemberMembershipInput>
+  data: Prisma.XOR<Prisma.PTContractUpdateWithoutMemberUserInput, Prisma.PTContractUncheckedUpdateWithoutMemberUserInput>
 }
 
-export type PTContractUpdateWithWhereUniqueWithoutMemberMembershipInput = {
-  where: Prisma.PTContractWhereUniqueInput
-  data: Prisma.XOR<Prisma.PTContractUpdateWithoutMemberMembershipInput, Prisma.PTContractUncheckedUpdateWithoutMemberMembershipInput>
-}
-
-export type PTContractUpdateManyWithWhereWithoutMemberMembershipInput = {
+export type PTContractUpdateManyWithWhereWithoutMemberUserInput = {
   where: Prisma.PTContractScalarWhereInput
-  data: Prisma.XOR<Prisma.PTContractUpdateManyMutationInput, Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipInput>
+  data: Prisma.XOR<Prisma.PTContractUpdateManyMutationInput, Prisma.PTContractUncheckedUpdateManyWithoutMemberUserInput>
 }
 
 export type PTContractScalarWhereInput = {
@@ -814,9 +840,10 @@ export type PTContractScalarWhereInput = {
   OR?: Prisma.PTContractScalarWhereInput[]
   NOT?: Prisma.PTContractScalarWhereInput | Prisma.PTContractScalarWhereInput[]
   id?: Prisma.StringFilter<"PTContract"> | string
-  memberMembershipId?: Prisma.StringFilter<"PTContract"> | string
-  trainerMembershipId?: Prisma.StringFilter<"PTContract"> | string
+  memberUserId?: Prisma.StringFilter<"PTContract"> | string
+  trainerProfileId?: Prisma.StringFilter<"PTContract"> | string
   productId?: Prisma.StringFilter<"PTContract"> | string
+  centerId?: Prisma.StringNullableFilter<"PTContract"> | string | null
   productNameSnapshot?: Prisma.StringFilter<"PTContract"> | string
   priceSnapshot?: Prisma.DecimalFilter<"PTContract"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalSessions?: Prisma.IntFilter<"PTContract"> | number
@@ -828,20 +855,124 @@ export type PTContractScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"PTContract"> | Date | string
 }
 
-export type PTContractUpsertWithWhereUniqueWithoutTrainerMembershipInput = {
-  where: Prisma.PTContractWhereUniqueInput
-  update: Prisma.XOR<Prisma.PTContractUpdateWithoutTrainerMembershipInput, Prisma.PTContractUncheckedUpdateWithoutTrainerMembershipInput>
-  create: Prisma.XOR<Prisma.PTContractCreateWithoutTrainerMembershipInput, Prisma.PTContractUncheckedCreateWithoutTrainerMembershipInput>
+export type PTContractCreateWithoutCenterInput = {
+  id?: string
+  productNameSnapshot: string
+  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  totalSessions: number
+  usedSessions?: number
+  startedAt: Date | string
+  expiresAt?: Date | string | null
+  status?: $Enums.PTContractStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  memberUser: Prisma.UserCreateNestedOneWithoutPtContractsInput
+  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutContractsInput
+  product: Prisma.PTProductCreateNestedOneWithoutContractsInput
+  sessions?: Prisma.PTSessionCreateNestedManyWithoutContractInput
 }
 
-export type PTContractUpdateWithWhereUniqueWithoutTrainerMembershipInput = {
-  where: Prisma.PTContractWhereUniqueInput
-  data: Prisma.XOR<Prisma.PTContractUpdateWithoutTrainerMembershipInput, Prisma.PTContractUncheckedUpdateWithoutTrainerMembershipInput>
+export type PTContractUncheckedCreateWithoutCenterInput = {
+  id?: string
+  memberUserId: string
+  trainerProfileId: string
+  productId: string
+  productNameSnapshot: string
+  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  totalSessions: number
+  usedSessions?: number
+  startedAt: Date | string
+  expiresAt?: Date | string | null
+  status?: $Enums.PTContractStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutContractInput
 }
 
-export type PTContractUpdateManyWithWhereWithoutTrainerMembershipInput = {
+export type PTContractCreateOrConnectWithoutCenterInput = {
+  where: Prisma.PTContractWhereUniqueInput
+  create: Prisma.XOR<Prisma.PTContractCreateWithoutCenterInput, Prisma.PTContractUncheckedCreateWithoutCenterInput>
+}
+
+export type PTContractCreateManyCenterInputEnvelope = {
+  data: Prisma.PTContractCreateManyCenterInput | Prisma.PTContractCreateManyCenterInput[]
+  skipDuplicates?: boolean
+}
+
+export type PTContractUpsertWithWhereUniqueWithoutCenterInput = {
+  where: Prisma.PTContractWhereUniqueInput
+  update: Prisma.XOR<Prisma.PTContractUpdateWithoutCenterInput, Prisma.PTContractUncheckedUpdateWithoutCenterInput>
+  create: Prisma.XOR<Prisma.PTContractCreateWithoutCenterInput, Prisma.PTContractUncheckedCreateWithoutCenterInput>
+}
+
+export type PTContractUpdateWithWhereUniqueWithoutCenterInput = {
+  where: Prisma.PTContractWhereUniqueInput
+  data: Prisma.XOR<Prisma.PTContractUpdateWithoutCenterInput, Prisma.PTContractUncheckedUpdateWithoutCenterInput>
+}
+
+export type PTContractUpdateManyWithWhereWithoutCenterInput = {
   where: Prisma.PTContractScalarWhereInput
-  data: Prisma.XOR<Prisma.PTContractUpdateManyMutationInput, Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipInput>
+  data: Prisma.XOR<Prisma.PTContractUpdateManyMutationInput, Prisma.PTContractUncheckedUpdateManyWithoutCenterInput>
+}
+
+export type PTContractCreateWithoutTrainerProfileInput = {
+  id?: string
+  productNameSnapshot: string
+  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  totalSessions: number
+  usedSessions?: number
+  startedAt: Date | string
+  expiresAt?: Date | string | null
+  status?: $Enums.PTContractStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  memberUser: Prisma.UserCreateNestedOneWithoutPtContractsInput
+  center?: Prisma.CenterCreateNestedOneWithoutPtContractsInput
+  product: Prisma.PTProductCreateNestedOneWithoutContractsInput
+  sessions?: Prisma.PTSessionCreateNestedManyWithoutContractInput
+}
+
+export type PTContractUncheckedCreateWithoutTrainerProfileInput = {
+  id?: string
+  memberUserId: string
+  productId: string
+  centerId?: string | null
+  productNameSnapshot: string
+  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  totalSessions: number
+  usedSessions?: number
+  startedAt: Date | string
+  expiresAt?: Date | string | null
+  status?: $Enums.PTContractStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutContractInput
+}
+
+export type PTContractCreateOrConnectWithoutTrainerProfileInput = {
+  where: Prisma.PTContractWhereUniqueInput
+  create: Prisma.XOR<Prisma.PTContractCreateWithoutTrainerProfileInput, Prisma.PTContractUncheckedCreateWithoutTrainerProfileInput>
+}
+
+export type PTContractCreateManyTrainerProfileInputEnvelope = {
+  data: Prisma.PTContractCreateManyTrainerProfileInput | Prisma.PTContractCreateManyTrainerProfileInput[]
+  skipDuplicates?: boolean
+}
+
+export type PTContractUpsertWithWhereUniqueWithoutTrainerProfileInput = {
+  where: Prisma.PTContractWhereUniqueInput
+  update: Prisma.XOR<Prisma.PTContractUpdateWithoutTrainerProfileInput, Prisma.PTContractUncheckedUpdateWithoutTrainerProfileInput>
+  create: Prisma.XOR<Prisma.PTContractCreateWithoutTrainerProfileInput, Prisma.PTContractUncheckedCreateWithoutTrainerProfileInput>
+}
+
+export type PTContractUpdateWithWhereUniqueWithoutTrainerProfileInput = {
+  where: Prisma.PTContractWhereUniqueInput
+  data: Prisma.XOR<Prisma.PTContractUpdateWithoutTrainerProfileInput, Prisma.PTContractUncheckedUpdateWithoutTrainerProfileInput>
+}
+
+export type PTContractUpdateManyWithWhereWithoutTrainerProfileInput = {
+  where: Prisma.PTContractScalarWhereInput
+  data: Prisma.XOR<Prisma.PTContractUpdateManyMutationInput, Prisma.PTContractUncheckedUpdateManyWithoutTrainerProfileInput>
 }
 
 export type PTContractCreateWithoutProductInput = {
@@ -855,15 +986,17 @@ export type PTContractCreateWithoutProductInput = {
   status?: $Enums.PTContractStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberMembership: Prisma.CenterMembershipCreateNestedOneWithoutMemberContractsInput
-  trainerMembership: Prisma.CenterMembershipCreateNestedOneWithoutTrainerContractsInput
+  memberUser: Prisma.UserCreateNestedOneWithoutPtContractsInput
+  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutContractsInput
+  center?: Prisma.CenterCreateNestedOneWithoutPtContractsInput
   sessions?: Prisma.PTSessionCreateNestedManyWithoutContractInput
 }
 
 export type PTContractUncheckedCreateWithoutProductInput = {
   id?: string
-  memberMembershipId: string
-  trainerMembershipId: string
+  memberUserId: string
+  trainerProfileId: string
+  centerId?: string | null
   productNameSnapshot: string
   priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalSessions: number
@@ -913,16 +1046,18 @@ export type PTContractCreateWithoutSessionsInput = {
   status?: $Enums.PTContractStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberMembership: Prisma.CenterMembershipCreateNestedOneWithoutMemberContractsInput
-  trainerMembership: Prisma.CenterMembershipCreateNestedOneWithoutTrainerContractsInput
+  memberUser: Prisma.UserCreateNestedOneWithoutPtContractsInput
+  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutContractsInput
+  center?: Prisma.CenterCreateNestedOneWithoutPtContractsInput
   product: Prisma.PTProductCreateNestedOneWithoutContractsInput
 }
 
 export type PTContractUncheckedCreateWithoutSessionsInput = {
   id?: string
-  memberMembershipId: string
-  trainerMembershipId: string
+  memberUserId: string
+  trainerProfileId: string
   productId: string
+  centerId?: string | null
   productNameSnapshot: string
   priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalSessions: number
@@ -961,16 +1096,18 @@ export type PTContractUpdateWithoutSessionsInput = {
   status?: Prisma.EnumPTContractStatusFieldUpdateOperationsInput | $Enums.PTContractStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutMemberContractsNestedInput
-  trainerMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutTrainerContractsNestedInput
+  memberUser?: Prisma.UserUpdateOneRequiredWithoutPtContractsNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutContractsNestedInput
+  center?: Prisma.CenterUpdateOneWithoutPtContractsNestedInput
   product?: Prisma.PTProductUpdateOneRequiredWithoutContractsNestedInput
 }
 
 export type PTContractUncheckedUpdateWithoutSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  memberMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
+  centerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
@@ -982,10 +1119,11 @@ export type PTContractUncheckedUpdateWithoutSessionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type PTContractCreateManyMemberMembershipInput = {
+export type PTContractCreateManyMemberUserInput = {
   id?: string
-  trainerMembershipId: string
+  trainerProfileId: string
   productId: string
+  centerId?: string | null
   productNameSnapshot: string
   priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalSessions: number
@@ -997,22 +1135,7 @@ export type PTContractCreateManyMemberMembershipInput = {
   updatedAt?: Date | string
 }
 
-export type PTContractCreateManyTrainerMembershipInput = {
-  id?: string
-  memberMembershipId: string
-  productId: string
-  productNameSnapshot: string
-  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
-  totalSessions: number
-  usedSessions?: number
-  startedAt: Date | string
-  expiresAt?: Date | string | null
-  status?: $Enums.PTContractStatus
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type PTContractUpdateWithoutMemberMembershipInput = {
+export type PTContractUpdateWithoutMemberUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1023,14 +1146,82 @@ export type PTContractUpdateWithoutMemberMembershipInput = {
   status?: Prisma.EnumPTContractStatusFieldUpdateOperationsInput | $Enums.PTContractStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  trainerMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutTrainerContractsNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutContractsNestedInput
+  center?: Prisma.CenterUpdateOneWithoutPtContractsNestedInput
   product?: Prisma.PTProductUpdateOneRequiredWithoutContractsNestedInput
   sessions?: Prisma.PTSessionUpdateManyWithoutContractNestedInput
 }
 
-export type PTContractUncheckedUpdateWithoutMemberMembershipInput = {
+export type PTContractUncheckedUpdateWithoutMemberUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  productId?: Prisma.StringFieldUpdateOperationsInput | string
+  centerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
+  priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
+  usedSessions?: Prisma.IntFieldUpdateOperationsInput | number
+  startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.EnumPTContractStatusFieldUpdateOperationsInput | $Enums.PTContractStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.PTSessionUncheckedUpdateManyWithoutContractNestedInput
+}
+
+export type PTContractUncheckedUpdateManyWithoutMemberUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  productId?: Prisma.StringFieldUpdateOperationsInput | string
+  centerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
+  priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
+  usedSessions?: Prisma.IntFieldUpdateOperationsInput | number
+  startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.EnumPTContractStatusFieldUpdateOperationsInput | $Enums.PTContractStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type PTContractCreateManyCenterInput = {
+  id?: string
+  memberUserId: string
+  trainerProfileId: string
+  productId: string
+  productNameSnapshot: string
+  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  totalSessions: number
+  usedSessions?: number
+  startedAt: Date | string
+  expiresAt?: Date | string | null
+  status?: $Enums.PTContractStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type PTContractUpdateWithoutCenterInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
+  priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
+  usedSessions?: Prisma.IntFieldUpdateOperationsInput | number
+  startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.EnumPTContractStatusFieldUpdateOperationsInput | $Enums.PTContractStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  memberUser?: Prisma.UserUpdateOneRequiredWithoutPtContractsNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutContractsNestedInput
+  product?: Prisma.PTProductUpdateOneRequiredWithoutContractsNestedInput
+  sessions?: Prisma.PTSessionUpdateManyWithoutContractNestedInput
+}
+
+export type PTContractUncheckedUpdateWithoutCenterInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
   productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1044,9 +1235,10 @@ export type PTContractUncheckedUpdateWithoutMemberMembershipInput = {
   sessions?: Prisma.PTSessionUncheckedUpdateManyWithoutContractNestedInput
 }
 
-export type PTContractUncheckedUpdateManyWithoutMemberMembershipInput = {
+export type PTContractUncheckedUpdateManyWithoutCenterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
   productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1059,7 +1251,23 @@ export type PTContractUncheckedUpdateManyWithoutMemberMembershipInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type PTContractUpdateWithoutTrainerMembershipInput = {
+export type PTContractCreateManyTrainerProfileInput = {
+  id?: string
+  memberUserId: string
+  productId: string
+  centerId?: string | null
+  productNameSnapshot: string
+  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  totalSessions: number
+  usedSessions?: number
+  startedAt: Date | string
+  expiresAt?: Date | string | null
+  status?: $Enums.PTContractStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type PTContractUpdateWithoutTrainerProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1070,15 +1278,17 @@ export type PTContractUpdateWithoutTrainerMembershipInput = {
   status?: Prisma.EnumPTContractStatusFieldUpdateOperationsInput | $Enums.PTContractStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutMemberContractsNestedInput
+  memberUser?: Prisma.UserUpdateOneRequiredWithoutPtContractsNestedInput
+  center?: Prisma.CenterUpdateOneWithoutPtContractsNestedInput
   product?: Prisma.PTProductUpdateOneRequiredWithoutContractsNestedInput
   sessions?: Prisma.PTSessionUpdateManyWithoutContractNestedInput
 }
 
-export type PTContractUncheckedUpdateWithoutTrainerMembershipInput = {
+export type PTContractUncheckedUpdateWithoutTrainerProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  memberMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
+  centerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1091,10 +1301,11 @@ export type PTContractUncheckedUpdateWithoutTrainerMembershipInput = {
   sessions?: Prisma.PTSessionUncheckedUpdateManyWithoutContractNestedInput
 }
 
-export type PTContractUncheckedUpdateManyWithoutTrainerMembershipInput = {
+export type PTContractUncheckedUpdateManyWithoutTrainerProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  memberMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
+  centerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1108,8 +1319,9 @@ export type PTContractUncheckedUpdateManyWithoutTrainerMembershipInput = {
 
 export type PTContractCreateManyProductInput = {
   id?: string
-  memberMembershipId: string
-  trainerMembershipId: string
+  memberUserId: string
+  trainerProfileId: string
+  centerId?: string | null
   productNameSnapshot: string
   priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalSessions: number
@@ -1132,15 +1344,17 @@ export type PTContractUpdateWithoutProductInput = {
   status?: Prisma.EnumPTContractStatusFieldUpdateOperationsInput | $Enums.PTContractStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutMemberContractsNestedInput
-  trainerMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutTrainerContractsNestedInput
+  memberUser?: Prisma.UserUpdateOneRequiredWithoutPtContractsNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutContractsNestedInput
+  center?: Prisma.CenterUpdateOneWithoutPtContractsNestedInput
   sessions?: Prisma.PTSessionUpdateManyWithoutContractNestedInput
 }
 
 export type PTContractUncheckedUpdateWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  memberMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  centerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1155,8 +1369,9 @@ export type PTContractUncheckedUpdateWithoutProductInput = {
 
 export type PTContractUncheckedUpdateManyWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  memberMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  centerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1201,9 +1416,10 @@ export type PTContractCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.T
 
 export type PTContractSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  memberMembershipId?: boolean
-  trainerMembershipId?: boolean
+  memberUserId?: boolean
+  trainerProfileId?: boolean
   productId?: boolean
+  centerId?: boolean
   productNameSnapshot?: boolean
   priceSnapshot?: boolean
   totalSessions?: boolean
@@ -1213,8 +1429,9 @@ export type PTContractSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  memberMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
-  trainerMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
+  center?: boolean | Prisma.PTContract$centerArgs<ExtArgs>
   product?: boolean | Prisma.PTProductDefaultArgs<ExtArgs>
   sessions?: boolean | Prisma.PTContract$sessionsArgs<ExtArgs>
   _count?: boolean | Prisma.PTContractCountOutputTypeDefaultArgs<ExtArgs>
@@ -1222,9 +1439,10 @@ export type PTContractSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
 
 export type PTContractSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  memberMembershipId?: boolean
-  trainerMembershipId?: boolean
+  memberUserId?: boolean
+  trainerProfileId?: boolean
   productId?: boolean
+  centerId?: boolean
   productNameSnapshot?: boolean
   priceSnapshot?: boolean
   totalSessions?: boolean
@@ -1234,16 +1452,18 @@ export type PTContractSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  memberMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
-  trainerMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
+  center?: boolean | Prisma.PTContract$centerArgs<ExtArgs>
   product?: boolean | Prisma.PTProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["pTContract"]>
 
 export type PTContractSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  memberMembershipId?: boolean
-  trainerMembershipId?: boolean
+  memberUserId?: boolean
+  trainerProfileId?: boolean
   productId?: boolean
+  centerId?: boolean
   productNameSnapshot?: boolean
   priceSnapshot?: boolean
   totalSessions?: boolean
@@ -1253,16 +1473,18 @@ export type PTContractSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  memberMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
-  trainerMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
+  center?: boolean | Prisma.PTContract$centerArgs<ExtArgs>
   product?: boolean | Prisma.PTProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["pTContract"]>
 
 export type PTContractSelectScalar = {
   id?: boolean
-  memberMembershipId?: boolean
-  trainerMembershipId?: boolean
+  memberUserId?: boolean
+  trainerProfileId?: boolean
   productId?: boolean
+  centerId?: boolean
   productNameSnapshot?: boolean
   priceSnapshot?: boolean
   totalSessions?: boolean
@@ -1274,38 +1496,50 @@ export type PTContractSelectScalar = {
   updatedAt?: boolean
 }
 
-export type PTContractOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "memberMembershipId" | "trainerMembershipId" | "productId" | "productNameSnapshot" | "priceSnapshot" | "totalSessions" | "usedSessions" | "startedAt" | "expiresAt" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["pTContract"]>
+export type PTContractOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "memberUserId" | "trainerProfileId" | "productId" | "centerId" | "productNameSnapshot" | "priceSnapshot" | "totalSessions" | "usedSessions" | "startedAt" | "expiresAt" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["pTContract"]>
 export type PTContractInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  memberMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
-  trainerMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
+  center?: boolean | Prisma.PTContract$centerArgs<ExtArgs>
   product?: boolean | Prisma.PTProductDefaultArgs<ExtArgs>
   sessions?: boolean | Prisma.PTContract$sessionsArgs<ExtArgs>
   _count?: boolean | Prisma.PTContractCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PTContractIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  memberMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
-  trainerMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
+  center?: boolean | Prisma.PTContract$centerArgs<ExtArgs>
   product?: boolean | Prisma.PTProductDefaultArgs<ExtArgs>
 }
 export type PTContractIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  memberMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
-  trainerMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
+  center?: boolean | Prisma.PTContract$centerArgs<ExtArgs>
   product?: boolean | Prisma.PTProductDefaultArgs<ExtArgs>
 }
 
 export type $PTContractPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PTContract"
   objects: {
-    memberMembership: Prisma.$CenterMembershipPayload<ExtArgs>
-    trainerMembership: Prisma.$CenterMembershipPayload<ExtArgs>
+    memberUser: Prisma.$UserPayload<ExtArgs>
+    trainerProfile: Prisma.$TrainerProfilePayload<ExtArgs>
+    center: Prisma.$CenterPayload<ExtArgs> | null
     product: Prisma.$PTProductPayload<ExtArgs>
     sessions: Prisma.$PTSessionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    memberMembershipId: string
-    trainerMembershipId: string
+    memberUserId: string
+    trainerProfileId: string
     productId: string
+    /**
+     * *
+     *    * 이 계약이 어느 센터에서 맺어졌는지. 개인 트레이너면 null.
+     *    * 관계가 시작된 센터(TrainerMemberConnection.originCenterId)와 다를 수 있다.
+     *    * 트레이너가 이직한 뒤 같은 회원과 새로 맺은 계약은 새 센터의 것이다.
+     *    * 나중에 센터가 "우리 센터에서 나간 PT" 를 셀 때 이 값이 없으면 답할 수 없다.
+     */
+    centerId: string | null
     productNameSnapshot: string
     priceSnapshot: runtime.Decimal
     totalSessions: number
@@ -1709,8 +1943,9 @@ readonly fields: PTContractFieldRefs;
  */
 export interface Prisma__PTContractClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  memberMembership<T extends Prisma.CenterMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__CenterMembershipClient<runtime.Types.Result.GetResult<Prisma.$CenterMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  trainerMembership<T extends Prisma.CenterMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__CenterMembershipClient<runtime.Types.Result.GetResult<Prisma.$CenterMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  memberUser<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  trainerProfile<T extends Prisma.TrainerProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__TrainerProfileClient<runtime.Types.Result.GetResult<Prisma.$TrainerProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  center<T extends Prisma.PTContract$centerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PTContract$centerArgs<ExtArgs>>): Prisma.Prisma__CenterClient<runtime.Types.Result.GetResult<Prisma.$CenterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   product<T extends Prisma.PTProductDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PTProductDefaultArgs<ExtArgs>>): Prisma.Prisma__PTProductClient<runtime.Types.Result.GetResult<Prisma.$PTProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   sessions<T extends Prisma.PTContract$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PTContract$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PTSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1743,9 +1978,10 @@ export interface Prisma__PTContractClient<T, Null = never, ExtArgs extends runti
  */
 export interface PTContractFieldRefs {
   readonly id: Prisma.FieldRef<"PTContract", 'String'>
-  readonly memberMembershipId: Prisma.FieldRef<"PTContract", 'String'>
-  readonly trainerMembershipId: Prisma.FieldRef<"PTContract", 'String'>
+  readonly memberUserId: Prisma.FieldRef<"PTContract", 'String'>
+  readonly trainerProfileId: Prisma.FieldRef<"PTContract", 'String'>
   readonly productId: Prisma.FieldRef<"PTContract", 'String'>
+  readonly centerId: Prisma.FieldRef<"PTContract", 'String'>
   readonly productNameSnapshot: Prisma.FieldRef<"PTContract", 'String'>
   readonly priceSnapshot: Prisma.FieldRef<"PTContract", 'Decimal'>
   readonly totalSessions: Prisma.FieldRef<"PTContract", 'Int'>
@@ -2153,6 +2389,25 @@ export type PTContractDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many PTContracts to delete.
    */
   limit?: number
+}
+
+/**
+ * PTContract.center
+ */
+export type PTContract$centerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Center
+   */
+  select?: Prisma.CenterSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Center
+   */
+  omit?: Prisma.CenterOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CenterInclude<ExtArgs> | null
+  where?: Prisma.CenterWhereInput
 }
 
 /**

@@ -3,15 +3,20 @@
 import { revalidatePath } from "next/cache";
 
 import { requireUser } from "@/app/lib/dal";
-import { MembershipRole } from "@/generated/prisma/enums";
 import {
   CenterError,
-  createInvitation,
   getCurrentMembership,
   leaveCenter,
   redeemInvitation,
-  revokeInvitation,
 } from "@/server/centers/center.service";
+import {
+  ConnectionError,
+  createTrainerInvitation,
+  endConnection,
+  redeemTrainerCode,
+  revokeTrainerInvitation,
+  startTrainerProfile,
+} from "@/server/trainers/connection.service";
 
 export type CenterActionState = {
   error: string | null;
@@ -29,7 +34,7 @@ async function run(
   try {
     return await fn();
   } catch (error) {
-    if (error instanceof CenterError) {
+    if (error instanceof CenterError || error instanceof ConnectionError) {
       return fail(error.message);
     }
     console.error("center action error:", error);
@@ -40,9 +45,17 @@ async function run(
 function revalidate() {
   revalidatePath("/profile");
   revalidatePath("/home");
+  revalidatePath("/journal");
 }
 
-export async function joinCenter(
+/**
+ * 코드 한 칸으로 두 가지를 받는다.
+ *
+ * 트레이너 코드는 TR 로 시작한다. 회원에게 "이건 트레이너 코드 칸, 저건 센터
+ * 코드 칸" 이라고 설명하게 만들면 절반은 틀린 칸에 넣는다. 어디서 받았는지는
+ * 코드 자체가 알고 있으니 서버가 가른다.
+ */
+export async function redeemCode(
   _prev: CenterActionState | undefined,
   formData: FormData,
 ): Promise<CenterActionState> {
@@ -54,47 +67,65 @@ export async function joinCenter(
   }
 
   return run(async () => {
-    const { outcome, membership } = await redeemInvitation(user.id, code);
+    if (
+      code
+        .replace(/[^A-Za-z0-9]/g, "")
+        .toUpperCase()
+        .startsWith("TR")
+    ) {
+      const { trainerName } = await redeemTrainerCode(user.id, code);
+      revalidate();
 
+      return {
+        error: null,
+        notice: `${trainerName} 트레이너와 연결됐어요.`,
+      };
+    }
+
+    const { membership } = await redeemInvitation(user.id, code);
     revalidate();
 
-    return {
-      error: null,
-      notice:
-        outcome === "TRAINER_CHANGED"
-          ? `담당 트레이너가 ${membership.assignedTrainerMembership?.user.name ?? ""} 님으로 바뀌었어요.`
-          : `${membership.center.name}에 들어왔어요.`,
-    };
+    return { error: null, notice: `${membership.center.name}에 들어왔어요.` };
   });
 }
 
-export async function issueInvitation(
+/** 트레이너로 시작한다. 센터도 초대 코드도 필요 없다. */
+export async function becomeTrainer(): Promise<CenterActionState> {
+  const user = await requireUser();
+
+  return run(async () => {
+    await startTrainerProfile(user.id);
+    revalidate();
+
+    return { error: null, notice: "트레이너로 시작했어요." };
+  });
+}
+
+/** 회원 연결 코드를 만든다. */
+export async function issueTrainerCode(): Promise<CenterActionState> {
+  const user = await requireUser();
+
+  return run(async () => {
+    const invitation = await createTrainerInvitation(user.id);
+    revalidate();
+
+    return { error: null, notice: `코드 ${invitation.code} 를 만들었어요.` };
+  });
+}
+
+/** 트레이너와의 연결을 끝낸다. */
+export async function disconnectTrainer(
   _prev: CenterActionState | undefined,
   formData: FormData,
 ): Promise<CenterActionState> {
   const user = await requireUser();
-  const raw = String(formData.get("role") ?? "");
-
-  if (raw !== MembershipRole.TRAINER && raw !== MembershipRole.MEMBER) {
-    return fail("만들 수 없는 역할이에요.");
-  }
+  const connectionId = String(formData.get("connectionId") ?? "");
 
   return run(async () => {
-    const membership = await getCurrentMembership(user.id);
-
-    if (!membership) {
-      return fail("센터에 소속되어 있지 않아요.");
-    }
-
-    const invitation = await createInvitation({
-      userId: user.id,
-      membershipId: membership.id,
-      role: raw,
-    });
-
+    await endConnection(user.id, connectionId);
     revalidate();
 
-    return { error: null, notice: `코드 ${invitation.code} 를 만들었어요.` };
+    return { error: null, notice: "연결을 끝냈어요." };
   });
 }
 
@@ -106,13 +137,7 @@ export async function revokeCode(
   const invitationId = String(formData.get("invitationId") ?? "");
 
   return run(async () => {
-    const membership = await getCurrentMembership(user.id);
-
-    if (!membership) {
-      return fail("센터에 소속되어 있지 않아요.");
-    }
-
-    await revokeInvitation(user.id, membership.id, invitationId);
+    await revokeTrainerInvitation(user.id, invitationId);
     revalidate();
 
     return { error: null, notice: "코드를 껐어요." };

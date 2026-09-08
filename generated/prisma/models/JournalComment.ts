@@ -31,7 +31,7 @@ export type AggregateJournalComment = {
 export type JournalCommentMinAggregateOutputType = {
   id: string | null
   journalId: string | null
-  authorMembershipId: string | null
+  authorUserId: string | null
   content: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -41,7 +41,7 @@ export type JournalCommentMinAggregateOutputType = {
 export type JournalCommentMaxAggregateOutputType = {
   id: string | null
   journalId: string | null
-  authorMembershipId: string | null
+  authorUserId: string | null
   content: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -51,7 +51,7 @@ export type JournalCommentMaxAggregateOutputType = {
 export type JournalCommentCountAggregateOutputType = {
   id: number
   journalId: number
-  authorMembershipId: number
+  authorUserId: number
   content: number
   createdAt: number
   updatedAt: number
@@ -63,7 +63,7 @@ export type JournalCommentCountAggregateOutputType = {
 export type JournalCommentMinAggregateInputType = {
   id?: true
   journalId?: true
-  authorMembershipId?: true
+  authorUserId?: true
   content?: true
   createdAt?: true
   updatedAt?: true
@@ -73,7 +73,7 @@ export type JournalCommentMinAggregateInputType = {
 export type JournalCommentMaxAggregateInputType = {
   id?: true
   journalId?: true
-  authorMembershipId?: true
+  authorUserId?: true
   content?: true
   createdAt?: true
   updatedAt?: true
@@ -83,7 +83,7 @@ export type JournalCommentMaxAggregateInputType = {
 export type JournalCommentCountAggregateInputType = {
   id?: true
   journalId?: true
-  authorMembershipId?: true
+  authorUserId?: true
   content?: true
   createdAt?: true
   updatedAt?: true
@@ -166,7 +166,7 @@ export type JournalCommentGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
 export type JournalCommentGroupByOutputType = {
   id: string
   journalId: string
-  authorMembershipId: string
+  authorUserId: string
   content: string
   createdAt: Date
   updatedAt: Date
@@ -197,25 +197,25 @@ export type JournalCommentWhereInput = {
   NOT?: Prisma.JournalCommentWhereInput | Prisma.JournalCommentWhereInput[]
   id?: Prisma.StringFilter<"JournalComment"> | string
   journalId?: Prisma.StringFilter<"JournalComment"> | string
-  authorMembershipId?: Prisma.StringFilter<"JournalComment"> | string
+  authorUserId?: Prisma.StringFilter<"JournalComment"> | string
   content?: Prisma.StringFilter<"JournalComment"> | string
   createdAt?: Prisma.DateTimeFilter<"JournalComment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"JournalComment"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"JournalComment"> | Date | string | null
   journal?: Prisma.XOR<Prisma.JournalScalarRelationFilter, Prisma.JournalWhereInput>
-  authorMembership?: Prisma.XOR<Prisma.CenterMembershipScalarRelationFilter, Prisma.CenterMembershipWhereInput>
+  author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type JournalCommentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   journalId?: Prisma.SortOrder
-  authorMembershipId?: Prisma.SortOrder
+  authorUserId?: Prisma.SortOrder
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   journal?: Prisma.JournalOrderByWithRelationInput
-  authorMembership?: Prisma.CenterMembershipOrderByWithRelationInput
+  author?: Prisma.UserOrderByWithRelationInput
 }
 
 export type JournalCommentWhereUniqueInput = Prisma.AtLeast<{
@@ -224,19 +224,19 @@ export type JournalCommentWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.JournalCommentWhereInput[]
   NOT?: Prisma.JournalCommentWhereInput | Prisma.JournalCommentWhereInput[]
   journalId?: Prisma.StringFilter<"JournalComment"> | string
-  authorMembershipId?: Prisma.StringFilter<"JournalComment"> | string
+  authorUserId?: Prisma.StringFilter<"JournalComment"> | string
   content?: Prisma.StringFilter<"JournalComment"> | string
   createdAt?: Prisma.DateTimeFilter<"JournalComment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"JournalComment"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"JournalComment"> | Date | string | null
   journal?: Prisma.XOR<Prisma.JournalScalarRelationFilter, Prisma.JournalWhereInput>
-  authorMembership?: Prisma.XOR<Prisma.CenterMembershipScalarRelationFilter, Prisma.CenterMembershipWhereInput>
+  author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
 export type JournalCommentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   journalId?: Prisma.SortOrder
-  authorMembershipId?: Prisma.SortOrder
+  authorUserId?: Prisma.SortOrder
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -252,7 +252,7 @@ export type JournalCommentScalarWhereWithAggregatesInput = {
   NOT?: Prisma.JournalCommentScalarWhereWithAggregatesInput | Prisma.JournalCommentScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"JournalComment"> | string
   journalId?: Prisma.StringWithAggregatesFilter<"JournalComment"> | string
-  authorMembershipId?: Prisma.StringWithAggregatesFilter<"JournalComment"> | string
+  authorUserId?: Prisma.StringWithAggregatesFilter<"JournalComment"> | string
   content?: Prisma.StringWithAggregatesFilter<"JournalComment"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"JournalComment"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"JournalComment"> | Date | string
@@ -266,13 +266,13 @@ export type JournalCommentCreateInput = {
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   journal: Prisma.JournalCreateNestedOneWithoutCommentsInput
-  authorMembership: Prisma.CenterMembershipCreateNestedOneWithoutJournalCommentsInput
+  author: Prisma.UserCreateNestedOneWithoutJournalCommentsInput
 }
 
 export type JournalCommentUncheckedCreateInput = {
   id?: string
   journalId: string
-  authorMembershipId: string
+  authorUserId: string
   content: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -286,13 +286,13 @@ export type JournalCommentUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journal?: Prisma.JournalUpdateOneRequiredWithoutCommentsNestedInput
-  authorMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutJournalCommentsNestedInput
+  author?: Prisma.UserUpdateOneRequiredWithoutJournalCommentsNestedInput
 }
 
 export type JournalCommentUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   journalId?: Prisma.StringFieldUpdateOperationsInput | string
-  authorMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  authorUserId?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -302,7 +302,7 @@ export type JournalCommentUncheckedUpdateInput = {
 export type JournalCommentCreateManyInput = {
   id?: string
   journalId: string
-  authorMembershipId: string
+  authorUserId: string
   content: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -320,7 +320,7 @@ export type JournalCommentUpdateManyMutationInput = {
 export type JournalCommentUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   journalId?: Prisma.StringFieldUpdateOperationsInput | string
-  authorMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  authorUserId?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -340,7 +340,7 @@ export type JournalCommentOrderByRelationAggregateInput = {
 export type JournalCommentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   journalId?: Prisma.SortOrder
-  authorMembershipId?: Prisma.SortOrder
+  authorUserId?: Prisma.SortOrder
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -350,7 +350,7 @@ export type JournalCommentCountOrderByAggregateInput = {
 export type JournalCommentMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   journalId?: Prisma.SortOrder
-  authorMembershipId?: Prisma.SortOrder
+  authorUserId?: Prisma.SortOrder
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -360,52 +360,52 @@ export type JournalCommentMaxOrderByAggregateInput = {
 export type JournalCommentMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   journalId?: Prisma.SortOrder
-  authorMembershipId?: Prisma.SortOrder
+  authorUserId?: Prisma.SortOrder
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
 }
 
-export type JournalCommentCreateNestedManyWithoutAuthorMembershipInput = {
-  create?: Prisma.XOR<Prisma.JournalCommentCreateWithoutAuthorMembershipInput, Prisma.JournalCommentUncheckedCreateWithoutAuthorMembershipInput> | Prisma.JournalCommentCreateWithoutAuthorMembershipInput[] | Prisma.JournalCommentUncheckedCreateWithoutAuthorMembershipInput[]
-  connectOrCreate?: Prisma.JournalCommentCreateOrConnectWithoutAuthorMembershipInput | Prisma.JournalCommentCreateOrConnectWithoutAuthorMembershipInput[]
-  createMany?: Prisma.JournalCommentCreateManyAuthorMembershipInputEnvelope
+export type JournalCommentCreateNestedManyWithoutAuthorInput = {
+  create?: Prisma.XOR<Prisma.JournalCommentCreateWithoutAuthorInput, Prisma.JournalCommentUncheckedCreateWithoutAuthorInput> | Prisma.JournalCommentCreateWithoutAuthorInput[] | Prisma.JournalCommentUncheckedCreateWithoutAuthorInput[]
+  connectOrCreate?: Prisma.JournalCommentCreateOrConnectWithoutAuthorInput | Prisma.JournalCommentCreateOrConnectWithoutAuthorInput[]
+  createMany?: Prisma.JournalCommentCreateManyAuthorInputEnvelope
   connect?: Prisma.JournalCommentWhereUniqueInput | Prisma.JournalCommentWhereUniqueInput[]
 }
 
-export type JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput = {
-  create?: Prisma.XOR<Prisma.JournalCommentCreateWithoutAuthorMembershipInput, Prisma.JournalCommentUncheckedCreateWithoutAuthorMembershipInput> | Prisma.JournalCommentCreateWithoutAuthorMembershipInput[] | Prisma.JournalCommentUncheckedCreateWithoutAuthorMembershipInput[]
-  connectOrCreate?: Prisma.JournalCommentCreateOrConnectWithoutAuthorMembershipInput | Prisma.JournalCommentCreateOrConnectWithoutAuthorMembershipInput[]
-  createMany?: Prisma.JournalCommentCreateManyAuthorMembershipInputEnvelope
+export type JournalCommentUncheckedCreateNestedManyWithoutAuthorInput = {
+  create?: Prisma.XOR<Prisma.JournalCommentCreateWithoutAuthorInput, Prisma.JournalCommentUncheckedCreateWithoutAuthorInput> | Prisma.JournalCommentCreateWithoutAuthorInput[] | Prisma.JournalCommentUncheckedCreateWithoutAuthorInput[]
+  connectOrCreate?: Prisma.JournalCommentCreateOrConnectWithoutAuthorInput | Prisma.JournalCommentCreateOrConnectWithoutAuthorInput[]
+  createMany?: Prisma.JournalCommentCreateManyAuthorInputEnvelope
   connect?: Prisma.JournalCommentWhereUniqueInput | Prisma.JournalCommentWhereUniqueInput[]
 }
 
-export type JournalCommentUpdateManyWithoutAuthorMembershipNestedInput = {
-  create?: Prisma.XOR<Prisma.JournalCommentCreateWithoutAuthorMembershipInput, Prisma.JournalCommentUncheckedCreateWithoutAuthorMembershipInput> | Prisma.JournalCommentCreateWithoutAuthorMembershipInput[] | Prisma.JournalCommentUncheckedCreateWithoutAuthorMembershipInput[]
-  connectOrCreate?: Prisma.JournalCommentCreateOrConnectWithoutAuthorMembershipInput | Prisma.JournalCommentCreateOrConnectWithoutAuthorMembershipInput[]
-  upsert?: Prisma.JournalCommentUpsertWithWhereUniqueWithoutAuthorMembershipInput | Prisma.JournalCommentUpsertWithWhereUniqueWithoutAuthorMembershipInput[]
-  createMany?: Prisma.JournalCommentCreateManyAuthorMembershipInputEnvelope
+export type JournalCommentUpdateManyWithoutAuthorNestedInput = {
+  create?: Prisma.XOR<Prisma.JournalCommentCreateWithoutAuthorInput, Prisma.JournalCommentUncheckedCreateWithoutAuthorInput> | Prisma.JournalCommentCreateWithoutAuthorInput[] | Prisma.JournalCommentUncheckedCreateWithoutAuthorInput[]
+  connectOrCreate?: Prisma.JournalCommentCreateOrConnectWithoutAuthorInput | Prisma.JournalCommentCreateOrConnectWithoutAuthorInput[]
+  upsert?: Prisma.JournalCommentUpsertWithWhereUniqueWithoutAuthorInput | Prisma.JournalCommentUpsertWithWhereUniqueWithoutAuthorInput[]
+  createMany?: Prisma.JournalCommentCreateManyAuthorInputEnvelope
   set?: Prisma.JournalCommentWhereUniqueInput | Prisma.JournalCommentWhereUniqueInput[]
   disconnect?: Prisma.JournalCommentWhereUniqueInput | Prisma.JournalCommentWhereUniqueInput[]
   delete?: Prisma.JournalCommentWhereUniqueInput | Prisma.JournalCommentWhereUniqueInput[]
   connect?: Prisma.JournalCommentWhereUniqueInput | Prisma.JournalCommentWhereUniqueInput[]
-  update?: Prisma.JournalCommentUpdateWithWhereUniqueWithoutAuthorMembershipInput | Prisma.JournalCommentUpdateWithWhereUniqueWithoutAuthorMembershipInput[]
-  updateMany?: Prisma.JournalCommentUpdateManyWithWhereWithoutAuthorMembershipInput | Prisma.JournalCommentUpdateManyWithWhereWithoutAuthorMembershipInput[]
+  update?: Prisma.JournalCommentUpdateWithWhereUniqueWithoutAuthorInput | Prisma.JournalCommentUpdateWithWhereUniqueWithoutAuthorInput[]
+  updateMany?: Prisma.JournalCommentUpdateManyWithWhereWithoutAuthorInput | Prisma.JournalCommentUpdateManyWithWhereWithoutAuthorInput[]
   deleteMany?: Prisma.JournalCommentScalarWhereInput | Prisma.JournalCommentScalarWhereInput[]
 }
 
-export type JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput = {
-  create?: Prisma.XOR<Prisma.JournalCommentCreateWithoutAuthorMembershipInput, Prisma.JournalCommentUncheckedCreateWithoutAuthorMembershipInput> | Prisma.JournalCommentCreateWithoutAuthorMembershipInput[] | Prisma.JournalCommentUncheckedCreateWithoutAuthorMembershipInput[]
-  connectOrCreate?: Prisma.JournalCommentCreateOrConnectWithoutAuthorMembershipInput | Prisma.JournalCommentCreateOrConnectWithoutAuthorMembershipInput[]
-  upsert?: Prisma.JournalCommentUpsertWithWhereUniqueWithoutAuthorMembershipInput | Prisma.JournalCommentUpsertWithWhereUniqueWithoutAuthorMembershipInput[]
-  createMany?: Prisma.JournalCommentCreateManyAuthorMembershipInputEnvelope
+export type JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput = {
+  create?: Prisma.XOR<Prisma.JournalCommentCreateWithoutAuthorInput, Prisma.JournalCommentUncheckedCreateWithoutAuthorInput> | Prisma.JournalCommentCreateWithoutAuthorInput[] | Prisma.JournalCommentUncheckedCreateWithoutAuthorInput[]
+  connectOrCreate?: Prisma.JournalCommentCreateOrConnectWithoutAuthorInput | Prisma.JournalCommentCreateOrConnectWithoutAuthorInput[]
+  upsert?: Prisma.JournalCommentUpsertWithWhereUniqueWithoutAuthorInput | Prisma.JournalCommentUpsertWithWhereUniqueWithoutAuthorInput[]
+  createMany?: Prisma.JournalCommentCreateManyAuthorInputEnvelope
   set?: Prisma.JournalCommentWhereUniqueInput | Prisma.JournalCommentWhereUniqueInput[]
   disconnect?: Prisma.JournalCommentWhereUniqueInput | Prisma.JournalCommentWhereUniqueInput[]
   delete?: Prisma.JournalCommentWhereUniqueInput | Prisma.JournalCommentWhereUniqueInput[]
   connect?: Prisma.JournalCommentWhereUniqueInput | Prisma.JournalCommentWhereUniqueInput[]
-  update?: Prisma.JournalCommentUpdateWithWhereUniqueWithoutAuthorMembershipInput | Prisma.JournalCommentUpdateWithWhereUniqueWithoutAuthorMembershipInput[]
-  updateMany?: Prisma.JournalCommentUpdateManyWithWhereWithoutAuthorMembershipInput | Prisma.JournalCommentUpdateManyWithWhereWithoutAuthorMembershipInput[]
+  update?: Prisma.JournalCommentUpdateWithWhereUniqueWithoutAuthorInput | Prisma.JournalCommentUpdateWithWhereUniqueWithoutAuthorInput[]
+  updateMany?: Prisma.JournalCommentUpdateManyWithWhereWithoutAuthorInput | Prisma.JournalCommentUpdateManyWithWhereWithoutAuthorInput[]
   deleteMany?: Prisma.JournalCommentScalarWhereInput | Prisma.JournalCommentScalarWhereInput[]
 }
 
@@ -451,7 +451,7 @@ export type JournalCommentUncheckedUpdateManyWithoutJournalNestedInput = {
   deleteMany?: Prisma.JournalCommentScalarWhereInput | Prisma.JournalCommentScalarWhereInput[]
 }
 
-export type JournalCommentCreateWithoutAuthorMembershipInput = {
+export type JournalCommentCreateWithoutAuthorInput = {
   id?: string
   content: string
   createdAt?: Date | string
@@ -460,7 +460,7 @@ export type JournalCommentCreateWithoutAuthorMembershipInput = {
   journal: Prisma.JournalCreateNestedOneWithoutCommentsInput
 }
 
-export type JournalCommentUncheckedCreateWithoutAuthorMembershipInput = {
+export type JournalCommentUncheckedCreateWithoutAuthorInput = {
   id?: string
   journalId: string
   content: string
@@ -469,30 +469,30 @@ export type JournalCommentUncheckedCreateWithoutAuthorMembershipInput = {
   deletedAt?: Date | string | null
 }
 
-export type JournalCommentCreateOrConnectWithoutAuthorMembershipInput = {
+export type JournalCommentCreateOrConnectWithoutAuthorInput = {
   where: Prisma.JournalCommentWhereUniqueInput
-  create: Prisma.XOR<Prisma.JournalCommentCreateWithoutAuthorMembershipInput, Prisma.JournalCommentUncheckedCreateWithoutAuthorMembershipInput>
+  create: Prisma.XOR<Prisma.JournalCommentCreateWithoutAuthorInput, Prisma.JournalCommentUncheckedCreateWithoutAuthorInput>
 }
 
-export type JournalCommentCreateManyAuthorMembershipInputEnvelope = {
-  data: Prisma.JournalCommentCreateManyAuthorMembershipInput | Prisma.JournalCommentCreateManyAuthorMembershipInput[]
+export type JournalCommentCreateManyAuthorInputEnvelope = {
+  data: Prisma.JournalCommentCreateManyAuthorInput | Prisma.JournalCommentCreateManyAuthorInput[]
   skipDuplicates?: boolean
 }
 
-export type JournalCommentUpsertWithWhereUniqueWithoutAuthorMembershipInput = {
+export type JournalCommentUpsertWithWhereUniqueWithoutAuthorInput = {
   where: Prisma.JournalCommentWhereUniqueInput
-  update: Prisma.XOR<Prisma.JournalCommentUpdateWithoutAuthorMembershipInput, Prisma.JournalCommentUncheckedUpdateWithoutAuthorMembershipInput>
-  create: Prisma.XOR<Prisma.JournalCommentCreateWithoutAuthorMembershipInput, Prisma.JournalCommentUncheckedCreateWithoutAuthorMembershipInput>
+  update: Prisma.XOR<Prisma.JournalCommentUpdateWithoutAuthorInput, Prisma.JournalCommentUncheckedUpdateWithoutAuthorInput>
+  create: Prisma.XOR<Prisma.JournalCommentCreateWithoutAuthorInput, Prisma.JournalCommentUncheckedCreateWithoutAuthorInput>
 }
 
-export type JournalCommentUpdateWithWhereUniqueWithoutAuthorMembershipInput = {
+export type JournalCommentUpdateWithWhereUniqueWithoutAuthorInput = {
   where: Prisma.JournalCommentWhereUniqueInput
-  data: Prisma.XOR<Prisma.JournalCommentUpdateWithoutAuthorMembershipInput, Prisma.JournalCommentUncheckedUpdateWithoutAuthorMembershipInput>
+  data: Prisma.XOR<Prisma.JournalCommentUpdateWithoutAuthorInput, Prisma.JournalCommentUncheckedUpdateWithoutAuthorInput>
 }
 
-export type JournalCommentUpdateManyWithWhereWithoutAuthorMembershipInput = {
+export type JournalCommentUpdateManyWithWhereWithoutAuthorInput = {
   where: Prisma.JournalCommentScalarWhereInput
-  data: Prisma.XOR<Prisma.JournalCommentUpdateManyMutationInput, Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipInput>
+  data: Prisma.XOR<Prisma.JournalCommentUpdateManyMutationInput, Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorInput>
 }
 
 export type JournalCommentScalarWhereInput = {
@@ -501,7 +501,7 @@ export type JournalCommentScalarWhereInput = {
   NOT?: Prisma.JournalCommentScalarWhereInput | Prisma.JournalCommentScalarWhereInput[]
   id?: Prisma.StringFilter<"JournalComment"> | string
   journalId?: Prisma.StringFilter<"JournalComment"> | string
-  authorMembershipId?: Prisma.StringFilter<"JournalComment"> | string
+  authorUserId?: Prisma.StringFilter<"JournalComment"> | string
   content?: Prisma.StringFilter<"JournalComment"> | string
   createdAt?: Prisma.DateTimeFilter<"JournalComment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"JournalComment"> | Date | string
@@ -514,12 +514,12 @@ export type JournalCommentCreateWithoutJournalInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
-  authorMembership: Prisma.CenterMembershipCreateNestedOneWithoutJournalCommentsInput
+  author: Prisma.UserCreateNestedOneWithoutJournalCommentsInput
 }
 
 export type JournalCommentUncheckedCreateWithoutJournalInput = {
   id?: string
-  authorMembershipId: string
+  authorUserId: string
   content: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -552,7 +552,7 @@ export type JournalCommentUpdateManyWithWhereWithoutJournalInput = {
   data: Prisma.XOR<Prisma.JournalCommentUpdateManyMutationInput, Prisma.JournalCommentUncheckedUpdateManyWithoutJournalInput>
 }
 
-export type JournalCommentCreateManyAuthorMembershipInput = {
+export type JournalCommentCreateManyAuthorInput = {
   id?: string
   journalId: string
   content: string
@@ -561,7 +561,7 @@ export type JournalCommentCreateManyAuthorMembershipInput = {
   deletedAt?: Date | string | null
 }
 
-export type JournalCommentUpdateWithoutAuthorMembershipInput = {
+export type JournalCommentUpdateWithoutAuthorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -570,7 +570,7 @@ export type JournalCommentUpdateWithoutAuthorMembershipInput = {
   journal?: Prisma.JournalUpdateOneRequiredWithoutCommentsNestedInput
 }
 
-export type JournalCommentUncheckedUpdateWithoutAuthorMembershipInput = {
+export type JournalCommentUncheckedUpdateWithoutAuthorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   journalId?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
@@ -579,7 +579,7 @@ export type JournalCommentUncheckedUpdateWithoutAuthorMembershipInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
-export type JournalCommentUncheckedUpdateManyWithoutAuthorMembershipInput = {
+export type JournalCommentUncheckedUpdateManyWithoutAuthorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   journalId?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
@@ -590,7 +590,7 @@ export type JournalCommentUncheckedUpdateManyWithoutAuthorMembershipInput = {
 
 export type JournalCommentCreateManyJournalInput = {
   id?: string
-  authorMembershipId: string
+  authorUserId: string
   content: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -603,12 +603,12 @@ export type JournalCommentUpdateWithoutJournalInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  authorMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutJournalCommentsNestedInput
+  author?: Prisma.UserUpdateOneRequiredWithoutJournalCommentsNestedInput
 }
 
 export type JournalCommentUncheckedUpdateWithoutJournalInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  authorMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  authorUserId?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -617,7 +617,7 @@ export type JournalCommentUncheckedUpdateWithoutJournalInput = {
 
 export type JournalCommentUncheckedUpdateManyWithoutJournalInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  authorMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
+  authorUserId?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -629,73 +629,73 @@ export type JournalCommentUncheckedUpdateManyWithoutJournalInput = {
 export type JournalCommentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   journalId?: boolean
-  authorMembershipId?: boolean
+  authorUserId?: boolean
   content?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
   journal?: boolean | Prisma.JournalDefaultArgs<ExtArgs>
-  authorMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["journalComment"]>
 
 export type JournalCommentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   journalId?: boolean
-  authorMembershipId?: boolean
+  authorUserId?: boolean
   content?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
   journal?: boolean | Prisma.JournalDefaultArgs<ExtArgs>
-  authorMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["journalComment"]>
 
 export type JournalCommentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   journalId?: boolean
-  authorMembershipId?: boolean
+  authorUserId?: boolean
   content?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
   journal?: boolean | Prisma.JournalDefaultArgs<ExtArgs>
-  authorMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["journalComment"]>
 
 export type JournalCommentSelectScalar = {
   id?: boolean
   journalId?: boolean
-  authorMembershipId?: boolean
+  authorUserId?: boolean
   content?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
 }
 
-export type JournalCommentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "journalId" | "authorMembershipId" | "content" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["journalComment"]>
+export type JournalCommentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "journalId" | "authorUserId" | "content" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["journalComment"]>
 export type JournalCommentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   journal?: boolean | Prisma.JournalDefaultArgs<ExtArgs>
-  authorMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type JournalCommentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   journal?: boolean | Prisma.JournalDefaultArgs<ExtArgs>
-  authorMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type JournalCommentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   journal?: boolean | Prisma.JournalDefaultArgs<ExtArgs>
-  authorMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $JournalCommentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "JournalComment"
   objects: {
     journal: Prisma.$JournalPayload<ExtArgs>
-    authorMembership: Prisma.$CenterMembershipPayload<ExtArgs>
+    author: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     journalId: string
-    authorMembershipId: string
+    authorUserId: string
     content: string
     createdAt: Date
     updatedAt: Date
@@ -1095,7 +1095,7 @@ readonly fields: JournalCommentFieldRefs;
 export interface Prisma__JournalCommentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   journal<T extends Prisma.JournalDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.JournalDefaultArgs<ExtArgs>>): Prisma.Prisma__JournalClient<runtime.Types.Result.GetResult<Prisma.$JournalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  authorMembership<T extends Prisma.CenterMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__CenterMembershipClient<runtime.Types.Result.GetResult<Prisma.$CenterMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  author<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1127,7 +1127,7 @@ export interface Prisma__JournalCommentClient<T, Null = never, ExtArgs extends r
 export interface JournalCommentFieldRefs {
   readonly id: Prisma.FieldRef<"JournalComment", 'String'>
   readonly journalId: Prisma.FieldRef<"JournalComment", 'String'>
-  readonly authorMembershipId: Prisma.FieldRef<"JournalComment", 'String'>
+  readonly authorUserId: Prisma.FieldRef<"JournalComment", 'String'>
   readonly content: Prisma.FieldRef<"JournalComment", 'String'>
   readonly createdAt: Prisma.FieldRef<"JournalComment", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"JournalComment", 'DateTime'>

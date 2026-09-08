@@ -449,6 +449,14 @@ export async function getRecentSessions(
      * 여기서 섞이면 공유 설정이 의미를 잃는다.
      */
     personalOnly?: boolean;
+
+    /**
+     * 이 시각 이후 기록만.
+     *
+     * 트레이너가 회원 기록을 볼 때 관계가 시작된 날을 넣는다. 회원이 그 전에
+     * 혼자 남긴 기록은 이 트레이너에게 보여줄 생각으로 쓴 것이 아니다.
+     */
+    since?: Date;
   },
 ) {
   const sessions = await prisma.workoutSession.findMany({
@@ -456,6 +464,7 @@ export async function getRecentSessions(
       userId,
       status: WorkoutSessionStatus.COMPLETED,
       ...(options?.personalOnly ? { ptSessionId: null } : {}),
+      ...(options?.since ? { startedAt: { gte: options.since } } : {}),
     },
     orderBy: { startedAt: "desc" },
     take: limit,

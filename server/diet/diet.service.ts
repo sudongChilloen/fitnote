@@ -255,7 +255,9 @@ async function loadDetail(
           id: true,
           content: true,
           createdAt: true,
-          trainerMembership: { select: { user: { select: { name: true } } } },
+          trainerProfile: {
+            select: { displayName: true, user: { select: { name: true } } },
+          },
         },
       },
     },
@@ -272,7 +274,9 @@ async function loadDetail(
     feedbacks: row.feedbacks.map((feedback) => ({
       id: feedback.id,
       content: feedback.content,
-      trainerName: feedback.trainerMembership.user.name,
+      trainerName:
+        feedback.trainerProfile.displayName ??
+        feedback.trainerProfile.user.name,
       createdAt: feedback.createdAt,
     })),
   };

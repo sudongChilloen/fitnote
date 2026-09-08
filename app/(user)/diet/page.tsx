@@ -1,6 +1,13 @@
 import Link from "next/link";
 
-import { CalendarDays, ChevronLeft, ChevronRight, MessageSquare, Plus, UtensilsCrossed } from "lucide-react";
+import {
+  CalendarDays,
+  ChevronLeft,
+  ChevronRight,
+  MessageSquare,
+  Plus,
+  UtensilsCrossed,
+} from "lucide-react";
 
 import { requireUser } from "@/app/lib/dal";
 import { formatKstDateLabel, toKstDateKey } from "@/lib/date";
