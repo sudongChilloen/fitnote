@@ -150,7 +150,6 @@ export interface JournalDraft {
   nextGoal: string | null;
   status: JournalStatus;
   ptSessionId: string | null;
-  readByMember: boolean;
   photos: { id: string; url: string | null }[];
   /** 연결할 수 있는 수업. 이미 다른 알림장이 붙은 수업은 빠진다. */
   sessionOptions: {
@@ -180,7 +179,6 @@ export async function getJournalDraft(
       nextGoal: true,
       status: true,
       ptSessionId: true,
-      memberReadAt: true,
       memberUserId: true,
       memberUser: { select: { name: true } },
       photos: {
@@ -231,7 +229,6 @@ export async function getJournalDraft(
     nextGoal: journal.nextGoal,
     status: journal.status,
     ptSessionId: journal.ptSessionId,
-    readByMember: journal.memberReadAt !== null,
     photos: journal.photos.map((photo) => ({
       id: photo.id,
       url: signed.get(photo.thumbnailPath ?? photo.storagePath) ?? null,

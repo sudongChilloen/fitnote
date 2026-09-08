@@ -104,13 +104,6 @@ export default async function TrainerJournalsPage() {
           </ul>
         </section>
       ) : null}
-
-      {todos.unreadByMemberCount > 0 ? (
-        <p className="mt-6 rounded-xl border border-border px-3.5 py-2.5 text-xs text-muted-foreground">
-          게시했지만 회원이 아직 안 읽은 알림장이 {todos.unreadByMemberCount}건
-          있어요.
-        </p>
-      ) : null}
     </main>
   );
 }

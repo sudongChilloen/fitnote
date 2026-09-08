@@ -242,8 +242,6 @@ export interface TrainerTodos {
   needJournal: TrainerSessionRow[];
   /** 마지막 댓글이 회원 것이라 답을 기다리는 알림장. */
   awaitingReply: TrainerReplyRow[];
-  /** 게시했지만 회원이 아직 안 읽은 알림장 수. */
-  unreadByMemberCount: number;
 }
 
 /** 두 달이 넘은 일은 이제 와서 하라고 띄우지 않는다. */
@@ -277,7 +275,6 @@ export async function getTrainerTodos(userId: string): Promise<TrainerTodos> {
       select: {
         id: true,
         date: true,
-        memberReadAt: true,
         memberUser: { select: { name: true } },
         comments: {
           orderBy: { createdAt: "desc" },
@@ -325,6 +322,5 @@ export async function getTrainerTodos(userId: string): Promise<TrainerTodos> {
   return {
     needJournal: sessions.map((session) => toRow(session, byUser)),
     awaitingReply,
-    unreadByMemberCount: journals.filter((j) => j.memberReadAt === null).length,
   };
 }

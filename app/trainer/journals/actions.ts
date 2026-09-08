@@ -11,12 +11,12 @@ import {
   JournalEditError,
   removePhoto,
   saveJournal,
-  startJournal,
   type UploadTicket,
 } from "@/server/journals/journal-editor.service";
 import {
   deleteJournalWorkout,
   openJournalWorkout,
+  startSessionRecord,
 } from "@/server/journals/journal-workout.service";
 import { TrainerError } from "@/server/trainers/trainer.service";
 
@@ -33,14 +33,14 @@ function messageOf(error: unknown) {
   return "저장하지 못했어요. 잠시 후 다시 시도해주세요.";
 }
 
-/** 회원 상세에서 "알림장 쓰기" 를 누르면 초안을 만들고 편집 화면으로 보낸다. */
+/** "수업 기록" 을 누르면 초안과 운동 기록을 함께 열고 편집 화면으로 보낸다. */
 export async function beginJournal(formData: FormData) {
   const user = await requireUser();
 
   const memberMembershipId = String(formData.get("memberMembershipId") ?? "");
   const rawSession = String(formData.get("ptSessionId") ?? "");
 
-  const journalId = await startJournal(
+  const journalId = await startSessionRecord(
     user.id,
     memberMembershipId,
     rawSession === "" ? undefined : rawSession,

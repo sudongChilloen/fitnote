@@ -120,8 +120,6 @@ export interface TrainerMemberRow {
   } | null;
   /** 마지막 댓글이 회원 것이라 답을 기다리는 알림장. */
   awaitingReply: { journalId: string; date: Date; count: number }[];
-  /** 게시했지만 회원이 아직 안 읽은 알림장 수. */
-  unreadByMember: number;
   lastJournalAt: Date | null;
 }
 
@@ -192,7 +190,6 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
         date: true,
         status: true,
         memberUserId: true,
-        memberReadAt: true,
         comments: {
           orderBy: { createdAt: "desc" },
           select: { id: true, createdAt: true, authorUserId: true },
@@ -241,7 +238,6 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
           }
         : null,
       awaitingReply,
-      unreadByMember: published.filter((j) => j.memberReadAt === null).length,
       lastJournalAt: published[0]?.date ?? null,
     };
   });
@@ -302,7 +298,6 @@ export interface TrainerMemberDetail {
     date: Date;
     title: string | null;
     status: JournalStatus;
-    readByMember: boolean;
     commentCount: number;
     awaitingReply: boolean;
   }[];
@@ -358,8 +353,7 @@ export async function getMemberDetail(
         date: true,
         title: true,
         status: true,
-        memberReadAt: true,
-        comments: {
+          comments: {
           orderBy: { createdAt: "desc" },
           select: { id: true, authorUserId: true },
         },
@@ -388,7 +382,6 @@ export async function getMemberDetail(
         date: journal.date,
         title: journal.title,
         status: journal.status,
-        readByMember: journal.memberReadAt !== null,
         commentCount: journal.comments.length,
         awaitingReply:
           latest !== undefined && latest.authorUserId !== trainer.userId,

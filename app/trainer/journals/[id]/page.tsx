@@ -27,7 +27,7 @@ import { JournalForm } from "./journal-form";
 import { PhotoUploader } from "./photo-uploader";
 import { WorkoutControls } from "./workout-controls";
 
-export const metadata = { title: "알림장 작성 | FitNote" };
+export const metadata = { title: "수업 기록 | FitNote" };
 
 function formatOption(date: Date) {
   return new Intl.DateTimeFormat("ko-KR", {
@@ -59,6 +59,17 @@ export default async function JournalEditorPage({
   }
 
   const published = draft.status === "PUBLISHED";
+
+  // 접어 둔 알림장에 이미 쓴 내용이 있는지. 접혀 있으면 안이 안 보인다.
+  const hasJournalText = Boolean(
+    draft.content.trim() ||
+      draft.title?.trim() ||
+      draft.workoutSummary?.trim() ||
+      draft.dietGuidance?.trim() ||
+      draft.caution?.trim() ||
+      draft.nextGoal?.trim() ||
+      draft.photos.length > 0,
+  );
 
   /*
     PT 수업 운동 기록.
@@ -97,7 +108,7 @@ export default async function JournalEditorPage({
 
       <div className="mt-3 flex items-baseline justify-between gap-2">
         <h1 className="text-xl font-bold">
-          {published ? "알림장 수정" : "알림장 작성"}
+          {published ? "알림장 수정" : "수업 기록"}
         </h1>
         <span className="shrink-0 text-sm text-muted-foreground">
           {formatKstDateLabel(draft.date)}
@@ -113,32 +124,16 @@ export default async function JournalEditorPage({
 
       {published ? (
         <p className="mt-3 rounded-xl border border-border px-3.5 py-2.5 text-xs text-muted-foreground">
-          이미 게시한 알림장이에요.{" "}
-          {draft.readByMember ? "회원이 읽었어요." : "회원이 아직 안 읽었어요."}{" "}
-          고치면 바로 반영돼요.
+          이미 게시한 알림장이에요. 고치면 바로 반영돼요.
         </p>
       ) : null}
 
       <section className="mt-5">
-        {isStorageConfigured() ? (
-          <PhotoUploader
-            journalId={draft.id}
-            photos={draft.photos}
-            maxPhotos={MAX_PHOTOS}
-          />
-        ) : (
-          <p className="rounded-xl border border-dashed border-border px-3.5 py-2.5 text-xs text-muted-foreground">
-            사진 저장소가 아직 설정되지 않아 사진은 올릴 수 없어요.
-          </p>
-        )}
-      </section>
-
-      <section className="mt-6">
         <div className="flex items-center justify-between gap-2">
           <div>
-            <h2 className="text-base font-bold">수업에서 한 운동</h2>
+            <h2 className="text-base font-bold">오늘 한 운동</h2>
             <p className="mt-0.5 text-xs text-muted-foreground">
-              여기 적으면 회원의 운동 기록에 PT 로 함께 남아요.
+              적는 대로 회원의 운동 기록에 PT 로 남아요.
             </p>
           </div>
           <WorkoutControls
@@ -150,8 +145,8 @@ export default async function JournalEditorPage({
 
         {draft.ptSessionId === null ? (
           <p className="mt-3 rounded-xl border border-dashed border-border px-3.5 py-2.5 text-xs text-muted-foreground">
-            아래에서 어떤 수업인지 먼저 골라 주세요. 수업에 붙어야 회원 기록으로
-            들어가요.
+            아래 알림장에서 어떤 수업인지 먼저 골라 주세요. 수업에 붙어야 회원
+            기록으로 들어가요.
           </p>
         ) : null}
 
@@ -159,7 +154,7 @@ export default async function JournalEditorPage({
           <div className="mt-3 flex flex-col gap-3">
             {workout.records.length === 0 ? (
               <p className="rounded-xl border border-dashed border-border px-3.5 py-2.5 text-xs text-muted-foreground">
-                아직 담은 운동이 없어요.
+                아래에서 운동을 골라 무게와 횟수를 적어 주세요.
               </p>
             ) : (
               <RecordList
@@ -190,7 +185,43 @@ export default async function JournalEditorPage({
         ) : null}
       </section>
 
-      <div className="mt-6">
+      {/*
+        알림장은 접어 둔다.
+
+        수업 중에 이 화면을 여는 이유는 방금 든 무게를 적기 위해서다. 글을 쓰는
+        건 대개 수업이 끝나고 나서다. 둘을 나란히 펼쳐 두면 수업 중에 스크롤이
+        길어지고, 안 쓴 칸이 여섯 개 보이면 "지금 다 써야 하나" 싶어진다.
+
+        기본으로 펼치는 경우가 둘 있다. 이미 게시한 알림장은 고치러 들어온
+        것이고, 수업이 안 붙은 알림장은 여기서 수업을 골라야 운동을 적을 수 있다.
+      */}
+      <details
+        className="mt-7 rounded-2xl border border-border"
+        open={published || draft.ptSessionId === null}
+      >
+        <summary className="flex cursor-pointer items-center justify-between gap-2 px-4 py-3.5">
+          <span className="text-base font-bold">알림장</span>
+          <span className="text-xs text-muted-foreground">
+            {hasJournalText ? "쓰는 중" : "수업 끝나고 적어도 돼요"}
+          </span>
+        </summary>
+
+        <div className="border-t border-border px-4 pt-4 pb-4">
+          <section>
+            {isStorageConfigured() ? (
+              <PhotoUploader
+                journalId={draft.id}
+                photos={draft.photos}
+                maxPhotos={MAX_PHOTOS}
+              />
+            ) : (
+              <p className="rounded-xl border border-dashed border-border px-3.5 py-2.5 text-xs text-muted-foreground">
+                사진 저장소가 아직 설정되지 않아 사진은 올릴 수 없어요.
+              </p>
+            )}
+          </section>
+
+          <div className="mt-5">
         <JournalForm
           journalId={draft.id}
           status={draft.status}
@@ -208,7 +239,11 @@ export default async function JournalEditorPage({
             hasWorkout: session.hasWorkout,
           }))}
         />
-      </div>
+          </div>
+
+
+        </div>
+      </details>
 
       {published ? (
         <Link

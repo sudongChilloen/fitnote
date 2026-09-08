@@ -12,7 +12,7 @@ import {
 } from "@/server/trainers/trainer.service";
 import { getSessionById } from "@/server/workouts/workout.service";
 
-import { JournalEditError } from "./journal-editor.service";
+import { JournalEditError, startJournal } from "./journal-editor.service";
 
 /**
  * 트레이너가 PT 수업에서 한 운동을 회원 대신 적는다.
@@ -154,4 +154,30 @@ export async function deleteJournalWorkout(userId: string, journalId: string) {
   });
 
   return true;
+}
+
+/**
+ * "수업 기록" 한 번으로 초안과 운동 기록을 함께 연다.
+ *
+ * 트레이너가 이 버튼을 누르는 순간은 대개 수업 중이거나 막 끝난 직후이고,
+ * 그때 하려는 일은 방금 든 무게를 적는 것이다. 들어가서 "운동 기록 적기" 를
+ * 한 번 더 눌러야 하면 그 한 번이 수업 중에는 크다.
+ *
+ * 빈 운동 기록이 생기는 게 아깝지 않은 이유는, 세트가 하나도 없으면 회원
+ * 화면에 운동 없는 PT 한 줄로만 보이고 초안을 지우면 함께 사라지기 때문이다.
+ *
+ * 수업이 안 붙은 알림장이면 초안만 만든다. 어느 수업에 매달지 알 수 없다.
+ */
+export async function startSessionRecord(
+  userId: string,
+  connectionId: string,
+  ptSessionId?: string,
+) {
+  const journalId = await startJournal(userId, connectionId, ptSessionId);
+
+  if (ptSessionId) {
+    await openJournalWorkout(userId, journalId);
+  }
+
+  return journalId;
 }

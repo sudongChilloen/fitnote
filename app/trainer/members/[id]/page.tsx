@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 
 import {
   CalendarClock,
-  Check,
   ChevronRight,
   Lock,
   MessageSquare,
@@ -292,13 +291,6 @@ export default async function TrainerMemberPage({
                           <span className="tabular-nums">
                             {journal.commentCount}
                           </span>
-                        </span>
-                      ) : null}
-                      {journal.status === "PUBLISHED" &&
-                      journal.readByMember ? (
-                        <span className="flex items-center gap-0.5">
-                          <Check className="size-3" aria-hidden />
-                          읽음
                         </span>
                       ) : null}
                     </span>
