@@ -990,6 +990,79 @@ export async function addSet(
   });
 }
 
+/**
+ * 지난번에 한 세트를 그대로 담는다.
+ *
+ * 수업 중에 가장 많이 하는 일이 이것이다. 지난주에 스쿼트를 60kg 8회씩 3세트
+ * 했으면 이번 주도 대개 그 근처에서 시작한다. 그런데 지금은 "세트 추가" 를
+ * 세 번 누르고 숫자 여섯 칸을 채워야 한다 — 운동 하나에 탭 열 번이 넘는다.
+ * 수업하면서 그걸 하느니 안 적고 만다.
+ *
+ * 그래서 지난 기록을 통째로 넣어 주고 달라진 것만 고치게 한다. 4세트째만
+ * 65kg 으로 올렸으면 그 칸 하나만 고치면 된다.
+ *
+ * 이미 적은 세트가 있으면 아무것도 하지 않는다. 눌러서 세트가 두 배가 되면
+ * 지우는 데 더 오래 걸리고, 무엇보다 회원 기록에 안 한 운동이 남는다.
+ *
+ * `completed` 는 지난 기록을 따라가지 않고 항상 true 다. 지난번에 실패해서
+ * 체크를 안 한 세트였더라도, 지금 담는 건 "이번에 이만큼 했다" 는 뜻이다.
+ */
+export async function copyPreviousSets(
+  userId: string,
+  recordId: string,
+  options: { ptOnly?: boolean } = {},
+) {
+  const owner = await resolveOwnerByRecord(userId, recordId);
+
+  if (!owner) return null;
+
+  assertWritable(owner);
+  assertEditable(owner.status);
+
+  const record = await prisma.workoutRecord.findUnique({
+    where: { id: recordId },
+    select: {
+      exerciseId: true,
+      sessionId: true,
+      _count: { select: { sets: true } },
+    },
+  });
+
+  if (!record) return null;
+
+  if (record._count.sets > 0) {
+    throw new WorkoutError(
+      "SET_EXISTS",
+      "이미 적은 세트가 있어요. 지난 기록은 비어 있을 때만 담을 수 있어요.",
+    );
+  }
+
+  const previous = await getLastRecord(
+    owner.ownerUserId,
+    record.exerciseId,
+    record.sessionId,
+    options,
+  );
+
+  if (!previous || previous.sets.length === 0) return null;
+
+  return prisma.$transaction(async (tx) => {
+    await tx.workoutSet.createMany({
+      data: previous.sets.map((set, index) => ({
+        recordId,
+        setNumber: index + 1,
+        weight: set.weight == null ? null : new Prisma.Decimal(set.weight),
+        reps: set.reps ?? null,
+        completed: true,
+      })),
+    });
+
+    await recalculateVolume(tx, recordId);
+
+    return loadRecord(tx, recordId);
+  });
+}
+
 export async function updateSet(
   userId: string,
   setId: string,

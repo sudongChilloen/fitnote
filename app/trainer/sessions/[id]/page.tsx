@@ -85,6 +85,9 @@ export default async function SessionRecordPage({
   ]);
 
   const remaining = Math.max(session.totalSessions - session.usedSessions, 0);
+  const recordCount = workout?.records.length ?? 0;
+  const setCount =
+    workout?.records.reduce((sum, record) => sum + record.sets.length, 0) ?? 0;
 
   return (
     <main className="px-5 pt-4 pb-16">
@@ -177,6 +180,8 @@ export default async function SessionRecordPage({
                       : null;
                   })}
                   alwaysEditable
+                  showCompleteToggle={false}
+                  ptOnly={!sharing.sharePersonalWorkout}
                 />
               )}
 
@@ -196,23 +201,6 @@ export default async function SessionRecordPage({
           )}
         </section>
       )}
-
-      {/*
-        수업 마무리는 저장이 아니다.
-
-        세트는 적는 즉시 저장되고 있다. 이 버튼이 하는 일은 "이 수업이 어떻게
-        끝났는가" 를 정하는 것뿐이라, 운동 기록 아래에 둔다. 안 눌러도 운동
-        기록은 남고, 대신 할 일에 "완료 안 한 수업" 으로 올라온다.
-      */}
-      {scheduled ? (
-        <div className="mt-7">
-          <FinishSessionDrawer
-            ptSessionId={session.id}
-            memberName={session.memberName}
-            remaining={remaining}
-          />
-        </div>
-      ) : null}
 
       {/*
         되돌리는 길을 옆에 둔다.
@@ -284,6 +272,38 @@ export default async function SessionRecordPage({
           <Dumbbell className="size-4" aria-hidden />
           {session.memberName} 회원 보기
         </Link>
+      ) : null}
+
+      {/*
+        수업 마무리는 화면 아래에 고정한다.
+
+        운동을 다섯 개 적으면 화면이 세 번 넘게 스크롤된다. 마무리 버튼이
+        그 끝에 있으면 수업이 끝나고 다음 회원이 들어오는 2분 사이에 거기까지
+        내려갈 일이 없다. 그래서 안 누르고, 차감이 밀리고, 나중에 몇 회 남았는지
+        아무도 확신하지 못하게 된다.
+
+        차감 시점이 애매한 게 아니라 화면이 "이제 끝났다" 를 안 물어본 것이다.
+        늘 보이는 자리에 두면 그 질문이 매번 눈에 들어온다.
+
+        저장이 아니라는 점은 그대로다. 세트는 적는 즉시 저장되고, 이 버튼은
+        "이 수업이 어떻게 끝났는가" 만 정한다.
+      */}
+      {scheduled ? (
+        <div
+          className="sticky z-30 -mx-5 mt-8 border-t border-border bg-card/95 px-5 pt-3 pb-3 backdrop-blur"
+          style={{ bottom: "calc(4.25rem + env(safe-area-inset-bottom))" }}
+        >
+          <FinishSessionDrawer
+            ptSessionId={session.id}
+            memberName={session.memberName}
+            remaining={remaining}
+          />
+          <p className="mt-2 text-center text-xs text-muted-foreground">
+            {setCount > 0
+              ? `${recordCount}개 운동 · ${setCount}세트 저장됨`
+              : "적은 세트는 바로 저장돼요"}
+          </p>
+        </div>
       ) : null}
     </main>
   );

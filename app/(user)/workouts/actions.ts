@@ -10,6 +10,7 @@ import {
   addRecord,
   addRecords,
   addSet,
+  copyPreviousSets,
   deleteRecord,
   deleteSet,
   finishSession,
@@ -201,6 +202,22 @@ export async function addSetToRecord(
   if (!data) return { error };
 
   return run(sessionId, (userId) => addSet(userId, recordId, data));
+}
+
+/**
+ * 지난 기록을 그대로 담는다.
+ *
+ * `ptOnly` 는 트레이너가 부를 때 켠다. 개인 운동을 공유하지 않는 회원의
+ * 기록이 힌트를 통해 새면 안 되는 것과 같은 이유로, 담기는 값도 새면 안 된다.
+ */
+export async function copyPreviousSetsAction(
+  sessionId: string,
+  recordId: string,
+  ptOnly = false,
+): Promise<ActionResult> {
+  return run(sessionId, (userId) =>
+    copyPreviousSets(userId, recordId, { ptOnly }),
+  );
 }
 
 export async function updateSetValues(

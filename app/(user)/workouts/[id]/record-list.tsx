@@ -29,12 +29,18 @@ export function RecordList({
   previousRecords,
   alwaysEditable,
   readOnly = false,
+  showCompleteToggle = true,
+  ptOnly = false,
   addSlot,
 }: {
   sessionId: string;
   records: RecordDto[];
   previousRecords: (PreviousRecord | null)[];
   alwaysEditable: boolean;
+  /** 세트별 완료 체크. 트레이너가 옮겨 적을 때는 끈다. */
+  showCompleteToggle?: boolean;
+  /** 지난 기록을 담을 때 PT 수업 것만 볼지. */
+  ptOnly?: boolean;
   /** 남이 적어 준 기록. 볼 수만 있다. */
   readOnly?: boolean;
   /**
@@ -88,6 +94,8 @@ export function RecordList({
             editable={editable}
             record={record}
             previousRecord={previousRecords[index]}
+            showCompleteToggle={showCompleteToggle}
+            ptOnly={ptOnly}
           />
         ))}
       </ul>
