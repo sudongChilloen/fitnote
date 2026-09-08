@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import {
   CalendarClock,
   Check,
+  ChevronRight,
   Lock,
   MessageSquare,
   PenLine,
@@ -90,6 +91,17 @@ export default async function TrainerMemberPage({
       <p className="mt-1 text-sm text-muted-foreground">
         {formatKstDateLabel(member.startedAt)} 담당 시작
       </p>
+
+      <Link
+        href={`/trainer/members/${id}/journey`}
+        className="mt-4 flex items-center justify-between gap-2 rounded-2xl border border-border bg-card px-4 py-3"
+      >
+        <span className="text-sm font-bold">여정</span>
+        <span className="flex items-center gap-1 text-xs text-muted-foreground">
+          함께 온 길 돌아보기
+          <ChevronRight className="size-4" aria-hidden />
+        </span>
+      </Link>
 
       <section className="mt-6">
         <div className="flex items-center justify-between gap-2">
