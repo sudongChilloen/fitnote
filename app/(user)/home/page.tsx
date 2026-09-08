@@ -1,5 +1,6 @@
 import {
   Bell,
+  CalendarClock,
   ChevronRight,
   Dumbbell,
   Flame,
@@ -16,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import {
   formatDuration,
   formatKstDateLabel,
+  formatKstTimeLabel,
   kstDaysAgo,
   kstWeekdayLabel,
   toKstDateKey,
@@ -29,6 +31,7 @@ import {
 } from "@/server/workouts/workout.service";
 import { countDietOnDate } from "@/server/diet/diet.service";
 import { getUnreadCounts } from "@/server/journals/journal.service";
+import { getMyUpcomingSessions } from "@/server/pt/pt.service";
 
 import { LogPastWorkoutButton } from "../workouts/log-past-button";
 import { StartWorkoutButton } from "../workouts/start-workout-button";
@@ -87,6 +90,7 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
     unread,
     recentSessions,
     todayDiet,
+    upcomingSessions,
   ] = await Promise.all([
     getActiveSession(user.id),
     getRecentWorkoutDays(user.id),
@@ -94,6 +98,7 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
     getUnreadCounts(user.id),
     getRecentSessions(user.id, 3),
     countDietOnDate(user.id, todayKey),
+    getMyUpcomingSessions(user.id, 3),
   ]);
 
   return (
@@ -155,6 +160,37 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
       )}
 
       <LogPastWorkoutButton />
+
+      {/*
+        다음 PT.
+        트레이너만 일정을 아는 상태가 제일 이상하다. 회원은 자기가 언제
+        가는지 카톡을 뒤져서 확인하고 있었다.
+      */}
+      {upcomingSessions.length > 0 ? (
+        <section className="rounded-2xl border border-border bg-card p-5">
+          <div className="mb-3 flex items-center gap-2">
+            <CalendarClock className="size-4 text-brand-strong" />
+            <h2 className="text-sm font-bold">다음 PT</h2>
+          </div>
+
+          <ul className="flex flex-col gap-3">
+            {upcomingSessions.map((session) => (
+              <li key={session.id} className="flex items-center gap-3">
+                <span className="min-w-0 flex-1">
+                  <span className="block text-sm font-bold">
+                    {formatKstDateLabel(session.scheduledAt)}{" "}
+                    {formatKstTimeLabel(session.scheduledAt)}
+                  </span>
+                  <span className="mt-0.5 block text-xs text-muted-foreground tabular-nums">
+                    {session.trainerName} 트레이너 · {session.sessionNumber}/
+                    {session.totalSessions}회차 · {session.durationMinutes}분
+                  </span>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       {/*
         새로운 소식.

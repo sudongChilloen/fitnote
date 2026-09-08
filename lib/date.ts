@@ -102,3 +102,45 @@ export function formatDuration(seconds: number) {
   }
   return `${minutes}분`;
 }
+
+const DATE_KEY = /^\d{4}-\d{2}-\d{2}$/;
+const TIME_VALUE = /^\d{2}:\d{2}$/;
+
+/**
+ * 폼에서 온 "2026-09-08" 을 KST 그 날 0시로 읽는다.
+ *
+ * `new Date("2026-09-08")` 은 UTC 0시로 읽혀 KST 로는 전날 오전 9시가 된다.
+ * 형식이 어긋나면 null 을 돌려 부르는 쪽이 입력 오류로 다루게 한다.
+ */
+export function kstDateToUtc(dateKey: string) {
+  if (!DATE_KEY.test(dateKey)) return null;
+
+  const date = new Date(`${dateKey}T00:00:00+09:00`);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+/** 폼에서 온 "2026-09-08" + "19:00" 을 KST 시각으로 읽는다. */
+export function kstDateTimeToUtc(dateKey: string, time: string) {
+  if (!DATE_KEY.test(dateKey) || !TIME_VALUE.test(time)) return null;
+
+  const date = new Date(`${dateKey}T${time}:00+09:00`);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+/** KST 기준 "19:00" (input[type=time] 값) */
+export function toKstTimeValue(date: Date) {
+  return new Date(date.getTime() + KST_OFFSET_MS).toISOString().slice(11, 16);
+}
+
+/**
+ * KST 기준 "오후 7:00"
+ *
+ * Intl 에 맡기지 않는다. ko-KR 로 넘겨도 ICU 판에 따라 "오후" 대신 "PM" 이
+ * 나온다. 로컬과 배포판의 ICU 가 달라서 여기서만 영어로 뜨는 일이 생긴다.
+ */
+export function formatKstTimeLabel(date: Date) {
+  const [hour, minute] = toKstTimeValue(date).split(":").map(Number);
+  const meridiem = hour < 12 ? "오전" : "오후";
+  const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+  return `${meridiem} ${hour12}:${String(minute).padStart(2, "0")}`;
+}

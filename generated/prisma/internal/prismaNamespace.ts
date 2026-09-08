@@ -421,6 +421,7 @@ export const ModelName = {
   WorkoutSet: 'WorkoutSet',
   WorkoutFavorite: 'WorkoutFavorite',
   PTProduct: 'PTProduct',
+  PTSessionReschedule: 'PTSessionReschedule',
   TrainerPTPrice: 'TrainerPTPrice',
   PTContract: 'PTContract',
   PTSession: 'PTSession',
@@ -451,7 +452,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "authSession" | "deviceToken" | "center" | "centerMembership" | "centerInvitation" | "memberProfile" | "trainerProfile" | "trainerMemberConnection" | "trainerInvitation" | "equipment" | "memberEquipment" | "gym" | "gymEquipment" | "exercise" | "exerciseEquipment" | "workoutAlternative" | "routine" | "routineExercise" | "workoutSession" | "workoutRecord" | "workoutSet" | "workoutFavorite" | "pTProduct" | "trainerPTPrice" | "pTContract" | "pTSession" | "dietRecord" | "dietFeedback" | "bodyRecord" | "goal" | "journal" | "journalPhoto" | "journalComment" | "notice" | "noticeRead" | "notification" | "aiAnalysis" | "trainerSharingSetting"
+    modelProps: "user" | "authSession" | "deviceToken" | "center" | "centerMembership" | "centerInvitation" | "memberProfile" | "trainerProfile" | "trainerMemberConnection" | "trainerInvitation" | "equipment" | "memberEquipment" | "gym" | "gymEquipment" | "exercise" | "exerciseEquipment" | "workoutAlternative" | "routine" | "routineExercise" | "workoutSession" | "workoutRecord" | "workoutSet" | "workoutFavorite" | "pTProduct" | "pTSessionReschedule" | "trainerPTPrice" | "pTContract" | "pTSession" | "dietRecord" | "dietFeedback" | "bodyRecord" | "goal" | "journal" | "journalPhoto" | "journalComment" | "notice" | "noticeRead" | "notification" | "aiAnalysis" | "trainerSharingSetting"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2231,6 +2232,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PTSessionReschedule: {
+      payload: Prisma.$PTSessionReschedulePayload<ExtArgs>
+      fields: Prisma.PTSessionRescheduleFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PTSessionRescheduleFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PTSessionReschedulePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PTSessionRescheduleFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PTSessionReschedulePayload>
+        }
+        findFirst: {
+          args: Prisma.PTSessionRescheduleFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PTSessionReschedulePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PTSessionRescheduleFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PTSessionReschedulePayload>
+        }
+        findMany: {
+          args: Prisma.PTSessionRescheduleFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PTSessionReschedulePayload>[]
+        }
+        create: {
+          args: Prisma.PTSessionRescheduleCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PTSessionReschedulePayload>
+        }
+        createMany: {
+          args: Prisma.PTSessionRescheduleCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PTSessionRescheduleCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PTSessionReschedulePayload>[]
+        }
+        delete: {
+          args: Prisma.PTSessionRescheduleDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PTSessionReschedulePayload>
+        }
+        update: {
+          args: Prisma.PTSessionRescheduleUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PTSessionReschedulePayload>
+        }
+        deleteMany: {
+          args: Prisma.PTSessionRescheduleDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PTSessionRescheduleUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PTSessionRescheduleUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PTSessionReschedulePayload>[]
+        }
+        upsert: {
+          args: Prisma.PTSessionRescheduleUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PTSessionReschedulePayload>
+        }
+        aggregate: {
+          args: Prisma.PTSessionRescheduleAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePTSessionReschedule>
+        }
+        groupBy: {
+          args: Prisma.PTSessionRescheduleGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PTSessionRescheduleGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PTSessionRescheduleCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PTSessionRescheduleCountAggregateOutputType> | number
+        }
+      }
+    }
     TrainerPTPrice: {
       payload: Prisma.$TrainerPTPricePayload<ExtArgs>
       fields: Prisma.TrainerPTPriceFieldRefs
@@ -3735,6 +3810,19 @@ export const PTProductScalarFieldEnum = {
 export type PTProductScalarFieldEnum = (typeof PTProductScalarFieldEnum)[keyof typeof PTProductScalarFieldEnum]
 
 
+export const PTSessionRescheduleScalarFieldEnum = {
+  id: 'id',
+  sessionId: 'sessionId',
+  fromScheduledAt: 'fromScheduledAt',
+  toScheduledAt: 'toScheduledAt',
+  movedBy: 'movedBy',
+  reason: 'reason',
+  createdAt: 'createdAt'
+} as const
+
+export type PTSessionRescheduleScalarFieldEnum = (typeof PTSessionRescheduleScalarFieldEnum)[keyof typeof PTSessionRescheduleScalarFieldEnum]
+
+
 export const TrainerPTPriceScalarFieldEnum = {
   id: 'id',
   trainerProfileId: 'trainerProfileId',
@@ -3753,8 +3841,7 @@ export const PTContractScalarFieldEnum = {
   trainerProfileId: 'trainerProfileId',
   productId: 'productId',
   centerId: 'centerId',
-  productNameSnapshot: 'productNameSnapshot',
-  priceSnapshot: 'priceSnapshot',
+  title: 'title',
   totalSessions: 'totalSessions',
   usedSessions: 'usedSessions',
   startedAt: 'startedAt',
@@ -3776,9 +3863,11 @@ export const PTSessionScalarFieldEnum = {
   scheduledAt: 'scheduledAt',
   durationMinutes: 'durationMinutes',
   status: 'status',
+  deducted: 'deducted',
   memo: 'memo',
   completedAt: 'completedAt',
   cancelledAt: 'cancelledAt',
+  cancelledBy: 'cancelledBy',
   cancelReason: 'cancelReason',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -4297,6 +4386,20 @@ export type ListEnumPTProductStatusFieldRefInput<$PrismaModel> = FieldRefInputTy
 
 
 /**
+ * Reference to a field of type 'PTSessionActor'
+ */
+export type EnumPTSessionActorFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PTSessionActor'>
+    
+
+
+/**
+ * Reference to a field of type 'PTSessionActor[]'
+ */
+export type ListEnumPTSessionActorFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PTSessionActor[]'>
+    
+
+
+/**
  * Reference to a field of type 'PTContractStatus'
  */
 export type EnumPTContractStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PTContractStatus'>
@@ -4624,6 +4727,7 @@ export type GlobalOmitConfig = {
   workoutSet?: Prisma.WorkoutSetOmit
   workoutFavorite?: Prisma.WorkoutFavoriteOmit
   pTProduct?: Prisma.PTProductOmit
+  pTSessionReschedule?: Prisma.PTSessionRescheduleOmit
   trainerPTPrice?: Prisma.TrainerPTPriceOmit
   pTContract?: Prisma.PTContractOmit
   pTSession?: Prisma.PTSessionOmit

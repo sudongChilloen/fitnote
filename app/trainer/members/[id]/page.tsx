@@ -7,6 +7,7 @@ import {
   Lock,
   MessageSquare,
   PenLine,
+  Plus,
   UtensilsCrossed,
 } from "lucide-react";
 
@@ -18,6 +19,7 @@ import {
   getMemberPersonalWorkouts,
   getSharingForTrainer,
 } from "@/server/sharing/sharing.service";
+import { CONTRACT_STATUS_LABEL, listContracts } from "@/server/pt/pt.service";
 import {
   getMemberDetail,
   TrainerError,
@@ -68,7 +70,8 @@ export default async function TrainerMemberPage({
   // 않으므로 "안 보여주는데 읽기는 했다" 는 상황이 생기지 않는다.
   const sharing = await getSharingForTrainer(user.id, id);
 
-  const [personalWorkouts, recentDiet] = await Promise.all([
+  const [contracts, personalWorkouts, recentDiet] = await Promise.all([
+    listContracts(user.id, id),
     sharing.sharePersonalWorkout
       ? getMemberPersonalWorkouts(user.id, id, 5)
       : [],
@@ -87,46 +90,69 @@ export default async function TrainerMemberPage({
       </p>
 
       <section className="mt-6">
-        <h2 className="text-base font-bold">PT 계약</h2>
+        <div className="flex items-center justify-between gap-2">
+          <h2 className="text-base font-bold">PT 계약</h2>
+          <Link
+            href={`/trainer/members/${id}/contracts/new`}
+            className="inline-flex h-8 items-center gap-1 rounded-full border border-border px-3 text-xs font-bold"
+          >
+            <Plus className="size-3.5" aria-hidden />
+            등록
+          </Link>
+        </div>
 
-        {member.contracts.length === 0 ? (
+        {contracts.length === 0 ? (
           <p className="mt-2 rounded-2xl border border-border bg-card p-4 text-xs text-muted-foreground">
-            진행 중인 PT 계약이 없어요.
+            아직 등록한 PT 계약이 없어요. 횟수와 기간만 넣으면 돼요.
           </p>
         ) : (
           <ul className="mt-2 flex flex-col gap-2.5">
-            {member.contracts.map((contract) => {
-              const left = contract.totalSessions - contract.usedSessions;
+            {contracts.map((contract) => {
               const ratio =
                 contract.totalSessions === 0
                   ? 0
                   : (contract.usedSessions / contract.totalSessions) * 100;
 
               return (
-                <li
-                  key={contract.id}
-                  className="rounded-2xl border border-border bg-card p-4"
-                >
-                  <div className="flex items-baseline justify-between gap-2">
-                    <p className="truncate font-bold">{contract.productName}</p>
-                    <p className="shrink-0 text-sm font-bold text-brand-strong tabular-nums">
-                      {left}회 남음
+                <li key={contract.id}>
+                  <Link
+                    href={`/trainer/members/${id}/contracts/${contract.id}`}
+                    className="block rounded-2xl border border-border bg-card p-4"
+                  >
+                    <div className="flex items-baseline justify-between gap-2">
+                      <p className="truncate font-bold">{contract.title}</p>
+                      <p className="shrink-0 text-sm font-bold text-brand-strong tabular-nums">
+                        {contract.remaining}회 남음
+                      </p>
+                    </div>
+
+                    <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-secondary">
+                      <div
+                        className="h-full rounded-full bg-brand"
+                        style={{ width: `${ratio}%` }}
+                      />
+                    </div>
+
+                    <p className="mt-2 text-xs text-muted-foreground tabular-nums">
+                      {contract.usedSessions} / {contract.totalSessions}회
+                      {contract.scheduledCount > 0
+                        ? ` · 예정 ${contract.scheduledCount}건`
+                        : ""}
+                      {contract.expiresAt
+                        ? ` · ${formatKstDateLabel(contract.expiresAt)}까지`
+                        : ""}
                     </p>
-                  </div>
 
-                  <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-secondary">
-                    <div
-                      className="h-full rounded-full bg-brand"
-                      style={{ width: `${ratio}%` }}
-                    />
-                  </div>
-
-                  <p className="mt-2 text-xs text-muted-foreground tabular-nums">
-                    {contract.usedSessions} / {contract.totalSessions}회
-                    {contract.expiresAt
-                      ? ` · ${formatKstDateLabel(contract.expiresAt)} 만료`
-                      : ""}
-                  </p>
+                    {contract.expired ? (
+                      <p className="mt-1.5 text-xs font-bold text-destructive">
+                        기간이 지났어요. 연장하거나 마무리해주세요.
+                      </p>
+                    ) : contract.status !== "ACTIVE" ? (
+                      <p className="mt-1.5 text-xs font-medium text-muted-foreground">
+                        {CONTRACT_STATUS_LABEL[contract.status]}
+                      </p>
+                    ) : null}
+                  </Link>
                 </li>
               );
             })}

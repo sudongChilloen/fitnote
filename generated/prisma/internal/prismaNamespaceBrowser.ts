@@ -75,6 +75,7 @@ export const ModelName = {
   WorkoutSet: 'WorkoutSet',
   WorkoutFavorite: 'WorkoutFavorite',
   PTProduct: 'PTProduct',
+  PTSessionReschedule: 'PTSessionReschedule',
   TrainerPTPrice: 'TrainerPTPrice',
   PTContract: 'PTContract',
   PTSession: 'PTSession',
@@ -463,6 +464,19 @@ export const PTProductScalarFieldEnum = {
 export type PTProductScalarFieldEnum = (typeof PTProductScalarFieldEnum)[keyof typeof PTProductScalarFieldEnum]
 
 
+export const PTSessionRescheduleScalarFieldEnum = {
+  id: 'id',
+  sessionId: 'sessionId',
+  fromScheduledAt: 'fromScheduledAt',
+  toScheduledAt: 'toScheduledAt',
+  movedBy: 'movedBy',
+  reason: 'reason',
+  createdAt: 'createdAt'
+} as const
+
+export type PTSessionRescheduleScalarFieldEnum = (typeof PTSessionRescheduleScalarFieldEnum)[keyof typeof PTSessionRescheduleScalarFieldEnum]
+
+
 export const TrainerPTPriceScalarFieldEnum = {
   id: 'id',
   trainerProfileId: 'trainerProfileId',
@@ -481,8 +495,7 @@ export const PTContractScalarFieldEnum = {
   trainerProfileId: 'trainerProfileId',
   productId: 'productId',
   centerId: 'centerId',
-  productNameSnapshot: 'productNameSnapshot',
-  priceSnapshot: 'priceSnapshot',
+  title: 'title',
   totalSessions: 'totalSessions',
   usedSessions: 'usedSessions',
   startedAt: 'startedAt',
@@ -504,9 +517,11 @@ export const PTSessionScalarFieldEnum = {
   scheduledAt: 'scheduledAt',
   durationMinutes: 'durationMinutes',
   status: 'status',
+  deducted: 'deducted',
   memo: 'memo',
   completedAt: 'completedAt',
   cancelledAt: 'cancelledAt',
+  cancelledBy: 'cancelledBy',
   cancelReason: 'cancelReason',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

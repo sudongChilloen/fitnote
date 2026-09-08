@@ -524,6 +524,11 @@ export type PTProductScalarRelationFilter = {
   isNot?: Prisma.PTProductWhereInput
 }
 
+export type PTProductNullableScalarRelationFilter = {
+  is?: Prisma.PTProductWhereInput | null
+  isNot?: Prisma.PTProductWhereInput | null
+}
+
 export type PTProductCreateNestedManyWithoutCenterInput = {
   create?: Prisma.XOR<Prisma.PTProductCreateWithoutCenterInput, Prisma.PTProductUncheckedCreateWithoutCenterInput> | Prisma.PTProductCreateWithoutCenterInput[] | Prisma.PTProductUncheckedCreateWithoutCenterInput[]
   connectOrCreate?: Prisma.PTProductCreateOrConnectWithoutCenterInput | Prisma.PTProductCreateOrConnectWithoutCenterInput[]
@@ -598,10 +603,12 @@ export type PTProductCreateNestedOneWithoutContractsInput = {
   connect?: Prisma.PTProductWhereUniqueInput
 }
 
-export type PTProductUpdateOneRequiredWithoutContractsNestedInput = {
+export type PTProductUpdateOneWithoutContractsNestedInput = {
   create?: Prisma.XOR<Prisma.PTProductCreateWithoutContractsInput, Prisma.PTProductUncheckedCreateWithoutContractsInput>
   connectOrCreate?: Prisma.PTProductCreateOrConnectWithoutContractsInput
   upsert?: Prisma.PTProductUpsertWithoutContractsInput
+  disconnect?: Prisma.PTProductWhereInput | boolean
+  delete?: Prisma.PTProductWhereInput | boolean
   connect?: Prisma.PTProductWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.PTProductUpdateToOneWithWhereWithoutContractsInput, Prisma.PTProductUpdateWithoutContractsInput>, Prisma.PTProductUncheckedUpdateWithoutContractsInput>
 }

@@ -288,14 +288,6 @@ export interface TrainerMemberDetail {
   name: string;
   /** 이 트레이너가 이 회원을 봐 주기 시작한 날. */
   startedAt: Date;
-  /** 진행 중인 PT 계약. 여러 개일 수 있어 목록으로 둔다. */
-  contracts: {
-    id: string;
-    productName: string;
-    totalSessions: number;
-    usedSessions: number;
-    expiresAt: Date | null;
-  }[];
   /** 오늘 이후 잡힌 수업. */
   upcomingSessions: {
     id: string;
@@ -331,27 +323,12 @@ export async function getMemberDetail(
 
   const todayStart = kstStartOfDay();
 
-  const [contracts, upcoming, journals] = await Promise.all([
-    prisma.pTContract.findMany({
-      where: {
-        memberUserId: connection.memberUserId,
-        trainerProfileId: trainer.id,
-        status: "ACTIVE",
-      },
-      orderBy: { startedAt: "desc" },
-      select: {
-        id: true,
-        productNameSnapshot: true,
-        totalSessions: true,
-        usedSessions: true,
-        expiresAt: true,
-      },
-    }),
-
+  const [upcoming, journals] = await Promise.all([
     prisma.pTSession.findMany({
       where: {
         memberUserId: connection.memberUserId,
         trainerProfileId: trainer.id,
+        status: "SCHEDULED",
         scheduledAt: { gte: todayStart },
       },
       orderBy: { scheduledAt: "asc" },
@@ -396,13 +373,6 @@ export async function getMemberDetail(
     userId: connection.memberUser.id,
     name: connection.memberUser.name,
     startedAt: connection.startedAt,
-    contracts: contracts.map((contract) => ({
-      id: contract.id,
-      productName: contract.productNameSnapshot,
-      totalSessions: contract.totalSessions,
-      usedSessions: contract.usedSessions,
-      expiresAt: contract.expiresAt,
-    })),
     upcomingSessions: upcoming.map((session) => ({
       id: session.id,
       scheduledAt: session.scheduledAt,

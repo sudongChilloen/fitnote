@@ -68,6 +68,17 @@ enum PTSessionStatus {
 }
 
 /**
+ * 취소하거나 미룬 쪽.
+ * 누가 미뤘는지는 재등록 상담에서 실제로 묻는 값이다. "회원이 자주 미뤘다"
+ * 와 "트레이너 사정으로 밀렸다" 는 완전히 다른 이야기인데, 안 남기면 나중에
+ * 둘 다 그냥 "일정 변경 3회" 로만 보인다.
+ */
+enum PTSessionActor {
+  MEMBER
+  TRAINER
+}
+
+/**
  * 기록을 남긴 방식.
  * LIVE   운동하면서 실시간으로 기록. 홈의 "진행중" 배너와 타이머가 붙는다.
  * MANUAL 운동을 끝낸 뒤(또는 지난 날짜를) 몰아서 입력.
@@ -954,6 +965,29 @@ model PTProduct {
 // TRAINER PT PRICE
 // ============================================================
 
+/**
+ * 수업을 미룬 이력.
+ * 상태로 만들지 않았다. 미룬 수업은 여전히 "앞으로 할 수업" 이라 SCHEDULED 로
+ * 남아야 하고, POSTPONED 같은 상태를 두면 다음 수업 목록에서 조용히 빠진다.
+ * 화면의 "🔄 일정 변경" 줄은 상태가 아니라 여기 쌓인 이력이다.
+ */
+model PTSessionReschedule {
+  id        String @id @default(uuid())
+  sessionId String
+
+  fromScheduledAt DateTime
+  toScheduledAt   DateTime
+
+  movedBy PTSessionActor
+  reason  String?
+
+  createdAt DateTime @default(now())
+
+  session PTSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId])
+}
+
 model TrainerPTPrice {
   id String @id @default(uuid())
 
@@ -982,7 +1016,15 @@ model PTContract {
 
   memberUserId     String
   trainerProfileId String
-  productId        String
+
+  /**
+   * 센터가 파는 상품에서 나온 계약인지. 개인 트레이너면 null.
+   * 예전에는 이 값이 필수였다. 그런데 PTProduct 는 센터의 것이라, 상품을
+   * 반드시 거치게 하면 혼자 하는 트레이너는 센터를 먼저 만들지 않고서는
+   * "김수정 / 20회 / 9월~12월" 조차 등록할 수 없었다. 계약이 스스로 설 수
+   * 있어야 한다. 이름과 횟수를 계약이 직접 든 이유다.
+   */
+  productId String?
 
   /**
    * 이 계약이 어느 센터에서 맺어졌는지. 개인 트레이너면 null.
@@ -992,9 +1034,12 @@ model PTContract {
    */
   centerId String?
 
-  // 계약 당시 상품 정보 Snapshot
-  productNameSnapshot String
-  priceSnapshot       Decimal
+  /**
+   * 이 계약을 부르는 이름. "PT 20회", "재활 3개월" 처럼.
+   * 예전 이름은 productNameSnapshot 이었는데, 상품을 거치지 않게 된 지금은
+   * 거짓말이다. 비워 두면 횟수로 자동으로 채운다.
+   */
+  title String
 
   totalSessions Int
   usedSessions  Int @default(0)
@@ -1013,7 +1058,7 @@ model PTContract {
   // 센터가 문을 닫아도 계약 기록은 남는다. 회원의 운동 이력이기도 하다.
   center Center? @relation(fields: [centerId], references: [id], onDelete: SetNull)
 
-  product PTProduct @relation(fields: [productId], references: [id], onDelete: Restrict)
+  product PTProduct? @relation(fields: [productId], references: [id], onDelete: SetNull)
 
   sessions PTSession[]
 
@@ -1043,11 +1088,20 @@ model PTSession {
 
   status PTSessionStatus @default(SCHEDULED)
 
+  /**
+   * 이 회차가 계약 횟수를 깎았는가.
+   * 상태에서 파생하지 않고 그때 박아 둔다. 노쇼를 차감할지는 트레이너마다
+   * 다르고 도중에 바뀌는데, 파생해서 세면 정책을 바꾼 순간 지난 계약의 남은
+   * 횟수까지 소리 없이 달라진다. 그때 어떻게 했는지는 그때 남겨야 한다.
+   */
+  deducted Boolean @default(false)
+
   memo String?
 
   completedAt DateTime?
 
   cancelledAt  DateTime?
+  cancelledBy  PTSessionActor?
   cancelReason String?
 
   createdAt DateTime @default(now())
@@ -1060,6 +1114,7 @@ model PTSession {
 
   workoutSession WorkoutSession?
   journals       Journal[]
+  reschedules    PTSessionReschedule[]
 
   @@unique([contractId, sessionNumber])
   @@index([trainerProfileId, scheduledAt])

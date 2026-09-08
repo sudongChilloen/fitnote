@@ -154,6 +154,15 @@ export type WorkoutFavorite = Prisma.WorkoutFavoriteModel
  */
 export type PTProduct = Prisma.PTProductModel
 /**
+ * Model PTSessionReschedule
+ * *
+ *  * 수업을 미룬 이력.
+ *  * 상태로 만들지 않았다. 미룬 수업은 여전히 "앞으로 할 수업" 이라 SCHEDULED 로
+ *  * 남아야 하고, POSTPONED 같은 상태를 두면 다음 수업 목록에서 조용히 빠진다.
+ *  * 화면의 "🔄 일정 변경" 줄은 상태가 아니라 여기 쌓인 이력이다.
+ */
+export type PTSessionReschedule = Prisma.PTSessionRescheduleModel
+/**
  * Model TrainerPTPrice
  * 
  */

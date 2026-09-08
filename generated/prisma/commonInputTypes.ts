@@ -511,6 +511,23 @@ export type EnumPTProductStatusWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumPTProductStatusFilter<$PrismaModel>
 }
 
+export type EnumPTSessionActorFilter<$PrismaModel = never> = {
+  equals?: $Enums.PTSessionActor | Prisma.EnumPTSessionActorFieldRefInput<$PrismaModel>
+  in?: $Enums.PTSessionActor[] | Prisma.ListEnumPTSessionActorFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PTSessionActor[] | Prisma.ListEnumPTSessionActorFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPTSessionActorFilter<$PrismaModel> | $Enums.PTSessionActor
+}
+
+export type EnumPTSessionActorWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PTSessionActor | Prisma.EnumPTSessionActorFieldRefInput<$PrismaModel>
+  in?: $Enums.PTSessionActor[] | Prisma.ListEnumPTSessionActorFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PTSessionActor[] | Prisma.ListEnumPTSessionActorFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPTSessionActorWithAggregatesFilter<$PrismaModel> | $Enums.PTSessionActor
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPTSessionActorFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPTSessionActorFilter<$PrismaModel>
+}
+
 export type EnumPTContractStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.PTContractStatus | Prisma.EnumPTContractStatusFieldRefInput<$PrismaModel>
   in?: $Enums.PTContractStatus[] | Prisma.ListEnumPTContractStatusFieldRefInput<$PrismaModel>
@@ -535,6 +552,13 @@ export type EnumPTSessionStatusFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumPTSessionStatusFilter<$PrismaModel> | $Enums.PTSessionStatus
 }
 
+export type EnumPTSessionActorNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.PTSessionActor | Prisma.EnumPTSessionActorFieldRefInput<$PrismaModel> | null
+  in?: $Enums.PTSessionActor[] | Prisma.ListEnumPTSessionActorFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.PTSessionActor[] | Prisma.ListEnumPTSessionActorFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumPTSessionActorNullableFilter<$PrismaModel> | $Enums.PTSessionActor | null
+}
+
 export type EnumPTSessionStatusWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.PTSessionStatus | Prisma.EnumPTSessionStatusFieldRefInput<$PrismaModel>
   in?: $Enums.PTSessionStatus[] | Prisma.ListEnumPTSessionStatusFieldRefInput<$PrismaModel>
@@ -543,6 +567,16 @@ export type EnumPTSessionStatusWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumPTSessionStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumPTSessionStatusFilter<$PrismaModel>
+}
+
+export type EnumPTSessionActorNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PTSessionActor | Prisma.EnumPTSessionActorFieldRefInput<$PrismaModel> | null
+  in?: $Enums.PTSessionActor[] | Prisma.ListEnumPTSessionActorFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.PTSessionActor[] | Prisma.ListEnumPTSessionActorFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumPTSessionActorNullableWithAggregatesFilter<$PrismaModel> | $Enums.PTSessionActor | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPTSessionActorNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPTSessionActorNullableFilter<$PrismaModel>
 }
 
 export type EnumDietMealTypeFilter<$PrismaModel = never> = {
@@ -1225,6 +1259,23 @@ export type NestedEnumPTProductStatusWithAggregatesFilter<$PrismaModel = never> 
   _max?: Prisma.NestedEnumPTProductStatusFilter<$PrismaModel>
 }
 
+export type NestedEnumPTSessionActorFilter<$PrismaModel = never> = {
+  equals?: $Enums.PTSessionActor | Prisma.EnumPTSessionActorFieldRefInput<$PrismaModel>
+  in?: $Enums.PTSessionActor[] | Prisma.ListEnumPTSessionActorFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PTSessionActor[] | Prisma.ListEnumPTSessionActorFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPTSessionActorFilter<$PrismaModel> | $Enums.PTSessionActor
+}
+
+export type NestedEnumPTSessionActorWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PTSessionActor | Prisma.EnumPTSessionActorFieldRefInput<$PrismaModel>
+  in?: $Enums.PTSessionActor[] | Prisma.ListEnumPTSessionActorFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PTSessionActor[] | Prisma.ListEnumPTSessionActorFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPTSessionActorWithAggregatesFilter<$PrismaModel> | $Enums.PTSessionActor
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPTSessionActorFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPTSessionActorFilter<$PrismaModel>
+}
+
 export type NestedEnumPTContractStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.PTContractStatus | Prisma.EnumPTContractStatusFieldRefInput<$PrismaModel>
   in?: $Enums.PTContractStatus[] | Prisma.ListEnumPTContractStatusFieldRefInput<$PrismaModel>
@@ -1249,6 +1300,13 @@ export type NestedEnumPTSessionStatusFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumPTSessionStatusFilter<$PrismaModel> | $Enums.PTSessionStatus
 }
 
+export type NestedEnumPTSessionActorNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.PTSessionActor | Prisma.EnumPTSessionActorFieldRefInput<$PrismaModel> | null
+  in?: $Enums.PTSessionActor[] | Prisma.ListEnumPTSessionActorFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.PTSessionActor[] | Prisma.ListEnumPTSessionActorFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumPTSessionActorNullableFilter<$PrismaModel> | $Enums.PTSessionActor | null
+}
+
 export type NestedEnumPTSessionStatusWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.PTSessionStatus | Prisma.EnumPTSessionStatusFieldRefInput<$PrismaModel>
   in?: $Enums.PTSessionStatus[] | Prisma.ListEnumPTSessionStatusFieldRefInput<$PrismaModel>
@@ -1257,6 +1315,16 @@ export type NestedEnumPTSessionStatusWithAggregatesFilter<$PrismaModel = never> 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumPTSessionStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumPTSessionStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumPTSessionActorNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PTSessionActor | Prisma.EnumPTSessionActorFieldRefInput<$PrismaModel> | null
+  in?: $Enums.PTSessionActor[] | Prisma.ListEnumPTSessionActorFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.PTSessionActor[] | Prisma.ListEnumPTSessionActorFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumPTSessionActorNullableWithAggregatesFilter<$PrismaModel> | $Enums.PTSessionActor | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPTSessionActorNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPTSessionActorNullableFilter<$PrismaModel>
 }
 
 export type NestedEnumDietMealTypeFilter<$PrismaModel = never> = {

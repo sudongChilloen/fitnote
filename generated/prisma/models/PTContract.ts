@@ -27,13 +27,11 @@ export type AggregatePTContract = {
 }
 
 export type PTContractAvgAggregateOutputType = {
-  priceSnapshot: runtime.Decimal | null
   totalSessions: number | null
   usedSessions: number | null
 }
 
 export type PTContractSumAggregateOutputType = {
-  priceSnapshot: runtime.Decimal | null
   totalSessions: number | null
   usedSessions: number | null
 }
@@ -44,8 +42,7 @@ export type PTContractMinAggregateOutputType = {
   trainerProfileId: string | null
   productId: string | null
   centerId: string | null
-  productNameSnapshot: string | null
-  priceSnapshot: runtime.Decimal | null
+  title: string | null
   totalSessions: number | null
   usedSessions: number | null
   startedAt: Date | null
@@ -61,8 +58,7 @@ export type PTContractMaxAggregateOutputType = {
   trainerProfileId: string | null
   productId: string | null
   centerId: string | null
-  productNameSnapshot: string | null
-  priceSnapshot: runtime.Decimal | null
+  title: string | null
   totalSessions: number | null
   usedSessions: number | null
   startedAt: Date | null
@@ -78,8 +74,7 @@ export type PTContractCountAggregateOutputType = {
   trainerProfileId: number
   productId: number
   centerId: number
-  productNameSnapshot: number
-  priceSnapshot: number
+  title: number
   totalSessions: number
   usedSessions: number
   startedAt: number
@@ -92,13 +87,11 @@ export type PTContractCountAggregateOutputType = {
 
 
 export type PTContractAvgAggregateInputType = {
-  priceSnapshot?: true
   totalSessions?: true
   usedSessions?: true
 }
 
 export type PTContractSumAggregateInputType = {
-  priceSnapshot?: true
   totalSessions?: true
   usedSessions?: true
 }
@@ -109,8 +102,7 @@ export type PTContractMinAggregateInputType = {
   trainerProfileId?: true
   productId?: true
   centerId?: true
-  productNameSnapshot?: true
-  priceSnapshot?: true
+  title?: true
   totalSessions?: true
   usedSessions?: true
   startedAt?: true
@@ -126,8 +118,7 @@ export type PTContractMaxAggregateInputType = {
   trainerProfileId?: true
   productId?: true
   centerId?: true
-  productNameSnapshot?: true
-  priceSnapshot?: true
+  title?: true
   totalSessions?: true
   usedSessions?: true
   startedAt?: true
@@ -143,8 +134,7 @@ export type PTContractCountAggregateInputType = {
   trainerProfileId?: true
   productId?: true
   centerId?: true
-  productNameSnapshot?: true
-  priceSnapshot?: true
+  title?: true
   totalSessions?: true
   usedSessions?: true
   startedAt?: true
@@ -245,10 +235,9 @@ export type PTContractGroupByOutputType = {
   id: string
   memberUserId: string
   trainerProfileId: string
-  productId: string
+  productId: string | null
   centerId: string | null
-  productNameSnapshot: string
-  priceSnapshot: runtime.Decimal
+  title: string
   totalSessions: number
   usedSessions: number
   startedAt: Date
@@ -285,10 +274,9 @@ export type PTContractWhereInput = {
   id?: Prisma.StringFilter<"PTContract"> | string
   memberUserId?: Prisma.StringFilter<"PTContract"> | string
   trainerProfileId?: Prisma.StringFilter<"PTContract"> | string
-  productId?: Prisma.StringFilter<"PTContract"> | string
+  productId?: Prisma.StringNullableFilter<"PTContract"> | string | null
   centerId?: Prisma.StringNullableFilter<"PTContract"> | string | null
-  productNameSnapshot?: Prisma.StringFilter<"PTContract"> | string
-  priceSnapshot?: Prisma.DecimalFilter<"PTContract"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  title?: Prisma.StringFilter<"PTContract"> | string
   totalSessions?: Prisma.IntFilter<"PTContract"> | number
   usedSessions?: Prisma.IntFilter<"PTContract"> | number
   startedAt?: Prisma.DateTimeFilter<"PTContract"> | Date | string
@@ -299,7 +287,7 @@ export type PTContractWhereInput = {
   memberUser?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   trainerProfile?: Prisma.XOR<Prisma.TrainerProfileScalarRelationFilter, Prisma.TrainerProfileWhereInput>
   center?: Prisma.XOR<Prisma.CenterNullableScalarRelationFilter, Prisma.CenterWhereInput> | null
-  product?: Prisma.XOR<Prisma.PTProductScalarRelationFilter, Prisma.PTProductWhereInput>
+  product?: Prisma.XOR<Prisma.PTProductNullableScalarRelationFilter, Prisma.PTProductWhereInput> | null
   sessions?: Prisma.PTSessionListRelationFilter
 }
 
@@ -307,10 +295,9 @@ export type PTContractOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   memberUserId?: Prisma.SortOrder
   trainerProfileId?: Prisma.SortOrder
-  productId?: Prisma.SortOrder
+  productId?: Prisma.SortOrderInput | Prisma.SortOrder
   centerId?: Prisma.SortOrderInput | Prisma.SortOrder
-  productNameSnapshot?: Prisma.SortOrder
-  priceSnapshot?: Prisma.SortOrder
+  title?: Prisma.SortOrder
   totalSessions?: Prisma.SortOrder
   usedSessions?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
@@ -332,10 +319,9 @@ export type PTContractWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.PTContractWhereInput | Prisma.PTContractWhereInput[]
   memberUserId?: Prisma.StringFilter<"PTContract"> | string
   trainerProfileId?: Prisma.StringFilter<"PTContract"> | string
-  productId?: Prisma.StringFilter<"PTContract"> | string
+  productId?: Prisma.StringNullableFilter<"PTContract"> | string | null
   centerId?: Prisma.StringNullableFilter<"PTContract"> | string | null
-  productNameSnapshot?: Prisma.StringFilter<"PTContract"> | string
-  priceSnapshot?: Prisma.DecimalFilter<"PTContract"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  title?: Prisma.StringFilter<"PTContract"> | string
   totalSessions?: Prisma.IntFilter<"PTContract"> | number
   usedSessions?: Prisma.IntFilter<"PTContract"> | number
   startedAt?: Prisma.DateTimeFilter<"PTContract"> | Date | string
@@ -346,7 +332,7 @@ export type PTContractWhereUniqueInput = Prisma.AtLeast<{
   memberUser?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   trainerProfile?: Prisma.XOR<Prisma.TrainerProfileScalarRelationFilter, Prisma.TrainerProfileWhereInput>
   center?: Prisma.XOR<Prisma.CenterNullableScalarRelationFilter, Prisma.CenterWhereInput> | null
-  product?: Prisma.XOR<Prisma.PTProductScalarRelationFilter, Prisma.PTProductWhereInput>
+  product?: Prisma.XOR<Prisma.PTProductNullableScalarRelationFilter, Prisma.PTProductWhereInput> | null
   sessions?: Prisma.PTSessionListRelationFilter
 }, "id">
 
@@ -354,10 +340,9 @@ export type PTContractOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   memberUserId?: Prisma.SortOrder
   trainerProfileId?: Prisma.SortOrder
-  productId?: Prisma.SortOrder
+  productId?: Prisma.SortOrderInput | Prisma.SortOrder
   centerId?: Prisma.SortOrderInput | Prisma.SortOrder
-  productNameSnapshot?: Prisma.SortOrder
-  priceSnapshot?: Prisma.SortOrder
+  title?: Prisma.SortOrder
   totalSessions?: Prisma.SortOrder
   usedSessions?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
@@ -379,10 +364,9 @@ export type PTContractScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"PTContract"> | string
   memberUserId?: Prisma.StringWithAggregatesFilter<"PTContract"> | string
   trainerProfileId?: Prisma.StringWithAggregatesFilter<"PTContract"> | string
-  productId?: Prisma.StringWithAggregatesFilter<"PTContract"> | string
+  productId?: Prisma.StringNullableWithAggregatesFilter<"PTContract"> | string | null
   centerId?: Prisma.StringNullableWithAggregatesFilter<"PTContract"> | string | null
-  productNameSnapshot?: Prisma.StringWithAggregatesFilter<"PTContract"> | string
-  priceSnapshot?: Prisma.DecimalWithAggregatesFilter<"PTContract"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  title?: Prisma.StringWithAggregatesFilter<"PTContract"> | string
   totalSessions?: Prisma.IntWithAggregatesFilter<"PTContract"> | number
   usedSessions?: Prisma.IntWithAggregatesFilter<"PTContract"> | number
   startedAt?: Prisma.DateTimeWithAggregatesFilter<"PTContract"> | Date | string
@@ -394,8 +378,7 @@ export type PTContractScalarWhereWithAggregatesInput = {
 
 export type PTContractCreateInput = {
   id?: string
-  productNameSnapshot: string
-  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  title: string
   totalSessions: number
   usedSessions?: number
   startedAt: Date | string
@@ -406,7 +389,7 @@ export type PTContractCreateInput = {
   memberUser: Prisma.UserCreateNestedOneWithoutPtContractsInput
   trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutContractsInput
   center?: Prisma.CenterCreateNestedOneWithoutPtContractsInput
-  product: Prisma.PTProductCreateNestedOneWithoutContractsInput
+  product?: Prisma.PTProductCreateNestedOneWithoutContractsInput
   sessions?: Prisma.PTSessionCreateNestedManyWithoutContractInput
 }
 
@@ -414,10 +397,9 @@ export type PTContractUncheckedCreateInput = {
   id?: string
   memberUserId: string
   trainerProfileId: string
-  productId: string
+  productId?: string | null
   centerId?: string | null
-  productNameSnapshot: string
-  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  title: string
   totalSessions: number
   usedSessions?: number
   startedAt: Date | string
@@ -430,8 +412,7 @@ export type PTContractUncheckedCreateInput = {
 
 export type PTContractUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
-  priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
   usedSessions?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -442,7 +423,7 @@ export type PTContractUpdateInput = {
   memberUser?: Prisma.UserUpdateOneRequiredWithoutPtContractsNestedInput
   trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutContractsNestedInput
   center?: Prisma.CenterUpdateOneWithoutPtContractsNestedInput
-  product?: Prisma.PTProductUpdateOneRequiredWithoutContractsNestedInput
+  product?: Prisma.PTProductUpdateOneWithoutContractsNestedInput
   sessions?: Prisma.PTSessionUpdateManyWithoutContractNestedInput
 }
 
@@ -450,10 +431,9 @@ export type PTContractUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
   trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
-  productId?: Prisma.StringFieldUpdateOperationsInput | string
+  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   centerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
-  priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
   usedSessions?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -468,10 +448,9 @@ export type PTContractCreateManyInput = {
   id?: string
   memberUserId: string
   trainerProfileId: string
-  productId: string
+  productId?: string | null
   centerId?: string | null
-  productNameSnapshot: string
-  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  title: string
   totalSessions: number
   usedSessions?: number
   startedAt: Date | string
@@ -483,8 +462,7 @@ export type PTContractCreateManyInput = {
 
 export type PTContractUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
-  priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
   usedSessions?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -498,10 +476,9 @@ export type PTContractUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
   trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
-  productId?: Prisma.StringFieldUpdateOperationsInput | string
+  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   centerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
-  priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
   usedSessions?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -527,8 +504,7 @@ export type PTContractCountOrderByAggregateInput = {
   trainerProfileId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
   centerId?: Prisma.SortOrder
-  productNameSnapshot?: Prisma.SortOrder
-  priceSnapshot?: Prisma.SortOrder
+  title?: Prisma.SortOrder
   totalSessions?: Prisma.SortOrder
   usedSessions?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
@@ -539,7 +515,6 @@ export type PTContractCountOrderByAggregateInput = {
 }
 
 export type PTContractAvgOrderByAggregateInput = {
-  priceSnapshot?: Prisma.SortOrder
   totalSessions?: Prisma.SortOrder
   usedSessions?: Prisma.SortOrder
 }
@@ -550,8 +525,7 @@ export type PTContractMaxOrderByAggregateInput = {
   trainerProfileId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
   centerId?: Prisma.SortOrder
-  productNameSnapshot?: Prisma.SortOrder
-  priceSnapshot?: Prisma.SortOrder
+  title?: Prisma.SortOrder
   totalSessions?: Prisma.SortOrder
   usedSessions?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
@@ -567,8 +541,7 @@ export type PTContractMinOrderByAggregateInput = {
   trainerProfileId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
   centerId?: Prisma.SortOrder
-  productNameSnapshot?: Prisma.SortOrder
-  priceSnapshot?: Prisma.SortOrder
+  title?: Prisma.SortOrder
   totalSessions?: Prisma.SortOrder
   usedSessions?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
@@ -579,7 +552,6 @@ export type PTContractMinOrderByAggregateInput = {
 }
 
 export type PTContractSumOrderByAggregateInput = {
-  priceSnapshot?: Prisma.SortOrder
   totalSessions?: Prisma.SortOrder
   usedSessions?: Prisma.SortOrder
 }
@@ -777,8 +749,7 @@ export type PTContractUpdateOneRequiredWithoutSessionsNestedInput = {
 
 export type PTContractCreateWithoutMemberUserInput = {
   id?: string
-  productNameSnapshot: string
-  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  title: string
   totalSessions: number
   usedSessions?: number
   startedAt: Date | string
@@ -788,17 +759,16 @@ export type PTContractCreateWithoutMemberUserInput = {
   updatedAt?: Date | string
   trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutContractsInput
   center?: Prisma.CenterCreateNestedOneWithoutPtContractsInput
-  product: Prisma.PTProductCreateNestedOneWithoutContractsInput
+  product?: Prisma.PTProductCreateNestedOneWithoutContractsInput
   sessions?: Prisma.PTSessionCreateNestedManyWithoutContractInput
 }
 
 export type PTContractUncheckedCreateWithoutMemberUserInput = {
   id?: string
   trainerProfileId: string
-  productId: string
+  productId?: string | null
   centerId?: string | null
-  productNameSnapshot: string
-  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  title: string
   totalSessions: number
   usedSessions?: number
   startedAt: Date | string
@@ -842,10 +812,9 @@ export type PTContractScalarWhereInput = {
   id?: Prisma.StringFilter<"PTContract"> | string
   memberUserId?: Prisma.StringFilter<"PTContract"> | string
   trainerProfileId?: Prisma.StringFilter<"PTContract"> | string
-  productId?: Prisma.StringFilter<"PTContract"> | string
+  productId?: Prisma.StringNullableFilter<"PTContract"> | string | null
   centerId?: Prisma.StringNullableFilter<"PTContract"> | string | null
-  productNameSnapshot?: Prisma.StringFilter<"PTContract"> | string
-  priceSnapshot?: Prisma.DecimalFilter<"PTContract"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  title?: Prisma.StringFilter<"PTContract"> | string
   totalSessions?: Prisma.IntFilter<"PTContract"> | number
   usedSessions?: Prisma.IntFilter<"PTContract"> | number
   startedAt?: Prisma.DateTimeFilter<"PTContract"> | Date | string
@@ -857,8 +826,7 @@ export type PTContractScalarWhereInput = {
 
 export type PTContractCreateWithoutCenterInput = {
   id?: string
-  productNameSnapshot: string
-  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  title: string
   totalSessions: number
   usedSessions?: number
   startedAt: Date | string
@@ -868,7 +836,7 @@ export type PTContractCreateWithoutCenterInput = {
   updatedAt?: Date | string
   memberUser: Prisma.UserCreateNestedOneWithoutPtContractsInput
   trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutContractsInput
-  product: Prisma.PTProductCreateNestedOneWithoutContractsInput
+  product?: Prisma.PTProductCreateNestedOneWithoutContractsInput
   sessions?: Prisma.PTSessionCreateNestedManyWithoutContractInput
 }
 
@@ -876,9 +844,8 @@ export type PTContractUncheckedCreateWithoutCenterInput = {
   id?: string
   memberUserId: string
   trainerProfileId: string
-  productId: string
-  productNameSnapshot: string
-  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  productId?: string | null
+  title: string
   totalSessions: number
   usedSessions?: number
   startedAt: Date | string
@@ -917,8 +884,7 @@ export type PTContractUpdateManyWithWhereWithoutCenterInput = {
 
 export type PTContractCreateWithoutTrainerProfileInput = {
   id?: string
-  productNameSnapshot: string
-  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  title: string
   totalSessions: number
   usedSessions?: number
   startedAt: Date | string
@@ -928,17 +894,16 @@ export type PTContractCreateWithoutTrainerProfileInput = {
   updatedAt?: Date | string
   memberUser: Prisma.UserCreateNestedOneWithoutPtContractsInput
   center?: Prisma.CenterCreateNestedOneWithoutPtContractsInput
-  product: Prisma.PTProductCreateNestedOneWithoutContractsInput
+  product?: Prisma.PTProductCreateNestedOneWithoutContractsInput
   sessions?: Prisma.PTSessionCreateNestedManyWithoutContractInput
 }
 
 export type PTContractUncheckedCreateWithoutTrainerProfileInput = {
   id?: string
   memberUserId: string
-  productId: string
+  productId?: string | null
   centerId?: string | null
-  productNameSnapshot: string
-  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  title: string
   totalSessions: number
   usedSessions?: number
   startedAt: Date | string
@@ -977,8 +942,7 @@ export type PTContractUpdateManyWithWhereWithoutTrainerProfileInput = {
 
 export type PTContractCreateWithoutProductInput = {
   id?: string
-  productNameSnapshot: string
-  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  title: string
   totalSessions: number
   usedSessions?: number
   startedAt: Date | string
@@ -997,8 +961,7 @@ export type PTContractUncheckedCreateWithoutProductInput = {
   memberUserId: string
   trainerProfileId: string
   centerId?: string | null
-  productNameSnapshot: string
-  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  title: string
   totalSessions: number
   usedSessions?: number
   startedAt: Date | string
@@ -1037,8 +1000,7 @@ export type PTContractUpdateManyWithWhereWithoutProductInput = {
 
 export type PTContractCreateWithoutSessionsInput = {
   id?: string
-  productNameSnapshot: string
-  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  title: string
   totalSessions: number
   usedSessions?: number
   startedAt: Date | string
@@ -1049,17 +1011,16 @@ export type PTContractCreateWithoutSessionsInput = {
   memberUser: Prisma.UserCreateNestedOneWithoutPtContractsInput
   trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutContractsInput
   center?: Prisma.CenterCreateNestedOneWithoutPtContractsInput
-  product: Prisma.PTProductCreateNestedOneWithoutContractsInput
+  product?: Prisma.PTProductCreateNestedOneWithoutContractsInput
 }
 
 export type PTContractUncheckedCreateWithoutSessionsInput = {
   id?: string
   memberUserId: string
   trainerProfileId: string
-  productId: string
+  productId?: string | null
   centerId?: string | null
-  productNameSnapshot: string
-  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  title: string
   totalSessions: number
   usedSessions?: number
   startedAt: Date | string
@@ -1087,8 +1048,7 @@ export type PTContractUpdateToOneWithWhereWithoutSessionsInput = {
 
 export type PTContractUpdateWithoutSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
-  priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
   usedSessions?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1099,17 +1059,16 @@ export type PTContractUpdateWithoutSessionsInput = {
   memberUser?: Prisma.UserUpdateOneRequiredWithoutPtContractsNestedInput
   trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutContractsNestedInput
   center?: Prisma.CenterUpdateOneWithoutPtContractsNestedInput
-  product?: Prisma.PTProductUpdateOneRequiredWithoutContractsNestedInput
+  product?: Prisma.PTProductUpdateOneWithoutContractsNestedInput
 }
 
 export type PTContractUncheckedUpdateWithoutSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
   trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
-  productId?: Prisma.StringFieldUpdateOperationsInput | string
+  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   centerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
-  priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
   usedSessions?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1122,10 +1081,9 @@ export type PTContractUncheckedUpdateWithoutSessionsInput = {
 export type PTContractCreateManyMemberUserInput = {
   id?: string
   trainerProfileId: string
-  productId: string
+  productId?: string | null
   centerId?: string | null
-  productNameSnapshot: string
-  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  title: string
   totalSessions: number
   usedSessions?: number
   startedAt: Date | string
@@ -1137,8 +1095,7 @@ export type PTContractCreateManyMemberUserInput = {
 
 export type PTContractUpdateWithoutMemberUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
-  priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
   usedSessions?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1148,17 +1105,16 @@ export type PTContractUpdateWithoutMemberUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutContractsNestedInput
   center?: Prisma.CenterUpdateOneWithoutPtContractsNestedInput
-  product?: Prisma.PTProductUpdateOneRequiredWithoutContractsNestedInput
+  product?: Prisma.PTProductUpdateOneWithoutContractsNestedInput
   sessions?: Prisma.PTSessionUpdateManyWithoutContractNestedInput
 }
 
 export type PTContractUncheckedUpdateWithoutMemberUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
-  productId?: Prisma.StringFieldUpdateOperationsInput | string
+  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   centerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
-  priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
   usedSessions?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1172,10 +1128,9 @@ export type PTContractUncheckedUpdateWithoutMemberUserInput = {
 export type PTContractUncheckedUpdateManyWithoutMemberUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
-  productId?: Prisma.StringFieldUpdateOperationsInput | string
+  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   centerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
-  priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
   usedSessions?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1189,9 +1144,8 @@ export type PTContractCreateManyCenterInput = {
   id?: string
   memberUserId: string
   trainerProfileId: string
-  productId: string
-  productNameSnapshot: string
-  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  productId?: string | null
+  title: string
   totalSessions: number
   usedSessions?: number
   startedAt: Date | string
@@ -1203,8 +1157,7 @@ export type PTContractCreateManyCenterInput = {
 
 export type PTContractUpdateWithoutCenterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
-  priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
   usedSessions?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1214,7 +1167,7 @@ export type PTContractUpdateWithoutCenterInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   memberUser?: Prisma.UserUpdateOneRequiredWithoutPtContractsNestedInput
   trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutContractsNestedInput
-  product?: Prisma.PTProductUpdateOneRequiredWithoutContractsNestedInput
+  product?: Prisma.PTProductUpdateOneWithoutContractsNestedInput
   sessions?: Prisma.PTSessionUpdateManyWithoutContractNestedInput
 }
 
@@ -1222,9 +1175,8 @@ export type PTContractUncheckedUpdateWithoutCenterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
   trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
-  productId?: Prisma.StringFieldUpdateOperationsInput | string
-  productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
-  priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
   usedSessions?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1239,9 +1191,8 @@ export type PTContractUncheckedUpdateManyWithoutCenterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
   trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
-  productId?: Prisma.StringFieldUpdateOperationsInput | string
-  productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
-  priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
   usedSessions?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1254,10 +1205,9 @@ export type PTContractUncheckedUpdateManyWithoutCenterInput = {
 export type PTContractCreateManyTrainerProfileInput = {
   id?: string
   memberUserId: string
-  productId: string
+  productId?: string | null
   centerId?: string | null
-  productNameSnapshot: string
-  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  title: string
   totalSessions: number
   usedSessions?: number
   startedAt: Date | string
@@ -1269,8 +1219,7 @@ export type PTContractCreateManyTrainerProfileInput = {
 
 export type PTContractUpdateWithoutTrainerProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
-  priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
   usedSessions?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1280,17 +1229,16 @@ export type PTContractUpdateWithoutTrainerProfileInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   memberUser?: Prisma.UserUpdateOneRequiredWithoutPtContractsNestedInput
   center?: Prisma.CenterUpdateOneWithoutPtContractsNestedInput
-  product?: Prisma.PTProductUpdateOneRequiredWithoutContractsNestedInput
+  product?: Prisma.PTProductUpdateOneWithoutContractsNestedInput
   sessions?: Prisma.PTSessionUpdateManyWithoutContractNestedInput
 }
 
 export type PTContractUncheckedUpdateWithoutTrainerProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
-  productId?: Prisma.StringFieldUpdateOperationsInput | string
+  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   centerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
-  priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
   usedSessions?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1304,10 +1252,9 @@ export type PTContractUncheckedUpdateWithoutTrainerProfileInput = {
 export type PTContractUncheckedUpdateManyWithoutTrainerProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
-  productId?: Prisma.StringFieldUpdateOperationsInput | string
+  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   centerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
-  priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
   usedSessions?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1322,8 +1269,7 @@ export type PTContractCreateManyProductInput = {
   memberUserId: string
   trainerProfileId: string
   centerId?: string | null
-  productNameSnapshot: string
-  priceSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  title: string
   totalSessions: number
   usedSessions?: number
   startedAt: Date | string
@@ -1335,8 +1281,7 @@ export type PTContractCreateManyProductInput = {
 
 export type PTContractUpdateWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
-  priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
   usedSessions?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1355,8 +1300,7 @@ export type PTContractUncheckedUpdateWithoutProductInput = {
   memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
   trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   centerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
-  priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
   usedSessions?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1372,8 +1316,7 @@ export type PTContractUncheckedUpdateManyWithoutProductInput = {
   memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
   trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   centerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  productNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
-  priceSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   totalSessions?: Prisma.IntFieldUpdateOperationsInput | number
   usedSessions?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1420,8 +1363,7 @@ export type PTContractSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   trainerProfileId?: boolean
   productId?: boolean
   centerId?: boolean
-  productNameSnapshot?: boolean
-  priceSnapshot?: boolean
+  title?: boolean
   totalSessions?: boolean
   usedSessions?: boolean
   startedAt?: boolean
@@ -1432,7 +1374,7 @@ export type PTContractSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   center?: boolean | Prisma.PTContract$centerArgs<ExtArgs>
-  product?: boolean | Prisma.PTProductDefaultArgs<ExtArgs>
+  product?: boolean | Prisma.PTContract$productArgs<ExtArgs>
   sessions?: boolean | Prisma.PTContract$sessionsArgs<ExtArgs>
   _count?: boolean | Prisma.PTContractCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["pTContract"]>
@@ -1443,8 +1385,7 @@ export type PTContractSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   trainerProfileId?: boolean
   productId?: boolean
   centerId?: boolean
-  productNameSnapshot?: boolean
-  priceSnapshot?: boolean
+  title?: boolean
   totalSessions?: boolean
   usedSessions?: boolean
   startedAt?: boolean
@@ -1455,7 +1396,7 @@ export type PTContractSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   center?: boolean | Prisma.PTContract$centerArgs<ExtArgs>
-  product?: boolean | Prisma.PTProductDefaultArgs<ExtArgs>
+  product?: boolean | Prisma.PTContract$productArgs<ExtArgs>
 }, ExtArgs["result"]["pTContract"]>
 
 export type PTContractSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1464,8 +1405,7 @@ export type PTContractSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   trainerProfileId?: boolean
   productId?: boolean
   centerId?: boolean
-  productNameSnapshot?: boolean
-  priceSnapshot?: boolean
+  title?: boolean
   totalSessions?: boolean
   usedSessions?: boolean
   startedAt?: boolean
@@ -1476,7 +1416,7 @@ export type PTContractSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   center?: boolean | Prisma.PTContract$centerArgs<ExtArgs>
-  product?: boolean | Prisma.PTProductDefaultArgs<ExtArgs>
+  product?: boolean | Prisma.PTContract$productArgs<ExtArgs>
 }, ExtArgs["result"]["pTContract"]>
 
 export type PTContractSelectScalar = {
@@ -1485,8 +1425,7 @@ export type PTContractSelectScalar = {
   trainerProfileId?: boolean
   productId?: boolean
   centerId?: boolean
-  productNameSnapshot?: boolean
-  priceSnapshot?: boolean
+  title?: boolean
   totalSessions?: boolean
   usedSessions?: boolean
   startedAt?: boolean
@@ -1496,12 +1435,12 @@ export type PTContractSelectScalar = {
   updatedAt?: boolean
 }
 
-export type PTContractOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "memberUserId" | "trainerProfileId" | "productId" | "centerId" | "productNameSnapshot" | "priceSnapshot" | "totalSessions" | "usedSessions" | "startedAt" | "expiresAt" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["pTContract"]>
+export type PTContractOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "memberUserId" | "trainerProfileId" | "productId" | "centerId" | "title" | "totalSessions" | "usedSessions" | "startedAt" | "expiresAt" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["pTContract"]>
 export type PTContractInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   center?: boolean | Prisma.PTContract$centerArgs<ExtArgs>
-  product?: boolean | Prisma.PTProductDefaultArgs<ExtArgs>
+  product?: boolean | Prisma.PTContract$productArgs<ExtArgs>
   sessions?: boolean | Prisma.PTContract$sessionsArgs<ExtArgs>
   _count?: boolean | Prisma.PTContractCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1509,13 +1448,13 @@ export type PTContractIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.E
   memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   center?: boolean | Prisma.PTContract$centerArgs<ExtArgs>
-  product?: boolean | Prisma.PTProductDefaultArgs<ExtArgs>
+  product?: boolean | Prisma.PTContract$productArgs<ExtArgs>
 }
 export type PTContractIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   center?: boolean | Prisma.PTContract$centerArgs<ExtArgs>
-  product?: boolean | Prisma.PTProductDefaultArgs<ExtArgs>
+  product?: boolean | Prisma.PTContract$productArgs<ExtArgs>
 }
 
 export type $PTContractPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1524,14 +1463,22 @@ export type $PTContractPayload<ExtArgs extends runtime.Types.Extensions.Internal
     memberUser: Prisma.$UserPayload<ExtArgs>
     trainerProfile: Prisma.$TrainerProfilePayload<ExtArgs>
     center: Prisma.$CenterPayload<ExtArgs> | null
-    product: Prisma.$PTProductPayload<ExtArgs>
+    product: Prisma.$PTProductPayload<ExtArgs> | null
     sessions: Prisma.$PTSessionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     memberUserId: string
     trainerProfileId: string
-    productId: string
+    /**
+     * *
+     *    * 센터가 파는 상품에서 나온 계약인지. 개인 트레이너면 null.
+     *    * 예전에는 이 값이 필수였다. 그런데 PTProduct 는 센터의 것이라, 상품을
+     *    * 반드시 거치게 하면 혼자 하는 트레이너는 센터를 먼저 만들지 않고서는
+     *    * "김수정 / 20회 / 9월~12월" 조차 등록할 수 없었다. 계약이 스스로 설 수
+     *    * 있어야 한다. 이름과 횟수를 계약이 직접 든 이유다.
+     */
+    productId: string | null
     /**
      * *
      *    * 이 계약이 어느 센터에서 맺어졌는지. 개인 트레이너면 null.
@@ -1540,8 +1487,13 @@ export type $PTContractPayload<ExtArgs extends runtime.Types.Extensions.Internal
      *    * 나중에 센터가 "우리 센터에서 나간 PT" 를 셀 때 이 값이 없으면 답할 수 없다.
      */
     centerId: string | null
-    productNameSnapshot: string
-    priceSnapshot: runtime.Decimal
+    /**
+     * *
+     *    * 이 계약을 부르는 이름. "PT 20회", "재활 3개월" 처럼.
+     *    * 예전 이름은 productNameSnapshot 이었는데, 상품을 거치지 않게 된 지금은
+     *    * 거짓말이다. 비워 두면 횟수로 자동으로 채운다.
+     */
+    title: string
     totalSessions: number
     usedSessions: number
     startedAt: Date
@@ -1946,7 +1898,7 @@ export interface Prisma__PTContractClient<T, Null = never, ExtArgs extends runti
   memberUser<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   trainerProfile<T extends Prisma.TrainerProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__TrainerProfileClient<runtime.Types.Result.GetResult<Prisma.$TrainerProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   center<T extends Prisma.PTContract$centerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PTContract$centerArgs<ExtArgs>>): Prisma.Prisma__CenterClient<runtime.Types.Result.GetResult<Prisma.$CenterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  product<T extends Prisma.PTProductDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PTProductDefaultArgs<ExtArgs>>): Prisma.Prisma__PTProductClient<runtime.Types.Result.GetResult<Prisma.$PTProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  product<T extends Prisma.PTContract$productArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PTContract$productArgs<ExtArgs>>): Prisma.Prisma__PTProductClient<runtime.Types.Result.GetResult<Prisma.$PTProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   sessions<T extends Prisma.PTContract$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PTContract$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PTSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1982,8 +1934,7 @@ export interface PTContractFieldRefs {
   readonly trainerProfileId: Prisma.FieldRef<"PTContract", 'String'>
   readonly productId: Prisma.FieldRef<"PTContract", 'String'>
   readonly centerId: Prisma.FieldRef<"PTContract", 'String'>
-  readonly productNameSnapshot: Prisma.FieldRef<"PTContract", 'String'>
-  readonly priceSnapshot: Prisma.FieldRef<"PTContract", 'Decimal'>
+  readonly title: Prisma.FieldRef<"PTContract", 'String'>
   readonly totalSessions: Prisma.FieldRef<"PTContract", 'Int'>
   readonly usedSessions: Prisma.FieldRef<"PTContract", 'Int'>
   readonly startedAt: Prisma.FieldRef<"PTContract", 'DateTime'>
@@ -2408,6 +2359,25 @@ export type PTContract$centerArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   include?: Prisma.CenterInclude<ExtArgs> | null
   where?: Prisma.CenterWhereInput
+}
+
+/**
+ * PTContract.product
+ */
+export type PTContract$productArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PTProduct
+   */
+  select?: Prisma.PTProductSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PTProduct
+   */
+  omit?: Prisma.PTProductOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PTProductInclude<ExtArgs> | null
+  where?: Prisma.PTProductWhereInput
 }
 
 /**

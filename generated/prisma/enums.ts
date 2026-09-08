@@ -82,6 +82,14 @@ export const PTSessionStatus = {
 export type PTSessionStatus = (typeof PTSessionStatus)[keyof typeof PTSessionStatus]
 
 
+export const PTSessionActor = {
+  MEMBER: 'MEMBER',
+  TRAINER: 'TRAINER'
+} as const
+
+export type PTSessionActor = (typeof PTSessionActor)[keyof typeof PTSessionActor]
+
+
 export const NoticeScope = {
   CENTER: 'CENTER',
   TRAINER_MEMBERS: 'TRAINER_MEMBERS'
