@@ -35,6 +35,7 @@ import { getUnreadCounts } from "@/server/journals/journal.service";
 import { getBodyOverview } from "@/server/body/body.service";
 import { getMyUpcomingSessions } from "@/server/pt/pt.service";
 
+import { AcknowledgeButton } from "../sessions/acknowledge-button";
 import { LogPastWorkoutButton } from "../workouts/log-past-button";
 import { StartWorkoutButton } from "../workouts/start-workout-button";
 
@@ -182,20 +183,61 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
           </div>
 
           <ul className="flex flex-col gap-3">
-            {upcomingSessions.map((session) => (
-              <li key={session.id} className="flex items-center gap-3">
-                <span className="min-w-0 flex-1">
-                  <span className="block text-sm font-bold">
-                    {formatKstDateLabel(session.scheduledAt)}{" "}
-                    {formatKstTimeLabel(session.scheduledAt)}
+            {upcomingSessions.map((session) => {
+              const cancelled = session.status === "CANCELLED";
+
+              return (
+                <li key={session.id} className="flex items-center gap-3">
+                  <span className="min-w-0 flex-1">
+                    <span className="flex flex-wrap items-center gap-1.5">
+                      <span
+                        className={cn(
+                          "text-sm font-bold",
+                          cancelled && "text-muted-foreground line-through",
+                        )}
+                      >
+                        {formatKstDateLabel(session.scheduledAt)}{" "}
+                        {formatKstTimeLabel(session.scheduledAt)}
+                      </span>
+
+                      {/*
+                        바뀐 수업에만 표시를 단다.
+
+                        취소는 지워서 알린다 — 사라지게 두면 회원은 원래 시각에
+                        헬스장에 가고, 그건 취소보다 나쁘다.
+                      */}
+                      {session.changed ? (
+                        <span
+                          className={cn(
+                            "rounded-full px-1.5 py-0.5 text-[0.625rem] font-bold",
+                            cancelled
+                              ? "bg-destructive/10 text-destructive"
+                              : "bg-brand text-brand-foreground",
+                          )}
+                        >
+                          {cancelled ? "취소됨" : "일정 변경"}
+                        </span>
+                      ) : null}
+                    </span>
+
+                    <span className="mt-0.5 block text-xs text-muted-foreground tabular-nums">
+                      {session.trainerName} 트레이너 · {session.sessionNumber}/
+                      {session.totalSessions}회차 · {session.durationMinutes}분
+                    </span>
+
+                    {cancelled && session.cancelReason ? (
+                      <span className="mt-0.5 block text-xs text-destructive">
+                        {session.cancelReason}
+                      </span>
+                    ) : null}
                   </span>
-                  <span className="mt-0.5 block text-xs text-muted-foreground tabular-nums">
-                    {session.trainerName} 트레이너 · {session.sessionNumber}/
-                    {session.totalSessions}회차 · {session.durationMinutes}분
-                  </span>
-                </span>
-              </li>
-            ))}
+
+                  {session.changed ? (
+                    <AcknowledgeButton sessionId={session.id} />
+                  ) : null}
+                </li>
+              );
+            })}
           </ul>
         </section>
       ) : null}

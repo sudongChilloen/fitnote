@@ -1104,6 +1104,23 @@ model PTSession {
   cancelledBy  PTSessionActor?
   cancelReason String?
 
+  /**
+   * 회원이 아직 확인하지 못한 일정 변경이 있으면 그 시각. 확인하면 다시 null.
+   *
+   * 트레이너가 수업을 잡거나 옮기거나 취소하면 회원은 알 길이 없었다. 홈의
+   * 다가오는 수업 목록에서 시간이 조용히 바뀌고, 취소된 수업은 그냥 사라진다.
+   * 회원은 원래 시각에 헬스장에 간다.
+   *
+   * 별도의 알림 테이블을 두지 않은 이유는, 알림장·공지가 이미 각자 읽음을
+   * 들고 있어서(Journal.memberReadAt · NoticeRead) 세 번째 읽음 장부가
+   * 생기면 같은 사건이 한쪽에서만 지워지는 상태가 반드시 생기기 때문이다.
+   * 알릴 것이 수업 일정 하나뿐인 동안은 수업이 직접 들고 있는 게 맞다.
+   *
+   * 값을 지우는(=null) 방식이라 "무엇이" 바뀌었는지는 안 남지만, 그 이력은
+   * PTSessionReschedule 과 cancelledAt 에 이미 있다.
+   */
+  memberAlertAt DateTime?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

@@ -523,6 +523,7 @@ export const PTSessionScalarFieldEnum = {
   cancelledAt: 'cancelledAt',
   cancelledBy: 'cancelledBy',
   cancelReason: 'cancelReason',
+  memberAlertAt: 'memberAlertAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

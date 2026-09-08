@@ -294,6 +294,14 @@ export async function scheduleSession(
 
     return tx.pTSession.create({
       data: {
+        /*
+          새로 잡은 수업도 회원에게 알린다.
+
+          "변경" 이 아니라 목록에 새로 나타나는 것뿐이라 넘어갈 뻔했는데,
+          회원이 모르는 수업은 노쇼가 되고 노쇼는 횟수를 깎는다. 돈이 걸린
+          쪽은 알려야 한다.
+        */
+        memberAlertAt: new Date(),
         contractId: contract.id,
         memberUserId: contract.memberUserId,
         trainerProfileId: trainer.id,
@@ -389,7 +397,7 @@ export async function rescheduleSession(
 
     return tx.pTSession.update({
       where: { id: session.id },
-      data: { scheduledAt: input.scheduledAt },
+      data: { scheduledAt: input.scheduledAt, memberAlertAt: new Date() },
       select: { id: true, scheduledAt: true },
     });
   });
@@ -412,6 +420,12 @@ export async function completeSession(userId: string, sessionId: string) {
         cancelledAt: null,
         cancelledBy: null,
         cancelReason: null,
+        /*
+          끝난 수업에는 알릴 것이 없다.
+
+          회원은 그 자리에 있었다. 남아 있던 표시가 있으면 여기서 내린다.
+        */
+        memberAlertAt: null,
       },
       select: { id: true },
     });
@@ -488,6 +502,7 @@ export async function cancelSession(
         cancelledAt: new Date(),
         cancelledBy: options.cancelledBy,
         cancelReason: options.reason?.trim() || null,
+        memberAlertAt: new Date(),
       },
       select: { id: true, deducted: true },
     });
@@ -531,6 +546,13 @@ export async function reopenSession(userId: string, sessionId: string) {
         cancelledAt: null,
         cancelledBy: null,
         cancelReason: null,
+        /*
+          되살린 것도 알린다.
+
+          취소를 이미 본 회원은 그날 안 온다. 잘못 눌러서 되돌렸다는 사실을
+          안 알리면, 트레이너 화면에서는 예정인 수업에 회원만 안 나타난다.
+        */
+        memberAlertAt: new Date(),
       },
       select: { id: true },
     });
@@ -694,12 +716,31 @@ export async function listSessions(
  * 지난 세 시간까지 함께 보여 준다. 오후 7시 수업이 7시 1분에 목록에서
  * 사라지면, 수업 직전에 확인하려던 사람이 못 본다.
  */
+/**
+ * 회원이 보는 다가오는 수업.
+ *
+ * 예정된 수업만 보여주면 조용히 사라지는 것이 생긴다. 트레이너가 취소하면
+ * 목록에서 빠질 뿐이라, 회원은 그 사실을 알 방법이 없다. 그래서 아직 확인하지
+ * 못한 취소는 "취소됨" 인 채로 남겨 둔다 — 사라지는 것보다 남아 있는 쪽이
+ * 확실히 눈에 띈다. 회원이 확인을 누르면 그때 목록에서 빠진다.
+ *
+ * 지나간 것은 확인 여부와 상관없이 뺀다. 어제 취소된 어제 수업을 오늘 띄우면
+ * 그때부터는 안내가 아니라 잔소리다.
+ */
 export async function getMyUpcomingSessions(userId: string, limit = 5) {
+  const since = new Date(Date.now() - 3 * 3_600_000);
+
   const sessions = await prisma.pTSession.findMany({
     where: {
       memberUserId: userId,
-      status: PTSessionStatus.SCHEDULED,
-      scheduledAt: { gte: new Date(Date.now() - 3 * 3_600_000) },
+      scheduledAt: { gte: since },
+      OR: [
+        { status: PTSessionStatus.SCHEDULED },
+        {
+          status: PTSessionStatus.CANCELLED,
+          memberAlertAt: { not: null },
+        },
+      ],
     },
     orderBy: { scheduledAt: "asc" },
     take: limit,
@@ -708,6 +749,9 @@ export async function getMyUpcomingSessions(userId: string, limit = 5) {
       scheduledAt: true,
       sessionNumber: true,
       durationMinutes: true,
+      status: true,
+      cancelReason: true,
+      memberAlertAt: true,
       contract: { select: { title: true, totalSessions: true } },
       trainerProfile: {
         select: { displayName: true, user: { select: { name: true } } },
@@ -721,7 +765,37 @@ export async function getMyUpcomingSessions(userId: string, limit = 5) {
     sessionNumber: session.sessionNumber,
     durationMinutes: session.durationMinutes,
     totalSessions: session.contract.totalSessions,
+    status: session.status,
+    cancelReason: session.cancelReason,
+    /** 아직 확인하지 않은 변경이 있다. */
+    changed: session.memberAlertAt !== null,
     trainerName:
       session.trainerProfile.displayName ?? session.trainerProfile.user.name,
   }));
+}
+
+/**
+ * 회원이 일정 변경을 확인했다.
+ *
+ * 확인한 뒤에도 예정된 수업은 목록에 그대로 남고 표시만 사라진다. 취소된
+ * 수업은 그때 목록에서 빠진다.
+ *
+ * 트레이너는 이걸 볼 수 없다. 회원이 확인했는지를 트레이너 화면에 띄우면
+ * 다시 읽음 추적이 되고, 그건 이미 안 하기로 한 것이다. 이 표시는 회원이
+ * 자기 화면을 정리하는 용도다.
+ */
+export async function acknowledgeSessionChange(
+  userId: string,
+  sessionId: string,
+) {
+  const result = await prisma.pTSession.updateMany({
+    where: { id: sessionId, memberUserId: userId },
+    data: { memberAlertAt: null },
+  });
+
+  if (result.count === 0) {
+    throw new PTError("NOT_FOUND", "수업을 찾을 수 없어요.");
+  }
+
+  return { id: sessionId };
 }
