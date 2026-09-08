@@ -8,6 +8,7 @@ import { formatKstDateLabel, toKstTimeValue } from "@/lib/date";
 import { getBodyPartCounts } from "@/server/exercises/exercise.service";
 import { PTError, SESSION_STATUS_LABEL } from "@/server/pt/pt.service";
 import {
+  getSessionBriefing,
   getSessionRecord,
   getSessionWorkout,
 } from "@/server/pt/session-record.service";
@@ -20,6 +21,7 @@ import { AddExerciseDrawer } from "@/app/(user)/workouts/[id]/add-exercise-drawe
 import { RecordList } from "@/app/(user)/workouts/[id]/record-list";
 
 import { writeJournalAction } from "./actions";
+import { Briefing } from "./briefing";
 import { ClearWorkoutButton } from "./clear-workout-button";
 import {
   FinishSessionDrawer,
@@ -62,6 +64,12 @@ export default async function SessionRecordPage({
   const scheduled = session.status === "SCHEDULED";
 
   const workout = cancelled ? null : await getSessionWorkout(user.id, id);
+
+  /*
+    브리핑은 취소한 수업에서는 안 띄운다. 안 할 수업 앞에서 지난주 이야기를
+    읽을 이유가 없다.
+  */
+  const briefing = cancelled ? null : await getSessionBriefing(user.id, id);
 
   /*
     직전 기록 힌트에 회원의 개인 운동이 섞이면 공유 설정을 지나간다. 공유를 꺼
@@ -142,6 +150,25 @@ export default async function SessionRecordPage({
           <AlertCircle className="size-4 shrink-0" aria-hidden />
           {query.error}
         </p>
+      ) : null}
+
+      {/*
+        브리핑은 운동을 담기 전에만 보인다.
+
+        회원이 들어오는 순간에는 "지난주에 뭐 했지" 가 첫 질문이고, 오늘 어느
+        부위를 할지도 몇 kg 부터 시작할지도 거기서 나온다. 지금은 그걸 보려고
+        회원 상세로 나갔다 다시 들어와야 한다.
+
+        대신 오늘 운동을 하나라도 담으면 사라진다. 그때부터 화면의 주인공은
+        오늘 든 무게이고, 지난주 이야기가 위에 남아 있으면 스크롤만 늘린다.
+        지난 무게는 각 카드에 이미 붙어 있다.
+      */}
+      {briefing && (workout?.records.length ?? 0) === 0 ? (
+        <Briefing
+          ptSessionId={session.id}
+          briefing={briefing}
+          canCopy={!cancelled}
+        />
       ) : null}
 
       {cancelled ? (

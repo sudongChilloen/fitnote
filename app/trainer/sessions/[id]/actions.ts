@@ -15,6 +15,7 @@ import {
 } from "@/server/pt/pt.service";
 import {
   deleteSessionWorkout,
+  copyPreviousExercises,
   openSessionWorkout,
 } from "@/server/pt/session-record.service";
 import { TrainerError } from "@/server/trainers/trainer.service";
@@ -56,6 +57,25 @@ export async function openWorkoutAction(ptSessionId: string) {
 
   try {
     await openSessionWorkout(user.id, ptSessionId);
+  } catch (error) {
+    return { error: messageOf(error) };
+  }
+
+  revalidatePath(`/trainer/sessions/${ptSessionId}`);
+  return { error: null };
+}
+
+/**
+ * 지난 수업에 한 운동을 그대로 담는다.
+ *
+ * 운동 기록이 아직 안 열려 있으면 열면서 담는다. 브리핑을 보고 바로 누르는
+ * 자리라, 여기서 "먼저 운동 기록을 시작하세요" 를 만나면 두 번 눌러야 한다.
+ */
+export async function copyExercisesAction(ptSessionId: string) {
+  const user = await requireUser();
+
+  try {
+    await copyPreviousExercises(user.id, ptSessionId);
   } catch (error) {
     return { error: messageOf(error) };
   }
