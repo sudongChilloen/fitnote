@@ -19,9 +19,13 @@ import { getLastRecord } from "@/server/workouts/workout.service";
 import { AddExerciseDrawer } from "@/app/(user)/workouts/[id]/add-exercise-drawer";
 import { RecordList } from "@/app/(user)/workouts/[id]/record-list";
 
+import { writeJournalAction } from "./actions";
 import { ClearWorkoutButton } from "./clear-workout-button";
+import {
+  FinishSessionDrawer,
+  ReopenSessionButton,
+} from "./finish-session-drawer";
 import { OpenWorkoutButton } from "./open-workout-button";
-import { completeSessionAction, writeJournalAction } from "./actions";
 
 export const metadata = { title: "수업 기록 | FitNote" };
 
@@ -117,10 +121,16 @@ export default async function SessionRecordPage({
         ) : null}
       </p>
 
-      {query.completed === "1" ? (
+      {query.done ? (
         <p className="mt-3 flex items-center gap-1.5 rounded-xl bg-accent px-3.5 py-2.5 text-sm font-bold text-brand-strong">
           <Check className="size-4" aria-hidden />
-          수업을 완료했어요. {session.usedSessions}/{session.totalSessions}회차
+          {query.done === "complete"
+            ? `완료했어요. ${session.usedSessions}/${session.totalSessions}회차`
+            : query.done === "no_show"
+              ? "노쇼로 저장했어요."
+              : query.done === "cancel"
+                ? "취소로 저장했어요."
+                : "예정으로 되돌렸어요."}
         </p>
       ) : null}
 
@@ -188,27 +198,41 @@ export default async function SessionRecordPage({
       )}
 
       {/*
-        수업 완료는 저장이 아니다.
+        수업 마무리는 저장이 아니다.
 
-        세트는 적는 즉시 저장되고 있다. 이 버튼이 하는 일은 "이 수업 한 회를
-        썼다" 뿐이라, 눌러야 하는 이유를 숫자로 적어 둔다. 안 눌러도 운동 기록은
-        남고, 대신 홈의 할 일에 "완료 안 한 수업" 으로 올라온다.
+        세트는 적는 즉시 저장되고 있다. 이 버튼이 하는 일은 "이 수업이 어떻게
+        끝났는가" 를 정하는 것뿐이라, 운동 기록 아래에 둔다. 안 눌러도 운동
+        기록은 남고, 대신 할 일에 "완료 안 한 수업" 으로 올라온다.
       */}
       {scheduled ? (
-        <form action={completeSessionAction} className="mt-7">
-          <input type="hidden" name="ptSessionId" value={session.id} />
-          <button
-            type="submit"
-            className="flex h-12 w-full items-center justify-center gap-1.5 rounded-xl bg-primary text-sm font-bold text-primary-foreground"
-          >
-            <Check className="size-4" aria-hidden />
-            수업 완료
-          </button>
-          <p className="mt-2 text-center text-xs text-muted-foreground">
-            누르면 PT 횟수가 한 회 깎여요. 남은 {remaining}회 →{" "}
-            {Math.max(remaining - 1, 0)}회
+        <div className="mt-7">
+          <FinishSessionDrawer
+            ptSessionId={session.id}
+            memberName={session.memberName}
+            remaining={remaining}
+          />
+        </div>
+      ) : null}
+
+      {/*
+        되돌리는 길을 옆에 둔다.
+
+        잘못 눌렀을 때 계약 상세까지 찾아가야 하면, 다음부터는 누르기 전에
+        망설이게 된다. 되돌릴 수 있어야 편하게 누른다.
+      */}
+      {!scheduled ? (
+        <div className="mt-7">
+          <p className="rounded-xl border border-border px-3.5 py-2.5 text-xs text-muted-foreground">
+            {done
+              ? `완료로 처리했어요. ${session.usedSessions}/${session.totalSessions}회차`
+              : session.status === "NO_SHOW"
+                ? "노쇼로 처리했어요."
+                : "취소한 수업이에요."}
           </p>
-        </form>
+          <div className="mt-2">
+            <ReopenSessionButton ptSessionId={session.id} />
+          </div>
+        </div>
       ) : null}
 
       {/*
