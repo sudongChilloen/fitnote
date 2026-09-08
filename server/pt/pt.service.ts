@@ -717,6 +717,65 @@ export async function listSessions(
  * 사라지면, 수업 직전에 확인하려던 사람이 못 본다.
  */
 /**
+ * 지금 수업을 잡을 수 있는 계약들.
+ *
+ * 일정 화면에서 바로 수업을 잡으려면 "누구의" 를 먼저 골라야 한다. 그런데
+ * 회원을 고르고 계약을 또 고르게 하면 단계가 둘이다. 회원 한 명에게 진행 중인
+ * 계약은 대개 하나뿐이라, 계약을 고르는 것으로 회원 선택까지 끝낸다.
+ *
+ * 남은 횟수가 없는 계약은 뺀다. 어차피 scheduleSession 이 막는데, 고를 수 있게
+ * 두면 고르고 나서야 안 된다는 말을 듣는다. 못 고르게 하는 편이 낫다.
+ *
+ * 남은 횟수는 차감된 회차와 아직 안 한 예정 회차를 함께 센다. scheduleSession
+ * 이 쓰는 기준과 같아야 여기서 보이는 숫자와 실제로 잡히는 개수가 어긋나지
+ * 않는다.
+ */
+export async function listSchedulableContracts(userId: string) {
+  const trainer = await requireTrainerProfile(userId);
+
+  const contracts = await prisma.pTContract.findMany({
+    where: {
+      trainerProfileId: trainer.id,
+      status: PTContractStatus.ACTIVE,
+      OR: [{ expiresAt: null }, { expiresAt: { gte: new Date() } }],
+    },
+    orderBy: { createdAt: "desc" },
+    select: {
+      id: true,
+      title: true,
+      totalSessions: true,
+      expiresAt: true,
+      memberUser: { select: { name: true } },
+      _count: {
+        select: {
+          sessions: {
+            where: {
+              OR: [{ deducted: true }, { status: PTSessionStatus.SCHEDULED }],
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return contracts
+    .map((contract) => ({
+      id: contract.id,
+      title: contract.title,
+      memberName: contract.memberUser.name,
+      totalSessions: contract.totalSessions,
+      remaining: contract.totalSessions - contract._count.sessions,
+      expiresAt: contract.expiresAt,
+    }))
+    .filter((contract) => contract.remaining > 0)
+    /*
+      이름순으로 세운다. 만든 순서는 트레이너의 기억에 없고, 고를 때 찾는
+      단서는 회원 이름뿐이다.
+    */
+    .sort((a, b) => a.memberName.localeCompare(b.memberName, "ko"));
+}
+
+/**
  * 회원이 보는 다가오는 수업.
  *
  * 예정된 수업만 보여주면 조용히 사라지는 것이 생긴다. 트레이너가 취소하면

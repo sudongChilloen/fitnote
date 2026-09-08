@@ -1912,3 +1912,62 @@ FitNote 는 회원의 운동 기록이 중심이며 트레이너는 거기에 �
 **프로덕션 UI (8)**
 - 홈 200 / 확인한 뒤엔 표시 없음 / 변경 뱃지 노출 / 확인 버튼 노출
 - 홈에 취소됨 뱃지 / 홈에 취소 사유 / 홈에서도 사라짐
+
+### 일정 화면에서 바로 수업 잡기 (45건)
+
+**서비스 `listSchedulableContracts` (24건)**
+
+- ACTIVE + 미만료 계약이 목록에 있다
+- 만료된 계약은 빠진다
+- 취소된 계약은 빠진다
+- 만료일 없는 계약도 나온다
+- 새 계약의 remaining 은 총 횟수와 같다
+- memberName 이 채워진다
+- 회원 이름 한글순으로 정렬된다
+- 반환된 계약이 모두 이 트레이너 것
+- 다른 트레이너 목록에 내 계약이 없다
+- SCHEDULED 수업 하나가 remaining 을 1 줄인다
+- 남은 횟수 0이 된 계약은 목록에서 사라진다
+- 취소된 수업은 remaining 을 다시 돌려준다
+- 목록이 말한 remaining 만큼은 실제로 잡힌다
+- remaining 을 넘기면 scheduleSession 이 거절한다
+- 첫 수업 sessionNumber 가 이어진다
+- id / title / memberName / totalSessions / remaining / expiresAt 이 모두 있다
+- remaining <= totalSessions
+- remaining > 0 만 반환된다
+- KST 19:00 → dateKey 가 같은 날
+- KST 23:30 은 다음날로 안 넘어간다
+- toKstTimeValue 가 HH:mm
+- toKstTimeValue(19:00) === '19:00'
+- 검증용 계약이 모두 지워졌다
+- 목록이 검증 전 상태로 돌아왔다
+
+**프로덕션 UI · 순수 함수 (21건)**
+
+- 일정 화면 200
+- '수업 잡기' 버튼이 보인다
+- 사과 문구("수업은 회원의 PT 계약에서 잡아요")가 사라졌다
+- 날짜 지정 화면 200
+- 날짜를 지정해도 '수업 잡기' 버튼이 남는다
+- 주간 스트립이 그 날짜를 물고 있다
+- nextFreeTime: 수업이 없으면 19:00
+- nextFreeTime: 60분 수업 하나면 그 다음 시각
+- nextFreeTime: 여러 수업 중 가장 늦게 끝나는 것을 따른다
+- nextFreeTime: 50분 수업도 5분 단위로 떨어진다
+- nextFreeTime: 취소된 수업은 세지 않는다
+- nextFreeTime: 취소 말고 남은 게 있으면 그것을 따른다
+- nextFreeTime: 밤 늦게 끝나면 저녁으로 되돌린다
+- nextFreeTime: 자정을 넘겨도 저녁으로 되돌린다
+- nextFreeTime: 항상 HH:mm 형태
+- 데모 트레이너에게 고를 계약이 있다
+- 모든 옵션에 회원 이름이 있다
+- 모든 옵션의 남은 횟수가 1 이상
+- 옵션 id 가 중복되지 않는다
+- 회원이 트레이너 일정 화면에 접근 못 함
+- 검증용 세션 정리됨
+
+> 서랍은 닫힌 채 렌더되고 `DrawerContent` 는 열기 전까지 DOM 에 없다. 그래서
+> 폼 안쪽(회원 select / 날짜 / 시각 / 진행 시간)은 HTML 로 확인할 수 없고,
+> 그 부분은 서비스와 `nextFreeTime` 순수 함수로 갈라서 검증했다. 처음에는 HTML
+> 에서 회원 이름과 날짜를 찾아 통과시켰는데, 그건 서랍이 아니라 수업 목록과
+> 주간 스트립을 본 허위 통과였다.

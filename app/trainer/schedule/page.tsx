@@ -4,14 +4,18 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { requireUser } from "@/app/lib/dal";
 import { formatKstDateLabel } from "@/lib/date";
+import { listSchedulableContracts } from "@/server/pt/pt.service";
 import { getTrainerWeek } from "@/server/trainers/trainer-board.service";
 import { cn } from "@/lib/utils";
 
 import { EmptyDay, SessionRow } from "../session-row";
+import { NewSessionDrawer } from "./new-session-drawer";
+import { nextFreeTime } from "./next-free-time";
 
 export const metadata = { title: "일정 | FitNote" };
 
 const WEEKDAYS = ["월", "화", "수", "목", "금", "토", "일"] as const;
+
 
 /**
  * 트레이너 일정.
@@ -28,10 +32,10 @@ export default async function TrainerSchedulePage({
   const query = await searchParams;
 
   const raw = query.date;
-  const week = await getTrainerWeek(
-    user.id,
-    typeof raw === "string" ? raw : undefined,
-  );
+  const [week, contracts] = await Promise.all([
+    getTrainerWeek(user.id, typeof raw === "string" ? raw : undefined),
+    listSchedulableContracts(user.id),
+  ]);
 
   const isToday = week.dateKey === week.todayDateKey;
   const selectedDate = new Date(`${week.dateKey}T00:00:00+09:00`);
@@ -120,9 +124,18 @@ export default async function TrainerSchedulePage({
         </ul>
       )}
 
-      <p className="mt-6 text-center text-xs text-muted-foreground">
-        수업은 회원의 PT 계약에서 잡아요.
-      </p>
+      {/*
+        보고 있던 날짜를 그대로 들고 들어간다.
+
+        여기 있던 "수업은 회원의 PT 계약에서 잡아요" 라는 안내는 사실 기능이
+        없다는 사과문이었다. 다음 수업을 잡는 건 일정을 보다가 생각나는 일인데,
+        그때마다 회원 → 계약 → 상세로 세 번 들어갔다 돌아와야 했다.
+      */}
+      <NewSessionDrawer
+        dateKey={week.dateKey}
+        contracts={contracts}
+        defaultTime={nextFreeTime(week.sessions)}
+      />
     </main>
   );
 }
