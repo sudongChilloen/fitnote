@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { ArrowLeftRight } from "lucide-react";
 
 import { requireUser } from "@/app/lib/dal";
+import { TrainerBottomNav } from "@/components/layout/trainer-bottom-nav";
 import { prisma } from "@/lib/prisma";
 
 /**
@@ -48,7 +49,14 @@ export default async function TrainerLayout({
         </div>
       </header>
 
-      <div className="mx-auto w-full max-w-md flex-1">{children}</div>
+      <div
+        className="mx-auto w-full max-w-md flex-1"
+        style={{ paddingBottom: "calc(4.25rem + env(safe-area-inset-bottom))" }}
+      >
+        {children}
+      </div>
+
+      <TrainerBottomNav />
     </div>
   );
 }
