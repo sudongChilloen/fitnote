@@ -213,7 +213,11 @@ export type DietRecord = Prisma.DietRecordModel
 export type DietFeedback = Prisma.DietFeedbackModel
 /**
  * Model BodyRecord
- * 
+ * *
+ *  * 회원이 재는 몸.
+ *  * 하루에 한 줄만 둔다. recordedAt 은 KST 그 날 0시로 맞춰 넣는다. 아침에 재고
+ *  * 저녁에 또 재면 그래프가 톱니가 되는데, 체중은 하루 안에서도 1~2kg 이 움직여서
+ *  * 그 톱니가 실제 변화보다 커 보인다. 같은 날 다시 적으면 덮어쓴다.
  */
 export type BodyRecord = Prisma.BodyRecordModel
 /**

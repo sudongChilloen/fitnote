@@ -3934,7 +3934,7 @@ export const GoalScalarFieldEnum = {
   title: 'title',
   description: 'description',
   targetValue: 'targetValue',
-  currentValue: 'currentValue',
+  startValue: 'startValue',
   unit: 'unit',
   startDate: 'startDate',
   targetDate: 'targetDate',

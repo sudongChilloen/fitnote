@@ -4,6 +4,7 @@ import {
   ChevronRight,
   Dumbbell,
   Flame,
+  TrendingUp,
   UserRound,
   UtensilsCrossed,
   X,
@@ -31,6 +32,7 @@ import {
 } from "@/server/workouts/workout.service";
 import { countDietOnDate } from "@/server/diet/diet.service";
 import { getUnreadCounts } from "@/server/journals/journal.service";
+import { getBodyOverview } from "@/server/body/body.service";
 import { getMyUpcomingSessions } from "@/server/pt/pt.service";
 
 import { LogPastWorkoutButton } from "../workouts/log-past-button";
@@ -91,6 +93,7 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
     recentSessions,
     todayDiet,
     upcomingSessions,
+    body,
   ] = await Promise.all([
     getActiveSession(user.id),
     getRecentWorkoutDays(user.id),
@@ -99,7 +102,12 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
     getRecentSessions(user.id, 3),
     countDietOnDate(user.id, todayKey),
     getMyUpcomingSessions(user.id, 3),
+    getBodyOverview(user.id),
   ]);
+
+  // 체중은 늘 있는 것만 보여준다. 세 지표를 다 그리면 홈이 체성분 화면이 된다.
+  const weight = body.trends.find((trend) => trend.type === "WEIGHT") ?? null;
+  const weightGoal = body.goals.find((goal) => goal.type === "WEIGHT") ?? null;
 
   return (
     <main className="flex flex-col gap-5 px-5 pt-8">
@@ -222,6 +230,44 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
           </span>
 
           <ChevronRight className="size-5 shrink-0 text-brand-strong" />
+        </Link>
+      ) : null}
+
+      {/*
+        체중.
+        기록이 없으면 재촉하지 않는다. 홈에 "아직 안 쟀어요" 를 띄우면 매일
+        아침 못 한 일을 확인하러 오는 화면이 된다. 한 번이라도 적은 사람에게만
+        지금 값과 지난번 대비 변화를 보여준다.
+      */}
+      {weight && weight.latest !== null ? (
+        <Link
+          href="/body"
+          className="flex items-center gap-3 rounded-2xl border border-border bg-card p-5"
+        >
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
+            <TrendingUp className="size-5" aria-hidden />
+          </span>
+
+          <span className="min-w-0 flex-1">
+            <span className="block text-sm font-bold">
+              체중 {weight.latest}
+              {weight.unit}
+            </span>
+            <span className="mt-0.5 block text-xs text-muted-foreground tabular-nums">
+              {weight.delta === null
+                ? "한 번 더 재면 변화를 보여드려요"
+                : weight.delta === 0
+                  ? "지난번과 같아요"
+                  : `지난번보다 ${weight.delta > 0 ? "+" : ""}${weight.delta}${weight.unit}`}
+              {weightGoal && weightGoal.remaining !== null
+                ? weightGoal.reached
+                  ? " · 목표 달성"
+                  : ` · 목표까지 ${weightGoal.remaining}${weightGoal.unit}`
+                : ""}
+            </span>
+          </span>
+
+          <ChevronRight className="size-5 shrink-0 text-muted-foreground" />
         </Link>
       ) : null}
 

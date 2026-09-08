@@ -13,6 +13,7 @@ import {
 
 import { requireUser } from "@/app/lib/dal";
 import { formatKstDateLabel } from "@/lib/date";
+import { getMemberBody } from "@/server/body/body-trainer.service";
 import { listMemberDiet } from "@/server/diet/diet-trainer.service";
 import { MEAL_LABEL } from "@/server/diet/diet.service";
 import {
@@ -70,7 +71,7 @@ export default async function TrainerMemberPage({
   // 않으므로 "안 보여주는데 읽기는 했다" 는 상황이 생기지 않는다.
   const sharing = await getSharingForTrainer(user.id, id);
 
-  const [contracts, personalWorkouts, recentDiet] = await Promise.all([
+  const [contracts, personalWorkouts, recentDiet, body] = await Promise.all([
     listContracts(user.id, id),
     sharing.sharePersonalWorkout
       ? getMemberPersonalWorkouts(user.id, id, 5)
@@ -80,6 +81,7 @@ export default async function TrainerMemberPage({
           days.flatMap((day) => day.records),
         )
       : [],
+    sharing.shareBody ? getMemberBody(user.id, id, 30) : null,
   ]);
 
   return (
@@ -342,6 +344,52 @@ export default async function TrainerMemberPage({
                   {session.exerciseNames.length === 0
                     ? "기록한 운동이 없어요"
                     : session.exerciseNames.join(" · ")}
+                </p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      <section className="mt-7">
+        <h2 className="text-base font-bold">체성분</h2>
+
+        {!sharing.shareBody ? (
+          <div className="mt-2 rounded-2xl border border-dashed border-border p-4">
+            <span className="flex size-8 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
+              <Lock className="size-4" aria-hidden />
+            </span>
+            <p className="mt-2.5 text-sm font-bold">
+              회원이 체성분을 공유하지 않았어요
+            </p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              회원이 내 정보 &gt; 공유 설정에서 켜면 여기에 나타나요.
+            </p>
+          </div>
+        ) : !body || body.rows.length === 0 ? (
+          <p className="mt-2 rounded-2xl border border-border bg-card p-4 text-xs text-muted-foreground">
+            담당을 시작한 뒤로 잰 기록이 없어요.
+          </p>
+        ) : (
+          <ul className="mt-2 grid grid-cols-3 gap-2">
+            {body.trends.map((trend) => (
+              <li
+                key={trend.type}
+                className="rounded-2xl border border-border bg-card p-3"
+              >
+                <p className="text-xs text-muted-foreground">{trend.label}</p>
+
+                <p className="mt-1 text-lg font-bold tabular-nums">
+                  {trend.latest === null ? "-" : trend.latest}
+                  {trend.latest === null ? "" : trend.unit}
+                </p>
+
+                <p className="mt-0.5 text-xs text-muted-foreground tabular-nums">
+                  {trend.delta === null
+                    ? "비교할 값 없음"
+                    : trend.delta === 0
+                      ? "변화 없음"
+                      : `${trend.delta > 0 ? "+" : ""}${trend.delta}${trend.unit}`}
                 </p>
               </li>
             ))}

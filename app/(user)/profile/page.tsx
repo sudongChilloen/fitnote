@@ -1,6 +1,11 @@
 import Link from "next/link";
 
-import { ArrowLeftRight, ShieldCheck, Sparkles } from "lucide-react";
+import {
+  ArrowLeftRight,
+  ShieldCheck,
+  Sparkles,
+  TrendingUp,
+} from "lucide-react";
 
 import { requireUser } from "@/app/lib/dal";
 import { formatKstDateLabel } from "@/lib/date";
@@ -92,6 +97,20 @@ export default async function ProfilePage() {
             공유 설정
           </Link>
         </div>
+      </section>
+
+      <section className="mt-4 rounded-2xl border border-border bg-card p-5">
+        <h2 className="text-sm font-bold">내 몸</h2>
+        <p className="mt-1 mb-2 text-xs text-muted-foreground">
+          체중 · 체지방률 · 골격근량을 남기고 목표까지 얼마나 왔는지 봐요.
+        </p>
+        <Link
+          href="/body"
+          className="inline-flex h-11 items-center gap-1.5 rounded-xl border border-border px-4 text-sm font-bold"
+        >
+          <TrendingUp className="size-4" aria-hidden />
+          체성분
+        </Link>
       </section>
 
       <section className="mt-4 rounded-2xl border border-border bg-card p-5">
