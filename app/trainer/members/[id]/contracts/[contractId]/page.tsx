@@ -274,11 +274,19 @@ export default async function ContractPage({
                 ) : null}
 
                 <div className="mt-2.5 flex flex-wrap items-center gap-2">
-                  {session.workoutSessionId ? (
-                    <span className="inline-flex h-8 items-center gap-1 rounded-full bg-secondary px-3 text-xs font-bold text-muted-foreground">
+                  {/*
+                    운동을 적고 고치는 곳은 수업 기록 화면 하나다. 여기서는
+                    거기로 보내기만 한다 — 같은 것을 두 화면에서 고칠 수 있게
+                    해 두면 언젠가 한쪽만 고쳐진다.
+                  */}
+                  {session.status !== "CANCELLED" ? (
+                    <Link
+                      href={`/trainer/sessions/${session.id}`}
+                      className="inline-flex h-8 items-center gap-1 rounded-full border border-border px-3 text-xs font-bold"
+                    >
                       <Dumbbell className="size-3.5" aria-hidden />
-                      운동 기록 있음
-                    </span>
+                      {session.workoutSessionId ? "운동 기록" : "운동 적기"}
+                    </Link>
                   ) : null}
 
                   {session.journalId ? (

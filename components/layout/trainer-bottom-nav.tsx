@@ -18,7 +18,7 @@ const TABS = [
   { href: "/trainer", label: "홈", icon: House },
   { href: "/trainer/schedule", label: "일정", icon: CalendarDays },
   { href: "/trainer/members", label: "회원", icon: Users },
-  { href: "/trainer/journals", label: "알림장", icon: NotebookPen },
+  { href: "/trainer/journals", label: "할 일", icon: NotebookPen },
   { href: "/trainer/profile", label: "내정보", icon: User },
 ] as const;
 

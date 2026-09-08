@@ -90,10 +90,15 @@ export default async function TrainerHomePage() {
           value={today.length}
           href="/trainer/schedule"
         />
+        {/*
+          두 숫자를 한 칸에 번갈아 넣으면 지금 보는 게 뭔지 매번 다시 읽어야
+          한다. 그래서 "밀린 일" 하나로 합치고, 눌러서 들어간 화면에서 완료 안
+          한 수업과 안 쓴 알림장으로 갈라 보여 준다.
+        */}
         <SummaryCard
           icon={NotebookPen}
-          label="알림장 남음"
-          value={todos.needJournal.length}
+          label="밀린 일"
+          value={todos.needComplete.length + todos.needJournal.length}
           href="/trainer/journals"
         />
         <SummaryCard

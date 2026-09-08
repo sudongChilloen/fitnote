@@ -6,7 +6,7 @@ import { toKstTimeValue } from "@/lib/date";
 import type { TrainerSessionRow } from "@/server/trainers/trainer-board.service";
 import { cn } from "@/lib/utils";
 
-import { beginJournal } from "./journals/actions";
+import { enterSessionRecord } from "./sessions/[id]/actions";
 
 const STATUS_LABEL: Record<string, string> = {
   SCHEDULED: "예정",
@@ -31,21 +31,17 @@ export function SessionRow({ session }: { session: TrainerSessionRow }) {
   /*
     할 일은 하나만 보여 준다.
 
-    아직 안 온 수업이면 회원을 열어 준비하는 게 전부고, 끝난 수업이면 기록이다.
-    버튼을 둘 이상 두면 수업 사이 2분 동안 뭘 눌러야 하는지 고민하게 된다.
+    어느 상태든 이 줄에서 가는 곳은 수업 기록 화면 하나다. 수업 중이면 무게를
+    적고, 끝난 뒤면 완료를 누르거나 알림장으로 넘어간다. 목적지를 상태별로
+    갈라 두면 수업 사이 2분 동안 어디로 가는지 매번 다시 배워야 한다.
 
-    알림장이 아직 없는 끝난 수업은 초안을 만들면서 들어간다. 초안은 게시하기
-    전까지 회원에게 보이지 않으므로, 수업 중에 운동만 적고 나가도 된다.
+    취소한 수업만 예외다. 적을 것도 누를 것도 없다.
   */
   const label = cancelled
     ? null
-    : session.journalId
-      ? session.journalStatus === "PUBLISHED"
-        ? "수업 기록"
-        : "이어 쓰기"
-      : done || noShow
-        ? "수업 기록"
-        : null;
+    : session.journalStatus === "PUBLISHED"
+      ? "기록 보기"
+      : "수업 기록";
 
   const body = (
     <div
@@ -110,28 +106,17 @@ export function SessionRow({ session }: { session: TrainerSessionRow }) {
     </div>
   );
 
-  if (label && session.journalId) {
-    return (
-      <li>
-        <Link href={`/trainer/journals/${session.journalId}`}>{body}</Link>
-      </li>
-    );
-  }
-
   /*
-    알림장이 없으면 초안을 만들면서 들어가야 하니 폼이다. 줄 전체가 버튼이라
-    손가락으로 아무 데나 눌러도 열린다 — 작은 배지를 정확히 눌러야 하면
-    수업 사이에 쓰기 어렵다.
+    줄 전체가 버튼이다. 작은 배지를 정확히 눌러야 하면 수업 사이에 쓰기 어렵다.
+
+    링크가 아니라 폼인 이유는, 들어가면서 운동 기록을 미리 열어 두기 위해서다.
+    화면에 도착해서 "운동 기록 시작" 을 한 번 더 눌러야 하면 그 한 번이 수업
+    중에는 크다.
   */
-  if (label && session.connectionId) {
+  if (label) {
     return (
       <li>
-        <form action={beginJournal}>
-          <input
-            type="hidden"
-            name="memberMembershipId"
-            value={session.connectionId}
-          />
+        <form action={enterSessionRecord}>
           <input type="hidden" name="ptSessionId" value={session.id} />
           <button type="submit" className="w-full text-left">
             {body}

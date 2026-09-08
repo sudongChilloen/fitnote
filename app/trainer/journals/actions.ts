@@ -11,13 +11,9 @@ import {
   JournalEditError,
   removePhoto,
   saveJournal,
+  startJournal,
   type UploadTicket,
 } from "@/server/journals/journal-editor.service";
-import {
-  deleteJournalWorkout,
-  openJournalWorkout,
-  startSessionRecord,
-} from "@/server/journals/journal-workout.service";
 import { TrainerError } from "@/server/trainers/trainer.service";
 
 export type SaveState = {
@@ -33,14 +29,20 @@ function messageOf(error: unknown) {
   return "저장하지 못했어요. 잠시 후 다시 시도해주세요.";
 }
 
-/** "수업 기록" 을 누르면 초안과 운동 기록을 함께 열고 편집 화면으로 보낸다. */
+/**
+ * 알림장 초안을 만들고 편집 화면으로 보낸다.
+ *
+ * 운동 기록은 더 이상 여기서 열지 않는다. 그건 수업 기록 화면이 맡는다. 글을
+ * 쓰려고 들어온 사람에게 빈 운동 기록을 만들어 줄 이유가 없고, 반대로 무게만
+ * 적으려는 사람에게 빈 초안을 만들어 줄 이유도 없다.
+ */
 export async function beginJournal(formData: FormData) {
   const user = await requireUser();
 
   const memberMembershipId = String(formData.get("memberMembershipId") ?? "");
   const rawSession = String(formData.get("ptSessionId") ?? "");
 
-  const journalId = await startSessionRecord(
+  const journalId = await startJournal(
     user.id,
     memberMembershipId,
     rawSession === "" ? undefined : rawSession,
@@ -147,38 +149,4 @@ export async function removePhotoAction(formData: FormData) {
 
   revalidatePath(`/trainer/journals/${journalId}`);
   revalidatePath(`/journal/${journalId}`);
-}
-
-/**
- * PT 수업 운동 기록을 연다.
- *
- * 알림장에 수업이 붙어 있어야 한다. 붙어 있지 않으면 이 운동을 회원의 어느
- * 수업에 매달아야 할지 알 수 없다.
- */
-export async function openWorkoutAction(journalId: string) {
-  const user = await requireUser();
-
-  try {
-    await openJournalWorkout(user.id, journalId);
-  } catch (error) {
-    return { error: messageOf(error) };
-  }
-
-  revalidatePath(`/trainer/journals/${journalId}`);
-
-  return { error: null };
-}
-
-export async function removeWorkoutAction(journalId: string) {
-  const user = await requireUser();
-
-  try {
-    await deleteJournalWorkout(user.id, journalId);
-  } catch (error) {
-    return { error: messageOf(error) };
-  }
-
-  revalidatePath(`/trainer/journals/${journalId}`);
-
-  return { error: null };
 }
