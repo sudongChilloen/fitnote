@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import {
   ArrowLeftRight,
+  CalendarClock,
   ShieldCheck,
   Sparkles,
   TrendingUp,
@@ -97,6 +98,25 @@ export default async function ProfilePage() {
             공유 설정
           </Link>
         </div>
+      </section>
+
+      {/*
+        홈의 "내 PT" 링크는 다음 수업이 있을 때만 보인다. 계약은 있는데 아직
+        일정이 안 잡힌 회원에게는 그 문이 없어서, 여기에도 낸다.
+      */}
+      <section className="mt-4 rounded-2xl border border-border bg-card p-5">
+        <h2 className="text-sm font-bold">내 PT</h2>
+        <p className="mt-1 mb-2 text-xs text-muted-foreground">
+          남은 횟수와 지난 회차를 봐요. 안 간 수업이 횟수에서 빠졌는지도 여기서
+          확인할 수 있어요.
+        </p>
+        <Link
+          href="/sessions"
+          className="inline-flex h-11 items-center gap-1.5 rounded-xl border border-border px-4 text-sm font-bold"
+        >
+          <CalendarClock className="size-4" aria-hidden />
+          PT 횟수 · 회차
+        </Link>
       </section>
 
       <section className="mt-4 rounded-2xl border border-border bg-card p-5">

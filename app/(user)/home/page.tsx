@@ -180,6 +180,17 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
           <div className="mb-3 flex items-center gap-2">
             <CalendarClock className="size-4 text-brand-strong" />
             <h2 className="text-sm font-bold">다음 PT</h2>
+            {/*
+              남은 횟수는 여기 안 쓴다. 홈은 "다음에 언제 가는지" 를 보는
+              자리고, 몇 회 남았는지는 세어 보는 자리라 성격이 다르다.
+              대신 세어 보러 갈 수 있게 문만 낸다.
+            */}
+            <Link
+              href="/sessions"
+              className="ml-auto shrink-0 text-xs font-semibold text-brand-strong"
+            >
+              내 PT
+            </Link>
           </div>
 
           <ul className="flex flex-col gap-3">
