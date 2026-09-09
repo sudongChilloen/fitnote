@@ -1,6 +1,11 @@
 import "server-only";
 
-import { ConnectionStatus, JournalStatus } from "@/generated/prisma/enums";
+import {
+  ConnectionStatus,
+  JournalStatus,
+  PTContractStatus,
+  PTSessionStatus,
+} from "@/generated/prisma/enums";
 import { kstStartOfDay } from "@/lib/date";
 import { prisma } from "@/lib/prisma";
 
@@ -121,6 +126,41 @@ export interface TrainerMemberRow {
   /** 마지막 댓글이 회원 것이라 답을 기다리는 알림장. */
   awaitingReply: { journalId: string; date: Date; count: number }[];
   lastJournalAt: Date | null;
+  /**
+   * 지금 진행 중인 PT 계약. 없으면 null.
+   *
+   * 계약이 여럿이면 먼저 끝나는 것을 잡는다. 트레이너가 다음에 이야기를
+   * 꺼내야 하는 건 나중에 끝나는 계약이 아니라 먼저 끝나는 계약이다.
+   */
+  contract: {
+    id: string;
+    /** 총 횟수에서 차감된 것과 잡아 둔 것을 뺀 값. */
+    remaining: number;
+    totalSessions: number;
+    expiresAt: Date | null;
+    /** 만료까지 남은 날. 만료일이 없으면 null. 오늘이면 0. */
+    daysLeft: number | null;
+  } | null;
+}
+
+/**
+ * 회원을 계약 상태로 가른다.
+ *
+ * - `pt`      진행 중이고 여유가 있다
+ * - `soon`    곧 끝난다. 재계약 이야기를 꺼낼 사람
+ * - `none`    계약이 없다. 끝났거나 아직 안 만들었거나
+ *
+ * 임박 기준은 남은 횟수 3회 이하 또는 만료 14일 이내다. 두 축을 다 보는 건
+ * 계약이 끝나는 방식이 둘이라서다. 횟수를 다 써서 끝나기도 하고, 횟수가
+ * 남았는데 기간이 지나 끝나기도 한다.
+ */
+export function memberContractGroup(row: TrainerMemberRow) {
+  if (!row.contract) return "none" as const;
+
+  const byCount = row.contract.remaining <= 3;
+  const byDate = row.contract.daysLeft !== null && row.contract.daysLeft <= 14;
+
+  return byCount || byDate ? ("soon" as const) : ("pt" as const);
 }
 
 export interface TrainerHome {
@@ -146,7 +186,7 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
   const todayStart = kstStartOfDay();
   const todayEnd = new Date(todayStart.getTime() + 24 * 60 * 60 * 1000);
 
-  const [connections, todaySessions, journals] = await Promise.all([
+  const [connections, todaySessions, journals, contracts] = await Promise.all([
     prisma.trainerMemberConnection.findMany({
       where: { trainerProfileId: trainer.id, status: ConnectionStatus.ACTIVE },
       orderBy: { startedAt: "asc" },
@@ -196,7 +236,57 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
         },
       },
     }),
+
+    /*
+      진행 중인 계약. 만료일이 지난 건 상태가 아직 ACTIVE 여도 뺀다. 만료
+      처리를 돌리는 배치가 없어서, 상태만 믿으면 어제 끝난 계약이 오늘도
+      진행 중으로 보인다.
+
+      차감 여부와 예약 상태를 같이 세는 건 목록의 남은 횟수가 수업을 잡을 때의
+      계산과 어긋나면 안 되기 때문이다. 목록에서 5회 남았다고 본 트레이너가
+      수업을 잡으려는데 거절당하면 어느 쪽이 맞는지 알 수 없다.
+    */
+    prisma.pTContract.findMany({
+      where: {
+        trainerProfileId: trainer.id,
+        status: PTContractStatus.ACTIVE,
+        OR: [{ expiresAt: null }, { expiresAt: { gte: todayStart } }],
+      },
+      select: {
+        id: true,
+        memberUserId: true,
+        totalSessions: true,
+        expiresAt: true,
+        _count: {
+          select: {
+            sessions: {
+              where: {
+                OR: [{ deducted: true }, { status: PTSessionStatus.SCHEDULED }],
+              },
+            },
+          },
+        },
+      },
+    }),
   ]);
+
+  /*
+    회원마다 계약 하나만 남긴다. 먼저 끝나는 것이 이긴다. 만료일이 없는 계약은
+    영영 안 끝나므로 맨 뒤로 민다.
+  */
+  const contractByMember = new Map<string, (typeof contracts)[number]>();
+
+  for (const contract of contracts) {
+    const kept = contractByMember.get(contract.memberUserId);
+
+    if (
+      !kept ||
+      (contract.expiresAt !== null &&
+        (kept.expiresAt === null || contract.expiresAt < kept.expiresAt))
+    ) {
+      contractByMember.set(contract.memberUserId, contract);
+    }
+  }
 
   const sessionByMember = new Map(
     todaySessions.map((session) => [session.memberUserId, session]),
@@ -239,6 +329,27 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
         : null,
       awaitingReply,
       lastJournalAt: published[0]?.date ?? null,
+      contract: (() => {
+        const contract = contractByMember.get(connection.memberUserId);
+        if (!contract) return null;
+
+        return {
+          id: contract.id,
+          remaining: contract.totalSessions - contract._count.sessions,
+          totalSessions: contract.totalSessions,
+          expiresAt: contract.expiresAt,
+          daysLeft:
+            contract.expiresAt === null
+              ? null
+              : Math.max(
+                  0,
+                  Math.ceil(
+                    (contract.expiresAt.getTime() - todayStart.getTime()) /
+                      (24 * 60 * 60 * 1000),
+                  ) - 1,
+                ),
+        };
+      })(),
     };
   });
 
@@ -353,7 +464,7 @@ export async function getMemberDetail(
         date: true,
         title: true,
         status: true,
-          comments: {
+        comments: {
           orderBy: { createdAt: "desc" },
           select: { id: true, authorUserId: true },
         },

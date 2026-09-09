@@ -13,7 +13,10 @@ import {
   getTrainerToday,
   getTrainerTodos,
 } from "@/server/trainers/trainer-board.service";
-import { getTrainerHome } from "@/server/trainers/trainer.service";
+import {
+  getTrainerHome,
+  memberContractGroup,
+} from "@/server/trainers/trainer.service";
 
 import { MemberCard, NoMembers } from "./member-card";
 import { EmptyDay, SessionRow } from "./session-row";
@@ -76,6 +79,10 @@ export default async function TrainerHomePage() {
     (session) => session.status === "SCHEDULED",
   ).length;
 
+  const expiring = home.members.filter(
+    (member) => memberContractGroup(member) === "soon",
+  );
+
   return (
     <main className="px-5 pt-5 pb-16">
       <h1 className="text-xl font-bold">오늘</h1>
@@ -130,6 +137,35 @@ export default async function TrainerHomePage() {
           </ul>
         )}
       </section>
+
+      {/*
+        재계약은 먼저 알려 줘야 하는 일이다.
+
+        필터로만 두면 트레이너가 "누가 곧 끝나지" 하고 떠올려서 눌러 봐야 알 수
+        있는데, 그 생각이 나는 시점은 대개 계약이 이미 끝난 다음이다. 위의 요약
+        카드에 넣지 않고 한 줄로 뺀 건 저 셋이 다 오늘 안에 끝내는 일이고 이건
+        이번 주 안에 꺼내는 이야기라, 같은 자리에 두면 급한 순서가 섞여서다.
+      */}
+      {expiring.length > 0 ? (
+        <Link
+          href="/trainer/members?filter=soon"
+          className="mt-3 flex items-center gap-2.5 rounded-2xl border border-border bg-card px-4 py-3"
+        >
+          <span className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-accent text-brand-strong">
+            <CalendarClock className="size-4" aria-hidden />
+          </span>
+          <span className="min-w-0 flex-1 text-sm font-bold">
+            PT가 곧 끝나는 회원 {expiring.length}명
+          </span>
+          <span className="shrink-0 truncate text-xs text-muted-foreground">
+            {expiring
+              .slice(0, 2)
+              .map((member) => member.name)
+              .join(", ")}
+            {expiring.length > 2 ? " 외" : ""}
+          </span>
+        </Link>
+      ) : null}
 
       <section className="mt-7">
         <div className="flex items-baseline justify-between gap-2">
