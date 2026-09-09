@@ -11,6 +11,7 @@
 
 export const UserStatus = {
   ACTIVE: 'ACTIVE',
+  PENDING: 'PENDING',
   INACTIVE: 'INACTIVE',
   SUSPENDED: 'SUSPENDED',
   DELETED: 'DELETED'

@@ -10,6 +10,10 @@ import {
 } from "@/server/diet/diet-trainer.service";
 import { DietError } from "@/server/diet/diet.service";
 import { SharingError } from "@/server/sharing/sharing.service";
+import {
+  ConnectionError,
+  createPendingMember,
+} from "@/server/trainers/connection.service";
 import { TrainerError } from "@/server/trainers/trainer.service";
 
 /**
@@ -58,4 +62,42 @@ export async function removeDietFeedback(formData: FormData) {
 
   revalidatePath(`/trainer/members/${memberId}/diet/${dietId}`);
   redirect(`/trainer/members/${memberId}/diet/${dietId}`);
+}
+
+/**
+ * 트레이너가 회원을 직접 만든다.
+ *
+ * 만든 뒤 그 회원의 상세로 보낸다. 트레이너가 회원을 만드는 건 이름을 적어
+ * 두려는 게 아니라 계약을 걸거나 수업을 잡으려는 것이고, 그건 전부 상세에
+ * 있다. 목록으로 돌려보내면 방금 만든 사람을 다시 찾아 눌러야 한다.
+ */
+export async function createMemberAction(formData: FormData) {
+  const user = await requireUser();
+
+  const name = String(formData.get("name") ?? "").trim();
+
+  if (!name) {
+    return { error: "이름을 적어 주세요.", connectionId: null };
+  }
+
+  let created: { connectionId: string };
+
+  try {
+    created = await createPendingMember(user.id, {
+      name,
+      phone: String(formData.get("phone") ?? ""),
+    });
+  } catch (error) {
+    if (error instanceof ConnectionError) {
+      return { error: error.message, connectionId: null };
+    }
+
+    console.error("create member error:", error);
+    return { error: "잠시 후 다시 시도해주세요.", connectionId: null };
+  }
+
+  revalidatePath("/trainer/members");
+  revalidatePath("/trainer");
+
+  return { error: null, connectionId: created.connectionId };
 }

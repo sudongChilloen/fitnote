@@ -91,6 +91,19 @@ export default async function TrainerMemberPage({
         {formatKstDateLabel(member.startedAt)} 담당 시작
       </p>
 
+      {member.pending ? (
+        /*
+          이 회원은 아직 앱을 못 본다. 이걸 알려 주지 않으면 트레이너는 정성껏
+          쓴 알림장에 답이 없는 걸 회원 탓으로 오해한다. 기록은 계속 쌓아도
+          되지만, 지금 회원에게 닿는 건 없다는 사실은 분명히 말해 준다.
+        */
+        <p className="mt-3 rounded-2xl border border-border bg-secondary px-4 py-3 text-xs text-muted-foreground">
+          <b className="font-bold text-foreground">아직 가입하지 않은 회원</b>
+          이에요. 계약·수업·알림장은 지금부터 그대로 쌓이지만, 회원이 가입해서
+          이 계정을 이어받기 전까지는 회원 쪽에 보이지 않아요.
+        </p>
+      ) : null}
+
       <Link
         href={`/trainer/members/${id}/journey`}
         className="mt-4 flex items-center justify-between gap-2 rounded-2xl border border-border bg-card px-4 py-3"

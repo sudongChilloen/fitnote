@@ -342,3 +342,83 @@ export async function getMyTrainers(userId: string) {
     specialty: row.trainerProfile.specialty,
   }));
 }
+
+/**
+ * 트레이너가 회원을 직접 만든다. 이름만 있으면 된다.
+ *
+ * 지금까지 이 서비스에 회원이 들어오는 길은 하나뿐이었다. 회원이 스스로
+ * 가입하고, 앱을 깔고, 트레이너 코드를 받아 넣는 것. 세 단계 모두를 넘는
+ * 사람만 트레이너의 목록에 나타났다.
+ *
+ * 그런데 트레이너가 이 앱을 쓰기 시작하는 순간에는 회원이 한 명도 없다.
+ * 목록이 비어 있으니 계약도 수업도 알림장도 쓸 데가 없고, 그 상태로 회원들이
+ * 가입해 주기를 기다려야 한다. 회원 서른 명 중 다섯이 가입하면 트레이너는
+ * 다섯 명은 앱에, 스물다섯 명은 수첩에 적게 되고, 두 군데를 오가느니 결국
+ * 수첩 하나로 돌아간다. 도구가 쓸모 있으려면 첫날부터 서른 명이 다 들어와야
+ * 한다.
+ *
+ * 그래서 트레이너가 이름만으로 회원을 만든다. 이 회원은 로그인할 수 없는
+ * 껍데기지만, PT 계약도 수업도 운동 기록도 알림장도 다 붙는다. 나중에 본인이
+ * 이 계정을 이어받으면 그때까지 쌓인 것이 전부 자기 것으로 보인다. 기록을
+ * 옮기지 않기 때문에 옮기다 새는 일도 없다.
+ *
+ * email 과 passwordHash 를 비워 둔다. 로그인은 email 로 사람을 찾으므로
+ * 이 계정에는 애초에 닿지 않고, 닿더라도 passwordHash 가 없어 막힌다.
+ */
+export async function createPendingMember(
+  userId: string,
+  input: { name: string; phone?: string | null },
+) {
+  const trainerProfileId = await requireProfileId(userId);
+
+  const name = input.name.trim();
+  if (name.length < 1 || name.length > 20) {
+    throw new ConnectionError("NOT_FOUND", "이름을 1~20자로 적어 주세요.");
+  }
+
+  const phone = input.phone?.trim() ? input.phone.trim() : null;
+
+  // 같은 트레이너 밑에 같은 이름이 이미 있으면 막는다. 동명이인이 있을 수는
+  // 있지만, 목록에 똑같은 이름이 둘 있으면 트레이너가 누구에게 알림장을 쓰는지
+  // 알 수 없다. 정말 동명이인이라면 "김민수(수)"처럼 구분해서 적게 한다.
+  const duplicate = await prisma.trainerMemberConnection.findFirst({
+    where: {
+      trainerProfileId,
+      status: ConnectionStatus.ACTIVE,
+      memberUser: { name },
+    },
+    select: { id: true },
+  });
+
+  if (duplicate) {
+    throw new ConnectionError(
+      "ALREADY_CONNECTED",
+      `이미 "${name}" 회원이 있어요. 동명이인이면 이름을 조금 다르게 적어 주세요.`,
+    );
+  }
+
+  return prisma.$transaction(async (tx) => {
+    const member = await tx.user.create({
+      data: {
+        name,
+        phone,
+        email: null,
+        passwordHash: null,
+        status: "PENDING",
+        memberProfile: { create: {} },
+      },
+      select: { id: true, name: true },
+    });
+
+    const connection = await tx.trainerMemberConnection.create({
+      data: {
+        trainerProfileId,
+        memberUserId: member.id,
+        status: ConnectionStatus.ACTIVE,
+      },
+      select: { id: true },
+    });
+
+    return { connectionId: connection.id, memberUserId: member.id, name: member.name };
+  });
+}

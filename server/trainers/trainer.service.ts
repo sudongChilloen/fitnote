@@ -69,7 +69,7 @@ export async function requireMyMember(
       id: true,
       startedAt: true,
       memberUserId: true,
-      memberUser: { select: { id: true, name: true } },
+      memberUser: { select: { id: true, name: true, status: true } },
     },
   });
 
@@ -99,7 +99,7 @@ export async function requireMyMemberByUserId(
       status: true,
       startedAt: true,
       memberUserId: true,
-      memberUser: { select: { id: true, name: true } },
+      memberUser: { select: { id: true, name: true, status: true } },
     },
   });
 
@@ -115,6 +115,14 @@ export interface TrainerMemberRow {
   connectionId: string;
   userId: string;
   name: string;
+  /**
+   * 트레이너가 대신 만들어 둔, 아직 본인이 이어받지 않은 회원.
+   *
+   * 트레이너에게 이걸 알려 줘야 하는 이유는, 이 회원에게 쓴 알림장은 아무도
+   * 읽지 않기 때문이다. 답이 없는 게 무시당한 게 아니라 계정이 없어서라는 걸
+   * 모르면 트레이너는 엉뚱한 오해를 한다.
+   */
+  pending: boolean;
   /** 오늘 잡힌 PT 수업. 없으면 null. */
   todaySession: {
     id: string;
@@ -193,7 +201,7 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
       select: {
         id: true,
         memberUserId: true,
-        memberUser: { select: { id: true, name: true } },
+        memberUser: { select: { id: true, name: true, status: true } },
       },
     }),
 
@@ -319,6 +327,7 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
       connectionId: connection.id,
       userId: connection.memberUser.id,
       name: connection.memberUser.name,
+      pending: connection.memberUser.status === "PENDING",
       todaySession: session
         ? {
             id: session.id,
@@ -393,6 +402,8 @@ export interface TrainerMemberDetail {
   connectionId: string;
   userId: string;
   name: string;
+  /** 아직 본인이 계정을 이어받지 않은 회원. */
+  pending: boolean;
   /** 이 트레이너가 이 회원을 봐 주기 시작한 날. */
   startedAt: Date;
   /** 오늘 이후 잡힌 수업. */
@@ -477,6 +488,7 @@ export async function getMemberDetail(
     connectionId: connection.id,
     userId: connection.memberUser.id,
     name: connection.memberUser.name,
+    pending: connection.memberUser.status === "PENDING",
     startedAt: connection.startedAt,
     upcomingSessions: upcoming.map((session) => ({
       id: session.id,

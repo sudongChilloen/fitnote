@@ -64,6 +64,16 @@ export function MemberCard({ member }: { member: TrainerMemberRow }) {
         <span className="min-w-0 flex-1">
           <span className="flex items-center gap-1.5">
             <span className="truncate font-bold">{member.name}</span>
+            {member.pending ? (
+              /*
+                미가입은 할 일 뱃지와 성격이 다르다. 할 일은 트레이너가 지금
+                처리할 것이고, 이건 이 회원이 앱을 안 본다는 사실이다. 그래서
+                눈에 띄는 색을 쓰지 않고 회색으로 옆에 붙인다.
+              */
+              <span className="shrink-0 rounded-full bg-secondary px-2 py-0.5 text-[0.6875rem] font-bold text-muted-foreground">
+                미가입
+              </span>
+            ) : null}
             {todo ? (
               <span
                 className={
@@ -126,13 +136,19 @@ export function NoMembers() {
         <UserPlus className="size-4.5" aria-hidden />
       </span>
       <p className="mt-2.5 text-sm font-bold">아직 담당 회원이 없어요</p>
+      {/*
+        회원이 가입하기를 기다리라고 하지 않는다. 그 말은 트레이너가 오늘
+        아무것도 못 한다는 뜻이고, 그러면 앱을 닫고 수첩을 편다. 위의 "회원
+        추가" 로 지금 바로 이름을 적을 수 있다는 걸 알려 준다.
+      */}
       <p className="mt-1 text-xs text-muted-foreground">
-        내정보에서 회원 초대 코드를 만들어 전달하면, 회원이 코드를 넣는 순간
-        담당으로 배정돼요.
+        위의 <b className="font-bold text-foreground">회원 추가</b>로 이름만
+        적어 두면 바로 PT 계약과 수업을 잡을 수 있어요. 회원이 나중에 가입하면
+        그동안 쌓인 기록을 그대로 이어받아요.
       </p>
       <Link
         href="/trainer/profile"
-        className="mt-3 inline-flex h-10 items-center rounded-xl bg-primary px-4 text-sm font-bold text-primary-foreground"
+        className="mt-3 inline-flex h-10 items-center rounded-xl border border-border px-4 text-sm font-bold"
       >
         초대 코드 만들기
       </Link>

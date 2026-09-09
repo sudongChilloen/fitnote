@@ -5,6 +5,7 @@ import {
 } from "@/server/trainers/trainer.service";
 
 import { MemberCard, NoMembers } from "../member-card";
+import { AddMemberDrawer } from "./add-member-drawer";
 import { MemberFilterChips } from "./filter-chips";
 import { parseMemberFilter, type MemberFilter } from "./member-filter";
 
@@ -47,11 +48,14 @@ export default async function TrainerMembersPage({
 
   return (
     <main className="px-5 pt-5 pb-16">
-      <div className="flex items-baseline justify-between gap-2">
-        <h1 className="text-xl font-bold">담당 회원</h1>
-        <span className="shrink-0 text-sm text-muted-foreground tabular-nums">
-          {home.members.length}명
-        </span>
+      <div className="flex items-center justify-between gap-2">
+        <h1 className="text-xl font-bold">
+          담당 회원{" "}
+          <span className="text-sm font-normal text-muted-foreground tabular-nums">
+            {home.members.length}명
+          </span>
+        </h1>
+        <AddMemberDrawer />
       </div>
 
       {home.members.length === 0 ? (

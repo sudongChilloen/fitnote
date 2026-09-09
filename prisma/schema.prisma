@@ -13,6 +13,20 @@ datasource db {
 
 enum UserStatus {
   ACTIVE
+
+  /**
+   * 트레이너가 대신 만들어 둔 회원. 본인은 아직 계정을 이어받지 않았다.
+   *
+   * 트레이너가 회원 서른 명을 관리하려면 서른 명이 먼저 가입해야 하는 구조는
+   * 현실에서 굴러가지 않는다. 그중 다섯이 가입하고 나머지는 수기로 남으면
+   * 트레이너는 결국 둘 다 버린다. 그래서 트레이너가 이름만으로 먼저 만들고,
+   * 회원이 나중에 이 계정을 이어받는다.
+   *
+   * 이 계정은 로그인하지 못한다. email 과 passwordHash 가 비어 있어서
+   * 로그인 경로에 애초에 걸리지 않고, 상태로 한 번 더 막는다.
+   */
+  PENDING
+
   INACTIVE
   SUSPENDED
   DELETED
@@ -214,9 +228,15 @@ enum AiAnalysisStatus {
 // ============================================================
 
 model User {
-  id              String     @id @default(uuid())
-  email           String     @unique
-  passwordHash    String?
+  id String @id @default(uuid())
+
+  /**
+   * 트레이너가 대신 만든 회원은 이메일이 없다. 본인이 계정을 이어받을 때
+   * 채운다. Postgres 의 unique 인덱스는 NULL 을 서로 다른 값으로 보므로
+   * 미가입 회원이 여럿이어도 부딪히지 않는다.
+   */
+  email        String? @unique
+  passwordHash String?
   name            String
   phone           String?
   profileImageUrl String?
