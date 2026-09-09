@@ -2,6 +2,7 @@ import "server-only";
 
 import { Prisma } from "@/generated/prisma/client";
 import {
+  ConnectionStatus,
   WorkoutEntryMode,
   WorkoutSessionStatus,
 } from "@/generated/prisma/enums";
@@ -60,6 +61,9 @@ const sessionInclude = {
     orderBy: { orderIndex: "asc" },
     include: recordInclude,
   },
+  // PT 수업으로 한 운동인지, 누가 대신 적어 줬는지.
+  // 세션 한 줄에 딸린 값이라 목록에서 함께 가져와도 비용이 없다.
+  recordedBy: { select: { name: true } },
 } satisfies Prisma.WorkoutSessionInclude;
 
 type SetPayload = Prisma.WorkoutSetGetPayload<{ select: typeof setSelect }>;
@@ -105,6 +109,15 @@ function toSessionDto(session: SessionPayload) {
     endedAt: session.endedAt,
     durationSec: session.durationSec,
     entryMode: session.entryMode,
+    /**
+     * PT 수업으로 한 운동인지.
+     *
+     * 개인 기록으로 복사하지 않고 표시만 한다. 복사하면 같은 운동이 두 번
+     * 남아서 이번 주 몇 번 했는지부터 어긋난다.
+     */
+    isPt: session.ptSessionId !== null,
+    /** PT 라면 대신 적어 준 트레이너 이름. */
+    recordedByName: session.recordedBy?.name ?? null,
     // 진행중 세션의 경과 시간. 서버에서 계산해 두면 화면이 첫 렌더부터
     // 올바른 값을 그릴 수 있고, 컴포넌트가 렌더 중 Date.now() 를 부르지 않아도 된다.
     //
@@ -164,16 +177,114 @@ async function recalculateVolume(
   });
 }
 
-/** 소유권 확인. 다른 사용자의 세트를 건드리지 못하게 한다. */
-async function findOwnedSet(userId: string, setId: string) {
-  return prisma.workoutSet.findFirst({
-    where: { id: setId, record: { userId } },
+/**
+ * 이 세션에 손댈 수 있는 사람인가. 손댈 수 있으면 기록 주인의 userId 를 준다.
+ *
+ * 기록의 주인은 언제나 회원이다. 트레이너가 PT 수업에서 든 무게를 대신 적어
+ * 줄 때도 `WorkoutRecord.userId` 는 회원이어야 한다. 여기에 트레이너를 넣으면
+ * 회원의 운동 이력에서 하필 PT 수업만 통째로 빠진다.
+ *
+ * 그래서 "누가 눌렀나" 와 "누구의 기록인가" 를 나누고, 손댈 자격만 여기서
+ * 한 번에 판단한다. 이 판단이 흩어지면 어느 한 곳에서 빠뜨렸을 때 남의 기록이
+ * 고쳐진다.
+ *
+ * 트레이너는 자기가 가르친 PT 수업의 기록만 만질 수 있다. 개인 운동은 공유
+ * 설정을 켜도 읽기만 한다 — 회원이 혼자 한 운동을 남이 고치는 건 다른 이야기다.
+ */
+async function resolveOwner(actorUserId: string, sessionId: string) {
+  const session = await prisma.workoutSession.findUnique({
+    where: { id: sessionId },
     select: {
       id: true,
-      recordId: true,
-      record: { select: { session: { select: { status: true } } } },
+      userId: true,
+      status: true,
+      ptSession: { select: { trainerProfileId: true } },
     },
   });
+
+  if (!session) return null;
+
+  if (session.userId === actorUserId) {
+    /*
+      회원 자신이라도 PT 수업 기록은 못 고친다.
+
+      트레이너가 적어 준 무게를 회원이 바꾸면 두 사람이 서로 다른 숫자를 보게
+      되고, 다음 수업에서 무엇을 기준으로 올릴지 알 수 없어진다. 화면에서도
+      막지만 서버 액션은 화면 없이도 부를 수 있어 여기서 판단한다.
+    */
+    return {
+      ownerUserId: session.userId,
+      status: session.status,
+      canWrite: session.ptSession === null,
+    };
+  }
+
+  if (!session.ptSession) return null;
+
+  const trainer = await prisma.trainerProfile.findUnique({
+    where: { userId: actorUserId },
+    select: { id: true },
+  });
+
+  if (!trainer || trainer.id !== session.ptSession.trainerProfileId) {
+    return null;
+  }
+
+  // 담당이 끝난 뒤에는 못 고친다. 지난 트레이너가 기록을 바꾸면 회원은 지금
+  // 담당이 아닌 사람이 남긴 변화를 보게 된다.
+  const connection = await prisma.trainerMemberConnection.findUnique({
+    where: {
+      trainerProfileId_memberUserId: {
+        trainerProfileId: trainer.id,
+        memberUserId: session.userId,
+      },
+    },
+    select: { status: true },
+  });
+
+  if (connection?.status !== ConnectionStatus.ACTIVE) return null;
+
+  return {
+    ownerUserId: session.userId,
+    status: session.status,
+    canWrite: true,
+  };
+}
+
+/** 고칠 수 있는 사람인가. 아니면 왜 안 되는지 말해 준다. */
+function assertWritable(owner: { canWrite: boolean }) {
+  if (!owner.canWrite) {
+    throw new WorkoutError(
+      "PT_RECORD",
+      "수업에서 트레이너가 적어 준 기록이라 고칠 수 없어요.",
+    );
+  }
+}
+
+/** 기록에서 출발할 때. 세션을 거쳐 같은 판단을 한다. */
+async function resolveOwnerByRecord(actorUserId: string, recordId: string) {
+  const record = await prisma.workoutRecord.findUnique({
+    where: { id: recordId },
+    select: { sessionId: true },
+  });
+
+  if (!record) return null;
+
+  return resolveOwner(actorUserId, record.sessionId);
+}
+
+/** 세트에서 출발할 때. */
+async function resolveOwnerBySet(actorUserId: string, setId: string) {
+  const set = await prisma.workoutSet.findUnique({
+    where: { id: setId },
+    select: { recordId: true, record: { select: { sessionId: true } } },
+  });
+
+  if (!set) return null;
+
+  const owner = await resolveOwner(actorUserId, set.record.sessionId);
+
+  return owner === null ? null : { ...owner, recordId: set.recordId };
 }
 
 /**
@@ -225,8 +336,12 @@ export async function getActiveSession(userId: string) {
 }
 
 export async function getSessionById(userId: string, sessionId: string) {
+  const owner = await resolveOwner(userId, sessionId);
+
+  if (!owner) return null;
+
   const session = await prisma.workoutSession.findFirst({
-    where: { id: sessionId, userId },
+    where: { id: sessionId, userId: owner.ownerUserId },
     include: sessionInclude,
   });
 
@@ -267,7 +382,9 @@ export async function finishSession(
         ? null
         : Math.max(
             0,
-            Math.round((endedAt.getTime() - session.startedAt.getTime()) / 1000),
+            Math.round(
+              (endedAt.getTime() - session.startedAt.getTime()) / 1000,
+            ),
           ),
     },
     include: sessionInclude,
@@ -353,12 +470,16 @@ export async function updateSessionMemo(
   sessionId: string,
   memo: string | null,
 ) {
-  const result = await prisma.workoutSession.updateMany({
-    where: { id: sessionId, userId },
+  const owner = await resolveOwner(userId, sessionId);
+
+  if (!owner) return null;
+
+  assertWritable(owner);
+
+  await prisma.workoutSession.update({
+    where: { id: sessionId },
     data: { memo },
   });
-
-  if (result.count === 0) return null;
 
   return getSessionById(userId, sessionId);
 }
@@ -418,6 +539,73 @@ export async function listSessions(
 // ---------------------------------------------------------------------------
 
 /**
+ * 홈에 띄울 최근 운동 몇 개.
+ *
+ * listSessions 는 세트까지 전부 끌어오므로 홈에 쓰기엔 무겁다. 홈에서 필요한 건
+ * "언제 · 무슨 운동 · 몇 세트" 뿐이라 이름과 개수만 센다.
+ */
+export async function getRecentSessions(
+  userId: string,
+  limit = 3,
+  options?: {
+    /**
+     * PT 수업에서 트레이너가 적어 준 기록을 뺀다.
+     *
+     * 트레이너가 회원 기록을 볼 때 쓴다. 트레이너에게 자기가 적은 기록을 다시
+     * 보여줄 이유가 없고, 무엇보다 회원이 공유하기로 한 건 "개인 운동" 뿐이라
+     * 여기서 섞이면 공유 설정이 의미를 잃는다.
+     */
+    personalOnly?: boolean;
+
+    /**
+     * 이 시각 이후 기록만.
+     *
+     * 트레이너가 회원 기록을 볼 때 관계가 시작된 날을 넣는다. 회원이 그 전에
+     * 혼자 남긴 기록은 이 트레이너에게 보여줄 생각으로 쓴 것이 아니다.
+     */
+    since?: Date;
+  },
+) {
+  const sessions = await prisma.workoutSession.findMany({
+    where: {
+      userId,
+      status: WorkoutSessionStatus.COMPLETED,
+      ...(options?.personalOnly ? { ptSessionId: null } : {}),
+      ...(options?.since ? { startedAt: { gte: options.since } } : {}),
+    },
+    orderBy: { startedAt: "desc" },
+    take: limit,
+    select: {
+      id: true,
+      startedAt: true,
+      durationSec: true,
+      ptSessionId: true,
+      recordedBy: { select: { name: true } },
+      records: {
+        orderBy: { orderIndex: "asc" },
+        select: {
+          exercise: { select: { name: true } },
+          _count: { select: { sets: true } },
+        },
+      },
+    },
+  });
+
+  return sessions.map((session) => ({
+    id: session.id,
+    startedAt: session.startedAt,
+    durationSec: session.durationSec,
+    isPt: session.ptSessionId !== null,
+    recordedByName: session.recordedBy?.name ?? null,
+    exerciseNames: session.records.map((record) => record.exercise.name),
+    totalSets: session.records.reduce(
+      (sum, record) => sum + record._count.sets,
+      0,
+    ),
+  }));
+}
+
+/**
  * 최근 n 일간 운동한 날짜 목록. 홈 화면의 주간 스트립에 쓴다.
  *
  * 세트까지 끌어오면 홈을 열 때마다 불필요하게 무거워지므로
@@ -459,21 +647,28 @@ export async function getMonthSummary(userId: string, monthKey: string) {
     orderBy: { startedAt: "asc" },
     select: {
       startedAt: true,
+      ptSessionId: true,
       records: { select: { _count: { select: { sets: true } } } },
     },
   });
 
-  const byDate = new Map<string, { sessions: number; sets: number }>();
+  const byDate = new Map<
+    string,
+    { sessions: number; sets: number; hasPt: boolean }
+  >();
 
   for (const session of sessions) {
     const key = toKstDateKey(session.startedAt);
-    const entry = byDate.get(key) ?? { sessions: 0, sets: 0 };
+    const entry = byDate.get(key) ?? { sessions: 0, sets: 0, hasPt: false };
 
     entry.sessions += 1;
     entry.sets += session.records.reduce(
       (sum, record) => sum + record._count.sets,
       0,
     );
+    // 하루에 PT 와 개인 운동을 둘 다 했으면 PT 쪽으로 센다.
+    // 달력 칸 하나에 점을 두 개 찍으면 무슨 뜻인지 알 수 없다.
+    entry.hasPt = entry.hasPt || session.ptSessionId !== null;
 
     byDate.set(key, entry);
   }
@@ -579,12 +774,21 @@ export async function getLastRecord(
   userId: string,
   exerciseId: string,
   excludeSessionId?: string,
+  options: { ptOnly?: boolean } = {},
 ) {
   const record = await prisma.workoutRecord.findFirst({
     where: {
       userId,
       exerciseId,
       ...(excludeSessionId ? { sessionId: { not: excludeSessionId } } : {}),
+      /*
+        트레이너가 볼 때는 자기 수업 기록만 참고하게 한다.
+
+        "지난번 65kg" 같은 힌트는 회원이 혼자 한 운동에서 나올 수 있는데,
+        개인 운동은 공유 설정을 켠 회원만 보여주기로 한 것이다. 힌트라고
+        해서 게이트를 지나가면 안 된다.
+      */
+      ...(options.ptOnly ? { session: { ptSessionId: { not: null } } } : {}),
       // 세트가 없는 기록은 참고할 값이 없다.
       sets: { some: {} },
     },
@@ -620,14 +824,12 @@ export async function addRecord(
   sessionId: string,
   { exerciseId, note }: { exerciseId: string; note?: string },
 ) {
-  const session = await prisma.workoutSession.findFirst({
-    where: { id: sessionId, userId },
-    select: { id: true, status: true },
-  });
+  const owner = await resolveOwner(userId, sessionId);
 
-  if (!session) return null;
+  if (!owner) return null;
 
-  assertEditable(session.status);
+  assertWritable(owner);
+  assertEditable(owner.status);
 
   const exercise = await prisma.exercise.findFirst({
     where: { id: exerciseId, isActive: true },
@@ -647,7 +849,7 @@ export async function addRecord(
   const record = await prisma.workoutRecord.create({
     data: {
       sessionId,
-      userId,
+      userId: owner.ownerUserId,
       exerciseId,
       note,
       orderIndex: (last?.orderIndex ?? -1) + 1,
@@ -658,7 +860,11 @@ export async function addRecord(
   return {
     record: toRecordDto(record),
     // 직전 기록을 함께 내려 클라이언트가 추가 호출 없이 값을 채울 수 있게 한다.
-    previousRecord: await getLastRecord(userId, exerciseId, sessionId),
+    previousRecord: await getLastRecord(
+      owner.ownerUserId,
+      exerciseId,
+      sessionId,
+    ),
   };
 }
 
@@ -676,14 +882,12 @@ export async function addRecords(
   sessionId: string,
   exerciseIds: string[],
 ) {
-  const session = await prisma.workoutSession.findFirst({
-    where: { id: sessionId, userId },
-    select: { id: true, status: true },
-  });
+  const owner = await resolveOwner(userId, sessionId);
 
-  if (!session) return null;
+  if (!owner) return null;
 
-  assertEditable(session.status);
+  assertWritable(owner);
+  assertEditable(owner.status);
 
   const found = await prisma.exercise.findMany({
     where: { id: { in: exerciseIds }, isActive: true },
@@ -709,26 +913,28 @@ export async function addRecords(
   await prisma.workoutRecord.createMany({
     data: ordered.map((exerciseId, index) => ({
       sessionId,
-      userId,
+      // 트레이너가 대신 담아도 기록의 주인은 회원이다.
+      userId: owner.ownerUserId,
       exerciseId,
       orderIndex: base + index,
     })),
   });
 
-  return { added: ordered.length, skipped: exerciseIds.length - ordered.length };
+  return {
+    added: ordered.length,
+    skipped: exerciseIds.length - ordered.length,
+  };
 }
 
 export async function deleteRecord(userId: string, recordId: string) {
-  const record = await prisma.workoutRecord.findFirst({
-    where: { id: recordId, userId },
-    select: { id: true, session: { select: { status: true } } },
-  });
+  const owner = await resolveOwnerByRecord(userId, recordId);
 
-  if (!record) return null;
+  if (!owner) return null;
 
-  assertEditable(record.session.status);
+  assertWritable(owner);
+  assertEditable(owner.status);
 
-  await prisma.workoutRecord.delete({ where: { id: record.id } });
+  await prisma.workoutRecord.delete({ where: { id: recordId } });
 
   return true;
 }
@@ -746,15 +952,17 @@ export interface SetInput {
   note?: string | null;
 }
 
-export async function addSet(userId: string, recordId: string, input: SetInput) {
-  const record = await prisma.workoutRecord.findFirst({
-    where: { id: recordId, userId },
-    select: { id: true, session: { select: { status: true } } },
-  });
+export async function addSet(
+  userId: string,
+  recordId: string,
+  input: SetInput,
+) {
+  const owner = await resolveOwnerByRecord(userId, recordId);
 
-  if (!record) return null;
+  if (!owner) return null;
 
-  assertEditable(record.session.status);
+  assertWritable(owner);
+  assertEditable(owner.status);
 
   return prisma.$transaction(async (tx) => {
     const last = await tx.workoutSet.findFirst({
@@ -782,16 +990,90 @@ export async function addSet(userId: string, recordId: string, input: SetInput) 
   });
 }
 
+/**
+ * 지난번에 한 세트를 그대로 담는다.
+ *
+ * 수업 중에 가장 많이 하는 일이 이것이다. 지난주에 스쿼트를 60kg 8회씩 3세트
+ * 했으면 이번 주도 대개 그 근처에서 시작한다. 그런데 지금은 "세트 추가" 를
+ * 세 번 누르고 숫자 여섯 칸을 채워야 한다 — 운동 하나에 탭 열 번이 넘는다.
+ * 수업하면서 그걸 하느니 안 적고 만다.
+ *
+ * 그래서 지난 기록을 통째로 넣어 주고 달라진 것만 고치게 한다. 4세트째만
+ * 65kg 으로 올렸으면 그 칸 하나만 고치면 된다.
+ *
+ * 이미 적은 세트가 있으면 아무것도 하지 않는다. 눌러서 세트가 두 배가 되면
+ * 지우는 데 더 오래 걸리고, 무엇보다 회원 기록에 안 한 운동이 남는다.
+ *
+ * `completed` 는 지난 기록을 따라가지 않고 항상 true 다. 지난번에 실패해서
+ * 체크를 안 한 세트였더라도, 지금 담는 건 "이번에 이만큼 했다" 는 뜻이다.
+ */
+export async function copyPreviousSets(
+  userId: string,
+  recordId: string,
+  options: { ptOnly?: boolean } = {},
+) {
+  const owner = await resolveOwnerByRecord(userId, recordId);
+
+  if (!owner) return null;
+
+  assertWritable(owner);
+  assertEditable(owner.status);
+
+  const record = await prisma.workoutRecord.findUnique({
+    where: { id: recordId },
+    select: {
+      exerciseId: true,
+      sessionId: true,
+      _count: { select: { sets: true } },
+    },
+  });
+
+  if (!record) return null;
+
+  if (record._count.sets > 0) {
+    throw new WorkoutError(
+      "SET_EXISTS",
+      "이미 적은 세트가 있어요. 지난 기록은 비어 있을 때만 담을 수 있어요.",
+    );
+  }
+
+  const previous = await getLastRecord(
+    owner.ownerUserId,
+    record.exerciseId,
+    record.sessionId,
+    options,
+  );
+
+  if (!previous || previous.sets.length === 0) return null;
+
+  return prisma.$transaction(async (tx) => {
+    await tx.workoutSet.createMany({
+      data: previous.sets.map((set, index) => ({
+        recordId,
+        setNumber: index + 1,
+        weight: set.weight == null ? null : new Prisma.Decimal(set.weight),
+        reps: set.reps ?? null,
+        completed: true,
+      })),
+    });
+
+    await recalculateVolume(tx, recordId);
+
+    return loadRecord(tx, recordId);
+  });
+}
+
 export async function updateSet(
   userId: string,
   setId: string,
   input: SetInput,
 ) {
-  const owned = await findOwnedSet(userId, setId);
+  const owned = await resolveOwnerBySet(userId, setId);
 
   if (!owned) return null;
 
-  assertEditable(owned.record.session.status);
+  assertWritable(owned);
+  assertEditable(owned.status);
 
   return prisma.$transaction(async (tx) => {
     await tx.workoutSet.update({
@@ -824,11 +1106,12 @@ export async function updateSet(
 }
 
 export async function deleteSet(userId: string, setId: string) {
-  const owned = await findOwnedSet(userId, setId);
+  const owned = await resolveOwnerBySet(userId, setId);
 
   if (!owned) return null;
 
-  assertEditable(owned.record.session.status);
+  assertWritable(owned);
+  assertEditable(owned.status);
 
   return prisma.$transaction(async (tx) => {
     await tx.workoutSet.delete({ where: { id: setId } });
@@ -901,7 +1184,9 @@ export async function getSessionSummary(userId: string, sessionId: string) {
   if (!session) return null;
 
   const dto = toSessionDto(session);
-  const exerciseIds = [...new Set(dto.records.map((record) => record.exercise.id))];
+  const exerciseIds = [
+    ...new Set(dto.records.map((record) => record.exercise.id)),
+  ];
 
   /**
    * 이 세션에 나온 운동들의 과거 최고 기록.
@@ -997,7 +1282,8 @@ export async function getSessionSummary(userId: string, sessionId: string) {
     records,
     countedSets: records.reduce((sum, record) => sum + record.countedSets, 0),
     skippedSets: records.reduce((sum, record) => sum + record.skippedSets, 0),
-    prCount: records.filter((record) => record.weightPr || record.oneRmPr).length,
+    prCount: records.filter((record) => record.weightPr || record.oneRmPr)
+      .length,
   };
 }
 

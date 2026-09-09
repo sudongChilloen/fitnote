@@ -29,7 +29,13 @@ function messageOf(error: unknown) {
   return "저장하지 못했어요. 잠시 후 다시 시도해주세요.";
 }
 
-/** 회원 상세에서 "알림장 쓰기" 를 누르면 초안을 만들고 편집 화면으로 보낸다. */
+/**
+ * 알림장 초안을 만들고 편집 화면으로 보낸다.
+ *
+ * 운동 기록은 더 이상 여기서 열지 않는다. 그건 수업 기록 화면이 맡는다. 글을
+ * 쓰려고 들어온 사람에게 빈 운동 기록을 만들어 줄 이유가 없고, 반대로 무게만
+ * 적으려는 사람에게 빈 초안을 만들어 줄 이유도 없다.
+ */
 export async function beginJournal(formData: FormData) {
   const user = await requireUser();
 

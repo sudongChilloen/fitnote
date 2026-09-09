@@ -2,7 +2,10 @@ import * as z from "zod";
 
 export const StartSessionSchema = z.object({
   routineId: z.uuid({ error: "올바른 루틴 ID가 아닙니다." }).optional(),
-  memo: z.string().max(500, { error: "메모는 500자 이하로 입력해주세요." }).optional(),
+  memo: z
+    .string()
+    .max(500, { error: "메모는 500자 이하로 입력해주세요." })
+    .optional(),
   // ask: 진행중 세션이 있으면 409 로 알려준다 (사용자에게 물어보기 위함)
   mode: z.enum(["ask", "resume", "new"]).default("ask"),
 });

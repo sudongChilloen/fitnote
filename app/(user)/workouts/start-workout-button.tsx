@@ -75,7 +75,10 @@ export function StartWorkoutButton() {
         </p>
       ) : null}
 
-      <Drawer open={active !== null} onOpenChange={(open) => !open && setActive(null)}>
+      <Drawer
+        open={active !== null}
+        onOpenChange={(open) => !open && setActive(null)}
+      >
         <DrawerContent className="mx-auto max-w-md">
           <DrawerHeader className="text-left">
             <DrawerTitle>진행 중인 운동이 있어요</DrawerTitle>

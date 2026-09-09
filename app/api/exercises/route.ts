@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 
-
-
 import {
   getExercises,
   type GetExercisesParams,
 } from "@/server/exercises/exercise.service";
-import { Difficulty, ExerciseMovementType, WorkoutBodyPart } from "@/generated/prisma/enums";
+import {
+  Difficulty,
+  ExerciseMovementType,
+  WorkoutBodyPart,
+} from "@/generated/prisma/enums";
 
 function isEnumValue<T extends Record<string, string>>(
   enumObject: T,
@@ -25,8 +27,7 @@ export async function GET(request: NextRequest) {
     const difficultyParam = searchParams.get("difficulty");
     const movementTypeParam = searchParams.get("movementType");
 
-    const equipmentId =
-      searchParams.get("equipmentId") ?? undefined;
+    const equipmentId = searchParams.get("equipmentId") ?? undefined;
 
     const pageParam = searchParams.get("page");
     const limitParam = searchParams.get("limit");
@@ -35,13 +36,9 @@ export async function GET(request: NextRequest) {
     // page
     // ----------------------------------------------------------
 
-    const page = pageParam
-      ? Number.parseInt(pageParam, 10)
-      : 1;
+    const page = pageParam ? Number.parseInt(pageParam, 10) : 1;
 
-    const limit = limitParam
-      ? Number.parseInt(limitParam, 10)
-      : 20;
+    const limit = limitParam ? Number.parseInt(limitParam, 10) : 20;
 
     if (!Number.isInteger(page) || page < 1) {
       return NextResponse.json(
@@ -55,11 +52,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    if (
-      !Number.isInteger(limit) ||
-      limit < 1 ||
-      limit > 100
-    ) {
+    if (!Number.isInteger(limit) || limit < 1 || limit > 100) {
       return NextResponse.json(
         {
           success: false,
@@ -78,12 +71,7 @@ export async function GET(request: NextRequest) {
     let bodyPart: WorkoutBodyPart | undefined;
 
     if (bodyPartParam) {
-      if (
-        !isEnumValue(
-          WorkoutBodyPart,
-          bodyPartParam,
-        )
-      ) {
+      if (!isEnumValue(WorkoutBodyPart, bodyPartParam)) {
         return NextResponse.json(
           {
             success: false,
@@ -105,12 +93,7 @@ export async function GET(request: NextRequest) {
     let difficulty: Difficulty | undefined;
 
     if (difficultyParam) {
-      if (
-        !isEnumValue(
-          Difficulty,
-          difficultyParam,
-        )
-      ) {
+      if (!isEnumValue(Difficulty, difficultyParam)) {
         return NextResponse.json(
           {
             success: false,
@@ -129,17 +112,10 @@ export async function GET(request: NextRequest) {
     // movementType
     // ----------------------------------------------------------
 
-    let movementType:
-      | ExerciseMovementType
-      | undefined;
+    let movementType: ExerciseMovementType | undefined;
 
     if (movementTypeParam) {
-      if (
-        !isEnumValue(
-          ExerciseMovementType,
-          movementTypeParam,
-        )
-      ) {
+      if (!isEnumValue(ExerciseMovementType, movementTypeParam)) {
         return NextResponse.json(
           {
             success: false,
@@ -180,10 +156,7 @@ export async function GET(request: NextRequest) {
       },
     );
   } catch (error) {
-    console.error(
-      "GET /api/exercises error:",
-      error,
-    );
+    console.error("GET /api/exercises error:", error);
 
     return NextResponse.json(
       {

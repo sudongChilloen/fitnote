@@ -12,7 +12,8 @@ import {
 } from "@/lib/storage";
 import {
   requireMyMember,
-  requireTrainerMembership,
+  requireMyMemberByUserId,
+  requireTrainerProfile,
   TrainerError,
 } from "@/server/trainers/trainer.service";
 
@@ -42,14 +43,14 @@ export class JournalEditError extends Error {
  * 고칠 수 있으면, 회원은 지금 담당이 아닌 사람의 글이 바뀌는 걸 보게 된다.
  */
 async function requireMyJournal(userId: string, journalId: string) {
-  const trainer = await requireTrainerMembership(userId);
+  const trainer = await requireTrainerProfile(userId);
 
   const journal = await prisma.journal.findFirst({
-    where: { id: journalId, trainerMembershipId: trainer.id },
+    where: { id: journalId, trainerProfileId: trainer.id },
     select: {
       id: true,
       status: true,
-      memberMembershipId: true,
+      memberUserId: true,
       ptSessionId: true,
     },
   });
@@ -58,9 +59,12 @@ async function requireMyJournal(userId: string, journalId: string) {
     throw new JournalEditError("NOT_FOUND", "알림장을 찾을 수 없어요.");
   }
 
-  await requireMyMember(trainer.id, journal.memberMembershipId);
+  const connection = await requireMyMemberByUserId(
+    trainer.id,
+    journal.memberUserId,
+  );
 
-  return { trainer, journal };
+  return { trainer, journal, connection };
 }
 
 /**
@@ -72,11 +76,11 @@ async function requireMyJournal(userId: string, journalId: string) {
  */
 export async function startJournal(
   userId: string,
-  memberMembershipId: string,
+  connectionId: string,
   ptSessionId?: string,
 ) {
-  const trainer = await requireTrainerMembership(userId);
-  const member = await requireMyMember(trainer.id, memberMembershipId);
+  const trainer = await requireTrainerProfile(userId);
+  const member = await requireMyMember(trainer.id, connectionId);
 
   let date = kstStartOfDay();
 
@@ -84,8 +88,8 @@ export async function startJournal(
     const session = await prisma.pTSession.findFirst({
       where: {
         id: ptSessionId,
-        trainerMembershipId: trainer.id,
-        memberMembershipId: member.id,
+        trainerProfileId: trainer.id,
+        memberUserId: member.memberUserId,
       },
       select: { id: true, scheduledAt: true },
     });
@@ -99,8 +103,8 @@ export async function startJournal(
 
   const existing = await prisma.journal.findFirst({
     where: {
-      trainerMembershipId: trainer.id,
-      memberMembershipId: member.id,
+      trainerProfileId: trainer.id,
+      memberUserId: member.memberUserId,
       status: JournalStatus.DRAFT,
       ...(ptSessionId
         ? { ptSessionId }
@@ -119,8 +123,8 @@ export async function startJournal(
 
   const created = await prisma.journal.create({
     data: {
-      memberMembershipId: member.id,
-      trainerMembershipId: trainer.id,
+      memberUserId: member.memberUserId,
+      trainerProfileId: trainer.id,
       ptSessionId: ptSessionId ?? null,
       date,
       content: "",
@@ -134,7 +138,8 @@ export async function startJournal(
 
 export interface JournalDraft {
   id: string;
-  memberMembershipId: string;
+  memberUserId: string;
+  connectionId: string;
   memberName: string;
   date: Date;
   title: string | null;
@@ -145,7 +150,6 @@ export interface JournalDraft {
   nextGoal: string | null;
   status: JournalStatus;
   ptSessionId: string | null;
-  readByMember: boolean;
   photos: { id: string; url: string | null }[];
   /** 연결할 수 있는 수업. 이미 다른 알림장이 붙은 수업은 빠진다. */
   sessionOptions: {
@@ -160,7 +164,7 @@ export async function getJournalDraft(
   userId: string,
   journalId: string,
 ): Promise<JournalDraft> {
-  const { trainer } = await requireMyJournal(userId, journalId);
+  const { trainer, connection } = await requireMyJournal(userId, journalId);
 
   const journal = await prisma.journal.findUniqueOrThrow({
     where: { id: journalId },
@@ -175,9 +179,8 @@ export async function getJournalDraft(
       nextGoal: true,
       status: true,
       ptSessionId: true,
-      memberReadAt: true,
-      memberMembershipId: true,
-      memberMembership: { select: { user: { select: { name: true } } } },
+      memberUserId: true,
+      memberUser: { select: { name: true } },
       photos: {
         orderBy: { orderIndex: "asc" },
         select: { id: true, storagePath: true, thumbnailPath: true },
@@ -187,8 +190,8 @@ export async function getJournalDraft(
 
   const sessions = await prisma.pTSession.findMany({
     where: {
-      trainerMembershipId: trainer.id,
-      memberMembershipId: journal.memberMembershipId,
+      trainerProfileId: trainer.id,
+      memberUserId: journal.memberUserId,
       // 두 달 치만 고르게 한다. 목록이 길어지면 고르기가 더 어렵다.
       scheduledAt: { gte: new Date(Date.now() - 60 * 86_400_000) },
       OR: [{ journals: { none: {} } }, { id: journal.ptSessionId ?? "" }],
@@ -214,8 +217,9 @@ export async function getJournalDraft(
 
   return {
     id: journal.id,
-    memberMembershipId: journal.memberMembershipId,
-    memberName: journal.memberMembership.user.name,
+    memberUserId: journal.memberUserId,
+    connectionId: connection.id,
+    memberName: journal.memberUser.name,
     date: journal.date,
     title: journal.title,
     content: journal.content,
@@ -225,7 +229,6 @@ export async function getJournalDraft(
     nextGoal: journal.nextGoal,
     status: journal.status,
     ptSessionId: journal.ptSessionId,
-    readByMember: journal.memberReadAt !== null,
     photos: journal.photos.map((photo) => ({
       id: photo.id,
       url: signed.get(photo.thumbnailPath ?? photo.storagePath) ?? null,
@@ -285,8 +288,8 @@ export async function saveJournal(
       const session = await prisma.pTSession.findFirst({
         where: {
           id: ptSessionId,
-          trainerMembershipId: trainer.id,
-          memberMembershipId: journal.memberMembershipId,
+          trainerProfileId: trainer.id,
+          memberUserId: journal.memberUserId,
         },
         select: { id: true, scheduledAt: true },
       });

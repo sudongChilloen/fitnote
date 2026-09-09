@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Loader2, Plus, X } from "lucide-react";
+import { Check, History, Loader2, Plus, X } from "lucide-react";
 import { useState, useTransition } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 
 import {
   addSetToRecord,
+  copyPreviousSetsAction,
   removeExerciseFromSession,
   removeSet,
   updateSetValues,
@@ -47,10 +48,13 @@ function SetRow({
   sessionId,
   set,
   onError,
+  showCompleteToggle,
 }: {
   sessionId: string;
   set: SetDto;
   onError: (message: string | null) => void;
+  /** 세트별 완료 체크. 지금 하는 중이 아니면 숨긴다. */
+  showCompleteToggle: boolean;
 }) {
   const [weight, setWeight] = useState(set.weight?.toString() ?? "");
   const [reps, setReps] = useState(set.reps?.toString() ?? "");
@@ -117,25 +121,36 @@ function SetRow({
       />
       <span className="text-xs text-muted-foreground">회</span>
 
-      <button
-        type="button"
-        aria-label={set.completed ? "완료 취소" : "완료"}
-        aria-pressed={set.completed}
-        disabled={pending}
-        onClick={() => save({ completed: !set.completed })}
-        className={cn(
-          "ml-auto flex size-8 shrink-0 items-center justify-center rounded-lg",
-          set.completed
-            ? "bg-brand text-brand-foreground"
-            : "border border-input text-muted-foreground",
-        )}
-      >
-        {pending ? (
-          <Loader2 className="size-4 animate-spin" />
-        ) : (
-          <Check className="size-4" />
-        )}
-      </button>
+      {/*
+        세트별 완료 체크는 "지금 이 세트를 하는 중" 일 때만 뜻이 있다.
+
+        트레이너가 수업에서 한 운동을 옮겨 적을 때는 이미 다 한 것이라 항상
+        완료다. 그런데도 체크가 보이면 세트마다 탭이 하나씩 늘고, 잘못 눌러
+        해제하면 그 세트가 볼륨에서 조용히 빠진다.
+      */}
+      {showCompleteToggle ? (
+        <button
+          type="button"
+          aria-label={set.completed ? "완료 취소" : "완료"}
+          aria-pressed={set.completed}
+          disabled={pending}
+          onClick={() => save({ completed: !set.completed })}
+          className={cn(
+            "ml-auto flex size-8 shrink-0 items-center justify-center rounded-lg",
+            set.completed
+              ? "bg-brand text-brand-foreground"
+              : "border border-input text-muted-foreground",
+          )}
+        >
+          {pending ? (
+            <Loader2 className="size-4 animate-spin" />
+          ) : (
+            <Check className="size-4" />
+          )}
+        </button>
+      ) : (
+        <span className="ml-auto" />
+      )}
 
       <button
         type="button"
@@ -160,11 +175,17 @@ export function RecordCard({
   record,
   previousRecord,
   editable,
+  showCompleteToggle = true,
+  ptOnly = false,
 }: {
   sessionId: string;
   record: RecordDto;
   previousRecord: PreviousRecord;
   editable: boolean;
+  /** 세트별 완료 체크를 보여줄지. 진행중인 내 운동에서만 쓴다. */
+  showCompleteToggle?: boolean;
+  /** 지난 기록을 담을 때 PT 수업 것만 볼지. 트레이너가 켠다. */
+  ptOnly?: boolean;
 }) {
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
@@ -215,6 +236,7 @@ export function RecordCard({
                 sessionId={sessionId}
                 set={set}
                 onError={setError}
+                showCompleteToggle={showCompleteToggle}
               />
             ) : (
               <li
@@ -241,6 +263,41 @@ export function RecordCard({
         <p role="alert" className="mt-2 text-sm text-destructive">
           {error}
         </p>
+      ) : null}
+
+      {/*
+        지난 기록 통째로 담기.
+
+        세트가 비어 있을 때만 뜬다. 이미 적은 게 있는데 누르면 세트가 두 배가
+        되고, 지우는 데 더 오래 걸린다.
+      */}
+      {editable &&
+      record.sets.length === 0 &&
+      previousRecord &&
+      previousRecord.sets.length > 0 ? (
+        <Button
+          variant="outline"
+          className="mt-3 h-11 w-full rounded-xl font-bold"
+          disabled={pending}
+          onClick={() => {
+            setError(null);
+            startTransition(async () => {
+              const result = await copyPreviousSetsAction(
+                sessionId,
+                record.id,
+                ptOnly,
+              );
+              if (result.error) setError(result.error);
+            });
+          }}
+        >
+          {pending ? (
+            <Loader2 className="size-4 animate-spin" />
+          ) : (
+            <History className="size-4" />
+          )}
+          지난 기록 {previousRecord.sets.length}세트 그대로 담기
+        </Button>
       ) : null}
 
       <div className="mt-3 flex items-center gap-2">

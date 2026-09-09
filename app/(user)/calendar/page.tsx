@@ -1,4 +1,11 @@
-import { CalendarDays, ChevronLeft, ChevronRight, Dumbbell } from "lucide-react";
+import {
+  CalendarDays,
+  ChevronLeft,
+  ChevronRight,
+  Dumbbell,
+  UserRound,
+  UtensilsCrossed,
+} from "lucide-react";
 import Link from "next/link";
 
 import { requireUser } from "@/app/lib/dal";
@@ -10,6 +17,7 @@ import {
   toKstDateKey,
 } from "@/lib/date";
 import { cn } from "@/lib/utils";
+import { getDietByDate, MEAL_LABEL } from "@/server/diet/diet.service";
 import {
   getMonthSummary,
   getSessionsByDate,
@@ -44,9 +52,10 @@ export default async function CalendarPage({
       ? params.month
       : selected.slice(0, 7);
 
-  const [summary, sessions] = await Promise.all([
+  const [summary, sessions, diet] = await Promise.all([
     getMonthSummary(user.id, month),
     getSessionsByDate(user.id, selected),
+    getDietByDate(user.id, selected),
   ]);
 
   const cells = buildMonthGrid(month);
@@ -120,6 +129,9 @@ export default async function CalendarPage({
                 {/*
                   운동한 날 표시. 색만으로 구분하면 색각 이상이 있는 사람이
                   구분하지 못하므로 점이라는 형태를 함께 쓴다.
+
+                  PT 한 날은 점 대신 속이 빈 고리로 그린다. 색을 하나 더
+                  쓰면 개인 운동 점과 구분이 안 된다.
                 */}
                 <span
                   aria-hidden
@@ -127,14 +139,33 @@ export default async function CalendarPage({
                     "size-1.5 rounded-full",
                     entry
                       ? isSelected
-                        ? "bg-primary-foreground"
-                        : "bg-brand"
+                        ? entry.hasPt
+                          ? "border-2 border-primary-foreground"
+                          : "bg-primary-foreground"
+                        : entry.hasPt
+                          ? "border-2 border-brand-strong"
+                          : "bg-brand"
                       : "bg-transparent",
                   )}
                 />
               </Link>
             );
           })}
+        </div>
+
+        {/* 점과 고리가 무슨 뜻인지 적어 둔다. 안 적으면 아무 의미 없는 무늬다. */}
+        <div className="mt-3 flex items-center justify-center gap-4 border-t border-border pt-3 text-xs text-muted-foreground">
+          <span className="flex items-center gap-1.5">
+            <span aria-hidden className="size-1.5 rounded-full bg-brand" />
+            개인 운동
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span
+              aria-hidden
+              className="size-1.5 rounded-full border-2 border-brand-strong"
+            />
+            PT
+          </span>
         </div>
       </section>
 
@@ -144,11 +175,13 @@ export default async function CalendarPage({
           {selected === today ? " · 오늘" : ""}
         </h2>
 
-        {sessions.length === 0 ? (
+        {sessions.length === 0 && diet.length === 0 ? (
           <p className="rounded-2xl border border-dashed border-border py-10 text-center text-sm text-muted-foreground">
             이 날은 기록이 없어요.
           </p>
-        ) : (
+        ) : null}
+
+        {sessions.length === 0 ? null : (
           <ul className="flex flex-col gap-2">
             {sessions.map((session) => (
               <li key={session.id}>
@@ -156,18 +189,44 @@ export default async function CalendarPage({
                   href={`/workouts/${session.id}`}
                   className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4"
                 >
-                  <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent">
-                    <Dumbbell className="size-5 text-brand-strong" />
+                  <span
+                    className={cn(
+                      "flex size-10 shrink-0 items-center justify-center rounded-xl",
+                      session.isPt
+                        ? "bg-brand text-brand-foreground"
+                        : "bg-accent text-brand-strong",
+                    )}
+                  >
+                    {session.isPt ? (
+                      <UserRound className="size-5" />
+                    ) : (
+                      <Dumbbell className="size-5" />
+                    )}
                   </span>
 
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate text-sm font-bold">
-                      {session.records.length > 0
-                        ? session.records
-                            .map((record) => record.exercise.name)
-                            .join(", ")
-                        : "기록한 운동이 없어요"}
+                    {/*
+                      PT 와 개인 운동을 DB 에서는 나누되 화면에서는 한 곳에
+                      모아 보여준다. 사용자가 알고 싶은 건 "오늘 내가 무슨
+                      운동을 했는가" 이지 어느 표에 들어 있는가가 아니다.
+                      다만 색만으로 나누면 색을 못 보는 사람이 구분하지
+                      못하므로 "PT" 라고 글자로도 적는다.
+                    */}
+                    <span className="flex min-w-0 items-baseline gap-1.5">
+                      {session.isPt ? (
+                        <span className="shrink-0 rounded-full bg-accent px-2 py-0.5 text-[0.65rem] font-bold text-brand-strong">
+                          PT
+                        </span>
+                      ) : null}
+                      <span className="truncate text-sm font-bold">
+                        {session.records.length > 0
+                          ? session.records
+                              .map((record) => record.exercise.name)
+                              .join(", ")
+                          : "기록한 운동이 없어요"}
+                      </span>
                     </span>
+
                     <span className="block text-xs text-muted-foreground tabular-nums">
                       {session.totalSets}세트
                       {session.totalVolume > 0
@@ -175,6 +234,9 @@ export default async function CalendarPage({
                         : ""}
                       {session.durationSec
                         ? ` · ${formatDuration(session.durationSec)}`
+                        : ""}
+                      {session.isPt && session.recordedByName
+                        ? ` · ${session.recordedByName} 트레이너`
                         : ""}
                     </span>
                   </span>
@@ -195,9 +257,75 @@ export default async function CalendarPage({
         */}
         <LogPastWorkoutButton
           defaultDate={selected}
-          label={sessions.length > 0 ? "이 날짜에 기록 추가" : "이 날짜 기록하기"}
+          label={
+            sessions.length > 0 ? "이 날짜에 기록 추가" : "이 날짜 기록하기"
+          }
           hideDateInput
         />
+      </section>
+
+      {/*
+        같은 날의 식단.
+        운동과 식단을 다른 화면에 두면 "그날 뭘 하고 뭘 먹었나" 를 보려고 두 곳을
+        오가야 한다. 날짜가 이미 잡혀 있는 이 화면이 둘을 나란히 놓기 가장 좋다.
+      */}
+      <section className="flex flex-col gap-3">
+        <div className="flex items-baseline justify-between">
+          <h2 className="text-sm font-bold">식단</h2>
+          <Link
+            href={`/diet?date=${selected}`}
+            className="text-sm font-semibold text-brand-strong"
+          >
+            {diet.length > 0 ? "전체 보기" : "남기기"}
+          </Link>
+        </div>
+
+        {diet.length === 0 ? (
+          <p className="rounded-2xl border border-dashed border-border py-6 text-center text-xs text-muted-foreground">
+            이 날 남긴 식단이 없어요.
+          </p>
+        ) : (
+          <ul className="flex flex-col gap-2">
+            {diet.map((record) => (
+              <li key={record.id}>
+                <Link
+                  href={`/diet/${record.id}`}
+                  className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3"
+                >
+                  {record.thumbnailUrl ? (
+                    // 서명 주소는 열 때마다 값이 달라 최적화 캐시가 빗나간다.
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={record.thumbnailUrl}
+                      alt=""
+                      loading="lazy"
+                      className="size-12 shrink-0 rounded-xl bg-secondary object-cover"
+                    />
+                  ) : (
+                    <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
+                      <UtensilsCrossed className="size-4.5" />
+                    </span>
+                  )}
+
+                  <span className="min-w-0 flex-1">
+                    <span className="text-xs font-bold text-brand-strong">
+                      {MEAL_LABEL[record.mealType]}
+                    </span>
+                    <span className="mt-0.5 block truncate text-sm font-bold">
+                      {record.foodName ?? record.memo ?? "사진만 남겼어요"}
+                    </span>
+                  </span>
+
+                  {record.feedbackCount > 0 ? (
+                    <span className="shrink-0 rounded-full bg-accent px-2 py-0.5 text-[0.65rem] font-bold text-brand-strong">
+                      피드백 {record.feedbackCount}
+                    </span>
+                  ) : null}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
     </main>
   );
