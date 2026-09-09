@@ -78,9 +78,35 @@ export type CenterInvitation = Prisma.CenterInvitationModel
 export type MemberProfile = Prisma.MemberProfileModel
 /**
  * Model TrainerProfile
- * 
+ * *
+ *  * 트레이너라는 신분.
+ *  * 센터가 아니라 사람에 붙는다. 센터에 매달아 두면 센터 없는 트레이너가 존재할
+ *  * 수 없고, 트레이너가 센터를 옮기는 순간 그가 쌓은 회원 관계와 알림장이 전부
+ *  * 끊긴다. 회원의 여정을 보여주겠다면서 여정이 이직 한 번에 사라지면 앞뒤가
+ *  * 맞지 않는다.
+ *  * 센터 소속 여부는 같은 User 의 CenterMembership 이 있는가로 따로 본다.
  */
 export type TrainerProfile = Prisma.TrainerProfileModel
+/**
+ * Model TrainerMemberConnection
+ * *
+ *  * 트레이너와 회원의 코칭 관계.
+ *  * PT 관계의 단 하나뿐인 진실이다. 예전에는 CenterMembership 이 자기 자신을
+ *  * 가리켜 담당을 표현했는데, 그러면 센터가 없으면 관계도 없고 센터를 옮기면
+ *  * 관계가 끊겼다.
+ *  * 센터 가입과는 별개다. 센터에만 등록하고 PT 는 안 받는 회원이 정상 상태여야
+ *  * 하는데, 예전 구조에서는 그런 사람이 "담당이 비어 있는 이상한 회원" 이었다.
+ */
+export type TrainerMemberConnection = Prisma.TrainerMemberConnectionModel
+/**
+ * Model TrainerInvitation
+ * *
+ *  * 트레이너가 회원을 부르는 코드.
+ *  * 센터 코드와 나눈 이유는 두 코드가 하는 일이 다르기 때문이다. 센터 코드는
+ *  * "이 센터의 회원이 된다" 이고, 트레이너 코드는 "이 트레이너에게 코칭받는다"
+ *  * 이다. 무소속 트레이너에게는 센터가 없어 센터 코드를 만들 수도 없다.
+ */
+export type TrainerInvitation = Prisma.TrainerInvitationModel
 /**
  * Model Equipment
  * 
@@ -152,6 +178,15 @@ export type WorkoutFavorite = Prisma.WorkoutFavoriteModel
  */
 export type PTProduct = Prisma.PTProductModel
 /**
+ * Model PTSessionReschedule
+ * *
+ *  * 수업을 미룬 이력.
+ *  * 상태로 만들지 않았다. 미룬 수업은 여전히 "앞으로 할 수업" 이라 SCHEDULED 로
+ *  * 남아야 하고, POSTPONED 같은 상태를 두면 다음 수업 목록에서 조용히 빠진다.
+ *  * 화면의 "🔄 일정 변경" 줄은 상태가 아니라 여기 쌓인 이력이다.
+ */
+export type PTSessionReschedule = Prisma.PTSessionRescheduleModel
+/**
  * Model TrainerPTPrice
  * 
  */
@@ -178,7 +213,11 @@ export type DietRecord = Prisma.DietRecordModel
 export type DietFeedback = Prisma.DietFeedbackModel
 /**
  * Model BodyRecord
- * 
+ * *
+ *  * 회원이 재는 몸.
+ *  * 하루에 한 줄만 둔다. recordedAt 은 KST 그 날 0시로 맞춰 넣는다. 아침에 재고
+ *  * 저녁에 또 재면 그래프가 톱니가 되는데, 체중은 하루 안에서도 1~2kg 이 움직여서
+ *  * 그 톱니가 실제 변화보다 커 보인다. 같은 날 다시 적으면 덮어쓴다.
  */
 export type BodyRecord = Prisma.BodyRecordModel
 /**
@@ -200,7 +239,6 @@ export type JournalPhoto = Prisma.JournalPhotoModel
  * Model JournalComment
  * *
  *  * 알림장 댓글.
- *  *
  *  * 식단 댓글(DietFeedback)과 합치지 않았다. 대상이 다른 댓글을 한 테이블에 담으려면
  *  * (targetType, targetId) 로 가리켜야 하는데 그러면 외래키를 걸 수 없어서, 알림장을
  *  * 지워도 댓글이 남는다.
@@ -210,7 +248,6 @@ export type JournalComment = Prisma.JournalCommentModel
  * Model Notice
  * *
  *  * 공지사항.
- *  *
  *  * 알림장이 한 회원에게 가는 글이라면 이건 여러 명에게 간다. 대상을 회원 목록으로
  *  * 펼쳐 저장하지 않는다. 회원이 늘거나 나갈 때마다 대상을 고쳐야 하기 때문이다.
  *  * 대신 범위만 저장하고 읽을 때 계산한다.
@@ -231,3 +268,15 @@ export type Notification = Prisma.NotificationModel
  * 
  */
 export type AiAnalysis = Prisma.AiAnalysisModel
+/**
+ * Model TrainerSharingSetting
+ * *
+ *  * 회원이 담당 트레이너에게 무엇까지 보여줄지.
+ *  * 회원 계정에 붙인다. 예전에는 센터 소속에 붙였는데, 이제 코칭 관계가 센터와
+ *  * 무관하게 이어지므로 소속에 매달면 센터를 옮길 때마다 설정이 초기화된다.
+ *  * 켜 둔 줄 알았던 것이 조용히 꺼지는 쪽이, 지난 설정이 따라오는 것보다 나쁘다.
+ *  * 트레이너를 여럿 두게 되면 이 표가 연결(TrainerMemberConnection)로 내려간다.
+ *  * PT 수업 기록은 여기에 없다. 그건 트레이너가 직접 적은 것이라 회원이
+ *  * 가릴 대상이 아니다. 회원이 스스로 남긴 것만 고를 수 있게 한다.
+ */
+export type TrainerSharingSetting = Prisma.TrainerSharingSettingModel

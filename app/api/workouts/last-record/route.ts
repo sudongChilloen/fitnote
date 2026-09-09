@@ -1,6 +1,11 @@
 import { NextRequest } from "next/server";
 
-import { fail, handleWorkoutError, ok, requireApiUser } from "@/app/api/_lib/api";
+import {
+  fail,
+  handleWorkoutError,
+  ok,
+  requireApiUser,
+} from "@/app/api/_lib/api";
 import { getLastRecord } from "@/server/workouts/workout.service";
 
 /**

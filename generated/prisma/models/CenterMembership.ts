@@ -30,7 +30,6 @@ export type CenterMembershipMinAggregateOutputType = {
   userId: string | null
   role: $Enums.MembershipRole | null
   status: $Enums.MembershipStatus | null
-  assignedTrainerMembershipId: string | null
   joinedViaInvitationId: string | null
   joinedAt: Date | null
   leftAt: Date | null
@@ -42,7 +41,6 @@ export type CenterMembershipMaxAggregateOutputType = {
   userId: string | null
   role: $Enums.MembershipRole | null
   status: $Enums.MembershipStatus | null
-  assignedTrainerMembershipId: string | null
   joinedViaInvitationId: string | null
   joinedAt: Date | null
   leftAt: Date | null
@@ -54,7 +52,6 @@ export type CenterMembershipCountAggregateOutputType = {
   userId: number
   role: number
   status: number
-  assignedTrainerMembershipId: number
   joinedViaInvitationId: number
   joinedAt: number
   leftAt: number
@@ -68,7 +65,6 @@ export type CenterMembershipMinAggregateInputType = {
   userId?: true
   role?: true
   status?: true
-  assignedTrainerMembershipId?: true
   joinedViaInvitationId?: true
   joinedAt?: true
   leftAt?: true
@@ -80,7 +76,6 @@ export type CenterMembershipMaxAggregateInputType = {
   userId?: true
   role?: true
   status?: true
-  assignedTrainerMembershipId?: true
   joinedViaInvitationId?: true
   joinedAt?: true
   leftAt?: true
@@ -92,7 +87,6 @@ export type CenterMembershipCountAggregateInputType = {
   userId?: true
   role?: true
   status?: true
-  assignedTrainerMembershipId?: true
   joinedViaInvitationId?: true
   joinedAt?: true
   leftAt?: true
@@ -177,7 +171,6 @@ export type CenterMembershipGroupByOutputType = {
   userId: string
   role: $Enums.MembershipRole
   status: $Enums.MembershipStatus
-  assignedTrainerMembershipId: string | null
   joinedViaInvitationId: string | null
   joinedAt: Date
   leftAt: Date | null
@@ -210,29 +203,15 @@ export type CenterMembershipWhereInput = {
   userId?: Prisma.StringFilter<"CenterMembership"> | string
   role?: Prisma.EnumMembershipRoleFilter<"CenterMembership"> | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFilter<"CenterMembership"> | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.StringNullableFilter<"CenterMembership"> | string | null
   joinedViaInvitationId?: Prisma.StringNullableFilter<"CenterMembership"> | string | null
   joinedAt?: Prisma.DateTimeFilter<"CenterMembership"> | Date | string
   leftAt?: Prisma.DateTimeNullableFilter<"CenterMembership"> | Date | string | null
   center?: Prisma.XOR<Prisma.CenterScalarRelationFilter, Prisma.CenterWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  assignedTrainerMembership?: Prisma.XOR<Prisma.CenterMembershipNullableScalarRelationFilter, Prisma.CenterMembershipWhereInput> | null
-  assignedMembers?: Prisma.CenterMembershipListRelationFilter
   createdInvitations?: Prisma.CenterInvitationListRelationFilter
   joinedViaInvitation?: Prisma.XOR<Prisma.CenterInvitationNullableScalarRelationFilter, Prisma.CenterInvitationWhereInput> | null
-  trainerProfile?: Prisma.XOR<Prisma.TrainerProfileNullableScalarRelationFilter, Prisma.TrainerProfileWhereInput> | null
-  memberContracts?: Prisma.PTContractListRelationFilter
-  trainerContracts?: Prisma.PTContractListRelationFilter
-  memberPTSessions?: Prisma.PTSessionListRelationFilter
-  trainerPTSessions?: Prisma.PTSessionListRelationFilter
-  memberJournals?: Prisma.JournalListRelationFilter
-  trainerJournals?: Prisma.JournalListRelationFilter
-  trainerPTPrices?: Prisma.TrainerPTPriceListRelationFilter
-  dietFeedbacks?: Prisma.DietFeedbackListRelationFilter
-  journalComments?: Prisma.JournalCommentListRelationFilter
   authoredNotices?: Prisma.NoticeListRelationFilter
   noticeReads?: Prisma.NoticeReadListRelationFilter
-  createdRoutines?: Prisma.RoutineListRelationFilter
 }
 
 export type CenterMembershipOrderByWithRelationInput = {
@@ -241,29 +220,15 @@ export type CenterMembershipOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  assignedTrainerMembershipId?: Prisma.SortOrderInput | Prisma.SortOrder
   joinedViaInvitationId?: Prisma.SortOrderInput | Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   leftAt?: Prisma.SortOrderInput | Prisma.SortOrder
   center?: Prisma.CenterOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
-  assignedTrainerMembership?: Prisma.CenterMembershipOrderByWithRelationInput
-  assignedMembers?: Prisma.CenterMembershipOrderByRelationAggregateInput
   createdInvitations?: Prisma.CenterInvitationOrderByRelationAggregateInput
   joinedViaInvitation?: Prisma.CenterInvitationOrderByWithRelationInput
-  trainerProfile?: Prisma.TrainerProfileOrderByWithRelationInput
-  memberContracts?: Prisma.PTContractOrderByRelationAggregateInput
-  trainerContracts?: Prisma.PTContractOrderByRelationAggregateInput
-  memberPTSessions?: Prisma.PTSessionOrderByRelationAggregateInput
-  trainerPTSessions?: Prisma.PTSessionOrderByRelationAggregateInput
-  memberJournals?: Prisma.JournalOrderByRelationAggregateInput
-  trainerJournals?: Prisma.JournalOrderByRelationAggregateInput
-  trainerPTPrices?: Prisma.TrainerPTPriceOrderByRelationAggregateInput
-  dietFeedbacks?: Prisma.DietFeedbackOrderByRelationAggregateInput
-  journalComments?: Prisma.JournalCommentOrderByRelationAggregateInput
   authoredNotices?: Prisma.NoticeOrderByRelationAggregateInput
   noticeReads?: Prisma.NoticeReadOrderByRelationAggregateInput
-  createdRoutines?: Prisma.RoutineOrderByRelationAggregateInput
 }
 
 export type CenterMembershipWhereUniqueInput = Prisma.AtLeast<{
@@ -276,29 +241,15 @@ export type CenterMembershipWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"CenterMembership"> | string
   role?: Prisma.EnumMembershipRoleFilter<"CenterMembership"> | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFilter<"CenterMembership"> | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.StringNullableFilter<"CenterMembership"> | string | null
   joinedViaInvitationId?: Prisma.StringNullableFilter<"CenterMembership"> | string | null
   joinedAt?: Prisma.DateTimeFilter<"CenterMembership"> | Date | string
   leftAt?: Prisma.DateTimeNullableFilter<"CenterMembership"> | Date | string | null
   center?: Prisma.XOR<Prisma.CenterScalarRelationFilter, Prisma.CenterWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  assignedTrainerMembership?: Prisma.XOR<Prisma.CenterMembershipNullableScalarRelationFilter, Prisma.CenterMembershipWhereInput> | null
-  assignedMembers?: Prisma.CenterMembershipListRelationFilter
   createdInvitations?: Prisma.CenterInvitationListRelationFilter
   joinedViaInvitation?: Prisma.XOR<Prisma.CenterInvitationNullableScalarRelationFilter, Prisma.CenterInvitationWhereInput> | null
-  trainerProfile?: Prisma.XOR<Prisma.TrainerProfileNullableScalarRelationFilter, Prisma.TrainerProfileWhereInput> | null
-  memberContracts?: Prisma.PTContractListRelationFilter
-  trainerContracts?: Prisma.PTContractListRelationFilter
-  memberPTSessions?: Prisma.PTSessionListRelationFilter
-  trainerPTSessions?: Prisma.PTSessionListRelationFilter
-  memberJournals?: Prisma.JournalListRelationFilter
-  trainerJournals?: Prisma.JournalListRelationFilter
-  trainerPTPrices?: Prisma.TrainerPTPriceListRelationFilter
-  dietFeedbacks?: Prisma.DietFeedbackListRelationFilter
-  journalComments?: Prisma.JournalCommentListRelationFilter
   authoredNotices?: Prisma.NoticeListRelationFilter
   noticeReads?: Prisma.NoticeReadListRelationFilter
-  createdRoutines?: Prisma.RoutineListRelationFilter
 }, "id" | "centerId_userId">
 
 export type CenterMembershipOrderByWithAggregationInput = {
@@ -307,7 +258,6 @@ export type CenterMembershipOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  assignedTrainerMembershipId?: Prisma.SortOrderInput | Prisma.SortOrder
   joinedViaInvitationId?: Prisma.SortOrderInput | Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   leftAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -325,7 +275,6 @@ export type CenterMembershipScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"CenterMembership"> | string
   role?: Prisma.EnumMembershipRoleWithAggregatesFilter<"CenterMembership"> | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusWithAggregatesFilter<"CenterMembership"> | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.StringNullableWithAggregatesFilter<"CenterMembership"> | string | null
   joinedViaInvitationId?: Prisma.StringNullableWithAggregatesFilter<"CenterMembership"> | string | null
   joinedAt?: Prisma.DateTimeWithAggregatesFilter<"CenterMembership"> | Date | string
   leftAt?: Prisma.DateTimeNullableWithAggregatesFilter<"CenterMembership"> | Date | string | null
@@ -339,23 +288,10 @@ export type CenterMembershipCreateInput = {
   leftAt?: Date | string | null
   center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
-  assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
-  assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
   createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
   joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
   authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
   noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
 }
 
 export type CenterMembershipUncheckedCreateInput = {
@@ -364,25 +300,12 @@ export type CenterMembershipUncheckedCreateInput = {
   userId: string
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
-  assignedTrainerMembershipId?: string | null
   joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
   createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
   authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
   noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
 }
 
 export type CenterMembershipUpdateInput = {
@@ -393,23 +316,10 @@ export type CenterMembershipUpdateInput = {
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
-  assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
-  assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
   createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
   joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
   authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
   noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
 export type CenterMembershipUncheckedUpdateInput = {
@@ -418,25 +328,12 @@ export type CenterMembershipUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
   createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
   authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
   noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
 export type CenterMembershipCreateManyInput = {
@@ -445,7 +342,6 @@ export type CenterMembershipCreateManyInput = {
   userId: string
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
-  assignedTrainerMembershipId?: string | null
   joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
@@ -465,7 +361,6 @@ export type CenterMembershipUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -481,11 +376,6 @@ export type CenterMembershipOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type CenterMembershipNullableScalarRelationFilter = {
-  is?: Prisma.CenterMembershipWhereInput | null
-  isNot?: Prisma.CenterMembershipWhereInput | null
-}
-
 export type CenterMembershipCenterIdUserIdCompoundUniqueInput = {
   centerId: string
   userId: string
@@ -497,7 +387,6 @@ export type CenterMembershipCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  assignedTrainerMembershipId?: Prisma.SortOrder
   joinedViaInvitationId?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   leftAt?: Prisma.SortOrder
@@ -509,7 +398,6 @@ export type CenterMembershipMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  assignedTrainerMembershipId?: Prisma.SortOrder
   joinedViaInvitationId?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   leftAt?: Prisma.SortOrder
@@ -521,7 +409,6 @@ export type CenterMembershipMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  assignedTrainerMembershipId?: Prisma.SortOrder
   joinedViaInvitationId?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   leftAt?: Prisma.SortOrder
@@ -616,70 +503,12 @@ export type CenterMembershipUncheckedUpdateManyWithoutCenterNestedInput = {
   deleteMany?: Prisma.CenterMembershipScalarWhereInput | Prisma.CenterMembershipScalarWhereInput[]
 }
 
-export type CenterMembershipCreateNestedOneWithoutAssignedMembersInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutAssignedMembersInput, Prisma.CenterMembershipUncheckedCreateWithoutAssignedMembersInput>
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutAssignedMembersInput
-  connect?: Prisma.CenterMembershipWhereUniqueInput
-}
-
-export type CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutAssignedTrainerMembershipInput, Prisma.CenterMembershipUncheckedCreateWithoutAssignedTrainerMembershipInput> | Prisma.CenterMembershipCreateWithoutAssignedTrainerMembershipInput[] | Prisma.CenterMembershipUncheckedCreateWithoutAssignedTrainerMembershipInput[]
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutAssignedTrainerMembershipInput | Prisma.CenterMembershipCreateOrConnectWithoutAssignedTrainerMembershipInput[]
-  createMany?: Prisma.CenterMembershipCreateManyAssignedTrainerMembershipInputEnvelope
-  connect?: Prisma.CenterMembershipWhereUniqueInput | Prisma.CenterMembershipWhereUniqueInput[]
-}
-
-export type CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutAssignedTrainerMembershipInput, Prisma.CenterMembershipUncheckedCreateWithoutAssignedTrainerMembershipInput> | Prisma.CenterMembershipCreateWithoutAssignedTrainerMembershipInput[] | Prisma.CenterMembershipUncheckedCreateWithoutAssignedTrainerMembershipInput[]
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutAssignedTrainerMembershipInput | Prisma.CenterMembershipCreateOrConnectWithoutAssignedTrainerMembershipInput[]
-  createMany?: Prisma.CenterMembershipCreateManyAssignedTrainerMembershipInputEnvelope
-  connect?: Prisma.CenterMembershipWhereUniqueInput | Prisma.CenterMembershipWhereUniqueInput[]
-}
-
 export type EnumMembershipRoleFieldUpdateOperationsInput = {
   set?: $Enums.MembershipRole
 }
 
 export type EnumMembershipStatusFieldUpdateOperationsInput = {
   set?: $Enums.MembershipStatus
-}
-
-export type CenterMembershipUpdateOneWithoutAssignedMembersNestedInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutAssignedMembersInput, Prisma.CenterMembershipUncheckedCreateWithoutAssignedMembersInput>
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutAssignedMembersInput
-  upsert?: Prisma.CenterMembershipUpsertWithoutAssignedMembersInput
-  disconnect?: Prisma.CenterMembershipWhereInput | boolean
-  delete?: Prisma.CenterMembershipWhereInput | boolean
-  connect?: Prisma.CenterMembershipWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CenterMembershipUpdateToOneWithWhereWithoutAssignedMembersInput, Prisma.CenterMembershipUpdateWithoutAssignedMembersInput>, Prisma.CenterMembershipUncheckedUpdateWithoutAssignedMembersInput>
-}
-
-export type CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutAssignedTrainerMembershipInput, Prisma.CenterMembershipUncheckedCreateWithoutAssignedTrainerMembershipInput> | Prisma.CenterMembershipCreateWithoutAssignedTrainerMembershipInput[] | Prisma.CenterMembershipUncheckedCreateWithoutAssignedTrainerMembershipInput[]
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutAssignedTrainerMembershipInput | Prisma.CenterMembershipCreateOrConnectWithoutAssignedTrainerMembershipInput[]
-  upsert?: Prisma.CenterMembershipUpsertWithWhereUniqueWithoutAssignedTrainerMembershipInput | Prisma.CenterMembershipUpsertWithWhereUniqueWithoutAssignedTrainerMembershipInput[]
-  createMany?: Prisma.CenterMembershipCreateManyAssignedTrainerMembershipInputEnvelope
-  set?: Prisma.CenterMembershipWhereUniqueInput | Prisma.CenterMembershipWhereUniqueInput[]
-  disconnect?: Prisma.CenterMembershipWhereUniqueInput | Prisma.CenterMembershipWhereUniqueInput[]
-  delete?: Prisma.CenterMembershipWhereUniqueInput | Prisma.CenterMembershipWhereUniqueInput[]
-  connect?: Prisma.CenterMembershipWhereUniqueInput | Prisma.CenterMembershipWhereUniqueInput[]
-  update?: Prisma.CenterMembershipUpdateWithWhereUniqueWithoutAssignedTrainerMembershipInput | Prisma.CenterMembershipUpdateWithWhereUniqueWithoutAssignedTrainerMembershipInput[]
-  updateMany?: Prisma.CenterMembershipUpdateManyWithWhereWithoutAssignedTrainerMembershipInput | Prisma.CenterMembershipUpdateManyWithWhereWithoutAssignedTrainerMembershipInput[]
-  deleteMany?: Prisma.CenterMembershipScalarWhereInput | Prisma.CenterMembershipScalarWhereInput[]
-}
-
-export type CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutAssignedTrainerMembershipInput, Prisma.CenterMembershipUncheckedCreateWithoutAssignedTrainerMembershipInput> | Prisma.CenterMembershipCreateWithoutAssignedTrainerMembershipInput[] | Prisma.CenterMembershipUncheckedCreateWithoutAssignedTrainerMembershipInput[]
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutAssignedTrainerMembershipInput | Prisma.CenterMembershipCreateOrConnectWithoutAssignedTrainerMembershipInput[]
-  upsert?: Prisma.CenterMembershipUpsertWithWhereUniqueWithoutAssignedTrainerMembershipInput | Prisma.CenterMembershipUpsertWithWhereUniqueWithoutAssignedTrainerMembershipInput[]
-  createMany?: Prisma.CenterMembershipCreateManyAssignedTrainerMembershipInputEnvelope
-  set?: Prisma.CenterMembershipWhereUniqueInput | Prisma.CenterMembershipWhereUniqueInput[]
-  disconnect?: Prisma.CenterMembershipWhereUniqueInput | Prisma.CenterMembershipWhereUniqueInput[]
-  delete?: Prisma.CenterMembershipWhereUniqueInput | Prisma.CenterMembershipWhereUniqueInput[]
-  connect?: Prisma.CenterMembershipWhereUniqueInput | Prisma.CenterMembershipWhereUniqueInput[]
-  update?: Prisma.CenterMembershipUpdateWithWhereUniqueWithoutAssignedTrainerMembershipInput | Prisma.CenterMembershipUpdateWithWhereUniqueWithoutAssignedTrainerMembershipInput[]
-  updateMany?: Prisma.CenterMembershipUpdateManyWithWhereWithoutAssignedTrainerMembershipInput | Prisma.CenterMembershipUpdateManyWithWhereWithoutAssignedTrainerMembershipInput[]
-  deleteMany?: Prisma.CenterMembershipScalarWhereInput | Prisma.CenterMembershipScalarWhereInput[]
 }
 
 export type CenterMembershipCreateNestedOneWithoutCreatedInvitationsInput = {
@@ -738,162 +567,6 @@ export type CenterMembershipUncheckedUpdateManyWithoutJoinedViaInvitationNestedI
   deleteMany?: Prisma.CenterMembershipScalarWhereInput | Prisma.CenterMembershipScalarWhereInput[]
 }
 
-export type CenterMembershipCreateNestedOneWithoutTrainerProfileInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutTrainerProfileInput, Prisma.CenterMembershipUncheckedCreateWithoutTrainerProfileInput>
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutTrainerProfileInput
-  connect?: Prisma.CenterMembershipWhereUniqueInput
-}
-
-export type CenterMembershipUpdateOneRequiredWithoutTrainerProfileNestedInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutTrainerProfileInput, Prisma.CenterMembershipUncheckedCreateWithoutTrainerProfileInput>
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutTrainerProfileInput
-  upsert?: Prisma.CenterMembershipUpsertWithoutTrainerProfileInput
-  connect?: Prisma.CenterMembershipWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CenterMembershipUpdateToOneWithWhereWithoutTrainerProfileInput, Prisma.CenterMembershipUpdateWithoutTrainerProfileInput>, Prisma.CenterMembershipUncheckedUpdateWithoutTrainerProfileInput>
-}
-
-export type CenterMembershipCreateNestedOneWithoutCreatedRoutinesInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutCreatedRoutinesInput, Prisma.CenterMembershipUncheckedCreateWithoutCreatedRoutinesInput>
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutCreatedRoutinesInput
-  connect?: Prisma.CenterMembershipWhereUniqueInput
-}
-
-export type CenterMembershipUpdateOneWithoutCreatedRoutinesNestedInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutCreatedRoutinesInput, Prisma.CenterMembershipUncheckedCreateWithoutCreatedRoutinesInput>
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutCreatedRoutinesInput
-  upsert?: Prisma.CenterMembershipUpsertWithoutCreatedRoutinesInput
-  disconnect?: Prisma.CenterMembershipWhereInput | boolean
-  delete?: Prisma.CenterMembershipWhereInput | boolean
-  connect?: Prisma.CenterMembershipWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CenterMembershipUpdateToOneWithWhereWithoutCreatedRoutinesInput, Prisma.CenterMembershipUpdateWithoutCreatedRoutinesInput>, Prisma.CenterMembershipUncheckedUpdateWithoutCreatedRoutinesInput>
-}
-
-export type CenterMembershipCreateNestedOneWithoutTrainerPTPricesInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutTrainerPTPricesInput, Prisma.CenterMembershipUncheckedCreateWithoutTrainerPTPricesInput>
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutTrainerPTPricesInput
-  connect?: Prisma.CenterMembershipWhereUniqueInput
-}
-
-export type CenterMembershipUpdateOneRequiredWithoutTrainerPTPricesNestedInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutTrainerPTPricesInput, Prisma.CenterMembershipUncheckedCreateWithoutTrainerPTPricesInput>
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutTrainerPTPricesInput
-  upsert?: Prisma.CenterMembershipUpsertWithoutTrainerPTPricesInput
-  connect?: Prisma.CenterMembershipWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CenterMembershipUpdateToOneWithWhereWithoutTrainerPTPricesInput, Prisma.CenterMembershipUpdateWithoutTrainerPTPricesInput>, Prisma.CenterMembershipUncheckedUpdateWithoutTrainerPTPricesInput>
-}
-
-export type CenterMembershipCreateNestedOneWithoutMemberContractsInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutMemberContractsInput, Prisma.CenterMembershipUncheckedCreateWithoutMemberContractsInput>
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutMemberContractsInput
-  connect?: Prisma.CenterMembershipWhereUniqueInput
-}
-
-export type CenterMembershipCreateNestedOneWithoutTrainerContractsInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutTrainerContractsInput, Prisma.CenterMembershipUncheckedCreateWithoutTrainerContractsInput>
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutTrainerContractsInput
-  connect?: Prisma.CenterMembershipWhereUniqueInput
-}
-
-export type CenterMembershipUpdateOneRequiredWithoutMemberContractsNestedInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutMemberContractsInput, Prisma.CenterMembershipUncheckedCreateWithoutMemberContractsInput>
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutMemberContractsInput
-  upsert?: Prisma.CenterMembershipUpsertWithoutMemberContractsInput
-  connect?: Prisma.CenterMembershipWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CenterMembershipUpdateToOneWithWhereWithoutMemberContractsInput, Prisma.CenterMembershipUpdateWithoutMemberContractsInput>, Prisma.CenterMembershipUncheckedUpdateWithoutMemberContractsInput>
-}
-
-export type CenterMembershipUpdateOneRequiredWithoutTrainerContractsNestedInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutTrainerContractsInput, Prisma.CenterMembershipUncheckedCreateWithoutTrainerContractsInput>
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutTrainerContractsInput
-  upsert?: Prisma.CenterMembershipUpsertWithoutTrainerContractsInput
-  connect?: Prisma.CenterMembershipWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CenterMembershipUpdateToOneWithWhereWithoutTrainerContractsInput, Prisma.CenterMembershipUpdateWithoutTrainerContractsInput>, Prisma.CenterMembershipUncheckedUpdateWithoutTrainerContractsInput>
-}
-
-export type CenterMembershipCreateNestedOneWithoutMemberPTSessionsInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutMemberPTSessionsInput, Prisma.CenterMembershipUncheckedCreateWithoutMemberPTSessionsInput>
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutMemberPTSessionsInput
-  connect?: Prisma.CenterMembershipWhereUniqueInput
-}
-
-export type CenterMembershipCreateNestedOneWithoutTrainerPTSessionsInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutTrainerPTSessionsInput, Prisma.CenterMembershipUncheckedCreateWithoutTrainerPTSessionsInput>
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutTrainerPTSessionsInput
-  connect?: Prisma.CenterMembershipWhereUniqueInput
-}
-
-export type CenterMembershipUpdateOneRequiredWithoutMemberPTSessionsNestedInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutMemberPTSessionsInput, Prisma.CenterMembershipUncheckedCreateWithoutMemberPTSessionsInput>
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutMemberPTSessionsInput
-  upsert?: Prisma.CenterMembershipUpsertWithoutMemberPTSessionsInput
-  connect?: Prisma.CenterMembershipWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CenterMembershipUpdateToOneWithWhereWithoutMemberPTSessionsInput, Prisma.CenterMembershipUpdateWithoutMemberPTSessionsInput>, Prisma.CenterMembershipUncheckedUpdateWithoutMemberPTSessionsInput>
-}
-
-export type CenterMembershipUpdateOneRequiredWithoutTrainerPTSessionsNestedInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutTrainerPTSessionsInput, Prisma.CenterMembershipUncheckedCreateWithoutTrainerPTSessionsInput>
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutTrainerPTSessionsInput
-  upsert?: Prisma.CenterMembershipUpsertWithoutTrainerPTSessionsInput
-  connect?: Prisma.CenterMembershipWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CenterMembershipUpdateToOneWithWhereWithoutTrainerPTSessionsInput, Prisma.CenterMembershipUpdateWithoutTrainerPTSessionsInput>, Prisma.CenterMembershipUncheckedUpdateWithoutTrainerPTSessionsInput>
-}
-
-export type CenterMembershipCreateNestedOneWithoutDietFeedbacksInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutDietFeedbacksInput, Prisma.CenterMembershipUncheckedCreateWithoutDietFeedbacksInput>
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutDietFeedbacksInput
-  connect?: Prisma.CenterMembershipWhereUniqueInput
-}
-
-export type CenterMembershipUpdateOneRequiredWithoutDietFeedbacksNestedInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutDietFeedbacksInput, Prisma.CenterMembershipUncheckedCreateWithoutDietFeedbacksInput>
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutDietFeedbacksInput
-  upsert?: Prisma.CenterMembershipUpsertWithoutDietFeedbacksInput
-  connect?: Prisma.CenterMembershipWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CenterMembershipUpdateToOneWithWhereWithoutDietFeedbacksInput, Prisma.CenterMembershipUpdateWithoutDietFeedbacksInput>, Prisma.CenterMembershipUncheckedUpdateWithoutDietFeedbacksInput>
-}
-
-export type CenterMembershipCreateNestedOneWithoutMemberJournalsInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutMemberJournalsInput, Prisma.CenterMembershipUncheckedCreateWithoutMemberJournalsInput>
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutMemberJournalsInput
-  connect?: Prisma.CenterMembershipWhereUniqueInput
-}
-
-export type CenterMembershipCreateNestedOneWithoutTrainerJournalsInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutTrainerJournalsInput, Prisma.CenterMembershipUncheckedCreateWithoutTrainerJournalsInput>
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutTrainerJournalsInput
-  connect?: Prisma.CenterMembershipWhereUniqueInput
-}
-
-export type CenterMembershipUpdateOneRequiredWithoutMemberJournalsNestedInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutMemberJournalsInput, Prisma.CenterMembershipUncheckedCreateWithoutMemberJournalsInput>
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutMemberJournalsInput
-  upsert?: Prisma.CenterMembershipUpsertWithoutMemberJournalsInput
-  connect?: Prisma.CenterMembershipWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CenterMembershipUpdateToOneWithWhereWithoutMemberJournalsInput, Prisma.CenterMembershipUpdateWithoutMemberJournalsInput>, Prisma.CenterMembershipUncheckedUpdateWithoutMemberJournalsInput>
-}
-
-export type CenterMembershipUpdateOneRequiredWithoutTrainerJournalsNestedInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutTrainerJournalsInput, Prisma.CenterMembershipUncheckedCreateWithoutTrainerJournalsInput>
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutTrainerJournalsInput
-  upsert?: Prisma.CenterMembershipUpsertWithoutTrainerJournalsInput
-  connect?: Prisma.CenterMembershipWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CenterMembershipUpdateToOneWithWhereWithoutTrainerJournalsInput, Prisma.CenterMembershipUpdateWithoutTrainerJournalsInput>, Prisma.CenterMembershipUncheckedUpdateWithoutTrainerJournalsInput>
-}
-
-export type CenterMembershipCreateNestedOneWithoutJournalCommentsInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutJournalCommentsInput, Prisma.CenterMembershipUncheckedCreateWithoutJournalCommentsInput>
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutJournalCommentsInput
-  connect?: Prisma.CenterMembershipWhereUniqueInput
-}
-
-export type CenterMembershipUpdateOneRequiredWithoutJournalCommentsNestedInput = {
-  create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutJournalCommentsInput, Prisma.CenterMembershipUncheckedCreateWithoutJournalCommentsInput>
-  connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutJournalCommentsInput
-  upsert?: Prisma.CenterMembershipUpsertWithoutJournalCommentsInput
-  connect?: Prisma.CenterMembershipWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CenterMembershipUpdateToOneWithWhereWithoutJournalCommentsInput, Prisma.CenterMembershipUpdateWithoutJournalCommentsInput>, Prisma.CenterMembershipUncheckedUpdateWithoutJournalCommentsInput>
-}
-
 export type CenterMembershipCreateNestedOneWithoutAuthoredNoticesInput = {
   create?: Prisma.XOR<Prisma.CenterMembershipCreateWithoutAuthoredNoticesInput, Prisma.CenterMembershipUncheckedCreateWithoutAuthoredNoticesInput>
   connectOrCreate?: Prisma.CenterMembershipCreateOrConnectWithoutAuthoredNoticesInput
@@ -929,23 +602,10 @@ export type CenterMembershipCreateWithoutUserInput = {
   joinedAt?: Date | string
   leftAt?: Date | string | null
   center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
-  assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
-  assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
   createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
   joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
   authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
   noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
 }
 
 export type CenterMembershipUncheckedCreateWithoutUserInput = {
@@ -953,25 +613,12 @@ export type CenterMembershipUncheckedCreateWithoutUserInput = {
   centerId: string
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
-  assignedTrainerMembershipId?: string | null
   joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
   createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
   authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
   noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
 }
 
 export type CenterMembershipCreateOrConnectWithoutUserInput = {
@@ -1009,7 +656,6 @@ export type CenterMembershipScalarWhereInput = {
   userId?: Prisma.StringFilter<"CenterMembership"> | string
   role?: Prisma.EnumMembershipRoleFilter<"CenterMembership"> | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFilter<"CenterMembership"> | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.StringNullableFilter<"CenterMembership"> | string | null
   joinedViaInvitationId?: Prisma.StringNullableFilter<"CenterMembership"> | string | null
   joinedAt?: Prisma.DateTimeFilter<"CenterMembership"> | Date | string
   leftAt?: Prisma.DateTimeNullableFilter<"CenterMembership"> | Date | string | null
@@ -1022,23 +668,10 @@ export type CenterMembershipCreateWithoutCenterInput = {
   joinedAt?: Date | string
   leftAt?: Date | string | null
   user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
-  assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
-  assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
   createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
   joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
   authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
   noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
 }
 
 export type CenterMembershipUncheckedCreateWithoutCenterInput = {
@@ -1046,25 +679,12 @@ export type CenterMembershipUncheckedCreateWithoutCenterInput = {
   userId: string
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
-  assignedTrainerMembershipId?: string | null
   joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
   createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
   authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
   noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
 }
 
 export type CenterMembershipCreateOrConnectWithoutCenterInput = {
@@ -1093,204 +713,6 @@ export type CenterMembershipUpdateManyWithWhereWithoutCenterInput = {
   data: Prisma.XOR<Prisma.CenterMembershipUpdateManyMutationInput, Prisma.CenterMembershipUncheckedUpdateManyWithoutCenterInput>
 }
 
-export type CenterMembershipCreateWithoutAssignedMembersInput = {
-  id?: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
-  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
-  assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
-  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
-  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
-  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
-}
-
-export type CenterMembershipUncheckedCreateWithoutAssignedMembersInput = {
-  id?: string
-  centerId: string
-  userId: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  assignedTrainerMembershipId?: string | null
-  joinedViaInvitationId?: string | null
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
-}
-
-export type CenterMembershipCreateOrConnectWithoutAssignedMembersInput = {
-  where: Prisma.CenterMembershipWhereUniqueInput
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutAssignedMembersInput, Prisma.CenterMembershipUncheckedCreateWithoutAssignedMembersInput>
-}
-
-export type CenterMembershipCreateWithoutAssignedTrainerMembershipInput = {
-  id?: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
-  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
-  assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
-  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
-  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
-  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
-}
-
-export type CenterMembershipUncheckedCreateWithoutAssignedTrainerMembershipInput = {
-  id?: string
-  centerId: string
-  userId: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  joinedViaInvitationId?: string | null
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
-  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
-}
-
-export type CenterMembershipCreateOrConnectWithoutAssignedTrainerMembershipInput = {
-  where: Prisma.CenterMembershipWhereUniqueInput
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutAssignedTrainerMembershipInput, Prisma.CenterMembershipUncheckedCreateWithoutAssignedTrainerMembershipInput>
-}
-
-export type CenterMembershipCreateManyAssignedTrainerMembershipInputEnvelope = {
-  data: Prisma.CenterMembershipCreateManyAssignedTrainerMembershipInput | Prisma.CenterMembershipCreateManyAssignedTrainerMembershipInput[]
-  skipDuplicates?: boolean
-}
-
-export type CenterMembershipUpsertWithoutAssignedMembersInput = {
-  update: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutAssignedMembersInput, Prisma.CenterMembershipUncheckedUpdateWithoutAssignedMembersInput>
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutAssignedMembersInput, Prisma.CenterMembershipUncheckedCreateWithoutAssignedMembersInput>
-  where?: Prisma.CenterMembershipWhereInput
-}
-
-export type CenterMembershipUpdateToOneWithWhereWithoutAssignedMembersInput = {
-  where?: Prisma.CenterMembershipWhereInput
-  data: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutAssignedMembersInput, Prisma.CenterMembershipUncheckedUpdateWithoutAssignedMembersInput>
-}
-
-export type CenterMembershipUpdateWithoutAssignedMembersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
-  assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
-  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
-  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
-}
-
-export type CenterMembershipUncheckedUpdateWithoutAssignedMembersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  centerId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
-}
-
-export type CenterMembershipUpsertWithWhereUniqueWithoutAssignedTrainerMembershipInput = {
-  where: Prisma.CenterMembershipWhereUniqueInput
-  update: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutAssignedTrainerMembershipInput, Prisma.CenterMembershipUncheckedUpdateWithoutAssignedTrainerMembershipInput>
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutAssignedTrainerMembershipInput, Prisma.CenterMembershipUncheckedCreateWithoutAssignedTrainerMembershipInput>
-}
-
-export type CenterMembershipUpdateWithWhereUniqueWithoutAssignedTrainerMembershipInput = {
-  where: Prisma.CenterMembershipWhereUniqueInput
-  data: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutAssignedTrainerMembershipInput, Prisma.CenterMembershipUncheckedUpdateWithoutAssignedTrainerMembershipInput>
-}
-
-export type CenterMembershipUpdateManyWithWhereWithoutAssignedTrainerMembershipInput = {
-  where: Prisma.CenterMembershipScalarWhereInput
-  data: Prisma.XOR<Prisma.CenterMembershipUpdateManyMutationInput, Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipInput>
-}
-
 export type CenterMembershipCreateWithoutCreatedInvitationsInput = {
   id?: string
   role: $Enums.MembershipRole
@@ -1299,22 +721,9 @@ export type CenterMembershipCreateWithoutCreatedInvitationsInput = {
   leftAt?: Date | string | null
   center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
-  assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
-  assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
   joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
   authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
   noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
 }
 
 export type CenterMembershipUncheckedCreateWithoutCreatedInvitationsInput = {
@@ -1323,24 +732,11 @@ export type CenterMembershipUncheckedCreateWithoutCreatedInvitationsInput = {
   userId: string
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
-  assignedTrainerMembershipId?: string | null
   joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
   authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
   noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
 }
 
 export type CenterMembershipCreateOrConnectWithoutCreatedInvitationsInput = {
@@ -1356,22 +752,9 @@ export type CenterMembershipCreateWithoutJoinedViaInvitationInput = {
   leftAt?: Date | string | null
   center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
-  assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
-  assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
   createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
   authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
   noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
 }
 
 export type CenterMembershipUncheckedCreateWithoutJoinedViaInvitationInput = {
@@ -1380,24 +763,11 @@ export type CenterMembershipUncheckedCreateWithoutJoinedViaInvitationInput = {
   userId: string
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
-  assignedTrainerMembershipId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
   createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
   authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
   noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
 }
 
 export type CenterMembershipCreateOrConnectWithoutJoinedViaInvitationInput = {
@@ -1429,22 +799,9 @@ export type CenterMembershipUpdateWithoutCreatedInvitationsInput = {
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
-  assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
-  assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
   joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
   authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
   noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
 export type CenterMembershipUncheckedUpdateWithoutCreatedInvitationsInput = {
@@ -1453,24 +810,11 @@ export type CenterMembershipUncheckedUpdateWithoutCreatedInvitationsInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
   authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
   noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
 export type CenterMembershipUpsertWithWhereUniqueWithoutJoinedViaInvitationInput = {
@@ -1489,1326 +833,6 @@ export type CenterMembershipUpdateManyWithWhereWithoutJoinedViaInvitationInput =
   data: Prisma.XOR<Prisma.CenterMembershipUpdateManyMutationInput, Prisma.CenterMembershipUncheckedUpdateManyWithoutJoinedViaInvitationInput>
 }
 
-export type CenterMembershipCreateWithoutTrainerProfileInput = {
-  id?: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
-  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
-  assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
-  assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
-  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
-  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
-  memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
-  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
-}
-
-export type CenterMembershipUncheckedCreateWithoutTrainerProfileInput = {
-  id?: string
-  centerId: string
-  userId: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  assignedTrainerMembershipId?: string | null
-  joinedViaInvitationId?: string | null
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
-  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
-  memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
-}
-
-export type CenterMembershipCreateOrConnectWithoutTrainerProfileInput = {
-  where: Prisma.CenterMembershipWhereUniqueInput
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutTrainerProfileInput, Prisma.CenterMembershipUncheckedCreateWithoutTrainerProfileInput>
-}
-
-export type CenterMembershipUpsertWithoutTrainerProfileInput = {
-  update: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutTrainerProfileInput, Prisma.CenterMembershipUncheckedUpdateWithoutTrainerProfileInput>
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutTrainerProfileInput, Prisma.CenterMembershipUncheckedCreateWithoutTrainerProfileInput>
-  where?: Prisma.CenterMembershipWhereInput
-}
-
-export type CenterMembershipUpdateToOneWithWhereWithoutTrainerProfileInput = {
-  where?: Prisma.CenterMembershipWhereInput
-  data: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutTrainerProfileInput, Prisma.CenterMembershipUncheckedUpdateWithoutTrainerProfileInput>
-}
-
-export type CenterMembershipUpdateWithoutTrainerProfileInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
-  assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
-  assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
-  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
-  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
-  memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
-}
-
-export type CenterMembershipUncheckedUpdateWithoutTrainerProfileInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  centerId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
-  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
-  memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
-}
-
-export type CenterMembershipCreateWithoutCreatedRoutinesInput = {
-  id?: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
-  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
-  assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
-  assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
-  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
-  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
-  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
-}
-
-export type CenterMembershipUncheckedCreateWithoutCreatedRoutinesInput = {
-  id?: string
-  centerId: string
-  userId: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  assignedTrainerMembershipId?: string | null
-  joinedViaInvitationId?: string | null
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
-  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
-}
-
-export type CenterMembershipCreateOrConnectWithoutCreatedRoutinesInput = {
-  where: Prisma.CenterMembershipWhereUniqueInput
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutCreatedRoutinesInput, Prisma.CenterMembershipUncheckedCreateWithoutCreatedRoutinesInput>
-}
-
-export type CenterMembershipUpsertWithoutCreatedRoutinesInput = {
-  update: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutCreatedRoutinesInput, Prisma.CenterMembershipUncheckedUpdateWithoutCreatedRoutinesInput>
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutCreatedRoutinesInput, Prisma.CenterMembershipUncheckedCreateWithoutCreatedRoutinesInput>
-  where?: Prisma.CenterMembershipWhereInput
-}
-
-export type CenterMembershipUpdateToOneWithWhereWithoutCreatedRoutinesInput = {
-  where?: Prisma.CenterMembershipWhereInput
-  data: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutCreatedRoutinesInput, Prisma.CenterMembershipUncheckedUpdateWithoutCreatedRoutinesInput>
-}
-
-export type CenterMembershipUpdateWithoutCreatedRoutinesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
-  assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
-  assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
-  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
-  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
-}
-
-export type CenterMembershipUncheckedUpdateWithoutCreatedRoutinesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  centerId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
-  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
-}
-
-export type CenterMembershipCreateWithoutTrainerPTPricesInput = {
-  id?: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
-  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
-  assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
-  assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
-  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
-  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
-  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
-}
-
-export type CenterMembershipUncheckedCreateWithoutTrainerPTPricesInput = {
-  id?: string
-  centerId: string
-  userId: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  assignedTrainerMembershipId?: string | null
-  joinedViaInvitationId?: string | null
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
-  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
-}
-
-export type CenterMembershipCreateOrConnectWithoutTrainerPTPricesInput = {
-  where: Prisma.CenterMembershipWhereUniqueInput
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutTrainerPTPricesInput, Prisma.CenterMembershipUncheckedCreateWithoutTrainerPTPricesInput>
-}
-
-export type CenterMembershipUpsertWithoutTrainerPTPricesInput = {
-  update: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutTrainerPTPricesInput, Prisma.CenterMembershipUncheckedUpdateWithoutTrainerPTPricesInput>
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutTrainerPTPricesInput, Prisma.CenterMembershipUncheckedCreateWithoutTrainerPTPricesInput>
-  where?: Prisma.CenterMembershipWhereInput
-}
-
-export type CenterMembershipUpdateToOneWithWhereWithoutTrainerPTPricesInput = {
-  where?: Prisma.CenterMembershipWhereInput
-  data: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutTrainerPTPricesInput, Prisma.CenterMembershipUncheckedUpdateWithoutTrainerPTPricesInput>
-}
-
-export type CenterMembershipUpdateWithoutTrainerPTPricesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
-  assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
-  assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
-  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
-  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
-}
-
-export type CenterMembershipUncheckedUpdateWithoutTrainerPTPricesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  centerId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
-  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
-}
-
-export type CenterMembershipCreateWithoutMemberContractsInput = {
-  id?: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
-  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
-  assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
-  assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
-  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
-  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
-  trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
-  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
-}
-
-export type CenterMembershipUncheckedCreateWithoutMemberContractsInput = {
-  id?: string
-  centerId: string
-  userId: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  assignedTrainerMembershipId?: string | null
-  joinedViaInvitationId?: string | null
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
-  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
-  trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
-}
-
-export type CenterMembershipCreateOrConnectWithoutMemberContractsInput = {
-  where: Prisma.CenterMembershipWhereUniqueInput
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutMemberContractsInput, Prisma.CenterMembershipUncheckedCreateWithoutMemberContractsInput>
-}
-
-export type CenterMembershipCreateWithoutTrainerContractsInput = {
-  id?: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
-  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
-  assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
-  assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
-  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
-  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
-  memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
-  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
-}
-
-export type CenterMembershipUncheckedCreateWithoutTrainerContractsInput = {
-  id?: string
-  centerId: string
-  userId: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  assignedTrainerMembershipId?: string | null
-  joinedViaInvitationId?: string | null
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
-  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
-  memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
-}
-
-export type CenterMembershipCreateOrConnectWithoutTrainerContractsInput = {
-  where: Prisma.CenterMembershipWhereUniqueInput
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutTrainerContractsInput, Prisma.CenterMembershipUncheckedCreateWithoutTrainerContractsInput>
-}
-
-export type CenterMembershipUpsertWithoutMemberContractsInput = {
-  update: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutMemberContractsInput, Prisma.CenterMembershipUncheckedUpdateWithoutMemberContractsInput>
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutMemberContractsInput, Prisma.CenterMembershipUncheckedCreateWithoutMemberContractsInput>
-  where?: Prisma.CenterMembershipWhereInput
-}
-
-export type CenterMembershipUpdateToOneWithWhereWithoutMemberContractsInput = {
-  where?: Prisma.CenterMembershipWhereInput
-  data: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutMemberContractsInput, Prisma.CenterMembershipUncheckedUpdateWithoutMemberContractsInput>
-}
-
-export type CenterMembershipUpdateWithoutMemberContractsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
-  assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
-  assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
-  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
-  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
-}
-
-export type CenterMembershipUncheckedUpdateWithoutMemberContractsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  centerId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
-  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
-}
-
-export type CenterMembershipUpsertWithoutTrainerContractsInput = {
-  update: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutTrainerContractsInput, Prisma.CenterMembershipUncheckedUpdateWithoutTrainerContractsInput>
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutTrainerContractsInput, Prisma.CenterMembershipUncheckedCreateWithoutTrainerContractsInput>
-  where?: Prisma.CenterMembershipWhereInput
-}
-
-export type CenterMembershipUpdateToOneWithWhereWithoutTrainerContractsInput = {
-  where?: Prisma.CenterMembershipWhereInput
-  data: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutTrainerContractsInput, Prisma.CenterMembershipUncheckedUpdateWithoutTrainerContractsInput>
-}
-
-export type CenterMembershipUpdateWithoutTrainerContractsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
-  assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
-  assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
-  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
-  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
-}
-
-export type CenterMembershipUncheckedUpdateWithoutTrainerContractsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  centerId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
-  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
-}
-
-export type CenterMembershipCreateWithoutMemberPTSessionsInput = {
-  id?: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
-  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
-  assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
-  assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
-  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
-  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
-  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
-}
-
-export type CenterMembershipUncheckedCreateWithoutMemberPTSessionsInput = {
-  id?: string
-  centerId: string
-  userId: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  assignedTrainerMembershipId?: string | null
-  joinedViaInvitationId?: string | null
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
-  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
-}
-
-export type CenterMembershipCreateOrConnectWithoutMemberPTSessionsInput = {
-  where: Prisma.CenterMembershipWhereUniqueInput
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutMemberPTSessionsInput, Prisma.CenterMembershipUncheckedCreateWithoutMemberPTSessionsInput>
-}
-
-export type CenterMembershipCreateWithoutTrainerPTSessionsInput = {
-  id?: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
-  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
-  assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
-  assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
-  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
-  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
-  memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
-  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
-}
-
-export type CenterMembershipUncheckedCreateWithoutTrainerPTSessionsInput = {
-  id?: string
-  centerId: string
-  userId: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  assignedTrainerMembershipId?: string | null
-  joinedViaInvitationId?: string | null
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
-  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
-  memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
-}
-
-export type CenterMembershipCreateOrConnectWithoutTrainerPTSessionsInput = {
-  where: Prisma.CenterMembershipWhereUniqueInput
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutTrainerPTSessionsInput, Prisma.CenterMembershipUncheckedCreateWithoutTrainerPTSessionsInput>
-}
-
-export type CenterMembershipUpsertWithoutMemberPTSessionsInput = {
-  update: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutMemberPTSessionsInput, Prisma.CenterMembershipUncheckedUpdateWithoutMemberPTSessionsInput>
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutMemberPTSessionsInput, Prisma.CenterMembershipUncheckedCreateWithoutMemberPTSessionsInput>
-  where?: Prisma.CenterMembershipWhereInput
-}
-
-export type CenterMembershipUpdateToOneWithWhereWithoutMemberPTSessionsInput = {
-  where?: Prisma.CenterMembershipWhereInput
-  data: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutMemberPTSessionsInput, Prisma.CenterMembershipUncheckedUpdateWithoutMemberPTSessionsInput>
-}
-
-export type CenterMembershipUpdateWithoutMemberPTSessionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
-  assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
-  assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
-  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
-  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
-}
-
-export type CenterMembershipUncheckedUpdateWithoutMemberPTSessionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  centerId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
-  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
-}
-
-export type CenterMembershipUpsertWithoutTrainerPTSessionsInput = {
-  update: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutTrainerPTSessionsInput, Prisma.CenterMembershipUncheckedUpdateWithoutTrainerPTSessionsInput>
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutTrainerPTSessionsInput, Prisma.CenterMembershipUncheckedCreateWithoutTrainerPTSessionsInput>
-  where?: Prisma.CenterMembershipWhereInput
-}
-
-export type CenterMembershipUpdateToOneWithWhereWithoutTrainerPTSessionsInput = {
-  where?: Prisma.CenterMembershipWhereInput
-  data: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutTrainerPTSessionsInput, Prisma.CenterMembershipUncheckedUpdateWithoutTrainerPTSessionsInput>
-}
-
-export type CenterMembershipUpdateWithoutTrainerPTSessionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
-  assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
-  assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
-  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
-  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
-  memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
-}
-
-export type CenterMembershipUncheckedUpdateWithoutTrainerPTSessionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  centerId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
-  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
-}
-
-export type CenterMembershipCreateWithoutDietFeedbacksInput = {
-  id?: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
-  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
-  assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
-  assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
-  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
-  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
-  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
-}
-
-export type CenterMembershipUncheckedCreateWithoutDietFeedbacksInput = {
-  id?: string
-  centerId: string
-  userId: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  assignedTrainerMembershipId?: string | null
-  joinedViaInvitationId?: string | null
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
-  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
-}
-
-export type CenterMembershipCreateOrConnectWithoutDietFeedbacksInput = {
-  where: Prisma.CenterMembershipWhereUniqueInput
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutDietFeedbacksInput, Prisma.CenterMembershipUncheckedCreateWithoutDietFeedbacksInput>
-}
-
-export type CenterMembershipUpsertWithoutDietFeedbacksInput = {
-  update: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutDietFeedbacksInput, Prisma.CenterMembershipUncheckedUpdateWithoutDietFeedbacksInput>
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutDietFeedbacksInput, Prisma.CenterMembershipUncheckedCreateWithoutDietFeedbacksInput>
-  where?: Prisma.CenterMembershipWhereInput
-}
-
-export type CenterMembershipUpdateToOneWithWhereWithoutDietFeedbacksInput = {
-  where?: Prisma.CenterMembershipWhereInput
-  data: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutDietFeedbacksInput, Prisma.CenterMembershipUncheckedUpdateWithoutDietFeedbacksInput>
-}
-
-export type CenterMembershipUpdateWithoutDietFeedbacksInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
-  assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
-  assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
-  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
-  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
-}
-
-export type CenterMembershipUncheckedUpdateWithoutDietFeedbacksInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  centerId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
-  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
-}
-
-export type CenterMembershipCreateWithoutMemberJournalsInput = {
-  id?: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
-  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
-  assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
-  assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
-  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
-  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerMembershipInput
-  trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
-  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
-}
-
-export type CenterMembershipUncheckedCreateWithoutMemberJournalsInput = {
-  id?: string
-  centerId: string
-  userId: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  assignedTrainerMembershipId?: string | null
-  joinedViaInvitationId?: string | null
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
-  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
-}
-
-export type CenterMembershipCreateOrConnectWithoutMemberJournalsInput = {
-  where: Prisma.CenterMembershipWhereUniqueInput
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutMemberJournalsInput, Prisma.CenterMembershipUncheckedCreateWithoutMemberJournalsInput>
-}
-
-export type CenterMembershipCreateWithoutTrainerJournalsInput = {
-  id?: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
-  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
-  assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
-  assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
-  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
-  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
-  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
-}
-
-export type CenterMembershipUncheckedCreateWithoutTrainerJournalsInput = {
-  id?: string
-  centerId: string
-  userId: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  assignedTrainerMembershipId?: string | null
-  joinedViaInvitationId?: string | null
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
-  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
-}
-
-export type CenterMembershipCreateOrConnectWithoutTrainerJournalsInput = {
-  where: Prisma.CenterMembershipWhereUniqueInput
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutTrainerJournalsInput, Prisma.CenterMembershipUncheckedCreateWithoutTrainerJournalsInput>
-}
-
-export type CenterMembershipUpsertWithoutMemberJournalsInput = {
-  update: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutMemberJournalsInput, Prisma.CenterMembershipUncheckedUpdateWithoutMemberJournalsInput>
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutMemberJournalsInput, Prisma.CenterMembershipUncheckedCreateWithoutMemberJournalsInput>
-  where?: Prisma.CenterMembershipWhereInput
-}
-
-export type CenterMembershipUpdateToOneWithWhereWithoutMemberJournalsInput = {
-  where?: Prisma.CenterMembershipWhereInput
-  data: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutMemberJournalsInput, Prisma.CenterMembershipUncheckedUpdateWithoutMemberJournalsInput>
-}
-
-export type CenterMembershipUpdateWithoutMemberJournalsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
-  assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
-  assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
-  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
-  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUpdateManyWithoutTrainerMembershipNestedInput
-  trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
-}
-
-export type CenterMembershipUncheckedUpdateWithoutMemberJournalsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  centerId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
-  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
-}
-
-export type CenterMembershipUpsertWithoutTrainerJournalsInput = {
-  update: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutTrainerJournalsInput, Prisma.CenterMembershipUncheckedUpdateWithoutTrainerJournalsInput>
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutTrainerJournalsInput, Prisma.CenterMembershipUncheckedCreateWithoutTrainerJournalsInput>
-  where?: Prisma.CenterMembershipWhereInput
-}
-
-export type CenterMembershipUpdateToOneWithWhereWithoutTrainerJournalsInput = {
-  where?: Prisma.CenterMembershipWhereInput
-  data: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutTrainerJournalsInput, Prisma.CenterMembershipUncheckedUpdateWithoutTrainerJournalsInput>
-}
-
-export type CenterMembershipUpdateWithoutTrainerJournalsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
-  assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
-  assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
-  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
-  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
-}
-
-export type CenterMembershipUncheckedUpdateWithoutTrainerJournalsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  centerId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
-  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
-}
-
-export type CenterMembershipCreateWithoutJournalCommentsInput = {
-  id?: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
-  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
-  assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
-  assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
-  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
-  joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
-  authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
-}
-
-export type CenterMembershipUncheckedCreateWithoutJournalCommentsInput = {
-  id?: string
-  centerId: string
-  userId: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  assignedTrainerMembershipId?: string | null
-  joinedViaInvitationId?: string | null
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
-  createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
-}
-
-export type CenterMembershipCreateOrConnectWithoutJournalCommentsInput = {
-  where: Prisma.CenterMembershipWhereUniqueInput
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutJournalCommentsInput, Prisma.CenterMembershipUncheckedCreateWithoutJournalCommentsInput>
-}
-
-export type CenterMembershipUpsertWithoutJournalCommentsInput = {
-  update: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutJournalCommentsInput, Prisma.CenterMembershipUncheckedUpdateWithoutJournalCommentsInput>
-  create: Prisma.XOR<Prisma.CenterMembershipCreateWithoutJournalCommentsInput, Prisma.CenterMembershipUncheckedCreateWithoutJournalCommentsInput>
-  where?: Prisma.CenterMembershipWhereInput
-}
-
-export type CenterMembershipUpdateToOneWithWhereWithoutJournalCommentsInput = {
-  where?: Prisma.CenterMembershipWhereInput
-  data: Prisma.XOR<Prisma.CenterMembershipUpdateWithoutJournalCommentsInput, Prisma.CenterMembershipUncheckedUpdateWithoutJournalCommentsInput>
-}
-
-export type CenterMembershipUpdateWithoutJournalCommentsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
-  assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
-  assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
-  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
-  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
-}
-
-export type CenterMembershipUncheckedUpdateWithoutJournalCommentsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  centerId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
-  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
-}
-
 export type CenterMembershipCreateWithoutAuthoredNoticesInput = {
   id?: string
   role: $Enums.MembershipRole
@@ -2817,22 +841,9 @@ export type CenterMembershipCreateWithoutAuthoredNoticesInput = {
   leftAt?: Date | string | null
   center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
-  assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
-  assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
   createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
   joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
   noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
 }
 
 export type CenterMembershipUncheckedCreateWithoutAuthoredNoticesInput = {
@@ -2841,24 +852,11 @@ export type CenterMembershipUncheckedCreateWithoutAuthoredNoticesInput = {
   userId: string
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
-  assignedTrainerMembershipId?: string | null
   joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
   createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
   noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
-  createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
 }
 
 export type CenterMembershipCreateOrConnectWithoutAuthoredNoticesInput = {
@@ -2885,22 +883,9 @@ export type CenterMembershipUpdateWithoutAuthoredNoticesInput = {
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
-  assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
-  assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
   createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
   joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
   noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
 export type CenterMembershipUncheckedUpdateWithoutAuthoredNoticesInput = {
@@ -2909,24 +894,11 @@ export type CenterMembershipUncheckedUpdateWithoutAuthoredNoticesInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
   createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
   noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
 export type CenterMembershipCreateWithoutNoticeReadsInput = {
@@ -2937,22 +909,9 @@ export type CenterMembershipCreateWithoutNoticeReadsInput = {
   leftAt?: Date | string | null
   center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
-  assignedTrainerMembership?: Prisma.CenterMembershipCreateNestedOneWithoutAssignedMembersInput
-  assignedMembers?: Prisma.CenterMembershipCreateNestedManyWithoutAssignedTrainerMembershipInput
   createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
   joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorMembershipInput
   authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
-  createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
 }
 
 export type CenterMembershipUncheckedCreateWithoutNoticeReadsInput = {
@@ -2961,24 +920,11 @@ export type CenterMembershipUncheckedCreateWithoutNoticeReadsInput = {
   userId: string
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
-  assignedTrainerMembershipId?: string | null
   joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutAssignedTrainerMembershipInput
   createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutMembershipInput
-  memberContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  memberJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberMembershipInput
-  trainerJournals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerMembershipInput
-  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorMembershipInput
   authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
-  createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
 }
 
 export type CenterMembershipCreateOrConnectWithoutNoticeReadsInput = {
@@ -3005,22 +951,9 @@ export type CenterMembershipUpdateWithoutNoticeReadsInput = {
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
-  assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
-  assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
   createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
   joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
   authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
 export type CenterMembershipUncheckedUpdateWithoutNoticeReadsInput = {
@@ -3029,24 +962,11 @@ export type CenterMembershipUncheckedUpdateWithoutNoticeReadsInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
   createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
   authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
 export type CenterMembershipCreateManyUserInput = {
@@ -3054,7 +974,6 @@ export type CenterMembershipCreateManyUserInput = {
   centerId: string
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
-  assignedTrainerMembershipId?: string | null
   joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
@@ -3067,23 +986,10 @@ export type CenterMembershipUpdateWithoutUserInput = {
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
-  assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
-  assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
   createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
   joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
   authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
   noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
 export type CenterMembershipUncheckedUpdateWithoutUserInput = {
@@ -3091,25 +997,12 @@ export type CenterMembershipUncheckedUpdateWithoutUserInput = {
   centerId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
   createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
   authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
   noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
 export type CenterMembershipUncheckedUpdateManyWithoutUserInput = {
@@ -3117,7 +1010,6 @@ export type CenterMembershipUncheckedUpdateManyWithoutUserInput = {
   centerId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3128,7 +1020,6 @@ export type CenterMembershipCreateManyCenterInput = {
   userId: string
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
-  assignedTrainerMembershipId?: string | null
   joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
@@ -3141,23 +1032,10 @@ export type CenterMembershipUpdateWithoutCenterInput = {
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
-  assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
-  assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
   createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
   joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
   authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
   noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
 export type CenterMembershipUncheckedUpdateWithoutCenterInput = {
@@ -3165,104 +1043,16 @@ export type CenterMembershipUncheckedUpdateWithoutCenterInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
   createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
   authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
   noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
 export type CenterMembershipUncheckedUpdateManyWithoutCenterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type CenterMembershipCreateManyAssignedTrainerMembershipInput = {
-  id?: string
-  centerId: string
-  userId: string
-  role: $Enums.MembershipRole
-  status?: $Enums.MembershipStatus
-  joinedViaInvitationId?: string | null
-  joinedAt?: Date | string
-  leftAt?: Date | string | null
-}
-
-export type CenterMembershipUpdateWithoutAssignedTrainerMembershipInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
-  assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
-  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
-  joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
-}
-
-export type CenterMembershipUncheckedUpdateWithoutAssignedTrainerMembershipInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  centerId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
-  createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
-  noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
-}
-
-export type CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  centerId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
@@ -3277,7 +1067,6 @@ export type CenterMembershipCreateManyJoinedViaInvitationInput = {
   userId: string
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
-  assignedTrainerMembershipId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
 }
@@ -3290,22 +1079,9 @@ export type CenterMembershipUpdateWithoutJoinedViaInvitationInput = {
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
-  assignedTrainerMembership?: Prisma.CenterMembershipUpdateOneWithoutAssignedMembersNestedInput
-  assignedMembers?: Prisma.CenterMembershipUpdateManyWithoutAssignedTrainerMembershipNestedInput
   createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorMembershipNestedInput
   authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
   noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
 export type CenterMembershipUncheckedUpdateWithoutJoinedViaInvitationInput = {
@@ -3314,24 +1090,11 @@ export type CenterMembershipUncheckedUpdateWithoutJoinedViaInvitationInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  assignedMembers?: Prisma.CenterMembershipUncheckedUpdateManyWithoutAssignedTrainerMembershipNestedInput
   createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutMembershipNestedInput
-  memberContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerContracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerPTSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  memberJournals?: Prisma.JournalUncheckedUpdateManyWithoutMemberMembershipNestedInput
-  trainerJournals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  trainerPTPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerMembershipNestedInput
-  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorMembershipNestedInput
   authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
   noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
-  createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
 }
 
 export type CenterMembershipUncheckedUpdateManyWithoutJoinedViaInvitationInput = {
@@ -3340,7 +1103,6 @@ export type CenterMembershipUncheckedUpdateManyWithoutJoinedViaInvitationInput =
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  assignedTrainerMembershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -3351,37 +1113,15 @@ export type CenterMembershipUncheckedUpdateManyWithoutJoinedViaInvitationInput =
  */
 
 export type CenterMembershipCountOutputType = {
-  assignedMembers: number
   createdInvitations: number
-  memberContracts: number
-  trainerContracts: number
-  memberPTSessions: number
-  trainerPTSessions: number
-  memberJournals: number
-  trainerJournals: number
-  trainerPTPrices: number
-  dietFeedbacks: number
-  journalComments: number
   authoredNotices: number
   noticeReads: number
-  createdRoutines: number
 }
 
 export type CenterMembershipCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  assignedMembers?: boolean | CenterMembershipCountOutputTypeCountAssignedMembersArgs
   createdInvitations?: boolean | CenterMembershipCountOutputTypeCountCreatedInvitationsArgs
-  memberContracts?: boolean | CenterMembershipCountOutputTypeCountMemberContractsArgs
-  trainerContracts?: boolean | CenterMembershipCountOutputTypeCountTrainerContractsArgs
-  memberPTSessions?: boolean | CenterMembershipCountOutputTypeCountMemberPTSessionsArgs
-  trainerPTSessions?: boolean | CenterMembershipCountOutputTypeCountTrainerPTSessionsArgs
-  memberJournals?: boolean | CenterMembershipCountOutputTypeCountMemberJournalsArgs
-  trainerJournals?: boolean | CenterMembershipCountOutputTypeCountTrainerJournalsArgs
-  trainerPTPrices?: boolean | CenterMembershipCountOutputTypeCountTrainerPTPricesArgs
-  dietFeedbacks?: boolean | CenterMembershipCountOutputTypeCountDietFeedbacksArgs
-  journalComments?: boolean | CenterMembershipCountOutputTypeCountJournalCommentsArgs
   authoredNotices?: boolean | CenterMembershipCountOutputTypeCountAuthoredNoticesArgs
   noticeReads?: boolean | CenterMembershipCountOutputTypeCountNoticeReadsArgs
-  createdRoutines?: boolean | CenterMembershipCountOutputTypeCountCreatedRoutinesArgs
 }
 
 /**
@@ -3397,78 +1137,8 @@ export type CenterMembershipCountOutputTypeDefaultArgs<ExtArgs extends runtime.T
 /**
  * CenterMembershipCountOutputType without action
  */
-export type CenterMembershipCountOutputTypeCountAssignedMembersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.CenterMembershipWhereInput
-}
-
-/**
- * CenterMembershipCountOutputType without action
- */
 export type CenterMembershipCountOutputTypeCountCreatedInvitationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.CenterInvitationWhereInput
-}
-
-/**
- * CenterMembershipCountOutputType without action
- */
-export type CenterMembershipCountOutputTypeCountMemberContractsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PTContractWhereInput
-}
-
-/**
- * CenterMembershipCountOutputType without action
- */
-export type CenterMembershipCountOutputTypeCountTrainerContractsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PTContractWhereInput
-}
-
-/**
- * CenterMembershipCountOutputType without action
- */
-export type CenterMembershipCountOutputTypeCountMemberPTSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PTSessionWhereInput
-}
-
-/**
- * CenterMembershipCountOutputType without action
- */
-export type CenterMembershipCountOutputTypeCountTrainerPTSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PTSessionWhereInput
-}
-
-/**
- * CenterMembershipCountOutputType without action
- */
-export type CenterMembershipCountOutputTypeCountMemberJournalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.JournalWhereInput
-}
-
-/**
- * CenterMembershipCountOutputType without action
- */
-export type CenterMembershipCountOutputTypeCountTrainerJournalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.JournalWhereInput
-}
-
-/**
- * CenterMembershipCountOutputType without action
- */
-export type CenterMembershipCountOutputTypeCountTrainerPTPricesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TrainerPTPriceWhereInput
-}
-
-/**
- * CenterMembershipCountOutputType without action
- */
-export type CenterMembershipCountOutputTypeCountDietFeedbacksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.DietFeedbackWhereInput
-}
-
-/**
- * CenterMembershipCountOutputType without action
- */
-export type CenterMembershipCountOutputTypeCountJournalCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.JournalCommentWhereInput
 }
 
 /**
@@ -3485,13 +1155,6 @@ export type CenterMembershipCountOutputTypeCountNoticeReadsArgs<ExtArgs extends 
   where?: Prisma.NoticeReadWhereInput
 }
 
-/**
- * CenterMembershipCountOutputType without action
- */
-export type CenterMembershipCountOutputTypeCountCreatedRoutinesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.RoutineWhereInput
-}
-
 
 export type CenterMembershipSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -3499,29 +1162,15 @@ export type CenterMembershipSelect<ExtArgs extends runtime.Types.Extensions.Inte
   userId?: boolean
   role?: boolean
   status?: boolean
-  assignedTrainerMembershipId?: boolean
   joinedViaInvitationId?: boolean
   joinedAt?: boolean
   leftAt?: boolean
   center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  assignedTrainerMembership?: boolean | Prisma.CenterMembership$assignedTrainerMembershipArgs<ExtArgs>
-  assignedMembers?: boolean | Prisma.CenterMembership$assignedMembersArgs<ExtArgs>
   createdInvitations?: boolean | Prisma.CenterMembership$createdInvitationsArgs<ExtArgs>
   joinedViaInvitation?: boolean | Prisma.CenterMembership$joinedViaInvitationArgs<ExtArgs>
-  trainerProfile?: boolean | Prisma.CenterMembership$trainerProfileArgs<ExtArgs>
-  memberContracts?: boolean | Prisma.CenterMembership$memberContractsArgs<ExtArgs>
-  trainerContracts?: boolean | Prisma.CenterMembership$trainerContractsArgs<ExtArgs>
-  memberPTSessions?: boolean | Prisma.CenterMembership$memberPTSessionsArgs<ExtArgs>
-  trainerPTSessions?: boolean | Prisma.CenterMembership$trainerPTSessionsArgs<ExtArgs>
-  memberJournals?: boolean | Prisma.CenterMembership$memberJournalsArgs<ExtArgs>
-  trainerJournals?: boolean | Prisma.CenterMembership$trainerJournalsArgs<ExtArgs>
-  trainerPTPrices?: boolean | Prisma.CenterMembership$trainerPTPricesArgs<ExtArgs>
-  dietFeedbacks?: boolean | Prisma.CenterMembership$dietFeedbacksArgs<ExtArgs>
-  journalComments?: boolean | Prisma.CenterMembership$journalCommentsArgs<ExtArgs>
   authoredNotices?: boolean | Prisma.CenterMembership$authoredNoticesArgs<ExtArgs>
   noticeReads?: boolean | Prisma.CenterMembership$noticeReadsArgs<ExtArgs>
-  createdRoutines?: boolean | Prisma.CenterMembership$createdRoutinesArgs<ExtArgs>
   _count?: boolean | Prisma.CenterMembershipCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["centerMembership"]>
 
@@ -3531,13 +1180,11 @@ export type CenterMembershipSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   userId?: boolean
   role?: boolean
   status?: boolean
-  assignedTrainerMembershipId?: boolean
   joinedViaInvitationId?: boolean
   joinedAt?: boolean
   leftAt?: boolean
   center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  assignedTrainerMembership?: boolean | Prisma.CenterMembership$assignedTrainerMembershipArgs<ExtArgs>
   joinedViaInvitation?: boolean | Prisma.CenterMembership$joinedViaInvitationArgs<ExtArgs>
 }, ExtArgs["result"]["centerMembership"]>
 
@@ -3547,13 +1194,11 @@ export type CenterMembershipSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   userId?: boolean
   role?: boolean
   status?: boolean
-  assignedTrainerMembershipId?: boolean
   joinedViaInvitationId?: boolean
   joinedAt?: boolean
   leftAt?: boolean
   center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  assignedTrainerMembership?: boolean | Prisma.CenterMembership$assignedTrainerMembershipArgs<ExtArgs>
   joinedViaInvitation?: boolean | Prisma.CenterMembership$joinedViaInvitationArgs<ExtArgs>
 }, ExtArgs["result"]["centerMembership"]>
 
@@ -3563,45 +1208,29 @@ export type CenterMembershipSelectScalar = {
   userId?: boolean
   role?: boolean
   status?: boolean
-  assignedTrainerMembershipId?: boolean
   joinedViaInvitationId?: boolean
   joinedAt?: boolean
   leftAt?: boolean
 }
 
-export type CenterMembershipOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "centerId" | "userId" | "role" | "status" | "assignedTrainerMembershipId" | "joinedViaInvitationId" | "joinedAt" | "leftAt", ExtArgs["result"]["centerMembership"]>
+export type CenterMembershipOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "centerId" | "userId" | "role" | "status" | "joinedViaInvitationId" | "joinedAt" | "leftAt", ExtArgs["result"]["centerMembership"]>
 export type CenterMembershipInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  assignedTrainerMembership?: boolean | Prisma.CenterMembership$assignedTrainerMembershipArgs<ExtArgs>
-  assignedMembers?: boolean | Prisma.CenterMembership$assignedMembersArgs<ExtArgs>
   createdInvitations?: boolean | Prisma.CenterMembership$createdInvitationsArgs<ExtArgs>
   joinedViaInvitation?: boolean | Prisma.CenterMembership$joinedViaInvitationArgs<ExtArgs>
-  trainerProfile?: boolean | Prisma.CenterMembership$trainerProfileArgs<ExtArgs>
-  memberContracts?: boolean | Prisma.CenterMembership$memberContractsArgs<ExtArgs>
-  trainerContracts?: boolean | Prisma.CenterMembership$trainerContractsArgs<ExtArgs>
-  memberPTSessions?: boolean | Prisma.CenterMembership$memberPTSessionsArgs<ExtArgs>
-  trainerPTSessions?: boolean | Prisma.CenterMembership$trainerPTSessionsArgs<ExtArgs>
-  memberJournals?: boolean | Prisma.CenterMembership$memberJournalsArgs<ExtArgs>
-  trainerJournals?: boolean | Prisma.CenterMembership$trainerJournalsArgs<ExtArgs>
-  trainerPTPrices?: boolean | Prisma.CenterMembership$trainerPTPricesArgs<ExtArgs>
-  dietFeedbacks?: boolean | Prisma.CenterMembership$dietFeedbacksArgs<ExtArgs>
-  journalComments?: boolean | Prisma.CenterMembership$journalCommentsArgs<ExtArgs>
   authoredNotices?: boolean | Prisma.CenterMembership$authoredNoticesArgs<ExtArgs>
   noticeReads?: boolean | Prisma.CenterMembership$noticeReadsArgs<ExtArgs>
-  createdRoutines?: boolean | Prisma.CenterMembership$createdRoutinesArgs<ExtArgs>
   _count?: boolean | Prisma.CenterMembershipCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CenterMembershipIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  assignedTrainerMembership?: boolean | Prisma.CenterMembership$assignedTrainerMembershipArgs<ExtArgs>
   joinedViaInvitation?: boolean | Prisma.CenterMembership$joinedViaInvitationArgs<ExtArgs>
 }
 export type CenterMembershipIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  assignedTrainerMembership?: boolean | Prisma.CenterMembership$assignedTrainerMembershipArgs<ExtArgs>
   joinedViaInvitation?: boolean | Prisma.CenterMembership$joinedViaInvitationArgs<ExtArgs>
 }
 
@@ -3610,23 +1239,10 @@ export type $CenterMembershipPayload<ExtArgs extends runtime.Types.Extensions.In
   objects: {
     center: Prisma.$CenterPayload<ExtArgs>
     user: Prisma.$UserPayload<ExtArgs>
-    assignedTrainerMembership: Prisma.$CenterMembershipPayload<ExtArgs> | null
-    assignedMembers: Prisma.$CenterMembershipPayload<ExtArgs>[]
     createdInvitations: Prisma.$CenterInvitationPayload<ExtArgs>[]
     joinedViaInvitation: Prisma.$CenterInvitationPayload<ExtArgs> | null
-    trainerProfile: Prisma.$TrainerProfilePayload<ExtArgs> | null
-    memberContracts: Prisma.$PTContractPayload<ExtArgs>[]
-    trainerContracts: Prisma.$PTContractPayload<ExtArgs>[]
-    memberPTSessions: Prisma.$PTSessionPayload<ExtArgs>[]
-    trainerPTSessions: Prisma.$PTSessionPayload<ExtArgs>[]
-    memberJournals: Prisma.$JournalPayload<ExtArgs>[]
-    trainerJournals: Prisma.$JournalPayload<ExtArgs>[]
-    trainerPTPrices: Prisma.$TrainerPTPricePayload<ExtArgs>[]
-    dietFeedbacks: Prisma.$DietFeedbackPayload<ExtArgs>[]
-    journalComments: Prisma.$JournalCommentPayload<ExtArgs>[]
     authoredNotices: Prisma.$NoticePayload<ExtArgs>[]
     noticeReads: Prisma.$NoticeReadPayload<ExtArgs>[]
-    createdRoutines: Prisma.$RoutinePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3634,7 +1250,6 @@ export type $CenterMembershipPayload<ExtArgs extends runtime.Types.Extensions.In
     userId: string
     role: $Enums.MembershipRole
     status: $Enums.MembershipStatus
-    assignedTrainerMembershipId: string | null
     joinedViaInvitationId: string | null
     joinedAt: Date
     leftAt: Date | null
@@ -4034,23 +1649,10 @@ export interface Prisma__CenterMembershipClient<T, Null = never, ExtArgs extends
   readonly [Symbol.toStringTag]: "PrismaPromise"
   center<T extends Prisma.CenterDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterDefaultArgs<ExtArgs>>): Prisma.Prisma__CenterClient<runtime.Types.Result.GetResult<Prisma.$CenterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  assignedTrainerMembership<T extends Prisma.CenterMembership$assignedTrainerMembershipArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$assignedTrainerMembershipArgs<ExtArgs>>): Prisma.Prisma__CenterMembershipClient<runtime.Types.Result.GetResult<Prisma.$CenterMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  assignedMembers<T extends Prisma.CenterMembership$assignedMembersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$assignedMembersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CenterMembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdInvitations<T extends Prisma.CenterMembership$createdInvitationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$createdInvitationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CenterInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   joinedViaInvitation<T extends Prisma.CenterMembership$joinedViaInvitationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$joinedViaInvitationArgs<ExtArgs>>): Prisma.Prisma__CenterInvitationClient<runtime.Types.Result.GetResult<Prisma.$CenterInvitationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  trainerProfile<T extends Prisma.CenterMembership$trainerProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$trainerProfileArgs<ExtArgs>>): Prisma.Prisma__TrainerProfileClient<runtime.Types.Result.GetResult<Prisma.$TrainerProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  memberContracts<T extends Prisma.CenterMembership$memberContractsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$memberContractsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PTContractPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  trainerContracts<T extends Prisma.CenterMembership$trainerContractsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$trainerContractsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PTContractPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  memberPTSessions<T extends Prisma.CenterMembership$memberPTSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$memberPTSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PTSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  trainerPTSessions<T extends Prisma.CenterMembership$trainerPTSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$trainerPTSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PTSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  memberJournals<T extends Prisma.CenterMembership$memberJournalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$memberJournalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  trainerJournals<T extends Prisma.CenterMembership$trainerJournalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$trainerJournalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  trainerPTPrices<T extends Prisma.CenterMembership$trainerPTPricesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$trainerPTPricesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrainerPTPricePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  dietFeedbacks<T extends Prisma.CenterMembership$dietFeedbacksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$dietFeedbacksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DietFeedbackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  journalComments<T extends Prisma.CenterMembership$journalCommentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$journalCommentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   authoredNotices<T extends Prisma.CenterMembership$authoredNoticesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$authoredNoticesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NoticePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   noticeReads<T extends Prisma.CenterMembership$noticeReadsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$noticeReadsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NoticeReadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  createdRoutines<T extends Prisma.CenterMembership$createdRoutinesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$createdRoutinesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RoutinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4085,7 +1687,6 @@ export interface CenterMembershipFieldRefs {
   readonly userId: Prisma.FieldRef<"CenterMembership", 'String'>
   readonly role: Prisma.FieldRef<"CenterMembership", 'MembershipRole'>
   readonly status: Prisma.FieldRef<"CenterMembership", 'MembershipStatus'>
-  readonly assignedTrainerMembershipId: Prisma.FieldRef<"CenterMembership", 'String'>
   readonly joinedViaInvitationId: Prisma.FieldRef<"CenterMembership", 'String'>
   readonly joinedAt: Prisma.FieldRef<"CenterMembership", 'DateTime'>
   readonly leftAt: Prisma.FieldRef<"CenterMembership", 'DateTime'>
@@ -4490,49 +2091,6 @@ export type CenterMembershipDeleteManyArgs<ExtArgs extends runtime.Types.Extensi
 }
 
 /**
- * CenterMembership.assignedTrainerMembership
- */
-export type CenterMembership$assignedTrainerMembershipArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the CenterMembership
-   */
-  select?: Prisma.CenterMembershipSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the CenterMembership
-   */
-  omit?: Prisma.CenterMembershipOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CenterMembershipInclude<ExtArgs> | null
-  where?: Prisma.CenterMembershipWhereInput
-}
-
-/**
- * CenterMembership.assignedMembers
- */
-export type CenterMembership$assignedMembersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the CenterMembership
-   */
-  select?: Prisma.CenterMembershipSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the CenterMembership
-   */
-  omit?: Prisma.CenterMembershipOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CenterMembershipInclude<ExtArgs> | null
-  where?: Prisma.CenterMembershipWhereInput
-  orderBy?: Prisma.CenterMembershipOrderByWithRelationInput | Prisma.CenterMembershipOrderByWithRelationInput[]
-  cursor?: Prisma.CenterMembershipWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.CenterMembershipScalarFieldEnum | Prisma.CenterMembershipScalarFieldEnum[]
-}
-
-/**
  * CenterMembership.createdInvitations
  */
 export type CenterMembership$createdInvitationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4573,241 +2131,6 @@ export type CenterMembership$joinedViaInvitationArgs<ExtArgs extends runtime.Typ
    */
   include?: Prisma.CenterInvitationInclude<ExtArgs> | null
   where?: Prisma.CenterInvitationWhereInput
-}
-
-/**
- * CenterMembership.trainerProfile
- */
-export type CenterMembership$trainerProfileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the TrainerProfile
-   */
-  select?: Prisma.TrainerProfileSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the TrainerProfile
-   */
-  omit?: Prisma.TrainerProfileOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TrainerProfileInclude<ExtArgs> | null
-  where?: Prisma.TrainerProfileWhereInput
-}
-
-/**
- * CenterMembership.memberContracts
- */
-export type CenterMembership$memberContractsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the PTContract
-   */
-  select?: Prisma.PTContractSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the PTContract
-   */
-  omit?: Prisma.PTContractOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PTContractInclude<ExtArgs> | null
-  where?: Prisma.PTContractWhereInput
-  orderBy?: Prisma.PTContractOrderByWithRelationInput | Prisma.PTContractOrderByWithRelationInput[]
-  cursor?: Prisma.PTContractWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.PTContractScalarFieldEnum | Prisma.PTContractScalarFieldEnum[]
-}
-
-/**
- * CenterMembership.trainerContracts
- */
-export type CenterMembership$trainerContractsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the PTContract
-   */
-  select?: Prisma.PTContractSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the PTContract
-   */
-  omit?: Prisma.PTContractOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PTContractInclude<ExtArgs> | null
-  where?: Prisma.PTContractWhereInput
-  orderBy?: Prisma.PTContractOrderByWithRelationInput | Prisma.PTContractOrderByWithRelationInput[]
-  cursor?: Prisma.PTContractWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.PTContractScalarFieldEnum | Prisma.PTContractScalarFieldEnum[]
-}
-
-/**
- * CenterMembership.memberPTSessions
- */
-export type CenterMembership$memberPTSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the PTSession
-   */
-  select?: Prisma.PTSessionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the PTSession
-   */
-  omit?: Prisma.PTSessionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PTSessionInclude<ExtArgs> | null
-  where?: Prisma.PTSessionWhereInput
-  orderBy?: Prisma.PTSessionOrderByWithRelationInput | Prisma.PTSessionOrderByWithRelationInput[]
-  cursor?: Prisma.PTSessionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.PTSessionScalarFieldEnum | Prisma.PTSessionScalarFieldEnum[]
-}
-
-/**
- * CenterMembership.trainerPTSessions
- */
-export type CenterMembership$trainerPTSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the PTSession
-   */
-  select?: Prisma.PTSessionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the PTSession
-   */
-  omit?: Prisma.PTSessionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PTSessionInclude<ExtArgs> | null
-  where?: Prisma.PTSessionWhereInput
-  orderBy?: Prisma.PTSessionOrderByWithRelationInput | Prisma.PTSessionOrderByWithRelationInput[]
-  cursor?: Prisma.PTSessionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.PTSessionScalarFieldEnum | Prisma.PTSessionScalarFieldEnum[]
-}
-
-/**
- * CenterMembership.memberJournals
- */
-export type CenterMembership$memberJournalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Journal
-   */
-  select?: Prisma.JournalSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Journal
-   */
-  omit?: Prisma.JournalOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.JournalInclude<ExtArgs> | null
-  where?: Prisma.JournalWhereInput
-  orderBy?: Prisma.JournalOrderByWithRelationInput | Prisma.JournalOrderByWithRelationInput[]
-  cursor?: Prisma.JournalWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.JournalScalarFieldEnum | Prisma.JournalScalarFieldEnum[]
-}
-
-/**
- * CenterMembership.trainerJournals
- */
-export type CenterMembership$trainerJournalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Journal
-   */
-  select?: Prisma.JournalSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Journal
-   */
-  omit?: Prisma.JournalOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.JournalInclude<ExtArgs> | null
-  where?: Prisma.JournalWhereInput
-  orderBy?: Prisma.JournalOrderByWithRelationInput | Prisma.JournalOrderByWithRelationInput[]
-  cursor?: Prisma.JournalWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.JournalScalarFieldEnum | Prisma.JournalScalarFieldEnum[]
-}
-
-/**
- * CenterMembership.trainerPTPrices
- */
-export type CenterMembership$trainerPTPricesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the TrainerPTPrice
-   */
-  select?: Prisma.TrainerPTPriceSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the TrainerPTPrice
-   */
-  omit?: Prisma.TrainerPTPriceOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TrainerPTPriceInclude<ExtArgs> | null
-  where?: Prisma.TrainerPTPriceWhereInput
-  orderBy?: Prisma.TrainerPTPriceOrderByWithRelationInput | Prisma.TrainerPTPriceOrderByWithRelationInput[]
-  cursor?: Prisma.TrainerPTPriceWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.TrainerPTPriceScalarFieldEnum | Prisma.TrainerPTPriceScalarFieldEnum[]
-}
-
-/**
- * CenterMembership.dietFeedbacks
- */
-export type CenterMembership$dietFeedbacksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the DietFeedback
-   */
-  select?: Prisma.DietFeedbackSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the DietFeedback
-   */
-  omit?: Prisma.DietFeedbackOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.DietFeedbackInclude<ExtArgs> | null
-  where?: Prisma.DietFeedbackWhereInput
-  orderBy?: Prisma.DietFeedbackOrderByWithRelationInput | Prisma.DietFeedbackOrderByWithRelationInput[]
-  cursor?: Prisma.DietFeedbackWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.DietFeedbackScalarFieldEnum | Prisma.DietFeedbackScalarFieldEnum[]
-}
-
-/**
- * CenterMembership.journalComments
- */
-export type CenterMembership$journalCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the JournalComment
-   */
-  select?: Prisma.JournalCommentSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the JournalComment
-   */
-  omit?: Prisma.JournalCommentOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.JournalCommentInclude<ExtArgs> | null
-  where?: Prisma.JournalCommentWhereInput
-  orderBy?: Prisma.JournalCommentOrderByWithRelationInput | Prisma.JournalCommentOrderByWithRelationInput[]
-  cursor?: Prisma.JournalCommentWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.JournalCommentScalarFieldEnum | Prisma.JournalCommentScalarFieldEnum[]
 }
 
 /**
@@ -4856,30 +2179,6 @@ export type CenterMembership$noticeReadsArgs<ExtArgs extends runtime.Types.Exten
   take?: number
   skip?: number
   distinct?: Prisma.NoticeReadScalarFieldEnum | Prisma.NoticeReadScalarFieldEnum[]
-}
-
-/**
- * CenterMembership.createdRoutines
- */
-export type CenterMembership$createdRoutinesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Routine
-   */
-  select?: Prisma.RoutineSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Routine
-   */
-  omit?: Prisma.RoutineOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.RoutineInclude<ExtArgs> | null
-  where?: Prisma.RoutineWhereInput
-  orderBy?: Prisma.RoutineOrderByWithRelationInput | Prisma.RoutineOrderByWithRelationInput[]
-  cursor?: Prisma.RoutineWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.RoutineScalarFieldEnum | Prisma.RoutineScalarFieldEnum[]
 }
 
 /**

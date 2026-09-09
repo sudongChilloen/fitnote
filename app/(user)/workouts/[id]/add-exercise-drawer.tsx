@@ -28,16 +28,28 @@ type ExerciseItem = {
 };
 
 /** "전체" 와 즐겨찾기는 부위 enum 이 아니므로 따로 표현한다. */
-type Tab = { kind: "all" } | { kind: "favorite" } | { kind: "part"; value: WorkoutBodyPart };
+type Tab =
+  | { kind: "all" }
+  | { kind: "favorite" }
+  | { kind: "part"; value: WorkoutBodyPart };
 
 export function AddExerciseDrawer({
   sessionId,
   bodyPartCounts,
   favoriteIds,
+  addedExerciseIds,
 }: {
   sessionId: string;
   bodyPartCounts: Partial<Record<WorkoutBodyPart, number>>;
   favoriteIds: string[];
+  /**
+   * 이 운동에 이미 담긴 운동들.
+   *
+   * 고르지 못하게 막지는 않는다. 서킷으로 같은 운동을 두 번 돌리거나, 몰아서
+   * 입력할 때 오전 · 오후를 나눠 적는 사람이 있다. 다만 아무 표시가 없으면
+   * 실수인지 일부러인지 구분할 수 없다.
+   */
+  addedExerciseIds: string[];
 }) {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<Tab>({ kind: "all" });
@@ -123,7 +135,9 @@ export function AddExerciseDrawer({
     // 실패하면 되돌린다.
     const wasFavorite = favorites.includes(exerciseId);
     setFavorites((prev) =>
-      wasFavorite ? prev.filter((id) => id !== exerciseId) : [...prev, exerciseId],
+      wasFavorite
+        ? prev.filter((id) => id !== exerciseId)
+        : [...prev, exerciseId],
     );
 
     startTransition(async () => {
@@ -154,17 +168,25 @@ export function AddExerciseDrawer({
 
   const tabs: { key: string; label: string; tab: Tab }[] = [
     { key: "all", label: "전체", tab: { kind: "all" } },
-    ...BODY_PART_OPTIONS.filter(([value]) => (bodyPartCounts[value] ?? 0) > 0).map(
-      ([value, label]) => ({
-        key: value,
-        label,
-        tab: { kind: "part", value } as Tab,
-      }),
-    ),
+    ...BODY_PART_OPTIONS.filter(
+      ([value]) => (bodyPartCounts[value] ?? 0) > 0,
+    ).map(([value, label]) => ({
+      key: value,
+      label,
+      tab: { kind: "part", value } as Tab,
+    })),
   ];
 
   const activeKey =
-    tab.kind === "part" ? tab.value : tab.kind === "favorite" ? "favorite" : "all";
+    tab.kind === "part"
+      ? tab.value
+      : tab.kind === "favorite"
+        ? "favorite"
+        : "all";
+
+  const duplicateCount = selected.filter((id) =>
+    addedExerciseIds.includes(id),
+  ).length;
 
   return (
     <>
@@ -225,7 +247,11 @@ export function AddExerciseDrawer({
               aria-label="즐겨찾기만 보기"
               aria-pressed={tab.kind === "favorite"}
               onClick={() =>
-                setTab(tab.kind === "favorite" ? { kind: "all" } : { kind: "favorite" })
+                setTab(
+                  tab.kind === "favorite"
+                    ? { kind: "all" }
+                    : { kind: "favorite" },
+                )
               }
               className={cn(
                 "flex size-9 shrink-0 items-center justify-center rounded-full border transition-colors",
@@ -280,9 +306,13 @@ export function AddExerciseDrawer({
                 {items.map((exercise) => {
                   const checked = selected.includes(exercise.id);
                   const favorite = favorites.includes(exercise.id);
+                  const added = addedExerciseIds.includes(exercise.id);
 
                   return (
-                    <li key={exercise.id} className="flex items-center gap-3 py-1">
+                    <li
+                      key={exercise.id}
+                      className="flex items-center gap-3 py-1"
+                    >
                       <button
                         type="button"
                         aria-pressed={checked}
@@ -301,8 +331,15 @@ export function AddExerciseDrawer({
                           {checked ? <Check className="size-3.5" /> : null}
                         </span>
                         <span className="min-w-0 flex-1">
-                          <span className="block truncate text-sm font-semibold">
-                            {exercise.name}
+                          <span className="flex items-center gap-1.5">
+                            <span className="truncate text-sm font-semibold">
+                              {exercise.name}
+                            </span>
+                            {added ? (
+                              <span className="shrink-0 rounded-full bg-accent px-1.5 py-0.5 text-[0.65rem] font-bold text-brand-strong">
+                                담김
+                              </span>
+                            ) : null}
                           </span>
                           <span className="block text-xs text-muted-foreground">
                             {BODY_PART_LABEL[exercise.bodyPart]} ·{" "}
@@ -338,6 +375,17 @@ export function AddExerciseDrawer({
 
           {/* 하단 고정. 목록을 끝까지 내리지 않아도 담을 수 있어야 한다. */}
           <div className="border-t border-border px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
+            {/*
+              이미 담긴 걸 또 고르면 알려는 준다. 막지는 않는다.
+              누르는 순간이 아니라 담기 직전에 말해야 되돌리기 쉽다.
+            */}
+            {duplicateCount > 0 ? (
+              <p className="mb-2 text-center text-xs text-brand-strong">
+                이미 담긴 운동 {duplicateCount}개가 있어요. 그대로 담으면 따로
+                기록됩니다.
+              </p>
+            ) : null}
+
             <Button
               size="lg"
               disabled={selected.length === 0 || pending}

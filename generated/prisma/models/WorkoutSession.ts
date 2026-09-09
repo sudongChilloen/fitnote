@@ -1431,11 +1431,9 @@ export type $WorkoutSessionPayload<ExtArgs extends runtime.Types.Extensions.Inte
     /**
      * *
      *    * PT 수업이면 그 수업. 없으면 개인 운동.
-     *    *
      *    * 운동 하나하나가 아니라 세션에 붙인다. "누가 적었나"(recordedByUserId)가
      *    * 이미 세션 단위여서, PT 여부만 운동 단위로 두면 트레이너가 적어 준 세션에
      *    * PT 가 아닌 운동이 섞이는 설명할 수 없는 상태가 생긴다.
-     *    *
      *    * PT 를 받고 남아서 혼자 유산소를 하면 세션이 나뉜다. 하루에 세션이 여러 개인
      *    * 것은 이미 지원한다.
      */

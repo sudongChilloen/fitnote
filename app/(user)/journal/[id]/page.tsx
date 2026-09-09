@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 
 import { requireUser } from "@/app/lib/dal";
-import { MembershipRole } from "@/generated/prisma/enums";
 import { formatKstDateLabel } from "@/lib/date";
 import {
   JournalError,
@@ -54,7 +53,8 @@ export default async function JournalDetailPage({
       <h1 className="mt-3 text-xl font-bold">{journal.title ?? "PT 알림장"}</h1>
       <p className="mt-1 text-sm text-muted-foreground">
         {formatKstDateLabel(journal.date)} ·{" "}
-        {journal.trainerMembership.user.name} 트레이너
+        {journal.trainerProfile.displayName ?? journal.trainerProfile.user.name}{" "}
+        트레이너
       </p>
 
       {journal.photos.length > 0 ? (
@@ -163,17 +163,15 @@ export default async function JournalDetailPage({
         ) : (
           <ul className="flex flex-col gap-3">
             {journal.comments.map((comment) => {
-              const mine =
-                comment.authorMembershipId === journal.myMembershipId;
+              const mine = comment.authorUserId === journal.myUserId;
+              const byTrainer =
+                comment.authorUserId === journal.trainerProfile.userId;
 
               return (
                 <li key={comment.id}>
                   <p className="text-xs text-muted-foreground">
-                    {mine ? "나" : comment.authorMembership.user.name}
-                    {!mine &&
-                    comment.authorMembership.role !== MembershipRole.MEMBER
-                      ? " 트레이너"
-                      : ""}
+                    {mine ? "나" : comment.author.name}
+                    {!mine && byTrainer ? " 트레이너" : ""}
                   </p>
                   <p
                     className={`mt-0.5 rounded-xl px-3 py-2 text-sm leading-relaxed whitespace-pre-wrap ${

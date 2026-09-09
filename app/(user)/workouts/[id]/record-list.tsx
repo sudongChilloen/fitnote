@@ -18,18 +18,31 @@ import { RecordCard, type PreviousRecord, type RecordDto } from "./record-card";
  * 값이 바뀌면 그게 더 나쁘다. "수정" 을 눌러야 편집이 열린다.
  *
  * 진행중인 세션은 지금 입력하는 중이므로 늘 열려 있다.
+ *
+ * PT 수업 기록은 회원에게 읽기 전용이다. 트레이너가 적어 준 무게를 회원이
+ * 고치면 두 사람이 서로 다른 숫자를 보게 되고, 다음 수업에서 무엇을 기준으로
+ * 올릴지 알 수 없어진다.
  */
 export function RecordList({
   sessionId,
   records,
   previousRecords,
   alwaysEditable,
+  readOnly = false,
+  showCompleteToggle = true,
+  ptOnly = false,
   addSlot,
 }: {
   sessionId: string;
   records: RecordDto[];
   previousRecords: (PreviousRecord | null)[];
   alwaysEditable: boolean;
+  /** 세트별 완료 체크. 트레이너가 옮겨 적을 때는 끈다. */
+  showCompleteToggle?: boolean;
+  /** 지난 기록을 담을 때 PT 수업 것만 볼지. */
+  ptOnly?: boolean;
+  /** 남이 적어 준 기록. 볼 수만 있다. */
+  readOnly?: boolean;
   /**
    * 운동 추가 UI. 진행중 세션은 페이지 아래에 따로 두고, 완료된 세션은
    * 수정 모드일 때만 보여준다. 서버에서 만든 노드를 그대로 꽂는다.
@@ -37,11 +50,11 @@ export function RecordList({
   addSlot?: ReactNode;
 }) {
   const [editing, setEditing] = useState(false);
-  const editable = alwaysEditable || editing;
+  const editable = !readOnly && (alwaysEditable || editing);
 
   return (
     <div className="flex flex-col gap-3">
-      {alwaysEditable ? null : (
+      {alwaysEditable || readOnly ? null : (
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-bold">
             운동 {records.length}개
@@ -81,11 +94,13 @@ export function RecordList({
             editable={editable}
             record={record}
             previousRecord={previousRecords[index]}
+            showCompleteToggle={showCompleteToggle}
+            ptOnly={ptOnly}
           />
         ))}
       </ul>
 
-      {!alwaysEditable && editing && addSlot ? addSlot : null}
+      {!alwaysEditable && !readOnly && editing && addSlot ? addSlot : null}
     </div>
   );
 }

@@ -574,7 +574,6 @@ export type $JournalPhotoPayload<ExtArgs extends runtime.Types.Extensions.Intern
     /**
      * *
      *    * 저장소 안의 경로. 주소가 아니다.
-     *    *
      *    * 비공개 버킷이라 주소는 볼 때마다 서명해서 만든다. 서명된 주소를 저장하면
      *    * 한 시간 뒤에 죽은 값이 DB 에 남는다.
      */

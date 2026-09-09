@@ -38,6 +38,14 @@ export const MembershipStatus = {
 export type MembershipStatus = (typeof MembershipStatus)[keyof typeof MembershipStatus]
 
 
+export const ConnectionStatus = {
+  ACTIVE: 'ACTIVE',
+  ENDED: 'ENDED'
+} as const
+
+export type ConnectionStatus = (typeof ConnectionStatus)[keyof typeof ConnectionStatus]
+
+
 export const CenterStatus = {
   ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE'
@@ -72,6 +80,14 @@ export const PTSessionStatus = {
 } as const
 
 export type PTSessionStatus = (typeof PTSessionStatus)[keyof typeof PTSessionStatus]
+
+
+export const PTSessionActor = {
+  MEMBER: 'MEMBER',
+  TRAINER: 'TRAINER'
+} as const
+
+export type PTSessionActor = (typeof PTSessionActor)[keyof typeof PTSessionActor]
 
 
 export const NoticeScope = {

@@ -1,6 +1,12 @@
 import Link from "next/link";
 
-import { Dumbbell, ImageIcon, Megaphone, MessageSquare } from "lucide-react";
+import {
+  Dumbbell,
+  ImageIcon,
+  Megaphone,
+  MessageSquare,
+  UtensilsCrossed,
+} from "lucide-react";
 
 import { requireUser } from "@/app/lib/dal";
 import { formatKstDateLabel } from "@/lib/date";
@@ -14,6 +20,7 @@ export const metadata = { title: "알림장 | FitNote" };
 function hrefOf(entry: TimelineEntry) {
   if (entry.kind === "JOURNAL") return `/journal/${entry.id}`;
   if (entry.kind === "NOTICE") return `/journal/notice/${entry.id}`;
+  if (entry.kind === "DIET") return `/diet/${entry.id}`;
   return `/workouts/${entry.id}`;
 }
 
@@ -29,6 +36,19 @@ function Badge({ entry }: { entry: TimelineEntry }) {
     return (
       <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-accent text-brand-strong">
         <MessageSquare className="size-4.5" aria-hidden />
+      </span>
+    );
+  }
+  if (entry.kind === "DIET") {
+    return (
+      <span
+        className={
+          entry.feedbackCount > 0
+            ? "flex size-9 shrink-0 items-center justify-center rounded-xl bg-accent text-brand-strong"
+            : "flex size-9 shrink-0 items-center justify-center rounded-xl bg-secondary text-muted-foreground"
+        }
+      >
+        <UtensilsCrossed className="size-4.5" aria-hidden />
       </span>
     );
   }
@@ -91,7 +111,9 @@ export default async function JournalPage() {
                       </span>
                     ) : null}
                     <p className="truncate font-bold">{entry.title}</p>
-                    {entry.kind !== "WORKOUT" && entry.unread ? (
+                    {entry.kind !== "WORKOUT" &&
+                    entry.kind !== "DIET" &&
+                    entry.unread ? (
                       <span
                         className="size-1.5 shrink-0 rounded-full bg-brand-strong"
                         aria-label="안 읽음"
@@ -116,6 +138,12 @@ export default async function JournalPage() {
                       <span className="flex items-center gap-0.5 tabular-nums">
                         <MessageSquare className="size-3" aria-hidden />
                         {entry.commentCount}
+                      </span>
+                    ) : null}
+                    {entry.kind === "DIET" && entry.feedbackCount > 0 ? (
+                      <span className="flex items-center gap-0.5 font-bold text-brand-strong tabular-nums">
+                        <MessageSquare className="size-3" aria-hidden />
+                        피드백 {entry.feedbackCount}
                       </span>
                     ) : null}
                   </p>

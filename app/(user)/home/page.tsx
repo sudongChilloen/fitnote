@@ -1,4 +1,14 @@
-import { ChevronRight, Dumbbell, Flame, X } from "lucide-react";
+import {
+  Bell,
+  CalendarClock,
+  ChevronRight,
+  Dumbbell,
+  Flame,
+  TrendingUp,
+  UserRound,
+  UtensilsCrossed,
+  X,
+} from "lucide-react";
 import Link from "next/link";
 
 import { logout } from "@/app/actions/auth";
@@ -8,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import {
   formatDuration,
   formatKstDateLabel,
+  formatKstTimeLabel,
   kstDaysAgo,
   kstWeekdayLabel,
   toKstDateKey,
@@ -15,10 +26,16 @@ import {
 import { cn } from "@/lib/utils";
 import {
   getActiveSession,
+  getRecentSessions,
   getRecentWorkoutDays,
   getSessionsByDate,
 } from "@/server/workouts/workout.service";
+import { countDietOnDate } from "@/server/diet/diet.service";
+import { getUnreadCounts } from "@/server/journals/journal.service";
+import { getBodyOverview } from "@/server/body/body.service";
+import { getMyUpcomingSessions } from "@/server/pt/pt.service";
 
+import { AcknowledgeButton } from "../sessions/acknowledge-button";
 import { LogPastWorkoutButton } from "../workouts/log-past-button";
 import { StartWorkoutButton } from "../workouts/start-workout-button";
 
@@ -69,11 +86,29 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
       ? params.day
       : null;
 
-  const [activeSession, workoutDays, daySessions] = await Promise.all([
+  const [
+    activeSession,
+    workoutDays,
+    daySessions,
+    unread,
+    recentSessions,
+    todayDiet,
+    upcomingSessions,
+    body,
+  ] = await Promise.all([
     getActiveSession(user.id),
     getRecentWorkoutDays(user.id),
     selectedKey ? getSessionsByDate(user.id, selectedKey) : null,
+    getUnreadCounts(user.id),
+    getRecentSessions(user.id, 3),
+    countDietOnDate(user.id, todayKey),
+    getMyUpcomingSessions(user.id, 3),
+    getBodyOverview(user.id),
   ]);
+
+  // 체중은 늘 있는 것만 보여준다. 세 지표를 다 그리면 홈이 체성분 화면이 된다.
+  const weight = body.trends.find((trend) => trend.type === "WEIGHT") ?? null;
+  const weightGoal = body.goals.find((goal) => goal.type === "WEIGHT") ?? null;
 
   return (
     <main className="flex flex-col gap-5 px-5 pt-8">
@@ -134,6 +169,149 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
       )}
 
       <LogPastWorkoutButton />
+
+      {/*
+        다음 PT.
+        트레이너만 일정을 아는 상태가 제일 이상하다. 회원은 자기가 언제
+        가는지 카톡을 뒤져서 확인하고 있었다.
+      */}
+      {upcomingSessions.length > 0 ? (
+        <section className="rounded-2xl border border-border bg-card p-5">
+          <div className="mb-3 flex items-center gap-2">
+            <CalendarClock className="size-4 text-brand-strong" />
+            <h2 className="text-sm font-bold">다음 PT</h2>
+          </div>
+
+          <ul className="flex flex-col gap-3">
+            {upcomingSessions.map((session) => {
+              const cancelled = session.status === "CANCELLED";
+
+              return (
+                <li key={session.id} className="flex items-center gap-3">
+                  <span className="min-w-0 flex-1">
+                    <span className="flex flex-wrap items-center gap-1.5">
+                      <span
+                        className={cn(
+                          "text-sm font-bold",
+                          cancelled && "text-muted-foreground line-through",
+                        )}
+                      >
+                        {formatKstDateLabel(session.scheduledAt)}{" "}
+                        {formatKstTimeLabel(session.scheduledAt)}
+                      </span>
+
+                      {/*
+                        바뀐 수업에만 표시를 단다.
+
+                        취소는 지워서 알린다 — 사라지게 두면 회원은 원래 시각에
+                        헬스장에 가고, 그건 취소보다 나쁘다.
+                      */}
+                      {session.changed ? (
+                        <span
+                          className={cn(
+                            "rounded-full px-1.5 py-0.5 text-[0.625rem] font-bold",
+                            cancelled
+                              ? "bg-destructive/10 text-destructive"
+                              : "bg-brand text-brand-foreground",
+                          )}
+                        >
+                          {cancelled ? "취소됨" : "일정 변경"}
+                        </span>
+                      ) : null}
+                    </span>
+
+                    <span className="mt-0.5 block text-xs text-muted-foreground tabular-nums">
+                      {session.trainerName} 트레이너 · {session.sessionNumber}/
+                      {session.totalSessions}회차 · {session.durationMinutes}분
+                    </span>
+
+                    {cancelled && session.cancelReason ? (
+                      <span className="mt-0.5 block text-xs text-destructive">
+                        {session.cancelReason}
+                      </span>
+                    ) : null}
+                  </span>
+
+                  {session.changed ? (
+                    <AcknowledgeButton sessionId={session.id} />
+                  ) : null}
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      ) : null}
+
+      {/*
+        새로운 소식.
+        읽을 게 없으면 아예 안 그린다. "새 소식 0개" 는 알려 주는 게 아니라
+        자리만 차지한다. 알림장 · 공지를 나눠 적는 이유는 눌러 열기 전에
+        무엇이 왔는지 알려주기 위해서다.
+      */}
+      {unread.total > 0 ? (
+        <Link
+          href="/journal"
+          className="flex items-center gap-3 rounded-2xl border border-brand/40 bg-accent p-4"
+        >
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand text-brand-foreground">
+            <Bell className="size-5" />
+          </span>
+
+          <span className="min-w-0 flex-1">
+            <span className="block text-sm font-bold text-accent-foreground">
+              새로운 소식 {unread.total}개
+            </span>
+            <span className="block text-xs text-accent-foreground/80">
+              {[
+                unread.journals > 0 ? `알림장 ${unread.journals}개` : null,
+                unread.notices > 0 ? `공지 ${unread.notices}개` : null,
+              ]
+                .filter(Boolean)
+                .join(" · ")}
+            </span>
+          </span>
+
+          <ChevronRight className="size-5 shrink-0 text-brand-strong" />
+        </Link>
+      ) : null}
+
+      {/*
+        체중.
+        기록이 없으면 재촉하지 않는다. 홈에 "아직 안 쟀어요" 를 띄우면 매일
+        아침 못 한 일을 확인하러 오는 화면이 된다. 한 번이라도 적은 사람에게만
+        지금 값과 지난번 대비 변화를 보여준다.
+      */}
+      {weight && weight.latest !== null ? (
+        <Link
+          href="/body"
+          className="flex items-center gap-3 rounded-2xl border border-border bg-card p-5"
+        >
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
+            <TrendingUp className="size-5" aria-hidden />
+          </span>
+
+          <span className="min-w-0 flex-1">
+            <span className="block text-sm font-bold">
+              체중 {weight.latest}
+              {weight.unit}
+            </span>
+            <span className="mt-0.5 block text-xs text-muted-foreground tabular-nums">
+              {weight.delta === null
+                ? "한 번 더 재면 변화를 보여드려요"
+                : weight.delta === 0
+                  ? "지난번과 같아요"
+                  : `지난번보다 ${weight.delta > 0 ? "+" : ""}${weight.delta}${weight.unit}`}
+              {weightGoal && weightGoal.remaining !== null
+                ? weightGoal.reached
+                  ? " · 목표 달성"
+                  : ` · 목표까지 ${weightGoal.remaining}${weightGoal.unit}`
+                : ""}
+            </span>
+          </span>
+
+          <ChevronRight className="size-5 shrink-0 text-muted-foreground" />
+        </Link>
+      ) : null}
 
       <section className="rounded-2xl border border-border bg-card p-5">
         <div className="mb-4 flex items-center gap-2">
@@ -217,14 +395,21 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
                       className="block rounded-xl bg-secondary/60 p-3"
                     >
                       <span className="flex items-baseline justify-between gap-2">
-                        <span className="text-sm font-bold">
-                          {session.records.length > 0
-                            ? `${session.records[0].exercise.name}${
-                                session.records.length > 1
-                                  ? ` 외 ${session.records.length - 1}개`
-                                  : ""
-                              }`
-                            : "기록한 운동이 없어요"}
+                        <span className="flex min-w-0 items-baseline gap-1.5">
+                          {session.isPt ? (
+                            <span className="shrink-0 rounded-full bg-accent px-2 py-0.5 text-[0.65rem] font-bold text-brand-strong">
+                              PT
+                            </span>
+                          ) : null}
+                          <span className="truncate text-sm font-bold">
+                            {session.records.length > 0
+                              ? `${session.records[0].exercise.name}${
+                                  session.records.length > 1
+                                    ? ` 외 ${session.records.length - 1}개`
+                                    : ""
+                                }`
+                              : "기록한 운동이 없어요"}
+                          </span>
                         </span>
                         <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
                           {session.totalSets}세트
@@ -279,6 +464,100 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
           </div>
         ) : null}
       </section>
+
+      {/*
+        최근 운동.
+        주간 스트립은 "며칠 했는가" 만 말한다. 무엇을 했는지는 날짜를 눌러야
+        나오는데, 지난 운동을 이어서 하려는 사람은 대개 날짜를 기억하지 못한다.
+      */}
+      {recentSessions.length > 0 ? (
+        <section className="flex flex-col gap-2">
+          <h2 className="text-sm font-bold">최근 운동</h2>
+
+          <ul className="flex flex-col gap-2">
+            {recentSessions.map((session) => (
+              <li key={session.id}>
+                <Link
+                  href={`/workouts/${session.id}`}
+                  className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4"
+                >
+                  <span
+                    className={cn(
+                      "flex size-10 shrink-0 items-center justify-center rounded-xl",
+                      session.isPt
+                        ? "bg-brand text-brand-foreground"
+                        : "bg-secondary text-muted-foreground",
+                    )}
+                  >
+                    {session.isPt ? (
+                      <UserRound className="size-5" />
+                    ) : (
+                      <Dumbbell className="size-5" />
+                    )}
+                  </span>
+
+                  <span className="min-w-0 flex-1">
+                    <span className="flex items-center gap-1.5">
+                      {/* PT 인지 개인 운동인지는 색이 아니라 글자로도 말한다. */}
+                      {session.isPt ? (
+                        <span className="shrink-0 rounded-full bg-accent px-2 py-0.5 text-[0.65rem] font-bold text-brand-strong">
+                          PT
+                        </span>
+                      ) : null}
+                      <span className="truncate text-sm font-bold">
+                        {session.exerciseNames.length > 0
+                          ? `${session.exerciseNames[0]}${
+                              session.exerciseNames.length > 1
+                                ? ` 외 ${session.exerciseNames.length - 1}개`
+                                : ""
+                            }`
+                          : "기록한 운동이 없어요"}
+                      </span>
+                    </span>
+
+                    <span className="block text-xs text-muted-foreground tabular-nums">
+                      {formatKstDateLabel(session.startedAt)} ·{" "}
+                      {session.totalSets}세트
+                      {session.durationSec
+                        ? ` · ${formatDuration(session.durationSec)}`
+                        : ""}
+                      {session.isPt && session.recordedByName
+                        ? ` · ${session.recordedByName} 트레이너`
+                        : ""}
+                    </span>
+                  </span>
+
+                  <ChevronRight className="size-5 shrink-0 text-muted-foreground" />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {/*
+        오늘 식단.
+        식단은 하루 서너 번 짧게 남기는 기록이라 진입이 깊으면 안 올린다. 홈에서
+        한 번에 닿게 두고, 몇 끼를 남겼는지만 말한다. 목표 끼니 수 같은 건 정하지
+        않았다 — 하루 두 끼 먹는 사람에게 "1/3" 은 못 채운 것처럼 보인다.
+      */}
+      <Link
+        href="/diet"
+        className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4"
+      >
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
+          <UtensilsCrossed className="size-5" />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block text-sm font-bold">오늘 식단</span>
+          <span className="block text-xs text-muted-foreground">
+            {todayDiet === 0
+              ? "사진 한 장이면 트레이너가 볼 수 있어요"
+              : `${todayDiet}끼 남겼어요`}
+          </span>
+        </span>
+        <ChevronRight className="size-5 shrink-0 text-muted-foreground" />
+      </Link>
 
       <Link
         href="/exercises"

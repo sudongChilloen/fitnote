@@ -14,7 +14,11 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model BodyRecord
- * 
+ * *
+ *  * 회원이 재는 몸.
+ *  * 하루에 한 줄만 둔다. recordedAt 은 KST 그 날 0시로 맞춰 넣는다. 아침에 재고
+ *  * 저녁에 또 재면 그래프가 톱니가 되는데, 체중은 하루 안에서도 1~2kg 이 움직여서
+ *  * 그 톱니가 실제 변화보다 커 보인다. 같은 날 다시 적으면 덮어쓴다.
  */
 export type BodyRecordModel = runtime.Types.Result.DefaultSelection<Prisma.$BodyRecordPayload>
 
@@ -287,6 +291,7 @@ export type BodyRecordOrderByWithRelationInput = {
 
 export type BodyRecordWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  userId_recordedAt?: Prisma.BodyRecordUserIdRecordedAtCompoundUniqueInput
   AND?: Prisma.BodyRecordWhereInput | Prisma.BodyRecordWhereInput[]
   OR?: Prisma.BodyRecordWhereInput[]
   NOT?: Prisma.BodyRecordWhereInput | Prisma.BodyRecordWhereInput[]
@@ -300,7 +305,7 @@ export type BodyRecordWhereUniqueInput = Prisma.AtLeast<{
   imageUrl?: Prisma.StringNullableFilter<"BodyRecord"> | string | null
   createdAt?: Prisma.DateTimeFilter<"BodyRecord"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id">
+}, "id" | "userId_recordedAt">
 
 export type BodyRecordOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -434,6 +439,11 @@ export type BodyRecordListRelationFilter = {
 
 export type BodyRecordOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type BodyRecordUserIdRecordedAtCompoundUniqueInput = {
+  userId: string
+  recordedAt: Date | string
 }
 
 export type BodyRecordCountOrderByAggregateInput = {

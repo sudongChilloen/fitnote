@@ -25,7 +25,7 @@ export class CenterError extends Error {
 const CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
 const CODE_LENGTH = 8;
 
-function generateCode() {
+export function generateCode() {
   let code = "";
   for (let i = 0; i < CODE_LENGTH; i += 1) {
     // Math.random 은 예측 가능하다. 코드를 찍어 맞히면 남의 센터에 들어간다.
@@ -45,12 +45,7 @@ const membershipSelect = {
   status: true,
   joinedAt: true,
   centerId: true,
-  assignedTrainerMembershipId: true,
   center: { select: { id: true, name: true, status: true } },
-  assignedTrainerMembership: {
-    select: { id: true, user: { select: { id: true, name: true } } },
-  },
-  trainerProfile: { select: { id: true } },
 } satisfies Prisma.CenterMembershipSelect;
 
 export type MembershipDto = Prisma.CenterMembershipGetPayload<{
@@ -291,24 +286,9 @@ export async function redeemInvitation(userId: string, rawCode: string) {
         throw new CenterError("REVOKED", "사용할 수 없는 코드예요.");
       }
 
-      /**
-       * 트레이너가 뿌린 코드인가.
-       *
-       * 코드 종류를 따로 두지 않고 발급자에서 파생한다. 종류를 컬럼으로 또
-       * 두면 role / createdBy.role / type 셋이 서로 어긋날 수 있다.
-       */
-      const fromTrainer =
-        invitation.role === MembershipRole.MEMBER &&
-        invitation.createdBy.role !== MembershipRole.CENTER_ADMIN;
-
       const active = await tx.centerMembership.findFirst({
         where: { userId, status: MembershipStatus.ACTIVE },
-        select: {
-          id: true,
-          centerId: true,
-          role: true,
-          assignedTrainerMembershipId: true,
-        },
+        select: { id: true, centerId: true, role: true },
       });
 
       if (active) {
@@ -319,37 +299,17 @@ export async function redeemInvitation(userId: string, rawCode: string) {
           );
         }
 
-        /**
-         * 같은 센터에서 다른 트레이너의 코드를 넣으면 담당이 바뀐다.
-         *
-         * 트레이너가 바뀌는 건 예외가 아니라 일상이다. 관리자를 거치게 하면
-         * 병목이 되고, 코드를 받아야만 가능하므로 트레이너가 동의한 셈이다.
-         */
-        if (!fromTrainer || active.role !== MembershipRole.MEMBER) {
-          throw new CenterError(
-            "ALREADY_JOINED",
-            "이미 이 센터에 소속되어 있어요.",
-          );
-        }
-        if (active.assignedTrainerMembershipId === invitation.createdBy.id) {
-          throw new CenterError(
-            "ALREADY_ASSIGNED",
-            "이미 담당 트레이너로 연결되어 있어요.",
-          );
-        }
+        /*
+          같은 센터의 코드를 또 넣었다.
 
-        const membership = await tx.centerMembership.update({
-          where: { id: active.id },
-          data: { assignedTrainerMembershipId: invitation.createdBy.id },
-          select: membershipSelect,
-        });
-
-        await tx.centerInvitation.update({
-          where: { id: invitation.id },
-          data: { usedCount: { increment: 1 } },
-        });
-
-        return { outcome: "TRAINER_CHANGED", membership };
+          예전에는 트레이너가 뿌린 코드로 담당이 바뀌었지만, 담당 관계는 이제
+          센터 소속이 아니라 트레이너 연결 코드가 만든다. 센터 코드는 소속만
+          만든다 — 한 코드가 두 가지 일을 하면 회원은 무엇이 바뀌었는지 모른다.
+        */
+        throw new CenterError(
+          "ALREADY_JOINED",
+          "이미 이 센터에 소속되어 있어요.",
+        );
       }
 
       // 나간 적이 있다면 그 행을 되살린다. 같은 센터에 두 줄이 생기면
@@ -365,11 +325,6 @@ export async function redeemInvitation(userId: string, rawCode: string) {
         joinedAt: new Date(),
         leftAt: null,
         joinedViaInvitationId: invitation.id,
-        // 관리자가 뿌린 코드는 센터 소속까지만이다. 센터 가입과 담당 배정은
-        // 다른 관계라, 가입했다고 아무 트레이너에게나 붙이면 안 된다.
-        assignedTrainerMembershipId: fromTrainer
-          ? invitation.createdBy.id
-          : null,
       };
 
       const membership = previous
@@ -403,12 +358,13 @@ export async function leaveCenter(userId: string, membershipId: string) {
   const membership = await requireMembership(userId, membershipId);
 
   return prisma.$transaction(async (tx) => {
-    // 담당하던 회원들의 연결을 끊는다. 떠난 트레이너가 담당으로 남으면
-    // 회원 화면에 없는 사람이 계속 보인다.
-    await tx.centerMembership.updateMany({
-      where: { assignedTrainerMembershipId: membership.id },
-      data: { assignedTrainerMembershipId: null },
-    });
+    /*
+      담당 회원과의 연결은 건드리지 않는다.
+
+      트레이너가 센터를 나가도 회원을 계속 봐 주는 경우가 실제로 흔하다. 나가는
+      순간 연결을 끊으면 그 관계의 기록이 통째로 안 보이게 된다. 그만두겠다는
+      뜻은 회원별로 따로 밝히게 한다.
+    */
 
     // 뿌려 둔 코드도 함께 끈다.
     await tx.centerInvitation.updateMany({
@@ -418,11 +374,7 @@ export async function leaveCenter(userId: string, membershipId: string) {
 
     return tx.centerMembership.update({
       where: { id: membership.id },
-      data: {
-        status: MembershipStatus.LEFT,
-        leftAt: new Date(),
-        assignedTrainerMembershipId: null,
-      },
+      data: { status: MembershipStatus.LEFT, leftAt: new Date() },
     });
   });
 }
