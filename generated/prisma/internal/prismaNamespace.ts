@@ -406,6 +406,7 @@ export const ModelName = {
   MemberProfile: 'MemberProfile',
   TrainerProfile: 'TrainerProfile',
   TrainerMemberConnection: 'TrainerMemberConnection',
+  MemberClaimCode: 'MemberClaimCode',
   TrainerInvitation: 'TrainerInvitation',
   Equipment: 'Equipment',
   MemberEquipment: 'MemberEquipment',
@@ -452,7 +453,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "authSession" | "deviceToken" | "center" | "centerMembership" | "centerInvitation" | "memberProfile" | "trainerProfile" | "trainerMemberConnection" | "trainerInvitation" | "equipment" | "memberEquipment" | "gym" | "gymEquipment" | "exercise" | "exerciseEquipment" | "workoutAlternative" | "routine" | "routineExercise" | "workoutSession" | "workoutRecord" | "workoutSet" | "workoutFavorite" | "pTProduct" | "pTSessionReschedule" | "trainerPTPrice" | "pTContract" | "pTSession" | "dietRecord" | "dietFeedback" | "bodyRecord" | "goal" | "journal" | "journalPhoto" | "journalComment" | "notice" | "noticeRead" | "notification" | "aiAnalysis" | "trainerSharingSetting"
+    modelProps: "user" | "authSession" | "deviceToken" | "center" | "centerMembership" | "centerInvitation" | "memberProfile" | "trainerProfile" | "trainerMemberConnection" | "memberClaimCode" | "trainerInvitation" | "equipment" | "memberEquipment" | "gym" | "gymEquipment" | "exercise" | "exerciseEquipment" | "workoutAlternative" | "routine" | "routineExercise" | "workoutSession" | "workoutRecord" | "workoutSet" | "workoutFavorite" | "pTProduct" | "pTSessionReschedule" | "trainerPTPrice" | "pTContract" | "pTSession" | "dietRecord" | "dietFeedback" | "bodyRecord" | "goal" | "journal" | "journalPhoto" | "journalComment" | "notice" | "noticeRead" | "notification" | "aiAnalysis" | "trainerSharingSetting"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1119,6 +1120,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.TrainerMemberConnectionCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.TrainerMemberConnectionCountAggregateOutputType> | number
+        }
+      }
+    }
+    MemberClaimCode: {
+      payload: Prisma.$MemberClaimCodePayload<ExtArgs>
+      fields: Prisma.MemberClaimCodeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MemberClaimCodeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberClaimCodePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MemberClaimCodeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberClaimCodePayload>
+        }
+        findFirst: {
+          args: Prisma.MemberClaimCodeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberClaimCodePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MemberClaimCodeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberClaimCodePayload>
+        }
+        findMany: {
+          args: Prisma.MemberClaimCodeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberClaimCodePayload>[]
+        }
+        create: {
+          args: Prisma.MemberClaimCodeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberClaimCodePayload>
+        }
+        createMany: {
+          args: Prisma.MemberClaimCodeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MemberClaimCodeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberClaimCodePayload>[]
+        }
+        delete: {
+          args: Prisma.MemberClaimCodeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberClaimCodePayload>
+        }
+        update: {
+          args: Prisma.MemberClaimCodeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberClaimCodePayload>
+        }
+        deleteMany: {
+          args: Prisma.MemberClaimCodeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MemberClaimCodeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MemberClaimCodeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberClaimCodePayload>[]
+        }
+        upsert: {
+          args: Prisma.MemberClaimCodeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberClaimCodePayload>
+        }
+        aggregate: {
+          args: Prisma.MemberClaimCodeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMemberClaimCode>
+        }
+        groupBy: {
+          args: Prisma.MemberClaimCodeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MemberClaimCodeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MemberClaimCodeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MemberClaimCodeCountAggregateOutputType> | number
         }
       }
     }
@@ -3591,6 +3666,20 @@ export const TrainerMemberConnectionScalarFieldEnum = {
 export type TrainerMemberConnectionScalarFieldEnum = (typeof TrainerMemberConnectionScalarFieldEnum)[keyof typeof TrainerMemberConnectionScalarFieldEnum]
 
 
+export const MemberClaimCodeScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  memberUserId: 'memberUserId',
+  trainerProfileId: 'trainerProfileId',
+  expiresAt: 'expiresAt',
+  claimedAt: 'claimedAt',
+  revokedAt: 'revokedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type MemberClaimCodeScalarFieldEnum = (typeof MemberClaimCodeScalarFieldEnum)[keyof typeof MemberClaimCodeScalarFieldEnum]
+
+
 export const TrainerInvitationScalarFieldEnum = {
   id: 'id',
   trainerProfileId: 'trainerProfileId',
@@ -4713,6 +4802,7 @@ export type GlobalOmitConfig = {
   memberProfile?: Prisma.MemberProfileOmit
   trainerProfile?: Prisma.TrainerProfileOmit
   trainerMemberConnection?: Prisma.TrainerMemberConnectionOmit
+  memberClaimCode?: Prisma.MemberClaimCodeOmit
   trainerInvitation?: Prisma.TrainerInvitationOmit
   equipment?: Prisma.EquipmentOmit
   memberEquipment?: Prisma.MemberEquipmentOmit

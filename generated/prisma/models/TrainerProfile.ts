@@ -257,6 +257,7 @@ export type TrainerProfileWhereInput = {
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   connections?: Prisma.TrainerMemberConnectionListRelationFilter
   invitations?: Prisma.TrainerInvitationListRelationFilter
+  claimCodes?: Prisma.MemberClaimCodeListRelationFilter
   contracts?: Prisma.PTContractListRelationFilter
   ptSessions?: Prisma.PTSessionListRelationFilter
   journals?: Prisma.JournalListRelationFilter
@@ -278,6 +279,7 @@ export type TrainerProfileOrderByWithRelationInput = {
   user?: Prisma.UserOrderByWithRelationInput
   connections?: Prisma.TrainerMemberConnectionOrderByRelationAggregateInput
   invitations?: Prisma.TrainerInvitationOrderByRelationAggregateInput
+  claimCodes?: Prisma.MemberClaimCodeOrderByRelationAggregateInput
   contracts?: Prisma.PTContractOrderByRelationAggregateInput
   ptSessions?: Prisma.PTSessionOrderByRelationAggregateInput
   journals?: Prisma.JournalOrderByRelationAggregateInput
@@ -302,6 +304,7 @@ export type TrainerProfileWhereUniqueInput = Prisma.AtLeast<{
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   connections?: Prisma.TrainerMemberConnectionListRelationFilter
   invitations?: Prisma.TrainerInvitationListRelationFilter
+  claimCodes?: Prisma.MemberClaimCodeListRelationFilter
   contracts?: Prisma.PTContractListRelationFilter
   ptSessions?: Prisma.PTSessionListRelationFilter
   journals?: Prisma.JournalListRelationFilter
@@ -354,6 +357,7 @@ export type TrainerProfileCreateInput = {
   user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
   connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
   invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerProfileInput
   journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
@@ -374,6 +378,7 @@ export type TrainerProfileUncheckedCreateInput = {
   updatedAt?: Date | string
   connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
   invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerProfileInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
@@ -394,6 +399,7 @@ export type TrainerProfileUpdateInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
   connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
   invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutTrainerProfileNestedInput
   journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
@@ -414,6 +420,7 @@ export type TrainerProfileUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
   invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerProfileNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
@@ -565,6 +572,20 @@ export type TrainerProfileUpdateOneRequiredWithoutConnectionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TrainerProfileUpdateToOneWithWhereWithoutConnectionsInput, Prisma.TrainerProfileUpdateWithoutConnectionsInput>, Prisma.TrainerProfileUncheckedUpdateWithoutConnectionsInput>
 }
 
+export type TrainerProfileCreateNestedOneWithoutClaimCodesInput = {
+  create?: Prisma.XOR<Prisma.TrainerProfileCreateWithoutClaimCodesInput, Prisma.TrainerProfileUncheckedCreateWithoutClaimCodesInput>
+  connectOrCreate?: Prisma.TrainerProfileCreateOrConnectWithoutClaimCodesInput
+  connect?: Prisma.TrainerProfileWhereUniqueInput
+}
+
+export type TrainerProfileUpdateOneRequiredWithoutClaimCodesNestedInput = {
+  create?: Prisma.XOR<Prisma.TrainerProfileCreateWithoutClaimCodesInput, Prisma.TrainerProfileUncheckedCreateWithoutClaimCodesInput>
+  connectOrCreate?: Prisma.TrainerProfileCreateOrConnectWithoutClaimCodesInput
+  upsert?: Prisma.TrainerProfileUpsertWithoutClaimCodesInput
+  connect?: Prisma.TrainerProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TrainerProfileUpdateToOneWithWhereWithoutClaimCodesInput, Prisma.TrainerProfileUpdateWithoutClaimCodesInput>, Prisma.TrainerProfileUncheckedUpdateWithoutClaimCodesInput>
+}
+
 export type TrainerProfileCreateNestedOneWithoutInvitationsInput = {
   create?: Prisma.XOR<Prisma.TrainerProfileCreateWithoutInvitationsInput, Prisma.TrainerProfileUncheckedCreateWithoutInvitationsInput>
   connectOrCreate?: Prisma.TrainerProfileCreateOrConnectWithoutInvitationsInput
@@ -676,6 +697,7 @@ export type TrainerProfileCreateWithoutUserInput = {
   updatedAt?: Date | string
   connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
   invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerProfileInput
   journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
@@ -695,6 +717,7 @@ export type TrainerProfileUncheckedCreateWithoutUserInput = {
   updatedAt?: Date | string
   connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
   invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerProfileInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
@@ -730,6 +753,7 @@ export type TrainerProfileUpdateWithoutUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
   invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutTrainerProfileNestedInput
   journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
@@ -749,6 +773,7 @@ export type TrainerProfileUncheckedUpdateWithoutUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
   invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerProfileNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
@@ -768,6 +793,7 @@ export type TrainerProfileCreateWithoutConnectionsInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
   invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerProfileInput
   journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
@@ -787,6 +813,7 @@ export type TrainerProfileUncheckedCreateWithoutConnectionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerProfileInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
@@ -822,6 +849,7 @@ export type TrainerProfileUpdateWithoutConnectionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
   invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutTrainerProfileNestedInput
   journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
@@ -840,6 +868,103 @@ export type TrainerProfileUncheckedUpdateWithoutConnectionsInput = {
   profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  contracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  ptPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
+}
+
+export type TrainerProfileCreateWithoutClaimCodesInput = {
+  id?: string
+  displayName?: string | null
+  bio?: string | null
+  specialty?: string | null
+  careerYears?: number | null
+  profileImageUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
+  connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
+  invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  contracts?: Prisma.PTContractCreateNestedManyWithoutTrainerProfileInput
+  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerProfileInput
+  journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
+  ptPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerProfileInput
+  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerProfileInput
+  createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
+}
+
+export type TrainerProfileUncheckedCreateWithoutClaimCodesInput = {
+  id?: string
+  userId: string
+  displayName?: string | null
+  bio?: string | null
+  specialty?: string | null
+  careerYears?: number | null
+  profileImageUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
+  invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  contracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerProfileInput
+  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerProfileInput
+  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
+  ptPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerProfileInput
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerProfileInput
+  createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
+}
+
+export type TrainerProfileCreateOrConnectWithoutClaimCodesInput = {
+  where: Prisma.TrainerProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.TrainerProfileCreateWithoutClaimCodesInput, Prisma.TrainerProfileUncheckedCreateWithoutClaimCodesInput>
+}
+
+export type TrainerProfileUpsertWithoutClaimCodesInput = {
+  update: Prisma.XOR<Prisma.TrainerProfileUpdateWithoutClaimCodesInput, Prisma.TrainerProfileUncheckedUpdateWithoutClaimCodesInput>
+  create: Prisma.XOR<Prisma.TrainerProfileCreateWithoutClaimCodesInput, Prisma.TrainerProfileUncheckedCreateWithoutClaimCodesInput>
+  where?: Prisma.TrainerProfileWhereInput
+}
+
+export type TrainerProfileUpdateToOneWithWhereWithoutClaimCodesInput = {
+  where?: Prisma.TrainerProfileWhereInput
+  data: Prisma.XOR<Prisma.TrainerProfileUpdateWithoutClaimCodesInput, Prisma.TrainerProfileUncheckedUpdateWithoutClaimCodesInput>
+}
+
+export type TrainerProfileUpdateWithoutClaimCodesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
+  connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
+  invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  contracts?: Prisma.PTContractUpdateManyWithoutTrainerProfileNestedInput
+  ptSessions?: Prisma.PTSessionUpdateManyWithoutTrainerProfileNestedInput
+  journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
+  ptPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerProfileNestedInput
+  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerProfileNestedInput
+  createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
+}
+
+export type TrainerProfileUncheckedUpdateWithoutClaimCodesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
   invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerProfileNestedInput
@@ -860,6 +985,7 @@ export type TrainerProfileCreateWithoutInvitationsInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
   connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerProfileInput
   journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
@@ -879,6 +1005,7 @@ export type TrainerProfileUncheckedCreateWithoutInvitationsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerProfileInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
@@ -914,6 +1041,7 @@ export type TrainerProfileUpdateWithoutInvitationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
   connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutTrainerProfileNestedInput
   journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
@@ -933,6 +1061,7 @@ export type TrainerProfileUncheckedUpdateWithoutInvitationsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerProfileNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
@@ -953,6 +1082,7 @@ export type TrainerProfileCreateWithoutCreatedRoutinesInput = {
   user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
   connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
   invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerProfileInput
   journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
@@ -972,6 +1102,7 @@ export type TrainerProfileUncheckedCreateWithoutCreatedRoutinesInput = {
   updatedAt?: Date | string
   connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
   invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerProfileInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
@@ -1007,6 +1138,7 @@ export type TrainerProfileUpdateWithoutCreatedRoutinesInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
   connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
   invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutTrainerProfileNestedInput
   journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
@@ -1026,6 +1158,7 @@ export type TrainerProfileUncheckedUpdateWithoutCreatedRoutinesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
   invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerProfileNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
@@ -1045,6 +1178,7 @@ export type TrainerProfileCreateWithoutPtPricesInput = {
   user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
   connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
   invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerProfileInput
   journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
@@ -1064,6 +1198,7 @@ export type TrainerProfileUncheckedCreateWithoutPtPricesInput = {
   updatedAt?: Date | string
   connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
   invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerProfileInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
@@ -1099,6 +1234,7 @@ export type TrainerProfileUpdateWithoutPtPricesInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
   connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
   invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutTrainerProfileNestedInput
   journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
@@ -1118,6 +1254,7 @@ export type TrainerProfileUncheckedUpdateWithoutPtPricesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
   invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerProfileNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
@@ -1137,6 +1274,7 @@ export type TrainerProfileCreateWithoutContractsInput = {
   user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
   connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
   invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerProfileInput
   journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
   ptPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerProfileInput
@@ -1156,6 +1294,7 @@ export type TrainerProfileUncheckedCreateWithoutContractsInput = {
   updatedAt?: Date | string
   connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
   invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerProfileInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
   ptPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerProfileInput
@@ -1191,6 +1330,7 @@ export type TrainerProfileUpdateWithoutContractsInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
   connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
   invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutTrainerProfileNestedInput
   journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
   ptPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerProfileNestedInput
@@ -1210,6 +1350,7 @@ export type TrainerProfileUncheckedUpdateWithoutContractsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
   invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerProfileNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
   ptPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileNestedInput
@@ -1229,6 +1370,7 @@ export type TrainerProfileCreateWithoutPtSessionsInput = {
   user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
   connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
   invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractCreateNestedManyWithoutTrainerProfileInput
   journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
   ptPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerProfileInput
@@ -1248,6 +1390,7 @@ export type TrainerProfileUncheckedCreateWithoutPtSessionsInput = {
   updatedAt?: Date | string
   connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
   invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerProfileInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
   ptPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerProfileInput
@@ -1283,6 +1426,7 @@ export type TrainerProfileUpdateWithoutPtSessionsInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
   connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
   invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUpdateManyWithoutTrainerProfileNestedInput
   journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
   ptPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerProfileNestedInput
@@ -1302,6 +1446,7 @@ export type TrainerProfileUncheckedUpdateWithoutPtSessionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
   invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerProfileNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
   ptPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileNestedInput
@@ -1321,6 +1466,7 @@ export type TrainerProfileCreateWithoutDietFeedbacksInput = {
   user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
   connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
   invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerProfileInput
   journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
@@ -1340,6 +1486,7 @@ export type TrainerProfileUncheckedCreateWithoutDietFeedbacksInput = {
   updatedAt?: Date | string
   connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
   invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerProfileInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
@@ -1375,6 +1522,7 @@ export type TrainerProfileUpdateWithoutDietFeedbacksInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
   connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
   invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutTrainerProfileNestedInput
   journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
@@ -1394,6 +1542,7 @@ export type TrainerProfileUncheckedUpdateWithoutDietFeedbacksInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
   invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerProfileNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
@@ -1413,6 +1562,7 @@ export type TrainerProfileCreateWithoutJournalsInput = {
   user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
   connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
   invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerProfileInput
   ptPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerProfileInput
@@ -1432,6 +1582,7 @@ export type TrainerProfileUncheckedCreateWithoutJournalsInput = {
   updatedAt?: Date | string
   connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
   invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerProfileInput
   ptPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerProfileInput
@@ -1467,6 +1618,7 @@ export type TrainerProfileUpdateWithoutJournalsInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
   connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
   invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutTrainerProfileNestedInput
   ptPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerProfileNestedInput
@@ -1486,6 +1638,7 @@ export type TrainerProfileUncheckedUpdateWithoutJournalsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
   invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerProfileNestedInput
   ptPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileNestedInput
@@ -1501,6 +1654,7 @@ export type TrainerProfileUncheckedUpdateWithoutJournalsInput = {
 export type TrainerProfileCountOutputType = {
   connections: number
   invitations: number
+  claimCodes: number
   contracts: number
   ptSessions: number
   journals: number
@@ -1512,6 +1666,7 @@ export type TrainerProfileCountOutputType = {
 export type TrainerProfileCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   connections?: boolean | TrainerProfileCountOutputTypeCountConnectionsArgs
   invitations?: boolean | TrainerProfileCountOutputTypeCountInvitationsArgs
+  claimCodes?: boolean | TrainerProfileCountOutputTypeCountClaimCodesArgs
   contracts?: boolean | TrainerProfileCountOutputTypeCountContractsArgs
   ptSessions?: boolean | TrainerProfileCountOutputTypeCountPtSessionsArgs
   journals?: boolean | TrainerProfileCountOutputTypeCountJournalsArgs
@@ -1542,6 +1697,13 @@ export type TrainerProfileCountOutputTypeCountConnectionsArgs<ExtArgs extends ru
  */
 export type TrainerProfileCountOutputTypeCountInvitationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.TrainerInvitationWhereInput
+}
+
+/**
+ * TrainerProfileCountOutputType without action
+ */
+export type TrainerProfileCountOutputTypeCountClaimCodesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MemberClaimCodeWhereInput
 }
 
 /**
@@ -1600,6 +1762,7 @@ export type TrainerProfileSelect<ExtArgs extends runtime.Types.Extensions.Intern
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   connections?: boolean | Prisma.TrainerProfile$connectionsArgs<ExtArgs>
   invitations?: boolean | Prisma.TrainerProfile$invitationsArgs<ExtArgs>
+  claimCodes?: boolean | Prisma.TrainerProfile$claimCodesArgs<ExtArgs>
   contracts?: boolean | Prisma.TrainerProfile$contractsArgs<ExtArgs>
   ptSessions?: boolean | Prisma.TrainerProfile$ptSessionsArgs<ExtArgs>
   journals?: boolean | Prisma.TrainerProfile$journalsArgs<ExtArgs>
@@ -1652,6 +1815,7 @@ export type TrainerProfileInclude<ExtArgs extends runtime.Types.Extensions.Inter
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   connections?: boolean | Prisma.TrainerProfile$connectionsArgs<ExtArgs>
   invitations?: boolean | Prisma.TrainerProfile$invitationsArgs<ExtArgs>
+  claimCodes?: boolean | Prisma.TrainerProfile$claimCodesArgs<ExtArgs>
   contracts?: boolean | Prisma.TrainerProfile$contractsArgs<ExtArgs>
   ptSessions?: boolean | Prisma.TrainerProfile$ptSessionsArgs<ExtArgs>
   journals?: boolean | Prisma.TrainerProfile$journalsArgs<ExtArgs>
@@ -1673,6 +1837,7 @@ export type $TrainerProfilePayload<ExtArgs extends runtime.Types.Extensions.Inte
     user: Prisma.$UserPayload<ExtArgs>
     connections: Prisma.$TrainerMemberConnectionPayload<ExtArgs>[]
     invitations: Prisma.$TrainerInvitationPayload<ExtArgs>[]
+    claimCodes: Prisma.$MemberClaimCodePayload<ExtArgs>[]
     contracts: Prisma.$PTContractPayload<ExtArgs>[]
     ptSessions: Prisma.$PTSessionPayload<ExtArgs>[]
     journals: Prisma.$JournalPayload<ExtArgs>[]
@@ -2087,6 +2252,7 @@ export interface Prisma__TrainerProfileClient<T, Null = never, ExtArgs extends r
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   connections<T extends Prisma.TrainerProfile$connectionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$connectionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrainerMemberConnectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   invitations<T extends Prisma.TrainerProfile$invitationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$invitationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrainerInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  claimCodes<T extends Prisma.TrainerProfile$claimCodesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$claimCodesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MemberClaimCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   contracts<T extends Prisma.TrainerProfile$contractsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$contractsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PTContractPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   ptSessions<T extends Prisma.TrainerProfile$ptSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$ptSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PTSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   journals<T extends Prisma.TrainerProfile$journalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$journalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2577,6 +2743,30 @@ export type TrainerProfile$invitationsArgs<ExtArgs extends runtime.Types.Extensi
   take?: number
   skip?: number
   distinct?: Prisma.TrainerInvitationScalarFieldEnum | Prisma.TrainerInvitationScalarFieldEnum[]
+}
+
+/**
+ * TrainerProfile.claimCodes
+ */
+export type TrainerProfile$claimCodesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MemberClaimCode
+   */
+  select?: Prisma.MemberClaimCodeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MemberClaimCode
+   */
+  omit?: Prisma.MemberClaimCodeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MemberClaimCodeInclude<ExtArgs> | null
+  where?: Prisma.MemberClaimCodeWhereInput
+  orderBy?: Prisma.MemberClaimCodeOrderByWithRelationInput | Prisma.MemberClaimCodeOrderByWithRelationInput[]
+  cursor?: Prisma.MemberClaimCodeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MemberClaimCodeScalarFieldEnum | Prisma.MemberClaimCodeScalarFieldEnum[]
 }
 
 /**

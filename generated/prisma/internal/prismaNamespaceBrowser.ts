@@ -60,6 +60,7 @@ export const ModelName = {
   MemberProfile: 'MemberProfile',
   TrainerProfile: 'TrainerProfile',
   TrainerMemberConnection: 'TrainerMemberConnection',
+  MemberClaimCode: 'MemberClaimCode',
   TrainerInvitation: 'TrainerInvitation',
   Equipment: 'Equipment',
   MemberEquipment: 'MemberEquipment',
@@ -243,6 +244,20 @@ export const TrainerMemberConnectionScalarFieldEnum = {
 } as const
 
 export type TrainerMemberConnectionScalarFieldEnum = (typeof TrainerMemberConnectionScalarFieldEnum)[keyof typeof TrainerMemberConnectionScalarFieldEnum]
+
+
+export const MemberClaimCodeScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  memberUserId: 'memberUserId',
+  trainerProfileId: 'trainerProfileId',
+  expiresAt: 'expiresAt',
+  claimedAt: 'claimedAt',
+  revokedAt: 'revokedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type MemberClaimCodeScalarFieldEnum = (typeof MemberClaimCodeScalarFieldEnum)[keyof typeof MemberClaimCodeScalarFieldEnum]
 
 
 export const TrainerInvitationScalarFieldEnum = {

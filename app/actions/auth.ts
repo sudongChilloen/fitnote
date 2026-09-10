@@ -5,9 +5,14 @@ import { redirect } from "next/navigation";
 
 import {
   type AuthFormState,
+  ClaimFormSchema,
   LoginFormSchema,
   SignupFormSchema,
 } from "@/app/lib/definitions";
+import {
+  ConnectionError,
+  claimMemberAccount,
+} from "@/server/trainers/connection.service";
 import { prisma } from "@/lib/prisma";
 import { createSession, deleteSession } from "@/app/lib/session";
 
@@ -49,6 +54,52 @@ export async function signup(
     },
     select: { id: true },
   });
+
+  await createSession(user.id);
+
+  redirect("/home");
+}
+
+/**
+ * 트레이너가 만들어 둔 계정을 이어받는다.
+ *
+ * signup 에 분기를 넣지 않고 따로 뒀다. 이 흐름은 이름을 받지 않고, User 를
+ * 만들지 않고, 실패했을 때 할 말도 다르다. 한 함수에 담으면 "코드가 있으면
+ * 이건 건너뛰고" 가 계속 붙는데, 그 조건문이 하나라도 어긋나면 남의 계정에
+ * 비밀번호가 걸린다.
+ */
+export async function claimAccount(
+  _state: AuthFormState,
+  formData: FormData,
+): Promise<AuthFormState> {
+  const code = String(formData.get("code") ?? "");
+
+  const validated = ClaimFormSchema.safeParse({
+    email: formData.get("email"),
+    password: formData.get("password"),
+  });
+
+  if (!validated.success) {
+    return { errors: validated.error.flatten().fieldErrors };
+  }
+
+  const { email, password } = validated.data;
+
+  let user: { id: string };
+
+  try {
+    user = await claimMemberAccount(code, {
+      email,
+      passwordHash: await bcrypt.hash(password, SALT_ROUNDS),
+    });
+  } catch (error) {
+    if (error instanceof ConnectionError) {
+      return { message: error.message };
+    }
+
+    console.error("claim account error:", error);
+    return { message: "잠시 후 다시 시도해주세요." };
+  }
 
   await createSession(user.id);
 
