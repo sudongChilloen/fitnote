@@ -38,6 +38,7 @@ import { getMyUpcomingSessions } from "@/server/pt/pt.service";
 import { AcknowledgeButton } from "../sessions/acknowledge-button";
 import { LogPastWorkoutButton } from "../workouts/log-past-button";
 import { StartWorkoutButton } from "../workouts/start-workout-button";
+import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "홈 | FitNote",
@@ -72,6 +73,10 @@ function summarizeSets(sets: { weight: number | null; reps: number | null }[]) {
 export default async function HomePage({ searchParams }: PageProps<"/home">) {
   const user = await requireUser();
 
+  if (user.isTrainer) {
+    redirect("/trainer");
+  }
+
   const days = recentDays();
   const dayKeys = days.map(toKstDateKey);
   const todayKey = toKstDateKey(new Date());
@@ -86,7 +91,7 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
       ? params.day
       : null;
 
-  const [
+    const [
     activeSession,
     workoutDays,
     daySessions,
@@ -98,13 +103,16 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
   ] = await Promise.all([
     getActiveSession(user.id),
     getRecentWorkoutDays(user.id),
-    selectedKey ? getSessionsByDate(user.id, selectedKey) : null,
+    selectedKey
+      ? getSessionsByDate(user.id, selectedKey)
+      : null,
     getUnreadCounts(user.id),
     getRecentSessions(user.id, 3),
     countDietOnDate(user.id, todayKey),
     getMyUpcomingSessions(user.id, 3),
     getBodyOverview(user.id),
   ]);
+
 
   // 체중은 늘 있는 것만 보여준다. 세 지표를 다 그리면 홈이 체성분 화면이 된다.
   const weight = body.trends.find((trend) => trend.type === "WEIGHT") ?? null;

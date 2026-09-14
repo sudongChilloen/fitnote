@@ -1,30 +1,21 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-
 import { ArrowLeftRight } from "lucide-react";
 
 import { requireUser } from "@/app/lib/dal";
 import { TrainerBottomNav } from "@/components/layout/trainer-bottom-nav";
-import { prisma } from "@/lib/prisma";
 
-/**
- * 트레이너 화면 셸.
- *
- * 트레이너 프로필이 없으면 회원 홈으로 돌려보낸다. 센터 소속은 보지 않는다 —
- * 혼자 하는 트레이너도 여기서 회원을 관리하기 때문이다. 여기서 막는 건 화면을
- * 숨기는 용도일 뿐이고, 실제 차단은 서비스 함수마다 다시 확인한다. 주소만 알면
- * 들어올 수 있는 화면이라 한 곳에서만 막으면 언젠가 새어 나간다.
- */
 export default async function TrainerLayout({
   children,
 }: LayoutProps<"/trainer">) {
   const user = await requireUser();
-  const profile = await prisma.trainerProfile.findUnique({
-    where: { userId: user.id },
-    select: { displayName: true },
-  });
 
-  if (!profile) {
+  /**
+   * /trainer는 TrainerProfile이 있는 계정만 사용할 수 있다.
+   *
+   * 일반 회원이 URL을 직접 입력해도 트레이너 화면에 들어오지 못한다.
+   */
+  if (!user.isTrainer) {
     redirect("/home");
   }
 
@@ -34,24 +25,35 @@ export default async function TrainerLayout({
         <div className="mx-auto flex w-full max-w-md items-center justify-between px-5 py-3">
           <div className="min-w-0">
             <p className="truncate text-sm font-bold">
-              {profile.displayName ?? user.name}
+              {user.trainerDisplayName ?? user.name}
             </p>
-            <p className="text-xs text-muted-foreground">트레이너</p>
+
+            <p className="text-xs text-muted-foreground">
+              트레이너
+            </p>
           </div>
 
-          <Link
-            href="/home"
-            className="flex shrink-0 items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs font-semibold"
-          >
-            <ArrowLeftRight className="size-3.5" aria-hidden />
-            회원 화면
-          </Link>
+          {user.isMember ? (
+            <Link
+              href="/home"
+              className="flex shrink-0 items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs font-semibold"
+            >
+              <ArrowLeftRight
+                className="size-3.5"
+                aria-hidden
+              />
+              회원 화면
+            </Link>
+          ) : null}
         </div>
       </header>
 
       <div
         className="mx-auto w-full max-w-md flex-1"
-        style={{ paddingBottom: "calc(4.25rem + env(safe-area-inset-bottom))" }}
+        style={{
+          paddingBottom:
+            "calc(4.25rem + env(safe-area-inset-bottom))",
+        }}
       >
         {children}
       </div>
