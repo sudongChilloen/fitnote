@@ -156,14 +156,4 @@ export async function finishSessionAction(formData: FormData) {
   redirect(`/trainer/sessions/${ptSessionId}?done=${intent}`);
 }
 
-/** 이 수업의 알림장을 쓰러 간다. 없으면 여기서 초안이 생긴다. */
-export async function writeJournalAction(formData: FormData) {
-  const user = await requireUser();
 
-  const ptSessionId = String(formData.get("ptSessionId") ?? "");
-  const connectionId = String(formData.get("connectionId") ?? "");
-
-  const journalId = await startJournal(user.id, connectionId, ptSessionId);
-
-  redirect(`/trainer/journals/${journalId}`);
-}

@@ -2,10 +2,10 @@ import Link from "next/link";
 
 import {
   CalendarClock,
+  CheckCircle2,
   ChevronRight,
   ClipboardCheck,
   MessageSquare,
-  NotebookPen,
 } from "lucide-react";
 
 import { requireUser } from "@/app/lib/dal";
@@ -17,13 +17,21 @@ import {
 } from "@/server/trainers/trainer-board.service";
 import {
   getTrainerHome,
-  memberContractGroup,
+  type TrainerManagementStatus,
 } from "@/server/trainers/trainer.service";
 
 import { MemberCard, NoMembers } from "./member-card";
 import { EmptyDay, SessionRow } from "./session-row";
 
 export const metadata = { title: "트레이너 | FitNote" };
+
+type TodoItem = {
+  key: string;
+  name: string;
+  reason: string;
+  href: string;
+  status: "urgent" | "attention";
+};
 
 function SummaryCard({
   icon: Icon,
@@ -63,17 +71,14 @@ function SummaryCard({
   );
 }
 
-function AttentionItem({
+function TodoItemCard({
   name,
   reason,
   href,
-  tone = "attention",
-}: {
-  name: string;
-  reason: string;
-  href: string;
-  tone?: "attention" | "urgent";
-}) {
+  status,
+}: TodoItem) {
+  const urgent = status === "urgent";
+
   return (
     <li>
       <Link
@@ -82,7 +87,7 @@ function AttentionItem({
       >
         <span
           className={
-            tone === "urgent"
+            urgent
               ? "size-2.5 shrink-0 rounded-full bg-brand-strong"
               : "size-2.5 shrink-0 rounded-full bg-brand-muted"
           }
@@ -121,34 +126,25 @@ export default async function TrainerHomePage() {
     getTrainerHome(user.id),
   ]);
 
-  /**
-   * 오늘 남은 예정 수업
+  /*
+   * 오늘 아직 남은 예정 수업.
    */
   const remaining = today.filter(
     (session) => session.status === "SCHEDULED",
   ).length;
 
-  /**
-   * 계약 만료가 임박한 회원
-   */
-  const expiring = home.members.filter(
-    (member) => memberContractGroup(member) === "soon",
-  );
-
-  /**
-   * 트레이너가 지금 확인해야 하는 관리 항목
+  /*
+   * 실제로 처리해야 하는 일.
    *
-   * 중요:
-   * 단순 운동 미기록 같은 데이터를 여기서 임의로
-   * "위험" 또는 "즉시 확인"으로 판단하지 않는다.
+   * 여기서는 getTrainerTodos()만 사용한다.
    *
-   * 현재 실제 서비스에서 제공하는
-   * - 수업 완료 처리 필요
-   * - 수업 알림장 작성 필요
+   * - 완료 처리 필요
+   * - 알림장 작성 필요
    * - 회원 답변 대기
-   * 만 사용한다.
+   *
+   * 회원의 managementEvents를 다시 섞지 않는다.
    */
-  const attention = [
+  const todoItems: TodoItem[] = [
     ...todos.needComplete.map((session) => ({
       key: `complete-${session.id}`,
       name: session.memberName,
@@ -158,7 +154,7 @@ export default async function TrainerHomePage() {
       href: session.connectionId
         ? `/trainer/members/${session.connectionId}`
         : "/trainer/schedule",
-      tone: "urgent" as const,
+      status: "urgent" as const,
     })),
 
     ...todos.needJournal.map((session) => ({
@@ -170,7 +166,7 @@ export default async function TrainerHomePage() {
       href: session.connectionId
         ? `/trainer/members/${session.connectionId}`
         : "/trainer/journals",
-      tone: "attention" as const,
+      status: "attention" as const,
     })),
 
     ...todos.awaitingReply.map((reply) => ({
@@ -178,34 +174,53 @@ export default async function TrainerHomePage() {
       name: reply.memberName,
       reason: replyReason(reply),
       href: `/trainer/journals/${reply.journalId}`,
-      tone: "attention" as const,
+      status: "attention" as const,
     })),
-  ].slice(0, 5);
+  ];
 
-  const todoCount =
-    todos.needComplete.length + todos.needJournal.length;
+  /*
+   * 즉시 처리해야 하는 일 → 확인이 필요한 일 순서.
+   */
+  const displayedTodos = todoItems
+    .sort((a, b) => {
+      const priority = {
+        urgent: 0,
+        attention: 1,
+      } as const;
 
-  const totalAttentionCount =
-    todoCount + todos.awaitingReply.length;
+      return priority[a.status] - priority[b.status];
+    })
+    .slice(0, 5);
+
+  const totalTodoCount = todoItems.length;
+
+  /*
+   * 회원 관리 이벤트가 있는 회원을 우선 노출한다.
+   *
+   * managementStatus / managementEvents는
+   * trainer.service.ts에서 이미 계산되어 있다.
+   */
+  const membersNeedingAttention = home.members.filter(
+    (member) => member.managementEvents.length > 0,
+  );
+
+  const displayedMembers =
+    membersNeedingAttention.length > 0
+      ? membersNeedingAttention.slice(0, 5)
+      : home.members.slice(0, 5);
 
   return (
     <main className="px-5 pt-5 pb-24">
-      {/* ─────────────────────────
-          Header
-      ───────────────────────── */}
+      {/* Header */}
       <header>
-        <h1 className="text-xl font-bold">
-          오늘
-        </h1>
+        <h1 className="text-xl font-bold">오늘</h1>
 
         <p className="mt-1 text-sm text-muted-foreground">
           {formatKstDateLabel(new Date())}
         </p>
       </header>
 
-      {/* ─────────────────────────
-          Today Summary
-      ───────────────────────── */}
+      {/* Today summary */}
       <section
         aria-label="오늘 요약"
         className="mt-4 flex gap-2.5"
@@ -224,7 +239,7 @@ export default async function TrainerHomePage() {
         <SummaryCard
           icon={ClipboardCheck}
           label="처리할 일"
-          value={todoCount}
+          value={totalTodoCount}
           href="/trainer/journals"
         />
 
@@ -236,20 +251,18 @@ export default async function TrainerHomePage() {
         />
       </section>
 
-      {/* ─────────────────────────
-          Today's Schedule
-      ───────────────────────── */}
+      {/* Today's schedule */}
       <section className="mt-7">
         <div className="flex items-baseline justify-between gap-2">
           <div>
-            <h2 className="text-base font-bold">
-              오늘 수업
-            </h2>
+            <h2 className="text-base font-bold">오늘 수업</h2>
 
             <p className="mt-0.5 text-xs text-muted-foreground">
-              {today.length > 0
-                ? `오늘 ${today.length}개의 수업`
-                : "잡힌 수업이 없어요"}
+              {today.length === 0
+                ? "잡힌 수업이 없어요"
+                : remaining > 0
+                  ? `앞으로 ${remaining}개의 수업이 있어요`
+                  : "오늘 수업이 모두 끝났어요"}
             </p>
           </div>
 
@@ -275,91 +288,90 @@ export default async function TrainerHomePage() {
         )}
       </section>
 
-      {/* ─────────────────────────
-          Members needing attention
-      ───────────────────────── */}
-      {attention.length > 0 && (
-        <section className="mt-7">
-          <div className="flex items-baseline justify-between gap-2">
-            <div>
-              <h2 className="text-base font-bold">
-                확인 필요한 회원
-              </h2>
-
-              <p className="mt-0.5 text-xs text-muted-foreground">
-                {totalAttentionCount}건의 관리 항목이 있어요
-              </p>
-            </div>
-
-            <Link
-              href="/trainer/journals"
-              className="shrink-0 text-xs font-semibold text-brand-strong"
-            >
-              전체 보기
-            </Link>
-          </div>
-
-          <ul className="mt-3 flex flex-col gap-2.5">
-            {attention.map((item) => (
-              <AttentionItem
-                key={item.key}
-                name={item.name}
-                reason={item.reason}
-                href={item.href}
-                tone={item.tone}
-              />
-            ))}
-          </ul>
-        </section>
-      )}
-
-      {/* ─────────────────────────
-          Expiring PT contracts
-      ───────────────────────── */}
-      {expiring.length > 0 && (
-        <Link
-          href="/trainer/members?filter=soon"
-          className="mt-3 flex items-center gap-2.5 rounded-2xl border border-border bg-card px-4 py-3 transition-colors hover:bg-secondary/40"
-        >
-          <span className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-accent text-brand-strong">
-            <CalendarClock
-              className="size-4"
-              aria-hidden
-            />
-          </span>
-
-          <span className="min-w-0 flex-1 text-sm font-bold">
-            PT가 곧 끝나는 회원 {expiring.length}명
-          </span>
-
-          <span className="max-w-[42%] shrink-0 truncate text-xs text-muted-foreground">
-            {expiring
-              .slice(0, 2)
-              .map((member) => member.name)
-              .join(", ")}
-
-            {expiring.length > 2 ? " 외" : ""}
-          </span>
-
-          <ChevronRight
-            className="size-4 shrink-0 text-muted-foreground"
-            aria-hidden
-          />
-        </Link>
-      )}
-
-      {/* ─────────────────────────
-          Members
-      ───────────────────────── */}
+      {/* Today's todos */}
       <section className="mt-7">
         <div className="flex items-baseline justify-between gap-2">
           <div>
             <h2 className="text-base font-bold">
-              담당 회원
+              지금 처리할 일
             </h2>
 
             <p className="mt-0.5 text-xs text-muted-foreground">
-              관리 중인 회원 {home.members.length}명
+              {totalTodoCount > 0
+                ? `${totalTodoCount}건의 처리할 일이 있어요`
+                : "밀린 일이 없어요"}
+            </p>
+          </div>
+
+          <Link
+            href="/trainer/journals"
+            className="shrink-0 text-xs font-semibold text-brand-strong"
+          >
+            전체 보기
+          </Link>
+        </div>
+
+        {displayedTodos.length === 0 ? (
+          <div className="mt-3 flex items-center gap-3 rounded-2xl border border-border bg-card p-4">
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-accent text-brand-strong">
+              <CheckCircle2
+                className="size-4"
+                aria-hidden
+              />
+            </span>
+
+            <div className="min-w-0">
+              <p className="text-sm font-bold">
+                밀린 일이 없어요
+              </p>
+
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                수업이 끝나거나 새로운 답장이 오면 여기에 표시돼요.
+              </p>
+            </div>
+          </div>
+        ) : (
+          <ul className="mt-3 flex flex-col gap-2.5">
+            {displayedTodos.map((item) => (
+              <TodoItemCard
+                key={item.key}
+                name={item.name}
+                reason={item.reason}
+                href={item.href}
+                status={item.status}
+              />
+            ))}
+          </ul>
+        )}
+
+        {totalTodoCount > displayedTodos.length ? (
+          <Link
+            href="/trainer/journals"
+            className="mt-2.5 flex items-center justify-center gap-1 rounded-2xl border border-border py-3 text-xs font-semibold text-muted-foreground transition-colors hover:bg-secondary/40"
+          >
+            처리할 일 {totalTodoCount}건 모두 보기
+            <ChevronRight
+              className="size-3.5"
+              aria-hidden
+            />
+          </Link>
+        ) : null}
+      </section>
+
+      {/* Members needing management */}
+      <section className="mt-7">
+        <div className="flex items-baseline justify-between gap-2">
+          <div>
+            <h2 className="text-base font-bold">
+              {membersNeedingAttention.length > 0
+                ? "관리할 회원"
+                : "담당 회원"}
+            </h2>
+
+            <p className="mt-0.5 text-xs text-muted-foreground">
+              {membersNeedingAttention.length > 0
+                ? `${membersNeedingAttention.length}명의 회원을 확인해 주세요`
+                : `관리 중인 회원 ${home.members.length}명`}
             </p>
           </div>
 
@@ -375,49 +387,28 @@ export default async function TrainerHomePage() {
           <NoMembers />
         ) : (
           <ul className="mt-3 flex flex-col gap-2.5">
-            {home.members
-              .slice(0, 5)
-              .map((member) => (
-                <MemberCard
-                  key={member.connectionId}
-                  member={member}
-                />
-              ))}
+            {displayedMembers.map((member) => (
+              <MemberCard
+                key={member.connectionId}
+                member={member}
+              />
+            ))}
           </ul>
         )}
-      </section>
 
-      {/* ─────────────────────────
-          Todo shortcut
-      ───────────────────────── */}
-      <Link
-        href="/trainer/journals"
-        className="mt-7 flex items-center justify-between rounded-2xl bg-secondary px-4 py-3.5"
-      >
-        <span className="flex items-center gap-2.5">
-          <span className="flex size-8 items-center justify-center rounded-xl bg-card text-brand-strong">
-            <NotebookPen
-              className="size-4"
+        {home.members.length > displayedMembers.length ? (
+          <Link
+            href="/trainer/members"
+            className="mt-2.5 flex items-center justify-center gap-1 rounded-2xl border border-border py-3 text-xs font-semibold text-muted-foreground transition-colors hover:bg-secondary/40"
+          >
+            회원 {home.members.length}명 전체 보기
+            <ChevronRight
+              className="size-3.5"
               aria-hidden
             />
-          </span>
-
-          <span>
-            <span className="block text-sm font-bold">
-              할 일 모아보기
-            </span>
-
-            <span className="mt-0.5 block text-xs text-muted-foreground">
-              수업 기록 · 알림장 · 답장 대기
-            </span>
-          </span>
-        </span>
-
-        <ChevronRight
-          className="size-4 text-muted-foreground"
-          aria-hidden
-        />
-      </Link>
+          </Link>
+        ) : null}
+      </section>
     </main>
   );
 }

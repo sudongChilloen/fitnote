@@ -1,5 +1,6 @@
 import "server-only";
 
+import { Prisma } from "@/generated/prisma/client";
 import {
   JournalStatus,
   PTContractStatus,
@@ -12,6 +13,7 @@ import {
   requireMyMember,
   requireTrainerProfile,
 } from "@/server/trainers/trainer.service";
+import { lockPTContract, lockPTSession } from "./pt-session-lock";
 
 /**
  * PT 계약과 수업.
@@ -51,34 +53,79 @@ export const CONTRACT_STATUS_LABEL: Record<PTContractStatus, string> = {
 };
 
 /**
+ * DB serialization 충돌은 동시에 같은 계약/수업을 변경할 때 발생할 수 있다.
+ *
+ * Serializable transaction은 모든 확인/변경을 하나의 원자적 작업으로 묶고,
+ * PostgreSQL이 serialization failure(P2034)를 반환하면 전체 transaction을
+ * 처음부터 다시 시도한다.
+ */
+const SERIALIZABLE_RETRY_COUNT = 3;
+
+function isSerializationConflict(error: unknown) {
+  return (
+    error instanceof Prisma.PrismaClientKnownRequestError &&
+    error.code === "P2034"
+  );
+}
+
+async function runSerializable<T>(
+  operation: (tx: Prisma.TransactionClient) => Promise<T>,
+) {
+  let lastError: unknown;
+
+  for (let attempt = 0; attempt < SERIALIZABLE_RETRY_COUNT; attempt += 1) {
+    try {
+      return await prisma.$transaction(operation, {
+        isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+      });
+    } catch (error) {
+      lastError = error;
+
+      if (!isSerializationConflict(error)) {
+        throw error;
+      }
+
+      if (attempt === SERIALIZABLE_RETRY_COUNT - 1) {
+        throw error;
+      }
+    }
+  }
+
+  throw lastError;
+}
+
+/**
  * 남은 횟수를 회차에서 다시 센다.
  *
  * usedSessions 는 화면에서 매번 회차를 세지 않으려고 둔 값이라 언제든 실제와
  * 어긋날 수 있다. 세는 방법을 여기 한 곳에만 두고, 회차 상태를 건드릴 때마다
- * 이 함수로 다시 맞춘다. 두 군데서 세기 시작하면 반드시 갈라진다.
+ * 이 함수로 다시 맞춘다.
  */
 async function syncUsedSessions(
-  tx: Pick<typeof prisma, "pTSession" | "pTContract">,
+  tx: Prisma.TransactionClient,
   contractId: string,
 ) {
   const used = await tx.pTSession.count({
-    where: { contractId, deducted: true },
+    where: {
+      contractId,
+      deducted: true,
+    },
   });
 
   const contract = await tx.pTContract.findUniqueOrThrow({
     where: { id: contractId },
-    select: { totalSessions: true, status: true },
+    select: {
+      totalSessions: true,
+      status: true,
+    },
   });
 
-  /*
-    다 쓴 계약은 스스로 닫히고, 되돌리면 다시 열린다.
-
-    만료는 여기서 판단하지 않는다. 시간이 지나서 되는 일이라 아무도 이 함수를
-    부르지 않는 동안 조용히 지나가기 때문이다. 기간은 읽을 때 함께 본다.
-  */
   let status = contract.status;
 
-  if (status === PTContractStatus.ACTIVE && used >= contract.totalSessions) {
+  if (
+    status === PTContractStatus.ACTIVE &&
+    used >= contract.totalSessions
+  ) {
     status = PTContractStatus.COMPLETED;
   } else if (
     status === PTContractStatus.COMPLETED &&
@@ -89,7 +136,10 @@ async function syncUsedSessions(
 
   await tx.pTContract.update({
     where: { id: contractId },
-    data: { usedSessions: used, status },
+    data: {
+      usedSessions: used,
+      status,
+    },
   });
 
   return used;
@@ -109,8 +159,7 @@ export function isExpired(contract: {
 /**
  * 계약을 만든다.
  *
- * 트레이너가 채우는 건 횟수와 기간뿐이다. 이름을 비우면 횟수로 채운다 —
- * 이름 짓느라 멈추게 하면 정작 필요한 값을 넣기도 전에 그만둔다.
+ * 트레이너가 채우는 건 횟수와 기간뿐이다.
  */
 export async function createContract(
   userId: string,
@@ -120,6 +169,8 @@ export async function createContract(
     startedAt: Date;
     expiresAt?: Date | null;
     title?: string | null;
+    /** 이 계약이 실제로 맺어진 센터. 개인 트레이너면 null. */
+    centerId?: string | null;
   },
 ) {
   const trainer = await requireTrainerProfile(userId);
@@ -130,9 +181,11 @@ export async function createContract(
   if (!Number.isFinite(total) || total < 1 || total > 300) {
     throw new PTError("INVALID", "횟수는 1회부터 300회까지 넣을 수 있어요.");
   }
+
   if (Number.isNaN(input.startedAt.getTime())) {
     throw new PTError("INVALID", "시작일을 확인해주세요.");
   }
+
   if (
     input.expiresAt &&
     input.expiresAt.getTime() < input.startedAt.getTime()
@@ -140,12 +193,32 @@ export async function createContract(
     throw new PTError("INVALID", "만료일이 시작일보다 앞서요.");
   }
 
-  const centerId = await prisma.centerMembership
-    .findFirst({
-      where: { userId: connection.memberUserId, status: "ACTIVE" },
+  /*
+   * 계약의 센터는 회원의 현재 센터 소속으로 추정하지 않는다.
+   * 실제 계약을 만든 트레이너가 선택한 센터를 그대로 기록하되,
+   * 그 센터에 현재 트레이너로 소속되어 있는지는 서버에서 다시 확인한다.
+   * 독립 트레이너는 centerId=null 로 계약을 만든다.
+   */
+  const centerId = input.centerId?.trim() || null;
+
+  if (centerId) {
+    const membership = await prisma.centerMembership.findFirst({
+      where: {
+        centerId,
+        userId: trainer.userId,
+        status: "ACTIVE",
+        role: { in: ["TRAINER", "CENTER_ADMIN"] },
+      },
       select: { centerId: true },
-    })
-    .then((row) => row?.centerId ?? null);
+    });
+
+    if (!membership) {
+      throw new PTError(
+        "INVALID",
+        "선택한 센터에 현재 트레이너로 소속되어 있지 않아요.",
+      );
+    }
+  }
 
   return prisma.pTContract.create({
     data: {
@@ -155,16 +228,25 @@ export async function createContract(
       totalSessions: total,
       startedAt: input.startedAt,
       expiresAt: input.expiresAt ?? null,
-      // 이 회원이 지금 어느 센터에 있는지. 개인 트레이너면 비어 있다.
       centerId,
     },
-    select: { id: true, title: true, totalSessions: true },
+    select: {
+      id: true,
+      title: true,
+      totalSessions: true,
+    },
   });
 }
 
-async function requireMyContract(trainerProfileId: string, contractId: string) {
+async function requireMyContract(
+  trainerProfileId: string,
+  contractId: string,
+) {
   const contract = await prisma.pTContract.findFirst({
-    where: { id: contractId, trainerProfileId },
+    where: {
+      id: contractId,
+      trainerProfileId,
+    },
     select: {
       id: true,
       status: true,
@@ -182,13 +264,7 @@ async function requireMyContract(trainerProfileId: string, contractId: string) {
   return contract;
 }
 
-/**
- * 기간을 늘린다.
- *
- * 출장이나 부상으로 몇 주를 못 오는 일은 예외가 아니라 늘 있는 일이다.
- * 연장할 방법이 없으면 트레이너는 계약을 지우고 다시 만들게 되고, 그러면
- * 그동안의 회차 기록이 통째로 사라진다.
- */
+/** 기간을 늘린다. */
 export async function extendContract(
   userId: string,
   contractId: string,
@@ -201,42 +277,109 @@ export async function extendContract(
     throw new PTError("INVALID", "만료일을 확인해주세요.");
   }
 
-  return prisma.pTContract.update({
-    where: { id: contract.id },
-    data: {
-      expiresAt,
-      // 만료로 닫혔던 계약은 기간을 늘리면 다시 살아난다.
-      status:
-        contract.status === PTContractStatus.EXPIRED
-          ? PTContractStatus.ACTIVE
-          : contract.status,
-    },
-    select: { id: true, expiresAt: true, status: true },
+  return runSerializable(async (tx) => {
+    await lockPTContract(tx, contract.id);
+
+    const current = await tx.pTContract.findUnique({
+      where: { id: contract.id },
+      select: {
+        id: true,
+        status: true,
+        startedAt: true,
+      },
+    });
+
+    if (!current) {
+      throw new PTError("NOT_FOUND", "계약을 찾을 수 없어요.");
+    }
+
+    if (
+      expiresAt &&
+      expiresAt.getTime() < current.startedAt.getTime()
+    ) {
+      throw new PTError(
+        "INVALID",
+        "만료일이 시작일보다 앞서요.",
+      );
+    }
+
+    return tx.pTContract.update({
+      where: { id: current.id },
+      data: {
+        expiresAt,
+        status:
+          current.status === PTContractStatus.EXPIRED
+            ? PTContractStatus.ACTIVE
+            : current.status,
+      },
+      select: {
+        id: true,
+        expiresAt: true,
+        status: true,
+      },
+    });
   });
 }
 
-/** 계약을 중단한다. 남은 회차는 그대로 두고 상태만 바꾼다. */
-export async function cancelContract(userId: string, contractId: string) {
+/**
+ * 계약을 중단한다.
+ *
+ * 아직 안 한 수업은 함께 취소한다.
+ * 이미 차감된 수업은 건드리지 않는다.
+ */
+export async function cancelContract(
+  userId: string,
+  contractId: string,
+) {
   const trainer = await requireTrainerProfile(userId);
   const contract = await requireMyContract(trainer.id, contractId);
 
-  return prisma.$transaction(async (tx) => {
-    // 아직 안 한 수업은 함께 취소한다. 남겨 두면 끝난 계약의 수업이
-    // 트레이너의 오늘 일정에 계속 뜬다. 차감은 하지 않는다.
+  return runSerializable(async (tx) => {
+    await lockPTContract(tx, contract.id);
+
+    /*
+     * 운동 기록 쪽도 같은 PTSession advisory lock을 사용한다.
+     * 계약 중단이 여러 예정 수업을 한 번에 취소할 때도 각 수업 lock을
+     * 잡은 뒤 상태를 바꿔야 "취소 직전에 운동 추가" 같은 race가 생기지 않는다.
+     * id 순서대로 lock을 잡아 여러 수업을 동시에 처리할 때의 순서도 고정한다.
+     */
+    const scheduledSessions = await tx.pTSession.findMany({
+      where: {
+        contractId: contract.id,
+        status: PTSessionStatus.SCHEDULED,
+      },
+      orderBy: { id: "asc" },
+      select: { id: true },
+    });
+
+    for (const session of scheduledSessions) {
+      await lockPTSession(tx, session.id);
+    }
+
     await tx.pTSession.updateMany({
-      where: { contractId: contract.id, status: PTSessionStatus.SCHEDULED },
+      where: {
+        contractId: contract.id,
+        status: PTSessionStatus.SCHEDULED,
+      },
       data: {
         status: PTSessionStatus.CANCELLED,
         cancelledAt: new Date(),
         cancelledBy: PTSessionActor.TRAINER,
         cancelReason: "계약 중단",
+        deducted: false,
+        memberAlertAt: new Date(),
       },
     });
 
     return tx.pTContract.update({
       where: { id: contract.id },
-      data: { status: PTContractStatus.CANCELLED },
-      select: { id: true, status: true },
+      data: {
+        status: PTContractStatus.CANCELLED,
+      },
+      select: {
+        id: true,
+        status: true,
+      },
     });
   });
 }
@@ -244,9 +387,10 @@ export async function cancelContract(userId: string, contractId: string) {
 /**
  * 수업을 잡는다.
  *
- * 회차 번호는 잡은 순서로 매긴다. 실제로 한 순서와 다를 수 있지만, 미루고
- * 취소하는 일이 흔해서 "몇 번째로 할 수업" 을 미리 정해 두면 어차피 어긋난다.
- * 번호는 계약 안에서 겹치지 않기만 하면 된다.
+ * 남은 회차와 예정 회차를 transaction 안에서 함께 확인한다.
+ *
+ * 계약 advisory lock + Serializable transaction을 사용하기 때문에 동시에 마지막
+ * 남은 회차를 잡으려는 요청도 하나씩 처리된다.
  */
 export async function scheduleSession(
   userId: string,
@@ -258,30 +402,84 @@ export async function scheduleSession(
   },
 ) {
   const trainer = await requireTrainerProfile(userId);
-  const contract = await requireMyContract(trainer.id, input.contractId);
+  const contract = await requireMyContract(
+    trainer.id,
+    input.contractId,
+  );
 
   if (contract.status !== PTContractStatus.ACTIVE) {
-    throw new PTError("CONTRACT_CLOSED", "진행 중인 계약이 아니에요.");
+    throw new PTError(
+      "CONTRACT_CLOSED",
+      "진행 중인 계약이 아니에요.",
+    );
   }
+
   if (Number.isNaN(input.scheduledAt.getTime())) {
     throw new PTError("INVALID", "수업 시각을 확인해주세요.");
   }
 
-  return prisma.$transaction(async (tx) => {
-    /*
-      아직 안 한 수업까지 세서 남은 횟수를 본다.
+  if (
+    input.durationMinutes !== undefined &&
+    (!Number.isFinite(input.durationMinutes) ||
+      input.durationMinutes <= 0 ||
+      input.durationMinutes > 300)
+  ) {
+    throw new PTError(
+      "INVALID",
+      "수업 시간을 확인해주세요.",
+    );
+  }
 
-      차감된 회차만 세면 20회 계약에 수업을 서른 개 잡을 수 있다. 잡을 때
-      막지 않으면 나중에 "계약에 없는 회차" 를 손으로 정리해야 한다.
-    */
-    const taken = await tx.pTSession.count({
-      where: {
-        contractId: contract.id,
-        OR: [{ deducted: true }, { status: PTSessionStatus.SCHEDULED }],
+  return runSerializable(async (tx) => {
+    await lockPTContract(tx, contract.id);
+
+    /*
+     * transaction 안에서 계약 상태를 다시 읽는다.
+     * 실제 예약 가능 여부는 transaction 시점의 값을 기준으로 판단한다.
+     */
+    const currentContract = await tx.pTContract.findUnique({
+      where: { id: contract.id },
+      select: {
+        id: true,
+        status: true,
+        totalSessions: true,
+        memberUserId: true,
+        expiresAt: true,
       },
     });
 
-    if (taken >= contract.totalSessions) {
+    if (!currentContract) {
+      throw new PTError("NOT_FOUND", "계약을 찾을 수 없어요.");
+    }
+
+    if (currentContract.status !== PTContractStatus.ACTIVE) {
+      throw new PTError(
+        "CONTRACT_CLOSED",
+        "진행 중인 계약이 아니에요.",
+      );
+    }
+
+    if (
+      currentContract.expiresAt &&
+      currentContract.expiresAt.getTime() < input.scheduledAt.getTime()
+    ) {
+      throw new PTError(
+        "INVALID",
+        "계약 기간이 지난 날짜에는 수업을 잡을 수 없어요.",
+      );
+    }
+
+    const taken = await tx.pTSession.count({
+      where: {
+        contractId: currentContract.id,
+        OR: [
+          { deducted: true },
+          { status: PTSessionStatus.SCHEDULED },
+        ],
+      },
+    });
+
+    if (taken >= currentContract.totalSessions) {
       throw new PTError(
         "NO_SESSIONS_LEFT",
         "남은 횟수가 없어요. 횟수나 기간을 먼저 확인해주세요.",
@@ -289,37 +487,46 @@ export async function scheduleSession(
     }
 
     const last = await tx.pTSession.findFirst({
-      where: { contractId: contract.id },
-      orderBy: { sessionNumber: "desc" },
-      select: { sessionNumber: true },
+      where: {
+        contractId: currentContract.id,
+      },
+      orderBy: {
+        sessionNumber: "desc",
+      },
+      select: {
+        sessionNumber: true,
+      },
     });
 
     return tx.pTSession.create({
       data: {
-        /*
-          새로 잡은 수업도 회원에게 알린다.
-
-          "변경" 이 아니라 목록에 새로 나타나는 것뿐이라 넘어갈 뻔했는데,
-          회원이 모르는 수업은 노쇼가 되고 노쇼는 횟수를 깎는다. 돈이 걸린
-          쪽은 알려야 한다.
-        */
         memberAlertAt: new Date(),
-        contractId: contract.id,
-        memberUserId: contract.memberUserId,
+        contractId: currentContract.id,
+        memberUserId: currentContract.memberUserId,
         trainerProfileId: trainer.id,
         sessionNumber: (last?.sessionNumber ?? 0) + 1,
         scheduledAt: input.scheduledAt,
         durationMinutes: input.durationMinutes ?? 60,
         memo: input.memo?.trim() || null,
       },
-      select: { id: true, sessionNumber: true, scheduledAt: true },
+      select: {
+        id: true,
+        sessionNumber: true,
+        scheduledAt: true,
+      },
     });
   });
 }
 
-async function requireMySession(trainerProfileId: string, sessionId: string) {
+async function requireMySession(
+  trainerProfileId: string,
+  sessionId: string,
+) {
   const session = await prisma.pTSession.findFirst({
-    where: { id: sessionId, trainerProfileId },
+    where: {
+      id: sessionId,
+      trainerProfileId,
+    },
     select: {
       id: true,
       status: true,
@@ -336,14 +543,10 @@ async function requireMySession(trainerProfileId: string, sessionId: string) {
   return session;
 }
 
-/**
- * 아직 안 끝난 수업인지 본다.
- *
- * 결과를 적는 것은 예정 상태에서만 한다. 이미 완료한 회차를 취소로 덮어쓸 수
- * 있으면 붙어 있던 운동 기록이 취소된 회차에 매달리고, 뒤로 가기 한 번에
- * 같은 처리가 두 번 들어간다. 고치려면 되돌리기를 먼저 눌러야 한다.
- */
-function requireOpenSession(session: { status: PTSessionStatus }) {
+/** 아직 안 끝난 수업인지 본다. */
+function requireOpenSession(session: {
+  status: PTSessionStatus;
+}) {
   if (session.status !== PTSessionStatus.SCHEDULED) {
     throw new PTError(
       "SESSION_CLOSED",
@@ -352,16 +555,7 @@ function requireOpenSession(session: { status: PTSessionStatus }) {
   }
 }
 
-/**
- * 수업을 미룬다.
- *
- * 상태는 그대로 SCHEDULED 다. 미룬 수업도 여전히 앞으로 할 수업이라 다음 수업
- * 목록에 남아야 한다. 대신 언제에서 언제로 누가 옮겼는지를 이력으로 쌓는다.
- * "회원이 자주 미뤘다" 와 "트레이너 사정으로 밀렸다" 는 재등록 상담에서 완전히
- * 다른 이야기인데, 안 남기면 나중에 둘 다 그냥 "일정 변경 3회" 로만 보인다.
- *
- * 횟수는 깎지 않는다.
- */
+/** 수업을 미룬다. */
 export async function rescheduleSession(
   userId: string,
   input: {
@@ -372,49 +566,152 @@ export async function rescheduleSession(
   },
 ) {
   const trainer = await requireTrainerProfile(userId);
-  const session = await requireMySession(trainer.id, input.sessionId);
+  const session = await requireMySession(
+    trainer.id,
+    input.sessionId,
+  );
 
   if (session.status !== PTSessionStatus.SCHEDULED) {
-    throw new PTError("SESSION_CLOSED", "이미 끝난 수업이에요.");
+    throw new PTError(
+      "SESSION_CLOSED",
+      "이미 끝난 수업이에요.",
+    );
   }
+
   if (Number.isNaN(input.scheduledAt.getTime())) {
-    throw new PTError("INVALID", "옮길 시각을 확인해주세요.");
+    throw new PTError(
+      "INVALID",
+      "옮길 시각을 확인해주세요.",
+    );
   }
-  if (input.scheduledAt.getTime() === session.scheduledAt.getTime()) {
+
+  if (
+    input.scheduledAt.getTime() ===
+    session.scheduledAt.getTime()
+  ) {
     throw new PTError("INVALID", "같은 시각이에요.");
   }
 
   requireOpenSession(session);
 
-  return prisma.$transaction(async (tx) => {
+  return runSerializable(async (tx) => {
+    await lockPTContract(tx, session.contractId);
+    await lockPTSession(tx, session.id);
+
+    const current = await tx.pTSession.findUnique({
+      where: { id: session.id },
+      select: {
+        id: true,
+        status: true,
+        scheduledAt: true,
+        contractId: true,
+        contract: {
+          select: {
+            status: true,
+            expiresAt: true,
+          },
+        },
+      },
+    });
+
+    if (!current) {
+      throw new PTError("NOT_FOUND", "수업을 찾을 수 없어요.");
+    }
+
+    if (current.status !== PTSessionStatus.SCHEDULED) {
+      throw new PTError(
+        "SESSION_CLOSED",
+        "이미 처리한 수업이에요. 되돌린 뒤에 다시 해주세요.",
+      );
+    }
+
+    if (current.scheduledAt.getTime() === input.scheduledAt.getTime()) {
+      throw new PTError("INVALID", "같은 시각이에요.");
+    }
+
+    if (current.contract.status !== PTContractStatus.ACTIVE) {
+      throw new PTError(
+        "CONTRACT_CLOSED",
+        "진행 중인 계약이 아니에요.",
+      );
+    }
+
+    if (
+      current.contract.expiresAt &&
+      current.contract.expiresAt.getTime() < input.scheduledAt.getTime()
+    ) {
+      throw new PTError(
+        "INVALID",
+        "계약 기간이 지난 날짜로는 수업을 옮길 수 없어요.",
+      );
+    }
+
+    const updated = await tx.pTSession.updateMany({
+      where: {
+        id: current.id,
+        status: PTSessionStatus.SCHEDULED,
+      },
+      data: {
+        scheduledAt: input.scheduledAt,
+        memberAlertAt: new Date(),
+      },
+    });
+
+    if (updated.count === 0) {
+      throw new PTError(
+        "SESSION_CLOSED",
+        "이미 처리한 수업이에요. 되돌린 뒤에 다시 해주세요.",
+      );
+    }
+
     await tx.pTSessionReschedule.create({
       data: {
-        sessionId: session.id,
-        fromScheduledAt: session.scheduledAt,
+        sessionId: current.id,
+        fromScheduledAt: current.scheduledAt,
         toScheduledAt: input.scheduledAt,
         movedBy: input.movedBy,
         reason: input.reason?.trim() || null,
       },
     });
 
-    return tx.pTSession.update({
-      where: { id: session.id },
-      data: { scheduledAt: input.scheduledAt, memberAlertAt: new Date() },
-      select: { id: true, scheduledAt: true },
-    });
+    return {
+      id: current.id,
+      scheduledAt: input.scheduledAt,
+    };
   });
 }
 
-/** 수업을 마쳤다. 횟수를 깎는다. */
-export async function completeSession(userId: string, sessionId: string) {
+/**
+ * 수업을 마쳤다.
+ *
+ * 핵심:
+ * 1. SCHEDULED인 경우에만 상태 변경
+ * 2. PTSession.deducted = true
+ * 3. 실제 deducted 회차를 다시 세어 contract.usedSessions 동기화
+ *
+ * 세 작업은 하나의 transaction이다.
+ */
+export async function completeSession(
+  userId: string,
+  sessionId: string,
+) {
   const trainer = await requireTrainerProfile(userId);
-  const session = await requireMySession(trainer.id, sessionId);
+  const session = await requireMySession(
+    trainer.id,
+    sessionId,
+  );
 
   requireOpenSession(session);
 
-  return prisma.$transaction(async (tx) => {
-    const updated = await tx.pTSession.update({
-      where: { id: session.id },
+  return runSerializable(async (tx) => {
+    await lockPTContract(tx, session.contractId);
+    await lockPTSession(tx, session.id);
+
+    const result = await tx.pTSession.updateMany({
+      where: {
+        id: session.id,
+        status: PTSessionStatus.SCHEDULED,
+      },
       data: {
         status: PTSessionStatus.COMPLETED,
         completedAt: new Date(),
@@ -422,41 +719,51 @@ export async function completeSession(userId: string, sessionId: string) {
         cancelledAt: null,
         cancelledBy: null,
         cancelReason: null,
-        /*
-          끝난 수업에는 알릴 것이 없다.
-
-          회원은 그 자리에 있었다. 남아 있던 표시가 있으면 여기서 내린다.
-        */
         memberAlertAt: null,
       },
-      select: { id: true },
     });
+
+    if (result.count === 0) {
+      throw new PTError(
+        "SESSION_CLOSED",
+        "이미 처리한 수업이에요.",
+      );
+    }
 
     await syncUsedSessions(tx, session.contractId);
 
-    return updated;
+    return {
+      id: session.id,
+    };
   });
 }
 
-/**
- * 회원이 안 왔다.
- *
- * 차감할지는 트레이너가 고른다. 정책이 사람마다 다르고, 같은 사람도 상황에
- * 따라 봐준다. 여기서 규칙을 정해 버리면 봐주고 싶을 때 손쓸 방법이 없다.
- */
+/** 회원이 안 왔다. 차감 여부는 트레이너가 선택한다. */
 export async function markNoShow(
   userId: string,
   sessionId: string,
-  options: { deduct: boolean; reason?: string | null },
+  options: {
+    deduct: boolean;
+    reason?: string | null;
+  },
 ) {
   const trainer = await requireTrainerProfile(userId);
-  const session = await requireMySession(trainer.id, sessionId);
+  const session = await requireMySession(
+    trainer.id,
+    sessionId,
+  );
 
   requireOpenSession(session);
 
-  return prisma.$transaction(async (tx) => {
-    const updated = await tx.pTSession.update({
-      where: { id: session.id },
+  return runSerializable(async (tx) => {
+    await lockPTContract(tx, session.contractId);
+    await lockPTSession(tx, session.id);
+
+    const result = await tx.pTSession.updateMany({
+      where: {
+        id: session.id,
+        status: PTSessionStatus.SCHEDULED,
+      },
       data: {
         status: PTSessionStatus.NO_SHOW,
         deducted: options.deduct,
@@ -464,22 +771,27 @@ export async function markNoShow(
         cancelledAt: new Date(),
         cancelledBy: PTSessionActor.MEMBER,
         cancelReason: options.reason?.trim() || null,
+        memberAlertAt: new Date(),
       },
-      select: { id: true, deducted: true },
     });
+
+    if (result.count === 0) {
+      throw new PTError(
+        "SESSION_CLOSED",
+        "이미 처리한 수업이에요.",
+      );
+    }
 
     await syncUsedSessions(tx, session.contractId);
 
-    return updated;
+    return {
+      id: session.id,
+      deducted: options.deduct,
+    };
   });
 }
 
-/**
- * 수업을 취소한다.
- *
- * 기본은 차감하지 않는다. 당일 취소를 깎는 트레이너도 있어서 고를 수 있게
- * 뒀지만, 기본값을 차감으로 두면 그냥 눌렀다가 회원 횟수가 줄어든다.
- */
+/** 수업을 취소한다. 기본은 차감하지 않는다. */
 export async function cancelSession(
   userId: string,
   sessionId: string,
@@ -490,13 +802,22 @@ export async function cancelSession(
   },
 ) {
   const trainer = await requireTrainerProfile(userId);
-  const session = await requireMySession(trainer.id, sessionId);
+  const session = await requireMySession(
+    trainer.id,
+    sessionId,
+  );
 
   requireOpenSession(session);
 
-  return prisma.$transaction(async (tx) => {
-    const updated = await tx.pTSession.update({
-      where: { id: session.id },
+  return runSerializable(async (tx) => {
+    await lockPTContract(tx, session.contractId);
+    await lockPTSession(tx, session.id);
+
+    const result = await tx.pTSession.updateMany({
+      where: {
+        id: session.id,
+        status: PTSessionStatus.SCHEDULED,
+      },
       data: {
         status: PTSessionStatus.CANCELLED,
         deducted: options.deduct ?? false,
@@ -506,41 +827,102 @@ export async function cancelSession(
         cancelReason: options.reason?.trim() || null,
         memberAlertAt: new Date(),
       },
-      select: { id: true, deducted: true },
     });
+
+    if (result.count === 0) {
+      throw new PTError(
+        "SESSION_CLOSED",
+        "이미 처리한 수업이에요.",
+      );
+    }
 
     await syncUsedSessions(tx, session.contractId);
 
-    return updated;
+    return {
+      id: session.id,
+      deducted: options.deduct ?? false,
+    };
   });
 }
 
-/** 잘못 누른 것을 되돌린다. 예정 상태로 돌아간다. */
-export async function reopenSession(userId: string, sessionId: string) {
+/**
+ * 잘못 누른 것을 되돌린다.
+ *
+ * 운동 기록이 이미 붙었으면 되돌리지 않는다.
+ */
+export async function reopenSession(
+  userId: string,
+  sessionId: string,
+) {
   const trainer = await requireTrainerProfile(userId);
-  const session = await requireMySession(trainer.id, sessionId);
+  const session = await requireMySession(
+    trainer.id,
+    sessionId,
+  );
 
   if (session.status === PTSessionStatus.SCHEDULED) {
     return { id: session.id };
   }
 
-  // 운동 기록이 이미 붙었으면 되돌리지 않는다. 완료를 취소하면 그 기록이
-  // 어느 회차의 것인지 알 수 없게 된다.
-  const workout = await prisma.workoutSession.findUnique({
-    where: { ptSessionId: session.id },
-    select: { id: true },
-  });
+  return runSerializable(async (tx) => {
+    await lockPTContract(tx, session.contractId);
+    await lockPTSession(tx, session.id);
 
-  if (workout) {
-    throw new PTError(
-      "SESSION_CLOSED",
-      "운동 기록이 있는 수업은 되돌릴 수 없어요.",
-    );
-  }
+    const currentContract = await tx.pTContract.findUnique({
+      where: { id: session.contractId },
+      select: {
+        status: true,
+      },
+    });
 
-  return prisma.$transaction(async (tx) => {
-    const updated = await tx.pTSession.update({
-      where: { id: session.id },
+    if (!currentContract) {
+      throw new PTError("NOT_FOUND", "계약을 찾을 수 없어요.");
+    }
+
+    // 기간 만료/계약 중단 상태에서 수업만 다시 예정으로 돌리면
+    // 닫힌 계약에 새 예정 수업이 생긴다. 계약을 먼저 연장/복구해야 한다.
+    if (
+      currentContract.status !== PTContractStatus.ACTIVE &&
+      currentContract.status !== PTContractStatus.COMPLETED
+    ) {
+      throw new PTError(
+        "CONTRACT_CLOSED",
+        "계약이 종료된 상태라 수업을 되돌릴 수 없어요. 계약을 먼저 확인해주세요.",
+      );
+    }
+
+    /*
+     * 상태 변경과 운동 기록 확인을 같은 transaction 안에서 한다.
+     * 바깥에서 먼저 확인하면 동시에 다른 요청이 WorkoutSession을 붙이는 사이에
+     * reopen이 실행될 수 있다.
+     */
+    const workout = await tx.workoutSession.findUnique({
+      where: {
+        ptSessionId: session.id,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (workout) {
+      throw new PTError(
+        "SESSION_CLOSED",
+        "운동 기록이 있는 수업은 되돌릴 수 없어요.",
+      );
+    }
+
+    const result = await tx.pTSession.updateMany({
+      where: {
+        id: session.id,
+        status: {
+          in: [
+            PTSessionStatus.COMPLETED,
+            PTSessionStatus.CANCELLED,
+            PTSessionStatus.NO_SHOW,
+          ],
+        },
+      },
       data: {
         status: PTSessionStatus.SCHEDULED,
         deducted: false,
@@ -548,20 +930,22 @@ export async function reopenSession(userId: string, sessionId: string) {
         cancelledAt: null,
         cancelledBy: null,
         cancelReason: null,
-        /*
-          되살린 것도 알린다.
-
-          취소를 이미 본 회원은 그날 안 온다. 잘못 눌러서 되돌렸다는 사실을
-          안 알리면, 트레이너 화면에서는 예정인 수업에 회원만 안 나타난다.
-        */
         memberAlertAt: new Date(),
       },
-      select: { id: true },
     });
+
+    if (result.count === 0) {
+      throw new PTError(
+        "SESSION_CLOSED",
+        "이미 처리한 수업이에요.",
+      );
+    }
 
     await syncUsedSessions(tx, session.contractId);
 
-    return updated;
+    return {
+      id: session.id,
+    };
   });
 }
 
@@ -581,25 +965,26 @@ export interface ContractSummary {
   expired: boolean;
 }
 
-/**
- * 한 회원의 계약들.
- *
- * 끝난 계약도 함께 준다. 재등록 상담에서 "지난번엔 20회 중 18회 하셨죠" 를
- * 말할 수 있어야 하는데, 진행 중인 것만 보여 주면 그 자리에서 못 꺼낸다.
- */
+/** 한 회원의 계약들. */
 export async function listContracts(
   userId: string,
   connectionId: string,
 ): Promise<ContractSummary[]> {
   const trainer = await requireTrainerProfile(userId);
-  const connection = await requireMyMember(trainer.id, connectionId);
+  const connection = await requireMyMember(
+    trainer.id,
+    connectionId,
+  );
 
   const contracts = await prisma.pTContract.findMany({
     where: {
       memberUserId: connection.memberUserId,
       trainerProfileId: trainer.id,
     },
-    orderBy: [{ status: "asc" }, { startedAt: "desc" }],
+    orderBy: [
+      { status: "asc" },
+      { startedAt: "desc" },
+    ],
     select: {
       id: true,
       title: true,
@@ -609,7 +994,13 @@ export async function listContracts(
       expiresAt: true,
       status: true,
       _count: {
-        select: { sessions: { where: { status: PTSessionStatus.SCHEDULED } } },
+        select: {
+          sessions: {
+            where: {
+              status: PTSessionStatus.SCHEDULED,
+            },
+          },
+        },
       },
     },
   });
@@ -620,7 +1011,10 @@ export async function listContracts(
     totalSessions: contract.totalSessions,
     usedSessions: contract.usedSessions,
     scheduledCount: contract._count.sessions,
-    remaining: Math.max(contract.totalSessions - contract.usedSessions, 0),
+    remaining: Math.max(
+      contract.totalSessions - contract.usedSessions,
+      0,
+    ),
     startedAt: contract.startedAt,
     expiresAt: contract.expiresAt,
     status: contract.status,
@@ -649,22 +1043,24 @@ export interface SessionRow {
   journalId: string | null;
 }
 
-/**
- * 한 계약의 회차 전부.
- *
- * 미룬 이력까지 함께 준다. "9/10 → 9/17 로 옮김" 은 상태가 아니라 이력이라
- * 회차 줄에 붙여야 타임라인에서 한 회차의 사연이 한자리에 모인다.
- */
+/** 한 계약의 회차 전부. */
 export async function listSessions(
   userId: string,
   contractId: string,
 ): Promise<SessionRow[]> {
   const trainer = await requireTrainerProfile(userId);
-  const contract = await requireMyContract(trainer.id, contractId);
+  const contract = await requireMyContract(
+    trainer.id,
+    contractId,
+  );
 
   const sessions = await prisma.pTSession.findMany({
-    where: { contractId: contract.id },
-    orderBy: { scheduledAt: "asc" },
+    where: {
+      contractId: contract.id,
+    },
+    orderBy: {
+      scheduledAt: "asc",
+    },
     select: {
       id: true,
       sessionNumber: true,
@@ -676,7 +1072,9 @@ export async function listSessions(
       cancelReason: true,
       cancelledBy: true,
       reschedules: {
-        orderBy: { createdAt: "desc" },
+        orderBy: {
+          createdAt: "desc",
+        },
         select: {
           fromScheduledAt: true,
           toScheduledAt: true,
@@ -684,11 +1082,19 @@ export async function listSessions(
           reason: true,
         },
       },
-      workoutSession: { select: { id: true } },
+      workoutSession: {
+        select: {
+          id: true,
+        },
+      },
       journals: {
-        orderBy: { createdAt: "desc" },
+        orderBy: {
+          createdAt: "desc",
+        },
         take: 1,
-        select: { id: true },
+        select: {
+          id: true,
+        },
       },
     },
   });
@@ -704,46 +1110,49 @@ export async function listSessions(
     cancelReason: session.cancelReason,
     cancelledBy: session.cancelledBy,
     reschedules: session.reschedules,
-    workoutSessionId: session.workoutSession?.id ?? null,
-    journalId: session.journals[0]?.id ?? null,
+    workoutSessionId:
+      session.workoutSession?.id ?? null,
+    journalId:
+      session.journals[0]?.id ?? null,
   }));
 }
 
-/**
- * 지금 수업을 잡을 수 있는 계약들.
- *
- * 일정 화면에서 바로 수업을 잡으려면 "누구의" 를 먼저 골라야 한다. 그런데
- * 회원을 고르고 계약을 또 고르게 하면 단계가 둘이다. 회원 한 명에게 진행 중인
- * 계약은 대개 하나뿐이라, 계약을 고르는 것으로 회원 선택까지 끝낸다.
- *
- * 남은 횟수가 없는 계약은 뺀다. 어차피 scheduleSession 이 막는데, 고를 수 있게
- * 두면 고르고 나서야 안 된다는 말을 듣는다. 못 고르게 하는 편이 낫다.
- *
- * 남은 횟수는 차감된 회차와 아직 안 한 예정 회차를 함께 센다. scheduleSession
- * 이 쓰는 기준과 같아야 여기서 보이는 숫자와 실제로 잡히는 개수가 어긋나지
- * 않는다.
- */
-export async function listSchedulableContracts(userId: string) {
+/** 지금 수업을 잡을 수 있는 계약들. */
+export async function listSchedulableContracts(
+  userId: string,
+) {
   const trainer = await requireTrainerProfile(userId);
 
   const contracts = await prisma.pTContract.findMany({
     where: {
       trainerProfileId: trainer.id,
       status: PTContractStatus.ACTIVE,
-      OR: [{ expiresAt: null }, { expiresAt: { gte: new Date() } }],
+      OR: [
+        { expiresAt: null },
+        { expiresAt: { gte: new Date() } },
+      ],
     },
-    orderBy: { createdAt: "desc" },
+    orderBy: {
+      createdAt: "desc",
+    },
     select: {
       id: true,
       title: true,
       totalSessions: true,
       expiresAt: true,
-      memberUser: { select: { name: true } },
+      memberUser: {
+        select: {
+          name: true,
+        },
+      },
       _count: {
         select: {
           sessions: {
             where: {
-              OR: [{ deducted: true }, { status: PTSessionStatus.SCHEDULED }],
+              OR: [
+                { deducted: true },
+                { status: PTSessionStatus.SCHEDULED },
+              ],
             },
           },
         },
@@ -751,61 +1160,53 @@ export async function listSchedulableContracts(userId: string) {
     },
   });
 
-  return (
-    contracts
-      .map((contract) => ({
-        id: contract.id,
-        title: contract.title,
-        memberName: contract.memberUser.name,
-        totalSessions: contract.totalSessions,
-        remaining: contract.totalSessions - contract._count.sessions,
-        expiresAt: contract.expiresAt,
-      }))
-      .filter((contract) => contract.remaining > 0)
-      /*
-      이름순으로 세운다. 만든 순서는 트레이너의 기억에 없고, 고를 때 찾는
-      단서는 회원 이름뿐이다.
-    */
-      .sort((a, b) => a.memberName.localeCompare(b.memberName, "ko"))
-  );
+  return contracts
+    .map((contract) => ({
+      id: contract.id,
+      title: contract.title,
+      memberName: contract.memberUser.name,
+      totalSessions: contract.totalSessions,
+      remaining:
+        contract.totalSessions -
+        contract._count.sessions,
+      expiresAt: contract.expiresAt,
+    }))
+    .filter((contract) => contract.remaining > 0)
+    .sort((a, b) =>
+      a.memberName.localeCompare(b.memberName, "ko"),
+    );
 }
 
-/**
- * 회원이 보는 다가오는 수업.
- *
- * 예정된 수업만 보여주면 조용히 사라지는 것이 생긴다. 트레이너가 취소하면
- * 목록에서 빠질 뿐이라, 회원은 그 사실을 알 방법이 없다. 그래서 아직 확인하지
- * 못한 취소는 "취소됨" 인 채로 남겨 둔다 — 사라지는 것보다 남아 있는 쪽이
- * 확실히 눈에 띈다. 회원이 확인을 누르면 그때 목록에서 빠진다.
- *
- * 지나간 것은 확인 여부와 상관없이 뺀다. 어제 취소된 어제 수업을 오늘 띄우면
- * 그때부터는 안내가 아니라 잔소리다.
- */
-/**
- * 회원이 보는 내 다음 수업.
- *
- * 트레이너만 일정을 아는 상태가 제일 이상하다. 회원은 자기가 언제 가는지
- * 카톡을 뒤져서 확인하고 있다.
- *
- * 지난 세 시간까지 함께 보여 준다. 오후 7시 수업이 7시 1분에 목록에서
- * 사라지면, 수업 직전에 확인하려던 사람이 못 본다.
- */
-export async function getMyUpcomingSessions(userId: string, limit = 5) {
-  const since = new Date(Date.now() - 3 * 3_600_000);
+/** 회원이 보는 다가오는 수업. */
+export async function getMyUpcomingSessions(
+  userId: string,
+  limit = 5,
+) {
+  const since = new Date(
+    Date.now() - 3 * 3_600_000,
+  );
 
   const sessions = await prisma.pTSession.findMany({
     where: {
       memberUserId: userId,
-      scheduledAt: { gte: since },
+      scheduledAt: {
+        gte: since,
+      },
       OR: [
-        { status: PTSessionStatus.SCHEDULED },
+        {
+          status: PTSessionStatus.SCHEDULED,
+        },
         {
           status: PTSessionStatus.CANCELLED,
-          memberAlertAt: { not: null },
+          memberAlertAt: {
+            not: null,
+          },
         },
       ],
     },
-    orderBy: { scheduledAt: "asc" },
+    orderBy: {
+      scheduledAt: "asc",
+    },
     take: limit,
     select: {
       id: true,
@@ -815,9 +1216,21 @@ export async function getMyUpcomingSessions(userId: string, limit = 5) {
       status: true,
       cancelReason: true,
       memberAlertAt: true,
-      contract: { select: { title: true, totalSessions: true } },
+      contract: {
+        select: {
+          title: true,
+          totalSessions: true,
+        },
+      },
       trainerProfile: {
-        select: { displayName: true, user: { select: { name: true } } },
+        select: {
+          displayName: true,
+          user: {
+            select: {
+              name: true,
+            },
+          },
+        },
       },
     },
   });
@@ -830,37 +1243,38 @@ export async function getMyUpcomingSessions(userId: string, limit = 5) {
     totalSessions: session.contract.totalSessions,
     status: session.status,
     cancelReason: session.cancelReason,
-    /** 아직 확인하지 않은 변경이 있다. */
     changed: session.memberAlertAt !== null,
     trainerName:
-      session.trainerProfile.displayName ?? session.trainerProfile.user.name,
+      session.trainerProfile.displayName ??
+      session.trainerProfile.user.name,
   }));
 }
 
-/**
- * 회원이 일정 변경을 확인했다.
- *
- * 확인한 뒤에도 예정된 수업은 목록에 그대로 남고 표시만 사라진다. 취소된
- * 수업은 그때 목록에서 빠진다.
- *
- * 트레이너는 이걸 볼 수 없다. 회원이 확인했는지를 트레이너 화면에 띄우면
- * 다시 읽음 추적이 되고, 그건 이미 안 하기로 한 것이다. 이 표시는 회원이
- * 자기 화면을 정리하는 용도다.
- */
+/** 회원이 일정 변경을 확인했다. */
 export async function acknowledgeSessionChange(
   userId: string,
   sessionId: string,
 ) {
   const result = await prisma.pTSession.updateMany({
-    where: { id: sessionId, memberUserId: userId },
-    data: { memberAlertAt: null },
+    where: {
+      id: sessionId,
+      memberUserId: userId,
+    },
+    data: {
+      memberAlertAt: null,
+    },
   });
 
   if (result.count === 0) {
-    throw new PTError("NOT_FOUND", "수업을 찾을 수 없어요.");
+    throw new PTError(
+      "NOT_FOUND",
+      "수업을 찾을 수 없어요.",
+    );
   }
 
-  return { id: sessionId };
+  return {
+    id: sessionId,
+  };
 }
 
 export interface MyPtSessionRow {
@@ -869,16 +1283,15 @@ export interface MyPtSessionRow {
   scheduledAt: Date;
   durationMinutes: number;
   status: PTSessionStatus;
-  /** 이 회차가 횟수에서 빠졌는가. 상태에서 유추하지 않고 기록된 값을 쓴다. */
+  /** 이 회차가 횟수에서 빠졌는가. */
   deducted: boolean;
   cancelReason: string | null;
-  /** 취소·변경을 누가 했는가. 회원이 따질 수 있어야 하는 정보다. */
   cancelledBy: PTSessionActor | null;
-  /** 미룬 이력. 최근 것이 먼저. */
-  reschedules: { fromScheduledAt: Date; toScheduledAt: Date }[];
-  /** 이 수업에서 남은 운동 기록. 없으면 null. */
+  reschedules: {
+    fromScheduledAt: Date;
+    toScheduledAt: Date;
+  }[];
   workoutSessionId: string | null;
-  /** 이 수업의 알림장. 게시된 것만. */
   journalId: string | null;
 }
 
@@ -886,17 +1299,12 @@ export interface MyPtContract {
   id: string;
   title: string;
   totalSessions: number;
-  /** 아직 안 받은 횟수. 예약해 둔 것도 아직 안 받은 것이다. */
   remaining: number;
-  /** 그중 날짜가 잡혀 있는 횟수. */
   scheduledCount: number;
-  /** 실제로 받은 횟수(완료). */
   completedCount: number;
-  /** 안 가서 빠진 횟수. */
   noShowCount: number;
   startedAt: Date;
   expiresAt: Date | null;
-  /** 만료까지 남은 날. 만료일이 없으면 null. 오늘이면 0. */
   daysLeft: number | null;
   status: PTContractStatus;
   expired: boolean;
@@ -904,28 +1312,18 @@ export interface MyPtContract {
   sessions: MyPtSessionRow[];
 }
 
-/**
- * 회원이 보는 내 PT.
- *
- * "몇 회 남았어요?" 는 트레이너가 가장 많이 받는 질문인데, 지금까지 그 답은
- * 트레이너 화면에만 있었다. 회원은 자기 계약이 몇 회짜리인지도 다음 수업 줄에
- * 붙은 "3/20회차" 로 역산해야 알 수 있었다.
- *
- * 남은 횟수와 예약된 횟수를 따로 준다. 한 숫자로 합치면 "12회 남았다" 가
- * 아직 안 받은 12회인지 지금 더 잡을 수 있는 12회인지 알 수 없다. 둘은 다르고,
- * 회원이 궁금한 건 앞쪽, 트레이너가 일정을 잡을 때 보는 건 뒤쪽이다.
- *
- * 지난 회차도 전부 준다. 노쇼로 한 회가 빠졌는데 회원 화면에 그 회차가 아예
- * 없으면, 회원은 숫자가 왜 줄었는지 확인할 방법이 없다. 차감은 돈이라 근거가
- * 보여야 한다.
- *
- * 끝난 계약도 함께 준다. 재등록할 때 지난번에 몇 회를 실제로 받았는지가
- * 회원에게도 판단 근거다.
- */
-export async function getMyPt(userId: string): Promise<MyPtContract[]> {
+/** 회원이 보는 내 PT. */
+export async function getMyPt(
+  userId: string,
+): Promise<MyPtContract[]> {
   const contracts = await prisma.pTContract.findMany({
-    where: { memberUserId: userId },
-    orderBy: [{ status: "asc" }, { startedAt: "desc" }],
+    where: {
+      memberUserId: userId,
+    },
+    orderBy: [
+      { status: "asc" },
+      { startedAt: "desc" },
+    ],
     select: {
       id: true,
       title: true,
@@ -934,10 +1332,19 @@ export async function getMyPt(userId: string): Promise<MyPtContract[]> {
       expiresAt: true,
       status: true,
       trainerProfile: {
-        select: { displayName: true, user: { select: { name: true } } },
+        select: {
+          displayName: true,
+          user: {
+            select: {
+              name: true,
+            },
+          },
+        },
       },
       sessions: {
-        orderBy: { scheduledAt: "asc" },
+        orderBy: {
+          scheduledAt: "asc",
+        },
         select: {
           id: true,
           sessionNumber: true,
@@ -948,19 +1355,30 @@ export async function getMyPt(userId: string): Promise<MyPtContract[]> {
           cancelReason: true,
           cancelledBy: true,
           reschedules: {
-            orderBy: { createdAt: "desc" },
-            select: { fromScheduledAt: true, toScheduledAt: true },
+            orderBy: {
+              createdAt: "desc",
+            },
+            select: {
+              fromScheduledAt: true,
+              toScheduledAt: true,
+            },
           },
-          workoutSession: { select: { id: true } },
-          /*
-            게시된 알림장만 건다. 트레이너가 쓰다 만 초안이 회원에게 열리면
-            안 되고, 링크만 걸어 두고 열면 막는 것도 이상하다.
-          */
+          workoutSession: {
+            select: {
+              id: true,
+            },
+          },
           journals: {
-            where: { status: JournalStatus.PUBLISHED },
-            orderBy: { createdAt: "desc" },
+            where: {
+              status: JournalStatus.PUBLISHED,
+            },
+            orderBy: {
+              createdAt: "desc",
+            },
             take: 1,
-            select: { id: true },
+            select: {
+              id: true,
+            },
           },
         },
       },
@@ -972,26 +1390,29 @@ export async function getMyPt(userId: string): Promise<MyPtContract[]> {
   return contracts.map((contract) => {
     const sessions = contract.sessions;
 
-    /*
-      남은 횟수는 저장된 usedSessions 를 안 쓰고 회차에서 직접 센다. 화면에
-      회차가 줄줄이 보이는데 위의 숫자가 그 줄들과 안 맞으면 어느 쪽이 맞는지
-      회원이 알 수 없다. 보이는 것에서 세는 편이 안전하다.
-    */
-    const deducted = sessions.filter((session) => session.deducted).length;
+    const deducted = sessions.filter(
+      (session) => session.deducted,
+    ).length;
 
     return {
       id: contract.id,
       title: contract.title,
       totalSessions: contract.totalSessions,
-      remaining: Math.max(contract.totalSessions - deducted, 0),
+      remaining: Math.max(
+        contract.totalSessions - deducted,
+        0,
+      ),
       scheduledCount: sessions.filter(
-        (session) => session.status === PTSessionStatus.SCHEDULED,
+        (session) =>
+          session.status === PTSessionStatus.SCHEDULED,
       ).length,
       completedCount: sessions.filter(
-        (session) => session.status === PTSessionStatus.COMPLETED,
+        (session) =>
+          session.status === PTSessionStatus.COMPLETED,
       ).length,
       noShowCount: sessions.filter(
-        (session) => session.status === PTSessionStatus.NO_SHOW,
+        (session) =>
+          session.status === PTSessionStatus.NO_SHOW,
       ).length,
       startedAt: contract.startedAt,
       expiresAt: contract.expiresAt,
@@ -1001,7 +1422,8 @@ export async function getMyPt(userId: string): Promise<MyPtContract[]> {
           : Math.max(
               0,
               Math.ceil(
-                (contract.expiresAt.getTime() - todayStart.getTime()) /
+                (contract.expiresAt.getTime() -
+                  todayStart.getTime()) /
                   (24 * 60 * 60 * 1000),
               ) - 1,
             ),
@@ -1020,8 +1442,10 @@ export async function getMyPt(userId: string): Promise<MyPtContract[]> {
         cancelReason: session.cancelReason,
         cancelledBy: session.cancelledBy,
         reschedules: session.reschedules,
-        workoutSessionId: session.workoutSession?.id ?? null,
-        journalId: session.journals[0]?.id ?? null,
+        workoutSessionId:
+          session.workoutSession?.id ?? null,
+        journalId:
+          session.journals[0]?.id ?? null,
       })),
     };
   });

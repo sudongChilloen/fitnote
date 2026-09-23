@@ -70,6 +70,7 @@ export async function createContractAction(formData: FormData) {
       startedAt,
       expiresAt,
       title: text(formData, "title"),
+      centerId: text(formData, "centerId"),
     });
   } catch (error) {
     redirect(`${base}/contracts/new?error=${toFail(error)}`);
