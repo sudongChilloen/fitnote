@@ -218,13 +218,25 @@ async function serializableTransaction<T>(
  *
  * (sessionId, exerciseId) unique를 두지 않는 이유는 같은 운동을 한 세션에
  * 두 번 기록하는 것이 정상적인 사용 사례이기 때문이다. 대신 자동 복사/동시 입력
- * 같은 작업의 순서 계산만 세션 단위 advisory lock으로 보호한다.
+ * 같은 작업의 순서 계산을 WorkoutSession row lock으로 보호한다.
  */
 async function lockWorkoutSession(
   tx: Prisma.TransactionClient,
   sessionId: string,
 ) {
-  await tx.$queryRaw`SELECT pg_advisory_xact_lock(hashtext(${sessionId}))`;
+  const rows = await tx.$queryRaw<Array<{ id: string }>>`
+    SELECT "id"
+    FROM "WorkoutSession"
+    WHERE "id" = ${sessionId}
+    FOR UPDATE
+  `;
+
+  if (rows.length === 0) {
+    throw new WorkoutError(
+      "SESSION_NOT_FOUND",
+      "운동 세션을 찾을 수 없습니다.",
+    );
+  }
 }
 
 /**
@@ -308,35 +320,58 @@ async function lockWorkoutMutation(
  * 트레이너는 자기가 가르친 PT 수업의 기록만 만질 수 있다. 개인 운동은 공유
  * 설정을 켜도 읽기만 한다 — 회원이 혼자 한 운동을 남이 고치는 건 다른 이야기다.
  */
-async function resolveOwner(actorUserId: string, sessionId: string) {
+type WorkoutAccessContext = {
+  ownerUserId: string;
+  status: WorkoutSessionStatus;
+  sessionId: string;
+  ptSessionId: string | null;
+  trainerProfileId: string | null;
+  canRead: boolean;
+  canWrite: boolean;
+};
+
+/**
+ * 운동 세션을 읽을 수 있는지 판단한다.
+ *
+ * 읽기와 쓰기를 분리한다. 담당이 끝난 트레이너도 자신이 가르친 과거 PT 기록은
+ * 볼 수 있지만 수정할 수는 없다. 회원 본인은 언제나 자신의 기록을 읽을 수 있고,
+ * PT 기록은 트레이너가 적은 값이므로 회원이 수정하지 못한다.
+ */
+async function resolveReadContext(
+  actorUserId: string,
+  sessionId: string,
+): Promise<WorkoutAccessContext | null> {
   const session = await prisma.workoutSession.findUnique({
     where: { id: sessionId },
     select: {
       id: true,
       userId: true,
       status: true,
-      ptSession: { select: { trainerProfileId: true } },
+      ptSessionId: true,
+      ptSession: {
+        select: {
+          trainerProfileId: true,
+        },
+      },
     },
   });
 
   if (!session) return null;
 
+  // 회원 본인. PT 여부와 관계없이 읽을 수 있지만 PT 수정은 막는다.
   if (session.userId === actorUserId) {
-    /*
-      회원 자신이라도 PT 수업 기록은 못 고친다.
-
-      트레이너가 적어 준 무게를 회원이 바꾸면 두 사람이 서로 다른 숫자를 보게
-      되고, 다음 수업에서 무엇을 기준으로 올릴지 알 수 없어진다. 화면에서도
-      막지만 서버 액션은 화면 없이도 부를 수 있어 여기서 판단한다.
-    */
     return {
       ownerUserId: session.userId,
       status: session.status,
-      canWrite: session.ptSession === null,
       sessionId: session.id,
+      ptSessionId: session.ptSessionId,
+      trainerProfileId: session.ptSession?.trainerProfileId ?? null,
+      canRead: true,
+      canWrite: session.ptSessionId === null,
     };
   }
 
+  // 개인 운동은 트레이너가 읽을 이유가 없다.
   if (!session.ptSession) return null;
 
   const trainer = await prisma.trainerProfile.findUnique({
@@ -348,8 +383,6 @@ async function resolveOwner(actorUserId: string, sessionId: string) {
     return null;
   }
 
-  // 담당이 끝난 뒤에는 못 고친다. 지난 트레이너가 기록을 바꾸면 회원은 지금
-  // 담당이 아닌 사람이 남긴 변화를 보게 된다.
   const connection = await prisma.trainerMemberConnection.findUnique({
     where: {
       trainerProfileId_memberUserId: {
@@ -360,14 +393,20 @@ async function resolveOwner(actorUserId: string, sessionId: string) {
     select: { status: true },
   });
 
-  if (connection?.status !== ConnectionStatus.ACTIVE) return null;
-
   return {
     ownerUserId: session.userId,
     status: session.status,
-    canWrite: true,
     sessionId: session.id,
+    ptSessionId: session.ptSessionId,
+    trainerProfileId: trainer.id,
+    canRead: true,
+    canWrite: connection?.status === ConnectionStatus.ACTIVE,
   };
+}
+
+/** 쓰기용 컨텍스트. 읽기 권한은 유지하되 담당 종료 시 쓰기는 막는다. */
+async function resolveOwner(actorUserId: string, sessionId: string) {
+  return resolveReadContext(actorUserId, sessionId);
 }
 
 /** 고칠 수 있는 사람인가. 아니면 왜 안 되는지 말해 준다. */
@@ -455,12 +494,12 @@ export async function getActiveSession(userId: string) {
 }
 
 export async function getSessionById(userId: string, sessionId: string) {
-  const owner = await resolveOwner(userId, sessionId);
+  const access = await resolveReadContext(userId, sessionId);
 
-  if (!owner) return null;
+  if (!access?.canRead) return null;
 
   const session = await prisma.workoutSession.findFirst({
-    where: { id: sessionId, userId: owner.ownerUserId },
+    where: { id: sessionId, userId: access.ownerUserId },
     include: sessionInclude,
   });
 
@@ -913,6 +952,7 @@ export async function getLastRecord(
       ...(options.ptOnly
         ? {
             session: {
+              status: { not: WorkoutSessionStatus.CANCELLED },
               ptSession: {
                 is: {
                   ...(options.trainerProfileId
@@ -920,14 +960,27 @@ export async function getLastRecord(
                     : {}),
                 },
               },
-              status: { not: WorkoutSessionStatus.CANCELLED },
             },
           }
-        : {
-            session: {
-              status: { not: WorkoutSessionStatus.CANCELLED },
-            },
-          }),
+        : options.trainerProfileId
+          ? {
+              session: {
+                status: { not: WorkoutSessionStatus.CANCELLED },
+                OR: [
+                  { ptSessionId: null },
+                  {
+                    ptSession: {
+                      is: { trainerProfileId: options.trainerProfileId },
+                    },
+                  },
+                ],
+              },
+            }
+          : {
+              session: {
+                status: { not: WorkoutSessionStatus.CANCELLED },
+              },
+            }),
       // 세트가 없는 기록은 참고할 값이 없다.
       sets: { some: {} },
     },
@@ -1016,6 +1069,12 @@ export async function addRecord(
       owner.ownerUserId,
       exerciseId,
       sessionId,
+      owner.ptSessionId
+        ? {
+            trainerProfileId: owner.trainerProfileId ?? undefined,
+            ptOnly: true,
+          }
+        : {},
     ),
   };
 }
@@ -1253,7 +1312,13 @@ export async function copyPreviousSets(
     owner.ownerUserId,
     record.exerciseId,
     record.sessionId,
-    options,
+    owner.ptSessionId
+      ? {
+          ...options,
+          trainerProfileId: owner.trainerProfileId ?? undefined,
+          ptOnly: options.ptOnly ?? true,
+        }
+      : options,
   );
 
   if (!previous || previous.sets.length === 0) return null;
