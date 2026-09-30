@@ -225,46 +225,38 @@ export function SessionRow({
     링크로 이동시키지 않고 action을 호출하는 이유는
     기존 enterSessionRecord 흐름을 그대로 유지하기 위해서다.
   */
-  if (label) {
+    if (label) {
     return (
-      <li>
-        <form action={enterSessionRecord}>
-          <input
-            type="hidden"
-            name="ptSessionId"
-            value={session.id}
-          />
+      <form action={enterSessionRecord}>
+        <input
+          type="hidden"
+          name="ptSessionId"
+          value={session.id}
+        />
 
-          <button
-            type="submit"
-            className="block w-full text-left"
-            aria-label={`${session.memberName} ${session.sessionNumber}회차 ${label}`}
-          >
-            {body}
-          </button>
-        </form>
-      </li>
-    );
-  }
-
-  /*
-    취소되었거나 기록이 끝난 수업 중
-    회원 상세로 이동할 수 있는 경우.
-  */
-  if (session.connectionId) {
-    return (
-      <li>
-        <Link
-          href={`/trainer/members/${session.connectionId}`}
-          className="block"
+        <button
+          type="submit"
+          className="block w-full text-left"
+          aria-label={`${session.memberName} ${session.sessionNumber}회차 ${label}`}
         >
           {body}
-        </Link>
-      </li>
+        </button>
+      </form>
     );
   }
 
-  return <li>{body}</li>;
+  if (session.connectionId) {
+    return (
+      <Link
+        href={`/trainer/members/${session.connectionId}`}
+        className="block"
+      >
+        {body}
+      </Link>
+    );
+  }
+
+  return body;
 }
 
 export function EmptyDay({

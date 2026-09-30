@@ -371,11 +371,12 @@ export async function getJournalDetail(userId: string, journalId: string) {
   const journal = await prisma.journal.findFirst({
     where: {
       id: journalId,
-      memberUserId: userId,
       status: JournalStatus.PUBLISHED,
     },
+
     select: {
       id: true,
+      memberUserId: true,
       date: true,
       title: true,
       content: true,
@@ -384,6 +385,7 @@ export async function getJournalDetail(userId: string, journalId: string) {
       caution: true,
       nextGoal: true,
       memberReadAt: true,
+
       trainerProfile: {
         select: {
           id: true,
@@ -392,10 +394,16 @@ export async function getJournalDetail(userId: string, journalId: string) {
           user: { select: { name: true } },
         },
       },
+
       photos: {
         orderBy: { orderIndex: "asc" },
-        select: { id: true, storagePath: true, thumbnailPath: true },
+        select: {
+          id: true,
+          storagePath: true,
+          thumbnailPath: true,
+        },
       },
+
       comments: {
         where: { deletedAt: null },
         orderBy: { createdAt: "asc" },
@@ -407,6 +415,7 @@ export async function getJournalDetail(userId: string, journalId: string) {
           author: { select: { name: true } },
         },
       },
+
       ptSession: {
         select: {
           scheduledAt: true,
@@ -417,7 +426,12 @@ export async function getJournalDetail(userId: string, journalId: string) {
                 orderBy: { orderIndex: "asc" },
                 select: {
                   id: true,
-                  exercise: { select: { id: true, name: true } },
+                  exercise: {
+                    select: {
+                      id: true,
+                      name: true,
+                    },
+                  },
                   sets: {
                     orderBy: { setNumber: "asc" },
                     select: {
@@ -441,7 +455,15 @@ export async function getJournalDetail(userId: string, journalId: string) {
     throw new JournalError("NOT_FOUND", "알림장을 찾을 수 없어요.");
   }
 
-  if (journal.memberReadAt === null) {
+  const isMember = journal.memberUserId === userId;
+  const isTrainer = journal.trainerProfile.userId === userId;
+
+  if (!isMember && !isTrainer) {
+    throw new JournalError("NOT_FOUND", "알림장을 찾을 수 없어요.");
+  }
+
+  // 실제 회원이 읽었을 때만 읽음 처리
+  if (isMember && journal.memberReadAt === null) {
     await prisma.journal.update({
       where: { id: journal.id },
       data: { memberReadAt: new Date() },
@@ -454,7 +476,11 @@ export async function getJournalDetail(userId: string, journalId: string) {
   return {
     ...journal,
     photos,
+
+    viewerRole: isMember ? "MEMBER" : "TRAINER",
+
     myUserId: userId,
+
     workout:
       workoutSession === null
         ? null

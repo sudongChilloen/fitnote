@@ -36,6 +36,7 @@ import {
   ReopenSessionButton,
 } from "./finish-session-drawer";
 import { OpenWorkoutButton } from "./open-workout-button";
+import { writeJournalAction } from "./actions";
 
 export const metadata = {
   title: "수업 기록 | FitNote",
@@ -523,17 +524,31 @@ export default async function SessionRecordPage({
                   : "알림장 이어 쓰기"}
               </Link>
             ) : (
-              <Link
-                href={`/trainer/members/${session.connectionId}/journals/new?ptSessionId=${session.id}`}
-                className="flex h-12 w-full items-center justify-center gap-1.5 rounded-xl border border-border text-sm font-bold transition-colors hover:bg-secondary"
-              >
-                <NotebookPen
-                  className="size-4"
-                  aria-hidden
-                />
+              <form action={writeJournalAction}>
+  <input
+    type="hidden"
+    name="ptSessionId"
+    value={session.id}
+  />
 
-                알림장 쓰기
-              </Link>
+  <input
+    type="hidden"
+    name="connectionId"
+    value={session.connectionId}
+  />
+
+  <button
+    type="submit"
+    className="flex h-12 w-full items-center justify-center gap-1.5 rounded-xl border border-border text-sm font-bold transition-colors hover:bg-secondary"
+  >
+    <NotebookPen
+      className="size-4"
+      aria-hidden
+    />
+
+    알림장 쓰기
+  </button>
+</form>
             )}
           </div>
 

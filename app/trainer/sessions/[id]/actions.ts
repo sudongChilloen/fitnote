@@ -97,6 +97,46 @@ export async function removeWorkoutAction(ptSessionId: string) {
   return { error: null };
 }
 
+export async function writeJournalAction(formData: FormData) {
+  const user = await requireUser();
+
+  const ptSessionId = String(
+    formData.get("ptSessionId") ?? "",
+  ).trim();
+
+  const connectionId = String(
+    formData.get("connectionId") ?? "",
+  ).trim();
+
+  if (!ptSessionId || !connectionId) {
+    redirect(
+      `/trainer/sessions/${ptSessionId}?error=${encodeURIComponent(
+        "알림장을 시작할 수 없어요.",
+      )}`,
+    );
+  }
+
+  try {
+    const journalId = await startJournal(
+      user.id,
+      connectionId,
+      ptSessionId,
+    );
+
+    revalidatePath(`/trainer/sessions/${ptSessionId}`);
+    revalidatePath("/trainer");
+    revalidatePath("/trainer/journals");
+
+    redirect(`/trainer/journals/${journalId}`);
+  } catch (error) {
+    redirect(
+      `/trainer/sessions/${ptSessionId}?error=${encodeURIComponent(
+        messageOf(error),
+      )}`,
+    );
+  }
+}
+
 /**
  * 수업을 마무리한다. 여기서 PT 횟수가 깎인다.
  *
