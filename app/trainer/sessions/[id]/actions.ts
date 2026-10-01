@@ -97,7 +97,9 @@ export async function removeWorkoutAction(ptSessionId: string) {
   return { error: null };
 }
 
-export async function writeJournalAction(formData: FormData) {
+export async function writeJournalAction(
+  formData: FormData,
+) {
   const user = await requireUser();
 
   const ptSessionId = String(
@@ -116,18 +118,14 @@ export async function writeJournalAction(formData: FormData) {
     );
   }
 
+  let journalId: string;
+
   try {
-    const journalId = await startJournal(
+    journalId = await startJournal(
       user.id,
       connectionId,
       ptSessionId,
     );
-
-    revalidatePath(`/trainer/sessions/${ptSessionId}`);
-    revalidatePath("/trainer");
-    revalidatePath("/trainer/journals");
-
-    redirect(`/trainer/journals/${journalId}`);
   } catch (error) {
     redirect(
       `/trainer/sessions/${ptSessionId}?error=${encodeURIComponent(
@@ -135,6 +133,16 @@ export async function writeJournalAction(formData: FormData) {
       )}`,
     );
   }
+
+  revalidatePath(
+    `/trainer/sessions/${ptSessionId}`,
+  );
+  revalidatePath("/trainer");
+  revalidatePath("/trainer/journals");
+
+  redirect(
+    `/trainer/journals/${journalId}`,
+  );
 }
 
 /**

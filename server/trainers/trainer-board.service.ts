@@ -391,7 +391,11 @@ export async function getTrainerToday(
 export interface TrainerReplyRow {
   journalId: string;
   date: Date;
+  title: string | null;
   memberName: string;
+
+  /** 마지막 회원 댓글 내용. 트레이너가 무엇에 답해야 하는지 바로 보여준다. */
+  content: string;
 
   /** 아직 답하지 않은 회원 댓글 수. */
   count: number;
@@ -499,6 +503,7 @@ export async function getTrainerTodos(
         select: {
           id: true,
           date: true,
+          title: true,
 
           memberUser: {
             select: {
@@ -515,6 +520,7 @@ export async function getTrainerTodos(
               id: true,
               createdAt: true,
               authorUserId: true,
+              content: true,
             },
           },
         },
@@ -540,9 +546,9 @@ export async function getTrainerTodos(
       continue;
     }
 
-    // 내가 마지막으로 답한 뒤에 온 것만 센다.
-    // 대화 전체를 세면 숫자가 부푼다.
-    const mine = journal.comments.find(
+    // 가장 최근 트레이너 답변 이후에 온 회원 댓글만 센다.
+    // 댓글 전체를 세면 예전 대화까지 다시 답해야 하는 것처럼 보인다.
+    const latestMine = journal.comments.find(
       (comment) =>
         comment.authorUserId === trainer.userId,
     );
@@ -550,14 +556,16 @@ export async function getTrainerTodos(
     const count = journal.comments.filter(
       (comment) =>
         comment.authorUserId !== trainer.userId &&
-        (!mine ||
-          comment.createdAt > mine.createdAt),
+        (!latestMine ||
+          comment.createdAt > latestMine.createdAt),
     ).length;
 
     awaitingReply.push({
       journalId: journal.id,
       date: journal.date,
+      title: journal.title,
       memberName: journal.memberUser.name,
+      content: String(latest.content ?? ""),
       count,
       lastCommentAt: latest.createdAt,
     });
