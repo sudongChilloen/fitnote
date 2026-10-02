@@ -4,17 +4,17 @@ import { useActionState } from "react";
 
 import { postComment, type CommentState } from "../actions";
 
-/**
- * 댓글 입력.
- *
- * 보내고 나면 입력칸을 비운다. 서버가 다시 그려 준 목록에 방금 쓴 글이 있는데
- * 입력칸에도 그대로 남아 있으면 안 보내진 줄 알고 또 누른다. 성공할 때마다
- * 바뀌는 token 을 key 로 걸어 입력칸을 새로 만드는 방식이다.
- *
- * 서버 액션을 화살표 함수로 감싸 폼을 초기화하면 더 간단하지만, 그러면 서버 액션
- * 참조가 아니게 되어 자바스크립트 없이는 폼이 동작하지 않는다.
- */
-export function CommentForm({ journalId }: { journalId: string }) {
+interface CommentFormProps {
+  journalId: string;
+  placeholder?: string;
+  submitLabel?: string;
+}
+
+export function CommentForm({
+  journalId,
+  placeholder = "궁금한 점을 남겨보세요",
+  submitLabel = "등록",
+}: CommentFormProps) {
   const [state, formAction, pending] = useActionState<
     CommentState | undefined,
     FormData
@@ -29,21 +29,24 @@ export function CommentForm({ journalId }: { journalId: string }) {
           key={state?.token ?? "empty"}
           name="content"
           maxLength={1000}
-          placeholder="궁금한 점을 남겨보세요"
-          aria-label="댓글 내용"
-          className="h-12 min-w-0 flex-1 rounded-xl border border-border bg-background px-4"
+          placeholder={placeholder}
+          aria-label={placeholder}
+          className="h-12 min-w-0 flex-1 rounded-xl border border-border bg-background px-4 text-sm outline-none focus:ring-2 focus:ring-ring/40"
         />
+
         <button
           type="submit"
           disabled={pending}
           className="h-12 shrink-0 rounded-xl bg-primary px-5 font-bold text-primary-foreground disabled:opacity-50"
         >
-          {pending ? "..." : "등록"}
+          {pending ? "..." : submitLabel}
         </button>
       </div>
 
       {state?.error ? (
-        <p className="text-sm font-medium text-destructive">{state.error}</p>
+        <p className="text-sm font-medium text-destructive">
+          {state.error}
+        </p>
       ) : null}
     </form>
   );

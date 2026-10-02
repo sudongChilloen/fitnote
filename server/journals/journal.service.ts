@@ -582,3 +582,55 @@ export async function getNoticeDetail(userId: string, noticeId: string) {
 
   return notice;
 }
+
+export async function getTrainerJournalComments(
+  userId: string,
+  journalId: string,
+) {
+  const journal = await prisma.journal.findFirst({
+    where: {
+      id: journalId,
+      status: JournalStatus.PUBLISHED,
+      trainerProfile: {
+        userId,
+      },
+    },
+    select: {
+      id: true,
+      memberUser: {
+        select: {
+          name: true,
+        },
+      },
+      comments: {
+        where: {
+          deletedAt: null,
+        },
+        orderBy: {
+          createdAt: "asc",
+        },
+        select: {
+          id: true,
+          content: true,
+          createdAt: true,
+          authorUserId: true,
+          author: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (!journal) {
+    throw new JournalError("NOT_FOUND", "알림장을 찾을 수 없어요.");
+  }
+
+  return {
+    journalId: journal.id,
+    memberName: journal.memberUser.name,
+    comments: journal.comments,
+  };
+}

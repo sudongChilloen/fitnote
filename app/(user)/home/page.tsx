@@ -73,10 +73,6 @@ function summarizeSets(sets: { weight: number | null; reps: number | null }[]) {
 export default async function HomePage({ searchParams }: PageProps<"/home">) {
   const user = await requireUser();
 
-  if (user.isTrainer) {
-    redirect("/trainer");
-  }
-
   const days = recentDays();
   const dayKeys = days.map(toKstDateKey);
   const todayKey = toKstDateKey(new Date());

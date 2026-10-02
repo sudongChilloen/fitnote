@@ -156,12 +156,6 @@ export async function login(
       id: true,
       passwordHash: true,
       status: true,
-
-      trainerProfile: {
-        select: {
-          id: true,
-        },
-      },
     },
   });
 
@@ -199,16 +193,6 @@ export async function login(
   });
 
   await createSession(user.id);
-
-  /**
-   * TrainerProfile이 있는 계정은 트레이너가 기본 앱이다.
-   *
-   * 트레이너가 동시에 회원이어도 여기서는 /trainer로 시작한다.
-   * 회원 화면은 트레이너 화면의 "회원 화면" 전환 버튼으로 들어간다.
-   */
-  if (user.trainerProfile) {
-    redirect("/trainer");
-  }
 
   redirect("/home");
 }

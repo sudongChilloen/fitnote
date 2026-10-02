@@ -34,6 +34,13 @@ export async function postComment(
     await addJournalComment(user.id, journalId, content);
     revalidatePath(`/journal/${journalId}`);
     revalidatePath("/journal");
+
+    // 트레이너 홈의 "답변 대기"는 최신 댓글의 작성자를 기준으로 계산한다.
+    // 트레이너가 답변을 등록한 순간 해당 대기 항목도 함께 갱신되도록 한다.
+    revalidatePath("/trainer");
+    revalidatePath("/trainer/journals");
+    revalidatePath(`/trainer/journals/${journalId}`);
+
     return { error: null, token: randomUUID() };
   } catch (error) {
     if (error instanceof JournalError) {
