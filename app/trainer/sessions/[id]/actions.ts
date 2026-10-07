@@ -97,6 +97,54 @@ export async function removeWorkoutAction(ptSessionId: string) {
   return { error: null };
 }
 
+export async function writeJournalAction(
+  formData: FormData,
+) {
+  const user = await requireUser();
+
+  const ptSessionId = String(
+    formData.get("ptSessionId") ?? "",
+  ).trim();
+
+  const connectionId = String(
+    formData.get("connectionId") ?? "",
+  ).trim();
+
+  if (!ptSessionId || !connectionId) {
+    redirect(
+      `/trainer/sessions/${ptSessionId}?error=${encodeURIComponent(
+        "알림장을 시작할 수 없어요.",
+      )}`,
+    );
+  }
+
+  let journalId: string;
+
+  try {
+    journalId = await startJournal(
+      user.id,
+      connectionId,
+      ptSessionId,
+    );
+  } catch (error) {
+    redirect(
+      `/trainer/sessions/${ptSessionId}?error=${encodeURIComponent(
+        messageOf(error),
+      )}`,
+    );
+  }
+
+  revalidatePath(
+    `/trainer/sessions/${ptSessionId}`,
+  );
+  revalidatePath("/trainer");
+  revalidatePath("/trainer/journals");
+
+  redirect(
+    `/trainer/journals/${journalId}`,
+  );
+}
+
 /**
  * 수업을 마무리한다. 여기서 PT 횟수가 깎인다.
  *
@@ -156,14 +204,4 @@ export async function finishSessionAction(formData: FormData) {
   redirect(`/trainer/sessions/${ptSessionId}?done=${intent}`);
 }
 
-/** 이 수업의 알림장을 쓰러 간다. 없으면 여기서 초안이 생긴다. */
-export async function writeJournalAction(formData: FormData) {
-  const user = await requireUser();
 
-  const ptSessionId = String(formData.get("ptSessionId") ?? "");
-  const connectionId = String(formData.get("connectionId") ?? "");
-
-  const journalId = await startJournal(user.id, connectionId, ptSessionId);
-
-  redirect(`/trainer/journals/${journalId}`);
-}

@@ -179,7 +179,7 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 
 export type UserGroupByOutputType = {
   id: string
-  email: string
+  email: string | null
   passwordHash: string | null
   name: string
   phone: string | null
@@ -213,7 +213,7 @@ export type UserWhereInput = {
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   id?: Prisma.StringFilter<"User"> | string
-  email?: Prisma.StringFilter<"User"> | string
+  email?: Prisma.StringNullableFilter<"User"> | string | null
   passwordHash?: Prisma.StringNullableFilter<"User"> | string | null
   name?: Prisma.StringFilter<"User"> | string
   phone?: Prisma.StringNullableFilter<"User"> | string | null
@@ -231,6 +231,7 @@ export type UserWhereInput = {
   journals?: Prisma.JournalListRelationFilter
   journalComments?: Prisma.JournalCommentListRelationFilter
   authSessions?: Prisma.AuthSessionListRelationFilter
+  claimCodes?: Prisma.MemberClaimCodeListRelationFilter
   deviceTokens?: Prisma.DeviceTokenListRelationFilter
   centerMemberships?: Prisma.CenterMembershipListRelationFilter
   routines?: Prisma.RoutineListRelationFilter
@@ -247,7 +248,7 @@ export type UserWhereInput = {
 
 export type UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  email?: Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
   passwordHash?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -265,6 +266,7 @@ export type UserOrderByWithRelationInput = {
   journals?: Prisma.JournalOrderByRelationAggregateInput
   journalComments?: Prisma.JournalCommentOrderByRelationAggregateInput
   authSessions?: Prisma.AuthSessionOrderByRelationAggregateInput
+  claimCodes?: Prisma.MemberClaimCodeOrderByRelationAggregateInput
   deviceTokens?: Prisma.DeviceTokenOrderByRelationAggregateInput
   centerMemberships?: Prisma.CenterMembershipOrderByRelationAggregateInput
   routines?: Prisma.RoutineOrderByRelationAggregateInput
@@ -302,6 +304,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   journals?: Prisma.JournalListRelationFilter
   journalComments?: Prisma.JournalCommentListRelationFilter
   authSessions?: Prisma.AuthSessionListRelationFilter
+  claimCodes?: Prisma.MemberClaimCodeListRelationFilter
   deviceTokens?: Prisma.DeviceTokenListRelationFilter
   centerMemberships?: Prisma.CenterMembershipListRelationFilter
   routines?: Prisma.RoutineListRelationFilter
@@ -318,7 +321,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  email?: Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
   passwordHash?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -337,7 +340,7 @@ export type UserScalarWhereWithAggregatesInput = {
   OR?: Prisma.UserScalarWhereWithAggregatesInput[]
   NOT?: Prisma.UserScalarWhereWithAggregatesInput | Prisma.UserScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"User"> | string
-  email?: Prisma.StringWithAggregatesFilter<"User"> | string
+  email?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   passwordHash?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   name?: Prisma.StringWithAggregatesFilter<"User"> | string
   phone?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
@@ -350,7 +353,7 @@ export type UserScalarWhereWithAggregatesInput = {
 
 export type UserCreateInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -368,6 +371,7 @@ export type UserCreateInput = {
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -384,7 +388,7 @@ export type UserCreateInput = {
 
 export type UserUncheckedCreateInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -402,6 +406,7 @@ export type UserUncheckedCreateInput = {
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -418,7 +423,7 @@ export type UserUncheckedCreateInput = {
 
 export type UserUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -436,6 +441,7 @@ export type UserUpdateInput = {
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -452,7 +458,7 @@ export type UserUpdateInput = {
 
 export type UserUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -470,6 +476,7 @@ export type UserUncheckedUpdateInput = {
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -486,7 +493,7 @@ export type UserUncheckedUpdateInput = {
 
 export type UserCreateManyInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -499,7 +506,7 @@ export type UserCreateManyInput = {
 
 export type UserUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -512,7 +519,7 @@ export type UserUpdateManyMutationInput = {
 
 export type UserUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -674,6 +681,20 @@ export type UserUpdateOneRequiredWithoutTrainerConnectionsNestedInput = {
   upsert?: Prisma.UserUpsertWithoutTrainerConnectionsInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTrainerConnectionsInput, Prisma.UserUpdateWithoutTrainerConnectionsInput>, Prisma.UserUncheckedUpdateWithoutTrainerConnectionsInput>
+}
+
+export type UserCreateNestedOneWithoutClaimCodesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutClaimCodesInput, Prisma.UserUncheckedCreateWithoutClaimCodesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutClaimCodesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutClaimCodesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutClaimCodesInput, Prisma.UserUncheckedCreateWithoutClaimCodesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutClaimCodesInput
+  upsert?: Prisma.UserUpsertWithoutClaimCodesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutClaimCodesInput, Prisma.UserUpdateWithoutClaimCodesInput>, Prisma.UserUncheckedUpdateWithoutClaimCodesInput>
 }
 
 export type UserCreateNestedOneWithoutRoutinesInput = {
@@ -890,7 +911,7 @@ export type UserUpdateOneRequiredWithoutSharingSettingNestedInput = {
 
 export type UserCreateWithoutAuthSessionsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -907,6 +928,7 @@ export type UserCreateWithoutAuthSessionsInput = {
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -923,7 +945,7 @@ export type UserCreateWithoutAuthSessionsInput = {
 
 export type UserUncheckedCreateWithoutAuthSessionsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -940,6 +962,7 @@ export type UserUncheckedCreateWithoutAuthSessionsInput = {
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -972,7 +995,7 @@ export type UserUpdateToOneWithWhereWithoutAuthSessionsInput = {
 
 export type UserUpdateWithoutAuthSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -989,6 +1012,7 @@ export type UserUpdateWithoutAuthSessionsInput = {
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -1005,7 +1029,7 @@ export type UserUpdateWithoutAuthSessionsInput = {
 
 export type UserUncheckedUpdateWithoutAuthSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1022,6 +1046,7 @@ export type UserUncheckedUpdateWithoutAuthSessionsInput = {
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -1038,7 +1063,7 @@ export type UserUncheckedUpdateWithoutAuthSessionsInput = {
 
 export type UserCreateWithoutDeviceTokensInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -1056,6 +1081,7 @@ export type UserCreateWithoutDeviceTokensInput = {
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
   workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
@@ -1071,7 +1097,7 @@ export type UserCreateWithoutDeviceTokensInput = {
 
 export type UserUncheckedCreateWithoutDeviceTokensInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -1089,6 +1115,7 @@ export type UserUncheckedCreateWithoutDeviceTokensInput = {
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
   workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
@@ -1120,7 +1147,7 @@ export type UserUpdateToOneWithWhereWithoutDeviceTokensInput = {
 
 export type UserUpdateWithoutDeviceTokensInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1138,6 +1165,7 @@ export type UserUpdateWithoutDeviceTokensInput = {
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
   workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
@@ -1153,7 +1181,7 @@ export type UserUpdateWithoutDeviceTokensInput = {
 
 export type UserUncheckedUpdateWithoutDeviceTokensInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1171,6 +1199,7 @@ export type UserUncheckedUpdateWithoutDeviceTokensInput = {
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
   workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
@@ -1186,7 +1215,7 @@ export type UserUncheckedUpdateWithoutDeviceTokensInput = {
 
 export type UserCreateWithoutCenterMembershipsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -1204,6 +1233,7 @@ export type UserCreateWithoutCenterMembershipsInput = {
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
   workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
@@ -1219,7 +1249,7 @@ export type UserCreateWithoutCenterMembershipsInput = {
 
 export type UserUncheckedCreateWithoutCenterMembershipsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -1237,6 +1267,7 @@ export type UserUncheckedCreateWithoutCenterMembershipsInput = {
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
   workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
@@ -1268,7 +1299,7 @@ export type UserUpdateToOneWithWhereWithoutCenterMembershipsInput = {
 
 export type UserUpdateWithoutCenterMembershipsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1286,6 +1317,7 @@ export type UserUpdateWithoutCenterMembershipsInput = {
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
   workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
@@ -1301,7 +1333,7 @@ export type UserUpdateWithoutCenterMembershipsInput = {
 
 export type UserUncheckedUpdateWithoutCenterMembershipsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1319,6 +1351,7 @@ export type UserUncheckedUpdateWithoutCenterMembershipsInput = {
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
   workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
@@ -1334,7 +1367,7 @@ export type UserUncheckedUpdateWithoutCenterMembershipsInput = {
 
 export type UserCreateWithoutMemberProfileInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -1351,6 +1384,7 @@ export type UserCreateWithoutMemberProfileInput = {
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -1367,7 +1401,7 @@ export type UserCreateWithoutMemberProfileInput = {
 
 export type UserUncheckedCreateWithoutMemberProfileInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -1384,6 +1418,7 @@ export type UserUncheckedCreateWithoutMemberProfileInput = {
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -1416,7 +1451,7 @@ export type UserUpdateToOneWithWhereWithoutMemberProfileInput = {
 
 export type UserUpdateWithoutMemberProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1433,6 +1468,7 @@ export type UserUpdateWithoutMemberProfileInput = {
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -1449,7 +1485,7 @@ export type UserUpdateWithoutMemberProfileInput = {
 
 export type UserUncheckedUpdateWithoutMemberProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1466,6 +1502,7 @@ export type UserUncheckedUpdateWithoutMemberProfileInput = {
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -1482,7 +1519,7 @@ export type UserUncheckedUpdateWithoutMemberProfileInput = {
 
 export type UserCreateWithoutTrainerProfileInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -1499,6 +1536,7 @@ export type UserCreateWithoutTrainerProfileInput = {
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -1515,7 +1553,7 @@ export type UserCreateWithoutTrainerProfileInput = {
 
 export type UserUncheckedCreateWithoutTrainerProfileInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -1532,6 +1570,7 @@ export type UserUncheckedCreateWithoutTrainerProfileInput = {
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -1564,7 +1603,7 @@ export type UserUpdateToOneWithWhereWithoutTrainerProfileInput = {
 
 export type UserUpdateWithoutTrainerProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1581,6 +1620,7 @@ export type UserUpdateWithoutTrainerProfileInput = {
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -1597,7 +1637,7 @@ export type UserUpdateWithoutTrainerProfileInput = {
 
 export type UserUncheckedUpdateWithoutTrainerProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1614,6 +1654,7 @@ export type UserUncheckedUpdateWithoutTrainerProfileInput = {
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -1630,7 +1671,7 @@ export type UserUncheckedUpdateWithoutTrainerProfileInput = {
 
 export type UserCreateWithoutTrainerConnectionsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -1647,6 +1688,7 @@ export type UserCreateWithoutTrainerConnectionsInput = {
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -1663,7 +1705,7 @@ export type UserCreateWithoutTrainerConnectionsInput = {
 
 export type UserUncheckedCreateWithoutTrainerConnectionsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -1680,6 +1722,7 @@ export type UserUncheckedCreateWithoutTrainerConnectionsInput = {
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -1712,7 +1755,7 @@ export type UserUpdateToOneWithWhereWithoutTrainerConnectionsInput = {
 
 export type UserUpdateWithoutTrainerConnectionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1723,6 +1766,159 @@ export type UserUpdateWithoutTrainerConnectionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
+  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
+  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutTrainerConnectionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
+  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
+  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutClaimCodesInput = {
+  id?: string
+  email?: string | null
+  passwordHash?: string | null
+  name: string
+  phone?: string | null
+  profileImageUrl?: string | null
+  status?: $Enums.UserStatus
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
+  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
+  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
+  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
+  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutClaimCodesInput = {
+  id?: string
+  email?: string | null
+  passwordHash?: string | null
+  name: string
+  phone?: string | null
+  profileImageUrl?: string | null
+  status?: $Enums.UserStatus
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
+  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
+  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutClaimCodesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutClaimCodesInput, Prisma.UserUncheckedCreateWithoutClaimCodesInput>
+}
+
+export type UserUpsertWithoutClaimCodesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutClaimCodesInput, Prisma.UserUncheckedUpdateWithoutClaimCodesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutClaimCodesInput, Prisma.UserUncheckedCreateWithoutClaimCodesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutClaimCodesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutClaimCodesInput, Prisma.UserUncheckedUpdateWithoutClaimCodesInput>
+}
+
+export type UserUpdateWithoutClaimCodesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
   sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
@@ -1743,9 +1939,9 @@ export type UserUpdateWithoutTrainerConnectionsInput = {
   aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
 }
 
-export type UserUncheckedUpdateWithoutTrainerConnectionsInput = {
+export type UserUncheckedUpdateWithoutClaimCodesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1756,6 +1952,7 @@ export type UserUncheckedUpdateWithoutTrainerConnectionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
   sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
@@ -1778,7 +1975,7 @@ export type UserUncheckedUpdateWithoutTrainerConnectionsInput = {
 
 export type UserCreateWithoutRoutinesInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -1796,6 +1993,7 @@ export type UserCreateWithoutRoutinesInput = {
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
   workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
@@ -1811,7 +2009,7 @@ export type UserCreateWithoutRoutinesInput = {
 
 export type UserUncheckedCreateWithoutRoutinesInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -1829,6 +2027,7 @@ export type UserUncheckedCreateWithoutRoutinesInput = {
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
   workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
@@ -1860,7 +2059,7 @@ export type UserUpdateToOneWithWhereWithoutRoutinesInput = {
 
 export type UserUpdateWithoutRoutinesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1878,6 +2077,7 @@ export type UserUpdateWithoutRoutinesInput = {
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
   workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
@@ -1893,7 +2093,7 @@ export type UserUpdateWithoutRoutinesInput = {
 
 export type UserUncheckedUpdateWithoutRoutinesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1911,6 +2111,7 @@ export type UserUncheckedUpdateWithoutRoutinesInput = {
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
   workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
@@ -1926,7 +2127,7 @@ export type UserUncheckedUpdateWithoutRoutinesInput = {
 
 export type UserCreateWithoutWorkoutSessionsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -1944,6 +2145,7 @@ export type UserCreateWithoutWorkoutSessionsInput = {
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -1959,7 +2161,7 @@ export type UserCreateWithoutWorkoutSessionsInput = {
 
 export type UserUncheckedCreateWithoutWorkoutSessionsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -1977,6 +2179,7 @@ export type UserUncheckedCreateWithoutWorkoutSessionsInput = {
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -1997,7 +2200,7 @@ export type UserCreateOrConnectWithoutWorkoutSessionsInput = {
 
 export type UserCreateWithoutRecordedWorkoutSessionsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -2015,6 +2218,7 @@ export type UserCreateWithoutRecordedWorkoutSessionsInput = {
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -2030,7 +2234,7 @@ export type UserCreateWithoutRecordedWorkoutSessionsInput = {
 
 export type UserUncheckedCreateWithoutRecordedWorkoutSessionsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -2048,6 +2252,7 @@ export type UserUncheckedCreateWithoutRecordedWorkoutSessionsInput = {
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -2079,7 +2284,7 @@ export type UserUpdateToOneWithWhereWithoutWorkoutSessionsInput = {
 
 export type UserUpdateWithoutWorkoutSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2097,6 +2302,7 @@ export type UserUpdateWithoutWorkoutSessionsInput = {
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -2112,7 +2318,7 @@ export type UserUpdateWithoutWorkoutSessionsInput = {
 
 export type UserUncheckedUpdateWithoutWorkoutSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2130,6 +2336,7 @@ export type UserUncheckedUpdateWithoutWorkoutSessionsInput = {
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -2156,7 +2363,7 @@ export type UserUpdateToOneWithWhereWithoutRecordedWorkoutSessionsInput = {
 
 export type UserUpdateWithoutRecordedWorkoutSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2174,6 +2381,7 @@ export type UserUpdateWithoutRecordedWorkoutSessionsInput = {
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -2189,7 +2397,7 @@ export type UserUpdateWithoutRecordedWorkoutSessionsInput = {
 
 export type UserUncheckedUpdateWithoutRecordedWorkoutSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2207,6 +2415,7 @@ export type UserUncheckedUpdateWithoutRecordedWorkoutSessionsInput = {
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -2222,7 +2431,7 @@ export type UserUncheckedUpdateWithoutRecordedWorkoutSessionsInput = {
 
 export type UserCreateWithoutWorkoutRecordsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -2240,6 +2449,7 @@ export type UserCreateWithoutWorkoutRecordsInput = {
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -2255,7 +2465,7 @@ export type UserCreateWithoutWorkoutRecordsInput = {
 
 export type UserUncheckedCreateWithoutWorkoutRecordsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -2273,6 +2483,7 @@ export type UserUncheckedCreateWithoutWorkoutRecordsInput = {
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -2304,7 +2515,7 @@ export type UserUpdateToOneWithWhereWithoutWorkoutRecordsInput = {
 
 export type UserUpdateWithoutWorkoutRecordsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2322,6 +2533,7 @@ export type UserUpdateWithoutWorkoutRecordsInput = {
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -2337,7 +2549,7 @@ export type UserUpdateWithoutWorkoutRecordsInput = {
 
 export type UserUncheckedUpdateWithoutWorkoutRecordsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2355,6 +2567,7 @@ export type UserUncheckedUpdateWithoutWorkoutRecordsInput = {
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -2370,7 +2583,7 @@ export type UserUncheckedUpdateWithoutWorkoutRecordsInput = {
 
 export type UserCreateWithoutWorkoutFavoritesInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -2388,6 +2601,7 @@ export type UserCreateWithoutWorkoutFavoritesInput = {
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -2403,7 +2617,7 @@ export type UserCreateWithoutWorkoutFavoritesInput = {
 
 export type UserUncheckedCreateWithoutWorkoutFavoritesInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -2421,6 +2635,7 @@ export type UserUncheckedCreateWithoutWorkoutFavoritesInput = {
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -2452,7 +2667,7 @@ export type UserUpdateToOneWithWhereWithoutWorkoutFavoritesInput = {
 
 export type UserUpdateWithoutWorkoutFavoritesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2470,6 +2685,7 @@ export type UserUpdateWithoutWorkoutFavoritesInput = {
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -2485,7 +2701,7 @@ export type UserUpdateWithoutWorkoutFavoritesInput = {
 
 export type UserUncheckedUpdateWithoutWorkoutFavoritesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2503,6 +2719,7 @@ export type UserUncheckedUpdateWithoutWorkoutFavoritesInput = {
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -2518,7 +2735,7 @@ export type UserUncheckedUpdateWithoutWorkoutFavoritesInput = {
 
 export type UserCreateWithoutPtContractsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -2535,6 +2752,7 @@ export type UserCreateWithoutPtContractsInput = {
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -2551,7 +2769,7 @@ export type UserCreateWithoutPtContractsInput = {
 
 export type UserUncheckedCreateWithoutPtContractsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -2568,6 +2786,7 @@ export type UserUncheckedCreateWithoutPtContractsInput = {
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -2600,7 +2819,7 @@ export type UserUpdateToOneWithWhereWithoutPtContractsInput = {
 
 export type UserUpdateWithoutPtContractsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2617,6 +2836,7 @@ export type UserUpdateWithoutPtContractsInput = {
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -2633,7 +2853,7 @@ export type UserUpdateWithoutPtContractsInput = {
 
 export type UserUncheckedUpdateWithoutPtContractsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2650,6 +2870,7 @@ export type UserUncheckedUpdateWithoutPtContractsInput = {
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -2666,7 +2887,7 @@ export type UserUncheckedUpdateWithoutPtContractsInput = {
 
 export type UserCreateWithoutPtSessionsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -2683,6 +2904,7 @@ export type UserCreateWithoutPtSessionsInput = {
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -2699,7 +2921,7 @@ export type UserCreateWithoutPtSessionsInput = {
 
 export type UserUncheckedCreateWithoutPtSessionsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -2716,6 +2938,7 @@ export type UserUncheckedCreateWithoutPtSessionsInput = {
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -2748,7 +2971,7 @@ export type UserUpdateToOneWithWhereWithoutPtSessionsInput = {
 
 export type UserUpdateWithoutPtSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2765,6 +2988,7 @@ export type UserUpdateWithoutPtSessionsInput = {
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -2781,7 +3005,7 @@ export type UserUpdateWithoutPtSessionsInput = {
 
 export type UserUncheckedUpdateWithoutPtSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2798,6 +3022,7 @@ export type UserUncheckedUpdateWithoutPtSessionsInput = {
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -2814,7 +3039,7 @@ export type UserUncheckedUpdateWithoutPtSessionsInput = {
 
 export type UserCreateWithoutDietRecordsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -2832,6 +3057,7 @@ export type UserCreateWithoutDietRecordsInput = {
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -2847,7 +3073,7 @@ export type UserCreateWithoutDietRecordsInput = {
 
 export type UserUncheckedCreateWithoutDietRecordsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -2865,6 +3091,7 @@ export type UserUncheckedCreateWithoutDietRecordsInput = {
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -2896,7 +3123,7 @@ export type UserUpdateToOneWithWhereWithoutDietRecordsInput = {
 
 export type UserUpdateWithoutDietRecordsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2914,6 +3141,7 @@ export type UserUpdateWithoutDietRecordsInput = {
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -2929,7 +3157,7 @@ export type UserUpdateWithoutDietRecordsInput = {
 
 export type UserUncheckedUpdateWithoutDietRecordsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2947,6 +3175,7 @@ export type UserUncheckedUpdateWithoutDietRecordsInput = {
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -2962,7 +3191,7 @@ export type UserUncheckedUpdateWithoutDietRecordsInput = {
 
 export type UserCreateWithoutBodyRecordsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -2980,6 +3209,7 @@ export type UserCreateWithoutBodyRecordsInput = {
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -2995,7 +3225,7 @@ export type UserCreateWithoutBodyRecordsInput = {
 
 export type UserUncheckedCreateWithoutBodyRecordsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -3013,6 +3243,7 @@ export type UserUncheckedCreateWithoutBodyRecordsInput = {
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -3044,7 +3275,7 @@ export type UserUpdateToOneWithWhereWithoutBodyRecordsInput = {
 
 export type UserUpdateWithoutBodyRecordsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3062,6 +3293,7 @@ export type UserUpdateWithoutBodyRecordsInput = {
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -3077,7 +3309,7 @@ export type UserUpdateWithoutBodyRecordsInput = {
 
 export type UserUncheckedUpdateWithoutBodyRecordsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3095,6 +3327,7 @@ export type UserUncheckedUpdateWithoutBodyRecordsInput = {
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -3110,7 +3343,7 @@ export type UserUncheckedUpdateWithoutBodyRecordsInput = {
 
 export type UserCreateWithoutGoalsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -3128,6 +3361,7 @@ export type UserCreateWithoutGoalsInput = {
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -3143,7 +3377,7 @@ export type UserCreateWithoutGoalsInput = {
 
 export type UserUncheckedCreateWithoutGoalsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -3161,6 +3395,7 @@ export type UserUncheckedCreateWithoutGoalsInput = {
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -3192,7 +3427,7 @@ export type UserUpdateToOneWithWhereWithoutGoalsInput = {
 
 export type UserUpdateWithoutGoalsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3210,6 +3445,7 @@ export type UserUpdateWithoutGoalsInput = {
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -3225,7 +3461,7 @@ export type UserUpdateWithoutGoalsInput = {
 
 export type UserUncheckedUpdateWithoutGoalsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3243,6 +3479,7 @@ export type UserUncheckedUpdateWithoutGoalsInput = {
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -3258,7 +3495,7 @@ export type UserUncheckedUpdateWithoutGoalsInput = {
 
 export type UserCreateWithoutJournalsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -3275,6 +3512,7 @@ export type UserCreateWithoutJournalsInput = {
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -3291,7 +3529,7 @@ export type UserCreateWithoutJournalsInput = {
 
 export type UserUncheckedCreateWithoutJournalsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -3308,6 +3546,7 @@ export type UserUncheckedCreateWithoutJournalsInput = {
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -3340,7 +3579,7 @@ export type UserUpdateToOneWithWhereWithoutJournalsInput = {
 
 export type UserUpdateWithoutJournalsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3357,6 +3596,7 @@ export type UserUpdateWithoutJournalsInput = {
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -3373,7 +3613,7 @@ export type UserUpdateWithoutJournalsInput = {
 
 export type UserUncheckedUpdateWithoutJournalsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3390,6 +3630,7 @@ export type UserUncheckedUpdateWithoutJournalsInput = {
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -3406,7 +3647,7 @@ export type UserUncheckedUpdateWithoutJournalsInput = {
 
 export type UserCreateWithoutJournalCommentsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -3423,6 +3664,7 @@ export type UserCreateWithoutJournalCommentsInput = {
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -3439,7 +3681,7 @@ export type UserCreateWithoutJournalCommentsInput = {
 
 export type UserUncheckedCreateWithoutJournalCommentsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -3456,6 +3698,7 @@ export type UserUncheckedCreateWithoutJournalCommentsInput = {
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -3488,7 +3731,7 @@ export type UserUpdateToOneWithWhereWithoutJournalCommentsInput = {
 
 export type UserUpdateWithoutJournalCommentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3505,6 +3748,7 @@ export type UserUpdateWithoutJournalCommentsInput = {
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -3521,7 +3765,7 @@ export type UserUpdateWithoutJournalCommentsInput = {
 
 export type UserUncheckedUpdateWithoutJournalCommentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3538,6 +3782,7 @@ export type UserUncheckedUpdateWithoutJournalCommentsInput = {
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -3554,7 +3799,7 @@ export type UserUncheckedUpdateWithoutJournalCommentsInput = {
 
 export type UserCreateWithoutNotificationsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -3572,6 +3817,7 @@ export type UserCreateWithoutNotificationsInput = {
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -3587,7 +3833,7 @@ export type UserCreateWithoutNotificationsInput = {
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -3605,6 +3851,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -3636,7 +3883,7 @@ export type UserUpdateToOneWithWhereWithoutNotificationsInput = {
 
 export type UserUpdateWithoutNotificationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3654,6 +3901,7 @@ export type UserUpdateWithoutNotificationsInput = {
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -3669,7 +3917,7 @@ export type UserUpdateWithoutNotificationsInput = {
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3687,6 +3935,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -3702,7 +3951,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
 
 export type UserCreateWithoutAiAnalysesInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -3720,6 +3969,7 @@ export type UserCreateWithoutAiAnalysesInput = {
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -3735,7 +3985,7 @@ export type UserCreateWithoutAiAnalysesInput = {
 
 export type UserUncheckedCreateWithoutAiAnalysesInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -3753,6 +4003,7 @@ export type UserUncheckedCreateWithoutAiAnalysesInput = {
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -3784,7 +4035,7 @@ export type UserUpdateToOneWithWhereWithoutAiAnalysesInput = {
 
 export type UserUpdateWithoutAiAnalysesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3802,6 +4053,7 @@ export type UserUpdateWithoutAiAnalysesInput = {
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -3817,7 +4069,7 @@ export type UserUpdateWithoutAiAnalysesInput = {
 
 export type UserUncheckedUpdateWithoutAiAnalysesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3835,6 +4087,7 @@ export type UserUncheckedUpdateWithoutAiAnalysesInput = {
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -3850,7 +4103,7 @@ export type UserUncheckedUpdateWithoutAiAnalysesInput = {
 
 export type UserCreateWithoutSharingSettingInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -3867,6 +4120,7 @@ export type UserCreateWithoutSharingSettingInput = {
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -3883,7 +4137,7 @@ export type UserCreateWithoutSharingSettingInput = {
 
 export type UserUncheckedCreateWithoutSharingSettingInput = {
   id?: string
-  email: string
+  email?: string | null
   passwordHash?: string | null
   name: string
   phone?: string | null
@@ -3900,6 +4154,7 @@ export type UserUncheckedCreateWithoutSharingSettingInput = {
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -3932,7 +4187,7 @@ export type UserUpdateToOneWithWhereWithoutSharingSettingInput = {
 
 export type UserUpdateWithoutSharingSettingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3949,6 +4204,7 @@ export type UserUpdateWithoutSharingSettingInput = {
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -3965,7 +4221,7 @@ export type UserUpdateWithoutSharingSettingInput = {
 
 export type UserUncheckedUpdateWithoutSharingSettingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3982,6 +4238,7 @@ export type UserUncheckedUpdateWithoutSharingSettingInput = {
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -4008,6 +4265,7 @@ export type UserCountOutputType = {
   journals: number
   journalComments: number
   authSessions: number
+  claimCodes: number
   deviceTokens: number
   centerMemberships: number
   routines: number
@@ -4029,6 +4287,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   journals?: boolean | UserCountOutputTypeCountJournalsArgs
   journalComments?: boolean | UserCountOutputTypeCountJournalCommentsArgs
   authSessions?: boolean | UserCountOutputTypeCountAuthSessionsArgs
+  claimCodes?: boolean | UserCountOutputTypeCountClaimCodesArgs
   deviceTokens?: boolean | UserCountOutputTypeCountDeviceTokensArgs
   centerMemberships?: boolean | UserCountOutputTypeCountCenterMembershipsArgs
   routines?: boolean | UserCountOutputTypeCountRoutinesArgs
@@ -4093,6 +4352,13 @@ export type UserCountOutputTypeCountJournalCommentsArgs<ExtArgs extends runtime.
  */
 export type UserCountOutputTypeCountAuthSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AuthSessionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountClaimCodesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MemberClaimCodeWhereInput
 }
 
 /**
@@ -4200,6 +4466,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   journals?: boolean | Prisma.User$journalsArgs<ExtArgs>
   journalComments?: boolean | Prisma.User$journalCommentsArgs<ExtArgs>
   authSessions?: boolean | Prisma.User$authSessionsArgs<ExtArgs>
+  claimCodes?: boolean | Prisma.User$claimCodesArgs<ExtArgs>
   deviceTokens?: boolean | Prisma.User$deviceTokensArgs<ExtArgs>
   centerMemberships?: boolean | Prisma.User$centerMembershipsArgs<ExtArgs>
   routines?: boolean | Prisma.User$routinesArgs<ExtArgs>
@@ -4265,6 +4532,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   journals?: boolean | Prisma.User$journalsArgs<ExtArgs>
   journalComments?: boolean | Prisma.User$journalCommentsArgs<ExtArgs>
   authSessions?: boolean | Prisma.User$authSessionsArgs<ExtArgs>
+  claimCodes?: boolean | Prisma.User$claimCodesArgs<ExtArgs>
   deviceTokens?: boolean | Prisma.User$deviceTokensArgs<ExtArgs>
   centerMemberships?: boolean | Prisma.User$centerMembershipsArgs<ExtArgs>
   routines?: boolean | Prisma.User$routinesArgs<ExtArgs>
@@ -4294,6 +4562,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     journals: Prisma.$JournalPayload<ExtArgs>[]
     journalComments: Prisma.$JournalCommentPayload<ExtArgs>[]
     authSessions: Prisma.$AuthSessionPayload<ExtArgs>[]
+    claimCodes: Prisma.$MemberClaimCodePayload<ExtArgs>[]
     deviceTokens: Prisma.$DeviceTokenPayload<ExtArgs>[]
     centerMemberships: Prisma.$CenterMembershipPayload<ExtArgs>[]
     routines: Prisma.$RoutinePayload<ExtArgs>[]
@@ -4309,7 +4578,13 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    email: string
+    /**
+     * *
+     *    * 트레이너가 대신 만든 회원은 이메일이 없다. 본인이 계정을 이어받을 때
+     *    * 채운다. Postgres 의 unique 인덱스는 NULL 을 서로 다른 값으로 보므로
+     *    * 미가입 회원이 여럿이어도 부딪히지 않는다.
+     */
+    email: string | null
     passwordHash: string | null
     name: string
     phone: string | null
@@ -4721,6 +4996,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   journals<T extends Prisma.User$journalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$journalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   journalComments<T extends Prisma.User$journalCommentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$journalCommentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   authSessions<T extends Prisma.User$authSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$authSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuthSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  claimCodes<T extends Prisma.User$claimCodesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$claimCodesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MemberClaimCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   deviceTokens<T extends Prisma.User$deviceTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$deviceTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeviceTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   centerMemberships<T extends Prisma.User$centerMembershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$centerMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CenterMembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   routines<T extends Prisma.User$routinesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$routinesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RoutinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5363,6 +5639,30 @@ export type User$authSessionsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.AuthSessionScalarFieldEnum | Prisma.AuthSessionScalarFieldEnum[]
+}
+
+/**
+ * User.claimCodes
+ */
+export type User$claimCodesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MemberClaimCode
+   */
+  select?: Prisma.MemberClaimCodeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MemberClaimCode
+   */
+  omit?: Prisma.MemberClaimCodeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MemberClaimCodeInclude<ExtArgs> | null
+  where?: Prisma.MemberClaimCodeWhereInput
+  orderBy?: Prisma.MemberClaimCodeOrderByWithRelationInput | Prisma.MemberClaimCodeOrderByWithRelationInput[]
+  cursor?: Prisma.MemberClaimCodeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MemberClaimCodeScalarFieldEnum | Prisma.MemberClaimCodeScalarFieldEnum[]
 }
 
 /**

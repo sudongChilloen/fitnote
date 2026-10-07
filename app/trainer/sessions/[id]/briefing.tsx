@@ -1,26 +1,14 @@
-import { History } from "lucide-react";
+"use client";
 
-import { BODY_PART_LABEL } from "@/lib/exercise-labels";
-import { formatKstDateLabel } from "@/lib/date";
-import type { WorkoutBodyPart } from "@/generated/prisma/enums";
+import { Check, Dumbbell, Loader2 } from "lucide-react";
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+
+import { Button } from "@/components/ui/button";
 import type { SessionBriefing } from "@/server/pt/session-record.service";
 
-import { CopyPreviousExercisesButton } from "./copy-exercises-button";
+import { copyExercisesAction } from "./actions";
 
-/**
- * 지난번에 뭘 했는지.
- *
- * 회원이 문을 열고 들어오는 순간 트레이너가 떠올려야 하는 건 하나다 —
- * "지난주에 뭐 했지." 오늘 어느 부위를 할지도, 몇 kg부터 시작할지도 거기서
- * 나온다.
- *
- * 그래서 접어 두지 않는다. `<details>` 로 만들면 열어 봐야 하는 것이 되고,
- * 열어 봐야 하는 것은 바쁜 날 안 열어 본다. 대신 짧게 쓴다 — 운동 이름과
- * 지난번 최고 중량 한 줄씩이면 충분하다.
- *
- * 운동을 이미 담기 시작했으면 사라진다. 그때부터는 오늘 든 무게가 화면의
- * 주인공이고, 지난주 이야기가 위에 남아 있으면 오늘 숫자를 밀어낸다.
- */
 export function Briefing({
   ptSessionId,
   briefing,
@@ -28,53 +16,150 @@ export function Briefing({
 }: {
   ptSessionId: string;
   briefing: SessionBriefing;
-  /** 운동을 아직 안 담았을 때만 통째로 담기를 권한다. */
   canCopy: boolean;
 }) {
+  const router = useRouter();
+
+  const [pending, startTransition] =
+    useTransition();
+
+  const [error, setError] =
+    useState<string | null>(null);
+
+  function copyExercises() {
+    if (!canCopy || pending) {
+      return;
+    }
+
+    setError(null);
+
+    startTransition(async () => {
+      try {
+        const result =
+          (await copyExercisesAction(
+            ptSessionId,
+          )) as
+            | {
+                error?: string;
+                added?: number;
+                skipped?: number;
+              }
+            | undefined;
+
+        if (result?.error) {
+          setError(result.error);
+          return;
+        }
+
+        /*
+         * copyExercisesAction에서 DB에는 이미
+         * WorkoutSession / WorkoutRecord가 저장된다.
+         *
+         * 현재 페이지도 서버 컴포넌트이므로
+         * 최신 workout.records를 다시 가져오게 한다.
+         */
+        router.refresh();
+      } catch (error) {
+        setError(
+          error instanceof Error
+            ? error.message
+            : "운동을 담지 못했어요.",
+        );
+      }
+    });
+  }
+
   return (
-    <section className="mt-5 rounded-2xl border border-border bg-secondary/40 p-3.5">
-      <h2 className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground">
-        <History className="size-3.5" aria-hidden />
-        지난 수업
-        <span className="font-medium">
-          {briefing.daysAgo === 0
-            ? "오늘"
-            : `${briefing.daysAgo}일 전`}
-          {" · "}
-          {formatKstDateLabel(briefing.performedAt)}
-          {briefing.sessionNumber === null
-            ? ""
-            : ` · ${briefing.sessionNumber}회차`}
-        </span>
-      </h2>
+    <section className="rounded-2xl border border-border bg-card p-4">
+      <div className="flex items-start gap-3">
+        <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-secondary">
+          <Dumbbell
+            className="size-5"
+            aria-hidden
+          />
+        </div>
 
-      <ul className="mt-2.5 flex flex-col gap-1.5">
-        {briefing.records.map((record) => (
-          <li
-            key={record.exerciseId}
-            className="flex items-baseline justify-between gap-2 text-sm"
-          >
-            <span className="min-w-0 truncate">
-              <span className="mr-1.5 text-[0.6875rem] text-muted-foreground">
-                {BODY_PART_LABEL[record.bodyPart as WorkoutBodyPart] ??
-                  record.bodyPart}
-              </span>
-              <span className="font-semibold">{record.name}</span>
-            </span>
+        <div className="min-w-0 flex-1">
+          <h2 className="text-sm font-bold">
+            지난 수업 운동
+          </h2>
 
-            <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
-              {record.topWeight === null
-                ? `${record.setCount}세트`
-                : `${record.topWeight}kg × ${record.topReps ?? "-"} · ${record.setCount}세트`}
-            </span>
-          </li>
-        ))}
+          <p className="mt-0.5 text-xs text-muted-foreground">
+            {briefing.sessionNumber
+              ? `${briefing.sessionNumber}회차 · `
+              : ""}
+            {briefing.daysAgo > 0
+              ? `${briefing.daysAgo}일 전`
+              : "최근 수업"}
+          </p>
+        </div>
+      </div>
+
+      <ul className="mt-4 flex flex-col gap-2">
+        {briefing.records.map(
+          (record) => (
+            <li
+              key={record.exerciseId}
+              className="rounded-xl bg-secondary px-3.5 py-3"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <p className="min-w-0 truncate text-sm font-semibold">
+                  {record.name}
+                </p>
+
+                <span className="shrink-0 text-xs text-muted-foreground">
+                  {record.setCount}세트
+                </span>
+              </div>
+
+              {record.topWeight !==
+              null ? (
+                <p className="mt-1 text-xs text-muted-foreground">
+                  지난 기록{" "}
+                  <span className="font-semibold text-foreground">
+                    {record.topWeight}
+                    kg
+                  </span>
+                  {record.topReps !==
+                  null
+                    ? ` × ${record.topReps}회`
+                    : ""}
+                </p>
+              ) : null}
+            </li>
+          ),
+        )}
       </ul>
 
+      {error ? (
+        <p
+          role="alert"
+          className="mt-3 rounded-xl border border-destructive px-3 py-2 text-xs text-destructive"
+        >
+          {error}
+        </p>
+      ) : null}
+
       {canCopy ? (
-        <div className="mt-3">
-          <CopyPreviousExercisesButton ptSessionId={ptSessionId} />
-        </div>
+        <Button
+          type="button"
+          size="lg"
+          disabled={pending}
+          onClick={copyExercises}
+          className="mt-4 h-11 w-full rounded-xl font-bold"
+        >
+          {pending ? (
+            <>
+              <Loader2 className="size-4 animate-spin" />
+              담는 중…
+            </>
+          ) : (
+            <>
+              <Check className="size-4" />
+              이 운동들 그대로 담기
+            </>
+          )}
+        </Button>
       ) : null}
     </section>
   );

@@ -3,15 +3,17 @@ import Link from "next/link";
 import {
   CalendarClock,
   ChevronRight,
+  ClipboardCheck,
   MessageSquare,
   NotebookPen,
 } from "lucide-react";
 
 import { requireUser } from "@/app/lib/dal";
-import { formatKstDateLabel } from "@/lib/date";
+import { formatKstDateLabel, formatKstTimeLabel } from "@/lib/date";
 import {
   getTrainerToday,
   getTrainerTodos,
+  type TrainerReplyRow,
 } from "@/server/trainers/trainer-board.service";
 import {
   getTrainerHome,
@@ -23,12 +25,6 @@ import { EmptyDay, SessionRow } from "./session-row";
 
 export const metadata = { title: "트레이너 | FitNote" };
 
-/**
- * 요약 카드.
- *
- * 전부 눌린다. 예전에는 숫자만 보여 주고 막다른 길이었는데, 트레이너가 알고
- * 싶은 건 "2" 가 아니라 누구인지다. 숫자를 보여 줬으면 그 뒤를 열어 줘야 한다.
- */
 function SummaryCard({
   icon: Icon,
   label,
@@ -43,29 +39,92 @@ function SummaryCard({
   return (
     <Link
       href={href}
-      className="flex-1 rounded-2xl border border-border bg-card p-3.5"
+      className="min-w-0 flex-1 rounded-2xl border border-border bg-card p-3.5 transition-colors hover:bg-secondary/40"
     >
       <span className="flex items-center justify-between">
         <span className="flex size-8 items-center justify-center rounded-xl bg-accent text-brand-strong">
           <Icon className="size-4" aria-hidden />
         </span>
-        <ChevronRight className="size-3.5 text-muted-foreground" aria-hidden />
+
+        <ChevronRight
+          className="size-3.5 text-muted-foreground"
+          aria-hidden
+        />
       </span>
+
       <span className="mt-2.5 block text-xl leading-none font-bold tabular-nums">
         {value}
       </span>
-      <span className="mt-1 block text-xs text-muted-foreground">{label}</span>
+
+      <span className="mt-1 block truncate text-xs text-muted-foreground">
+        {label}
+      </span>
     </Link>
   );
 }
 
-/**
- * 트레이너 홈.
- *
- * 회원 목록이 아니라 오늘 할 일이 먼저다. 트레이너는 회원·계약 단위로 일하지
- * 않고 시간과 할 일 단위로 일한다 — 다음이 몇 시에 누구인지, 뭘 안 썼는지.
- * 회원 전체 목록은 "회원" 탭으로 옮겼고, 여기에는 손이 가야 할 몇 명만 둔다.
- */
+function AttentionItem({
+  name,
+  reason,
+  href,
+  tone = "attention",
+}: {
+  name: string;
+  reason: string;
+  href: string;
+  tone?: "attention" | "urgent";
+}) {
+  return (
+    <li>
+      <Link
+        href={href}
+        className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3.5 transition-colors hover:bg-secondary/40"
+      >
+        <span
+          className={
+            tone === "urgent"
+              ? "size-2.5 shrink-0 rounded-full bg-brand-strong"
+              : "size-2.5 shrink-0 rounded-full bg-brand-muted"
+          }
+          aria-hidden
+        />
+
+        <span className="min-w-0 flex-1">
+          <span className="block truncate text-sm font-bold">
+            {name}
+          </span>
+
+          <span className="mt-0.5 block truncate text-xs text-muted-foreground">
+            {reason}
+          </span>
+        </span>
+
+        <ChevronRight
+          className="size-4 shrink-0 text-muted-foreground"
+          aria-hidden
+        />
+      </Link>
+    </li>
+  );
+}
+
+function replyReason(reply: TrainerReplyRow) {
+  const preview = String(reply.content ?? "")
+    .replace(/\s+/g, " ")
+    .trim();
+  const shortened =
+    preview.length > 44
+      ? `${preview.slice(0, 44)}…`
+      : preview;
+
+  const journalLabel = reply.title ?? "알림장";
+  const dateLabel = formatKstDateLabel(reply.date);
+
+  return preview
+    ? `“${shortened}” · ${journalLabel} · ${dateLabel}`
+    : `답변 대기 · ${journalLabel} · ${dateLabel}`;
+}
+
 export default async function TrainerHomePage() {
   const user = await requireUser();
 
@@ -75,50 +134,138 @@ export default async function TrainerHomePage() {
     getTrainerHome(user.id),
   ]);
 
+  /**
+   * 오늘 남은 예정 수업
+   */
   const remaining = today.filter(
     (session) => session.status === "SCHEDULED",
   ).length;
 
+  /**
+   * 계약 만료가 임박한 회원
+   */
   const expiring = home.members.filter(
     (member) => memberContractGroup(member) === "soon",
   );
 
-  return (
-    <main className="px-5 pt-5 pb-16">
-      <h1 className="text-xl font-bold">오늘</h1>
-      <p className="mt-1 text-sm text-muted-foreground">
-        {formatKstDateLabel(new Date())}
-      </p>
+  /**
+   * 트레이너가 지금 확인해야 하는 관리 항목
+   *
+   * 중요:
+   * 단순 운동 미기록 같은 데이터를 여기서 임의로
+   * "위험" 또는 "즉시 확인"으로 판단하지 않는다.
+   *
+   * 현재 실제 서비스에서 제공하는
+   * - 수업 완료 처리 필요
+   * - 수업 알림장 작성 필요
+   * - 회원 답변 대기
+   * 만 사용한다.
+   */
+  const attention = [
+    ...todos.needComplete.map((session) => ({
+      key: `complete-${session.id}`,
+      name: session.memberName,
+      reason: `${formatKstTimeLabel(
+        session.scheduledAt,
+      )} 수업 완료 처리 필요`,
+      href: session.connectionId
+        ? `/trainer/members/${session.connectionId}`
+        : "/trainer/schedule",
+      tone: "urgent" as const,
+    })),
 
-      <div className="mt-4 flex gap-2.5">
+    ...todos.needJournal.map((session) => ({
+      key: `journal-${session.id}`,
+      name: session.memberName,
+      reason: `${formatKstDateLabel(
+        session.scheduledAt,
+      )} 수업 알림장 작성 필요`,
+      href: session.connectionId
+        ? `/trainer/members/${session.connectionId}`
+        : "/trainer/journals",
+      tone: "attention" as const,
+    })),
+
+    ...todos.awaitingReply.map((reply) => ({
+      key: `reply-${reply.journalId}`,
+      name: reply.memberName,
+      reason: replyReason(reply),
+      href: `/trainer/journals/${reply.journalId}`,
+      tone: "attention" as const,
+    })),
+  ].slice(0, 5);
+
+  const todoCount =
+    todos.needComplete.length + todos.needJournal.length;
+
+  const totalAttentionCount =
+    todoCount + todos.awaitingReply.length;
+
+  return (
+    <main className="px-5 pt-5 pb-24">
+      {/* ─────────────────────────
+          Header
+      ───────────────────────── */}
+      <header>
+        <h1 className="text-xl font-bold">
+          오늘
+        </h1>
+
+        <p className="mt-1 text-sm text-muted-foreground">
+          {formatKstDateLabel(new Date())}
+        </p>
+      </header>
+
+      {/* ─────────────────────────
+          Today Summary
+      ───────────────────────── */}
+      <section
+        aria-label="오늘 요약"
+        className="mt-4 flex gap-2.5"
+      >
         <SummaryCard
           icon={CalendarClock}
-          label={remaining > 0 ? `남은 수업 ${remaining}` : "오늘 수업"}
+          label={
+            remaining > 0
+              ? `남은 수업 ${remaining}`
+              : "오늘 수업"
+          }
           value={today.length}
           href="/trainer/schedule"
         />
-        {/*
-          두 숫자를 한 칸에 번갈아 넣으면 지금 보는 게 뭔지 매번 다시 읽어야
-          한다. 그래서 "밀린 일" 하나로 합치고, 눌러서 들어간 화면에서 완료 안
-          한 수업과 안 쓴 알림장으로 갈라 보여 준다.
-        */}
+
         <SummaryCard
-          icon={NotebookPen}
-          label="밀린 일"
-          value={todos.needComplete.length + todos.needJournal.length}
+          icon={ClipboardCheck}
+          label="처리할 일"
+          value={todoCount}
           href="/trainer/journals"
         />
+
         <SummaryCard
           icon={MessageSquare}
           label="답장 대기"
           value={todos.awaitingReply.length}
           href="/trainer/journals"
         />
-      </div>
+      </section>
 
+      {/* ─────────────────────────
+          Today's Schedule
+      ───────────────────────── */}
       <section className="mt-7">
         <div className="flex items-baseline justify-between gap-2">
-          <h2 className="text-base font-bold">오늘 수업</h2>
+          <div>
+            <h2 className="text-base font-bold">
+              오늘 수업
+            </h2>
+
+            <p className="mt-0.5 text-xs text-muted-foreground">
+              {today.length > 0
+                ? `오늘 ${today.length}개의 수업`
+                : "잡힌 수업이 없어요"}
+            </p>
+          </div>
+
           <Link
             href="/trainer/schedule"
             className="shrink-0 text-xs font-semibold text-brand-strong"
@@ -132,49 +279,108 @@ export default async function TrainerHomePage() {
         ) : (
           <ul className="mt-3 flex flex-col gap-2.5">
             {today.map((session) => (
-              <SessionRow key={session.id} session={session} />
+              <SessionRow
+                key={session.id}
+                session={session}
+              />
             ))}
           </ul>
         )}
       </section>
 
-      {/*
-        재계약은 먼저 알려 줘야 하는 일이다.
+      {/* ─────────────────────────
+          Members needing attention
+      ───────────────────────── */}
+      {attention.length > 0 && (
+        <section className="mt-7">
+          <div className="flex items-baseline justify-between gap-2">
+            <div>
+              <h2 className="text-base font-bold">
+                확인 필요한 회원
+              </h2>
 
-        필터로만 두면 트레이너가 "누가 곧 끝나지" 하고 떠올려서 눌러 봐야 알 수
-        있는데, 그 생각이 나는 시점은 대개 계약이 이미 끝난 다음이다. 위의 요약
-        카드에 넣지 않고 한 줄로 뺀 건 저 셋이 다 오늘 안에 끝내는 일이고 이건
-        이번 주 안에 꺼내는 이야기라, 같은 자리에 두면 급한 순서가 섞여서다.
-      */}
-      {expiring.length > 0 ? (
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                {totalAttentionCount}건의 관리 항목이 있어요
+              </p>
+            </div>
+
+            <Link
+              href="/trainer/journals"
+              className="shrink-0 text-xs font-semibold text-brand-strong"
+            >
+              전체 보기
+            </Link>
+          </div>
+
+          <ul className="mt-3 flex flex-col gap-2.5">
+            {attention.map((item) => (
+              <AttentionItem
+                key={item.key}
+                name={item.name}
+                reason={item.reason}
+                href={item.href}
+                tone={item.tone}
+              />
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {/* ─────────────────────────
+          Expiring PT contracts
+      ───────────────────────── */}
+      {expiring.length > 0 && (
         <Link
           href="/trainer/members?filter=soon"
-          className="mt-3 flex items-center gap-2.5 rounded-2xl border border-border bg-card px-4 py-3"
+          className="mt-3 flex items-center gap-2.5 rounded-2xl border border-border bg-card px-4 py-3 transition-colors hover:bg-secondary/40"
         >
           <span className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-accent text-brand-strong">
-            <CalendarClock className="size-4" aria-hidden />
+            <CalendarClock
+              className="size-4"
+              aria-hidden
+            />
           </span>
+
           <span className="min-w-0 flex-1 text-sm font-bold">
             PT가 곧 끝나는 회원 {expiring.length}명
           </span>
-          <span className="shrink-0 truncate text-xs text-muted-foreground">
+
+          <span className="max-w-[42%] shrink-0 truncate text-xs text-muted-foreground">
             {expiring
               .slice(0, 2)
               .map((member) => member.name)
               .join(", ")}
+
             {expiring.length > 2 ? " 외" : ""}
           </span>
-        </Link>
-      ) : null}
 
+          <ChevronRight
+            className="size-4 shrink-0 text-muted-foreground"
+            aria-hidden
+          />
+        </Link>
+      )}
+
+      {/* ─────────────────────────
+          Members
+      ───────────────────────── */}
       <section className="mt-7">
         <div className="flex items-baseline justify-between gap-2">
-          <h2 className="text-base font-bold">담당 회원</h2>
+          <div>
+            <h2 className="text-base font-bold">
+              담당 회원
+            </h2>
+
+            <p className="mt-0.5 text-xs text-muted-foreground">
+              관리 중인 회원 {home.members.length}명
+            </p>
+          </div>
+
           <Link
             href="/trainer/members"
             className="shrink-0 text-xs font-semibold text-brand-strong"
           >
-            {home.members.length}명 전체
+            전체 보기
           </Link>
         </div>
 
@@ -182,16 +388,49 @@ export default async function TrainerHomePage() {
           <NoMembers />
         ) : (
           <ul className="mt-3 flex flex-col gap-2.5">
-            {/*
-              홈에서는 손이 가야 할 회원만 몇 명 보여 준다. 정렬이 이미 할 일
-              순이라 위에서 자르면 그게 오늘 신경 쓸 사람들이다.
-            */}
-            {home.members.slice(0, 5).map((member) => (
-              <MemberCard key={member.connectionId} member={member} />
-            ))}
+            {home.members
+              .slice(0, 5)
+              .map((member) => (
+                <MemberCard
+                  key={member.connectionId}
+                  member={member}
+                />
+              ))}
           </ul>
         )}
       </section>
+
+      {/* ─────────────────────────
+          Todo shortcut
+      ───────────────────────── */}
+      <Link
+        href="/trainer/journals"
+        className="mt-7 flex items-center justify-between rounded-2xl bg-secondary px-4 py-3.5"
+      >
+        <span className="flex items-center gap-2.5">
+          <span className="flex size-8 items-center justify-center rounded-xl bg-card text-brand-strong">
+            <NotebookPen
+              className="size-4"
+              aria-hidden
+            />
+          </span>
+
+          <span>
+            <span className="block text-sm font-bold">
+              할 일 모아보기
+            </span>
+
+            <span className="mt-0.5 block text-xs text-muted-foreground">
+              수업 기록 · 알림장 · 답장 대기
+            </span>
+          </span>
+        </span>
+
+        <ChevronRight
+          className="size-4 text-muted-foreground"
+          aria-hidden
+        />
+      </Link>
     </main>
   );
 }

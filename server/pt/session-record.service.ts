@@ -10,6 +10,7 @@ import { prisma } from "@/lib/prisma";
 import { requireTrainerProfile } from "@/server/trainers/trainer.service";
 import { addRecords, getSessionById } from "@/server/workouts/workout.service";
 
+import { lockPTSession } from "./pt-session-lock";
 import { PTError } from "./pt.service";
 
 /**
@@ -172,21 +173,54 @@ export async function openSessionWorkout(userId: string, ptSessionId: string) {
 
   const durationSec = session.durationMinutes * 60;
 
-  const created = await prisma.workoutSession.create({
-    data: {
-      userId: session.memberUserId,
-      ptSessionId: session.id,
-      recordedByUserId: trainer.userId,
-      startedAt: session.scheduledAt,
-      endedAt: new Date(session.scheduledAt.getTime() + durationSec * 1000),
-      durationSec,
-      entryMode: WorkoutEntryMode.MANUAL,
-      status: WorkoutSessionStatus.COMPLETED,
-    },
-    select: { id: true },
-  });
+  return prisma.$transaction(async (tx) => {
+    /*
+     * PT 수업 상태와 WorkoutSession 생성을 같은 수업 lock 안에서 처리한다.
+     * pt.service.ts의 취소/완료/reopen도 같은 `pt-session:<id>` lock을 사용한다.
+     */
+    await lockPTSession(tx, session.id);
 
-  return created.id;
+    const current = await tx.pTSession.findUnique({
+      where: { id: session.id },
+      select: {
+        status: true,
+        memberUserId: true,
+        scheduledAt: true,
+        durationMinutes: true,
+        workoutSession: { select: { id: true } },
+      },
+    });
+
+    if (!current) {
+      throw new PTError("NOT_FOUND", "수업을 찾을 수 없어요.");
+    }
+
+    assertWritable(current);
+
+    if (current.workoutSession) {
+      return current.workoutSession.id;
+    }
+
+    const currentDurationSec = current.durationMinutes * 60;
+
+    const workout = await tx.workoutSession.upsert({
+      where: { ptSessionId: session.id },
+      create: {
+        userId: current.memberUserId,
+        ptSessionId: session.id,
+        recordedByUserId: trainer.userId,
+        startedAt: current.scheduledAt,
+        endedAt: new Date(current.scheduledAt.getTime() + currentDurationSec * 1000),
+        durationSec: currentDurationSec,
+        entryMode: WorkoutEntryMode.MANUAL,
+        status: WorkoutSessionStatus.COMPLETED,
+      },
+      update: {},
+      select: { id: true },
+    });
+
+    return workout.id;
+  });
 }
 
 /** 화면에 뿌릴 운동 기록. 아직 안 열었으면 null. */
@@ -213,20 +247,43 @@ export async function deleteSessionWorkout(
 
   assertWritable(session);
 
-  if (session.journals[0]?.status === JournalStatus.PUBLISHED) {
-    throw new PTError(
-      "INVALID",
-      "알림장을 게시한 수업이라 운동 기록을 통째로 지울 수 없어요. 세트는 고칠 수 있어요.",
-    );
-  }
+  return prisma.$transaction(async (tx) => {
+    await lockPTSession(tx, session.id);
 
-  if (!session.workoutSession) return false;
+    const current = await tx.pTSession.findUnique({
+      where: { id: session.id },
+      select: {
+        status: true,
+        workoutSession: { select: { id: true } },
+        journals: {
+          orderBy: { createdAt: "desc" },
+          take: 1,
+          select: { status: true },
+        },
+      },
+    });
 
-  await prisma.workoutSession.delete({
-    where: { id: session.workoutSession.id },
+    if (!current) {
+      throw new PTError("NOT_FOUND", "수업을 찾을 수 없어요.");
+    }
+
+    assertWritable(current);
+
+    if (current.journals[0]?.status === JournalStatus.PUBLISHED) {
+      throw new PTError(
+        "INVALID",
+        "알림장을 게시한 수업이라 운동 기록을 통째로 지울 수 없어요. 세트는 고칠 수 있어요.",
+      );
+    }
+
+    if (!current.workoutSession) return false;
+
+    await tx.workoutSession.delete({
+      where: { id: current.workoutSession.id },
+    });
+
+    return true;
   });
-
-  return true;
 }
 
 // ---------------------------------------------------------------------------
@@ -392,20 +449,19 @@ export async function copyPreviousExercises(
 
   if (!workoutId) return null;
 
-  const already = new Set(
-    (
-      await prisma.workoutRecord.findMany({
-        where: { sessionId: workoutId },
-        select: { exerciseId: true },
-      })
-    ).map((record) => record.exerciseId),
+  /*
+   * "지난 수업 가져오기"의 중복 검사는 addRecords() 내부 transaction에서 한다.
+   *
+   * 여기서 먼저 findMany()로 검사하면 두 요청이 동시에 들어올 때
+   * 둘 다 "아직 없음"을 읽고 같은 운동을 추가할 수 있다.
+   *
+   * addRecords(skipExisting=true)는 같은 WorkoutSession에 대한 advisory lock을
+   * 잡은 뒤 현재 존재하는 운동을 다시 확인하므로 이 race를 막는다.
+   */
+  return addRecords(
+    userId,
+    workoutId,
+    briefing.records.map((record) => record.exerciseId),
+    { skipExisting: true },
   );
-
-  const missing = briefing.records
-    .map((record) => record.exerciseId)
-    .filter((exerciseId) => !already.has(exerciseId));
-
-  if (missing.length === 0) return null;
-
-  return addRecords(userId, workoutId, missing);
 }

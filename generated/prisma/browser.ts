@@ -75,6 +75,24 @@ export type TrainerProfile = Prisma.TrainerProfileModel
  */
 export type TrainerMemberConnection = Prisma.TrainerMemberConnectionModel
 /**
+ * Model MemberClaimCode
+ * *
+ *  * 트레이너가 대신 만들어 둔 계정을 본인이 이어받는 코드.
+ *  *
+ *  * TrainerInvitation 에 "이 회원 전용" 표시를 더하지 않고 따로 뒀다. 두 코드는
+ *  * 겉모습만 같고 하는 일이 다르다. 초대 코드는 *이미 계정이 있는* 사람이
+ *  * 여러 번 써서 트레이너와 연결되는 것이고, 이 코드는 *계정이 없는* 사람이
+ *  * 딱 한 번 써서 특정 계정 하나를 통째로 가져가는 것이다.
+ *  *
+ *  * 한 모델에 섞으면 초대 코드를 다루는 모든 쿼리 — 코드 사용, 발급 목록,
+ *  * 취소, 사용 횟수 — 가 "이건 이어받기용이니 빼라" 를 기억해야 한다. 그중
+ *  * 하나만 빠뜨리면 로그인한 남이 이어받기 코드를 넣어 남의 PT 기록에 닿는다.
+ *  * 지켜야 할 것이 무거울수록 조건을 기억에 맡기지 않는다.
+ *  *
+ *  * 한 번 쓰면 끝이고(claimedAt), 회원 한 명에게 살아 있는 코드는 하나다.
+ */
+export type MemberClaimCode = Prisma.MemberClaimCodeModel
+/**
  * Model TrainerInvitation
  * *
  *  * 트레이너가 회원을 부르는 코드.

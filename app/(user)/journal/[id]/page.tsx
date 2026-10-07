@@ -42,6 +42,11 @@ export default async function JournalDetailPage({
 
   return (
     <main className="mx-auto w-full max-w-md px-5 pt-4 pb-28">
+      {journal.viewerRole === "TRAINER" ? (
+        <div className="mb-3 rounded-xl bg-secondary px-3 py-2 text-xs text-muted-foreground">
+          회원에게 보이는 화면 미리보기
+        </div>
+      ) : null}
       <Link
         href="/journal"
         className="-ml-1 inline-flex items-center gap-0.5 text-sm text-muted-foreground"
@@ -114,12 +119,14 @@ export default async function JournalDetailPage({
               </li>
             ))}
           </ul>
-          <Link
-            href={`/workouts/${journal.workout.id}`}
-            className="mt-3 inline-block text-sm font-medium text-brand-strong underline-offset-4 hover:underline"
-          >
-            내 운동 기록에서 보기
-          </Link>
+          {journal.viewerRole === "MEMBER" ? (
+            <Link
+              href={`/workouts/${journal.workout.id}`}
+              className="mt-3 inline-block text-sm font-medium text-brand-strong underline-offset-4 hover:underline"
+            >
+              내 운동 기록에서 보기
+            </Link>
+          ) : null}
         </Section>
       ) : null}
 
@@ -186,7 +193,13 @@ export default async function JournalDetailPage({
           </ul>
         )}
 
-        <CommentForm journalId={journal.id} />
+        {journal.viewerRole === "MEMBER" ? (
+          <CommentForm journalId={journal.id} />
+        ) : (
+          <p className="mt-3 text-xs text-muted-foreground">
+            회원에게 보이는 화면 미리보기입니다.
+          </p>
+        )}
       </Section>
     </main>
   );

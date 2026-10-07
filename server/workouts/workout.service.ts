@@ -3,11 +3,13 @@ import "server-only";
 import { Prisma } from "@/generated/prisma/client";
 import {
   ConnectionStatus,
+  PTSessionStatus,
   WorkoutEntryMode,
   WorkoutSessionStatus,
 } from "@/generated/prisma/enums";
 import { kstDaysAgo, kstMonthRange, toKstDateKey } from "@/lib/date";
 import { prisma } from "@/lib/prisma";
+import { lockPTSession } from "@/server/pt/pt-session-lock";
 
 /** 서비스 계층에서 의미 있는 실패를 구분하기 위한 에러 */
 export class WorkoutError extends Error {
@@ -178,6 +180,133 @@ async function recalculateVolume(
 }
 
 /**
+ * PT/운동 기록에서 동시에 같은 세션을 수정할 때 직렬화 충돌을 재시도한다.
+ *
+ * PostgreSQL Serializable 트랜잭션은 동시 요청 중 하나를 P2034로 실패시킬 수 있다.
+ * 사용자는 같은 버튼을 빠르게 두 번 누르거나, 모바일/데스크톱에서 같은 화면을
+ * 동시에 열 수 있으므로 일시적인 serialization failure는 서비스 계층에서 재시도한다.
+ */
+const MAX_TRANSACTION_RETRIES = 3;
+
+function isSerializationFailure(error: unknown) {
+  return error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2034";
+}
+
+async function serializableTransaction<T>(
+  callback: (tx: Prisma.TransactionClient) => Promise<T>,
+) {
+  let lastError: unknown;
+
+  for (let attempt = 0; attempt < MAX_TRANSACTION_RETRIES; attempt += 1) {
+    try {
+      return await prisma.$transaction(callback, {
+        isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+      });
+    } catch (error) {
+      lastError = error;
+      if (!isSerializationFailure(error) || attempt === MAX_TRANSACTION_RETRIES - 1) {
+        throw error;
+      }
+    }
+  }
+
+  throw lastError;
+}
+
+/**
+ * 같은 세션에 대한 기록 추가/삭제/세트 변경을 한 줄로 직렬화한다.
+ *
+ * (sessionId, exerciseId) unique를 두지 않는 이유는 같은 운동을 한 세션에
+ * 두 번 기록하는 것이 정상적인 사용 사례이기 때문이다. 대신 자동 복사/동시 입력
+ * 같은 작업의 순서 계산을 WorkoutSession row lock으로 보호한다.
+ */
+async function lockWorkoutSession(
+  tx: Prisma.TransactionClient,
+  sessionId: string,
+) {
+  const rows = await tx.$queryRaw<Array<{ id: string }>>`
+    SELECT "id"
+    FROM "WorkoutSession"
+    WHERE "id" = ${sessionId}
+    FOR UPDATE
+  `;
+
+  if (rows.length === 0) {
+    throw new WorkoutError(
+      "SESSION_NOT_FOUND",
+      "운동 세션을 찾을 수 없습니다.",
+    );
+  }
+}
+
+/**
+ * 운동 세션을 실제로 수정하기 직전에 현재 상태를 다시 확인한다.
+ *
+ * PT 운동이면 PTSession과 WorkoutSession이 같은 변경 순서에 들어가야 한다.
+ * `pt.service.ts`도 `pt-session:${ptSessionId}` lock을 사용하므로, 여기서도
+ * 같은 lock을 먼저 잡으면 수업 취소/완료/reopen과 운동 기록 저장이 서로
+ * 다른 snapshot을 기준으로 쓰는 race를 막을 수 있다.
+ */
+async function lockWorkoutMutation(
+  tx: Prisma.TransactionClient,
+  sessionId: string,
+) {
+  const beforeLock = await tx.workoutSession.findUnique({
+    where: { id: sessionId },
+    select: { ptSessionId: true },
+  });
+
+  if (!beforeLock) {
+    throw new WorkoutError("SESSION_NOT_FOUND", "운동 세션을 찾을 수 없습니다.");
+  }
+
+  // PTSession lock을 먼저 잡고, 그 다음 WorkoutSession lock을 잡는다.
+  // PT 서비스는 contract -> PTSession 순서를 사용하므로 여기서는 그 하위 lock만
+  // 잡아 deadlock 가능성을 늘리지 않는다.
+  if (beforeLock.ptSessionId) {
+    await lockPTSession(tx, beforeLock.ptSessionId);
+  }
+
+  await lockWorkoutSession(tx, sessionId);
+
+  const current = await tx.workoutSession.findUnique({
+    where: { id: sessionId },
+    select: {
+      id: true,
+      userId: true,
+      status: true,
+      ptSessionId: true,
+    },
+  });
+
+  if (!current) {
+    throw new WorkoutError("SESSION_NOT_FOUND", "운동 세션을 찾을 수 없습니다.");
+  }
+
+  assertEditable(current.status);
+
+  if (current.ptSessionId) {
+    const ptSession = await tx.pTSession.findUnique({
+      where: { id: current.ptSessionId },
+      select: { status: true },
+    });
+
+    if (!ptSession) {
+      throw new WorkoutError("PT_SESSION_NOT_FOUND", "PT 수업을 찾을 수 없습니다.");
+    }
+
+    if (ptSession.status === PTSessionStatus.CANCELLED) {
+      throw new WorkoutError(
+        "PT_SESSION_CANCELLED",
+        "취소한 수업에는 운동을 적을 수 없습니다.",
+      );
+    }
+  }
+
+  return current;
+}
+
+/**
  * 이 세션에 손댈 수 있는 사람인가. 손댈 수 있으면 기록 주인의 userId 를 준다.
  *
  * 기록의 주인은 언제나 회원이다. 트레이너가 PT 수업에서 든 무게를 대신 적어
@@ -191,34 +320,58 @@ async function recalculateVolume(
  * 트레이너는 자기가 가르친 PT 수업의 기록만 만질 수 있다. 개인 운동은 공유
  * 설정을 켜도 읽기만 한다 — 회원이 혼자 한 운동을 남이 고치는 건 다른 이야기다.
  */
-async function resolveOwner(actorUserId: string, sessionId: string) {
+type WorkoutAccessContext = {
+  ownerUserId: string;
+  status: WorkoutSessionStatus;
+  sessionId: string;
+  ptSessionId: string | null;
+  trainerProfileId: string | null;
+  canRead: boolean;
+  canWrite: boolean;
+};
+
+/**
+ * 운동 세션을 읽을 수 있는지 판단한다.
+ *
+ * 읽기와 쓰기를 분리한다. 담당이 끝난 트레이너도 자신이 가르친 과거 PT 기록은
+ * 볼 수 있지만 수정할 수는 없다. 회원 본인은 언제나 자신의 기록을 읽을 수 있고,
+ * PT 기록은 트레이너가 적은 값이므로 회원이 수정하지 못한다.
+ */
+async function resolveReadContext(
+  actorUserId: string,
+  sessionId: string,
+): Promise<WorkoutAccessContext | null> {
   const session = await prisma.workoutSession.findUnique({
     where: { id: sessionId },
     select: {
       id: true,
       userId: true,
       status: true,
-      ptSession: { select: { trainerProfileId: true } },
+      ptSessionId: true,
+      ptSession: {
+        select: {
+          trainerProfileId: true,
+        },
+      },
     },
   });
 
   if (!session) return null;
 
+  // 회원 본인. PT 여부와 관계없이 읽을 수 있지만 PT 수정은 막는다.
   if (session.userId === actorUserId) {
-    /*
-      회원 자신이라도 PT 수업 기록은 못 고친다.
-
-      트레이너가 적어 준 무게를 회원이 바꾸면 두 사람이 서로 다른 숫자를 보게
-      되고, 다음 수업에서 무엇을 기준으로 올릴지 알 수 없어진다. 화면에서도
-      막지만 서버 액션은 화면 없이도 부를 수 있어 여기서 판단한다.
-    */
     return {
       ownerUserId: session.userId,
       status: session.status,
-      canWrite: session.ptSession === null,
+      sessionId: session.id,
+      ptSessionId: session.ptSessionId,
+      trainerProfileId: session.ptSession?.trainerProfileId ?? null,
+      canRead: true,
+      canWrite: session.ptSessionId === null,
     };
   }
 
+  // 개인 운동은 트레이너가 읽을 이유가 없다.
   if (!session.ptSession) return null;
 
   const trainer = await prisma.trainerProfile.findUnique({
@@ -230,8 +383,6 @@ async function resolveOwner(actorUserId: string, sessionId: string) {
     return null;
   }
 
-  // 담당이 끝난 뒤에는 못 고친다. 지난 트레이너가 기록을 바꾸면 회원은 지금
-  // 담당이 아닌 사람이 남긴 변화를 보게 된다.
   const connection = await prisma.trainerMemberConnection.findUnique({
     where: {
       trainerProfileId_memberUserId: {
@@ -242,13 +393,20 @@ async function resolveOwner(actorUserId: string, sessionId: string) {
     select: { status: true },
   });
 
-  if (connection?.status !== ConnectionStatus.ACTIVE) return null;
-
   return {
     ownerUserId: session.userId,
     status: session.status,
-    canWrite: true,
+    sessionId: session.id,
+    ptSessionId: session.ptSessionId,
+    trainerProfileId: trainer.id,
+    canRead: true,
+    canWrite: connection?.status === ConnectionStatus.ACTIVE,
   };
+}
+
+/** 쓰기용 컨텍스트. 읽기 권한은 유지하되 담당 종료 시 쓰기는 막는다. */
+async function resolveOwner(actorUserId: string, sessionId: string) {
+  return resolveReadContext(actorUserId, sessionId);
 }
 
 /** 고칠 수 있는 사람인가. 아니면 왜 안 되는지 말해 준다. */
@@ -336,12 +494,12 @@ export async function getActiveSession(userId: string) {
 }
 
 export async function getSessionById(userId: string, sessionId: string) {
-  const owner = await resolveOwner(userId, sessionId);
+  const access = await resolveReadContext(userId, sessionId);
 
-  if (!owner) return null;
+  if (!access?.canRead) return null;
 
   const session = await prisma.workoutSession.findFirst({
-    where: { id: sessionId, userId: owner.ownerUserId },
+    where: { id: sessionId, userId: access.ownerUserId },
     include: sessionInclude,
   });
 
@@ -476,9 +634,13 @@ export async function updateSessionMemo(
 
   assertWritable(owner);
 
-  await prisma.workoutSession.update({
-    where: { id: sessionId },
-    data: { memo },
+  await serializableTransaction(async (tx) => {
+    await lockWorkoutMutation(tx, sessionId);
+
+    await tx.workoutSession.update({
+      where: { id: sessionId },
+      data: { memo },
+    });
   });
 
   return getSessionById(userId, sessionId);
@@ -774,7 +936,7 @@ export async function getLastRecord(
   userId: string,
   exerciseId: string,
   excludeSessionId?: string,
-  options: { ptOnly?: boolean } = {},
+  options: { ptOnly?: boolean; trainerProfileId?: string } = {},
 ) {
   const record = await prisma.workoutRecord.findFirst({
     where: {
@@ -782,17 +944,54 @@ export async function getLastRecord(
       exerciseId,
       ...(excludeSessionId ? { sessionId: { not: excludeSessionId } } : {}),
       /*
-        트레이너가 볼 때는 자기 수업 기록만 참고하게 한다.
+        트레이너가 볼 때는 PT 수업 기록만 참고하게 한다.
 
-        "지난번 65kg" 같은 힌트는 회원이 혼자 한 운동에서 나올 수 있는데,
-        개인 운동은 공유 설정을 켠 회원만 보여주기로 한 것이다. 힌트라고
-        해서 게이트를 지나가면 안 된다.
+        trainerProfileId가 있으면 "아무 트레이너의 PT 기록"이 아니라
+        현재 담당 트레이너가 진행한 PT 기록만 참고한다.
       */
-      ...(options.ptOnly ? { session: { ptSessionId: { not: null } } } : {}),
+      ...(options.ptOnly
+        ? {
+            session: {
+              status: { not: WorkoutSessionStatus.CANCELLED },
+              ptSession: {
+                is: {
+                  ...(options.trainerProfileId
+                    ? { trainerProfileId: options.trainerProfileId }
+                    : {}),
+                },
+              },
+            },
+          }
+        : options.trainerProfileId
+          ? {
+              session: {
+                status: { not: WorkoutSessionStatus.CANCELLED },
+                OR: [
+                  { ptSessionId: null },
+                  {
+                    ptSession: {
+                      is: { trainerProfileId: options.trainerProfileId },
+                    },
+                  },
+                ],
+              },
+            }
+          : {
+              session: {
+                status: { not: WorkoutSessionStatus.CANCELLED },
+              },
+            }),
       // 세트가 없는 기록은 참고할 값이 없다.
       sets: { some: {} },
     },
-    orderBy: { createdAt: "desc" },
+    /*
+      "직전 기록"은 DB에 입력된 시각이 아니라 실제 운동한 시각 기준이다.
+      지난 운동을 나중에 몰아서 입력해도 시간순으로 올바른 기록을 가져온다.
+    */
+    orderBy: [
+      { session: { startedAt: "desc" } },
+      { createdAt: "desc" },
+    ],
     include: {
       ...recordInclude,
       session: { select: { id: true, startedAt: true } },
@@ -840,30 +1039,42 @@ export async function addRecord(
     throw new WorkoutError("EXERCISE_NOT_FOUND", "운동을 찾을 수 없습니다.");
   }
 
-  const last = await prisma.workoutRecord.findFirst({
-    where: { sessionId },
-    orderBy: { orderIndex: "desc" },
-    select: { orderIndex: true },
-  });
+  const result = await serializableTransaction(async (tx) => {
+    await lockWorkoutMutation(tx, sessionId);
 
-  const record = await prisma.workoutRecord.create({
-    data: {
-      sessionId,
-      userId: owner.ownerUserId,
-      exerciseId,
-      note,
-      orderIndex: (last?.orderIndex ?? -1) + 1,
-    },
-    include: recordInclude,
+    const last = await tx.workoutRecord.findFirst({
+      where: { sessionId },
+      orderBy: { orderIndex: "desc" },
+      select: { orderIndex: true },
+    });
+
+    const record = await tx.workoutRecord.create({
+      data: {
+        sessionId,
+        userId: owner.ownerUserId,
+        exerciseId,
+        note,
+        orderIndex: (last?.orderIndex ?? -1) + 1,
+      },
+      include: recordInclude,
+    });
+
+    return toRecordDto(record);
   });
 
   return {
-    record: toRecordDto(record),
+    record: result,
     // 직전 기록을 함께 내려 클라이언트가 추가 호출 없이 값을 채울 수 있게 한다.
     previousRecord: await getLastRecord(
       owner.ownerUserId,
       exerciseId,
       sessionId,
+      owner.ptSessionId
+        ? {
+            trainerProfileId: owner.trainerProfileId ?? undefined,
+            ptOnly: true,
+          }
+        : {},
     ),
   };
 }
@@ -881,6 +1092,7 @@ export async function addRecords(
   userId: string,
   sessionId: string,
   exerciseIds: string[],
+  options: { skipExisting?: boolean } = {},
 ) {
   const owner = await resolveOwner(userId, sessionId);
 
@@ -895,35 +1107,86 @@ export async function addRecords(
   });
 
   const valid = new Set(found.map((exercise) => exercise.id));
-  // 사용자가 고른 순서를 유지한다.
+
+  /*
+    일반 운동 추가에서는 같은 운동을 두 번 선택하는 것도 허용한다.
+    "지난 수업 가져오기"에서만 skipExisting=true를 사용한다.
+  */
   const ordered = exerciseIds.filter((id) => valid.has(id));
 
   if (ordered.length === 0) {
     throw new WorkoutError("EXERCISE_NOT_FOUND", "운동을 찾을 수 없습니다.");
   }
 
-  const last = await prisma.workoutRecord.findFirst({
-    where: { sessionId },
-    orderBy: { orderIndex: "desc" },
-    select: { orderIndex: true },
+  return serializableTransaction(async (tx) => {
+    /*
+      같은 세션에 대한 orderIndex 계산과 "이미 존재하는 운동" 확인을
+      하나의 transaction 안에서 수행한다.
+
+      특히 copyPreviousExercises()가 동시에 두 번 실행되어도 두 요청 모두
+      같은 시점의 빈 목록을 보고 지나가는 race를 막는다.
+    */
+    await lockWorkoutMutation(tx, sessionId);
+
+    let toAdd = ordered;
+
+    if (options.skipExisting) {
+      const existing = await tx.workoutRecord.findMany({
+        where: {
+          sessionId,
+          exerciseId: { in: [...new Set(ordered)] },
+        },
+        select: { exerciseId: true },
+      });
+
+      const existingIds = new Set(
+        existing.map((record) => record.exerciseId),
+      );
+
+      /*
+        "지난 수업 가져오기"에서는 같은 운동을 요청 배열 안에서 두 번
+        가지고 와도 한 번만 추가한다.
+      */
+      const requested = new Set<string>();
+      toAdd = ordered.filter((exerciseId) => {
+        if (existingIds.has(exerciseId)) return false;
+        if (requested.has(exerciseId)) return false;
+
+        requested.add(exerciseId);
+        return true;
+      });
+    }
+
+    if (toAdd.length === 0) {
+      return {
+        added: 0,
+        skipped: ordered.length,
+      };
+    }
+
+    const last = await tx.workoutRecord.findFirst({
+      where: { sessionId },
+      orderBy: { orderIndex: "desc" },
+      select: { orderIndex: true },
+    });
+
+    const base = (last?.orderIndex ?? -1) + 1;
+
+    await tx.workoutRecord.createMany({
+      data: toAdd.map((exerciseId, index) => ({
+        sessionId,
+        // 트레이너가 대신 담아도 기록의 주인은 회원이다.
+        userId: owner.ownerUserId,
+        exerciseId,
+        orderIndex: base + index,
+      })),
+    });
+
+    return {
+      added: toAdd.length,
+      skipped: ordered.length - toAdd.length,
+    };
   });
-
-  const base = (last?.orderIndex ?? -1) + 1;
-
-  await prisma.workoutRecord.createMany({
-    data: ordered.map((exerciseId, index) => ({
-      sessionId,
-      // 트레이너가 대신 담아도 기록의 주인은 회원이다.
-      userId: owner.ownerUserId,
-      exerciseId,
-      orderIndex: base + index,
-    })),
-  });
-
-  return {
-    added: ordered.length,
-    skipped: exerciseIds.length - ordered.length,
-  };
 }
 
 export async function deleteRecord(userId: string, recordId: string) {
@@ -934,7 +1197,13 @@ export async function deleteRecord(userId: string, recordId: string) {
   assertWritable(owner);
   assertEditable(owner.status);
 
-  await prisma.workoutRecord.delete({ where: { id: recordId } });
+  await serializableTransaction(async (tx) => {
+    await lockWorkoutMutation(tx, owner.sessionId);
+
+    await tx.workoutRecord.delete({
+      where: { id: recordId },
+    });
+  });
 
   return true;
 }
@@ -964,7 +1233,9 @@ export async function addSet(
   assertWritable(owner);
   assertEditable(owner.status);
 
-  return prisma.$transaction(async (tx) => {
+  return serializableTransaction(async (tx) => {
+    await lockWorkoutMutation(tx, owner.sessionId);
+
     const last = await tx.workoutSet.findFirst({
       where: { recordId },
       orderBy: { setNumber: "desc" },
@@ -1041,12 +1312,31 @@ export async function copyPreviousSets(
     owner.ownerUserId,
     record.exerciseId,
     record.sessionId,
-    options,
+    owner.ptSessionId
+      ? {
+          ...options,
+          trainerProfileId: owner.trainerProfileId ?? undefined,
+          ptOnly: options.ptOnly ?? true,
+        }
+      : options,
   );
 
   if (!previous || previous.sets.length === 0) return null;
 
-  return prisma.$transaction(async (tx) => {
+  return serializableTransaction(async (tx) => {
+    await lockWorkoutMutation(tx, owner.sessionId);
+
+    const currentSetCount = await tx.workoutSet.count({
+      where: { recordId },
+    });
+
+    if (currentSetCount > 0) {
+      throw new WorkoutError(
+        "SET_EXISTS",
+        "이미 적은 세트가 있어요. 지난 기록은 비어 있을 때만 담을 수 있어요.",
+      );
+    }
+
     await tx.workoutSet.createMany({
       data: previous.sets.map((set, index) => ({
         recordId,
@@ -1075,7 +1365,9 @@ export async function updateSet(
   assertWritable(owned);
   assertEditable(owned.status);
 
-  return prisma.$transaction(async (tx) => {
+  return serializableTransaction(async (tx) => {
+    await lockWorkoutMutation(tx, owned.sessionId);
+
     await tx.workoutSet.update({
       where: { id: setId },
       data: {
@@ -1113,7 +1405,9 @@ export async function deleteSet(userId: string, setId: string) {
   assertWritable(owned);
   assertEditable(owned.status);
 
-  return prisma.$transaction(async (tx) => {
+  return serializableTransaction(async (tx) => {
+    await lockWorkoutMutation(tx, owned.sessionId);
+
     await tx.workoutSet.delete({ where: { id: setId } });
 
     // (recordId, setNumber) 에 유니크 제약이 있어 삭제 후 번호를 다시 매긴다.

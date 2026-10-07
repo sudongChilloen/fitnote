@@ -36,7 +36,10 @@ export async function createSession(userId: string) {
     select: { id: true },
   });
 
-  const jwt = await encrypt({ userId, sessionId: authSession.id }, expiresAt);
+  const jwt = await encrypt(
+    { userId, sessionId: authSession.id },
+    expiresAt,
+  );
 
   const cookieStore = await cookies();
 

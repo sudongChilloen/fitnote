@@ -6,6 +6,7 @@ import { ChevronLeft } from "lucide-react";
 import { requireUser } from "@/app/lib/dal";
 import { toKstDateKey } from "@/lib/date";
 import {
+  getActiveMemberships,
   getMemberDetail,
   TrainerError,
 } from "@/server/trainers/trainer.service";
@@ -32,6 +33,7 @@ export default async function NewContractPage({
     throw caught;
   }
 
+  const memberships = await getActiveMemberships(user.id);
   const today = toKstDateKey(new Date());
   const message = ptErrorMessage(error);
 
@@ -72,6 +74,30 @@ export default async function NewContractPage({
             className="h-12 rounded-xl border border-border bg-card px-4 text-base tabular-nums"
           />
         </label>
+
+        {memberships.length > 0 ? (
+          <label className="flex flex-col gap-1.5">
+            <span className="text-sm font-bold">
+              계약 센터{" "}
+              <span className="font-medium text-muted-foreground">(선택)</span>
+            </span>
+            <select
+              name="centerId"
+              defaultValue=""
+              className="h-12 rounded-xl border border-border bg-card px-3 text-sm"
+            >
+              <option value="">개인 계약 / 센터 미지정</option>
+              {memberships.map((membership) => (
+                <option key={membership.centerId} value={membership.centerId}>
+                  {membership.center.name}
+                </option>
+              ))}
+            </select>
+            <span className="text-xs text-muted-foreground">
+              실제 PT 계약을 맺은 센터를 선택하세요. 회원의 현재 센터 소속으로 자동 결정하지 않습니다.
+            </span>
+          </label>
+        ) : null}
 
         <div className="grid grid-cols-2 gap-3">
           <label className="flex flex-col gap-1.5">

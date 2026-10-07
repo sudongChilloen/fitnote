@@ -6,11 +6,11 @@ import Link from "next/link";
 
 import { signup } from "@/app/actions/auth";
 
-export default function SignupPage() {
+export function SignupForm() {
   const [state, formAction, pending] = useActionState(signup, undefined);
 
   return (
-    <main className="mx-auto flex min-h-dvh w-full max-w-sm flex-col justify-center px-6">
+    <>
       <h1 className="mb-8 text-2xl font-bold">회원가입</h1>
 
       <form action={formAction} className="flex flex-col gap-4">
@@ -83,6 +83,6 @@ export default function SignupPage() {
           로그인
         </Link>
       </p>
-    </main>
+    </>
   );
 }

@@ -8,7 +8,10 @@ import {
 import { toKstDateKey } from "@/lib/date";
 import { prisma } from "@/lib/prisma";
 
-import { requireTrainerProfile } from "./trainer.service";
+import {
+  requireTrainerProfile,
+  type TrainerManagementEvent,
+} from "./trainer.service";
 
 /**
  * 트레이너가 시간과 할 일 축으로 보는 화면들.
@@ -21,7 +24,14 @@ import { requireTrainerProfile } from "./trainer.service";
  * 그래서 같은 데이터를 시간축과 할 일 축으로 다시 세워 주는 파일을 따로 둔다.
  */
 
-/** 시간표 한 줄. 회원 카드가 아니라 수업이 단위다. */
+/**
+ * 시간표 한 줄.
+ *
+ * 회원 카드가 아니라 수업이 단위다.
+ *
+ * managementEvents는 이 수업과 직접 연결되는 관리 이벤트만 담는다.
+ * 회원 전체에 걸린 계약 만료나 가입 대기 같은 이벤트는 여기에 넣지 않는다.
+ */
 export interface TrainerSessionRow {
   id: string;
   scheduledAt: Date;
@@ -30,14 +40,25 @@ export interface TrainerSessionRow {
   sessionNumber: number;
   memberName: string;
   memberUserId: string;
+
   /** 트레이너 화면의 회원 식별자. 연결이 끊긴 회원이면 null. */
   connectionId: string | null;
+
   contractId: string;
+
   /** 이 수업에 붙은 알림장. 아직 없으면 null. */
   journalId: string | null;
   journalStatus: JournalStatus | null;
+
   /** 이 수업의 운동 기록이 이미 있는가. */
   hasWorkout: boolean;
+
+  /**
+   * 이 수업에서 트레이너가 확인해야 하는 관리 이벤트.
+   *
+   * 현재는 SESSION_JOURNAL처럼 수업 자체에 귀속되는 이벤트만 들어간다.
+   */
+  managementEvents: TrainerManagementEvent[];
 }
 
 const sessionSelect = {
@@ -70,11 +91,73 @@ type RawSession = {
   journals: { id: string; status: JournalStatus }[];
 };
 
+/**
+ * 수업에 직접 연결되는 관리 이벤트를 만든다.
+ *
+ * 회원의 전체 관리 상태를 여기서 다시 계산하지 않는다.
+ * 일정에서 필요한 것은 "이 수업과 관련해서 지금 해야 할 일이 있는가"다.
+ *
+ * 현재 SESSION_JOURNAL 이벤트의 기준은 기존 trainer.service와 맞춘다.
+ *
+ * - 오늘 수업인데 알림장이 아직 없거나 게시되지 않음
+ *   → 오늘 수업 기록 필요
+ *
+ * 회원 가입 대기 / 알림장 답변 / 계약 만료는 회원 단위 이벤트이므로
+ * SessionRow에 반복해서 붙이지 않는다.
+ */
+function getSessionManagementEvents(
+  session: RawSession,
+  journal: RawSession["journals"][number] | null,
+  connectionId: string | null,
+  todayDateKey: string,
+): TrainerManagementEvent[] {
+  if (!connectionId) {
+    return [];
+  }
+
+  if (session.status === PTSessionStatus.CANCELLED) {
+    return [];
+  }
+
+  const isToday =
+    toKstDateKey(session.scheduledAt) === todayDateKey;
+
+  if (!isToday) {
+    return [];
+  }
+
+  /*
+    아직 예정된 수업은 지금 알림장을 써야 하는 수업이 아니다.
+    수업이 끝난 뒤 완료 처리되고 알림장이 없을 때 관리 업무가 생긴다.
+  */
+  if (session.status !== PTSessionStatus.COMPLETED) {
+    return [];
+  }
+
+  if (journal?.status === JournalStatus.PUBLISHED) {
+    return [];
+  }
+
+  return [
+    {
+      type: "SESSION_JOURNAL",
+      status: "attention",
+      reason: "오늘 수업 기록 필요",
+      href: journal
+        ? `/trainer/journals/${journal.id}`
+        : `/trainer/members/${connectionId}`,
+    },
+  ];
+}
+
 function toRow(
   session: RawSession,
   connectionByUser: Map<string, string>,
+  todayDateKey: string,
 ): TrainerSessionRow {
   const journal = session.journals[0] ?? null;
+  const connectionId =
+    connectionByUser.get(session.memberUserId) ?? null;
 
   return {
     id: session.id,
@@ -84,11 +167,17 @@ function toRow(
     sessionNumber: session.sessionNumber,
     memberName: session.memberUser.name,
     memberUserId: session.memberUserId,
-    connectionId: connectionByUser.get(session.memberUserId) ?? null,
+    connectionId,
     contractId: session.contractId,
     journalId: journal?.id ?? null,
     journalStatus: journal?.status ?? null,
     hasWorkout: session.workoutSession !== null,
+    managementEvents: getSessionManagementEvents(
+      session,
+      journal,
+      connectionId,
+      todayDateKey,
+    ),
   };
 }
 
@@ -100,11 +189,22 @@ function toRow(
  */
 async function connectionMap(trainerProfileId: string) {
   const connections = await prisma.trainerMemberConnection.findMany({
-    where: { trainerProfileId, status: ConnectionStatus.ACTIVE },
-    select: { id: true, memberUserId: true },
+    where: {
+      trainerProfileId,
+      status: ConnectionStatus.ACTIVE,
+    },
+    select: {
+      id: true,
+      memberUserId: true,
+    },
   });
 
-  return new Map(connections.map((c) => [c.memberUserId, c.id]));
+  return new Map(
+    connections.map((connection) => [
+      connection.memberUserId,
+      connection.id,
+    ]),
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -113,18 +213,23 @@ async function connectionMap(trainerProfileId: string) {
 
 export interface TrainerWeekDay {
   dateKey: string;
+
   /** 취소를 뺀 수업 수. 스트립의 점 개수다. */
   count: number;
+
   isToday: boolean;
   isSelected: boolean;
 }
 
 export interface TrainerWeek {
   dateKey: string;
+
   /** 월요일부터 일요일까지 7칸. */
   days: TrainerWeekDay[];
+
   /** 고른 날의 수업. 시간순. */
   sessions: TrainerSessionRow[];
+
   prevWeekDateKey: string;
   nextWeekDateKey: string;
   todayDateKey: string;
@@ -134,20 +239,36 @@ const DAY_MS = 86_400_000;
 
 function shiftDateKey(dateKey: string, days: number) {
   const [y, m, d] = dateKey.split("-").map(Number);
-  const shifted = new Date(Date.UTC(y, m - 1, d) + days * DAY_MS);
+
+  const shifted = new Date(
+    Date.UTC(y, m - 1, d) + days * DAY_MS,
+  );
+
   return shifted.toISOString().slice(0, 10);
 }
 
-/** 월요일 시작. 한국에서 주간 일정은 월요일부터 읽는다. */
 function weekStartKey(dateKey: string) {
   const [y, m, d] = dateKey.split("-").map(Number);
-  const dow = new Date(Date.UTC(y, m - 1, d)).getUTCDay();
-  return shiftDateKey(dateKey, -((dow + 6) % 7));
+
+  const dow = new Date(
+    Date.UTC(y, m - 1, d),
+  ).getUTCDay();
+
+  return shiftDateKey(
+    dateKey,
+    -((dow + 6) % 7),
+  );
 }
 
 function kstRange(fromKey: string, days: number) {
-  const start = new Date(`${fromKey}T00:00:00+09:00`);
-  return { start, end: new Date(start.getTime() + days * DAY_MS) };
+  const start = new Date(
+    `${fromKey}T00:00:00+09:00`,
+  );
+
+  return {
+    start,
+    end: new Date(start.getTime() + days * DAY_MS),
+  };
 }
 
 /**
@@ -165,8 +286,12 @@ export async function getTrainerWeek(
   const trainer = await requireTrainerProfile(userId);
 
   const todayDateKey = toKstDateKey(new Date());
+
   const selected =
-    dateKey && /^\d{4}-\d{2}-\d{2}$/.test(dateKey) ? dateKey : todayDateKey;
+    dateKey &&
+    /^\d{4}-\d{2}-\d{2}$/.test(dateKey)
+      ? dateKey
+      : todayDateKey;
 
   const startKey = weekStartKey(selected);
   const { start, end } = kstRange(startKey, 7);
@@ -175,37 +300,71 @@ export async function getTrainerWeek(
     prisma.pTSession.findMany({
       where: {
         trainerProfileId: trainer.id,
-        scheduledAt: { gte: start, lt: end },
+        scheduledAt: {
+          gte: start,
+          lt: end,
+        },
       },
-      orderBy: { scheduledAt: "asc" },
+      orderBy: {
+        scheduledAt: "asc",
+      },
       select: sessionSelect,
     }),
     connectionMap(trainer.id),
   ]);
 
-  const rows = sessions.map((session) => toRow(session, byUser));
+  const rows = sessions.map((session) =>
+    toRow(
+      session,
+      byUser,
+      todayDateKey,
+    ),
+  );
 
-  const days: TrainerWeekDay[] = Array.from({ length: 7 }, (_, index) => {
-    const key = shiftDateKey(startKey, index);
-    return {
-      dateKey: key,
-      // 취소한 수업은 세지 않는다. 점이 찍혀 있는데 열어 보면 아무것도 없다.
-      count: rows.filter(
-        (row) =>
-          toKstDateKey(row.scheduledAt) === key &&
-          row.status !== PTSessionStatus.CANCELLED,
-      ).length,
-      isToday: key === todayDateKey,
-      isSelected: key === selected,
-    };
-  });
+  const days: TrainerWeekDay[] = Array.from(
+    { length: 7 },
+    (_, index) => {
+      const key = shiftDateKey(
+        startKey,
+        index,
+      );
+
+      return {
+        dateKey: key,
+
+        // 취소한 수업은 세지 않는다.
+        // 점이 찍혀 있는데 열어 보면 아무것도 없는 상황을 막는다.
+        count: rows.filter(
+          (row) =>
+            toKstDateKey(row.scheduledAt) === key &&
+            row.status !== PTSessionStatus.CANCELLED,
+        ).length,
+
+        isToday: key === todayDateKey,
+        isSelected: key === selected,
+      };
+    },
+  );
 
   return {
     dateKey: selected,
     days,
-    sessions: rows.filter((row) => toKstDateKey(row.scheduledAt) === selected),
-    prevWeekDateKey: shiftDateKey(startKey, -7),
-    nextWeekDateKey: shiftDateKey(startKey, 7),
+
+    sessions: rows.filter(
+      (row) =>
+        toKstDateKey(row.scheduledAt) === selected,
+    ),
+
+    prevWeekDateKey: shiftDateKey(
+      startKey,
+      -7,
+    ),
+
+    nextWeekDateKey: shiftDateKey(
+      startKey,
+      7,
+    ),
+
     todayDateKey,
   };
 }
@@ -221,6 +380,7 @@ export async function getTrainerToday(
   userId: string,
 ): Promise<TrainerSessionRow[]> {
   const week = await getTrainerWeek(userId);
+
   return week.sessions;
 }
 
@@ -231,9 +391,15 @@ export async function getTrainerToday(
 export interface TrainerReplyRow {
   journalId: string;
   date: Date;
+  title: string | null;
   memberName: string;
+
+  /** 마지막 회원 댓글 내용. 트레이너가 무엇에 답해야 하는지 바로 보여준다. */
+  content: string;
+
   /** 아직 답하지 않은 회원 댓글 수. */
   count: number;
+
   lastCommentAt: Date;
 }
 
@@ -247,8 +413,10 @@ export interface TrainerTodos {
    * 실제와 어긋나기 시작하고, 그건 돈 문제라 조용히 틀어지면 안 된다.
    */
   needComplete: TrainerSessionRow[];
+
   /** 수업은 끝났는데 알림장을 아직 게시하지 않은 것. 최근 것부터. */
   needJournal: TrainerSessionRow[];
+
   /** 마지막 댓글이 회원 것이라 답을 기다리는 알림장. */
   awaitingReply: TrainerReplyRow[];
 }
@@ -256,92 +424,157 @@ export interface TrainerTodos {
 /** 두 달이 넘은 일은 이제 와서 하라고 띄우지 않는다. */
 const TODO_WINDOW_DAYS = 60;
 
-export async function getTrainerTodos(userId: string): Promise<TrainerTodos> {
+export async function getTrainerTodos(
+  userId: string,
+): Promise<TrainerTodos> {
   const trainer = await requireTrainerProfile(userId);
 
-  const since = new Date(Date.now() - TODO_WINDOW_DAYS * DAY_MS);
+  const since = new Date(
+    Date.now() - TODO_WINDOW_DAYS * DAY_MS,
+  );
 
-  const [sessions, overdue, journals, byUser] = await Promise.all([
-    prisma.pTSession.findMany({
-      where: {
-        trainerProfileId: trainer.id,
-        // 노쇼와 취소는 적을 내용이 없다. 완료한 수업만 알림장을 기다린다.
-        status: PTSessionStatus.COMPLETED,
-        scheduledAt: { gte: since },
-        journals: { none: { status: JournalStatus.PUBLISHED } },
-      },
-      orderBy: { scheduledAt: "desc" },
-      select: sessionSelect,
-    }),
+  const [sessions, overdue, journals, byUser] =
+    await Promise.all([
+      prisma.pTSession.findMany({
+        where: {
+          trainerProfileId: trainer.id,
 
-    /*
-      끝났어야 할 시간이 지난 예정 수업.
+          // 노쇼와 취소는 적을 내용이 없다.
+          // 완료한 수업만 알림장을 기다린다.
+          status: PTSessionStatus.COMPLETED,
 
-      `scheduledAt` 만으로 거르면 지금 진행 중인 수업까지 "완료 안 함" 으로
-      올라온다. 수업 길이를 더해 실제로 끝났을 시간을 넘긴 것만 센다.
-    */
-    prisma.pTSession.findMany({
-      where: {
-        trainerProfileId: trainer.id,
-        status: PTSessionStatus.SCHEDULED,
-        scheduledAt: { gte: since, lt: new Date() },
-      },
-      orderBy: { scheduledAt: "desc" },
-      select: sessionSelect,
-    }),
+          scheduledAt: {
+            gte: since,
+          },
 
-    prisma.journal.findMany({
-      where: {
-        trainerProfileId: trainer.id,
-        status: JournalStatus.PUBLISHED,
-        date: { gte: since },
-      },
-      orderBy: { date: "desc" },
-      select: {
-        id: true,
-        date: true,
-        memberUser: { select: { name: true } },
-        comments: {
-          orderBy: { createdAt: "desc" },
-          select: { id: true, createdAt: true, authorUserId: true },
+          journals: {
+            none: {
+              status: JournalStatus.PUBLISHED,
+            },
+          },
         },
-      },
-    }),
 
-    connectionMap(trainer.id),
-  ]);
+        orderBy: {
+          scheduledAt: "desc",
+        },
+
+        select: sessionSelect,
+      }),
+
+      /*
+        끝났어야 할 시간이 지난 예정 수업.
+
+        `scheduledAt` 만으로 거르면 지금 진행 중인 수업까지
+        "완료 안 함" 으로 올라온다.
+        수업 길이를 더해 실제로 끝났을 시간을 넘긴 것만 센다.
+      */
+      prisma.pTSession.findMany({
+        where: {
+          trainerProfileId: trainer.id,
+          status: PTSessionStatus.SCHEDULED,
+
+          scheduledAt: {
+            gte: since,
+            lt: new Date(),
+          },
+        },
+
+        orderBy: {
+          scheduledAt: "desc",
+        },
+
+        select: sessionSelect,
+      }),
+
+      prisma.journal.findMany({
+        where: {
+          trainerProfileId: trainer.id,
+          status: JournalStatus.PUBLISHED,
+
+          date: {
+            gte: since,
+          },
+        },
+
+        orderBy: {
+          date: "desc",
+        },
+
+        select: {
+          id: true,
+          date: true,
+          title: true,
+
+          memberUser: {
+            select: {
+              name: true,
+            },
+          },
+
+          comments: {
+            orderBy: {
+              createdAt: "desc",
+            },
+
+            select: {
+              id: true,
+              createdAt: true,
+              authorUserId: true,
+              content: true,
+            },
+          },
+        },
+      }),
+
+      connectionMap(trainer.id),
+    ]);
 
   const awaitingReply: TrainerReplyRow[] = [];
 
   for (const journal of journals) {
     /*
-      마지막 댓글이 회원 것이면 답을 기다리는 중이다. 읽음 표시를 따로 두지
-      않은 이유는, 트레이너에게 필요한 건 "봤는가" 가 아니라 "답했는가" 라서다.
+      마지막 댓글이 회원 것이면 답을 기다리는 중이다.
+      읽음 표시를 따로 두지 않은 이유는, 트레이너에게 필요한 건
+      "봤는가" 가 아니라 "답했는가" 라서다.
     */
     const [latest] = journal.comments;
-    if (!latest || latest.authorUserId === trainer.userId) continue;
 
-    // 내가 마지막으로 답한 뒤에 온 것만 센다. 대화 전체를 세면 숫자가 부푼다.
-    const mine = journal.comments.find(
-      (c) => c.authorUserId === trainer.userId,
+    if (
+      !latest ||
+      latest.authorUserId === trainer.userId
+    ) {
+      continue;
+    }
+
+    // 가장 최근 트레이너 답변 이후에 온 회원 댓글만 센다.
+    // 댓글 전체를 세면 예전 대화까지 다시 답해야 하는 것처럼 보인다.
+    const latestMine = journal.comments.find(
+      (comment) =>
+        comment.authorUserId === trainer.userId,
     );
+
     const count = journal.comments.filter(
-      (c) =>
-        c.authorUserId !== trainer.userId &&
-        (!mine || c.createdAt > mine.createdAt),
+      (comment) =>
+        comment.authorUserId !== trainer.userId &&
+        (!latestMine ||
+          comment.createdAt > latestMine.createdAt),
     ).length;
 
     awaitingReply.push({
       journalId: journal.id,
       date: journal.date,
+      title: journal.title,
       memberName: journal.memberUser.name,
+      content: String(latest.content ?? ""),
       count,
       lastCommentAt: latest.createdAt,
     });
   }
 
   awaitingReply.sort(
-    (a, b) => b.lastCommentAt.getTime() - a.lastCommentAt.getTime(),
+    (a, b) =>
+      b.lastCommentAt.getTime() -
+      a.lastCommentAt.getTime(),
   );
 
   const now = Date.now();
@@ -350,11 +583,26 @@ export async function getTrainerTodos(userId: string): Promise<TrainerTodos> {
     needComplete: overdue
       .filter(
         (session) =>
-          session.scheduledAt.getTime() + session.durationMinutes * 60_000 <
+          session.scheduledAt.getTime() +
+            session.durationMinutes * 60_000 <
           now,
       )
-      .map((session) => toRow(session, byUser)),
-    needJournal: sessions.map((session) => toRow(session, byUser)),
+      .map((session) =>
+        toRow(
+          session,
+          byUser,
+          toKstDateKey(new Date()),
+        ),
+      ),
+
+    needJournal: sessions.map((session) =>
+      toRow(
+        session,
+        byUser,
+        toKstDateKey(new Date()),
+      ),
+    ),
+
     awaitingReply,
   };
 }

@@ -5,11 +5,21 @@ import { redirect } from "next/navigation";
 
 import {
   type AuthFormState,
+  ClaimFormSchema,
   LoginFormSchema,
   SignupFormSchema,
 } from "@/app/lib/definitions";
+
+import {
+  ConnectionError,
+  claimMemberAccount,
+} from "@/server/trainers/connection.service";
+
 import { prisma } from "@/lib/prisma";
-import { createSession, deleteSession } from "@/app/lib/session";
+import {
+  createSession,
+  deleteSession,
+} from "@/app/lib/session";
 
 const SALT_ROUNDS = 10;
 
@@ -24,18 +34,26 @@ export async function signup(
   });
 
   if (!validated.success) {
-    return { errors: validated.error.flatten().fieldErrors };
+    return {
+      errors: validated.error.flatten().fieldErrors,
+    };
   }
 
-  const { name, email, password } = validated.data;
+  const {
+    name,
+    email,
+    password,
+  } = validated.data;
 
-  const existing = await prisma.user.findUnique({
+  const existingUser = await prisma.user.findUnique({
     where: { email },
     select: { id: true },
   });
 
-  if (existing) {
-    return { message: "이미 가입된 이메일입니다." };
+  if (existingUser) {
+    return {
+      message: "이미 가입된 이메일이에요.",
+    };
   }
 
   const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
@@ -45,14 +63,71 @@ export async function signup(
       email,
       name,
       passwordHash,
-      memberProfile: { create: {} },
+      memberProfile: {
+        create: {},
+      },
     },
-    select: { id: true },
+    select: {
+      id: true,
+    },
   });
 
   await createSession(user.id);
 
   redirect("/home");
+}
+
+export async function claimAccount(
+  _state: AuthFormState,
+  formData: FormData,
+): Promise<AuthFormState> {
+  const validated = ClaimFormSchema.safeParse({
+    email: formData.get("email"),
+    password: formData.get("password"),
+  });
+
+  if (!validated.success) {
+    return {
+      errors: validated.error.flatten().fieldErrors,
+    };
+  }
+
+  const code = String(formData.get("code") ?? "");
+
+  if (!code) {
+    return {
+      message: "이어받기 코드가 없어요.",
+    };
+  }
+
+  const {
+    email,
+    password,
+  } = validated.data;
+
+  try {
+    const passwordHash = await bcrypt.hash(
+      password,
+      SALT_ROUNDS,
+    );
+
+    const user = await claimMemberAccount(code, {
+      email,
+      passwordHash,
+    });
+
+    await createSession(user.id);
+
+    redirect("/home");
+  } catch (error) {
+    if (error instanceof ConnectionError) {
+      return {
+        message: error.message,
+      };
+    }
+
+    throw error;
+  }
 }
 
 export async function login(
@@ -65,36 +140,56 @@ export async function login(
   });
 
   if (!validated.success) {
-    return { errors: validated.error.flatten().fieldErrors };
+    return {
+      errors: validated.error.flatten().fieldErrors,
+    };
   }
 
-  const { email, password } = validated.data;
+  const {
+    email,
+    password,
+  } = validated.data;
 
   const user = await prisma.user.findUnique({
     where: { email },
-    select: { id: true, passwordHash: true, status: true },
+    select: {
+      id: true,
+      passwordHash: true,
+      status: true,
+    },
   });
 
-  // 계정 존재 여부가 드러나지 않도록 동일한 메시지를 사용한다.
-  const invalidMessage = "이메일 또는 비밀번호가 올바르지 않습니다.";
+  const invalidMessage =
+    "이메일 또는 비밀번호가 올바르지 않습니다.";
 
   if (!user?.passwordHash) {
-    return { message: invalidMessage };
+    return {
+      message: invalidMessage,
+    };
   }
 
-  const matched = await bcrypt.compare(password, user.passwordHash);
+  const matched = await bcrypt.compare(
+    password,
+    user.passwordHash,
+  );
 
   if (!matched) {
-    return { message: invalidMessage };
+    return {
+      message: invalidMessage,
+    };
   }
 
   if (user.status !== "ACTIVE") {
-    return { message: "이용이 제한된 계정입니다." };
+    return {
+      message: "이용이 제한된 계정입니다.",
+    };
   }
 
   await prisma.user.update({
     where: { id: user.id },
-    data: { lastLoginAt: new Date() },
+    data: {
+      lastLoginAt: new Date(),
+    },
   });
 
   await createSession(user.id);
@@ -104,5 +199,6 @@ export async function login(
 
 export async function logout() {
   await deleteSession();
+
   redirect("/login");
 }

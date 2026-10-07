@@ -12,18 +12,30 @@ import { EmptyDay, SessionRow } from "../session-row";
 import { NewSessionDrawer } from "./new-session-drawer";
 import { nextFreeTime } from "./next-free-time";
 
-export const metadata = { title: "일정 | FitNote" };
+export const metadata = {
+  title: "일정 | FitNote",
+};
 
-const WEEKDAYS = ["월", "화", "수", "목", "금", "토", "일"] as const;
-
+const WEEKDAYS = [
+  "월",
+  "화",
+  "수",
+  "목",
+  "금",
+  "토",
+  "일",
+] as const;
 
 /**
  * 트레이너 일정.
  *
- * 요일 스트립 + 그 날 목록이다. 시간축 그리드를 쓰지 않았다. PT 일정은 아침과
- * 저녁에 몰려서 7열 그리드의 대부분이 빈칸이고, 폰 폭에서는 이름이 두 글자도
- * 안 들어간다. 트레이너가 수업 사이에 꺼내 보는 화면이라 "다음이 몇 시에
- * 누구인가" 가 한눈에 답해져야 한다.
+ * 요일 스트립 + 그 날 목록이다.
+ *
+ * 일정에서는 단순히 "언제 누구와 수업하는지"뿐 아니라
+ * 실제 수업에 연결된 관리 업무가 있는 경우 그 업무까지 함께 보여준다.
+ *
+ * 관리 이벤트는 getTrainerWeek()가 TrainerSessionRow에 포함해서 반환하므로
+ * 일정 화면에서 회원 데이터를 다시 조회하지 않는다.
  */
 export default async function TrainerSchedulePage({
   searchParams,
@@ -32,33 +44,57 @@ export default async function TrainerSchedulePage({
   const query = await searchParams;
 
   const raw = query.date;
+
   const [week, contracts] = await Promise.all([
-    getTrainerWeek(user.id, typeof raw === "string" ? raw : undefined),
+    getTrainerWeek(
+      user.id,
+      typeof raw === "string"
+        ? raw
+        : undefined,
+    ),
+
     listSchedulableContracts(user.id),
   ]);
 
-  const isToday = week.dateKey === week.todayDateKey;
-  const selectedDate = new Date(`${week.dateKey}T00:00:00+09:00`);
+  const isToday =
+    week.dateKey === week.todayDateKey;
+
+  const selectedDate = new Date(
+    `${week.dateKey}T00:00:00+09:00`,
+  );
 
   return (
     <main className="px-5 pt-5 pb-16">
-      <h1 className="text-xl font-bold">일정</h1>
+      <h1 className="text-xl font-bold">
+        일정
+      </h1>
 
+      {/* 주간 날짜 선택 */}
       <div className="mt-4 flex items-center gap-1">
         <Link
           href={`/trainer/schedule?date=${week.prevWeekDateKey}`}
           aria-label="지난 주"
           className="flex size-8 shrink-0 items-center justify-center rounded-full text-muted-foreground"
         >
-          <ChevronLeft className="size-4" aria-hidden />
+          <ChevronLeft
+            className="size-4"
+            aria-hidden
+          />
         </Link>
 
         <ul className="flex flex-1 items-stretch gap-1">
           {week.days.map((day, index) => (
-            <li key={day.dateKey} className="flex-1">
+            <li
+              key={day.dateKey}
+              className="flex-1"
+            >
               <Link
                 href={`/trainer/schedule?date=${day.dateKey}`}
-                aria-current={day.isSelected ? "date" : undefined}
+                aria-current={
+                  day.isSelected
+                    ? "date"
+                    : undefined
+                }
                 className={cn(
                   "flex flex-col items-center gap-1 rounded-xl py-2 transition-colors",
                   day.isSelected
@@ -71,17 +107,23 @@ export default async function TrainerSchedulePage({
                 <span className="text-[0.625rem] leading-none font-semibold">
                   {WEEKDAYS[index]}
                 </span>
+
                 <span className="text-sm leading-none font-bold tabular-nums">
-                  {Number(day.dateKey.slice(8))}
+                  {Number(
+                    day.dateKey.slice(8),
+                  )}
                 </span>
+
                 {/*
-                  수업 수를 점이 아니라 숫자로 쓴다. 하루에 여덟 개씩 있는
-                  트레이너에게 점 여덟 개는 셀 수 없는 정보다.
+                  하루의 수업 수.
+
+                  취소된 수업은 service에서 이미 제외되어 있다.
                 */}
                 <span
                   className={cn(
                     "min-h-3.5 text-[0.625rem] leading-none font-bold tabular-nums",
-                    day.count === 0 && "opacity-0",
+                    day.count === 0 &&
+                      "opacity-0",
                   )}
                 >
                   {day.count}
@@ -96,45 +138,54 @@ export default async function TrainerSchedulePage({
           aria-label="다음 주"
           className="flex size-8 shrink-0 items-center justify-center rounded-full text-muted-foreground"
         >
-          <ChevronRight className="size-4" aria-hidden />
+          <ChevronRight
+            className="size-4"
+            aria-hidden
+          />
         </Link>
       </div>
 
+      {/* 선택 날짜 */}
       <div className="mt-6 flex items-baseline justify-between gap-2">
         <h2 className="text-base font-bold">
-          {isToday ? "오늘" : formatKstDateLabel(selectedDate)}
+          {isToday
+            ? "오늘"
+            : formatKstDateLabel(
+                selectedDate,
+              )}
         </h2>
-        {isToday ? null : (
+
+        {!isToday ? (
           <Link
             href="/trainer/schedule"
             className="shrink-0 text-xs font-semibold text-brand-strong"
           >
             오늘로
           </Link>
-        )}
+        ) : null}
       </div>
 
+      {/* 수업 목록 */}
       {week.sessions.length === 0 ? (
         <EmptyDay message="이 날은 잡힌 수업이 없어요" />
       ) : (
         <ul className="mt-3 flex flex-col gap-2.5">
           {week.sessions.map((session) => (
-            <SessionRow key={session.id} session={session} />
+            <SessionRow
+              key={session.id}
+              session={session}
+            />
           ))}
         </ul>
       )}
 
-      {/*
-        보고 있던 날짜를 그대로 들고 들어간다.
-
-        여기 있던 "수업은 회원의 PT 계약에서 잡아요" 라는 안내는 사실 기능이
-        없다는 사과문이었다. 다음 수업을 잡는 건 일정을 보다가 생각나는 일인데,
-        그때마다 회원 → 계약 → 상세로 세 번 들어갔다 돌아와야 했다.
-      */}
+      {/* 수업 추가 */}
       <NewSessionDrawer
         dateKey={week.dateKey}
         contracts={contracts}
-        defaultTime={nextFreeTime(week.sessions)}
+        defaultTime={nextFreeTime(
+          week.sessions,
+        )}
       />
     </main>
   );

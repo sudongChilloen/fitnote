@@ -2,9 +2,10 @@ import "server-only";
 
 import { randomUUID } from "node:crypto";
 
-import { JournalStatus } from "@/generated/prisma/enums";
+import { JournalStatus, NotificationType } from "@/generated/prisma/enums";
 import { kstStartOfDay } from "@/lib/date";
 import { prisma } from "@/lib/prisma";
+import { createNotification } from "@/server/notifications/notification.service";
 import {
   createSignedReadUrls,
   createSignedUpload,
@@ -302,24 +303,46 @@ export async function saveJournal(
 
   const alreadyPublished = journal.status === JournalStatus.PUBLISHED;
 
-  const updated = await prisma.journal.update({
-    where: { id: journalId },
-    data: {
-      title: clean(input.title, 100),
-      content: content.slice(0, 5000),
-      workoutSummary: clean(input.workoutSummary, 2000),
-      dietGuidance: clean(input.dietGuidance, 2000),
-      caution: clean(input.caution, 2000),
-      nextGoal: clean(input.nextGoal, 2000),
-      ptSessionId,
-      ...(input.publish && !alreadyPublished
-        ? { status: JournalStatus.PUBLISHED, publishedAt: new Date() }
-        : {}),
-    },
-    select: { id: true, status: true },
-  });
+  const publishNow = input.publish && !alreadyPublished;
 
-  return updated;
+  return prisma.$transaction(async (tx) => {
+    const updated = await tx.journal.update({
+      where: { id: journalId },
+      data: {
+        title: clean(input.title, 100),
+        content: content.slice(0, 5000),
+        workoutSummary: clean(input.workoutSummary, 2000),
+        dietGuidance: clean(input.dietGuidance, 2000),
+        caution: clean(input.caution, 2000),
+        nextGoal: clean(input.nextGoal, 2000),
+        ptSessionId,
+        ...(publishNow
+          ? { status: JournalStatus.PUBLISHED, publishedAt: new Date() }
+          : {}),
+      },
+      select: {
+        id: true,
+        status: true,
+        memberUserId: true,
+        title: true,
+      },
+    });
+
+    if (publishNow) {
+      await createNotification(tx, {
+        userId: updated.memberUserId,
+        type: NotificationType.JOURNAL_CREATED,
+        title: "새 알림장이 도착했어요",
+        message: updated.title
+          ? `${trainer.name} 트레이너가 '${updated.title}' 알림장을 남겼어요.`
+          : `${trainer.name} 트레이너가 새 알림장을 남겼어요.`,
+        relatedType: "JOURNAL",
+        relatedId: updated.id,
+      });
+    }
+
+    return updated;
+  });
 }
 
 /** 초안만 지운다. 게시한 글은 회원이 읽었을 수 있고 댓글이 달렸을 수 있다. */
