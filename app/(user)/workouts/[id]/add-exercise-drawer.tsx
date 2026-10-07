@@ -9,6 +9,7 @@ import {
   X,
 } from "lucide-react";
 import { useEffect, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -37,12 +38,7 @@ type ExerciseItem = {
   difficulty: keyof typeof DIFFICULTY_LABEL;
 };
 
-/**
- * 운동 목록 필터.
- *
- * 검색 중에는 부위 필터보다 검색 결과를 우선한다.
- * 즐겨찾기는 검색과 함께 사용하지 않고 독립적인 빠른 필터로 사용한다.
- */
+/** "전체" 와 즐겨찾기는 부위 enum 이 아니므로 따로 표현한다. */
 type Tab =
   | { kind: "all" }
   | { kind: "favorite" }
@@ -57,14 +53,17 @@ export function AddExerciseDrawer({
   sessionId: string;
   bodyPartCounts: Partial<Record<WorkoutBodyPart, number>>;
   favoriteIds: string[];
+
   /**
-   * 현재 수업에 이미 담긴 운동.
+   * 이 운동에 이미 담긴 운동들.
    *
-   * 같은 운동을 다시 추가하는 것을 막지는 않는다.
-   * 서킷이나 동일 운동을 나눠 기록하는 경우가 있을 수 있기 때문이다.
+   * 고르지 못하게 막지는 않는다. 서킷으로 같은 운동을 두 번 돌리거나,
+   * 몰아서 입력할 때 오전 · 오후를 나눠 적는 사람이 있다.
    */
   addedExerciseIds: string[];
 }) {
+  const router = useRouter();
+
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<Tab>({ kind: "all" });
   const [search, setSearch] = useState("");
@@ -76,26 +75,17 @@ export function AddExerciseDrawer({
 
   const keyword = search.trim();
 
-  /**
-   * 검색어가 있으면 부위 필터를 무시한다.
-   *
-   * 예:
-   * 하체 탭을 보고 있다가 "스쿼트"를 검색하면
-   * 하체에 한정된 검색이 아니라 전체 운동에서 스쿼트를 찾는다.
-   */
+  // 검색 중에는 부위 탭을 무시하고 전체에서 찾는다.
   const bodyPart =
-    keyword || tab.kind !== "part" ? null : tab.value;
+    keyword || tab.kind !== "part"
+      ? null
+      : tab.value;
 
   const queryKey = keyword
     ? `search:${keyword}`
     : `part:${bodyPart ?? "all"}`;
 
-  /**
-   * 서버에서 받아온 결과.
-   *
-   * queryKey를 함께 저장해서 이전 검색 결과가
-   * 새로운 검색 화면에 잠깐 노출되는 것을 방지한다.
-   */
+  // 받아온 조건을 함께 들고 있다가 조건이 맞을 때만 보여준다.
   const [result, setResult] = useState<{
     key: string;
     items: ExerciseItem[];
@@ -105,12 +95,11 @@ export function AddExerciseDrawer({
   });
 
   const fetched =
-    result.key === queryKey ? result.items : [];
+    result.key === queryKey
+      ? result.items
+      : [];
 
-  /**
-   * 즐겨찾기는 별도 API를 호출하지 않고
-   * 현재 받아온 운동 목록에서 즉시 필터링한다.
-   */
+  // 즐겨찾기 탭은 서버를 다시 부르지 않고 받아온 목록에서 걸러낸다.
   const items =
     !keyword && tab.kind === "favorite"
       ? fetched.filter((exercise) =>
@@ -123,7 +112,6 @@ export function AddExerciseDrawer({
 
     const controller = new AbortController();
 
-    // 검색어를 입력할 때마다 즉시 요청하지 않고 250ms 기다린다.
     const timer = setTimeout(async () => {
       setLoading(true);
 
@@ -156,7 +144,7 @@ export function AddExerciseDrawer({
           });
         }
       } catch {
-        // AbortController에 의한 취소는 정상 동작이다.
+        // abort는 정상 흐름이라 무시한다.
       } finally {
         if (!controller.signal.aborted) {
           setLoading(false);
@@ -168,7 +156,12 @@ export function AddExerciseDrawer({
       controller.abort();
       clearTimeout(timer);
     };
-  }, [open, keyword, bodyPart, queryKey]);
+  }, [
+    open,
+    keyword,
+    bodyPart,
+    queryKey,
+  ]);
 
   function reset() {
     setSearch("");
@@ -182,7 +175,9 @@ export function AddExerciseDrawer({
 
     setSelected((prev) =>
       prev.includes(exerciseId)
-        ? prev.filter((id) => id !== exerciseId)
+        ? prev.filter(
+            (id) => id !== exerciseId,
+          )
         : [...prev, exerciseId],
     );
   }
@@ -191,19 +186,23 @@ export function AddExerciseDrawer({
     const wasFavorite =
       favorites.includes(exerciseId);
 
-    // 서버 응답을 기다리지 않고 UI를 먼저 변경한다.
+    // 먼저 UI 반영
     setFavorites((prev) =>
       wasFavorite
-        ? prev.filter((id) => id !== exerciseId)
+        ? prev.filter(
+            (id) => id !== exerciseId,
+          )
         : [...prev, exerciseId],
     );
 
     startTransition(async () => {
       const res =
-        await toggleExerciseFavorite(exerciseId);
+        await toggleExerciseFavorite(
+          exerciseId,
+        );
 
-      // 실패하면 원래 상태로 되돌린다.
       if (res.error) {
+        // 실패 시 되돌림
         setFavorites((prev) =>
           wasFavorite
             ? [...prev, exerciseId]
@@ -216,15 +215,19 @@ export function AddExerciseDrawer({
   }
 
   function submit() {
-    if (selected.length === 0) return;
-
     setError(null);
 
+    if (selected.length === 0) {
+      setError("운동을 선택해주세요.");
+      return;
+    }
+
     startTransition(async () => {
-      const res = await addExercisesToSession(
-        sessionId,
-        selected,
-      );
+      const res =
+        await addExercisesToSession(
+          sessionId,
+          selected,
+        );
 
       if (res.error) {
         setError(res.error);
@@ -233,6 +236,20 @@ export function AddExerciseDrawer({
 
       setOpen(false);
       reset();
+
+      /*
+       * 중요:
+       *
+       * 이 컴포넌트는 /workouts/[id] 화면에서도 쓰이고
+       * /trainer/sessions/[id] 화면에서도 쓰인다.
+       *
+       * 서버에서 운동은 정상 저장됐더라도 현재 트레이너
+       * 수업 화면은 서버 컴포넌트이므로 자동으로 최신
+       * workout.records를 들고 있지 않을 수 있다.
+       *
+       * 현재 페이지를 다시 서버 렌더링한다.
+       */
+      router.refresh();
     });
   }
 
@@ -246,6 +263,7 @@ export function AddExerciseDrawer({
       label: "전체",
       tab: { kind: "all" },
     },
+
     ...BODY_PART_OPTIONS.filter(
       ([value]) =>
         (bodyPartCounts[value] ?? 0) > 0,
@@ -266,35 +284,22 @@ export function AddExerciseDrawer({
         ? "favorite"
         : "all";
 
-  const duplicateCount = selected.filter((id) =>
-    addedExerciseIds.includes(id),
-  ).length;
+  const duplicateCount =
+    selected.filter((id) =>
+      addedExerciseIds.includes(id),
+    ).length;
 
   return (
     <>
-      {/* =====================================================
-          ADD BUTTON
-         ===================================================== */}
-
       <Button
         variant="outline"
         size="lg"
-        className={cn(
-          "h-12 w-full rounded-xl",
-          "border-2 border-dashed",
-          "font-bold",
-          "transition-colors",
-          "hover:bg-secondary",
-        )}
+        className="h-12 w-full rounded-xl border-dashed font-bold"
         onClick={() => setOpen(true)}
       >
         <Plus className="size-4" />
         운동 추가
       </Button>
-
-      {/* =====================================================
-          DRAWER
-         ===================================================== */}
 
       <Drawer
         open={open}
@@ -307,25 +312,16 @@ export function AddExerciseDrawer({
         }}
       >
         <DrawerContent className="mx-auto flex h-[85dvh] max-w-md flex-col">
-          {/* -------------------------------------------------
-              HEADER
-             ------------------------------------------------- */}
-
           <DrawerHeader className="pb-3 text-center">
             <DrawerTitle>
               운동 선택하기
             </DrawerTitle>
           </DrawerHeader>
 
-          {/* -------------------------------------------------
-              SEARCH
-             ------------------------------------------------- */}
-
           <div className="px-4">
             <div className="relative">
               <Search
                 className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground"
-                aria-hidden
               />
 
               <input
@@ -334,40 +330,27 @@ export function AddExerciseDrawer({
                 onChange={(event) =>
                   setSearch(event.target.value)
                 }
-                placeholder="운동 이름을 검색해보세요"
+                placeholder="찾으시는 운동을 검색해보세요"
                 aria-label="운동 검색"
-                className={cn(
-                  "h-11 w-full rounded-xl",
-                  "bg-secondary",
-                  "pr-10 pl-9",
-                  "text-sm",
-                  "outline-none",
-                  "focus:ring-2 focus:ring-ring/40",
-                )}
+                className="h-11 w-full rounded-xl bg-secondary pr-10 pl-9 text-sm outline-none focus:ring-2 focus:ring-ring/40"
               />
 
               {keyword ? (
                 <button
                   type="button"
                   aria-label="검색어 지우기"
-                  onClick={() => setSearch("")}
-                  className="absolute top-1/2 right-2 -translate-y-1/2 rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-background hover:text-foreground"
+                  onClick={() =>
+                    setSearch("")
+                  }
+                  className="absolute top-1/2 right-2 -translate-y-1/2 rounded-lg p-1.5 text-muted-foreground"
                 >
-                  <X
-                    className="size-4"
-                    aria-hidden
-                  />
+                  <X className="size-4" />
                 </button>
               ) : null}
             </div>
           </div>
 
-          {/* -------------------------------------------------
-              FILTERS
-             ------------------------------------------------- */}
-
           <div className="mt-3 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {/* 즐겨찾기 */}
             <button
               type="button"
               aria-label="즐겨찾기만 보기"
@@ -376,25 +359,24 @@ export function AddExerciseDrawer({
               }
               onClick={() =>
                 setTab(
-                  tab.kind === "favorite"
+                  tab.kind ===
+                    "favorite"
                     ? { kind: "all" }
                     : { kind: "favorite" },
                 )
               }
               className={cn(
                 "flex size-9 shrink-0 items-center justify-center rounded-full border transition-colors",
-                tab.kind === "favorite"
+
+                tab.kind ===
+                  "favorite"
                   ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border text-muted-foreground hover:bg-secondary",
+                  : "border-border text-muted-foreground",
               )}
             >
-              <Bookmark
-                className="size-4"
-                aria-hidden
-              />
+              <Bookmark className="size-4" />
             </button>
 
-            {/* 전체 / 부위 */}
             {tabs.map((item) => (
               <button
                 key={item.key}
@@ -407,19 +389,16 @@ export function AddExerciseDrawer({
                 }
                 className={cn(
                   "shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition-colors",
+
                   activeKey === item.key
                     ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border text-foreground hover:bg-secondary",
+                    : "border-border text-foreground",
                 )}
               >
                 {item.label}
               </button>
             ))}
           </div>
-
-          {/* -------------------------------------------------
-              ERROR
-             ------------------------------------------------- */}
 
           {error ? (
             <p
@@ -430,25 +409,19 @@ export function AddExerciseDrawer({
             </p>
           ) : null}
 
-          {/* -------------------------------------------------
-              RESULT LIST
-             ------------------------------------------------- */}
-
           <div className="min-h-0 flex-1 overflow-y-auto px-4 pt-2">
-            {loading && fetched.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-14">
-                <Loader2 className="size-5 animate-spin text-muted-foreground" />
-
-                <p className="mt-3 text-sm text-muted-foreground">
-                  운동 목록을 불러오는 중…
-                </p>
-              </div>
+            {loading &&
+            fetched.length === 0 ? (
+              <p className="py-10 text-center text-sm text-muted-foreground">
+                불러오는 중…
+              </p>
             ) : items.length === 0 ? (
               <EmptyResult
                 keyword={keyword}
                 favoriteTab={
                   !keyword &&
-                  tab.kind === "favorite"
+                  tab.kind ===
+                    "favorite"
                 }
                 onReset={() => {
                   setSearch("");
@@ -476,21 +449,23 @@ export function AddExerciseDrawer({
                   return (
                     <li
                       key={exercise.id}
-                      className="flex items-center gap-2 py-1"
+                      className="flex items-center gap-3 py-1"
                     >
-                      {/* 운동 선택 */}
                       <button
                         type="button"
                         aria-pressed={checked}
                         onClick={() =>
-                          toggle(exercise.id)
+                          toggle(
+                            exercise.id,
+                          )
                         }
-                        className="flex min-w-0 flex-1 items-center gap-3 rounded-xl py-2.5 text-left transition-colors hover:bg-secondary/60"
+                        className="flex min-w-0 flex-1 items-center gap-3 py-2.5 text-left"
                       >
                         <span
                           aria-hidden
                           className={cn(
                             "flex size-5 shrink-0 items-center justify-center rounded-md border transition-colors",
+
                             checked
                               ? "border-primary bg-primary text-primary-foreground"
                               : "border-input",
@@ -519,20 +494,18 @@ export function AddExerciseDrawer({
                               BODY_PART_LABEL[
                                 exercise.bodyPart
                               ]
-                            }
-
-                            {" · "}
-
+                            }{" "}
+                            ·{" "}
                             {
                               DIFFICULTY_LABEL[
-                                exercise.difficulty
+                                exercise
+                                  .difficulty
                               ]
                             }
                           </span>
                         </span>
                       </button>
 
-                      {/* 즐겨찾기 */}
                       <button
                         type="button"
                         aria-label={
@@ -546,16 +519,16 @@ export function AddExerciseDrawer({
                             exercise.id,
                           )
                         }
-                        className="shrink-0 rounded-lg p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                        className="shrink-0 rounded-lg p-2"
                       >
                         <Bookmark
                           className={cn(
                             "size-4",
+
                             favorite
                               ? "fill-brand text-brand-strong"
                               : "text-muted-foreground",
                           )}
-                          aria-hidden
                         />
                       </button>
                     </li>
@@ -565,17 +538,13 @@ export function AddExerciseDrawer({
             )}
           </div>
 
-          {/* -------------------------------------------------
-              BOTTOM ACTION
-             ------------------------------------------------- */}
-
-          <div className="border-t border-border bg-card px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
+          <div className="border-t border-border px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
             {duplicateCount > 0 ? (
               <p className="mb-2 text-center text-xs text-brand-strong">
                 이미 담긴 운동{" "}
-                {duplicateCount}개가 있어요.
-                <br />
-                그대로 추가하면 별도 기록으로 남아요.
+                {duplicateCount}
+                개가 있어요. 그대로 담으면
+                따로 기록됩니다.
               </p>
             ) : null}
 
@@ -589,14 +558,12 @@ export function AddExerciseDrawer({
               className="h-12 w-full rounded-xl font-bold"
             >
               {pending ? (
-                <>
-                  <Loader2 className="size-4 animate-spin" />
-                  추가하는 중…
-                </>
-              ) : selected.length === 0 ? (
+                <Loader2 className="size-4 animate-spin" />
+              ) : selected.length ===
+                0 ? (
                 "운동을 선택해주세요"
               ) : (
-                `${selected.length}개 운동 추가`
+                `${selected.length}개 추가`
               )}
             </Button>
           </div>
@@ -619,15 +586,9 @@ function EmptyResult({
     <div className="flex flex-col items-center gap-3 py-12 text-center">
       <span className="flex size-12 items-center justify-center rounded-2xl bg-secondary">
         {favoriteTab ? (
-          <Bookmark
-            className="size-5 text-muted-foreground"
-            aria-hidden
-          />
+          <Bookmark className="size-5 text-muted-foreground" />
         ) : (
-          <Search
-            className="size-5 text-muted-foreground"
-            aria-hidden
-          />
+          <Search className="size-5 text-muted-foreground" />
         )}
       </span>
 
@@ -638,8 +599,8 @@ function EmptyResult({
           </p>
 
           <p className="text-xs text-muted-foreground">
-            자주 하는 운동은 북마크해 두면
-            빠르게 찾을 수 있어요.
+            자주 하는 운동의 북마크를
+            눌러 두면 여기 모입니다.
           </p>
         </>
       ) : (
@@ -663,7 +624,7 @@ function EmptyResult({
         className="rounded-lg"
         onClick={onReset}
       >
-        전체 운동 보기
+        전체 보기
       </Button>
     </div>
   );

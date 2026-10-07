@@ -34,6 +34,7 @@ import { countDietOnDate } from "@/server/diet/diet.service";
 import { getUnreadCounts } from "@/server/journals/journal.service";
 import { getBodyOverview } from "@/server/body/body.service";
 import { getMyUpcomingSessions } from "@/server/pt/pt.service";
+import { getNotificationUnreadCount } from "@/server/notifications/notification.service";
 
 import { AcknowledgeButton } from "../sessions/acknowledge-button";
 import { LogPastWorkoutButton } from "../workouts/log-past-button";
@@ -87,7 +88,7 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
       ? params.day
       : null;
 
-    const [
+  const [
     activeSession,
     workoutDays,
     daySessions,
@@ -96,19 +97,18 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
     todayDiet,
     upcomingSessions,
     body,
+    unreadNotifications,
   ] = await Promise.all([
     getActiveSession(user.id),
     getRecentWorkoutDays(user.id),
-    selectedKey
-      ? getSessionsByDate(user.id, selectedKey)
-      : null,
+    selectedKey ? getSessionsByDate(user.id, selectedKey) : null,
     getUnreadCounts(user.id),
     getRecentSessions(user.id, 3),
     countDietOnDate(user.id, todayKey),
     getMyUpcomingSessions(user.id, 3),
     getBodyOverview(user.id),
+    getNotificationUnreadCount(user.id),
   ]);
-
 
   // 체중은 늘 있는 것만 보여준다. 세 지표를 다 그리면 홈이 체성분 화면이 된다.
   const weight = body.trends.find((trend) => trend.type === "WEIGHT") ?? null;
@@ -122,16 +122,34 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
           <h1 className="text-2xl font-bold tracking-tight">{user.name}님</h1>
         </div>
 
-        <form action={logout}>
-          <Button
-            variant="ghost"
-            size="sm"
-            type="submit"
-            className="text-muted-foreground"
+        <div className="flex items-center gap-1">
+          <Link
+            href="/notifications"
+            aria-label="알림"
+            className="relative flex size-9 items-center justify-center rounded-xl text-muted-foreground hover:bg-secondary"
           >
-            로그아웃
-          </Button>
-        </form>
+            <Bell className="size-5" aria-hidden />
+            {unreadNotifications > 0 ? (
+              <span
+                className="absolute right-1 top-1 flex size-4 min-w-4 items-center justify-center rounded-full bg-destructive px-0.5 text-[0.625rem] font-bold leading-none text-destructive-foreground"
+                aria-label={`읽지 않은 알림 ${unreadNotifications}개`}
+              >
+                {unreadNotifications > 9 ? "9+" : unreadNotifications}
+              </span>
+            ) : null}
+          </Link>
+
+          <form action={logout}>
+            <Button
+              variant="ghost"
+              size="sm"
+              type="submit"
+              className="text-muted-foreground"
+            >
+              로그아웃
+            </Button>
+          </form>
+        </div>
       </header>
 
       {activeSession ? (

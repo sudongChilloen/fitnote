@@ -5,6 +5,7 @@ import {
   CalendarClock,
   ChevronLeft,
   ChevronRight,
+  Dumbbell,
   Lock,
   MessageSquare,
   PenLine,
@@ -1103,6 +1104,63 @@ export default async function TrainerMemberPage({
             알림장 전체 보기
           </Link>
         ) : null}
+      </section>
+
+      <section className="mt-8">
+        <div className="flex items-baseline justify-between gap-2">
+          <h2 className="text-base font-bold">최근 수업</h2>
+        </div>
+
+        {member.recentSessions.length === 0 ? (
+          <p className="mt-2 rounded-2xl border border-border bg-card p-4 text-xs text-muted-foreground">
+            아직 완료한 수업이 없어요.
+          </p>
+        ) : (
+          <ul className="mt-2 flex flex-col gap-2">
+            {member.recentSessions.map((session) => (
+              <li key={session.id}>
+                <Link
+                  href={`/trainer/sessions/${session.id}`}
+                  className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4 transition-colors hover:bg-secondary"
+                >
+                  <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-secondary">
+                    <Dumbbell
+                      className="size-4 text-muted-foreground"
+                      aria-hidden
+                    />
+                  </span>
+
+                  <span className="min-w-0 flex-1">
+                    <span className="flex items-center gap-1.5">
+                      <span className="text-sm font-bold">
+                        {session.sessionNumber}회차
+                      </span>
+
+                      {session.journalStatus === "PUBLISHED" ? (
+                        <span className="rounded-full bg-secondary px-1.5 py-0.5 text-[0.6875rem] font-semibold text-muted-foreground">
+                          알림장
+                        </span>
+                      ) : null}
+                    </span>
+
+                    <span className="mt-1 block text-xs text-muted-foreground">
+                      {formatKstDateLabel(session.scheduledAt)}
+                      {" · "}
+                      {session.exerciseCount}개 운동
+                      {" · "}
+                      {session.setCount}세트
+                    </span>
+                  </span>
+
+                  <ChevronRight
+                    className="size-4 shrink-0 text-muted-foreground"
+                    aria-hidden
+                  />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
 
       {/* =========================================================

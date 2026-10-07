@@ -47,6 +47,9 @@ export async function writeDietFeedback(formData: FormData) {
 
   revalidatePath(base);
   revalidatePath(`/trainer/members/${memberId}`);
+  revalidatePath("/diet");
+  revalidatePath("/home");
+  revalidatePath("/notifications");
 
   redirect(base);
 }

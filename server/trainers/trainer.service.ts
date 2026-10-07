@@ -620,6 +620,18 @@ export interface TrainerMemberDetail {
     status: JournalStatus;
     commentCount: number;
     awaitingReply: boolean;
+  }[];  
+  recentSessions: {
+    id: string;
+    scheduledAt: Date;
+    sessionNumber: number;
+    status: PTSessionStatus;
+    deducted: boolean;
+    workoutSessionId: string | null;
+    journalId: string | null;
+    journalStatus: JournalStatus | null;
+    exerciseCount: number;
+    setCount: number;
   }[];
 }
 
@@ -638,12 +650,15 @@ export async function getMemberDetail(
 
   const todayStart = kstStartOfDay();
 
-  const [upcoming, journals] = await Promise.all([
+  const [upcoming, recentSessions, journals] = await Promise.all([
+    /*
+     * 앞으로 잡힌 수업.
+     */
     prisma.pTSession.findMany({
       where: {
         memberUserId: connection.memberUserId,
         trainerProfileId: trainer.id,
-        status: "SCHEDULED",
+        status: PTSessionStatus.SCHEDULED,
         scheduledAt: { gte: todayStart },
       },
       orderBy: { scheduledAt: "asc" },
@@ -656,11 +671,68 @@ export async function getMemberDetail(
         journals: {
           orderBy: { createdAt: "desc" },
           take: 1,
-          select: { id: true },
+          select: {
+            id: true,
+          },
         },
       },
     }),
 
+    /*
+     * 최근 완료된 PT 수업.
+     *
+     * 회원 상세에서 "최근에 어떤 수업을 했는지" 빠르게 보여주기 위한 데이터다.
+     * 상세한 운동 세트는 /trainer/sessions/[id] 에서 본다.
+     */
+    prisma.pTSession.findMany({
+      where: {
+        memberUserId: connection.memberUserId,
+        trainerProfileId: trainer.id,
+        status: PTSessionStatus.COMPLETED,
+      },
+      orderBy: {
+        scheduledAt: "desc",
+      },
+      take: 5,
+      select: {
+        id: true,
+        scheduledAt: true,
+        sessionNumber: true,
+        status: true,
+        deducted: true,
+        workoutSession: {
+          select: {
+            id: true,
+            _count: {
+              select: {
+                records: true,
+              },
+            },
+            records: {
+              select: {
+                _count: {
+                  select: {
+                    sets: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        journals: {
+          orderBy: { createdAt: "desc" },
+          take: 1,
+          select: {
+            id: true,
+            status: true,
+          },
+        },
+      },
+    }),
+
+    /*
+     * 알림장.
+     */
     prisma.journal.findMany({
       where: {
         memberUserId: connection.memberUserId,
@@ -675,7 +747,10 @@ export async function getMemberDetail(
         status: true,
         comments: {
           orderBy: { createdAt: "desc" },
-          select: { id: true, authorUserId: true },
+          select: {
+            id: true,
+            authorUserId: true,
+          },
         },
       },
     }),
@@ -688,6 +763,7 @@ export async function getMemberDetail(
     name: connection.memberUser.name,
     pending: connection.memberUser.status === "PENDING",
     startedAt: connection.startedAt,
+
     upcomingSessions: upcoming.map((session) => ({
       id: session.id,
       scheduledAt: session.scheduledAt,
@@ -695,6 +771,24 @@ export async function getMemberDetail(
       status: session.status,
       journalId: session.journals[0]?.id ?? null,
     })),
+
+    recentSessions: recentSessions.map((session) => ({
+      id: session.id,
+      scheduledAt: session.scheduledAt,
+      sessionNumber: session.sessionNumber,
+      status: session.status,
+      deducted: session.deducted,
+      workoutSessionId: session.workoutSession?.id ?? null,
+      journalId: session.journals[0]?.id ?? null,
+      journalStatus: session.journals[0]?.status ?? null,
+      exerciseCount: session.workoutSession?._count.records ?? 0,
+      setCount:
+        session.workoutSession?.records.reduce(
+          (total, record) => total + record._count.sets,
+          0,
+        ) ?? 0,
+    })),
+
     journals: journals.map((journal) => {
       const [latest] = journal.comments;
 
@@ -705,7 +799,8 @@ export async function getMemberDetail(
         status: journal.status,
         commentCount: journal.comments.length,
         awaitingReply:
-          latest !== undefined && latest.authorUserId !== trainer.userId,
+          latest !== undefined &&
+          latest.authorUserId !== trainer.userId,
       };
     }),
   };
