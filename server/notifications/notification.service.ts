@@ -1,7 +1,34 @@
 import "server-only";
 
+import type { Prisma } from "@/generated/prisma/client";
 import { NotificationType } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
+
+export type NotificationTx = Prisma.TransactionClient;
+
+export async function createNotification(
+  tx: NotificationTx,
+  input: {
+    userId: string;
+    type: NotificationType;
+    title: string;
+    message: string;
+    relatedType?: string | null;
+    relatedId?: string | null;
+  },
+) {
+  return tx.notification.create({
+    data: {
+      userId: input.userId,
+      type: input.type,
+      title: input.title,
+      message: input.message,
+      relatedType: input.relatedType ?? null,
+      relatedId: input.relatedId ?? null,
+    },
+    select: { id: true },
+  });
+}
 
 export type NotificationRow = {
   id: string;
