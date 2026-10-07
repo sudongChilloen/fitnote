@@ -61,6 +61,13 @@ export function getNotificationHref(notification: {
     return `/journal/${notification.relatedId}`;
   }
 
+  if (
+    notification.relatedType === "JOURNAL_COMMENT" &&
+    notification.relatedId
+  ) {
+    return `/trainer/journals/${notification.relatedId}`;
+  }
+
   if (notification.relatedType === "PT_SESSION" && notification.relatedId) {
     return `/sessions`;
   }

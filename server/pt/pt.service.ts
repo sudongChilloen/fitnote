@@ -122,6 +122,7 @@ export async function createContract(
     startedAt: Date;
     expiresAt?: Date | null;
     title?: string | null;
+    centerId?: string | null;
   },
 ) {
   const trainer = await requireTrainerProfile(userId);
@@ -132,9 +133,11 @@ export async function createContract(
   if (!Number.isFinite(total) || total < 1 || total > 300) {
     throw new PTError("INVALID", "횟수는 1회부터 300회까지 넣을 수 있어요.");
   }
+
   if (Number.isNaN(input.startedAt.getTime())) {
     throw new PTError("INVALID", "시작일을 확인해주세요.");
   }
+
   if (
     input.expiresAt &&
     input.expiresAt.getTime() < input.startedAt.getTime()
@@ -142,12 +145,30 @@ export async function createContract(
     throw new PTError("INVALID", "만료일이 시작일보다 앞서요.");
   }
 
-  const centerId = await prisma.centerMembership
-    .findFirst({
-      where: { userId: connection.memberUserId, status: "ACTIVE" },
-      select: { centerId: true },
-    })
-    .then((row) => row?.centerId ?? null);
+  const centerId = input.centerId?.trim() || null;
+
+  if (centerId) {
+    const membership = await prisma.centerMembership.findFirst({
+      where: {
+        centerId,
+        userId: trainer.userId,
+        status: "ACTIVE",
+        role: {
+          in: ["TRAINER", "CENTER_ADMIN"],
+        },
+      },
+      select: {
+        centerId: true,
+      },
+    });
+
+    if (!membership) {
+      throw new PTError(
+        "INVALID",
+        "선택한 센터에 현재 트레이너로 소속되어 있지 않아요.",
+      );
+    }
+  }
 
   return prisma.pTContract.create({
     data: {
@@ -157,10 +178,13 @@ export async function createContract(
       totalSessions: total,
       startedAt: input.startedAt,
       expiresAt: input.expiresAt ?? null,
-      // 이 회원이 지금 어느 센터에 있는지. 개인 트레이너면 비어 있다.
       centerId,
     },
-    select: { id: true, title: true, totalSessions: true },
+    select: {
+      id: true,
+      title: true,
+      totalSessions: true,
+    },
   });
 }
 
@@ -529,7 +553,12 @@ export async function cancelSession(
         cancelReason: options.reason?.trim() || null,
         memberAlertAt: new Date(),
       },
-      select: { id: true, deducted: true, memberUserId: true, cancelReason: true },
+      select: {
+        id: true,
+        deducted: true,
+        memberUserId: true,
+        cancelReason: true,
+      },
     });
 
     await createNotification(tx, {

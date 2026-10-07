@@ -6,9 +6,11 @@ import { createSignedReadUrls } from "@/lib/storage";
 import {
   ConnectionStatus,
   JournalStatus,
+  NotificationType,
   NoticeScope,
 } from "@/generated/prisma/enums";
 import { getCurrentMembership } from "@/server/centers/center.service";
+import { createNotification } from "@/server/notifications/notification.service";
 
 export class JournalError extends Error {
   constructor(
@@ -197,29 +199,34 @@ export async function getTimeline(userId: string, limit = 30) {
   ]);
 
   const entries: TimelineEntry[] = [
-    ...journals.map((journal): TimelineEntry => ({
-      kind: "JOURNAL",
-      id: journal.id,
-      date: journal.date,
-      title: journal.title ?? "PT 알림장",
-      preview: preview(journal.content),
-      authorName:
-        journal.trainerProfile.displayName ?? journal.trainerProfile.user.name,
-      photoCount: journal._count.photos,
-      commentCount: journal._count.comments,
-      unread: journal.memberReadAt === null,
-    })),
-    ...notices.map((notice): TimelineEntry => ({
-      kind: "NOTICE",
-      id: notice.id,
-      // publishedAt 이 없는 공지는 위 조건에서 걸러진다.
-      date: notice.publishedAt!,
-      title: notice.title,
-      preview: preview(notice.content),
-      authorName: notice.authorMembership.user.name,
-      pinned: notice.pinnedAt !== null,
-      unread: notice.reads.length === 0,
-    })),
+    ...journals.map(
+      (journal): TimelineEntry => ({
+        kind: "JOURNAL",
+        id: journal.id,
+        date: journal.date,
+        title: journal.title ?? "PT 알림장",
+        preview: preview(journal.content),
+        authorName:
+          journal.trainerProfile.displayName ??
+          journal.trainerProfile.user.name,
+        photoCount: journal._count.photos,
+        commentCount: journal._count.comments,
+        unread: journal.memberReadAt === null,
+      }),
+    ),
+    ...notices.map(
+      (notice): TimelineEntry => ({
+        kind: "NOTICE",
+        id: notice.id,
+        // publishedAt 이 없는 공지는 위 조건에서 걸러진다.
+        date: notice.publishedAt!,
+        title: notice.title,
+        preview: preview(notice.content),
+        authorName: notice.authorMembership.user.name,
+        pinned: notice.pinnedAt !== null,
+        unread: notice.reads.length === 0,
+      }),
+    ),
     ...sessions.map((session): TimelineEntry => {
       const names = session.records.map((record) => record.exercise.name);
       const isPt = session.ptSessionId !== null;
@@ -372,11 +379,10 @@ export async function getJournalDetail(userId: string, journalId: string) {
     where: {
       id: journalId,
       status: JournalStatus.PUBLISHED,
+      OR: [{ memberUserId: userId }, { trainerProfile: { userId } }],
     },
-
     select: {
       id: true,
-      memberUserId: true,
       date: true,
       title: true,
       content: true,
@@ -385,7 +391,7 @@ export async function getJournalDetail(userId: string, journalId: string) {
       caution: true,
       nextGoal: true,
       memberReadAt: true,
-
+      memberUserId: true,
       trainerProfile: {
         select: {
           id: true,
@@ -394,16 +400,10 @@ export async function getJournalDetail(userId: string, journalId: string) {
           user: { select: { name: true } },
         },
       },
-
       photos: {
         orderBy: { orderIndex: "asc" },
-        select: {
-          id: true,
-          storagePath: true,
-          thumbnailPath: true,
-        },
+        select: { id: true, storagePath: true, thumbnailPath: true },
       },
-
       comments: {
         where: { deletedAt: null },
         orderBy: { createdAt: "asc" },
@@ -415,7 +415,6 @@ export async function getJournalDetail(userId: string, journalId: string) {
           author: { select: { name: true } },
         },
       },
-
       ptSession: {
         select: {
           scheduledAt: true,
@@ -426,12 +425,7 @@ export async function getJournalDetail(userId: string, journalId: string) {
                 orderBy: { orderIndex: "asc" },
                 select: {
                   id: true,
-                  exercise: {
-                    select: {
-                      id: true,
-                      name: true,
-                    },
-                  },
+                  exercise: { select: { id: true, name: true } },
                   sets: {
                     orderBy: { setNumber: "asc" },
                     select: {
@@ -455,15 +449,14 @@ export async function getJournalDetail(userId: string, journalId: string) {
     throw new JournalError("NOT_FOUND", "알림장을 찾을 수 없어요.");
   }
 
-  const isMember = journal.memberUserId === userId;
-  const isTrainer = journal.trainerProfile.userId === userId;
+  const viewerRole =
+    journal.memberUserId === userId
+      ? "MEMBER"
+      : journal.trainerProfile.userId === userId
+        ? "TRAINER"
+        : null;
 
-  if (!isMember && !isTrainer) {
-    throw new JournalError("NOT_FOUND", "알림장을 찾을 수 없어요.");
-  }
-
-  // 실제 회원이 읽었을 때만 읽음 처리
-  if (isMember && journal.memberReadAt === null) {
+  if (viewerRole === "MEMBER" && journal.memberReadAt === null) {
     await prisma.journal.update({
       where: { id: journal.id },
       data: { memberReadAt: new Date() },
@@ -476,11 +469,8 @@ export async function getJournalDetail(userId: string, journalId: string) {
   return {
     ...journal,
     photos,
-
-    viewerRole: isMember ? "MEMBER" : "TRAINER",
-
     myUserId: userId,
-
+    viewerRole,
     workout:
       workoutSession === null
         ? null
@@ -523,20 +513,48 @@ export async function addJournalComment(
       status: JournalStatus.PUBLISHED,
       OR: [{ memberUserId: userId }, { trainerProfile: { userId } }],
     },
-    select: { id: true },
+    select: {
+      id: true,
+      memberUserId: true,
+      memberUser: { select: { name: true } },
+      trainerProfile: {
+        select: {
+          userId: true,
+          displayName: true,
+          user: { select: { name: true } },
+        },
+      },
+    },
   });
 
   if (!journal) {
     throw new JournalError("NOT_FOUND", "알림장을 찾을 수 없어요.");
   }
 
-  return prisma.journalComment.create({
-    data: {
-      journalId: journal.id,
-      authorUserId: userId,
-      content: trimmed,
-    },
-    select: { id: true },
+  const isMemberComment = journal.memberUserId === userId;
+
+  return prisma.$transaction(async (tx) => {
+    const comment = await tx.journalComment.create({
+      data: {
+        journalId: journal.id,
+        authorUserId: userId,
+        content: trimmed,
+      },
+      select: { id: true },
+    });
+
+    if (isMemberComment) {
+      await createNotification(tx, {
+        userId: journal.trainerProfile.userId,
+        type: NotificationType.GENERAL,
+        title: "회원 댓글이 달렸어요",
+        message: `${journal.memberUser.name} 회원이 알림장에 댓글을 남겼어요.`,
+        relatedType: "JOURNAL_COMMENT",
+        relatedId: journal.id,
+      });
+    }
+
+    return comment;
   });
 }
 
