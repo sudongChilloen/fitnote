@@ -7,16 +7,14 @@ import type { TrainerManagementStatus } from "@/server/trainers/trainer.service"
 
 import { MemberCard, NoMembers } from "../member-card";
 import { AddMemberDrawer } from "./add-member-drawer";
+import { MemberFilter, parseMemberFilter } from "./member-filter";
 import { MemberFilterChips } from "./filter-chips";
-import { parseMemberFilter, type MemberFilter } from "./member-filter";
 
 export const metadata = { title: "회원 | FitNote" };
 
 type StatusFilter = "all" | TrainerManagementStatus;
 
-function parseStatusFilter(
-  value: string | string[] | undefined,
-): StatusFilter {
+function parseStatusFilter(value: string | string[] | undefined): StatusFilter {
   const normalized = Array.isArray(value) ? value[0] : value;
 
   if (
@@ -48,10 +46,7 @@ export default async function TrainerMembersPage({
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const [user, query] = await Promise.all([
-    requireUser(),
-    searchParams,
-  ]);
+  const [user, query] = await Promise.all([requireUser(), searchParams]);
 
   const home = await getTrainerHome(user.id);
 
@@ -79,12 +74,10 @@ export default async function TrainerMembersPage({
 
   const shown = home.members.filter((member) => {
     const matchesContract =
-      filter === "all" ||
-      memberContractGroup(member) === filter;
+      filter === "all" || memberContractGroup(member) === filter;
 
     const matchesStatus =
-      status === "all" ||
-      member.managementStatus === status;
+      status === "all" || member.managementStatus === status;
 
     return matchesContract && matchesStatus;
   });
@@ -182,18 +175,12 @@ export default async function TrainerMembersPage({
           </nav>
 
           {/* 계약 상태 필터 */}
-          <MemberFilterChips
-            current={filter}
-            counts={counts}
-            status={status}
-          />
+          <MemberFilterChips current={filter} counts={counts} status={status} />
 
           {/* 결과 */}
           {shown.length === 0 ? (
             <div className="mt-8 rounded-2xl border border-dashed border-border bg-card px-5 py-8 text-center">
-              <p className="text-sm font-bold">
-                해당 조건의 회원이 없어요.
-              </p>
+              <p className="text-sm font-bold">해당 조건의 회원이 없어요.</p>
 
               <p className="mt-1 text-xs text-muted-foreground">
                 다른 관리 상태나 계약 상태를 선택해 보세요.
@@ -215,10 +202,7 @@ export default async function TrainerMembersPage({
 
               <ul className="mt-2.5 flex flex-col gap-2.5">
                 {shown.map((member) => (
-                  <MemberCard
-                    key={member.connectionId}
-                    member={member}
-                  />
+                  <MemberCard key={member.connectionId} member={member} />
                 ))}
               </ul>
             </>
@@ -248,7 +232,5 @@ function buildMemberFilterHref({
 
   const query = params.toString();
 
-  return query
-    ? `/trainer/members?${query}`
-    : "/trainer/members";
+  return query ? `/trainer/members?${query}` : "/trainer/members";
 }

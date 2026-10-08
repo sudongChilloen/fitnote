@@ -1,48 +1,47 @@
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
+import { MEMBER_FILTERS, MemberFilter } from "./member-filter";
 
-import {
-  MEMBER_FILTERS,
-  type MemberFilter,
-} from "./member-filter";
-
-type StatusFilter =
-  | "all"
-  | "normal"
-  | "attention"
-  | "urgent";
+type StatusFilter = "all" | "normal" | "attention" | "urgent";
 
 /**
  * 계약 상태로 목록을 좁힌다.
  *
- * 관리 상태 필터와 함께 사용할 수 있다.
+ * 링크로 만든다. 회원 상세에 들어갔다 뒤로 나오면 보던 자리로 돌아와야 하는데,
+ * 클라이언트 상태로 두면 매번 전체 목록으로 초기화된다.
  *
- * 예:
- * /trainer/members?status=attention&filter=pt
+ * 건수를 칩에 같이 쓴다. 눌러 봐야 몇 명인지 아는 필터는 결국 다 눌러 보게
+ * 되고, 0명인 칩을 누르는 헛걸음도 막을 수 있다.
  */
 export function MemberFilterChips({
   current,
   counts,
-  status = "all",
+  status,
 }: {
   current: MemberFilter;
   counts: Record<MemberFilter, number>;
-  status?: StatusFilter;
+  status: StatusFilter;
 }) {
   return (
-    <nav
-      className="-mx-5 mt-3 overflow-x-auto px-5"
-      aria-label="계약 상태 필터"
-    >
+    <nav className="-mx-5 mt-4 overflow-x-auto px-5">
       <ul className="flex w-max gap-2">
         {MEMBER_FILTERS.map((filter) => {
           const active = filter.key === current;
 
-          const href = buildHref({
-            filter: filter.key,
-            status,
-          });
+          const params = new URLSearchParams();
+
+          if (filter.key !== "all") {
+            params.set("filter", filter.key);
+          }
+
+          if (status !== "all") {
+            params.set("status", status);
+          }
+
+          const query = params.toString();
+
+          const href = query ? `/trainer/members?${query}` : "/trainer/members";
 
           return (
             <li key={filter.key}>
@@ -50,14 +49,13 @@ export function MemberFilterChips({
                 href={href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "flex h-9 items-center gap-1.5 rounded-full border px-3.5 text-xs font-bold transition",
+                  "flex h-9 items-center gap-1.5 rounded-full border px-3.5 text-xs font-bold",
                   active
                     ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-card text-muted-foreground hover:bg-muted/50",
+                    : "border-border bg-card text-muted-foreground",
                 )}
               >
                 {filter.label}
-
                 <span className="tabular-nums opacity-70">
                   {counts[filter.key]}
                 </span>
@@ -68,28 +66,4 @@ export function MemberFilterChips({
       </ul>
     </nav>
   );
-}
-
-function buildHref({
-  filter,
-  status,
-}: {
-  filter: MemberFilter;
-  status: StatusFilter;
-}) {
-  const params = new URLSearchParams();
-
-  if (filter !== "all") {
-    params.set("filter", filter);
-  }
-
-  if (status !== "all") {
-    params.set("status", status);
-  }
-
-  const query = params.toString();
-
-  return query
-    ? `/trainer/members?${query}`
-    : "/trainer/members";
 }
