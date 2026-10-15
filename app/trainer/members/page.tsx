@@ -87,7 +87,7 @@ export default async function TrainerMembersPage({
       {/* 헤더 */}
       <div className="flex items-center justify-between gap-2">
         <div className="min-w-0">
-          <h1 className="text-xl font-bold">
+          <h1 className="text-2xl font-bold tracking-tight">
             담당 회원{" "}
             <span className="text-sm font-normal text-muted-foreground tabular-nums">
               {home.members.length}명

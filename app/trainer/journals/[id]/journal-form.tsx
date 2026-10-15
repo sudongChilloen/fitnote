@@ -176,7 +176,7 @@ export function JournalForm(props: Props) {
           name="publish"
           value="1"
           disabled={pending}
-          className="h-12 flex-1 rounded-xl bg-primary font-bold text-primary-foreground disabled:opacity-50"
+          className="h-12 flex-1 rounded-xl bg-brand font-bold text-brand-foreground disabled:opacity-50"
         >
           {props.status === "PUBLISHED" ? "수정 반영" : "게시하기"}
         </button>

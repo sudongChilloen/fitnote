@@ -71,7 +71,7 @@ export default async function NewContractPage({
             max={200}
             defaultValue={10}
             required
-            className="h-12 rounded-xl border border-border bg-card px-4 text-base tabular-nums"
+            className="h-12 rounded-2xl bg-card shadow-card px-4 text-base tabular-nums"
           />
         </label>
 
@@ -84,7 +84,7 @@ export default async function NewContractPage({
             <select
               name="centerId"
               defaultValue=""
-              className="h-12 rounded-xl border border-border bg-card px-3 text-sm"
+              className="h-12 rounded-2xl bg-card shadow-card px-3 text-sm"
             >
               <option value="">개인 계약 / 센터 미지정</option>
               {memberships.map((membership) => (
@@ -107,7 +107,7 @@ export default async function NewContractPage({
               type="date"
               defaultValue={today}
               required
-              className="h-12 rounded-xl border border-border bg-card px-3 text-sm"
+              className="h-12 rounded-2xl bg-card shadow-card px-3 text-sm"
             />
           </label>
 
@@ -119,7 +119,7 @@ export default async function NewContractPage({
             <input
               name="expiresAt"
               type="date"
-              className="h-12 rounded-xl border border-border bg-card px-3 text-sm"
+              className="h-12 rounded-2xl bg-card shadow-card px-3 text-sm"
             />
           </label>
         </div>
@@ -134,7 +134,7 @@ export default async function NewContractPage({
             type="text"
             maxLength={60}
             placeholder="비워두면 'PT 10회' 로 적어둘게요"
-            className="h-12 rounded-xl border border-border bg-card px-4 text-base"
+            className="h-12 rounded-2xl bg-card shadow-card px-4 text-base"
           />
         </label>
 

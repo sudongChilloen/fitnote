@@ -122,7 +122,7 @@ export default async function ContractPage({
 
       <h1 className="mt-3 text-xl font-bold">{contract.title}</h1>
 
-      <div className="mt-3 rounded-2xl border border-border bg-card p-4">
+      <div className="mt-3 rounded-2xl bg-card shadow-card p-4">
         <div className="flex items-baseline justify-between gap-2">
           <p className="text-sm text-muted-foreground tabular-nums">
             {contract.usedSessions} / {contract.totalSessions}회
@@ -163,7 +163,7 @@ export default async function ContractPage({
       ) : null}
 
       {canSchedule ? (
-        <details className="mt-4 rounded-2xl border border-border bg-card">
+        <details className="mt-4 rounded-2xl bg-card shadow-card">
           <summary className="flex h-12 cursor-pointer list-none items-center gap-2 px-4 text-sm font-bold">
             <CalendarClock className="size-4" aria-hidden />
             수업 잡기
@@ -217,16 +217,16 @@ export default async function ContractPage({
           </form>
         </details>
       ) : contract.status === "ACTIVE" && !contract.expired ? (
-        <p className="mt-4 rounded-2xl border border-border bg-card p-4 text-xs text-muted-foreground">
+        <p className="mt-4 rounded-2xl bg-card shadow-card p-4 text-xs text-muted-foreground">
           남은 횟수를 모두 잡아뒀어요. 계약을 연장하거나 새로 등록해주세요.
         </p>
       ) : null}
 
       <section className="mt-7">
-        <h2 className="text-base font-bold">회차</h2>
+        <h2 className="text-lg font-bold tracking-tight">회차</h2>
 
         {sessions.length === 0 ? (
-          <p className="mt-2 rounded-2xl border border-border bg-card p-4 text-xs text-muted-foreground">
+          <p className="mt-2 rounded-2xl bg-card shadow-card p-4 text-xs text-muted-foreground">
             아직 잡은 수업이 없어요.
           </p>
         ) : (
@@ -234,7 +234,7 @@ export default async function ContractPage({
             {sessions.map((session) => (
               <li
                 key={session.id}
-                className="rounded-2xl border border-border bg-card p-4"
+                className="rounded-2xl bg-card shadow-card p-4"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
@@ -494,11 +494,11 @@ export default async function ContractPage({
       </section>
 
       <section className="mt-8">
-        <h2 className="text-base font-bold">계약 관리</h2>
+        <h2 className="text-lg font-bold tracking-tight">계약 관리</h2>
 
         <form
           action={extendContractAction}
-          className="mt-2 flex flex-col gap-2.5 rounded-2xl border border-border bg-card p-4"
+          className="mt-2 flex flex-col gap-2.5 rounded-2xl bg-card shadow-card p-4"
         >
           {hidden}
           <label className="flex flex-col gap-1.5">

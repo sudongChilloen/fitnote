@@ -72,7 +72,7 @@ export default async function NewBodyRecordPage({
             defaultValue={today}
             max={today}
             required
-            className="h-12 rounded-xl border border-border bg-card px-4 text-base"
+            className="h-12 rounded-2xl bg-card shadow-card px-4 text-base"
           />
         </label>
 
@@ -96,7 +96,7 @@ export default async function NewBodyRecordPage({
                 placeholder={
                   previous === null ? "비워둬도 돼요" : `지난번 ${previous}`
                 }
-                className="h-12 rounded-xl border border-border bg-card px-4 text-base tabular-nums"
+                className="h-12 rounded-2xl bg-card shadow-card px-4 text-base tabular-nums"
               />
             </label>
           );
@@ -112,7 +112,7 @@ export default async function NewBodyRecordPage({
             rows={2}
             maxLength={300}
             placeholder="아침 공복 / 운동 후 같은 조건을 적어두면 나중에 비교하기 좋아요"
-            className="rounded-xl border border-border bg-card p-4 text-base"
+            className="rounded-2xl bg-card shadow-card p-4 text-base"
           />
         </label>
 

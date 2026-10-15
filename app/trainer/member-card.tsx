@@ -3,10 +3,14 @@ import Link from "next/link";
 import {
   AlertCircle,
   CalendarClock,
+  ChevronRight,
   MessageSquare,
+  NotebookPen,
   UserPlus,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
+import { Avatar } from "@/components/ui/avatar";
 import { formatKstDateLabel, formatKstTimeLabel } from "@/lib/date";
 import { memberContractGroup } from "@/server/trainers/trainer.service";
 import type { TrainerMemberRow } from "@/server/trainers/trainer.service";
@@ -89,35 +93,11 @@ export function MemberCard({ member }: { member: TrainerMemberRow }) {
     <li>
       <Link
         href={`/trainer/members/${member.connectionId}`}
-        className="
-          block
-          rounded-2xl
-          border
-          border-border
-          bg-card
-          p-4
-          transition
-          hover:bg-muted/40
-          active:scale-[0.99]
-        "
+        className="group block rounded-2xl border border-border/60 bg-card p-4 shadow-card transition-colors hover:border-primary/20 hover:bg-secondary/20 active:scale-[0.99]"
       >
         {/* 회원 기본 정보 */}
-        <div className="flex items-start gap-3">
-          <span
-            className="
-              flex
-              size-11
-              shrink-0
-              items-center
-              justify-center
-              rounded-full
-              bg-secondary
-              text-sm
-              font-bold
-            "
-          >
-            {member.name.slice(-2)}
-          </span>
+        <div className="flex items-center gap-3">
+          <Avatar name={member.name} className="size-11 shrink-0" />
 
           <div className="min-w-0 flex-1">
             <div className="flex min-w-0 items-center gap-1.5">
@@ -126,86 +106,100 @@ export function MemberCard({ member }: { member: TrainerMemberRow }) {
               </span>
 
               {member.pending ? (
-                <span
-                  className="
-                    shrink-0
-                    rounded-full
-                    bg-secondary
-                    px-2
-                    py-0.5
-                    text-[11px]
-                    font-bold
-                    text-muted-foreground
-                  "
-                >
+                <span className="shrink-0 rounded-md bg-secondary px-1.5 py-0.5 text-[10px] font-bold text-muted-foreground">
                   미가입
                 </span>
               ) : null}
             </div>
 
-            {/* 관리 필요: 상태 대신 실제로 해야 할 일을 보여준다. */}
-            {managementReasonText ? (
-              <div className="mt-1.5 flex min-w-0 items-center gap-1.5">
-                <span
-                  className="size-1.5 shrink-0 rounded-full bg-brand"
-                  aria-hidden
-                />
-                <span className="truncate text-xs font-bold text-brand-strong">
-                  {managementReasonText}
-                </span>
-              </div>
-            ) : null}
+            <p className="mt-1 truncate text-xs text-muted-foreground">
+              {contract.text}
+            </p>
           </div>
 
-          {/* 답변 대기 */}
-          {replyCount > 0 ? (
-            <span
-              className="
-                flex
-                shrink-0
-                items-center
-                gap-1
-                rounded-full
-                bg-accent
-                px-2
-                py-1
-                text-xs
-                font-bold
-                text-brand-strong
-              "
-            >
-              <MessageSquare className="size-3.5" aria-hidden />
-              <span className="tabular-nums">{replyCount}</span>
+          <div className="flex shrink-0 items-center gap-2">
+            {replyCount > 0 ? (
+              <span className="inline-flex items-center gap-1 rounded-full bg-accent px-2 py-1 text-xs font-bold text-accent-foreground">
+                <MessageSquare className="size-3.5" aria-hidden />
+                {replyCount}
+              </span>
+            ) : null}
+
+            <span className="flex size-7 items-center justify-center rounded-full bg-secondary/70 text-muted-foreground transition-colors group-hover:bg-accent group-hover:text-accent-foreground">
+              <ChevronRight className="size-4" aria-hidden />
             </span>
-          ) : null}
+          </div>
         </div>
+
+        {/* 실제로 처리할 일 */}
+        {managementReasonText || todo ? (
+          <div className="mt-3 flex items-center gap-2 rounded-xl bg-secondary/60 px-3 py-2.5">
+            <span
+              className={cn(
+                "flex size-7 shrink-0 items-center justify-center rounded-lg",
+                todo?.tone === "strong"
+                  ? "bg-status-check-bg text-status-check"
+                  : "bg-accent text-accent-foreground",
+              )}
+            >
+              {todo?.tone === "strong" ? (
+                <AlertCircle className="size-4" aria-hidden />
+              ) : (
+                <MessageSquare className="size-4" aria-hidden />
+              )}
+            </span>
+
+            <span className="min-w-0 flex-1">
+              <span className="block text-xs font-bold">
+                {managementReasonText ?? todo?.label}
+              </span>
+
+              {managementReasonText && todo ? (
+                <span className="mt-0.5 block text-[11px] text-muted-foreground">
+                  {todo.label}
+                </span>
+              ) : null}
+            </span>
+
+            {replyCount > 0 ? (
+              <span className="shrink-0 text-[11px] font-semibold text-muted-foreground">
+                답변 {replyCount}건
+              </span>
+            ) : null}
+          </div>
+        ) : null}
 
         {/* 오늘 수업 */}
         {member.todaySessions.length > 0 ? (
-          <div className="mt-3 rounded-xl bg-muted px-3 py-2.5">
-            <div className="flex items-center gap-2">
-              <CalendarClock
-                className="size-4 shrink-0 text-brand-strong"
-                aria-hidden
-              />
-
-              <p className="text-xs font-bold">
-                오늘 수업 {member.todaySessions.length}개
-              </p>
+          <div className="mt-3">
+            <div className="mb-2 flex items-center gap-1.5">
+              <CalendarClock className="size-3.5 text-primary" aria-hidden />
+              <span className="text-xs font-bold">오늘 수업</span>
+              <span className="text-xs text-muted-foreground">
+                {member.todaySessions.length}개
+              </span>
             </div>
 
-            <div className="mt-2 space-y-1.5">
+            <div className="flex flex-col gap-1.5">
               {member.todaySessions.map((session) => (
                 <div
                   key={session.id}
-                  className="flex items-center justify-between gap-3 rounded-lg bg-background/60 px-2.5 py-2"
+                  className="flex items-center justify-between gap-3 rounded-xl bg-tint-sky/70 px-3 py-2 text-tint-sky-foreground"
                 >
-                  <span className="text-xs font-bold">
+                  <span className="text-xs font-bold tabular-nums">
                     {formatKstTimeLabel(session.scheduledAt)}
                   </span>
 
-                  <span className="text-[11px] text-muted-foreground">
-                    {session.status === "SCHEDULED" ? "예정" : session.status}
+                  <span className="text-[11px] font-semibold">
+                    {session.status === "SCHEDULED"
+                      ? "예정"
+                      : session.status === "COMPLETED"
+                        ? "완료"
+                        : session.status === "NO_SHOW"
+                          ? "노쇼"
+                          : session.status === "CANCELLED"
+                            ? "취소"
+                            : session.status}
                   </span>
                 </div>
               ))}
@@ -213,61 +207,20 @@ export function MemberCard({ member }: { member: TrainerMemberRow }) {
           </div>
         ) : null}
 
-        {/* 하단 정보 */}
-        <div
-          className="
-            mt-3
-            flex
-            min-w-0
-            items-center
-            justify-between
-            gap-3
-          "
-        >
-          <span
-            className={`
-              min-w-0
-              truncate
-              text-xs
-              tabular-nums
-              ${
-                contract.urgent
-                  ? "font-bold text-brand-strong"
-                  : "text-muted-foreground"
-              }
-            `}
-          >
-            {contract.text}
+        {/* 최근 기록 */}
+        <div className="mt-3 flex items-center gap-1.5 border-t border-border/60 pt-3 text-xs text-muted-foreground">
+          <NotebookPen className="size-3.5 shrink-0" aria-hidden />
+          <span className="truncate">
+            {member.lastJournalAt
+              ? `마지막 알림장 ${formatKstDateLabel(member.lastJournalAt)}`
+              : "작성된 알림장이 없어요"}
           </span>
 
-          {todo ? (
-            <span
-              className={`
-                shrink-0
-                rounded-full
-                px-2
-                py-1
-                text-[11px]
-                font-bold
-                ${
-                  todo.tone === "strong"
-                    ? "bg-brand text-primary"
-                    : "bg-accent text-brand-strong"
-                }
-              `}
-            >
-              {todo.label}
+          {contract.urgent ? (
+            <span className="ml-auto shrink-0 rounded-md bg-status-urgent-bg px-1.5 py-1 text-[10px] font-bold text-status-urgent">
+              계약 만료 임박
             </span>
           ) : null}
-        </div>
-
-        {/* 최근 관리 기록 */}
-        <div className="mt-1.5 truncate text-xs text-muted-foreground">
-          {member.todaySessions.length > 0
-            ? `오늘 수업 ${member.todaySessions.length}개`
-            : member.lastJournalAt
-              ? `마지막 알림장 ${formatKstDateLabel(member.lastJournalAt)}`
-              : "알림장 없음"}
         </div>
       </Link>
     </li>
@@ -279,7 +232,7 @@ export function MemberCard({ member }: { member: TrainerMemberRow }) {
  */
 export function NoMembers() {
   return (
-    <div className="mt-3 rounded-2xl border border-border bg-card p-5">
+    <div className="mt-3 rounded-2xl bg-card shadow-card p-5">
       <span
         className="
           flex

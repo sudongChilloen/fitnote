@@ -70,7 +70,7 @@ function RevokeButton({ invitationId }: { invitationId: string }) {
  */
 export function InvitePanel({ invitations }: { invitations: Invitation[] }) {
   return (
-    <section className="rounded-2xl border border-border bg-card p-5">
+    <section className="rounded-2xl bg-card shadow-card p-5">
       <h2 className="text-sm font-bold">회원 연결 코드</h2>
       <p className="mt-1 text-xs text-muted-foreground">
         회원에게 이 코드를 주면 내 담당 회원으로 연결돼요.

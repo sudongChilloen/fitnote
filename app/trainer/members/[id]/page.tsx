@@ -382,7 +382,7 @@ export default async function TrainerMemberPage({
       ) : nextSession ? (
         <Link
           href={`/trainer/sessions/${nextSession.id}`}
-          className="mt-5 flex items-center gap-3 rounded-2xl border border-border bg-card p-4 transition-colors hover:bg-secondary"
+          className="mt-5 flex items-center gap-3 rounded-2xl bg-card shadow-card p-4 transition-colors hover:bg-secondary"
         >
           <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
             <CalendarClock
@@ -421,7 +421,7 @@ export default async function TrainerMemberPage({
           MANAGEMENT / TODO
       ========================================================= */}
       {managementItems.length > 0 ? (
-        <section className="mt-5 rounded-2xl border border-border bg-card">
+        <section className="mt-5 rounded-2xl bg-card shadow-card">
           <div className="px-4 pt-4">
             <p className="text-xs font-bold text-muted-foreground">
               지금 확인할 것
@@ -501,7 +501,7 @@ export default async function TrainerMemberPage({
         className="scroll-mt-16"
       >
         <div className="mt-6">
-          <h2 className="text-base font-bold">
+          <h2 className="text-lg font-bold tracking-tight">
             요약
           </h2>
 
@@ -515,7 +515,7 @@ export default async function TrainerMemberPage({
                 .map((trend) => (
                   <div
                     key={trend.type}
-                    className="rounded-2xl border border-border bg-card p-3"
+                    className="rounded-2xl bg-card shadow-card p-3"
                   >
                     <p className="truncate text-xs text-muted-foreground">
                       {trend.label}
@@ -556,7 +556,7 @@ export default async function TrainerMemberPage({
               </h3>
             </div>
 
-            <div className="mt-2 overflow-hidden rounded-2xl border border-border bg-card">
+            <div className="mt-2 overflow-hidden rounded-2xl bg-card shadow-card">
               {latestWorkout ? (
                 <Link
                   href="#workout"
@@ -681,7 +681,7 @@ export default async function TrainerMemberPage({
       >
         <div className="flex items-baseline justify-between gap-2">
           <div>
-            <h2 className="text-base font-bold">
+            <h2 className="text-lg font-bold tracking-tight">
               개인 운동
             </h2>
 
@@ -714,7 +714,7 @@ export default async function TrainerMemberPage({
             </p>
           </div>
         ) : personalWorkouts.length === 0 ? (
-          <p className="mt-2 rounded-2xl border border-border bg-card p-4 text-xs text-muted-foreground">
+          <p className="mt-2 rounded-2xl bg-card shadow-card p-4 text-xs text-muted-foreground">
             아직 혼자 한 운동 기록이 없어요.
           </p>
         ) : (
@@ -723,7 +723,7 @@ export default async function TrainerMemberPage({
               (session) => (
                 <li
                   key={session.id}
-                  className="rounded-2xl border border-border bg-card p-4"
+                  className="rounded-2xl bg-card shadow-card p-4"
                 >
                   <div className="flex items-baseline justify-between gap-2">
                     <p className="text-sm font-bold">
@@ -761,7 +761,7 @@ export default async function TrainerMemberPage({
         className="mt-8 scroll-mt-16"
       >
         <div className="flex items-baseline justify-between gap-2">
-          <h2 className="text-base font-bold">
+          <h2 className="text-lg font-bold tracking-tight">
             식단
           </h2>
 
@@ -794,7 +794,7 @@ export default async function TrainerMemberPage({
             </p>
           </div>
         ) : recentDiet.length === 0 ? (
-          <p className="mt-2 rounded-2xl border border-border bg-card p-4 text-xs text-muted-foreground">
+          <p className="mt-2 rounded-2xl bg-card shadow-card p-4 text-xs text-muted-foreground">
             아직 올린 식단이 없어요.
           </p>
         ) : (
@@ -804,7 +804,7 @@ export default async function TrainerMemberPage({
                 <li key={record.id}>
                   <Link
                     href={`/trainer/members/${id}/diet/${record.id}`}
-                    className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3 transition-colors hover:bg-secondary"
+                    className="flex items-center gap-3 rounded-2xl bg-card shadow-card p-3 transition-colors hover:bg-secondary"
                   >
                     {record.thumbnailUrl ? (
                       // 서명 URL은 열 때마다 달라질 수 있어 일반 img를 사용한다.
@@ -866,7 +866,7 @@ export default async function TrainerMemberPage({
         className="mt-8 scroll-mt-16"
       >
         <div className="flex items-baseline justify-between gap-2">
-          <h2 className="text-base font-bold">
+          <h2 className="text-lg font-bold tracking-tight">
             변화
           </h2>
 
@@ -898,7 +898,7 @@ export default async function TrainerMemberPage({
           </div>
         ) : !body ||
           body.rows.length === 0 ? (
-          <div className="mt-2 rounded-2xl border border-border bg-card p-4">
+          <div className="mt-2 rounded-2xl bg-card shadow-card p-4">
             <p className="text-sm font-bold">
               아직 측정 기록이 없어요
             </p>
@@ -915,7 +915,7 @@ export default async function TrainerMemberPage({
                 (trend) => (
                   <li
                     key={trend.type}
-                    className="rounded-2xl border border-border bg-card p-3"
+                    className="rounded-2xl bg-card shadow-card p-3"
                   >
                     <p className="truncate text-xs text-muted-foreground">
                       {trend.label}
@@ -950,7 +950,7 @@ export default async function TrainerMemberPage({
 
             <Link
               href={`/trainer/members/${id}/journey`}
-              className="mt-2 flex items-center justify-between rounded-2xl border border-border bg-card px-4 py-3.5 transition-colors hover:bg-secondary"
+              className="mt-2 flex items-center justify-between rounded-2xl bg-card shadow-card px-4 py-3.5 transition-colors hover:bg-secondary"
             >
               <span>
                 <span className="block text-sm font-bold">
@@ -978,7 +978,7 @@ export default async function TrainerMemberPage({
         className="mt-8 scroll-mt-16"
       >
         <div className="flex items-baseline justify-between gap-2">
-          <h2 className="text-base font-bold">
+          <h2 className="text-lg font-bold tracking-tight">
             알림장
           </h2>
 
@@ -1025,7 +1025,7 @@ export default async function TrainerMemberPage({
         ) : null}
 
         {member.journals.length === 0 ? (
-          <p className="mt-2 rounded-2xl border border-border bg-card p-4 text-xs text-muted-foreground">
+          <p className="mt-2 rounded-2xl bg-card shadow-card p-4 text-xs text-muted-foreground">
             아직 쓴 알림장이 없어요.
           </p>
         ) : (
@@ -1036,7 +1036,7 @@ export default async function TrainerMemberPage({
                 <li key={journal.id}>
                   <Link
                     href={`/trainer/journals/${journal.id}`}
-                    className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4 transition-colors hover:bg-secondary"
+                    className="flex items-center gap-3 rounded-2xl bg-card shadow-card p-4 transition-colors hover:bg-secondary"
                   >
                     <span className="min-w-0 flex-1">
                       <span className="flex items-center gap-1.5">
@@ -1108,11 +1108,11 @@ export default async function TrainerMemberPage({
 
       <section className="mt-8">
         <div className="flex items-baseline justify-between gap-2">
-          <h2 className="text-base font-bold">최근 수업</h2>
+          <h2 className="text-lg font-bold tracking-tight">최근 수업</h2>
         </div>
 
         {member.recentSessions.length === 0 ? (
-          <p className="mt-2 rounded-2xl border border-border bg-card p-4 text-xs text-muted-foreground">
+          <p className="mt-2 rounded-2xl bg-card shadow-card p-4 text-xs text-muted-foreground">
             아직 완료한 수업이 없어요.
           </p>
         ) : (
@@ -1121,7 +1121,7 @@ export default async function TrainerMemberPage({
               <li key={session.id}>
                 <Link
                   href={`/trainer/sessions/${session.id}`}
-                  className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4 transition-colors hover:bg-secondary"
+                  className="flex items-center gap-3 rounded-2xl bg-card shadow-card p-4 transition-colors hover:bg-secondary"
                 >
                   <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-secondary">
                     <Dumbbell
@@ -1168,14 +1168,14 @@ export default async function TrainerMemberPage({
       ========================================================= */}
       <section className="mt-8">
         <div className="flex items-baseline justify-between gap-2">
-          <h2 className="text-base font-bold">
+          <h2 className="text-lg font-bold tracking-tight">
             수업 일정
           </h2>
         </div>
 
         {member.upcomingSessions.length ===
         0 ? (
-          <p className="mt-2 rounded-2xl border border-border bg-card p-4 text-xs text-muted-foreground">
+          <p className="mt-2 rounded-2xl bg-card shadow-card p-4 text-xs text-muted-foreground">
             잡힌 수업이 없어요.
           </p>
         ) : (
@@ -1191,7 +1191,7 @@ export default async function TrainerMemberPage({
                   <li key={session.id}>
                     <Link
                       href={`/trainer/sessions/${session.id}`}
-                      className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4 transition-colors hover:bg-secondary"
+                      className="flex items-center gap-3 rounded-2xl bg-card shadow-card p-4 transition-colors hover:bg-secondary"
                     >
                       <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
                         <CalendarClock
@@ -1247,7 +1247,7 @@ export default async function TrainerMemberPage({
       ========================================================= */}
       <section className="mt-8">
         <div className="flex items-center justify-between gap-2">
-          <h2 className="text-base font-bold">
+          <h2 className="text-lg font-bold tracking-tight">
             PT 계약
           </h2>
 
@@ -1264,7 +1264,7 @@ export default async function TrainerMemberPage({
         </div>
 
         {contracts.length === 0 ? (
-          <p className="mt-2 rounded-2xl border border-border bg-card p-4 text-xs text-muted-foreground">
+          <p className="mt-2 rounded-2xl bg-card shadow-card p-4 text-xs text-muted-foreground">
             아직 등록한 PT 계약이 없어요.
             횟수와 기간만 넣으면 돼요.
           </p>

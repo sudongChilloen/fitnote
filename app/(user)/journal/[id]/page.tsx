@@ -22,7 +22,7 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="mt-4 rounded-2xl border border-border bg-card p-5">
+    <section className="mt-4 rounded-2xl bg-card shadow-card p-5">
       <h2 className="text-sm font-bold">{title}</h2>
       <div className="mt-2">{children}</div>
     </section>
@@ -88,7 +88,7 @@ export default async function JournalDetailPage({
         </ul>
       ) : null}
 
-      <section className="mt-4 rounded-2xl border border-border bg-card p-5">
+      <section className="mt-4 rounded-2xl bg-card shadow-card p-5">
         <p className="text-[15px] leading-relaxed whitespace-pre-wrap">
           {journal.content}
         </p>

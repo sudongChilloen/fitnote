@@ -38,9 +38,9 @@ export default async function TrainerProfilePage() {
 
   return (
     <main className="px-5 pt-5 pb-16">
-      <h1 className="text-xl font-bold">내 정보</h1>
+      <h1 className="text-2xl font-bold tracking-tight">내 정보</h1>
 
-      <section className="mt-4 rounded-2xl border border-border bg-card p-5">
+      <section className="mt-4 rounded-2xl bg-card shadow-card p-5">
         <p className="text-lg font-bold">{profile?.displayName ?? user.name}</p>
         <p className="mt-0.5 text-sm text-muted-foreground">{user.email}</p>
         <p className="mt-3 flex items-center gap-1.5 text-sm text-muted-foreground">
@@ -57,7 +57,7 @@ export default async function TrainerProfilePage() {
         <InvitePanel invitations={invitations} />
       </div>
 
-      <section className="mt-4 rounded-2xl border border-border bg-card p-5">
+      <section className="mt-4 rounded-2xl bg-card shadow-card p-5">
         <h2 className="text-sm font-bold">회원 화면</h2>
         <p className="mt-1 mb-2 text-xs text-muted-foreground">
           내 운동 기록과 캘린더는 회원 화면에 있어요.

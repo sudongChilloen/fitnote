@@ -112,7 +112,7 @@ export default async function MemberJourneyPage({
         {formatKstDateLabel(summary.startedAt)}부터 함께하고 있어요
       </p>
 
-      <div className="mt-4 rounded-2xl border border-border bg-card p-4">
+      <div className="mt-4 rounded-2xl bg-card shadow-card p-4">
         <div className="grid grid-cols-3 gap-3">
           <Stat
             label="함께한 기간"

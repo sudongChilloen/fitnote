@@ -65,7 +65,7 @@ export default async function TrainerSchedulePage({
 
   return (
     <main className="px-5 pt-5 pb-16">
-      <h1 className="text-xl font-bold">
+      <h1 className="text-2xl font-bold tracking-tight">
         일정
       </h1>
 
@@ -147,7 +147,7 @@ export default async function TrainerSchedulePage({
 
       {/* 선택 날짜 */}
       <div className="mt-6 flex items-baseline justify-between gap-2">
-        <h2 className="text-base font-bold">
+        <h2 className="text-lg font-bold tracking-tight">
           {isToday
             ? "오늘"
             : formatKstDateLabel(

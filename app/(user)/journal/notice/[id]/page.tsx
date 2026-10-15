@@ -39,7 +39,7 @@ export default async function NoticeDetailPage({
         {notice.authorMembership.user.name}
       </p>
 
-      <section className="mt-4 rounded-2xl border border-border bg-card p-5">
+      <section className="mt-4 rounded-2xl bg-card shadow-card p-5">
         <p className="text-[15px] leading-relaxed whitespace-pre-wrap">
           {notice.content}
         </p>

@@ -53,7 +53,7 @@ function ContractCard({ contract }: { contract: MyPtContract }) {
   const closed = contract.expired || contract.status !== "ACTIVE";
 
   return (
-    <section className="rounded-2xl border border-border bg-card p-5">
+    <section className="rounded-2xl bg-card shadow-card p-5">
       <div className="flex items-baseline justify-between gap-2">
         <h2 className="min-w-0 truncate text-base font-bold">
           {contract.title}
@@ -145,10 +145,10 @@ export default async function MyPtPage() {
 
   return (
     <main className="px-5 pt-5 pb-16">
-      <h1 className="text-xl font-bold">내 PT</h1>
+      <h1 className="text-2xl font-bold tracking-tight">내 PT</h1>
 
       {contracts.length === 0 ? (
-        <div className="mt-4 rounded-2xl border border-border bg-card p-5">
+        <div className="mt-4 rounded-2xl bg-card shadow-card p-5">
           <span className="flex size-9 items-center justify-center rounded-xl bg-accent text-brand-strong">
             <CalendarClock className="size-4.5" aria-hidden />
           </span>
@@ -159,7 +159,7 @@ export default async function MyPtPage() {
           </p>
           <Link
             href="/profile"
-            className="mt-3 inline-flex h-10 items-center rounded-xl bg-primary px-4 text-sm font-bold text-primary-foreground"
+            className="mt-3 inline-flex h-10 items-center rounded-xl bg-brand px-4 text-sm font-bold text-brand-foreground"
           >
             내정보로 가기
           </Link>

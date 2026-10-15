@@ -118,7 +118,7 @@ export default async function ExercisesPage({
         ))}
       </nav>
 
-      <section className="rounded-2xl border border-border bg-card p-4">
+      <section className="rounded-2xl bg-card shadow-card p-4">
         <ExerciseFilters total={pagination.total} />
       </section>
 

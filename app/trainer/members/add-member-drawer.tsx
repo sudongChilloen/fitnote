@@ -54,7 +54,7 @@ export function AddMemberDrawer() {
           setError(null);
           setOpen(true);
         }}
-        className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-xl bg-primary px-3 text-sm font-bold text-primary-foreground"
+        className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-xl bg-brand px-3 text-sm font-bold text-brand-foreground"
       >
         <UserPlus className="size-4" aria-hidden />
         회원 추가
@@ -102,13 +102,13 @@ export function AddMemberDrawer() {
             </label>
 
             {error ? (
-              <p className="text-sm font-bold text-red-500">{error}</p>
+              <p className="text-sm font-bold text-destructive">{error}</p>
             ) : null}
 
             <button
               type="submit"
               disabled={pending}
-              className="mt-1 h-12 rounded-xl bg-primary text-sm font-bold text-primary-foreground disabled:opacity-50"
+              className="mt-1 h-12 rounded-xl bg-brand text-sm font-bold text-brand-foreground disabled:opacity-50"
             >
               {pending ? "만드는 중..." : "만들기"}
             </button>

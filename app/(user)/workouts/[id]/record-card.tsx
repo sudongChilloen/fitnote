@@ -330,7 +330,7 @@ export function RecordCard({
       .join(" · ");
 
   return (
-    <li className="rounded-2xl border border-border bg-card p-4">
+    <li className="rounded-2xl bg-card shadow-card p-4">
       {/* =====================================================
           EXERCISE HEADER
          ===================================================== */}

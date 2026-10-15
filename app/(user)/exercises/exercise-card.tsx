@@ -24,7 +24,7 @@ export function ExerciseCard({ exercise }: { exercise: ExerciseCardData }) {
   return (
     <Link
       href={`/exercises/${exercise.id}`}
-      className="flex flex-col gap-3 rounded-2xl border border-border bg-card p-4 transition-colors hover:bg-muted/50"
+      className="flex flex-col gap-3 rounded-2xl bg-card shadow-card p-4 transition-colors hover:bg-muted/50"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
