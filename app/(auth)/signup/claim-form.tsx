@@ -30,7 +30,7 @@ export function ClaimForm({
   return (
     <>
       <h1 className="mb-2 text-2xl font-bold">{memberName}님, 반가워요</h1>
-      <p className="mb-8 text-sm text-gray-500">
+      <p className="mb-8 text-sm text-muted-foreground">
         <b className="font-bold text-black">{trainerName}</b> 트레이너가 먼저
         만들어 둔 계정이에요. 이메일과 비밀번호만 정하면 그동안 쌓인 PT 기록과
         알림장을 바로 볼 수 있어요.
@@ -49,10 +49,10 @@ export function ClaimForm({
             type="email"
             autoComplete="email"
             placeholder="fitnote@example.com"
-            className="rounded-md border px-3 py-2"
+            className="h-12 rounded-xl border border-border bg-card px-4 outline-none focus:border-brand focus:ring-2 focus:ring-brand/30"
           />
           {state?.errors?.email && (
-            <p className="text-sm text-red-500">{state.errors.email[0]}</p>
+            <p className="text-sm text-destructive">{state.errors.email[0]}</p>
           )}
         </div>
 
@@ -65,10 +65,10 @@ export function ClaimForm({
             name="password"
             type="password"
             autoComplete="new-password"
-            className="rounded-md border px-3 py-2"
+            className="h-12 rounded-xl border border-border bg-card px-4 outline-none focus:border-brand focus:ring-2 focus:ring-brand/30"
           />
           {state?.errors?.password && (
-            <ul className="text-sm text-red-500">
+            <ul className="text-sm text-destructive">
               {state.errors.password.map((error) => (
                 <li key={error}>{error}</li>
               ))}
@@ -77,21 +77,21 @@ export function ClaimForm({
         </div>
 
         {state?.message && (
-          <p className="text-sm text-red-500">{state.message}</p>
+          <p className="text-sm text-destructive">{state.message}</p>
         )}
 
         <button
           type="submit"
           disabled={pending}
-          className="mt-2 rounded-md bg-black py-2.5 font-medium text-white disabled:opacity-50"
+          className="mt-2 h-13 rounded-2xl bg-brand font-bold text-brand-foreground disabled:opacity-50"
         >
           {pending ? "시작하는 중..." : "시작하기"}
         </button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-gray-500">
+      <p className="mt-6 text-center text-sm text-muted-foreground">
         내가 아닌가요?{" "}
-        <Link href="/signup" className="font-medium text-black underline">
+        <Link href="/signup" className="font-bold text-brand-strong underline">
           새로 가입하기
         </Link>
       </p>

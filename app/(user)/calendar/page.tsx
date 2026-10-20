@@ -71,7 +71,7 @@ export default async function CalendarPage({
         <h1 className="text-lg font-bold">운동 캘린더</h1>
       </header>
 
-      <section className="rounded-2xl border border-border bg-card p-4">
+      <section className="rounded-2xl bg-card shadow-card p-4">
         <div className="mb-3 flex items-center justify-between">
           <Link
             href={monthHref(shiftMonthKey(month, -1))}
@@ -187,7 +187,7 @@ export default async function CalendarPage({
               <li key={session.id}>
                 <Link
                   href={`/workouts/${session.id}`}
-                  className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4"
+                  className="flex items-center gap-3 rounded-2xl bg-card shadow-card p-4"
                 >
                   <span
                     className={cn(
@@ -290,7 +290,7 @@ export default async function CalendarPage({
               <li key={record.id}>
                 <Link
                   href={`/diet/${record.id}`}
-                  className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3"
+                  className="flex items-center gap-3 rounded-2xl bg-card shadow-card p-3"
                 >
                   {record.thumbnailUrl ? (
                     // 서명 주소는 열 때마다 값이 달라 최적화 캐시가 빗나간다.

@@ -116,10 +116,16 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
 
   return (
     <main className="flex flex-col gap-5 px-5 pt-8">
-      <header className="flex items-center justify-between">
+      <header className="flex items-start justify-between">
         <div>
-          <p className="text-sm text-muted-foreground">안녕하세요</p>
-          <h1 className="text-2xl font-bold tracking-tight">{user.name}님</h1>
+          <p className="text-sm font-medium text-muted-foreground">
+            {formatKstDateLabel(new Date())}
+          </p>
+          <h1 className="mt-1 text-[2rem] leading-tight font-extrabold tracking-tight">
+            안녕하세요,
+            <br />
+            {user.name}님
+          </h1>
         </div>
 
         <div className="flex items-center gap-1">
@@ -155,17 +161,17 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
       {activeSession ? (
         <Link
           href={`/workouts/${activeSession.id}`}
-          className="rounded-2xl border border-brand/40 bg-accent p-5"
+          className="rounded-3xl bg-brand p-5 text-brand-foreground shadow-card"
         >
-          <div className="flex items-center gap-2 text-sm font-bold text-accent-foreground">
+          <div className="flex items-center gap-2 text-xs font-bold tracking-widest text-brand-foreground/80">
             <span className="relative flex size-2">
-              <span className="absolute inline-flex size-full animate-ping rounded-full bg-brand opacity-75" />
-              <span className="relative inline-flex size-2 rounded-full bg-brand" />
+              <span className="absolute inline-flex size-full animate-ping rounded-full bg-primary opacity-60" />
+              <span className="relative inline-flex size-2 rounded-full bg-primary" />
             </span>
             운동 중
           </div>
 
-          <p className="mt-2 text-xl font-bold">
+          <p className="mt-2 text-2xl font-extrabold">
             {activeSession.records.length > 0
               ? `${activeSession.records[0].exercise.name}${
                   activeSession.records.length > 1
@@ -175,12 +181,12 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
               : "아직 기록한 운동이 없어요"}
           </p>
 
-          <div className="mt-4 flex items-center justify-between border-t border-brand/30 pt-3 text-sm">
-            <span className="text-accent-foreground/80">
+          <div className="mt-4 flex items-center justify-between border-t border-black/15 pt-3 text-sm">
+            <span className="font-medium text-brand-foreground/80">
               <ElapsedTime initialSeconds={activeSession.elapsedSec ?? 0} />{" "}
               진행 중 · {activeSession.totalSets}세트
             </span>
-            <span className="flex items-center gap-0.5 font-bold text-brand-strong">
+            <span className="flex items-center gap-0.5 rounded-full bg-primary px-3.5 py-2 font-bold text-primary-foreground">
               이어서 하기
               <ChevronRight className="size-4" />
             </span>
@@ -198,9 +204,9 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
         가는지 카톡을 뒤져서 확인하고 있었다.
       */}
       {upcomingSessions.length > 0 ? (
-        <section className="rounded-2xl border border-border bg-card p-5">
+        <section className="rounded-3xl bg-tint-sky p-5 text-tint-sky-foreground">
           <div className="mb-3 flex items-center gap-2">
-            <CalendarClock className="size-4 text-brand-strong" />
+            <CalendarClock className="size-4" />
             <h2 className="text-sm font-bold">다음 PT</h2>
             {/*
               남은 횟수는 여기 안 쓴다. 홈은 "다음에 언제 가는지" 를 보는
@@ -209,7 +215,7 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
             */}
             <Link
               href="/sessions"
-              className="ml-auto shrink-0 text-xs font-semibold text-brand-strong"
+              className="ml-auto shrink-0 text-xs font-bold underline underline-offset-2"
             >
               내 PT
             </Link>
@@ -284,7 +290,7 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
       {unread.total > 0 ? (
         <Link
           href="/journal"
-          className="flex items-center gap-3 rounded-2xl border border-brand/40 bg-accent p-4"
+          className="flex items-center gap-3 rounded-2xl bg-accent p-4 ring-2 ring-brand/60"
         >
           <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand text-brand-foreground">
             <Bell className="size-5" />
@@ -317,7 +323,7 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
       {weight && weight.latest !== null ? (
         <Link
           href="/body"
-          className="flex items-center gap-3 rounded-2xl border border-border bg-card p-5"
+          className="flex items-center gap-3 rounded-2xl bg-card shadow-card p-5"
         >
           <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
             <TrendingUp className="size-5" aria-hidden />
@@ -346,7 +352,7 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
         </Link>
       ) : null}
 
-      <section className="rounded-2xl border border-border bg-card p-5">
+      <section className="rounded-2xl bg-card shadow-card p-5">
         <div className="mb-4 flex items-center gap-2">
           <Flame className="size-4 text-brand-strong" />
           <h2 className="text-sm font-bold">이번 주 운동</h2>
@@ -379,13 +385,14 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
                     isSelected ? "닫기" : "보기"
                   }`}
                   className={cn(
-                    "flex aspect-square w-full items-center justify-center rounded-xl text-xs font-bold transition-colors",
+                    "flex aspect-square w-full items-center justify-center rounded-full text-xs font-bold transition-colors",
                     done
-                      ? "bg-brand text-brand-foreground"
+                      ? "bg-success text-success-foreground"
                       : "bg-muted text-muted-foreground",
+                    isToday && "bg-primary text-primary-foreground",
                     isToday &&
-                      !done &&
-                      "ring-2 ring-brand ring-offset-2 ring-offset-card",
+                      done &&
+                      "ring-2 ring-success ring-offset-2 ring-offset-card",
                     isSelected &&
                       "ring-2 ring-primary ring-offset-2 ring-offset-card",
                   )}
@@ -505,14 +512,14 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
       */}
       {recentSessions.length > 0 ? (
         <section className="flex flex-col gap-2">
-          <h2 className="text-sm font-bold">최근 운동</h2>
+          <h2 className="text-lg font-bold tracking-tight">최근 운동</h2>
 
           <ul className="flex flex-col gap-2">
             {recentSessions.map((session) => (
               <li key={session.id}>
                 <Link
                   href={`/workouts/${session.id}`}
-                  className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4"
+                  className="flex items-center gap-3 rounded-2xl bg-card shadow-card p-4"
                 >
                   <span
                     className={cn(
@@ -576,9 +583,9 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
       */}
       <Link
         href="/diet"
-        className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4"
+        className="flex items-center gap-3 rounded-3xl bg-tint-mint p-4 text-tint-mint-foreground"
       >
-        <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-white/70">
           <UtensilsCrossed className="size-5" />
         </span>
         <span className="min-w-0 flex-1">
@@ -594,9 +601,9 @@ export default async function HomePage({ searchParams }: PageProps<"/home">) {
 
       <Link
         href="/exercises"
-        className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4"
+        className="flex items-center gap-3 rounded-3xl bg-tint-lavender p-4 text-tint-lavender-foreground"
       >
-        <span className="flex size-10 items-center justify-center rounded-xl bg-accent text-accent-foreground">
+        <span className="flex size-10 items-center justify-center rounded-full bg-white/70">
           <Dumbbell className="size-5" />
         </span>
         <span className="flex-1">

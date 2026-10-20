@@ -39,7 +39,7 @@ export default async function TrainerJournalsPage() {
     <main className="px-5 pt-5 pb-16">
       {/* Header */}
       <header>
-        <h1 className="text-xl font-bold">할 일</h1>
+        <h1 className="text-2xl font-bold tracking-tight">할 일</h1>
 
         {!clear ? (
           <p className="mt-1 text-sm text-muted-foreground">
@@ -129,7 +129,7 @@ export default async function TrainerJournalsPage() {
                   <li key={row.journalId}>
                     <Link
                       href={`/trainer/journals/${row.journalId}`}
-                      className="group flex items-center gap-3 rounded-2xl border border-border bg-card p-4 transition-colors hover:bg-muted/40"
+                      className="group flex items-center gap-3 rounded-2xl bg-card shadow-card p-4 transition-colors hover:bg-muted/40"
                     >
                       <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent text-brand-strong">
                         <MessageSquare
@@ -174,7 +174,7 @@ export default async function TrainerJournalsPage() {
 
 function EmptyTodo() {
   return (
-    <div className="mt-5 flex flex-col items-center rounded-2xl border border-border bg-card px-5 py-10">
+    <div className="mt-5 flex flex-col items-center rounded-2xl bg-card shadow-card px-5 py-10">
       <span className="flex size-11 items-center justify-center rounded-full bg-accent text-brand-strong">
         <Check className="size-5" aria-hidden />
       </span>
@@ -208,7 +208,7 @@ function TodoSection({
   return (
     <section className="mt-7">
       <div className="flex items-baseline justify-between gap-2">
-        <h2 className="text-base font-bold">{title}</h2>
+        <h2 className="text-lg font-bold tracking-tight">{title}</h2>
 
         <span className="shrink-0 text-xs font-semibold text-muted-foreground tabular-nums">
           {count}건

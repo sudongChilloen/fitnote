@@ -6,9 +6,11 @@ import {
   ClipboardCheck,
   MessageSquare,
   NotebookPen,
+  House,
 } from "lucide-react";
 
 import { requireUser } from "@/app/lib/dal";
+import { Avatar } from "@/components/ui/avatar";
 import { formatKstDateLabel, formatKstTimeLabel } from "@/lib/date";
 import {
   getTrainerToday,
@@ -22,42 +24,41 @@ import {
 
 import { MemberCard, NoMembers } from "./member-card";
 import { EmptyDay, SessionRow } from "./session-row";
+import { cn } from "@/lib/utils";
 
 export const metadata = { title: "트레이너 | FitNote" };
 
+/** 간결한 숫자 요약 타일 */
 function SummaryCard({
   icon: Icon,
   label,
   value,
   href,
+  tint,
 }: {
   icon: typeof CalendarClock;
   label: string;
   value: number;
   href: string;
+  tint: string;
 }) {
   return (
     <Link
       href={href}
-      className="min-w-0 flex-1 rounded-2xl border border-border bg-card p-3.5 transition-colors hover:bg-secondary/40"
+      className={`group flex min-w-0 flex-1 items-center gap-2.5 rounded-2xl p-3 transition-transform active:scale-[0.98] ${tint}`}
     >
-      <span className="flex items-center justify-between">
-        <span className="flex size-8 items-center justify-center rounded-xl bg-accent text-brand-strong">
-          <Icon className="size-4" aria-hidden />
+      <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-white/75">
+        <Icon className="size-[1.125rem]" aria-hidden />
+      </span>
+
+      <span className="min-w-0">
+        <span className="block text-2xl leading-none font-bold tracking-tight tabular-nums">
+          {value}
         </span>
 
-        <ChevronRight
-          className="size-3.5 text-muted-foreground"
-          aria-hidden
-        />
-      </span>
-
-      <span className="mt-2.5 block text-xl leading-none font-bold tabular-nums">
-        {value}
-      </span>
-
-      <span className="mt-1 block truncate text-xs text-muted-foreground">
-        {label}
+        <span className="mt-1.5 block truncate text-[0.6875rem] font-semibold opacity-80">
+          {label}
+        </span>
       </span>
     </Link>
   );
@@ -74,33 +75,50 @@ function AttentionItem({
   href: string;
   tone?: "attention" | "urgent";
 }) {
+  const urgent = tone === "urgent";
+
   return (
     <li>
       <Link
         href={href}
-        className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3.5 transition-colors hover:bg-secondary/40"
+        className="group flex items-center gap-3 rounded-2xl border border-border/60 bg-card p-3.5 shadow-card transition-all duration-200 hover:border-primary/20 hover:bg-secondary/30 active:scale-[0.99]"
       >
-        <span
-          className={
-            tone === "urgent"
-              ? "size-2.5 shrink-0 rounded-full bg-brand-strong"
-              : "size-2.5 shrink-0 rounded-full bg-brand-muted"
-          }
-          aria-hidden
-        />
+        <div
+          className={cn(
+            "flex size-11 shrink-0 items-center justify-center rounded-2xl",
+            urgent
+              ? "bg-status-urgent-bg text-status-urgent"
+              : "bg-status-check-bg text-status-check",
+          )}
+        >
+          <Avatar name={name} className="size-9 text-sm" />
+        </div>
 
         <span className="min-w-0 flex-1">
-          <span className="block truncate text-sm font-bold">
-            {name}
+          <span className="flex min-w-0 flex-wrap items-center gap-1.5">
+            <span className="truncate text-sm font-bold tracking-tight">
+              {name}
+            </span>
+
+            <span
+              className={cn(
+                "shrink-0 rounded-md px-2 py-1 text-[10px] font-bold",
+                urgent
+                  ? "bg-status-urgent-bg text-status-urgent"
+                  : "bg-status-check-bg text-status-check",
+              )}
+            >
+              {urgent ? "즉시 확인" : "확인 필요"}
+            </span>
           </span>
 
-          <span className="mt-0.5 block truncate text-xs text-muted-foreground">
+          <span className="mt-1.5 block text-xs leading-relaxed text-muted-foreground">
             {reason}
           </span>
         </span>
 
         <ChevronRight
-          className="size-4 shrink-0 text-muted-foreground"
+          className="size-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5"
           aria-hidden
         />
       </Link>
@@ -112,10 +130,7 @@ function replyReason(reply: TrainerReplyRow) {
   const preview = String(reply.content ?? "")
     .replace(/\s+/g, " ")
     .trim();
-  const shortened =
-    preview.length > 44
-      ? `${preview.slice(0, 44)}…`
-      : preview;
+  const shortened = preview.length > 44 ? `${preview.slice(0, 44)}…` : preview;
 
   const journalLabel = reply.title ?? "알림장";
   const dateLabel = formatKstDateLabel(reply.date);
@@ -165,9 +180,7 @@ export default async function TrainerHomePage() {
     ...todos.needComplete.map((session) => ({
       key: `complete-${session.id}`,
       name: session.memberName,
-      reason: `${formatKstTimeLabel(
-        session.scheduledAt,
-      )} 수업 완료 처리 필요`,
+      reason: `${formatKstTimeLabel(session.scheduledAt)} 수업 완료 처리 필요`,
       href: session.connectionId
         ? `/trainer/members/${session.connectionId}`
         : "/trainer/schedule",
@@ -195,43 +208,54 @@ export default async function TrainerHomePage() {
     })),
   ].slice(0, 5);
 
-  const todoCount =
-    todos.needComplete.length + todos.needJournal.length;
+  const todoCount = todos.needComplete.length + todos.needJournal.length;
 
-  const totalAttentionCount =
-    todoCount + todos.awaitingReply.length;
+  const totalAttentionCount = todoCount + todos.awaitingReply.length;
 
   return (
-    <main className="px-5 pt-5 pb-24">
-      {/* ─────────────────────────
-          Header
-      ───────────────────────── */}
-      <header>
-        <h1 className="text-xl font-bold">
-          오늘
-        </h1>
+    <main className="px-5 pt-4 pb-24">
+      {/* Dashboard Header */}
+      <header className="relative overflow-hidden rounded-3xl border border-border/60 bg-card px-5 py-5 shadow-card">
+        <div className="absolute -right-8 -top-10 size-32 rounded-full bg-primary/5" />
+        <div className="absolute -right-2 top-12 size-16 rounded-full bg-primary/5" />
 
-        <p className="mt-1 text-sm text-muted-foreground">
-          {formatKstDateLabel(new Date())}
-        </p>
+        <div className="relative flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <div className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-2.5 py-1">
+              <CalendarClock className="size-3.5 text-primary" aria-hidden />
+              <span className="text-xs font-semibold text-muted-foreground">
+                {formatKstDateLabel(new Date())}
+              </span>
+            </div>
+
+            <h1 className="mt-4 text-2xl font-extrabold leading-tight tracking-tight">
+              안녕하세요,
+              <br />
+              <span className="text-primary">
+                {user.trainerDisplayName ?? user.name}
+              </span>
+              <span className="ml-1">님!</span>
+            </h1>
+
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              오늘도 회원들과 좋은 하루를 만들어 봐요.
+            </p>
+          </div>
+
+          <div className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-tint-mint text-tint-mint-foreground">
+            <House className="size-5" aria-hidden />
+          </div>
+        </div>
       </header>
 
-      {/* ─────────────────────────
-          Today Summary
-      ───────────────────────── */}
-      <section
-        aria-label="오늘 요약"
-        className="mt-4 flex gap-2.5"
-      >
+      {/* Today's Summary */}
+      <section aria-label="오늘 요약" className="mt-5 grid grid-cols-3 gap-2.5">
         <SummaryCard
           icon={CalendarClock}
-          label={
-            remaining > 0
-              ? `남은 수업 ${remaining}`
-              : "오늘 수업"
-          }
+          label={remaining > 0 ? `남은 수업 ${remaining}` : "오늘 수업"}
           value={today.length}
           href="/trainer/schedule"
+          tint="bg-tint-sky text-tint-sky-foreground"
         />
 
         <SummaryCard
@@ -239,6 +263,7 @@ export default async function TrainerHomePage() {
           label="처리할 일"
           value={todoCount}
           href="/trainer/journals"
+          tint="bg-tint-butter text-tint-butter-foreground"
         />
 
         <SummaryCard
@@ -246,6 +271,7 @@ export default async function TrainerHomePage() {
           label="답장 대기"
           value={todos.awaitingReply.length}
           href="/trainer/journals"
+          tint="bg-tint-mint text-tint-mint-foreground"
         />
       </section>
 
@@ -253,65 +279,74 @@ export default async function TrainerHomePage() {
           Today's Schedule
       ───────────────────────── */}
       <section className="mt-7">
-        <div className="flex items-baseline justify-between gap-2">
+        <div className="flex items-center justify-between gap-3">
           <div>
-            <h2 className="text-base font-bold">
-              오늘 수업
-            </h2>
+            <div className="flex items-center gap-2">
+              <h2 className="text-lg font-bold tracking-tight">오늘 수업</h2>
 
-            <p className="mt-0.5 text-xs text-muted-foreground">
-              {today.length > 0
-                ? `오늘 ${today.length}개의 수업`
-                : "잡힌 수업이 없어요"}
+              <span className="rounded-full bg-tint-sky px-2 py-0.5 text-xs font-bold text-tint-sky-foreground tabular-nums">
+                {today.length}
+              </span>
+            </div>
+
+            <p className="mt-1 text-xs text-muted-foreground">
+              {remaining > 0
+                ? `아직 ${remaining}개의 수업이 남아 있어요`
+                : today.length > 0
+                  ? "오늘 예정된 수업을 확인해 보세요"
+                  : "잠시 여유를 가져도 좋은 하루예요"}
             </p>
           </div>
 
           <Link
             href="/trainer/schedule"
-            className="shrink-0 text-xs font-semibold text-brand-strong"
+            className="flex shrink-0 items-center gap-1 rounded-xl px-2.5 py-2 text-xs font-semibold text-primary transition-colors hover:bg-accent"
           >
-            일정 전체
+            전체 일정
+            <ChevronRight className="size-3.5" aria-hidden />
           </Link>
         </div>
 
         {today.length === 0 ? (
           <EmptyDay message="오늘은 잡힌 수업이 없어요" />
         ) : (
-          <ul className="mt-3 flex flex-col gap-2.5">
+          <ul className="mt-3 flex flex-col gap-2">
             {today.map((session) => (
-              <SessionRow
-                key={session.id}
-                session={session}
-              />
+              <SessionRow key={session.id} session={session} />
             ))}
           </ul>
         )}
       </section>
-
       {/* ─────────────────────────
           Members needing attention
       ───────────────────────── */}
       {attention.length > 0 && (
         <section className="mt-7">
-          <div className="flex items-baseline justify-between gap-2">
+          <div className="flex items-center justify-between gap-3">
             <div>
-              <h2 className="text-base font-bold">
-                확인 필요한 회원
-              </h2>
+              <div className="flex items-center gap-2">
+                <h2 className="text-lg font-bold tracking-tight">
+                  확인 필요한 회원
+                </h2>
 
-              <p className="mt-0.5 text-xs text-muted-foreground">
-                {totalAttentionCount}건의 관리 항목이 있어요
+                <span className="rounded-full bg-status-check-bg px-2 py-0.5 text-xs font-bold text-status-check tabular-nums">
+                  {totalAttentionCount}
+                </span>
+              </div>
+
+              <p className="mt-1 text-xs text-muted-foreground">
+                수업 기록과 회원 답변을 확인해 주세요
               </p>
             </div>
 
             <Link
               href="/trainer/journals"
-              className="shrink-0 text-xs font-semibold text-brand-strong"
+              className="flex shrink-0 items-center gap-1 rounded-xl px-2.5 py-2 text-xs font-semibold text-primary transition-colors hover:bg-accent"
             >
               전체 보기
+              <ChevronRight className="size-3.5" aria-hidden />
             </Link>
           </div>
-
           <ul className="mt-3 flex flex-col gap-2.5">
             {attention.map((item) => (
               <AttentionItem
@@ -325,27 +360,23 @@ export default async function TrainerHomePage() {
           </ul>
         </section>
       )}
-
       {/* ─────────────────────────
           Expiring PT contracts
       ───────────────────────── */}
       {expiring.length > 0 && (
         <Link
           href="/trainer/members?filter=soon"
-          className="mt-3 flex items-center gap-2.5 rounded-2xl border border-border bg-card px-4 py-3 transition-colors hover:bg-secondary/40"
+          className="mt-3 flex items-center gap-2.5 rounded-3xl bg-tint-peach px-4 py-3.5 text-tint-peach-foreground"
         >
-          <span className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-accent text-brand-strong">
-            <CalendarClock
-              className="size-4"
-              aria-hidden
-            />
+          <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-white/70">
+            <CalendarClock className="size-4" aria-hidden />
           </span>
 
           <span className="min-w-0 flex-1 text-sm font-bold">
             PT가 곧 끝나는 회원 {expiring.length}명
           </span>
 
-          <span className="max-w-[42%] shrink-0 truncate text-xs text-muted-foreground">
+          <span className="max-w-[42%] shrink-0 truncate text-xs opacity-80">
             {expiring
               .slice(0, 2)
               .map((member) => member.name)
@@ -360,16 +391,13 @@ export default async function TrainerHomePage() {
           />
         </Link>
       )}
-
       {/* ─────────────────────────
           Members
       ───────────────────────── */}
       <section className="mt-7">
         <div className="flex items-baseline justify-between gap-2">
           <div>
-            <h2 className="text-base font-bold">
-              담당 회원
-            </h2>
+            <h2 className="text-lg font-bold tracking-tight">담당 회원</h2>
 
             <p className="mt-0.5 text-xs text-muted-foreground">
               관리 중인 회원 {home.members.length}명
@@ -378,7 +406,7 @@ export default async function TrainerHomePage() {
 
           <Link
             href="/trainer/members"
-            className="shrink-0 text-xs font-semibold text-brand-strong"
+            className="shrink-0 rounded-full bg-accent px-3 py-1.5 text-xs font-bold text-accent-foreground"
           >
             전체 보기
           </Link>
@@ -388,48 +416,34 @@ export default async function TrainerHomePage() {
           <NoMembers />
         ) : (
           <ul className="mt-3 flex flex-col gap-2.5">
-            {home.members
-              .slice(0, 5)
-              .map((member) => (
-                <MemberCard
-                  key={member.connectionId}
-                  member={member}
-                />
-              ))}
+            {home.members.slice(0, 5).map((member) => (
+              <MemberCard key={member.connectionId} member={member} />
+            ))}
           </ul>
         )}
       </section>
-
       {/* ─────────────────────────
           Todo shortcut
       ───────────────────────── */}
       <Link
         href="/trainer/journals"
-        className="mt-7 flex items-center justify-between rounded-2xl bg-secondary px-4 py-3.5"
+        className="mt-7 flex items-center justify-between rounded-3xl bg-tint-lavender px-4 py-4 text-tint-lavender-foreground"
       >
         <span className="flex items-center gap-2.5">
-          <span className="flex size-8 items-center justify-center rounded-xl bg-card text-brand-strong">
-            <NotebookPen
-              className="size-4"
-              aria-hidden
-            />
+          <span className="flex size-9 items-center justify-center rounded-full bg-white/70">
+            <NotebookPen className="size-4" aria-hidden />
           </span>
 
           <span>
-            <span className="block text-sm font-bold">
-              할 일 모아보기
-            </span>
+            <span className="block text-sm font-bold">할 일 모아보기</span>
 
-            <span className="mt-0.5 block text-xs text-muted-foreground">
+            <span className="mt-0.5 block text-xs opacity-80">
               수업 기록 · 알림장 · 답장 대기
             </span>
           </span>
         </span>
 
-        <ChevronRight
-          className="size-4 text-muted-foreground"
-          aria-hidden
-        />
+        <ChevronRight className="size-4 text-muted-foreground" aria-hidden />
       </Link>
     </main>
   );

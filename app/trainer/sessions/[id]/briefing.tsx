@@ -70,7 +70,7 @@ export function Briefing({
   }
 
   return (
-    <section className="rounded-2xl border border-border bg-card p-4">
+    <section className="rounded-2xl bg-card shadow-card p-4">
       <div className="flex items-start gap-3">
         <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-secondary">
           <Dumbbell

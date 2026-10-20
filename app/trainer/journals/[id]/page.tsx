@@ -91,7 +91,7 @@ export default async function JournalEditorPage({
       </Link>
 
       <div className="mt-3 flex items-baseline justify-between gap-2">
-        <h1 className="text-xl font-bold">
+        <h1 className="text-2xl font-bold tracking-tight">
           {published ? "알림장 수정" : "알림장 쓰기"}
         </h1>
 
@@ -119,7 +119,7 @@ export default async function JournalEditorPage({
       {draft.ptSessionId ? (
         <section className="mt-5">
           <div className="flex items-baseline justify-between gap-2">
-            <h2 className="text-base font-bold">
+            <h2 className="text-lg font-bold tracking-tight">
               이 수업에서 한 운동
             </h2>
 
@@ -132,7 +132,7 @@ export default async function JournalEditorPage({
           </div>
 
           {workout && workout.records.length > 0 ? (
-            <ul className="mt-2 flex flex-col gap-2 rounded-2xl border border-border bg-card p-3.5">
+            <ul className="mt-2 flex flex-col gap-2 rounded-2xl bg-card shadow-card p-3.5">
               {workout.records.map((record) => (
                 <li key={record.id} className="text-sm">
                   <p className="font-semibold">
@@ -213,9 +213,9 @@ export default async function JournalEditorPage({
         이제 트레이너 알림장 화면 자체에서 바로 본다.
       */}
       {published && comments ? (
-        <section className="mt-6 rounded-2xl border border-border bg-card p-5">
+        <section className="mt-6 rounded-2xl bg-card shadow-card p-5">
           <div className="flex items-center justify-between gap-2">
-            <h2 className="text-base font-bold">
+            <h2 className="text-lg font-bold tracking-tight">
               댓글 {comments.comments.length}
             </h2>
 

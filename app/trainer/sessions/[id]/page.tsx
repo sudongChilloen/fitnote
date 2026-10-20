@@ -328,7 +328,7 @@ export default async function SessionRecordPage({
           <div className="flex items-end justify-between gap-3">
             <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <h2 className="text-base font-bold">
+                <h2 className="text-lg font-bold tracking-tight">
                   오늘 한 운동
                 </h2>
 
@@ -587,7 +587,7 @@ export default async function SessionRecordPage({
           className="sticky z-30 -mx-5 mt-8 border-t border-border bg-card/95 px-5 pt-3 pb-3 backdrop-blur"
           style={{
             bottom:
-              "calc(4.25rem + env(safe-area-inset-bottom))",
+              "calc(5.5rem + env(safe-area-inset-bottom))",
           }}
         >
           <FinishSessionDrawer

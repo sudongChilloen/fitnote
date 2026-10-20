@@ -26,7 +26,7 @@ export async function ExerciseTrend({
 
   if (trend.entries.length === 0) {
     return (
-      <section className="rounded-2xl border border-border bg-card p-5">
+      <section className="rounded-2xl bg-card shadow-card p-5">
         <h2 className="text-sm font-bold">내 기록</h2>
         <p className="mt-3 text-sm text-muted-foreground">
           아직 이 운동을 기록한 적이 없어요.
@@ -43,7 +43,7 @@ export async function ExerciseTrend({
   const hidden = trend.entries.length - shown.length;
 
   return (
-    <section className="rounded-2xl border border-border bg-card p-5">
+    <section className="rounded-2xl bg-card shadow-card p-5">
       <div className="flex items-baseline justify-between gap-3">
         <h2 className="text-sm font-bold">내 기록</h2>
         <span className="text-xs text-muted-foreground tabular-nums">

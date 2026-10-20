@@ -44,7 +44,7 @@ export default async function DietPage({ searchParams }: PageProps<"/diet">) {
   return (
     <main className="mx-auto w-full max-w-md px-5 pt-6 pb-28">
       <div className="flex items-baseline justify-between">
-        <h1 className="text-xl font-bold">식단</h1>
+        <h1 className="text-2xl font-bold tracking-tight">식단</h1>
         <Link
           href={`/calendar?date=${dateKey}`}
           className="flex items-center gap-1 text-sm text-muted-foreground"
@@ -56,7 +56,7 @@ export default async function DietPage({ searchParams }: PageProps<"/diet">) {
 
       <nav
         aria-label="날짜 이동"
-        className="mt-4 flex items-center justify-between rounded-2xl border border-border bg-card px-2 py-2"
+        className="mt-4 flex items-center justify-between rounded-2xl bg-card shadow-card px-2 py-2"
       >
         <Link
           href={`/diet?date=${prev}`}
@@ -91,7 +91,7 @@ export default async function DietPage({ searchParams }: PageProps<"/diet">) {
 
       <Link
         href={`/diet/new?date=${dateKey}`}
-        className="mt-4 flex h-13 w-full items-center justify-center gap-1.5 rounded-xl bg-primary text-sm font-bold text-primary-foreground"
+        className="mt-4 flex h-13 w-full items-center justify-center gap-1.5 rounded-xl bg-brand text-sm font-bold text-brand-foreground"
       >
         <Plus className="size-4" aria-hidden />
         식단 남기기
@@ -113,7 +113,7 @@ export default async function DietPage({ searchParams }: PageProps<"/diet">) {
             <li key={record.id}>
               <Link
                 href={`/diet/${record.id}`}
-                className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3"
+                className="flex items-center gap-3 rounded-2xl bg-card shadow-card p-3"
               >
                 {record.thumbnailUrl ? (
                   // 서명 주소는 열 때마다 값이 달라 이미지 최적화 캐시가 매번 빗나간다.

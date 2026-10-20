@@ -54,7 +54,7 @@ export function AddMemberDrawer() {
           setError(null);
           setOpen(true);
         }}
-        className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-xl bg-primary px-3 text-sm font-bold text-primary-foreground"
+        className="inline-flex h-10 shrink-0 items-center gap-2 rounded-xl bg-brand px-4 text-sm font-bold text-brand-foreground shadow-sm transition-all hover:opacity-90 active:scale-[0.98]"
       >
         <UserPlus className="size-4" aria-hidden />
         회원 추가
@@ -63,33 +63,48 @@ export function AddMemberDrawer() {
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerContent>
           <DrawerHeader>
-            <DrawerTitle>회원 추가</DrawerTitle>
-            <DrawerDescription>
-              이름만 적으면 돼요. 회원이 나중에 가입하면 지금부터 쌓이는 기록을
-              그대로 이어받아요.
+            <div className="mb-2 flex size-11 items-center justify-center rounded-2xl bg-accent text-brand-strong">
+              <UserPlus className="size-5" aria-hidden />
+            </div>
+
+            <DrawerTitle className="text-xl font-bold tracking-tight">
+              회원 추가
+            </DrawerTitle>
+
+            <DrawerDescription className="text-sm leading-relaxed">
+              이름만 입력해도 회원을 등록할 수 있어요. 나중에 회원이 가입하면
+              지금까지 쌓인 기록을 이어받아요.
             </DrawerDescription>
           </DrawerHeader>
 
-          <form action={submit} className="flex flex-col gap-3 px-4 pb-6">
-            <label className="flex flex-col gap-1.5">
-              <span className="text-sm font-bold">이름</span>
+          <form action={submit} className="flex flex-col gap-5 px-4 pb-7">
+            <label className="flex flex-col gap-2">
+              <span className="text-sm font-bold">
+                이름 <span className="text-destructive">*</span>
+              </span>
+
               <input
                 name="name"
                 required
                 maxLength={20}
                 autoComplete="off"
-                placeholder="김수정"
-                className="h-11 rounded-xl border border-border bg-background px-3 text-sm"
+                placeholder="회원 이름 입력"
+                className="h-12 rounded-xl border border-border bg-background px-3.5 text-sm outline-none transition-shadow placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/15"
               />
+
+              <span className="text-xs leading-relaxed text-muted-foreground">
+                회원을 구분할 수 있는 이름을 입력해 주세요.
+              </span>
             </label>
 
-            <label className="flex flex-col gap-1.5">
+            <label className="flex flex-col gap-2">
               <span className="text-sm font-bold">
                 연락처{" "}
                 <span className="font-normal text-muted-foreground">
                   (선택)
                 </span>
               </span>
+
               <input
                 name="phone"
                 type="tel"
@@ -97,20 +112,29 @@ export function AddMemberDrawer() {
                 maxLength={20}
                 autoComplete="off"
                 placeholder="010-0000-0000"
-                className="h-11 rounded-xl border border-border bg-background px-3 text-sm tabular-nums"
+                className="h-12 rounded-xl border border-border bg-background px-3.5 text-sm tabular-nums outline-none transition-shadow placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/15"
               />
+
+              <span className="text-xs leading-relaxed text-muted-foreground">
+                지금 연락처를 몰라도 나중에 등록할 수 있어요.
+              </span>
             </label>
 
             {error ? (
-              <p className="text-sm font-bold text-red-500">{error}</p>
+              <p
+                role="alert"
+                className="rounded-xl border border-destructive/20 bg-destructive/5 px-3.5 py-3 text-sm font-semibold text-destructive"
+              >
+                {error}
+              </p>
             ) : null}
 
             <button
               type="submit"
               disabled={pending}
-              className="mt-1 h-12 rounded-xl bg-primary text-sm font-bold text-primary-foreground disabled:opacity-50"
+              className="mt-1 inline-flex h-12 items-center justify-center rounded-xl bg-brand px-4 text-sm font-bold text-brand-foreground shadow-sm transition-all hover:opacity-90 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {pending ? "만드는 중..." : "만들기"}
+              {pending ? "등록하는 중..." : "회원 등록하기"}
             </button>
           </form>
         </DrawerContent>

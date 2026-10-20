@@ -20,17 +20,15 @@ export default async function TrainerLayout({
   }
 
   return (
-    <div className="flex min-h-dvh flex-col">
-      <header className="sticky top-0 z-40 border-b border-border bg-card/95 backdrop-blur">
+    <div className="flex min-h-dvh flex-col bg-background">
+      <header className="sticky top-0 z-40 border-b border-border/70 bg-background/90 backdrop-blur-xl">
         <div className="mx-auto flex w-full max-w-md items-center justify-between px-5 py-3">
           <div className="min-w-0">
             <p className="truncate text-sm font-bold">
               {user.trainerDisplayName ?? user.name}
             </p>
 
-            <p className="text-xs text-muted-foreground">
-              트레이너
-            </p>
+            <p className="text-xs text-muted-foreground">트레이너</p>
           </div>
 
           {user.isMember ? (
@@ -38,10 +36,7 @@ export default async function TrainerLayout({
               href="/home"
               className="flex shrink-0 items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs font-semibold"
             >
-              <ArrowLeftRight
-                className="size-3.5"
-                aria-hidden
-              />
+              <ArrowLeftRight className="size-3.5" aria-hidden />
               회원 화면
             </Link>
           ) : null}
@@ -51,8 +46,7 @@ export default async function TrainerLayout({
       <div
         className="mx-auto w-full max-w-md flex-1"
         style={{
-          paddingBottom:
-            "calc(4.25rem + env(safe-area-inset-bottom))",
+          paddingBottom: "calc(6.25rem + env(safe-area-inset-bottom))",
         }}
       >
         {children}

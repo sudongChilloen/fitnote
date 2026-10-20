@@ -66,7 +66,7 @@ export default async function GoalPage({
             return (
               <label
                 key={goalType}
-                className="flex items-center gap-3 rounded-xl border border-border bg-card p-4 has-checked:border-brand has-checked:bg-accent"
+                className="flex items-center gap-3 rounded-2xl bg-card shadow-card p-4 has-checked:border-brand has-checked:bg-accent"
               >
                 <input
                   type="radio"
@@ -101,7 +101,7 @@ export default async function GoalPage({
             step="0.1"
             required
             placeholder="예: 68"
-            className="h-12 rounded-xl border border-border bg-card px-4 text-base tabular-nums"
+            className="h-12 rounded-2xl bg-card shadow-card px-4 text-base tabular-nums"
           />
         </label>
 
@@ -114,7 +114,7 @@ export default async function GoalPage({
             name="targetDate"
             type="date"
             min={today}
-            className="h-12 rounded-xl border border-border bg-card px-4 text-base"
+            className="h-12 rounded-2xl bg-card shadow-card px-4 text-base"
           />
         </label>
 

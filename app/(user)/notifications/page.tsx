@@ -50,7 +50,7 @@ export default async function NotificationsPage() {
       </header>
 
       {notifications.length === 0 ? (
-        <div className="mt-10 flex flex-col items-center rounded-2xl border border-border bg-card px-6 py-12 text-center">
+        <div className="mt-10 flex flex-col items-center rounded-2xl bg-card shadow-card px-6 py-12 text-center">
           <span className="flex size-12 items-center justify-center rounded-full bg-secondary text-muted-foreground">
             <Bell className="size-5" aria-hidden />
           </span>

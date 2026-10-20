@@ -148,10 +148,7 @@ export async function requireMyMemberByUserId(
   return connection;
 }
 
-export type TrainerManagementStatus =
-  | "normal"
-  | "attention"
-  | "urgent";
+export type TrainerManagementStatus = "normal" | "attention" | "urgent";
 
 export type TrainerManagementEventType =
   | "MEMBER_PENDING"
@@ -179,14 +176,15 @@ export interface TrainerMemberRow {
    * 모르면 트레이너는 엉뚱한 오해를 한다.
    */
   pending: boolean;
-  /** 오늘 잡힌 PT 수업. 없으면 null. */
-  todaySession: {
+  /** 오늘 잡힌 PT 수업들. 없으면 빈 배열. */
+  todaySessions: {
     id: string;
+    sessionNumber: number;
     scheduledAt: Date;
     status: string;
     /** 이 수업의 알림장. 아직 없으면 null. */
     journal: { id: string; status: JournalStatus } | null;
-  } | null;
+  }[];
   /** 마지막 댓글이 회원 것이라 답을 기다리는 알림장. */
   awaitingReply: {
     journalId: string;
@@ -259,9 +257,11 @@ function getManagementEvents(
   }
 
   if (
-    row.todaySession &&
-    (row.todaySession.journal === null ||
-      row.todaySession.journal.status !== JournalStatus.PUBLISHED)
+    row.todaySessions.some(
+      (session) =>
+        session.journal === null ||
+        session.journal.status !== JournalStatus.PUBLISHED,
+    )
   ) {
     events.push({
       type: "SESSION_JOURNAL",
@@ -361,6 +361,7 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
       orderBy: { scheduledAt: "asc" },
       select: {
         id: true,
+        sessionNumber: true,
         scheduledAt: true,
         status: true,
         memberUserId: true,
@@ -453,12 +454,16 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
     }
   }
 
-  const sessionByMember = new Map(
-    todaySessions.map((session) => [session.memberUserId, session]),
-  );
+  const sessionsByMember = new Map<string, (typeof todaySessions)[number][]>();
+
+  for (const session of todaySessions) {
+    const sessions = sessionsByMember.get(session.memberUserId) ?? [];
+    sessions.push(session);
+    sessionsByMember.set(session.memberUserId, sessions);
+  }
 
   const rows: TrainerMemberRow[] = connections.map((connection) => {
-    const session = sessionByMember.get(connection.memberUserId) ?? null;
+    const sessions = sessionsByMember.get(connection.memberUserId) ?? [];
     const mine = journals.filter(
       (j) => j.memberUserId === connection.memberUserId,
     );
@@ -471,15 +476,13 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
         if (!latest || latest.authorUserId === trainer.userId) return null;
 
         const mine = journal.comments.find(
-          (comment) =>
-            comment.authorUserId === trainer.userId,
+          (comment) => comment.authorUserId === trainer.userId,
         );
 
         const count = journal.comments.filter(
           (comment) =>
             comment.authorUserId !== trainer.userId &&
-            (!mine ||
-              comment.createdAt > mine.createdAt),
+            (!mine || comment.createdAt > mine.createdAt),
         ).length;
 
         return {
@@ -499,14 +502,13 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
       userId: connection.memberUser.id,
       name: connection.memberUser.name,
       pending: connection.memberUser.status === "PENDING",
-      todaySession: session
-        ? {
-            id: session.id,
-            scheduledAt: session.scheduledAt,
-            status: session.status,
-            journal: session.journals[0] ?? null,
-          }
-        : null,
+      todaySessions: sessions.map((session) => ({
+        id: session.id,
+        sessionNumber: session.sessionNumber,
+        scheduledAt: session.scheduledAt,
+        status: session.status,
+        journal: session.journals[0] ?? null,
+      })),
       awaitingReply,
       lastJournalAt: published[0]?.date ?? null,
       contract: (() => {
@@ -534,12 +536,13 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
 
     const managementEvents = getManagementEvents(baseRow);
 
-    const managementStatus: TrainerManagementStatus =
-      managementEvents.some((event) => event.status === "urgent")
-        ? "urgent"
-        : managementEvents.some((event) => event.status === "attention")
-          ? "attention"
-          : "normal";
+    const managementStatus: TrainerManagementStatus = managementEvents.some(
+      (event) => event.status === "urgent",
+    )
+      ? "urgent"
+      : managementEvents.some((event) => event.status === "attention")
+        ? "attention"
+        : "normal";
 
     return {
       ...baseRow,
@@ -548,12 +551,16 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
     };
   });
 
-  const pendingJournalCount = rows.filter(
-    (row) =>
-      row.todaySession !== null &&
-      (row.todaySession.journal === null ||
-        row.todaySession.journal.status !== JournalStatus.PUBLISHED),
-  ).length;
+  const pendingJournalCount = rows.reduce(
+    (count, row) =>
+      count +
+      row.todaySessions.filter(
+        (session) =>
+          session.journal === null ||
+          session.journal.status !== JournalStatus.PUBLISHED,
+      ).length,
+    0,
+  );
 
   // 관리가 필요한 회원을 위로. 즉시 확인 > 확인 필요 > 정상.
   // 같은 상태에서는 오늘 수업 > 답장 대기 > 이름순.
@@ -570,15 +577,19 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
     if (statusDiff !== 0) return statusDiff;
 
     const score = (row: TrainerMemberRow) =>
-      (row.todaySession ? 2 : 0) + (row.awaitingReply.length > 0 ? 1 : 0);
+      (row.todaySessions.length > 0 ? 2 : 0) +
+      (row.awaitingReply.length > 0 ? 1 : 0);
 
     const diff = score(b) - score(a);
     if (diff !== 0) return diff;
 
-    if (a.todaySession && b.todaySession) {
+    const aFirstSession = a.todaySessions[0];
+    const bFirstSession = b.todaySessions[0];
+
+    if (aFirstSession && bFirstSession) {
       const gap =
-        a.todaySession.scheduledAt.getTime() -
-        b.todaySession.scheduledAt.getTime();
+        aFirstSession.scheduledAt.getTime() -
+        bFirstSession.scheduledAt.getTime();
       if (gap !== 0) return gap;
     }
 
@@ -620,7 +631,7 @@ export interface TrainerMemberDetail {
     status: JournalStatus;
     commentCount: number;
     awaitingReply: boolean;
-  }[];  
+  }[];
   recentSessions: {
     id: string;
     scheduledAt: Date;
@@ -799,8 +810,7 @@ export async function getMemberDetail(
         status: journal.status,
         commentCount: journal.comments.length,
         awaitingReply:
-          latest !== undefined &&
-          latest.authorUserId !== trainer.userId,
+          latest !== undefined && latest.authorUserId !== trainer.userId,
       };
     }),
   };
