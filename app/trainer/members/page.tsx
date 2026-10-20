@@ -7,26 +7,11 @@ import type { TrainerManagementStatus } from "@/server/trainers/trainer.service"
 
 import { MemberCard, NoMembers } from "../member-card";
 import { AddMemberDrawer } from "./add-member-drawer";
-import { MemberFilter, parseMemberFilter } from "./member-filter";
 import { MemberFilterChips } from "./filter-chips";
+import { parseMemberFilter, type MemberFilter } from "./member-filter";
+import Link from "next/link";
 
 export const metadata = { title: "회원 | FitNote" };
-
-type StatusFilter = "all" | TrainerManagementStatus;
-
-function parseStatusFilter(value: string | string[] | undefined): StatusFilter {
-  const normalized = Array.isArray(value) ? value[0] : value;
-
-  if (
-    normalized === "normal" ||
-    normalized === "attention" ||
-    normalized === "urgent"
-  ) {
-    return normalized;
-  }
-
-  return "all";
-}
 
 /**
  * 담당 회원 목록.
@@ -51,156 +36,138 @@ export default async function TrainerMembersPage({
   const home = await getTrainerHome(user.id);
 
   const filter = parseMemberFilter(query.filter);
-  const status = parseStatusFilter(query.status);
 
   const counts: Record<MemberFilter, number> = {
     all: home.members.length,
-    pt: 0,
-    soon: 0,
-    none: 0,
+    attention: home.members.filter(
+      (member) =>
+        member.managementStatus === "urgent" ||
+        member.managementStatus === "attention",
+    ).length,
+    soon: home.members.filter(
+      (member) => memberContractGroup(member) === "soon",
+    ).length,
   };
 
-  const statusCounts: Record<StatusFilter, number> = {
-    all: home.members.length,
+  const priority: Record<TrainerManagementStatus, number> = {
     urgent: 0,
-    attention: 0,
-    normal: 0,
+    attention: 1,
+    normal: 2,
   };
 
-  for (const member of home.members) {
-    counts[memberContractGroup(member)] += 1;
-    statusCounts[member.managementStatus] += 1;
-  }
+  const shown = home.members
+    .filter((member) => {
+      if (filter === "attention") {
+        return (
+          member.managementStatus === "urgent" ||
+          member.managementStatus === "attention"
+        );
+      }
 
-  const shown = home.members.filter((member) => {
-    const matchesContract =
-      filter === "all" || memberContractGroup(member) === filter;
+      if (filter === "soon") {
+        return memberContractGroup(member) === "soon";
+      }
 
-    const matchesStatus =
-      status === "all" || member.managementStatus === status;
+      return true;
+    })
+    .sort((a, b) => {
+      const statusOrder =
+        priority[a.managementStatus] - priority[b.managementStatus];
 
-    return matchesContract && matchesStatus;
-  });
+      if (statusOrder !== 0) {
+        return statusOrder;
+      }
+
+      const aSoon = memberContractGroup(a) === "soon" ? 0 : 1;
+      const bSoon = memberContractGroup(b) === "soon" ? 0 : 1;
+
+      return aSoon - bSoon;
+    });
 
   return (
-    <main className="px-5 pt-5 pb-16">
-      {/* 헤더 */}
-      <div className="flex items-center justify-between gap-2">
-        <div className="min-w-0">
-          <h1 className="text-2xl font-bold tracking-tight">
-            담당 회원{" "}
-            <span className="text-sm font-normal text-muted-foreground tabular-nums">
-              {home.members.length}명
-            </span>
-          </h1>
+    <main className="px-5 pb-16 pt-6">
+      {/* 페이지 헤더 */}
+      <header className="mb-7">
+        <div className="flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-brand-strong">
+              MEMBER MANAGEMENT
+            </p>
 
-          <p className="mt-1 text-xs text-muted-foreground">
-            관리가 필요한 회원부터 보여드려요.
-          </p>
+            <div className="mt-2.5 flex flex-wrap items-center gap-2">
+              <h1 className="text-2xl font-bold tracking-tight">담당 회원</h1>
+
+              <span className="inline-flex items-center rounded-full bg-secondary px-2.5 py-1 text-xs font-bold tabular-nums text-foreground">
+                {home.members.length}명
+              </span>
+            </div>
+
+            <p className="mt-2 max-w-[260px] text-sm leading-relaxed text-muted-foreground">
+              회원 현황과 관리가 필요한 항목을 확인해요.
+            </p>
+          </div>
+
+          <div className="shrink-0 pt-1">
+            <AddMemberDrawer />
+          </div>
         </div>
-
-        <AddMemberDrawer />
-      </div>
+      </header>
 
       {home.members.length === 0 ? (
         <NoMembers />
       ) : (
         <>
-          {/* 관리 상태 필터 */}
-          <nav
-            className="-mx-5 mt-5 overflow-x-auto px-5"
-            aria-label="관리 상태 필터"
-          >
-            <ul className="flex w-max gap-2">
-              {[
-                {
-                  key: "all" as const,
-                  label: "전체",
-                },
-                {
-                  key: "urgent" as const,
-                  label: "즉시 확인",
-                },
-                {
-                  key: "attention" as const,
-                  label: "확인 필요",
-                },
-                {
-                  key: "normal" as const,
-                  label: "정상",
-                },
-              ].map((item) => {
-                const active = item.key === status;
-
-                const href = buildMemberFilterHref({
-                  filter,
-                  status: item.key,
-                });
-
-                return (
-                  <li key={item.key}>
-                    <a
-                      href={href}
-                      aria-current={active ? "page" : undefined}
-                      className={`
-                        flex
-                        h-9
-                        items-center
-                        gap-1.5
-                        rounded-full
-                        border
-                        px-3.5
-                        text-xs
-                        font-bold
-                        transition
-                        ${
-                          active
-                            ? item.key === "urgent"
-                              ? "border-destructive bg-destructive text-white"
-                              : "border-primary bg-primary text-primary-foreground"
-                            : "border-border bg-card text-muted-foreground"
-                        }
-                      `}
-                    >
-                      {item.label}
-
-                      <span className="tabular-nums opacity-70">
-                        {statusCounts[item.key]}
-                      </span>
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
-
-          {/* 계약 상태 필터 */}
-          <MemberFilterChips current={filter} counts={counts} status={status} />
+          <MemberFilterChips current={filter} counts={counts} />
 
           {/* 결과 */}
           {shown.length === 0 ? (
-            <div className="mt-8 rounded-2xl border border-dashed border-border bg-card px-5 py-8 text-center">
-              <p className="text-sm font-bold">해당 조건의 회원이 없어요.</p>
+            <div className="mt-6 rounded-3xl border border-dashed border-border bg-card px-5 py-9 text-center">
+              <div className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-secondary text-muted-foreground">
+                <span className="text-2xl" aria-hidden>
+                  🙂
+                </span>
+              </div>
 
-              <p className="mt-1 text-xs text-muted-foreground">
-                다른 관리 상태나 계약 상태를 선택해 보세요.
+              <p className="mt-4 text-sm font-bold">
+                해당 조건의 회원이 없어요
               </p>
+
+              <p className="mx-auto mt-2 max-w-xs text-xs leading-relaxed text-muted-foreground">
+                현재 필터에 해당하는 회원이 없어요. 다른 관리 상태나 계약 상태를
+                선택해 보세요.
+              </p>
+
+              <Link
+                href="/trainer/members"
+                className="mt-5 inline-flex h-10 items-center justify-center rounded-xl border border-border px-4 text-sm font-semibold transition-colors hover:bg-secondary"
+              >
+                전체 회원 보기
+              </Link>
             </div>
           ) : (
             <>
-              <div className="mt-5 flex items-center justify-between">
-                <p className="text-xs font-bold text-muted-foreground">
-                  {shown.length}명
-                </p>
+              <div className="mt-7 flex items-end justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-base font-bold tracking-tight">
+                      회원 목록
+                    </h2>
+                    <span className="rounded-full bg-secondary px-2 py-0.5 text-[11px] font-bold tabular-nums text-foreground">
+                      {shown.length}
+                    </span>
+                  </div>
 
-                {status !== "all" ? (
-                  <p className="text-xs text-muted-foreground">
-                    관리 상태 기준으로 표시 중
+                  <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
+                    현재 필터 조건에 해당하는 회원이에요.
                   </p>
-                ) : null}
+                </div>
+
+                <span className="shrink-0 pb-0.5 text-[11px] font-medium text-muted-foreground">
+                  관리 우선순 정렬
+                </span>
               </div>
 
-              <ul className="mt-2.5 flex flex-col gap-2.5">
+              <ul className="mt-3 flex flex-col gap-3">
                 {shown.map((member) => (
                   <MemberCard key={member.connectionId} member={member} />
                 ))}
@@ -211,26 +178,4 @@ export default async function TrainerMembersPage({
       )}
     </main>
   );
-}
-
-function buildMemberFilterHref({
-  filter,
-  status,
-}: {
-  filter: MemberFilter;
-  status: StatusFilter;
-}) {
-  const params = new URLSearchParams();
-
-  if (filter !== "all") {
-    params.set("filter", filter);
-  }
-
-  if (status !== "all") {
-    params.set("status", status);
-  }
-
-  const query = params.toString();
-
-  return query ? `/trainer/members?${query}` : "/trainer/members";
 }

@@ -79,17 +79,17 @@ export function SessionRow({ session }: { session: TrainerSessionRow }) {
   const body = (
     <div
       className={cn(
-        "flex min-h-[5.25rem] items-center gap-3 rounded-2xl border border-border/60 bg-card p-3.5 shadow-card",
-        "transition-colors",
-        !cancelled && "hover:border-primary/20 hover:bg-secondary/20",
+        "flex min-h-[5.5rem] items-center gap-3 rounded-2xl border border-border/60 bg-card p-3.5 shadow-card",
+        "transition-all duration-200",
+        !cancelled && "hover:border-primary/25 hover:bg-secondary/20",
         cancelled && "opacity-55",
       )}
     >
       {/* 수업 시간 */}
-      <div className="w-[3.25rem] shrink-0 text-center">
+      <div className="w-[3.5rem] shrink-0 text-center">
         <p
           className={cn(
-            "text-base leading-none font-bold tabular-nums",
+            "text-base font-bold leading-none tabular-nums",
             session.status === "SCHEDULED" && "text-primary",
             cancelled && "line-through",
           )}
@@ -97,17 +97,17 @@ export function SessionRow({ session }: { session: TrainerSessionRow }) {
           {toKstTimeValue(session.scheduledAt)}
         </p>
 
-        <p className="mt-1.5 text-[0.6875rem] leading-none text-muted-foreground tabular-nums">
+        <p className="mt-2 text-[11px] leading-none text-muted-foreground tabular-nums">
           {session.durationMinutes}분
         </p>
       </div>
 
       {/* 회원 정보 */}
-      <div className="min-w-0 flex-1 border-l border-border pl-3">
+      <div className="min-w-0 flex-1 border-l border-border/70 pl-3">
         <div className="flex min-w-0 flex-wrap items-center gap-1.5">
           <p
             className={cn(
-              "truncate text-sm font-bold",
+              "truncate text-sm font-bold tracking-tight",
               cancelled && "text-muted-foreground line-through",
             )}
           >
@@ -115,26 +115,26 @@ export function SessionRow({ session }: { session: TrainerSessionRow }) {
           </p>
 
           {done ? (
-            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-status-ok-bg px-1.5 py-0.5 text-[0.625rem] font-bold text-status-ok">
+            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-status-ok-bg px-2 py-1 text-[10px] font-bold text-status-ok">
               <Check className="size-3" aria-hidden />
               완료
             </span>
           ) : null}
 
           {noShow ? (
-            <span className="shrink-0 rounded-full bg-status-urgent-bg px-1.5 py-0.5 text-[0.625rem] font-bold text-status-urgent">
+            <span className="shrink-0 rounded-full bg-status-urgent-bg px-2 py-1 text-[10px] font-bold text-status-urgent">
               노쇼
             </span>
           ) : null}
 
           {cancelled ? (
-            <span className="shrink-0 rounded-full bg-secondary px-1.5 py-0.5 text-[0.625rem] font-semibold text-muted-foreground">
+            <span className="shrink-0 rounded-full bg-secondary px-2 py-1 text-[10px] font-semibold text-muted-foreground">
               취소
             </span>
           ) : null}
         </div>
 
-        <div className="mt-1.5 flex min-w-0 items-center gap-1.5 text-xs text-muted-foreground">
+        <div className="mt-2 flex min-w-0 items-center gap-2 text-xs text-muted-foreground">
           <span className="shrink-0 tabular-nums">
             {session.sessionNumber}회차
           </span>
@@ -145,9 +145,8 @@ export function SessionRow({ session }: { session: TrainerSessionRow }) {
                 className="size-1 shrink-0 rounded-full bg-border"
                 aria-hidden
               />
-
               <span className="inline-flex min-w-0 items-center gap-1 truncate text-primary">
-                <Dumbbell className="size-3 shrink-0" aria-hidden />
+                <Dumbbell className="size-3.5 shrink-0" aria-hidden />
                 운동 기록 있음
               </span>
             </>
@@ -157,14 +156,13 @@ export function SessionRow({ session }: { session: TrainerSessionRow }) {
         {managementEvent ? (
           <div
             className={cn(
-              "mt-2 flex min-w-0 items-center gap-1 text-xs font-semibold",
+              "mt-2.5 flex min-w-0 items-center gap-1.5 rounded-lg px-2 py-1.5 text-xs font-semibold",
               managementEvent.status === "urgent"
-                ? "text-status-urgent"
-                : "text-primary",
+                ? "bg-status-urgent-bg text-status-urgent"
+                : "bg-status-check-bg text-status-check",
             )}
           >
             <ManagementEventIcon type={managementEvent.type} />
-
             <span className="truncate">{managementEvent.reason}</span>
           </div>
         ) : null}
@@ -227,15 +225,17 @@ export function SessionRow({ session }: { session: TrainerSessionRow }) {
 
 export function EmptyDay({ message }: { message: string }) {
   return (
-    <div className="mt-3 flex flex-col items-center rounded-2xl border border-dashed border-border bg-card/60 px-5 py-9">
-      <span className="flex size-11 items-center justify-center rounded-2xl bg-accent text-accent-foreground">
-        <CalendarDays className="size-5" aria-hidden />
-      </span>
+    <div className="mt-3 overflow-hidden rounded-3xl border border-dashed border-border bg-card px-5 py-8 text-center">
+      <div className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-accent text-accent-foreground">
+        <CalendarDays className="size-6" aria-hidden />
+      </div>
 
-      <p className="mt-3 text-sm font-semibold text-foreground">{message}</p>
+      <p className="mt-4 text-sm font-bold tracking-tight text-foreground">
+        {message}
+      </p>
 
-      <p className="mt-1 text-xs text-muted-foreground">
-        새로운 수업이 등록되면 여기에 표시돼요.
+      <p className="mx-auto mt-2 max-w-xs text-xs leading-relaxed text-muted-foreground">
+        새로운 수업이 등록되면 이곳에서 시간과 회원 정보를 확인할 수 있어요.
       </p>
     </div>
   );

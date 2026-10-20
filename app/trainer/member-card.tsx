@@ -93,50 +93,57 @@ export function MemberCard({ member }: { member: TrainerMemberRow }) {
     <li>
       <Link
         href={`/trainer/members/${member.connectionId}`}
-        className="group block rounded-2xl border border-border/60 bg-card p-4 shadow-card transition-colors hover:border-primary/20 hover:bg-secondary/20 active:scale-[0.99]"
+        className="group block rounded-3xl border border-border/60 bg-card p-4 shadow-card transition-all duration-200 hover:border-primary/25 hover:shadow-md active:scale-[0.99]"
       >
         {/* 회원 기본 정보 */}
         <div className="flex items-center gap-3">
-          <Avatar name={member.name} className="size-11 shrink-0" />
+          <Avatar name={member.name} className="size-12 shrink-0" />
 
           <div className="min-w-0 flex-1">
-            <div className="flex min-w-0 items-center gap-1.5">
-              <span className="truncate text-[15px] font-bold">
+            <div className="flex min-w-0 flex-wrap items-center gap-1.5">
+              <span className="truncate text-base font-bold tracking-tight">
                 {member.name}
               </span>
 
               {member.pending ? (
-                <span className="shrink-0 rounded-md bg-secondary px-1.5 py-0.5 text-[10px] font-bold text-muted-foreground">
+                <span className="shrink-0 rounded-full bg-secondary px-2 py-0.5 text-[10px] font-bold text-muted-foreground">
                   미가입
                 </span>
               ) : null}
             </div>
 
-            <p className="mt-1 truncate text-xs text-muted-foreground">
+            <p
+              className={cn(
+                "mt-1.5 truncate text-xs font-medium",
+                contract.urgent
+                  ? "text-status-urgent"
+                  : "text-muted-foreground",
+              )}
+            >
               {contract.text}
             </p>
           </div>
 
           <div className="flex shrink-0 items-center gap-2">
             {replyCount > 0 ? (
-              <span className="inline-flex items-center gap-1 rounded-full bg-accent px-2 py-1 text-xs font-bold text-accent-foreground">
+              <span className="inline-flex items-center gap-1 rounded-full bg-accent px-2.5 py-1.5 text-xs font-bold text-accent-foreground">
                 <MessageSquare className="size-3.5" aria-hidden />
                 {replyCount}
               </span>
             ) : null}
 
-            <span className="flex size-7 items-center justify-center rounded-full bg-secondary/70 text-muted-foreground transition-colors group-hover:bg-accent group-hover:text-accent-foreground">
+            <span className="flex size-8 items-center justify-center rounded-full bg-secondary/70 text-muted-foreground transition-colors group-hover:bg-accent group-hover:text-accent-foreground">
               <ChevronRight className="size-4" aria-hidden />
             </span>
           </div>
         </div>
 
-        {/* 실제로 처리할 일 */}
+        {/* 처리할 일 */}
         {managementReasonText || todo ? (
-          <div className="mt-3 flex items-center gap-2 rounded-xl bg-secondary/60 px-3 py-2.5">
+          <div className="mt-4 flex items-center gap-2.5 rounded-2xl border border-border/50 bg-secondary/50 p-3">
             <span
               className={cn(
-                "flex size-7 shrink-0 items-center justify-center rounded-lg",
+                "flex size-9 shrink-0 items-center justify-center rounded-xl",
                 todo?.tone === "strong"
                   ? "bg-status-check-bg text-status-check"
                   : "bg-accent text-accent-foreground",
@@ -155,7 +162,7 @@ export function MemberCard({ member }: { member: TrainerMemberRow }) {
               </span>
 
               {managementReasonText && todo ? (
-                <span className="mt-0.5 block text-[11px] text-muted-foreground">
+                <span className="mt-1 block text-[11px] text-muted-foreground">
                   {todo.label}
                 </span>
               ) : null}
@@ -171,12 +178,12 @@ export function MemberCard({ member }: { member: TrainerMemberRow }) {
 
         {/* 오늘 수업 */}
         {member.todaySessions.length > 0 ? (
-          <div className="mt-3">
+          <div className="mt-4">
             <div className="mb-2 flex items-center gap-1.5">
-              <CalendarClock className="size-3.5 text-primary" aria-hidden />
+              <CalendarClock className="size-4 text-primary" aria-hidden />
               <span className="text-xs font-bold">오늘 수업</span>
-              <span className="text-xs text-muted-foreground">
-                {member.todaySessions.length}개
+              <span className="rounded-full bg-secondary px-1.5 py-0.5 text-[10px] font-bold tabular-nums text-muted-foreground">
+                {member.todaySessions.length}
               </span>
             </div>
 
@@ -184,7 +191,7 @@ export function MemberCard({ member }: { member: TrainerMemberRow }) {
               {member.todaySessions.map((session) => (
                 <div
                   key={session.id}
-                  className="flex items-center justify-between gap-3 rounded-xl bg-tint-sky/70 px-3 py-2 text-tint-sky-foreground"
+                  className="flex items-center justify-between gap-3 rounded-xl bg-tint-sky/70 px-3 py-2.5 text-tint-sky-foreground"
                 >
                   <span className="text-xs font-bold tabular-nums">
                     {formatKstTimeLabel(session.scheduledAt)}
@@ -208,16 +215,17 @@ export function MemberCard({ member }: { member: TrainerMemberRow }) {
         ) : null}
 
         {/* 최근 기록 */}
-        <div className="mt-3 flex items-center gap-1.5 border-t border-border/60 pt-3 text-xs text-muted-foreground">
-          <NotebookPen className="size-3.5 shrink-0" aria-hidden />
-          <span className="truncate">
+        <div className="mt-4 flex items-center gap-2 border-t border-border/60 pt-3.5 text-xs text-muted-foreground">
+          <NotebookPen className="size-4 shrink-0" aria-hidden />
+
+          <span className="min-w-0 flex-1 truncate">
             {member.lastJournalAt
               ? `마지막 알림장 ${formatKstDateLabel(member.lastJournalAt)}`
               : "작성된 알림장이 없어요"}
           </span>
 
           {contract.urgent ? (
-            <span className="ml-auto shrink-0 rounded-md bg-status-urgent-bg px-1.5 py-1 text-[10px] font-bold text-status-urgent">
+            <span className="shrink-0 rounded-full bg-status-urgent-bg px-2 py-1 text-[10px] font-bold text-status-urgent">
               계약 만료 임박
             </span>
           ) : null}
@@ -232,46 +240,35 @@ export function MemberCard({ member }: { member: TrainerMemberRow }) {
  */
 export function NoMembers() {
   return (
-    <div className="mt-3 rounded-2xl bg-card shadow-card p-5">
-      <span
-        className="
-          flex
-          size-9
-          items-center
-          justify-center
-          rounded-xl
-          bg-accent
-          text-brand-strong
-        "
-      >
-        <UserPlus className="size-4.5" aria-hidden />
-      </span>
+    <section className="mt-6 overflow-hidden rounded-3xl border border-border/60 bg-card shadow-card">
+      <div className="flex flex-col items-center px-6 pb-6 pt-8 text-center">
+        <div className="flex size-16 items-center justify-center rounded-2xl bg-accent text-brand-strong">
+          <UserPlus className="size-7" aria-hidden />
+        </div>
 
-      <p className="mt-2.5 text-sm font-bold">아직 담당 회원이 없어요</p>
+        <p className="mt-5 text-lg font-bold tracking-tight">
+          아직 담당 회원이 없어요
+        </p>
 
-      <p className="mt-1 text-xs text-muted-foreground">
-        위의 <b className="font-bold text-foreground">회원 추가</b>로 이름만
-        적어 두면 바로 PT 계약과 수업을 잡을 수 있어요. 회원이 나중에 가입하면
-        그동안 쌓인 기록을 그대로 이어받아요.
-      </p>
+        <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground">
+          회원을 추가하면 PT 계약과 수업 일정을 관리할 수 있어요. 회원이 나중에
+          가입해도 그동안 쌓인 기록을 이어갈 수 있어요.
+        </p>
 
-      <Link
-        href="/trainer/profile"
-        className="
-          mt-3
-          inline-flex
-          h-10
-          items-center
-          rounded-xl
-          border
-          border-border
-          px-4
-          text-sm
-          font-bold
-        "
-      >
-        초대 코드 만들기
-      </Link>
-    </div>
+        <div className="mt-6 flex w-full flex-col gap-2 sm:flex-row sm:justify-center">
+          <Link
+            href="/trainer/profile"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-border/70 px-4 text-sm font-semibold transition-colors hover:bg-secondary"
+          >
+            초대 코드 만들기
+            <ChevronRight className="size-4" aria-hidden />
+          </Link>
+        </div>
+
+        <p className="mt-4 text-[11px] leading-relaxed text-muted-foreground">
+          회원을 추가하려면 화면 상단의 회원 추가 버튼을 이용하세요.
+        </p>
+      </div>
+    </section>
   );
 }

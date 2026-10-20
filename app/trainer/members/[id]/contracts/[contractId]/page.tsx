@@ -120,38 +120,58 @@ export default async function ContractPage({
         {member.name}
       </Link>
 
-      <h1 className="mt-3 text-xl font-bold">{contract.title}</h1>
+      <div className="mt-5">
+        <p className="text-xs font-semibold text-muted-foreground">
+          PT CONTRACT
+        </p>
+        <h1 className="mt-1 text-2xl font-bold tracking-tight">
+          {contract.title}
+        </h1>
+      </div>
 
-      <div className="mt-3 rounded-2xl bg-card shadow-card p-4">
-        <div className="flex items-baseline justify-between gap-2">
-          <p className="text-sm text-muted-foreground tabular-nums">
-            {contract.usedSessions} / {contract.totalSessions}회
-          </p>
-          <p className="text-sm font-bold text-brand-strong tabular-nums">
-            {contract.remaining}회 남음
+      <div className="mt-5 rounded-3xl bg-card p-5 shadow-card">
+        <div className="flex items-end justify-between gap-3">
+          <div>
+            <p className="text-xs font-medium text-muted-foreground">
+              남은 수업
+            </p>
+            <p className="mt-1 text-3xl font-bold tracking-tight text-brand-strong tabular-nums">
+              {contract.remaining}
+              <span className="ml-1 text-base font-semibold">회</span>
+            </p>
+          </div>
+
+          <p className="text-sm font-semibold text-muted-foreground tabular-nums">
+            총 {contract.totalSessions}회 중 {contract.usedSessions}회 완료
           </p>
         </div>
 
-        <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-secondary">
+        <div className="mt-5 h-2 overflow-hidden rounded-full bg-secondary">
           <div
-            className="h-full rounded-full bg-brand"
-            style={{ width: `${ratio}%` }}
+            className="h-full rounded-full bg-brand transition-all"
+            style={{ width: `${Math.min(100, ratio)}%` }}
           />
         </div>
 
-        <p className="mt-2.5 text-xs text-muted-foreground">
-          {formatKstDateLabel(contract.startedAt)} 시작
-          {contract.expiresAt
-            ? ` · ${formatKstDateLabel(contract.expiresAt)}까지`
-            : " · 기간 없음"}
-          {contract.status !== "ACTIVE"
-            ? ` · ${CONTRACT_STATUS_LABEL[contract.status]}`
-            : ""}
-        </p>
+        <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
+          <span>{formatKstDateLabel(contract.startedAt)} 시작</span>
+          <span aria-hidden>·</span>
+          <span>
+            {contract.expiresAt
+              ? `${formatKstDateLabel(contract.expiresAt)} 만료`
+              : "기간 제한 없음"}
+          </span>
+          {contract.status !== "ACTIVE" ? (
+            <>
+              <span aria-hidden>·</span>
+              <span>{CONTRACT_STATUS_LABEL[contract.status]}</span>
+            </>
+          ) : null}
+        </div>
 
         {contract.expired && contract.status === "ACTIVE" ? (
-          <p className="mt-1.5 text-xs font-bold text-destructive">
-            기간이 지났어요. 연장하지 않으면 새 수업을 잡을 수 없어요.
+          <p className="mt-3 rounded-xl bg-destructive/10 px-3 py-2.5 text-xs font-semibold text-destructive">
+            계약 기간이 지났어요. 기간을 연장해야 새 수업을 예약할 수 있어요.
           </p>
         ) : null}
       </div>
@@ -163,7 +183,7 @@ export default async function ContractPage({
       ) : null}
 
       {canSchedule ? (
-        <details className="mt-4 rounded-2xl bg-card shadow-card">
+        <details className="mt-4 overflow-hidden rounded-2xl border border-border/70 bg-card">
           <summary className="flex h-12 cursor-pointer list-none items-center gap-2 px-4 text-sm font-bold">
             <CalendarClock className="size-4" aria-hidden />
             수업 잡기
@@ -230,19 +250,21 @@ export default async function ContractPage({
             아직 잡은 수업이 없어요.
           </p>
         ) : (
-          <ol className="mt-2 flex flex-col gap-2.5">
+          <ol className="mt-3 flex flex-col gap-3">
             {sessions.map((session) => (
               <li
                 key={session.id}
-                className="rounded-2xl bg-card shadow-card p-4"
+                className="overflow-hidden rounded-2xl border border-border/60 bg-card"
               >
-                <div className="flex items-start justify-between gap-2">
+                <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <p className="text-sm font-bold">
-                      {session.sessionNumber}회차
+                    <p className="text-base font-bold tracking-tight">
+                      {session.sessionNumber}회차 수업
+                    </p>
+                    <p className="mt-1 text-sm font-medium">
+                      {formatKstDateLabel(session.scheduledAt)}
                     </p>
                     <p className="mt-0.5 text-xs text-muted-foreground">
-                      {formatKstDateLabel(session.scheduledAt)}{" "}
                       {formatKstTimeLabel(session.scheduledAt)} ·{" "}
                       {session.durationMinutes}분
                     </p>
@@ -282,7 +304,7 @@ export default async function ContractPage({
                   {session.status !== "CANCELLED" ? (
                     <Link
                       href={`/trainer/sessions/${session.id}`}
-                      className="inline-flex h-8 items-center gap-1 rounded-full border border-border px-3 text-xs font-bold"
+                      className="inline-flex h-9 items-center gap-1.5 rounded-full border border-border/70 bg-background px-3.5 text-xs font-semibold transition-colors hover:bg-secondary"
                     >
                       <Dumbbell className="size-3.5" aria-hidden />
                       {session.workoutSessionId ? "운동 기록" : "운동 적기"}
@@ -292,7 +314,7 @@ export default async function ContractPage({
                   {session.journalId ? (
                     <Link
                       href={`/trainer/journals/${session.journalId}`}
-                      className="inline-flex h-8 items-center gap-1 rounded-full border border-border px-3 text-xs font-bold"
+                      className="inline-flex h-9 items-center gap-1.5 rounded-full border border-border/70 bg-background px-3.5 text-xs font-semibold transition-colors hover:bg-secondary"
                     >
                       <PenLine className="size-3.5" aria-hidden />
                       알림장
@@ -311,7 +333,7 @@ export default async function ContractPage({
                       />
                       <button
                         type="submit"
-                        className="inline-flex h-8 items-center gap-1 rounded-full border border-border px-3 text-xs font-bold"
+                        className="inline-flex h-9 items-center gap-1.5 rounded-full border border-border/70 bg-background px-3.5 text-xs font-semibold transition-colors hover:bg-secondary"
                       >
                         <PenLine className="size-3.5" aria-hidden />
                         알림장 쓰기
@@ -336,8 +358,8 @@ export default async function ContractPage({
                       </SubmitButton>
                     </form>
 
-                    <details className="rounded-xl border border-border">
-                      <summary className="flex h-10 cursor-pointer list-none items-center px-3 text-xs font-bold text-muted-foreground">
+                    <details className="overflow-hidden rounded-xl border border-border/70 bg-background">
+                      <summary className="flex h-11 cursor-pointer list-none items-center justify-between px-3.5 text-xs font-semibold text-muted-foreground marker:hidden">
                         미루기
                       </summary>
 
@@ -393,8 +415,8 @@ export default async function ContractPage({
                       </form>
                     </details>
 
-                    <details className="rounded-xl border border-border">
-                      <summary className="flex h-10 cursor-pointer list-none items-center px-3 text-xs font-bold text-muted-foreground">
+                    <details className="overflow-hidden rounded-xl border border-border/70 bg-background">
+                      <summary className="flex h-11 cursor-pointer list-none items-center justify-between px-3.5 text-xs font-semibold text-muted-foreground marker:hidden">
                         노쇼 · 취소
                       </summary>
 
