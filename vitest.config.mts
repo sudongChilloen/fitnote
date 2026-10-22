@@ -5,9 +5,9 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   resolve: {
     alias: {
-      "@": path.resolve(__dirname),
+      "@": path.resolve(import.meta.dirname),
       // 서버 전용 모듈을 테스트에서 불러올 수 있게 빈 모듈로 바꾼다.
-      "server-only": path.resolve(__dirname, "tests/stubs/empty.ts"),
+      "server-only": path.resolve(import.meta.dirname, "tests/stubs/empty.ts"),
     },
   },
   test: {
