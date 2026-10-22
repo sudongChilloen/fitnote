@@ -10,6 +10,7 @@ import {
 import { kstStartOfDay } from "@/lib/date";
 import { prisma } from "@/lib/prisma";
 import { createNotification } from "@/server/notifications/notification.service";
+import { lockPTContract } from "./pt-session-lock";
 import {
   requireMyMember,
   requireTrainerProfile,
@@ -294,6 +295,14 @@ export async function scheduleSession(
   }
 
   return prisma.$transaction(async (tx) => {
+    /*
+      같은 계약에 동시에 들어온 예약을 줄 세운다.
+
+      잠그지 않으면 두 요청이 같은 "마지막 회차" 를 읽고 같은 번호를 만들려다
+      한쪽이 unique 위반으로 죽고, 횟수를 세는 쪽도 서로의 예약을 못 본다.
+    */
+    await lockPTContract(tx, contract.id);
+
     /*
       아직 안 한 수업까지 세서 남은 횟수를 본다.
 
