@@ -4,6 +4,11 @@ import type { Prisma } from "@/generated/prisma/client";
 import { NotificationType } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
 
+import { getNotificationHref } from "./notification-href";
+import { queuePush } from "./push.service";
+
+export { getNotificationHref };
+
 export type NotificationTx = Prisma.TransactionClient;
 
 export async function createNotification(
@@ -17,7 +22,7 @@ export async function createNotification(
     relatedId?: string | null;
   },
 ) {
-  return tx.notification.create({
+  const created = await tx.notification.create({
     data: {
       userId: input.userId,
       type: input.type,
@@ -28,6 +33,17 @@ export async function createNotification(
     },
     select: { id: true },
   });
+
+  /*
+    푸시는 앱 안 알림이 저장된 *뒤에* 응답이 끝나고 나서 보낸다.
+
+    이 함수는 대부분 트랜잭션 안에서 불린다. 여기서 바로 보내면 아직 커밋되지 않은
+    알림을 가리키게 되고, 트랜잭션이 되돌려져도 푸시는 이미 나간 뒤다. after() 는
+    응답 뒤에 돌아서 커밋 이후가 보장되고, 롤백되면 행이 없어 보낼 것도 없다.
+  */
+  queuePush(created.id);
+
+  return created;
 }
 
 export type NotificationRow = {
@@ -41,54 +57,6 @@ export type NotificationRow = {
   readAt: Date | null;
   createdAt: Date;
 };
-
-/**
- * 알림의 실제 이동 경로를 한 곳에서 결정한다.
- *
- * 알림 DB에는 도메인 ID만 저장하고 URL은 화면 계층에서 만든다.
- * 그래야 나중에 경로가 바뀌어도 기존 알림 데이터를 다시 만들 필요가 없다.
- */
-export function getNotificationHref(notification: {
-  type: NotificationType;
-  relatedType: string | null;
-  relatedId: string | null;
-}) {
-  if (notification.relatedType === "DIET_RECORD" && notification.relatedId) {
-    return `/diet/${notification.relatedId}`;
-  }
-
-  if (notification.relatedType === "JOURNAL" && notification.relatedId) {
-    return `/journal/${notification.relatedId}`;
-  }
-
-  if (
-    notification.relatedType === "JOURNAL_COMMENT" &&
-    notification.relatedId
-  ) {
-    return `/trainer/journals/${notification.relatedId}`;
-  }
-
-  if (notification.relatedType === "PT_SESSION" && notification.relatedId) {
-    return `/sessions`;
-  }
-
-  if (
-    notification.type === NotificationType.JOURNAL_CREATED &&
-    notification.relatedId
-  ) {
-    return `/journal/${notification.relatedId}`;
-  }
-
-  if (
-    notification.type === NotificationType.PT_SESSION_CHANGED ||
-    notification.type === NotificationType.PT_SESSION_REMINDER ||
-    notification.type === NotificationType.PT_CONTRACT_EXPIRING
-  ) {
-    return "/sessions";
-  }
-
-  return "/notifications";
-}
 
 export async function getNotifications(
   userId: string,
