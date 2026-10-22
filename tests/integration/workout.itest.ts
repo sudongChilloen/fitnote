@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 import { prisma } from "@/lib/prisma";
 import {
@@ -13,6 +13,32 @@ import {
 } from "@/server/workouts/workout.service";
 
 import { uniq } from "./helpers";
+
+/**
+ * 이 파일의 모든 테스트가 도는 동안 pg 경고를 모은다.
+ *
+ * pg 가 "이미 쿼리를 실행 중인 연결에 query() 를 불렀다" 고 경고하면 pg 9 에서는
+ * 오류가 된다. 같은 경고는 프로세스에서 한 번만 뜨므로 테스트마다 따로 보면 앞선
+ * 테스트가 가져가 버린다. 파일 전체에 걸어 두고 끝에서 한 번에 본다.
+ */
+const pgWarnings: string[] = [];
+const collectWarning = (warning: Error) => {
+  if (warning.message.includes("client.query()")) {
+    pgWarnings.push(warning.message);
+  }
+};
+
+beforeAll(() => {
+  process.on("warning", collectWarning);
+});
+
+afterAll(async () => {
+  // 경고는 비동기로 뜬다.
+  await new Promise((resolve) => setTimeout(resolve, 200));
+  process.off("warning", collectWarning);
+
+  expect(pgWarnings).toEqual([]);
+});
 
 async function setup() {
   const user = await prisma.user.create({
@@ -99,7 +125,9 @@ describe("운동 기록 한 바퀴", () => {
 
     expect(await getSessionById(other.userId, sessionId)).toBeNull();
     expect(
-      await addRecord(other.userId, sessionId, { exerciseId: other.exerciseId }),
+      await addRecord(other.userId, sessionId, {
+        exerciseId: other.exerciseId,
+      }),
     ).toBeNull();
   });
 });

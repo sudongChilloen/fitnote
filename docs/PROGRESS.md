@@ -2126,10 +2126,14 @@ CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint 
 
 ### 7-5. 알려진 이슈
 
-- 워크아웃 테스트를 돌리면 `pg` 가 `Calling client.query() when the client is
-  already executing a query` 경고를 낸다. 분리 전 코드에서도 똑같다. 같은 연결에
-  쿼리가 겹쳐 나가는 곳이 있다는 신호이고 `pg` 9 에서 제거될 예정이다. 아직 어디인지
-  찾지 않았다
+- ~~`pg` 경고~~ (해결, 2026-10-22). 워크아웃 테스트에서 `pg` 가 `Calling client.query()
+  when the client is already executing a query` 를 냈다. 원인은 `create` / `update` 에
+  `include: sessionInclude` 를 붙인 세 곳(`startSession`, `finishSession`,
+  `openManualSession`)이었다. 관계(기록 → 운동·세트, 기록한 사람)까지 한 번에 돌려받으면
+  Prisma 가 읽어 오는 쿼리들을 변경 쿼리의 트랜잭션 연결에 동시에 보낸다 (`@prisma/adapter-pg`
+  와의 조합). 변경은 `select: { id: true }` 만 받고 `loadSession(id)` 로 따로 읽도록 바꿨다.
+  같은 경고는 프로세스에서 한 번만 뜨므로 `workout.itest.ts` 가 파일 전체에 걸어 두고 끝에서
+  확인한다. 새로 변경 쿼리에 깊은 `include` 를 붙이면 이 테스트가 잡는다
 - 트레이너 페이지 권한 점검(2026-10-22): `app/trainer` 페이지 11개가 부르는 서비스 함수
   19개를 확인했다. 모두 `requireTrainerProfile` / `requireMyMember` / `assertTrainerCanView`
   중 하나나 `trainerProfileId` 조건으로 소유권을 확인한다. 페이지에서 `prisma` 를
@@ -2153,7 +2157,6 @@ CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint 
   `journal.service.ts` 654줄, `trainer-board.service.ts` 637줄
 - **CI 첫 실행 확인.** 6장 참고
 - **트레이너 페이지 권한 확인 점검.** 7-5 참고
-- **`pg` 경고 원인 찾기.** 7-5 참고
 
 ### 정리 필요
 
