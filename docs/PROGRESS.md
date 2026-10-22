@@ -2130,6 +2130,15 @@ CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint 
   `workout-record.service` / `workout-stats.service` 로 나눴다
 - 두 파일 모두 기존 공개 API 를 그대로 다시 내보내는 진입점으로 남아서 import 경로는
   바뀌지 않았다. 코드는 옮기기만 했다 (공유하게 된 헬퍼에 `export` 만 붙임)
+- 이어서 네 파일도 같은 방식으로 나눴다. 분리 전후의 공개 이름 목록을 대조해 하나도 빠지지
+  않았음을 확인했다
+  - `trainer.service.ts`(817줄) → `trainer-shared`(접근 확인: `requireTrainerProfile`,
+    `requireMyMember` 등) / `trainer-home.service` / `trainer-member-detail.service`
+  - `connection.service.ts`(656줄) → `connection-shared` / `connection-invite.service`(트레이너
+    프로필·초대·연결) / `connection-claim.service`(미가입 회원·이어받기)
+  - `journal.service.ts`(654줄) → `journal-shared` / `journal-timeline.service` /
+    `journal-detail.service`(상세·댓글·공지)
+  - `trainer-board.service.ts`(637줄) → `trainer-board-shared` / `-week` / `-todos` / `-month`
 
 ### 7-4. 배포 전에 할 일
 
@@ -2176,8 +2185,8 @@ CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint 
 - **`DataAccessLog`.** 회원이 "누가 언제 내 무엇을 봤는지" 를 직접 확인하는 기록.
   지금은 공유가 꺼져 있으면 조회 자체를 하지 않는 것으로 대신한다
 - **테스트 확대.** 6장의 "테스트가 없는 곳"
-- **남은 큰 서비스 파일.** `trainer.service.ts` 817줄, `connection.service.ts` 656줄,
-  `journal.service.ts` 654줄, `trainer-board.service.ts` 637줄
+- **남은 큰 서비스 파일.** `workout-record.service.ts` 약 600줄, `journal-editor.service.ts`
+  약 485줄 정도가 가장 크다. 지금은 나눌 필요가 크지 않다
 - **CI 첫 실행 확인.** 6장 참고
 - **트레이너 페이지 권한 확인 점검.** 7-5 참고
 
