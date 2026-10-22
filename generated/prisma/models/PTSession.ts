@@ -39,61 +39,61 @@ export type PTSessionSumAggregateOutputType = {
 export type PTSessionMinAggregateOutputType = {
   id: string | null
   contractId: string | null
-  memberUserId: string | null
-  trainerProfileId: string | null
   sessionNumber: number | null
   scheduledAt: Date | null
   durationMinutes: number | null
   status: $Enums.PTSessionStatus | null
-  deducted: boolean | null
   memo: string | null
   completedAt: Date | null
   cancelledAt: Date | null
-  cancelledBy: $Enums.PTSessionActor | null
   cancelReason: string | null
-  memberAlertAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  memberUserId: string | null
+  trainerProfileId: string | null
+  deducted: boolean | null
+  cancelledBy: $Enums.PTSessionActor | null
+  memberAlertAt: Date | null
 }
 
 export type PTSessionMaxAggregateOutputType = {
   id: string | null
   contractId: string | null
-  memberUserId: string | null
-  trainerProfileId: string | null
   sessionNumber: number | null
   scheduledAt: Date | null
   durationMinutes: number | null
   status: $Enums.PTSessionStatus | null
-  deducted: boolean | null
   memo: string | null
   completedAt: Date | null
   cancelledAt: Date | null
-  cancelledBy: $Enums.PTSessionActor | null
   cancelReason: string | null
-  memberAlertAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  memberUserId: string | null
+  trainerProfileId: string | null
+  deducted: boolean | null
+  cancelledBy: $Enums.PTSessionActor | null
+  memberAlertAt: Date | null
 }
 
 export type PTSessionCountAggregateOutputType = {
   id: number
   contractId: number
-  memberUserId: number
-  trainerProfileId: number
   sessionNumber: number
   scheduledAt: number
   durationMinutes: number
   status: number
-  deducted: number
   memo: number
   completedAt: number
   cancelledAt: number
-  cancelledBy: number
   cancelReason: number
-  memberAlertAt: number
   createdAt: number
   updatedAt: number
+  memberUserId: number
+  trainerProfileId: number
+  deducted: number
+  cancelledBy: number
+  memberAlertAt: number
   _all: number
 }
 
@@ -111,61 +111,61 @@ export type PTSessionSumAggregateInputType = {
 export type PTSessionMinAggregateInputType = {
   id?: true
   contractId?: true
-  memberUserId?: true
-  trainerProfileId?: true
   sessionNumber?: true
   scheduledAt?: true
   durationMinutes?: true
   status?: true
-  deducted?: true
   memo?: true
   completedAt?: true
   cancelledAt?: true
-  cancelledBy?: true
   cancelReason?: true
-  memberAlertAt?: true
   createdAt?: true
   updatedAt?: true
+  memberUserId?: true
+  trainerProfileId?: true
+  deducted?: true
+  cancelledBy?: true
+  memberAlertAt?: true
 }
 
 export type PTSessionMaxAggregateInputType = {
   id?: true
   contractId?: true
-  memberUserId?: true
-  trainerProfileId?: true
   sessionNumber?: true
   scheduledAt?: true
   durationMinutes?: true
   status?: true
-  deducted?: true
   memo?: true
   completedAt?: true
   cancelledAt?: true
-  cancelledBy?: true
   cancelReason?: true
-  memberAlertAt?: true
   createdAt?: true
   updatedAt?: true
+  memberUserId?: true
+  trainerProfileId?: true
+  deducted?: true
+  cancelledBy?: true
+  memberAlertAt?: true
 }
 
 export type PTSessionCountAggregateInputType = {
   id?: true
   contractId?: true
-  memberUserId?: true
-  trainerProfileId?: true
   sessionNumber?: true
   scheduledAt?: true
   durationMinutes?: true
   status?: true
-  deducted?: true
   memo?: true
   completedAt?: true
   cancelledAt?: true
-  cancelledBy?: true
   cancelReason?: true
-  memberAlertAt?: true
   createdAt?: true
   updatedAt?: true
+  memberUserId?: true
+  trainerProfileId?: true
+  deducted?: true
+  cancelledBy?: true
+  memberAlertAt?: true
   _all?: true
 }
 
@@ -258,21 +258,21 @@ export type PTSessionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 export type PTSessionGroupByOutputType = {
   id: string
   contractId: string
-  memberUserId: string
-  trainerProfileId: string
   sessionNumber: number
   scheduledAt: Date
   durationMinutes: number
   status: $Enums.PTSessionStatus
-  deducted: boolean
   memo: string | null
   completedAt: Date | null
   cancelledAt: Date | null
-  cancelledBy: $Enums.PTSessionActor | null
   cancelReason: string | null
-  memberAlertAt: Date | null
   createdAt: Date
   updatedAt: Date
+  memberUserId: string
+  trainerProfileId: string
+  deducted: boolean
+  cancelledBy: $Enums.PTSessionActor | null
+  memberAlertAt: Date | null
   _count: PTSessionCountAggregateOutputType | null
   _avg: PTSessionAvgAggregateOutputType | null
   _sum: PTSessionSumAggregateOutputType | null
@@ -301,53 +301,53 @@ export type PTSessionWhereInput = {
   NOT?: Prisma.PTSessionWhereInput | Prisma.PTSessionWhereInput[]
   id?: Prisma.StringFilter<"PTSession"> | string
   contractId?: Prisma.StringFilter<"PTSession"> | string
-  memberUserId?: Prisma.StringFilter<"PTSession"> | string
-  trainerProfileId?: Prisma.StringFilter<"PTSession"> | string
   sessionNumber?: Prisma.IntFilter<"PTSession"> | number
   scheduledAt?: Prisma.DateTimeFilter<"PTSession"> | Date | string
   durationMinutes?: Prisma.IntFilter<"PTSession"> | number
   status?: Prisma.EnumPTSessionStatusFilter<"PTSession"> | $Enums.PTSessionStatus
-  deducted?: Prisma.BoolFilter<"PTSession"> | boolean
   memo?: Prisma.StringNullableFilter<"PTSession"> | string | null
   completedAt?: Prisma.DateTimeNullableFilter<"PTSession"> | Date | string | null
   cancelledAt?: Prisma.DateTimeNullableFilter<"PTSession"> | Date | string | null
-  cancelledBy?: Prisma.EnumPTSessionActorNullableFilter<"PTSession"> | $Enums.PTSessionActor | null
   cancelReason?: Prisma.StringNullableFilter<"PTSession"> | string | null
-  memberAlertAt?: Prisma.DateTimeNullableFilter<"PTSession"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"PTSession"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PTSession"> | Date | string
+  memberUserId?: Prisma.StringFilter<"PTSession"> | string
+  trainerProfileId?: Prisma.StringFilter<"PTSession"> | string
+  deducted?: Prisma.BoolFilter<"PTSession"> | boolean
+  cancelledBy?: Prisma.EnumPTSessionActorNullableFilter<"PTSession"> | $Enums.PTSessionActor | null
+  memberAlertAt?: Prisma.DateTimeNullableFilter<"PTSession"> | Date | string | null
+  journals?: Prisma.JournalListRelationFilter
   contract?: Prisma.XOR<Prisma.PTContractScalarRelationFilter, Prisma.PTContractWhereInput>
   memberUser?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   trainerProfile?: Prisma.XOR<Prisma.TrainerProfileScalarRelationFilter, Prisma.TrainerProfileWhereInput>
-  workoutSession?: Prisma.XOR<Prisma.WorkoutSessionNullableScalarRelationFilter, Prisma.WorkoutSessionWhereInput> | null
-  journals?: Prisma.JournalListRelationFilter
   reschedules?: Prisma.PTSessionRescheduleListRelationFilter
+  workoutSession?: Prisma.XOR<Prisma.WorkoutSessionNullableScalarRelationFilter, Prisma.WorkoutSessionWhereInput> | null
 }
 
 export type PTSessionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   contractId?: Prisma.SortOrder
-  memberUserId?: Prisma.SortOrder
-  trainerProfileId?: Prisma.SortOrder
   sessionNumber?: Prisma.SortOrder
   scheduledAt?: Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  deducted?: Prisma.SortOrder
   memo?: Prisma.SortOrderInput | Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   cancelledAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  cancelledBy?: Prisma.SortOrderInput | Prisma.SortOrder
   cancelReason?: Prisma.SortOrderInput | Prisma.SortOrder
-  memberAlertAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  memberUserId?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
+  deducted?: Prisma.SortOrder
+  cancelledBy?: Prisma.SortOrderInput | Prisma.SortOrder
+  memberAlertAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  journals?: Prisma.JournalOrderByRelationAggregateInput
   contract?: Prisma.PTContractOrderByWithRelationInput
   memberUser?: Prisma.UserOrderByWithRelationInput
   trainerProfile?: Prisma.TrainerProfileOrderByWithRelationInput
-  workoutSession?: Prisma.WorkoutSessionOrderByWithRelationInput
-  journals?: Prisma.JournalOrderByRelationAggregateInput
   reschedules?: Prisma.PTSessionRescheduleOrderByRelationAggregateInput
+  workoutSession?: Prisma.WorkoutSessionOrderByWithRelationInput
 }
 
 export type PTSessionWhereUniqueInput = Prisma.AtLeast<{
@@ -357,47 +357,47 @@ export type PTSessionWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.PTSessionWhereInput[]
   NOT?: Prisma.PTSessionWhereInput | Prisma.PTSessionWhereInput[]
   contractId?: Prisma.StringFilter<"PTSession"> | string
-  memberUserId?: Prisma.StringFilter<"PTSession"> | string
-  trainerProfileId?: Prisma.StringFilter<"PTSession"> | string
   sessionNumber?: Prisma.IntFilter<"PTSession"> | number
   scheduledAt?: Prisma.DateTimeFilter<"PTSession"> | Date | string
   durationMinutes?: Prisma.IntFilter<"PTSession"> | number
   status?: Prisma.EnumPTSessionStatusFilter<"PTSession"> | $Enums.PTSessionStatus
-  deducted?: Prisma.BoolFilter<"PTSession"> | boolean
   memo?: Prisma.StringNullableFilter<"PTSession"> | string | null
   completedAt?: Prisma.DateTimeNullableFilter<"PTSession"> | Date | string | null
   cancelledAt?: Prisma.DateTimeNullableFilter<"PTSession"> | Date | string | null
-  cancelledBy?: Prisma.EnumPTSessionActorNullableFilter<"PTSession"> | $Enums.PTSessionActor | null
   cancelReason?: Prisma.StringNullableFilter<"PTSession"> | string | null
-  memberAlertAt?: Prisma.DateTimeNullableFilter<"PTSession"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"PTSession"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PTSession"> | Date | string
+  memberUserId?: Prisma.StringFilter<"PTSession"> | string
+  trainerProfileId?: Prisma.StringFilter<"PTSession"> | string
+  deducted?: Prisma.BoolFilter<"PTSession"> | boolean
+  cancelledBy?: Prisma.EnumPTSessionActorNullableFilter<"PTSession"> | $Enums.PTSessionActor | null
+  memberAlertAt?: Prisma.DateTimeNullableFilter<"PTSession"> | Date | string | null
+  journals?: Prisma.JournalListRelationFilter
   contract?: Prisma.XOR<Prisma.PTContractScalarRelationFilter, Prisma.PTContractWhereInput>
   memberUser?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   trainerProfile?: Prisma.XOR<Prisma.TrainerProfileScalarRelationFilter, Prisma.TrainerProfileWhereInput>
-  workoutSession?: Prisma.XOR<Prisma.WorkoutSessionNullableScalarRelationFilter, Prisma.WorkoutSessionWhereInput> | null
-  journals?: Prisma.JournalListRelationFilter
   reschedules?: Prisma.PTSessionRescheduleListRelationFilter
+  workoutSession?: Prisma.XOR<Prisma.WorkoutSessionNullableScalarRelationFilter, Prisma.WorkoutSessionWhereInput> | null
 }, "id" | "contractId_sessionNumber">
 
 export type PTSessionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   contractId?: Prisma.SortOrder
-  memberUserId?: Prisma.SortOrder
-  trainerProfileId?: Prisma.SortOrder
   sessionNumber?: Prisma.SortOrder
   scheduledAt?: Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  deducted?: Prisma.SortOrder
   memo?: Prisma.SortOrderInput | Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   cancelledAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  cancelledBy?: Prisma.SortOrderInput | Prisma.SortOrder
   cancelReason?: Prisma.SortOrderInput | Prisma.SortOrder
-  memberAlertAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  memberUserId?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
+  deducted?: Prisma.SortOrder
+  cancelledBy?: Prisma.SortOrderInput | Prisma.SortOrder
+  memberAlertAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.PTSessionCountOrderByAggregateInput
   _avg?: Prisma.PTSessionAvgOrderByAggregateInput
   _max?: Prisma.PTSessionMaxOrderByAggregateInput
@@ -411,21 +411,21 @@ export type PTSessionScalarWhereWithAggregatesInput = {
   NOT?: Prisma.PTSessionScalarWhereWithAggregatesInput | Prisma.PTSessionScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"PTSession"> | string
   contractId?: Prisma.StringWithAggregatesFilter<"PTSession"> | string
-  memberUserId?: Prisma.StringWithAggregatesFilter<"PTSession"> | string
-  trainerProfileId?: Prisma.StringWithAggregatesFilter<"PTSession"> | string
   sessionNumber?: Prisma.IntWithAggregatesFilter<"PTSession"> | number
   scheduledAt?: Prisma.DateTimeWithAggregatesFilter<"PTSession"> | Date | string
   durationMinutes?: Prisma.IntWithAggregatesFilter<"PTSession"> | number
   status?: Prisma.EnumPTSessionStatusWithAggregatesFilter<"PTSession"> | $Enums.PTSessionStatus
-  deducted?: Prisma.BoolWithAggregatesFilter<"PTSession"> | boolean
   memo?: Prisma.StringNullableWithAggregatesFilter<"PTSession"> | string | null
   completedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"PTSession"> | Date | string | null
   cancelledAt?: Prisma.DateTimeNullableWithAggregatesFilter<"PTSession"> | Date | string | null
-  cancelledBy?: Prisma.EnumPTSessionActorNullableWithAggregatesFilter<"PTSession"> | $Enums.PTSessionActor | null
   cancelReason?: Prisma.StringNullableWithAggregatesFilter<"PTSession"> | string | null
-  memberAlertAt?: Prisma.DateTimeNullableWithAggregatesFilter<"PTSession"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"PTSession"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"PTSession"> | Date | string
+  memberUserId?: Prisma.StringWithAggregatesFilter<"PTSession"> | string
+  trainerProfileId?: Prisma.StringWithAggregatesFilter<"PTSession"> | string
+  deducted?: Prisma.BoolWithAggregatesFilter<"PTSession"> | boolean
+  cancelledBy?: Prisma.EnumPTSessionActorNullableWithAggregatesFilter<"PTSession"> | $Enums.PTSessionActor | null
+  memberAlertAt?: Prisma.DateTimeNullableWithAggregatesFilter<"PTSession"> | Date | string | null
 }
 
 export type PTSessionCreateInput = {
@@ -434,44 +434,44 @@ export type PTSessionCreateInput = {
   scheduledAt: Date | string
   durationMinutes?: number
   status?: $Enums.PTSessionStatus
-  deducted?: boolean
   memo?: string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
-  cancelledBy?: $Enums.PTSessionActor | null
   cancelReason?: string | null
-  memberAlertAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deducted?: boolean
+  cancelledBy?: $Enums.PTSessionActor | null
+  memberAlertAt?: Date | string | null
+  journals?: Prisma.JournalCreateNestedManyWithoutPtSessionInput
   contract: Prisma.PTContractCreateNestedOneWithoutSessionsInput
   memberUser: Prisma.UserCreateNestedOneWithoutPtSessionsInput
   trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutPtSessionsInput
-  workoutSession?: Prisma.WorkoutSessionCreateNestedOneWithoutPtSessionInput
-  journals?: Prisma.JournalCreateNestedManyWithoutPtSessionInput
   reschedules?: Prisma.PTSessionRescheduleCreateNestedManyWithoutSessionInput
+  workoutSession?: Prisma.WorkoutSessionCreateNestedOneWithoutPtSessionInput
 }
 
 export type PTSessionUncheckedCreateInput = {
   id?: string
   contractId: string
-  memberUserId: string
-  trainerProfileId: string
   sessionNumber: number
   scheduledAt: Date | string
   durationMinutes?: number
   status?: $Enums.PTSessionStatus
-  deducted?: boolean
   memo?: string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
-  cancelledBy?: $Enums.PTSessionActor | null
   cancelReason?: string | null
-  memberAlertAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  workoutSession?: Prisma.WorkoutSessionUncheckedCreateNestedOneWithoutPtSessionInput
+  memberUserId: string
+  trainerProfileId: string
+  deducted?: boolean
+  cancelledBy?: $Enums.PTSessionActor | null
+  memberAlertAt?: Date | string | null
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutPtSessionInput
   reschedules?: Prisma.PTSessionRescheduleUncheckedCreateNestedManyWithoutSessionInput
+  workoutSession?: Prisma.WorkoutSessionUncheckedCreateNestedOneWithoutPtSessionInput
 }
 
 export type PTSessionUpdateInput = {
@@ -480,64 +480,64 @@ export type PTSessionUpdateInput = {
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPTSessionStatusFieldUpdateOperationsInput | $Enums.PTSessionStatus
-  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
+  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  journals?: Prisma.JournalUpdateManyWithoutPtSessionNestedInput
   contract?: Prisma.PTContractUpdateOneRequiredWithoutSessionsNestedInput
   memberUser?: Prisma.UserUpdateOneRequiredWithoutPtSessionsNestedInput
   trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutPtSessionsNestedInput
-  workoutSession?: Prisma.WorkoutSessionUpdateOneWithoutPtSessionNestedInput
-  journals?: Prisma.JournalUpdateManyWithoutPtSessionNestedInput
   reschedules?: Prisma.PTSessionRescheduleUpdateManyWithoutSessionNestedInput
+  workoutSession?: Prisma.WorkoutSessionUpdateOneWithoutPtSessionNestedInput
 }
 
 export type PTSessionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   contractId?: Prisma.StringFieldUpdateOperationsInput | string
-  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   sessionNumber?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPTSessionStatusFieldUpdateOperationsInput | $Enums.PTSessionStatus
-  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  workoutSession?: Prisma.WorkoutSessionUncheckedUpdateOneWithoutPtSessionNestedInput
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
+  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journals?: Prisma.JournalUncheckedUpdateManyWithoutPtSessionNestedInput
   reschedules?: Prisma.PTSessionRescheduleUncheckedUpdateManyWithoutSessionNestedInput
+  workoutSession?: Prisma.WorkoutSessionUncheckedUpdateOneWithoutPtSessionNestedInput
 }
 
 export type PTSessionCreateManyInput = {
   id?: string
   contractId: string
-  memberUserId: string
-  trainerProfileId: string
   sessionNumber: number
   scheduledAt: Date | string
   durationMinutes?: number
   status?: $Enums.PTSessionStatus
-  deducted?: boolean
   memo?: string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
-  cancelledBy?: $Enums.PTSessionActor | null
   cancelReason?: string | null
-  memberAlertAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  memberUserId: string
+  trainerProfileId: string
+  deducted?: boolean
+  cancelledBy?: $Enums.PTSessionActor | null
+  memberAlertAt?: Date | string | null
 }
 
 export type PTSessionUpdateManyMutationInput = {
@@ -546,35 +546,35 @@ export type PTSessionUpdateManyMutationInput = {
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPTSessionStatusFieldUpdateOperationsInput | $Enums.PTSessionStatus
-  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
+  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type PTSessionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   contractId?: Prisma.StringFieldUpdateOperationsInput | string
-  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   sessionNumber?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPTSessionStatusFieldUpdateOperationsInput | $Enums.PTSessionStatus
-  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
+  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type PTSessionListRelationFilter = {
@@ -605,21 +605,21 @@ export type PTSessionContractIdSessionNumberCompoundUniqueInput = {
 export type PTSessionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   contractId?: Prisma.SortOrder
-  memberUserId?: Prisma.SortOrder
-  trainerProfileId?: Prisma.SortOrder
   sessionNumber?: Prisma.SortOrder
   scheduledAt?: Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  deducted?: Prisma.SortOrder
   memo?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
   cancelledAt?: Prisma.SortOrder
-  cancelledBy?: Prisma.SortOrder
   cancelReason?: Prisma.SortOrder
-  memberAlertAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  memberUserId?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
+  deducted?: Prisma.SortOrder
+  cancelledBy?: Prisma.SortOrder
+  memberAlertAt?: Prisma.SortOrder
 }
 
 export type PTSessionAvgOrderByAggregateInput = {
@@ -630,41 +630,41 @@ export type PTSessionAvgOrderByAggregateInput = {
 export type PTSessionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   contractId?: Prisma.SortOrder
-  memberUserId?: Prisma.SortOrder
-  trainerProfileId?: Prisma.SortOrder
   sessionNumber?: Prisma.SortOrder
   scheduledAt?: Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  deducted?: Prisma.SortOrder
   memo?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
   cancelledAt?: Prisma.SortOrder
-  cancelledBy?: Prisma.SortOrder
   cancelReason?: Prisma.SortOrder
-  memberAlertAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  memberUserId?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
+  deducted?: Prisma.SortOrder
+  cancelledBy?: Prisma.SortOrder
+  memberAlertAt?: Prisma.SortOrder
 }
 
 export type PTSessionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   contractId?: Prisma.SortOrder
-  memberUserId?: Prisma.SortOrder
-  trainerProfileId?: Prisma.SortOrder
   sessionNumber?: Prisma.SortOrder
   scheduledAt?: Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  deducted?: Prisma.SortOrder
   memo?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
   cancelledAt?: Prisma.SortOrder
-  cancelledBy?: Prisma.SortOrder
   cancelReason?: Prisma.SortOrder
-  memberAlertAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  memberUserId?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
+  deducted?: Prisma.SortOrder
+  cancelledBy?: Prisma.SortOrder
+  memberAlertAt?: Prisma.SortOrder
 }
 
 export type PTSessionSumOrderByAggregateInput = {
@@ -858,42 +858,42 @@ export type PTSessionCreateWithoutMemberUserInput = {
   scheduledAt: Date | string
   durationMinutes?: number
   status?: $Enums.PTSessionStatus
-  deducted?: boolean
   memo?: string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
-  cancelledBy?: $Enums.PTSessionActor | null
   cancelReason?: string | null
-  memberAlertAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deducted?: boolean
+  cancelledBy?: $Enums.PTSessionActor | null
+  memberAlertAt?: Date | string | null
+  journals?: Prisma.JournalCreateNestedManyWithoutPtSessionInput
   contract: Prisma.PTContractCreateNestedOneWithoutSessionsInput
   trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutPtSessionsInput
-  workoutSession?: Prisma.WorkoutSessionCreateNestedOneWithoutPtSessionInput
-  journals?: Prisma.JournalCreateNestedManyWithoutPtSessionInput
   reschedules?: Prisma.PTSessionRescheduleCreateNestedManyWithoutSessionInput
+  workoutSession?: Prisma.WorkoutSessionCreateNestedOneWithoutPtSessionInput
 }
 
 export type PTSessionUncheckedCreateWithoutMemberUserInput = {
   id?: string
   contractId: string
-  trainerProfileId: string
   sessionNumber: number
   scheduledAt: Date | string
   durationMinutes?: number
   status?: $Enums.PTSessionStatus
-  deducted?: boolean
   memo?: string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
-  cancelledBy?: $Enums.PTSessionActor | null
   cancelReason?: string | null
-  memberAlertAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  workoutSession?: Prisma.WorkoutSessionUncheckedCreateNestedOneWithoutPtSessionInput
+  trainerProfileId: string
+  deducted?: boolean
+  cancelledBy?: $Enums.PTSessionActor | null
+  memberAlertAt?: Date | string | null
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutPtSessionInput
   reschedules?: Prisma.PTSessionRescheduleUncheckedCreateNestedManyWithoutSessionInput
+  workoutSession?: Prisma.WorkoutSessionUncheckedCreateNestedOneWithoutPtSessionInput
 }
 
 export type PTSessionCreateOrConnectWithoutMemberUserInput = {
@@ -928,21 +928,21 @@ export type PTSessionScalarWhereInput = {
   NOT?: Prisma.PTSessionScalarWhereInput | Prisma.PTSessionScalarWhereInput[]
   id?: Prisma.StringFilter<"PTSession"> | string
   contractId?: Prisma.StringFilter<"PTSession"> | string
-  memberUserId?: Prisma.StringFilter<"PTSession"> | string
-  trainerProfileId?: Prisma.StringFilter<"PTSession"> | string
   sessionNumber?: Prisma.IntFilter<"PTSession"> | number
   scheduledAt?: Prisma.DateTimeFilter<"PTSession"> | Date | string
   durationMinutes?: Prisma.IntFilter<"PTSession"> | number
   status?: Prisma.EnumPTSessionStatusFilter<"PTSession"> | $Enums.PTSessionStatus
-  deducted?: Prisma.BoolFilter<"PTSession"> | boolean
   memo?: Prisma.StringNullableFilter<"PTSession"> | string | null
   completedAt?: Prisma.DateTimeNullableFilter<"PTSession"> | Date | string | null
   cancelledAt?: Prisma.DateTimeNullableFilter<"PTSession"> | Date | string | null
-  cancelledBy?: Prisma.EnumPTSessionActorNullableFilter<"PTSession"> | $Enums.PTSessionActor | null
   cancelReason?: Prisma.StringNullableFilter<"PTSession"> | string | null
-  memberAlertAt?: Prisma.DateTimeNullableFilter<"PTSession"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"PTSession"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PTSession"> | Date | string
+  memberUserId?: Prisma.StringFilter<"PTSession"> | string
+  trainerProfileId?: Prisma.StringFilter<"PTSession"> | string
+  deducted?: Prisma.BoolFilter<"PTSession"> | boolean
+  cancelledBy?: Prisma.EnumPTSessionActorNullableFilter<"PTSession"> | $Enums.PTSessionActor | null
+  memberAlertAt?: Prisma.DateTimeNullableFilter<"PTSession"> | Date | string | null
 }
 
 export type PTSessionCreateWithoutTrainerProfileInput = {
@@ -951,42 +951,42 @@ export type PTSessionCreateWithoutTrainerProfileInput = {
   scheduledAt: Date | string
   durationMinutes?: number
   status?: $Enums.PTSessionStatus
-  deducted?: boolean
   memo?: string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
-  cancelledBy?: $Enums.PTSessionActor | null
   cancelReason?: string | null
-  memberAlertAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deducted?: boolean
+  cancelledBy?: $Enums.PTSessionActor | null
+  memberAlertAt?: Date | string | null
+  journals?: Prisma.JournalCreateNestedManyWithoutPtSessionInput
   contract: Prisma.PTContractCreateNestedOneWithoutSessionsInput
   memberUser: Prisma.UserCreateNestedOneWithoutPtSessionsInput
-  workoutSession?: Prisma.WorkoutSessionCreateNestedOneWithoutPtSessionInput
-  journals?: Prisma.JournalCreateNestedManyWithoutPtSessionInput
   reschedules?: Prisma.PTSessionRescheduleCreateNestedManyWithoutSessionInput
+  workoutSession?: Prisma.WorkoutSessionCreateNestedOneWithoutPtSessionInput
 }
 
 export type PTSessionUncheckedCreateWithoutTrainerProfileInput = {
   id?: string
   contractId: string
-  memberUserId: string
   sessionNumber: number
   scheduledAt: Date | string
   durationMinutes?: number
   status?: $Enums.PTSessionStatus
-  deducted?: boolean
   memo?: string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
-  cancelledBy?: $Enums.PTSessionActor | null
   cancelReason?: string | null
-  memberAlertAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  workoutSession?: Prisma.WorkoutSessionUncheckedCreateNestedOneWithoutPtSessionInput
+  memberUserId: string
+  deducted?: boolean
+  cancelledBy?: $Enums.PTSessionActor | null
+  memberAlertAt?: Date | string | null
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutPtSessionInput
   reschedules?: Prisma.PTSessionRescheduleUncheckedCreateNestedManyWithoutSessionInput
+  workoutSession?: Prisma.WorkoutSessionUncheckedCreateNestedOneWithoutPtSessionInput
 }
 
 export type PTSessionCreateOrConnectWithoutTrainerProfileInput = {
@@ -1021,40 +1021,40 @@ export type PTSessionCreateWithoutWorkoutSessionInput = {
   scheduledAt: Date | string
   durationMinutes?: number
   status?: $Enums.PTSessionStatus
-  deducted?: boolean
   memo?: string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
-  cancelledBy?: $Enums.PTSessionActor | null
   cancelReason?: string | null
-  memberAlertAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deducted?: boolean
+  cancelledBy?: $Enums.PTSessionActor | null
+  memberAlertAt?: Date | string | null
+  journals?: Prisma.JournalCreateNestedManyWithoutPtSessionInput
   contract: Prisma.PTContractCreateNestedOneWithoutSessionsInput
   memberUser: Prisma.UserCreateNestedOneWithoutPtSessionsInput
   trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutPtSessionsInput
-  journals?: Prisma.JournalCreateNestedManyWithoutPtSessionInput
   reschedules?: Prisma.PTSessionRescheduleCreateNestedManyWithoutSessionInput
 }
 
 export type PTSessionUncheckedCreateWithoutWorkoutSessionInput = {
   id?: string
   contractId: string
-  memberUserId: string
-  trainerProfileId: string
   sessionNumber: number
   scheduledAt: Date | string
   durationMinutes?: number
   status?: $Enums.PTSessionStatus
-  deducted?: boolean
   memo?: string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
-  cancelledBy?: $Enums.PTSessionActor | null
   cancelReason?: string | null
-  memberAlertAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  memberUserId: string
+  trainerProfileId: string
+  deducted?: boolean
+  cancelledBy?: $Enums.PTSessionActor | null
+  memberAlertAt?: Date | string | null
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutPtSessionInput
   reschedules?: Prisma.PTSessionRescheduleUncheckedCreateNestedManyWithoutSessionInput
 }
@@ -1081,40 +1081,40 @@ export type PTSessionUpdateWithoutWorkoutSessionInput = {
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPTSessionStatusFieldUpdateOperationsInput | $Enums.PTSessionStatus
-  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
+  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  journals?: Prisma.JournalUpdateManyWithoutPtSessionNestedInput
   contract?: Prisma.PTContractUpdateOneRequiredWithoutSessionsNestedInput
   memberUser?: Prisma.UserUpdateOneRequiredWithoutPtSessionsNestedInput
   trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutPtSessionsNestedInput
-  journals?: Prisma.JournalUpdateManyWithoutPtSessionNestedInput
   reschedules?: Prisma.PTSessionRescheduleUpdateManyWithoutSessionNestedInput
 }
 
 export type PTSessionUncheckedUpdateWithoutWorkoutSessionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   contractId?: Prisma.StringFieldUpdateOperationsInput | string
-  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   sessionNumber?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPTSessionStatusFieldUpdateOperationsInput | $Enums.PTSessionStatus
-  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
+  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journals?: Prisma.JournalUncheckedUpdateManyWithoutPtSessionNestedInput
   reschedules?: Prisma.PTSessionRescheduleUncheckedUpdateManyWithoutSessionNestedInput
 }
@@ -1125,42 +1125,42 @@ export type PTSessionCreateWithoutReschedulesInput = {
   scheduledAt: Date | string
   durationMinutes?: number
   status?: $Enums.PTSessionStatus
-  deducted?: boolean
   memo?: string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
-  cancelledBy?: $Enums.PTSessionActor | null
   cancelReason?: string | null
-  memberAlertAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deducted?: boolean
+  cancelledBy?: $Enums.PTSessionActor | null
+  memberAlertAt?: Date | string | null
+  journals?: Prisma.JournalCreateNestedManyWithoutPtSessionInput
   contract: Prisma.PTContractCreateNestedOneWithoutSessionsInput
   memberUser: Prisma.UserCreateNestedOneWithoutPtSessionsInput
   trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutPtSessionsInput
   workoutSession?: Prisma.WorkoutSessionCreateNestedOneWithoutPtSessionInput
-  journals?: Prisma.JournalCreateNestedManyWithoutPtSessionInput
 }
 
 export type PTSessionUncheckedCreateWithoutReschedulesInput = {
   id?: string
   contractId: string
-  memberUserId: string
-  trainerProfileId: string
   sessionNumber: number
   scheduledAt: Date | string
   durationMinutes?: number
   status?: $Enums.PTSessionStatus
-  deducted?: boolean
   memo?: string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
-  cancelledBy?: $Enums.PTSessionActor | null
   cancelReason?: string | null
-  memberAlertAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  workoutSession?: Prisma.WorkoutSessionUncheckedCreateNestedOneWithoutPtSessionInput
+  memberUserId: string
+  trainerProfileId: string
+  deducted?: boolean
+  cancelledBy?: $Enums.PTSessionActor | null
+  memberAlertAt?: Date | string | null
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutPtSessionInput
+  workoutSession?: Prisma.WorkoutSessionUncheckedCreateNestedOneWithoutPtSessionInput
 }
 
 export type PTSessionCreateOrConnectWithoutReschedulesInput = {
@@ -1185,42 +1185,42 @@ export type PTSessionUpdateWithoutReschedulesInput = {
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPTSessionStatusFieldUpdateOperationsInput | $Enums.PTSessionStatus
-  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
+  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  journals?: Prisma.JournalUpdateManyWithoutPtSessionNestedInput
   contract?: Prisma.PTContractUpdateOneRequiredWithoutSessionsNestedInput
   memberUser?: Prisma.UserUpdateOneRequiredWithoutPtSessionsNestedInput
   trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutPtSessionsNestedInput
   workoutSession?: Prisma.WorkoutSessionUpdateOneWithoutPtSessionNestedInput
-  journals?: Prisma.JournalUpdateManyWithoutPtSessionNestedInput
 }
 
 export type PTSessionUncheckedUpdateWithoutReschedulesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   contractId?: Prisma.StringFieldUpdateOperationsInput | string
-  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   sessionNumber?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPTSessionStatusFieldUpdateOperationsInput | $Enums.PTSessionStatus
-  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  workoutSession?: Prisma.WorkoutSessionUncheckedUpdateOneWithoutPtSessionNestedInput
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
+  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journals?: Prisma.JournalUncheckedUpdateManyWithoutPtSessionNestedInput
+  workoutSession?: Prisma.WorkoutSessionUncheckedUpdateOneWithoutPtSessionNestedInput
 }
 
 export type PTSessionCreateWithoutContractInput = {
@@ -1229,42 +1229,42 @@ export type PTSessionCreateWithoutContractInput = {
   scheduledAt: Date | string
   durationMinutes?: number
   status?: $Enums.PTSessionStatus
-  deducted?: boolean
   memo?: string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
-  cancelledBy?: $Enums.PTSessionActor | null
   cancelReason?: string | null
-  memberAlertAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deducted?: boolean
+  cancelledBy?: $Enums.PTSessionActor | null
+  memberAlertAt?: Date | string | null
+  journals?: Prisma.JournalCreateNestedManyWithoutPtSessionInput
   memberUser: Prisma.UserCreateNestedOneWithoutPtSessionsInput
   trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutPtSessionsInput
-  workoutSession?: Prisma.WorkoutSessionCreateNestedOneWithoutPtSessionInput
-  journals?: Prisma.JournalCreateNestedManyWithoutPtSessionInput
   reschedules?: Prisma.PTSessionRescheduleCreateNestedManyWithoutSessionInput
+  workoutSession?: Prisma.WorkoutSessionCreateNestedOneWithoutPtSessionInput
 }
 
 export type PTSessionUncheckedCreateWithoutContractInput = {
   id?: string
-  memberUserId: string
-  trainerProfileId: string
   sessionNumber: number
   scheduledAt: Date | string
   durationMinutes?: number
   status?: $Enums.PTSessionStatus
-  deducted?: boolean
   memo?: string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
-  cancelledBy?: $Enums.PTSessionActor | null
   cancelReason?: string | null
-  memberAlertAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  workoutSession?: Prisma.WorkoutSessionUncheckedCreateNestedOneWithoutPtSessionInput
+  memberUserId: string
+  trainerProfileId: string
+  deducted?: boolean
+  cancelledBy?: $Enums.PTSessionActor | null
+  memberAlertAt?: Date | string | null
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutPtSessionInput
   reschedules?: Prisma.PTSessionRescheduleUncheckedCreateNestedManyWithoutSessionInput
+  workoutSession?: Prisma.WorkoutSessionUncheckedCreateNestedOneWithoutPtSessionInput
 }
 
 export type PTSessionCreateOrConnectWithoutContractInput = {
@@ -1299,42 +1299,42 @@ export type PTSessionCreateWithoutJournalsInput = {
   scheduledAt: Date | string
   durationMinutes?: number
   status?: $Enums.PTSessionStatus
-  deducted?: boolean
   memo?: string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
-  cancelledBy?: $Enums.PTSessionActor | null
   cancelReason?: string | null
-  memberAlertAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deducted?: boolean
+  cancelledBy?: $Enums.PTSessionActor | null
+  memberAlertAt?: Date | string | null
   contract: Prisma.PTContractCreateNestedOneWithoutSessionsInput
   memberUser: Prisma.UserCreateNestedOneWithoutPtSessionsInput
   trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutPtSessionsInput
-  workoutSession?: Prisma.WorkoutSessionCreateNestedOneWithoutPtSessionInput
   reschedules?: Prisma.PTSessionRescheduleCreateNestedManyWithoutSessionInput
+  workoutSession?: Prisma.WorkoutSessionCreateNestedOneWithoutPtSessionInput
 }
 
 export type PTSessionUncheckedCreateWithoutJournalsInput = {
   id?: string
   contractId: string
-  memberUserId: string
-  trainerProfileId: string
   sessionNumber: number
   scheduledAt: Date | string
   durationMinutes?: number
   status?: $Enums.PTSessionStatus
-  deducted?: boolean
   memo?: string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
-  cancelledBy?: $Enums.PTSessionActor | null
   cancelReason?: string | null
-  memberAlertAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  workoutSession?: Prisma.WorkoutSessionUncheckedCreateNestedOneWithoutPtSessionInput
+  memberUserId: string
+  trainerProfileId: string
+  deducted?: boolean
+  cancelledBy?: $Enums.PTSessionActor | null
+  memberAlertAt?: Date | string | null
   reschedules?: Prisma.PTSessionRescheduleUncheckedCreateNestedManyWithoutSessionInput
+  workoutSession?: Prisma.WorkoutSessionUncheckedCreateNestedOneWithoutPtSessionInput
 }
 
 export type PTSessionCreateOrConnectWithoutJournalsInput = {
@@ -1359,61 +1359,61 @@ export type PTSessionUpdateWithoutJournalsInput = {
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPTSessionStatusFieldUpdateOperationsInput | $Enums.PTSessionStatus
-  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
+  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   contract?: Prisma.PTContractUpdateOneRequiredWithoutSessionsNestedInput
   memberUser?: Prisma.UserUpdateOneRequiredWithoutPtSessionsNestedInput
   trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutPtSessionsNestedInput
-  workoutSession?: Prisma.WorkoutSessionUpdateOneWithoutPtSessionNestedInput
   reschedules?: Prisma.PTSessionRescheduleUpdateManyWithoutSessionNestedInput
+  workoutSession?: Prisma.WorkoutSessionUpdateOneWithoutPtSessionNestedInput
 }
 
 export type PTSessionUncheckedUpdateWithoutJournalsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   contractId?: Prisma.StringFieldUpdateOperationsInput | string
-  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   sessionNumber?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPTSessionStatusFieldUpdateOperationsInput | $Enums.PTSessionStatus
-  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  workoutSession?: Prisma.WorkoutSessionUncheckedUpdateOneWithoutPtSessionNestedInput
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
+  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reschedules?: Prisma.PTSessionRescheduleUncheckedUpdateManyWithoutSessionNestedInput
+  workoutSession?: Prisma.WorkoutSessionUncheckedUpdateOneWithoutPtSessionNestedInput
 }
 
 export type PTSessionCreateManyMemberUserInput = {
   id?: string
   contractId: string
-  trainerProfileId: string
   sessionNumber: number
   scheduledAt: Date | string
   durationMinutes?: number
   status?: $Enums.PTSessionStatus
-  deducted?: boolean
   memo?: string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
-  cancelledBy?: $Enums.PTSessionActor | null
   cancelReason?: string | null
-  memberAlertAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  trainerProfileId: string
+  deducted?: boolean
+  cancelledBy?: $Enums.PTSessionActor | null
+  memberAlertAt?: Date | string | null
 }
 
 export type PTSessionUpdateWithoutMemberUserInput = {
@@ -1422,80 +1422,80 @@ export type PTSessionUpdateWithoutMemberUserInput = {
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPTSessionStatusFieldUpdateOperationsInput | $Enums.PTSessionStatus
-  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
+  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  journals?: Prisma.JournalUpdateManyWithoutPtSessionNestedInput
   contract?: Prisma.PTContractUpdateOneRequiredWithoutSessionsNestedInput
   trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutPtSessionsNestedInput
-  workoutSession?: Prisma.WorkoutSessionUpdateOneWithoutPtSessionNestedInput
-  journals?: Prisma.JournalUpdateManyWithoutPtSessionNestedInput
   reschedules?: Prisma.PTSessionRescheduleUpdateManyWithoutSessionNestedInput
+  workoutSession?: Prisma.WorkoutSessionUpdateOneWithoutPtSessionNestedInput
 }
 
 export type PTSessionUncheckedUpdateWithoutMemberUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   contractId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   sessionNumber?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPTSessionStatusFieldUpdateOperationsInput | $Enums.PTSessionStatus
-  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  workoutSession?: Prisma.WorkoutSessionUncheckedUpdateOneWithoutPtSessionNestedInput
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
+  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journals?: Prisma.JournalUncheckedUpdateManyWithoutPtSessionNestedInput
   reschedules?: Prisma.PTSessionRescheduleUncheckedUpdateManyWithoutSessionNestedInput
+  workoutSession?: Prisma.WorkoutSessionUncheckedUpdateOneWithoutPtSessionNestedInput
 }
 
 export type PTSessionUncheckedUpdateManyWithoutMemberUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   contractId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   sessionNumber?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPTSessionStatusFieldUpdateOperationsInput | $Enums.PTSessionStatus
-  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
+  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type PTSessionCreateManyTrainerProfileInput = {
   id?: string
   contractId: string
-  memberUserId: string
   sessionNumber: number
   scheduledAt: Date | string
   durationMinutes?: number
   status?: $Enums.PTSessionStatus
-  deducted?: boolean
   memo?: string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
-  cancelledBy?: $Enums.PTSessionActor | null
   cancelReason?: string | null
-  memberAlertAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  memberUserId: string
+  deducted?: boolean
+  cancelledBy?: $Enums.PTSessionActor | null
+  memberAlertAt?: Date | string | null
 }
 
 export type PTSessionUpdateWithoutTrainerProfileInput = {
@@ -1504,80 +1504,80 @@ export type PTSessionUpdateWithoutTrainerProfileInput = {
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPTSessionStatusFieldUpdateOperationsInput | $Enums.PTSessionStatus
-  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
+  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  journals?: Prisma.JournalUpdateManyWithoutPtSessionNestedInput
   contract?: Prisma.PTContractUpdateOneRequiredWithoutSessionsNestedInput
   memberUser?: Prisma.UserUpdateOneRequiredWithoutPtSessionsNestedInput
-  workoutSession?: Prisma.WorkoutSessionUpdateOneWithoutPtSessionNestedInput
-  journals?: Prisma.JournalUpdateManyWithoutPtSessionNestedInput
   reschedules?: Prisma.PTSessionRescheduleUpdateManyWithoutSessionNestedInput
+  workoutSession?: Prisma.WorkoutSessionUpdateOneWithoutPtSessionNestedInput
 }
 
 export type PTSessionUncheckedUpdateWithoutTrainerProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   contractId?: Prisma.StringFieldUpdateOperationsInput | string
-  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
   sessionNumber?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPTSessionStatusFieldUpdateOperationsInput | $Enums.PTSessionStatus
-  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  workoutSession?: Prisma.WorkoutSessionUncheckedUpdateOneWithoutPtSessionNestedInput
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
+  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journals?: Prisma.JournalUncheckedUpdateManyWithoutPtSessionNestedInput
   reschedules?: Prisma.PTSessionRescheduleUncheckedUpdateManyWithoutSessionNestedInput
+  workoutSession?: Prisma.WorkoutSessionUncheckedUpdateOneWithoutPtSessionNestedInput
 }
 
 export type PTSessionUncheckedUpdateManyWithoutTrainerProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   contractId?: Prisma.StringFieldUpdateOperationsInput | string
-  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
   sessionNumber?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPTSessionStatusFieldUpdateOperationsInput | $Enums.PTSessionStatus
-  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
+  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type PTSessionCreateManyContractInput = {
   id?: string
-  memberUserId: string
-  trainerProfileId: string
   sessionNumber: number
   scheduledAt: Date | string
   durationMinutes?: number
   status?: $Enums.PTSessionStatus
-  deducted?: boolean
   memo?: string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
-  cancelledBy?: $Enums.PTSessionActor | null
   cancelReason?: string | null
-  memberAlertAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  memberUserId: string
+  trainerProfileId: string
+  deducted?: boolean
+  cancelledBy?: $Enums.PTSessionActor | null
+  memberAlertAt?: Date | string | null
 }
 
 export type PTSessionUpdateWithoutContractInput = {
@@ -1586,61 +1586,61 @@ export type PTSessionUpdateWithoutContractInput = {
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPTSessionStatusFieldUpdateOperationsInput | $Enums.PTSessionStatus
-  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
+  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  journals?: Prisma.JournalUpdateManyWithoutPtSessionNestedInput
   memberUser?: Prisma.UserUpdateOneRequiredWithoutPtSessionsNestedInput
   trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutPtSessionsNestedInput
-  workoutSession?: Prisma.WorkoutSessionUpdateOneWithoutPtSessionNestedInput
-  journals?: Prisma.JournalUpdateManyWithoutPtSessionNestedInput
   reschedules?: Prisma.PTSessionRescheduleUpdateManyWithoutSessionNestedInput
+  workoutSession?: Prisma.WorkoutSessionUpdateOneWithoutPtSessionNestedInput
 }
 
 export type PTSessionUncheckedUpdateWithoutContractInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   sessionNumber?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPTSessionStatusFieldUpdateOperationsInput | $Enums.PTSessionStatus
-  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  workoutSession?: Prisma.WorkoutSessionUncheckedUpdateOneWithoutPtSessionNestedInput
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
+  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   journals?: Prisma.JournalUncheckedUpdateManyWithoutPtSessionNestedInput
   reschedules?: Prisma.PTSessionRescheduleUncheckedUpdateManyWithoutSessionNestedInput
+  workoutSession?: Prisma.WorkoutSessionUncheckedUpdateOneWithoutPtSessionNestedInput
 }
 
 export type PTSessionUncheckedUpdateManyWithoutContractInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   sessionNumber?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPTSessionStatusFieldUpdateOperationsInput | $Enums.PTSessionStatus
-  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   memo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  deducted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancelledBy?: Prisma.NullableEnumPTSessionActorFieldUpdateOperationsInput | $Enums.PTSessionActor | null
+  memberAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -1686,48 +1686,48 @@ export type PTSessionCountOutputTypeCountReschedulesArgs<ExtArgs extends runtime
 export type PTSessionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   contractId?: boolean
-  memberUserId?: boolean
-  trainerProfileId?: boolean
   sessionNumber?: boolean
   scheduledAt?: boolean
   durationMinutes?: boolean
   status?: boolean
-  deducted?: boolean
   memo?: boolean
   completedAt?: boolean
   cancelledAt?: boolean
-  cancelledBy?: boolean
   cancelReason?: boolean
-  memberAlertAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  memberUserId?: boolean
+  trainerProfileId?: boolean
+  deducted?: boolean
+  cancelledBy?: boolean
+  memberAlertAt?: boolean
+  journals?: boolean | Prisma.PTSession$journalsArgs<ExtArgs>
   contract?: boolean | Prisma.PTContractDefaultArgs<ExtArgs>
   memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
-  workoutSession?: boolean | Prisma.PTSession$workoutSessionArgs<ExtArgs>
-  journals?: boolean | Prisma.PTSession$journalsArgs<ExtArgs>
   reschedules?: boolean | Prisma.PTSession$reschedulesArgs<ExtArgs>
+  workoutSession?: boolean | Prisma.PTSession$workoutSessionArgs<ExtArgs>
   _count?: boolean | Prisma.PTSessionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["pTSession"]>
 
 export type PTSessionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   contractId?: boolean
-  memberUserId?: boolean
-  trainerProfileId?: boolean
   sessionNumber?: boolean
   scheduledAt?: boolean
   durationMinutes?: boolean
   status?: boolean
-  deducted?: boolean
   memo?: boolean
   completedAt?: boolean
   cancelledAt?: boolean
-  cancelledBy?: boolean
   cancelReason?: boolean
-  memberAlertAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  memberUserId?: boolean
+  trainerProfileId?: boolean
+  deducted?: boolean
+  cancelledBy?: boolean
+  memberAlertAt?: boolean
   contract?: boolean | Prisma.PTContractDefaultArgs<ExtArgs>
   memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
@@ -1736,21 +1736,21 @@ export type PTSessionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type PTSessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   contractId?: boolean
-  memberUserId?: boolean
-  trainerProfileId?: boolean
   sessionNumber?: boolean
   scheduledAt?: boolean
   durationMinutes?: boolean
   status?: boolean
-  deducted?: boolean
   memo?: boolean
   completedAt?: boolean
   cancelledAt?: boolean
-  cancelledBy?: boolean
   cancelReason?: boolean
-  memberAlertAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  memberUserId?: boolean
+  trainerProfileId?: boolean
+  deducted?: boolean
+  cancelledBy?: boolean
+  memberAlertAt?: boolean
   contract?: boolean | Prisma.PTContractDefaultArgs<ExtArgs>
   memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
@@ -1759,31 +1759,31 @@ export type PTSessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type PTSessionSelectScalar = {
   id?: boolean
   contractId?: boolean
-  memberUserId?: boolean
-  trainerProfileId?: boolean
   sessionNumber?: boolean
   scheduledAt?: boolean
   durationMinutes?: boolean
   status?: boolean
-  deducted?: boolean
   memo?: boolean
   completedAt?: boolean
   cancelledAt?: boolean
-  cancelledBy?: boolean
   cancelReason?: boolean
-  memberAlertAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  memberUserId?: boolean
+  trainerProfileId?: boolean
+  deducted?: boolean
+  cancelledBy?: boolean
+  memberAlertAt?: boolean
 }
 
-export type PTSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "contractId" | "memberUserId" | "trainerProfileId" | "sessionNumber" | "scheduledAt" | "durationMinutes" | "status" | "deducted" | "memo" | "completedAt" | "cancelledAt" | "cancelledBy" | "cancelReason" | "memberAlertAt" | "createdAt" | "updatedAt", ExtArgs["result"]["pTSession"]>
+export type PTSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "contractId" | "sessionNumber" | "scheduledAt" | "durationMinutes" | "status" | "memo" | "completedAt" | "cancelledAt" | "cancelReason" | "createdAt" | "updatedAt" | "memberUserId" | "trainerProfileId" | "deducted" | "cancelledBy" | "memberAlertAt", ExtArgs["result"]["pTSession"]>
 export type PTSessionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  journals?: boolean | Prisma.PTSession$journalsArgs<ExtArgs>
   contract?: boolean | Prisma.PTContractDefaultArgs<ExtArgs>
   memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
-  workoutSession?: boolean | Prisma.PTSession$workoutSessionArgs<ExtArgs>
-  journals?: boolean | Prisma.PTSession$journalsArgs<ExtArgs>
   reschedules?: boolean | Prisma.PTSession$reschedulesArgs<ExtArgs>
+  workoutSession?: boolean | Prisma.PTSession$workoutSessionArgs<ExtArgs>
   _count?: boolean | Prisma.PTSessionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PTSessionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1800,54 +1800,54 @@ export type PTSessionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
 export type $PTSessionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PTSession"
   objects: {
+    journals: Prisma.$JournalPayload<ExtArgs>[]
     contract: Prisma.$PTContractPayload<ExtArgs>
     memberUser: Prisma.$UserPayload<ExtArgs>
     trainerProfile: Prisma.$TrainerProfilePayload<ExtArgs>
-    workoutSession: Prisma.$WorkoutSessionPayload<ExtArgs> | null
-    journals: Prisma.$JournalPayload<ExtArgs>[]
     reschedules: Prisma.$PTSessionReschedulePayload<ExtArgs>[]
+    workoutSession: Prisma.$WorkoutSessionPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     contractId: string
-    memberUserId: string
-    trainerProfileId: string
     sessionNumber: number
     scheduledAt: Date
     durationMinutes: number
     status: $Enums.PTSessionStatus
-    /**
-     * *
-     *    * 이 회차가 계약 횟수를 깎았는가.
-     *    * 상태에서 파생하지 않고 그때 박아 둔다. 노쇼를 차감할지는 트레이너마다
-     *    * 다르고 도중에 바뀌는데, 파생해서 세면 정책을 바꾼 순간 지난 계약의 남은
-     *    * 횟수까지 소리 없이 달라진다. 그때 어떻게 했는지는 그때 남겨야 한다.
-     */
-    deducted: boolean
     memo: string | null
     completedAt: Date | null
     cancelledAt: Date | null
-    cancelledBy: $Enums.PTSessionActor | null
     cancelReason: string | null
-    /**
-     * *
-     *    * 회원이 아직 확인하지 못한 일정 변경이 있으면 그 시각. 확인하면 다시 null.
-     *    *
-     *    * 트레이너가 수업을 잡거나 옮기거나 취소하면 회원은 알 길이 없었다. 홈의
-     *    * 다가오는 수업 목록에서 시간이 조용히 바뀌고, 취소된 수업은 그냥 사라진다.
-     *    * 회원은 원래 시각에 헬스장에 간다.
-     *    *
-     *    * 별도의 알림 테이블을 두지 않은 이유는, 알림장·공지가 이미 각자 읽음을
-     *    * 들고 있어서(Journal.memberReadAt · NoticeRead) 세 번째 읽음 장부가
-     *    * 생기면 같은 사건이 한쪽에서만 지워지는 상태가 반드시 생기기 때문이다.
-     *    * 알릴 것이 수업 일정 하나뿐인 동안은 수업이 직접 들고 있는 게 맞다.
-     *    *
-     *    * 값을 지우는(=null) 방식이라 "무엇이" 바뀌었는지는 안 남지만, 그 이력은
-     *    * PTSessionReschedule 과 cancelledAt 에 이미 있다.
-     */
-    memberAlertAt: Date | null
     createdAt: Date
     updatedAt: Date
+    memberUserId: string
+    trainerProfileId: string
+    /**
+     * *
+     * * 이 회차가 계약 횟수를 깎았는가.
+     * * 상태에서 파생하지 않고 그때 박아 둔다. 노쇼를 차감할지는 트레이너마다
+     * * 다르고 도중에 바뀌는데, 파생해서 세면 정책을 바꾼 순간 지난 계약의 남은
+     * * 횟수까지 소리 없이 달라진다. 그때 어떻게 했는지는 그때 남겨야 한다.
+     */
+    deducted: boolean
+    cancelledBy: $Enums.PTSessionActor | null
+    /**
+     * *
+     * * 회원이 아직 확인하지 못한 일정 변경이 있으면 그 시각. 확인하면 다시 null.
+     * *
+     * * 트레이너가 수업을 잡거나 옮기거나 취소하면 회원은 알 길이 없었다. 홈의
+     * * 다가오는 수업 목록에서 시간이 조용히 바뀌고, 취소된 수업은 그냥 사라진다.
+     * * 회원은 원래 시각에 헬스장에 간다.
+     * *
+     * * 별도의 알림 테이블을 두지 않은 이유는, 알림장·공지가 이미 각자 읽음을
+     * * 들고 있어서(Journal.memberReadAt · NoticeRead) 세 번째 읽음 장부가
+     * * 생기면 같은 사건이 한쪽에서만 지워지는 상태가 반드시 생기기 때문이다.
+     * * 알릴 것이 수업 일정 하나뿐인 동안은 수업이 직접 들고 있는 게 맞다.
+     * *
+     * * 값을 지우는(=null) 방식이라 "무엇이" 바뀌었는지는 안 남지만, 그 이력은
+     * * PTSessionReschedule 과 cancelledAt 에 이미 있다.
+     */
+    memberAlertAt: Date | null
   }, ExtArgs["result"]["pTSession"]>
   composites: {}
 }
@@ -2242,12 +2242,12 @@ readonly fields: PTSessionFieldRefs;
  */
 export interface Prisma__PTSessionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  journals<T extends Prisma.PTSession$journalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PTSession$journalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   contract<T extends Prisma.PTContractDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PTContractDefaultArgs<ExtArgs>>): Prisma.Prisma__PTContractClient<runtime.Types.Result.GetResult<Prisma.$PTContractPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   memberUser<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   trainerProfile<T extends Prisma.TrainerProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__TrainerProfileClient<runtime.Types.Result.GetResult<Prisma.$TrainerProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  workoutSession<T extends Prisma.PTSession$workoutSessionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PTSession$workoutSessionArgs<ExtArgs>>): Prisma.Prisma__WorkoutSessionClient<runtime.Types.Result.GetResult<Prisma.$WorkoutSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  journals<T extends Prisma.PTSession$journalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PTSession$journalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reschedules<T extends Prisma.PTSession$reschedulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PTSession$reschedulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PTSessionReschedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  workoutSession<T extends Prisma.PTSession$workoutSessionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PTSession$workoutSessionArgs<ExtArgs>>): Prisma.Prisma__WorkoutSessionClient<runtime.Types.Result.GetResult<Prisma.$WorkoutSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2279,21 +2279,21 @@ export interface Prisma__PTSessionClient<T, Null = never, ExtArgs extends runtim
 export interface PTSessionFieldRefs {
   readonly id: Prisma.FieldRef<"PTSession", 'String'>
   readonly contractId: Prisma.FieldRef<"PTSession", 'String'>
-  readonly memberUserId: Prisma.FieldRef<"PTSession", 'String'>
-  readonly trainerProfileId: Prisma.FieldRef<"PTSession", 'String'>
   readonly sessionNumber: Prisma.FieldRef<"PTSession", 'Int'>
   readonly scheduledAt: Prisma.FieldRef<"PTSession", 'DateTime'>
   readonly durationMinutes: Prisma.FieldRef<"PTSession", 'Int'>
   readonly status: Prisma.FieldRef<"PTSession", 'PTSessionStatus'>
-  readonly deducted: Prisma.FieldRef<"PTSession", 'Boolean'>
   readonly memo: Prisma.FieldRef<"PTSession", 'String'>
   readonly completedAt: Prisma.FieldRef<"PTSession", 'DateTime'>
   readonly cancelledAt: Prisma.FieldRef<"PTSession", 'DateTime'>
-  readonly cancelledBy: Prisma.FieldRef<"PTSession", 'PTSessionActor'>
   readonly cancelReason: Prisma.FieldRef<"PTSession", 'String'>
-  readonly memberAlertAt: Prisma.FieldRef<"PTSession", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"PTSession", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"PTSession", 'DateTime'>
+  readonly memberUserId: Prisma.FieldRef<"PTSession", 'String'>
+  readonly trainerProfileId: Prisma.FieldRef<"PTSession", 'String'>
+  readonly deducted: Prisma.FieldRef<"PTSession", 'Boolean'>
+  readonly cancelledBy: Prisma.FieldRef<"PTSession", 'PTSessionActor'>
+  readonly memberAlertAt: Prisma.FieldRef<"PTSession", 'DateTime'>
 }
     
 
@@ -2695,25 +2695,6 @@ export type PTSessionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
- * PTSession.workoutSession
- */
-export type PTSession$workoutSessionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the WorkoutSession
-   */
-  select?: Prisma.WorkoutSessionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the WorkoutSession
-   */
-  omit?: Prisma.WorkoutSessionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.WorkoutSessionInclude<ExtArgs> | null
-  where?: Prisma.WorkoutSessionWhereInput
-}
-
-/**
  * PTSession.journals
  */
 export type PTSession$journalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2759,6 +2740,25 @@ export type PTSession$reschedulesArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.PTSessionRescheduleScalarFieldEnum | Prisma.PTSessionRescheduleScalarFieldEnum[]
+}
+
+/**
+ * PTSession.workoutSession
+ */
+export type PTSession$workoutSessionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the WorkoutSession
+   */
+  select?: Prisma.WorkoutSessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the WorkoutSession
+   */
+  omit?: Prisma.WorkoutSessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WorkoutSessionInclude<ExtArgs> | null
+  where?: Prisma.WorkoutSessionWhereInput
 }
 
 /**

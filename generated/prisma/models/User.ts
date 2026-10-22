@@ -222,28 +222,28 @@ export type UserWhereInput = {
   lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  memberProfile?: Prisma.XOR<Prisma.MemberProfileNullableScalarRelationFilter, Prisma.MemberProfileWhereInput> | null
-  trainerProfile?: Prisma.XOR<Prisma.TrainerProfileNullableScalarRelationFilter, Prisma.TrainerProfileWhereInput> | null
-  trainerConnections?: Prisma.TrainerMemberConnectionListRelationFilter
-  sharingSetting?: Prisma.XOR<Prisma.TrainerSharingSettingNullableScalarRelationFilter, Prisma.TrainerSharingSettingWhereInput> | null
-  ptContracts?: Prisma.PTContractListRelationFilter
-  ptSessions?: Prisma.PTSessionListRelationFilter
+  aiAnalyses?: Prisma.AiAnalysisListRelationFilter
+  authSessions?: Prisma.AuthSessionListRelationFilter
+  bodyRecords?: Prisma.BodyRecordListRelationFilter
+  centerMemberships?: Prisma.CenterMembershipListRelationFilter
+  deviceTokens?: Prisma.DeviceTokenListRelationFilter
+  dietRecords?: Prisma.DietRecordListRelationFilter
+  goals?: Prisma.GoalListRelationFilter
   journals?: Prisma.JournalListRelationFilter
   journalComments?: Prisma.JournalCommentListRelationFilter
-  authSessions?: Prisma.AuthSessionListRelationFilter
   claimCodes?: Prisma.MemberClaimCodeListRelationFilter
-  deviceTokens?: Prisma.DeviceTokenListRelationFilter
-  centerMemberships?: Prisma.CenterMembershipListRelationFilter
-  routines?: Prisma.RoutineListRelationFilter
-  workoutSessions?: Prisma.WorkoutSessionListRelationFilter
-  recordedWorkoutSessions?: Prisma.WorkoutSessionListRelationFilter
-  workoutRecords?: Prisma.WorkoutRecordListRelationFilter
-  workoutFavorites?: Prisma.WorkoutFavoriteListRelationFilter
-  dietRecords?: Prisma.DietRecordListRelationFilter
-  bodyRecords?: Prisma.BodyRecordListRelationFilter
-  goals?: Prisma.GoalListRelationFilter
+  memberProfile?: Prisma.XOR<Prisma.MemberProfileNullableScalarRelationFilter, Prisma.MemberProfileWhereInput> | null
   notifications?: Prisma.NotificationListRelationFilter
-  aiAnalyses?: Prisma.AiAnalysisListRelationFilter
+  ptContracts?: Prisma.PTContractListRelationFilter
+  ptSessions?: Prisma.PTSessionListRelationFilter
+  routines?: Prisma.RoutineListRelationFilter
+  trainerConnections?: Prisma.TrainerMemberConnectionListRelationFilter
+  trainerProfile?: Prisma.XOR<Prisma.TrainerProfileNullableScalarRelationFilter, Prisma.TrainerProfileWhereInput> | null
+  sharingSetting?: Prisma.XOR<Prisma.TrainerSharingSettingNullableScalarRelationFilter, Prisma.TrainerSharingSettingWhereInput> | null
+  workoutFavorites?: Prisma.WorkoutFavoriteListRelationFilter
+  workoutRecords?: Prisma.WorkoutRecordListRelationFilter
+  recordedWorkoutSessions?: Prisma.WorkoutSessionListRelationFilter
+  workoutSessions?: Prisma.WorkoutSessionListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -257,28 +257,28 @@ export type UserOrderByWithRelationInput = {
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  memberProfile?: Prisma.MemberProfileOrderByWithRelationInput
-  trainerProfile?: Prisma.TrainerProfileOrderByWithRelationInput
-  trainerConnections?: Prisma.TrainerMemberConnectionOrderByRelationAggregateInput
-  sharingSetting?: Prisma.TrainerSharingSettingOrderByWithRelationInput
-  ptContracts?: Prisma.PTContractOrderByRelationAggregateInput
-  ptSessions?: Prisma.PTSessionOrderByRelationAggregateInput
+  aiAnalyses?: Prisma.AiAnalysisOrderByRelationAggregateInput
+  authSessions?: Prisma.AuthSessionOrderByRelationAggregateInput
+  bodyRecords?: Prisma.BodyRecordOrderByRelationAggregateInput
+  centerMemberships?: Prisma.CenterMembershipOrderByRelationAggregateInput
+  deviceTokens?: Prisma.DeviceTokenOrderByRelationAggregateInput
+  dietRecords?: Prisma.DietRecordOrderByRelationAggregateInput
+  goals?: Prisma.GoalOrderByRelationAggregateInput
   journals?: Prisma.JournalOrderByRelationAggregateInput
   journalComments?: Prisma.JournalCommentOrderByRelationAggregateInput
-  authSessions?: Prisma.AuthSessionOrderByRelationAggregateInput
   claimCodes?: Prisma.MemberClaimCodeOrderByRelationAggregateInput
-  deviceTokens?: Prisma.DeviceTokenOrderByRelationAggregateInput
-  centerMemberships?: Prisma.CenterMembershipOrderByRelationAggregateInput
-  routines?: Prisma.RoutineOrderByRelationAggregateInput
-  workoutSessions?: Prisma.WorkoutSessionOrderByRelationAggregateInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionOrderByRelationAggregateInput
-  workoutRecords?: Prisma.WorkoutRecordOrderByRelationAggregateInput
-  workoutFavorites?: Prisma.WorkoutFavoriteOrderByRelationAggregateInput
-  dietRecords?: Prisma.DietRecordOrderByRelationAggregateInput
-  bodyRecords?: Prisma.BodyRecordOrderByRelationAggregateInput
-  goals?: Prisma.GoalOrderByRelationAggregateInput
+  memberProfile?: Prisma.MemberProfileOrderByWithRelationInput
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
-  aiAnalyses?: Prisma.AiAnalysisOrderByRelationAggregateInput
+  ptContracts?: Prisma.PTContractOrderByRelationAggregateInput
+  ptSessions?: Prisma.PTSessionOrderByRelationAggregateInput
+  routines?: Prisma.RoutineOrderByRelationAggregateInput
+  trainerConnections?: Prisma.TrainerMemberConnectionOrderByRelationAggregateInput
+  trainerProfile?: Prisma.TrainerProfileOrderByWithRelationInput
+  sharingSetting?: Prisma.TrainerSharingSettingOrderByWithRelationInput
+  workoutFavorites?: Prisma.WorkoutFavoriteOrderByRelationAggregateInput
+  workoutRecords?: Prisma.WorkoutRecordOrderByRelationAggregateInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionOrderByRelationAggregateInput
+  workoutSessions?: Prisma.WorkoutSessionOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -295,28 +295,28 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  memberProfile?: Prisma.XOR<Prisma.MemberProfileNullableScalarRelationFilter, Prisma.MemberProfileWhereInput> | null
-  trainerProfile?: Prisma.XOR<Prisma.TrainerProfileNullableScalarRelationFilter, Prisma.TrainerProfileWhereInput> | null
-  trainerConnections?: Prisma.TrainerMemberConnectionListRelationFilter
-  sharingSetting?: Prisma.XOR<Prisma.TrainerSharingSettingNullableScalarRelationFilter, Prisma.TrainerSharingSettingWhereInput> | null
-  ptContracts?: Prisma.PTContractListRelationFilter
-  ptSessions?: Prisma.PTSessionListRelationFilter
+  aiAnalyses?: Prisma.AiAnalysisListRelationFilter
+  authSessions?: Prisma.AuthSessionListRelationFilter
+  bodyRecords?: Prisma.BodyRecordListRelationFilter
+  centerMemberships?: Prisma.CenterMembershipListRelationFilter
+  deviceTokens?: Prisma.DeviceTokenListRelationFilter
+  dietRecords?: Prisma.DietRecordListRelationFilter
+  goals?: Prisma.GoalListRelationFilter
   journals?: Prisma.JournalListRelationFilter
   journalComments?: Prisma.JournalCommentListRelationFilter
-  authSessions?: Prisma.AuthSessionListRelationFilter
   claimCodes?: Prisma.MemberClaimCodeListRelationFilter
-  deviceTokens?: Prisma.DeviceTokenListRelationFilter
-  centerMemberships?: Prisma.CenterMembershipListRelationFilter
-  routines?: Prisma.RoutineListRelationFilter
-  workoutSessions?: Prisma.WorkoutSessionListRelationFilter
-  recordedWorkoutSessions?: Prisma.WorkoutSessionListRelationFilter
-  workoutRecords?: Prisma.WorkoutRecordListRelationFilter
-  workoutFavorites?: Prisma.WorkoutFavoriteListRelationFilter
-  dietRecords?: Prisma.DietRecordListRelationFilter
-  bodyRecords?: Prisma.BodyRecordListRelationFilter
-  goals?: Prisma.GoalListRelationFilter
+  memberProfile?: Prisma.XOR<Prisma.MemberProfileNullableScalarRelationFilter, Prisma.MemberProfileWhereInput> | null
   notifications?: Prisma.NotificationListRelationFilter
-  aiAnalyses?: Prisma.AiAnalysisListRelationFilter
+  ptContracts?: Prisma.PTContractListRelationFilter
+  ptSessions?: Prisma.PTSessionListRelationFilter
+  routines?: Prisma.RoutineListRelationFilter
+  trainerConnections?: Prisma.TrainerMemberConnectionListRelationFilter
+  trainerProfile?: Prisma.XOR<Prisma.TrainerProfileNullableScalarRelationFilter, Prisma.TrainerProfileWhereInput> | null
+  sharingSetting?: Prisma.XOR<Prisma.TrainerSharingSettingNullableScalarRelationFilter, Prisma.TrainerSharingSettingWhereInput> | null
+  workoutFavorites?: Prisma.WorkoutFavoriteListRelationFilter
+  workoutRecords?: Prisma.WorkoutRecordListRelationFilter
+  recordedWorkoutSessions?: Prisma.WorkoutSessionListRelationFilter
+  workoutSessions?: Prisma.WorkoutSessionListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -362,28 +362,28 @@ export type UserCreateInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -397,28 +397,28 @@ export type UserUncheckedCreateInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -432,28 +432,28 @@ export type UserUpdateInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -467,28 +467,28 @@ export type UserUncheckedUpdateInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -711,24 +711,16 @@ export type UserUpdateOneRequiredWithoutRoutinesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRoutinesInput, Prisma.UserUpdateWithoutRoutinesInput>, Prisma.UserUncheckedUpdateWithoutRoutinesInput>
 }
 
-export type UserCreateNestedOneWithoutWorkoutSessionsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutWorkoutSessionsInput, Prisma.UserUncheckedCreateWithoutWorkoutSessionsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWorkoutSessionsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
 export type UserCreateNestedOneWithoutRecordedWorkoutSessionsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutRecordedWorkoutSessionsInput, Prisma.UserUncheckedCreateWithoutRecordedWorkoutSessionsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutRecordedWorkoutSessionsInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutWorkoutSessionsNestedInput = {
+export type UserCreateNestedOneWithoutWorkoutSessionsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutWorkoutSessionsInput, Prisma.UserUncheckedCreateWithoutWorkoutSessionsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutWorkoutSessionsInput
-  upsert?: Prisma.UserUpsertWithoutWorkoutSessionsInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutWorkoutSessionsInput, Prisma.UserUpdateWithoutWorkoutSessionsInput>, Prisma.UserUncheckedUpdateWithoutWorkoutSessionsInput>
 }
 
 export type UserUpdateOneWithoutRecordedWorkoutSessionsNestedInput = {
@@ -739,6 +731,14 @@ export type UserUpdateOneWithoutRecordedWorkoutSessionsNestedInput = {
   delete?: Prisma.UserWhereInput | boolean
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRecordedWorkoutSessionsInput, Prisma.UserUpdateWithoutRecordedWorkoutSessionsInput>, Prisma.UserUncheckedUpdateWithoutRecordedWorkoutSessionsInput>
+}
+
+export type UserUpdateOneRequiredWithoutWorkoutSessionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWorkoutSessionsInput, Prisma.UserUncheckedCreateWithoutWorkoutSessionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWorkoutSessionsInput
+  upsert?: Prisma.UserUpsertWithoutWorkoutSessionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutWorkoutSessionsInput, Prisma.UserUpdateWithoutWorkoutSessionsInput>, Prisma.UserUncheckedUpdateWithoutWorkoutSessionsInput>
 }
 
 export type UserCreateNestedOneWithoutWorkoutRecordsInput = {
@@ -920,27 +920,27 @@ export type UserCreateWithoutAuthSessionsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAuthSessionsInput = {
@@ -954,27 +954,27 @@ export type UserUncheckedCreateWithoutAuthSessionsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAuthSessionsInput = {
@@ -1004,27 +1004,27 @@ export type UserUpdateWithoutAuthSessionsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuthSessionsInput = {
@@ -1038,27 +1038,27 @@ export type UserUncheckedUpdateWithoutAuthSessionsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutDeviceTokensInput = {
@@ -1072,27 +1072,27 @@ export type UserCreateWithoutDeviceTokensInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
-  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDeviceTokensInput = {
@@ -1106,27 +1106,27 @@ export type UserUncheckedCreateWithoutDeviceTokensInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDeviceTokensInput = {
@@ -1156,27 +1156,27 @@ export type UserUpdateWithoutDeviceTokensInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeviceTokensInput = {
@@ -1190,27 +1190,27 @@ export type UserUncheckedUpdateWithoutDeviceTokensInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCenterMembershipsInput = {
@@ -1224,27 +1224,27 @@ export type UserCreateWithoutCenterMembershipsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCenterMembershipsInput = {
@@ -1258,27 +1258,27 @@ export type UserUncheckedCreateWithoutCenterMembershipsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCenterMembershipsInput = {
@@ -1308,27 +1308,27 @@ export type UserUpdateWithoutCenterMembershipsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCenterMembershipsInput = {
@@ -1342,27 +1342,27 @@ export type UserUncheckedUpdateWithoutCenterMembershipsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMemberProfileInput = {
@@ -1376,27 +1376,27 @@ export type UserCreateWithoutMemberProfileInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMemberProfileInput = {
@@ -1410,27 +1410,27 @@ export type UserUncheckedCreateWithoutMemberProfileInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMemberProfileInput = {
@@ -1460,27 +1460,27 @@ export type UserUpdateWithoutMemberProfileInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMemberProfileInput = {
@@ -1494,27 +1494,27 @@ export type UserUncheckedUpdateWithoutMemberProfileInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTrainerProfileInput = {
@@ -1528,27 +1528,27 @@ export type UserCreateWithoutTrainerProfileInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTrainerProfileInput = {
@@ -1562,27 +1562,27 @@ export type UserUncheckedCreateWithoutTrainerProfileInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTrainerProfileInput = {
@@ -1612,27 +1612,27 @@ export type UserUpdateWithoutTrainerProfileInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTrainerProfileInput = {
@@ -1646,27 +1646,27 @@ export type UserUncheckedUpdateWithoutTrainerProfileInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTrainerConnectionsInput = {
@@ -1680,27 +1680,27 @@ export type UserCreateWithoutTrainerConnectionsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTrainerConnectionsInput = {
@@ -1714,27 +1714,27 @@ export type UserUncheckedCreateWithoutTrainerConnectionsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTrainerConnectionsInput = {
@@ -1764,27 +1764,27 @@ export type UserUpdateWithoutTrainerConnectionsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTrainerConnectionsInput = {
@@ -1798,27 +1798,27 @@ export type UserUncheckedUpdateWithoutTrainerConnectionsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutClaimCodesInput = {
@@ -1832,27 +1832,27 @@ export type UserCreateWithoutClaimCodesInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
-  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutClaimCodesInput = {
@@ -1866,27 +1866,27 @@ export type UserUncheckedCreateWithoutClaimCodesInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutClaimCodesInput = {
@@ -1916,27 +1916,27 @@ export type UserUpdateWithoutClaimCodesInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutClaimCodesInput = {
@@ -1950,27 +1950,27 @@ export type UserUncheckedUpdateWithoutClaimCodesInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutRoutinesInput = {
@@ -1984,27 +1984,27 @@ export type UserCreateWithoutRoutinesInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRoutinesInput = {
@@ -2018,27 +2018,27 @@ export type UserUncheckedCreateWithoutRoutinesInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRoutinesInput = {
@@ -2068,27 +2068,27 @@ export type UserUpdateWithoutRoutinesInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRoutinesInput = {
@@ -2102,100 +2102,27 @@ export type UserUncheckedUpdateWithoutRoutinesInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutWorkoutSessionsInput = {
-  id?: string
-  email?: string | null
-  passwordHash?: string | null
-  name: string
-  phone?: string | null
-  profileImageUrl?: string | null
-  status?: $Enums.UserStatus
-  lastLoginAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
-  journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
-  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
-  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutWorkoutSessionsInput = {
-  id?: string
-  email?: string | null
-  passwordHash?: string | null
-  name: string
-  phone?: string | null
-  profileImageUrl?: string | null
-  status?: $Enums.UserStatus
-  lastLoginAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
-  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
-  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
-  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutWorkoutSessionsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutWorkoutSessionsInput, Prisma.UserUncheckedCreateWithoutWorkoutSessionsInput>
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutRecordedWorkoutSessionsInput = {
@@ -2209,27 +2136,27 @@ export type UserCreateWithoutRecordedWorkoutSessionsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRecordedWorkoutSessionsInput = {
@@ -2243,27 +2170,27 @@ export type UserUncheckedCreateWithoutRecordedWorkoutSessionsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRecordedWorkoutSessionsInput = {
@@ -2271,83 +2198,77 @@ export type UserCreateOrConnectWithoutRecordedWorkoutSessionsInput = {
   create: Prisma.XOR<Prisma.UserCreateWithoutRecordedWorkoutSessionsInput, Prisma.UserUncheckedCreateWithoutRecordedWorkoutSessionsInput>
 }
 
-export type UserUpsertWithoutWorkoutSessionsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutWorkoutSessionsInput, Prisma.UserUncheckedUpdateWithoutWorkoutSessionsInput>
+export type UserCreateWithoutWorkoutSessionsInput = {
+  id?: string
+  email?: string | null
+  passwordHash?: string | null
+  name: string
+  phone?: string | null
+  profileImageUrl?: string | null
+  status?: $Enums.UserStatus
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
+  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
+  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
+}
+
+export type UserUncheckedCreateWithoutWorkoutSessionsInput = {
+  id?: string
+  email?: string | null
+  passwordHash?: string | null
+  name: string
+  phone?: string | null
+  profileImageUrl?: string | null
+  status?: $Enums.UserStatus
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
+  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
+  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
+}
+
+export type UserCreateOrConnectWithoutWorkoutSessionsInput = {
+  where: Prisma.UserWhereUniqueInput
   create: Prisma.XOR<Prisma.UserCreateWithoutWorkoutSessionsInput, Prisma.UserUncheckedCreateWithoutWorkoutSessionsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutWorkoutSessionsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutWorkoutSessionsInput, Prisma.UserUncheckedUpdateWithoutWorkoutSessionsInput>
-}
-
-export type UserUpdateWithoutWorkoutSessionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
-  journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
-  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
-  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutWorkoutSessionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
-  journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
-  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
-  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutRecordedWorkoutSessionsInput = {
@@ -2372,27 +2293,27 @@ export type UserUpdateWithoutRecordedWorkoutSessionsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRecordedWorkoutSessionsInput = {
@@ -2406,27 +2327,106 @@ export type UserUncheckedUpdateWithoutRecordedWorkoutSessionsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserUpsertWithoutWorkoutSessionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutWorkoutSessionsInput, Prisma.UserUncheckedUpdateWithoutWorkoutSessionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutWorkoutSessionsInput, Prisma.UserUncheckedCreateWithoutWorkoutSessionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutWorkoutSessionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutWorkoutSessionsInput, Prisma.UserUncheckedUpdateWithoutWorkoutSessionsInput>
+}
+
+export type UserUpdateWithoutWorkoutSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
+  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
+  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutWorkoutSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
+  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
+  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserCreateWithoutWorkoutRecordsInput = {
@@ -2440,27 +2440,27 @@ export type UserCreateWithoutWorkoutRecordsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
-  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutWorkoutRecordsInput = {
@@ -2474,27 +2474,27 @@ export type UserUncheckedCreateWithoutWorkoutRecordsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutWorkoutRecordsInput = {
@@ -2524,27 +2524,27 @@ export type UserUpdateWithoutWorkoutRecordsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWorkoutRecordsInput = {
@@ -2558,27 +2558,27 @@ export type UserUncheckedUpdateWithoutWorkoutRecordsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutWorkoutFavoritesInput = {
@@ -2592,27 +2592,27 @@ export type UserCreateWithoutWorkoutFavoritesInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutWorkoutFavoritesInput = {
@@ -2626,27 +2626,27 @@ export type UserUncheckedCreateWithoutWorkoutFavoritesInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutWorkoutFavoritesInput = {
@@ -2676,27 +2676,27 @@ export type UserUpdateWithoutWorkoutFavoritesInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWorkoutFavoritesInput = {
@@ -2710,27 +2710,27 @@ export type UserUncheckedUpdateWithoutWorkoutFavoritesInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPtContractsInput = {
@@ -2744,27 +2744,27 @@ export type UserCreateWithoutPtContractsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
-  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPtContractsInput = {
@@ -2778,27 +2778,27 @@ export type UserUncheckedCreateWithoutPtContractsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
-  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPtContractsInput = {
@@ -2828,27 +2828,27 @@ export type UserUpdateWithoutPtContractsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
-  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPtContractsInput = {
@@ -2862,27 +2862,27 @@ export type UserUncheckedUpdateWithoutPtContractsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
-  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPtSessionsInput = {
@@ -2896,27 +2896,27 @@ export type UserCreateWithoutPtSessionsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPtSessionsInput = {
@@ -2930,27 +2930,27 @@ export type UserUncheckedCreateWithoutPtSessionsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPtSessionsInput = {
@@ -2980,27 +2980,27 @@ export type UserUpdateWithoutPtSessionsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPtSessionsInput = {
@@ -3014,27 +3014,27 @@ export type UserUncheckedUpdateWithoutPtSessionsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutDietRecordsInput = {
@@ -3048,27 +3048,27 @@ export type UserCreateWithoutDietRecordsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDietRecordsInput = {
@@ -3082,27 +3082,27 @@ export type UserUncheckedCreateWithoutDietRecordsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDietRecordsInput = {
@@ -3132,27 +3132,27 @@ export type UserUpdateWithoutDietRecordsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDietRecordsInput = {
@@ -3166,27 +3166,27 @@ export type UserUncheckedUpdateWithoutDietRecordsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutBodyRecordsInput = {
@@ -3200,27 +3200,27 @@ export type UserCreateWithoutBodyRecordsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
-  journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
-  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
+  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
-  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
   dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
+  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
+  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBodyRecordsInput = {
@@ -3234,27 +3234,27 @@ export type UserUncheckedCreateWithoutBodyRecordsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
-  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
-  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
-  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
   centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
   dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
+  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
+  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBodyRecordsInput = {
@@ -3284,27 +3284,27 @@ export type UserUpdateWithoutBodyRecordsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
-  journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
-  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
-  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
   dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
+  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
+  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBodyRecordsInput = {
@@ -3318,27 +3318,27 @@ export type UserUncheckedUpdateWithoutBodyRecordsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
-  journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
-  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
-  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
   centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
   dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
+  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
+  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutGoalsInput = {
@@ -3352,27 +3352,27 @@ export type UserCreateWithoutGoalsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGoalsInput = {
@@ -3386,27 +3386,27 @@ export type UserUncheckedCreateWithoutGoalsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGoalsInput = {
@@ -3436,27 +3436,27 @@ export type UserUpdateWithoutGoalsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGoalsInput = {
@@ -3470,27 +3470,27 @@ export type UserUncheckedUpdateWithoutGoalsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutJournalsInput = {
@@ -3504,27 +3504,27 @@ export type UserCreateWithoutJournalsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
-  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
-  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
   workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutJournalsInput = {
@@ -3538,27 +3538,27 @@ export type UserUncheckedCreateWithoutJournalsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
-  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
-  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
   workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutJournalsInput = {
@@ -3588,27 +3588,27 @@ export type UserUpdateWithoutJournalsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
-  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
-  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
   workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutJournalsInput = {
@@ -3622,27 +3622,27 @@ export type UserUncheckedUpdateWithoutJournalsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
-  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
-  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
   workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutJournalCommentsInput = {
@@ -3656,27 +3656,27 @@ export type UserCreateWithoutJournalCommentsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
-  journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
-  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
   workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutJournalCommentsInput = {
@@ -3690,27 +3690,27 @@ export type UserUncheckedCreateWithoutJournalCommentsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
-  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
-  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
   workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutJournalCommentsInput = {
@@ -3740,27 +3740,27 @@ export type UserUpdateWithoutJournalCommentsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
-  journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
-  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
   workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutJournalCommentsInput = {
@@ -3774,27 +3774,27 @@ export type UserUncheckedUpdateWithoutJournalCommentsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
-  journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
-  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
   workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
@@ -3808,27 +3808,27 @@ export type UserCreateWithoutNotificationsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
   workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -3842,27 +3842,27 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
   workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -3892,27 +3892,27 @@ export type UserUpdateWithoutNotificationsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
   workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -3926,27 +3926,27 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
   workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAiAnalysesInput = {
@@ -3960,27 +3960,27 @@ export type UserCreateWithoutAiAnalysesInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAiAnalysesInput = {
@@ -3994,27 +3994,27 @@ export type UserUncheckedCreateWithoutAiAnalysesInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
-  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAiAnalysesInput = {
@@ -4044,27 +4044,27 @@ export type UserUpdateWithoutAiAnalysesInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAiAnalysesInput = {
@@ -4078,27 +4078,27 @@ export type UserUncheckedUpdateWithoutAiAnalysesInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
-  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
-  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSharingSettingInput = {
@@ -4112,27 +4112,27 @@ export type UserCreateWithoutSharingSettingInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
-  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSharingSettingInput = {
@@ -4146,27 +4146,27 @@ export type UserUncheckedCreateWithoutSharingSettingInput = {
   lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
-  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
-  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
-  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
-  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
-  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
-  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSharingSettingInput = {
@@ -4196,27 +4196,27 @@ export type UserUpdateWithoutSharingSettingInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
-  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSharingSettingInput = {
@@ -4230,27 +4230,27 @@ export type UserUncheckedUpdateWithoutSharingSettingInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
-  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
-  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
-  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
-  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
-  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
-  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
-  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
-  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
-  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
-  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
-  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
-  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -4259,47 +4259,47 @@ export type UserUncheckedUpdateWithoutSharingSettingInput = {
  */
 
 export type UserCountOutputType = {
-  trainerConnections: number
-  ptContracts: number
-  ptSessions: number
+  aiAnalyses: number
+  authSessions: number
+  bodyRecords: number
+  centerMemberships: number
+  deviceTokens: number
+  dietRecords: number
+  goals: number
   journals: number
   journalComments: number
-  authSessions: number
   claimCodes: number
-  deviceTokens: number
-  centerMemberships: number
-  routines: number
-  workoutSessions: number
-  recordedWorkoutSessions: number
-  workoutRecords: number
-  workoutFavorites: number
-  dietRecords: number
-  bodyRecords: number
-  goals: number
   notifications: number
-  aiAnalyses: number
+  ptContracts: number
+  ptSessions: number
+  routines: number
+  trainerConnections: number
+  workoutFavorites: number
+  workoutRecords: number
+  recordedWorkoutSessions: number
+  workoutSessions: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  trainerConnections?: boolean | UserCountOutputTypeCountTrainerConnectionsArgs
-  ptContracts?: boolean | UserCountOutputTypeCountPtContractsArgs
-  ptSessions?: boolean | UserCountOutputTypeCountPtSessionsArgs
+  aiAnalyses?: boolean | UserCountOutputTypeCountAiAnalysesArgs
+  authSessions?: boolean | UserCountOutputTypeCountAuthSessionsArgs
+  bodyRecords?: boolean | UserCountOutputTypeCountBodyRecordsArgs
+  centerMemberships?: boolean | UserCountOutputTypeCountCenterMembershipsArgs
+  deviceTokens?: boolean | UserCountOutputTypeCountDeviceTokensArgs
+  dietRecords?: boolean | UserCountOutputTypeCountDietRecordsArgs
+  goals?: boolean | UserCountOutputTypeCountGoalsArgs
   journals?: boolean | UserCountOutputTypeCountJournalsArgs
   journalComments?: boolean | UserCountOutputTypeCountJournalCommentsArgs
-  authSessions?: boolean | UserCountOutputTypeCountAuthSessionsArgs
   claimCodes?: boolean | UserCountOutputTypeCountClaimCodesArgs
-  deviceTokens?: boolean | UserCountOutputTypeCountDeviceTokensArgs
-  centerMemberships?: boolean | UserCountOutputTypeCountCenterMembershipsArgs
-  routines?: boolean | UserCountOutputTypeCountRoutinesArgs
-  workoutSessions?: boolean | UserCountOutputTypeCountWorkoutSessionsArgs
-  recordedWorkoutSessions?: boolean | UserCountOutputTypeCountRecordedWorkoutSessionsArgs
-  workoutRecords?: boolean | UserCountOutputTypeCountWorkoutRecordsArgs
-  workoutFavorites?: boolean | UserCountOutputTypeCountWorkoutFavoritesArgs
-  dietRecords?: boolean | UserCountOutputTypeCountDietRecordsArgs
-  bodyRecords?: boolean | UserCountOutputTypeCountBodyRecordsArgs
-  goals?: boolean | UserCountOutputTypeCountGoalsArgs
   notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
-  aiAnalyses?: boolean | UserCountOutputTypeCountAiAnalysesArgs
+  ptContracts?: boolean | UserCountOutputTypeCountPtContractsArgs
+  ptSessions?: boolean | UserCountOutputTypeCountPtSessionsArgs
+  routines?: boolean | UserCountOutputTypeCountRoutinesArgs
+  trainerConnections?: boolean | UserCountOutputTypeCountTrainerConnectionsArgs
+  workoutFavorites?: boolean | UserCountOutputTypeCountWorkoutFavoritesArgs
+  workoutRecords?: boolean | UserCountOutputTypeCountWorkoutRecordsArgs
+  recordedWorkoutSessions?: boolean | UserCountOutputTypeCountRecordedWorkoutSessionsArgs
+  workoutSessions?: boolean | UserCountOutputTypeCountWorkoutSessionsArgs
 }
 
 /**
@@ -4315,22 +4315,50 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountTrainerConnectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TrainerMemberConnectionWhereInput
+export type UserCountOutputTypeCountAiAnalysesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AiAnalysisWhereInput
 }
 
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountPtContractsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PTContractWhereInput
+export type UserCountOutputTypeCountAuthSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AuthSessionWhereInput
 }
 
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountPtSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PTSessionWhereInput
+export type UserCountOutputTypeCountBodyRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BodyRecordWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCenterMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CenterMembershipWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountDeviceTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DeviceTokenWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountDietRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DietRecordWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountGoalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.GoalWhereInput
 }
 
 /**
@@ -4350,85 +4378,8 @@ export type UserCountOutputTypeCountJournalCommentsArgs<ExtArgs extends runtime.
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountAuthSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.AuthSessionWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
 export type UserCountOutputTypeCountClaimCodesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.MemberClaimCodeWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountDeviceTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.DeviceTokenWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountCenterMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.CenterMembershipWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountRoutinesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.RoutineWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountWorkoutSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.WorkoutSessionWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountRecordedWorkoutSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.WorkoutSessionWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountWorkoutRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.WorkoutRecordWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountWorkoutFavoritesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.WorkoutFavoriteWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountDietRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.DietRecordWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountBodyRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.BodyRecordWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountGoalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.GoalWhereInput
 }
 
 /**
@@ -4441,8 +4392,57 @@ export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Ty
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountAiAnalysesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.AiAnalysisWhereInput
+export type UserCountOutputTypeCountPtContractsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PTContractWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountPtSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PTSessionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountRoutinesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RoutineWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountTrainerConnectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TrainerMemberConnectionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountWorkoutFavoritesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.WorkoutFavoriteWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountWorkoutRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.WorkoutRecordWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountRecordedWorkoutSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.WorkoutSessionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountWorkoutSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.WorkoutSessionWhereInput
 }
 
 
@@ -4457,28 +4457,28 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   lastLoginAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  memberProfile?: boolean | Prisma.User$memberProfileArgs<ExtArgs>
-  trainerProfile?: boolean | Prisma.User$trainerProfileArgs<ExtArgs>
-  trainerConnections?: boolean | Prisma.User$trainerConnectionsArgs<ExtArgs>
-  sharingSetting?: boolean | Prisma.User$sharingSettingArgs<ExtArgs>
-  ptContracts?: boolean | Prisma.User$ptContractsArgs<ExtArgs>
-  ptSessions?: boolean | Prisma.User$ptSessionsArgs<ExtArgs>
+  aiAnalyses?: boolean | Prisma.User$aiAnalysesArgs<ExtArgs>
+  authSessions?: boolean | Prisma.User$authSessionsArgs<ExtArgs>
+  bodyRecords?: boolean | Prisma.User$bodyRecordsArgs<ExtArgs>
+  centerMemberships?: boolean | Prisma.User$centerMembershipsArgs<ExtArgs>
+  deviceTokens?: boolean | Prisma.User$deviceTokensArgs<ExtArgs>
+  dietRecords?: boolean | Prisma.User$dietRecordsArgs<ExtArgs>
+  goals?: boolean | Prisma.User$goalsArgs<ExtArgs>
   journals?: boolean | Prisma.User$journalsArgs<ExtArgs>
   journalComments?: boolean | Prisma.User$journalCommentsArgs<ExtArgs>
-  authSessions?: boolean | Prisma.User$authSessionsArgs<ExtArgs>
   claimCodes?: boolean | Prisma.User$claimCodesArgs<ExtArgs>
-  deviceTokens?: boolean | Prisma.User$deviceTokensArgs<ExtArgs>
-  centerMemberships?: boolean | Prisma.User$centerMembershipsArgs<ExtArgs>
-  routines?: boolean | Prisma.User$routinesArgs<ExtArgs>
-  workoutSessions?: boolean | Prisma.User$workoutSessionsArgs<ExtArgs>
-  recordedWorkoutSessions?: boolean | Prisma.User$recordedWorkoutSessionsArgs<ExtArgs>
-  workoutRecords?: boolean | Prisma.User$workoutRecordsArgs<ExtArgs>
-  workoutFavorites?: boolean | Prisma.User$workoutFavoritesArgs<ExtArgs>
-  dietRecords?: boolean | Prisma.User$dietRecordsArgs<ExtArgs>
-  bodyRecords?: boolean | Prisma.User$bodyRecordsArgs<ExtArgs>
-  goals?: boolean | Prisma.User$goalsArgs<ExtArgs>
+  memberProfile?: boolean | Prisma.User$memberProfileArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
-  aiAnalyses?: boolean | Prisma.User$aiAnalysesArgs<ExtArgs>
+  ptContracts?: boolean | Prisma.User$ptContractsArgs<ExtArgs>
+  ptSessions?: boolean | Prisma.User$ptSessionsArgs<ExtArgs>
+  routines?: boolean | Prisma.User$routinesArgs<ExtArgs>
+  trainerConnections?: boolean | Prisma.User$trainerConnectionsArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.User$trainerProfileArgs<ExtArgs>
+  sharingSetting?: boolean | Prisma.User$sharingSettingArgs<ExtArgs>
+  workoutFavorites?: boolean | Prisma.User$workoutFavoritesArgs<ExtArgs>
+  workoutRecords?: boolean | Prisma.User$workoutRecordsArgs<ExtArgs>
+  recordedWorkoutSessions?: boolean | Prisma.User$recordedWorkoutSessionsArgs<ExtArgs>
+  workoutSessions?: boolean | Prisma.User$workoutSessionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -4523,28 +4523,28 @@ export type UserSelectScalar = {
 
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "phone" | "profileImageUrl" | "status" | "lastLoginAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  memberProfile?: boolean | Prisma.User$memberProfileArgs<ExtArgs>
-  trainerProfile?: boolean | Prisma.User$trainerProfileArgs<ExtArgs>
-  trainerConnections?: boolean | Prisma.User$trainerConnectionsArgs<ExtArgs>
-  sharingSetting?: boolean | Prisma.User$sharingSettingArgs<ExtArgs>
-  ptContracts?: boolean | Prisma.User$ptContractsArgs<ExtArgs>
-  ptSessions?: boolean | Prisma.User$ptSessionsArgs<ExtArgs>
+  aiAnalyses?: boolean | Prisma.User$aiAnalysesArgs<ExtArgs>
+  authSessions?: boolean | Prisma.User$authSessionsArgs<ExtArgs>
+  bodyRecords?: boolean | Prisma.User$bodyRecordsArgs<ExtArgs>
+  centerMemberships?: boolean | Prisma.User$centerMembershipsArgs<ExtArgs>
+  deviceTokens?: boolean | Prisma.User$deviceTokensArgs<ExtArgs>
+  dietRecords?: boolean | Prisma.User$dietRecordsArgs<ExtArgs>
+  goals?: boolean | Prisma.User$goalsArgs<ExtArgs>
   journals?: boolean | Prisma.User$journalsArgs<ExtArgs>
   journalComments?: boolean | Prisma.User$journalCommentsArgs<ExtArgs>
-  authSessions?: boolean | Prisma.User$authSessionsArgs<ExtArgs>
   claimCodes?: boolean | Prisma.User$claimCodesArgs<ExtArgs>
-  deviceTokens?: boolean | Prisma.User$deviceTokensArgs<ExtArgs>
-  centerMemberships?: boolean | Prisma.User$centerMembershipsArgs<ExtArgs>
-  routines?: boolean | Prisma.User$routinesArgs<ExtArgs>
-  workoutSessions?: boolean | Prisma.User$workoutSessionsArgs<ExtArgs>
-  recordedWorkoutSessions?: boolean | Prisma.User$recordedWorkoutSessionsArgs<ExtArgs>
-  workoutRecords?: boolean | Prisma.User$workoutRecordsArgs<ExtArgs>
-  workoutFavorites?: boolean | Prisma.User$workoutFavoritesArgs<ExtArgs>
-  dietRecords?: boolean | Prisma.User$dietRecordsArgs<ExtArgs>
-  bodyRecords?: boolean | Prisma.User$bodyRecordsArgs<ExtArgs>
-  goals?: boolean | Prisma.User$goalsArgs<ExtArgs>
+  memberProfile?: boolean | Prisma.User$memberProfileArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
-  aiAnalyses?: boolean | Prisma.User$aiAnalysesArgs<ExtArgs>
+  ptContracts?: boolean | Prisma.User$ptContractsArgs<ExtArgs>
+  ptSessions?: boolean | Prisma.User$ptSessionsArgs<ExtArgs>
+  routines?: boolean | Prisma.User$routinesArgs<ExtArgs>
+  trainerConnections?: boolean | Prisma.User$trainerConnectionsArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.User$trainerProfileArgs<ExtArgs>
+  sharingSetting?: boolean | Prisma.User$sharingSettingArgs<ExtArgs>
+  workoutFavorites?: boolean | Prisma.User$workoutFavoritesArgs<ExtArgs>
+  workoutRecords?: boolean | Prisma.User$workoutRecordsArgs<ExtArgs>
+  recordedWorkoutSessions?: boolean | Prisma.User$recordedWorkoutSessionsArgs<ExtArgs>
+  workoutSessions?: boolean | Prisma.User$workoutSessionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -4553,36 +4553,36 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
-    memberProfile: Prisma.$MemberProfilePayload<ExtArgs> | null
-    trainerProfile: Prisma.$TrainerProfilePayload<ExtArgs> | null
-    trainerConnections: Prisma.$TrainerMemberConnectionPayload<ExtArgs>[]
-    sharingSetting: Prisma.$TrainerSharingSettingPayload<ExtArgs> | null
-    ptContracts: Prisma.$PTContractPayload<ExtArgs>[]
-    ptSessions: Prisma.$PTSessionPayload<ExtArgs>[]
+    aiAnalyses: Prisma.$AiAnalysisPayload<ExtArgs>[]
+    authSessions: Prisma.$AuthSessionPayload<ExtArgs>[]
+    bodyRecords: Prisma.$BodyRecordPayload<ExtArgs>[]
+    centerMemberships: Prisma.$CenterMembershipPayload<ExtArgs>[]
+    deviceTokens: Prisma.$DeviceTokenPayload<ExtArgs>[]
+    dietRecords: Prisma.$DietRecordPayload<ExtArgs>[]
+    goals: Prisma.$GoalPayload<ExtArgs>[]
     journals: Prisma.$JournalPayload<ExtArgs>[]
     journalComments: Prisma.$JournalCommentPayload<ExtArgs>[]
-    authSessions: Prisma.$AuthSessionPayload<ExtArgs>[]
     claimCodes: Prisma.$MemberClaimCodePayload<ExtArgs>[]
-    deviceTokens: Prisma.$DeviceTokenPayload<ExtArgs>[]
-    centerMemberships: Prisma.$CenterMembershipPayload<ExtArgs>[]
-    routines: Prisma.$RoutinePayload<ExtArgs>[]
-    workoutSessions: Prisma.$WorkoutSessionPayload<ExtArgs>[]
-    recordedWorkoutSessions: Prisma.$WorkoutSessionPayload<ExtArgs>[]
-    workoutRecords: Prisma.$WorkoutRecordPayload<ExtArgs>[]
-    workoutFavorites: Prisma.$WorkoutFavoritePayload<ExtArgs>[]
-    dietRecords: Prisma.$DietRecordPayload<ExtArgs>[]
-    bodyRecords: Prisma.$BodyRecordPayload<ExtArgs>[]
-    goals: Prisma.$GoalPayload<ExtArgs>[]
+    memberProfile: Prisma.$MemberProfilePayload<ExtArgs> | null
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
-    aiAnalyses: Prisma.$AiAnalysisPayload<ExtArgs>[]
+    ptContracts: Prisma.$PTContractPayload<ExtArgs>[]
+    ptSessions: Prisma.$PTSessionPayload<ExtArgs>[]
+    routines: Prisma.$RoutinePayload<ExtArgs>[]
+    trainerConnections: Prisma.$TrainerMemberConnectionPayload<ExtArgs>[]
+    trainerProfile: Prisma.$TrainerProfilePayload<ExtArgs> | null
+    sharingSetting: Prisma.$TrainerSharingSettingPayload<ExtArgs> | null
+    workoutFavorites: Prisma.$WorkoutFavoritePayload<ExtArgs>[]
+    workoutRecords: Prisma.$WorkoutRecordPayload<ExtArgs>[]
+    recordedWorkoutSessions: Prisma.$WorkoutSessionPayload<ExtArgs>[]
+    workoutSessions: Prisma.$WorkoutSessionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     /**
      * *
-     *    * 트레이너가 대신 만든 회원은 이메일이 없다. 본인이 계정을 이어받을 때
-     *    * 채운다. Postgres 의 unique 인덱스는 NULL 을 서로 다른 값으로 보므로
-     *    * 미가입 회원이 여럿이어도 부딪히지 않는다.
+     * * 트레이너가 대신 만든 회원은 이메일이 없다. 본인이 계정을 이어받을 때
+     * * 채운다. Postgres 의 unique 인덱스는 NULL 을 서로 다른 값으로 보므로
+     * * 미가입 회원이 여럿이어도 부딪히지 않는다.
      */
     email: string | null
     passwordHash: string | null
@@ -4987,28 +4987,28 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  memberProfile<T extends Prisma.User$memberProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$memberProfileArgs<ExtArgs>>): Prisma.Prisma__MemberProfileClient<runtime.Types.Result.GetResult<Prisma.$MemberProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  trainerProfile<T extends Prisma.User$trainerProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$trainerProfileArgs<ExtArgs>>): Prisma.Prisma__TrainerProfileClient<runtime.Types.Result.GetResult<Prisma.$TrainerProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  trainerConnections<T extends Prisma.User$trainerConnectionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$trainerConnectionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrainerMemberConnectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  sharingSetting<T extends Prisma.User$sharingSettingArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sharingSettingArgs<ExtArgs>>): Prisma.Prisma__TrainerSharingSettingClient<runtime.Types.Result.GetResult<Prisma.$TrainerSharingSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  ptContracts<T extends Prisma.User$ptContractsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ptContractsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PTContractPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  ptSessions<T extends Prisma.User$ptSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ptSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PTSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  aiAnalyses<T extends Prisma.User$aiAnalysesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$aiAnalysesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AiAnalysisPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  authSessions<T extends Prisma.User$authSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$authSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuthSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  bodyRecords<T extends Prisma.User$bodyRecordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$bodyRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BodyRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  centerMemberships<T extends Prisma.User$centerMembershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$centerMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CenterMembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  deviceTokens<T extends Prisma.User$deviceTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$deviceTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeviceTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  dietRecords<T extends Prisma.User$dietRecordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$dietRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DietRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  goals<T extends Prisma.User$goalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$goalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   journals<T extends Prisma.User$journalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$journalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   journalComments<T extends Prisma.User$journalCommentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$journalCommentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  authSessions<T extends Prisma.User$authSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$authSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuthSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   claimCodes<T extends Prisma.User$claimCodesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$claimCodesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MemberClaimCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  deviceTokens<T extends Prisma.User$deviceTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$deviceTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeviceTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  centerMemberships<T extends Prisma.User$centerMembershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$centerMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CenterMembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  routines<T extends Prisma.User$routinesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$routinesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RoutinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  workoutSessions<T extends Prisma.User$workoutSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$workoutSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorkoutSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  recordedWorkoutSessions<T extends Prisma.User$recordedWorkoutSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$recordedWorkoutSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorkoutSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  workoutRecords<T extends Prisma.User$workoutRecordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$workoutRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorkoutRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  workoutFavorites<T extends Prisma.User$workoutFavoritesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$workoutFavoritesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorkoutFavoritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  dietRecords<T extends Prisma.User$dietRecordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$dietRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DietRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  bodyRecords<T extends Prisma.User$bodyRecordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$bodyRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BodyRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  goals<T extends Prisma.User$goalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$goalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  memberProfile<T extends Prisma.User$memberProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$memberProfileArgs<ExtArgs>>): Prisma.Prisma__MemberProfileClient<runtime.Types.Result.GetResult<Prisma.$MemberProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  aiAnalyses<T extends Prisma.User$aiAnalysesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$aiAnalysesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AiAnalysisPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  ptContracts<T extends Prisma.User$ptContractsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ptContractsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PTContractPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  ptSessions<T extends Prisma.User$ptSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ptSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PTSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  routines<T extends Prisma.User$routinesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$routinesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RoutinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  trainerConnections<T extends Prisma.User$trainerConnectionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$trainerConnectionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrainerMemberConnectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  trainerProfile<T extends Prisma.User$trainerProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$trainerProfileArgs<ExtArgs>>): Prisma.Prisma__TrainerProfileClient<runtime.Types.Result.GetResult<Prisma.$TrainerProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  sharingSetting<T extends Prisma.User$sharingSettingArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sharingSettingArgs<ExtArgs>>): Prisma.Prisma__TrainerSharingSettingClient<runtime.Types.Result.GetResult<Prisma.$TrainerSharingSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  workoutFavorites<T extends Prisma.User$workoutFavoritesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$workoutFavoritesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorkoutFavoritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  workoutRecords<T extends Prisma.User$workoutRecordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$workoutRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorkoutRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  recordedWorkoutSessions<T extends Prisma.User$recordedWorkoutSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$recordedWorkoutSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorkoutSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  workoutSessions<T extends Prisma.User$workoutSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$workoutSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorkoutSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5441,132 +5441,171 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * User.memberProfile
+ * User.aiAnalyses
  */
-export type User$memberProfileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$aiAnalysesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the MemberProfile
+   * Select specific fields to fetch from the AiAnalysis
    */
-  select?: Prisma.MemberProfileSelect<ExtArgs> | null
+  select?: Prisma.AiAnalysisSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the MemberProfile
+   * Omit specific fields from the AiAnalysis
    */
-  omit?: Prisma.MemberProfileOmit<ExtArgs> | null
+  omit?: Prisma.AiAnalysisOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.MemberProfileInclude<ExtArgs> | null
-  where?: Prisma.MemberProfileWhereInput
-}
-
-/**
- * User.trainerProfile
- */
-export type User$trainerProfileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the TrainerProfile
-   */
-  select?: Prisma.TrainerProfileSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the TrainerProfile
-   */
-  omit?: Prisma.TrainerProfileOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TrainerProfileInclude<ExtArgs> | null
-  where?: Prisma.TrainerProfileWhereInput
-}
-
-/**
- * User.trainerConnections
- */
-export type User$trainerConnectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the TrainerMemberConnection
-   */
-  select?: Prisma.TrainerMemberConnectionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the TrainerMemberConnection
-   */
-  omit?: Prisma.TrainerMemberConnectionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TrainerMemberConnectionInclude<ExtArgs> | null
-  where?: Prisma.TrainerMemberConnectionWhereInput
-  orderBy?: Prisma.TrainerMemberConnectionOrderByWithRelationInput | Prisma.TrainerMemberConnectionOrderByWithRelationInput[]
-  cursor?: Prisma.TrainerMemberConnectionWhereUniqueInput
+  include?: Prisma.AiAnalysisInclude<ExtArgs> | null
+  where?: Prisma.AiAnalysisWhereInput
+  orderBy?: Prisma.AiAnalysisOrderByWithRelationInput | Prisma.AiAnalysisOrderByWithRelationInput[]
+  cursor?: Prisma.AiAnalysisWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.TrainerMemberConnectionScalarFieldEnum | Prisma.TrainerMemberConnectionScalarFieldEnum[]
+  distinct?: Prisma.AiAnalysisScalarFieldEnum | Prisma.AiAnalysisScalarFieldEnum[]
 }
 
 /**
- * User.sharingSetting
+ * User.authSessions
  */
-export type User$sharingSettingArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$authSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the TrainerSharingSetting
+   * Select specific fields to fetch from the AuthSession
    */
-  select?: Prisma.TrainerSharingSettingSelect<ExtArgs> | null
+  select?: Prisma.AuthSessionSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the TrainerSharingSetting
+   * Omit specific fields from the AuthSession
    */
-  omit?: Prisma.TrainerSharingSettingOmit<ExtArgs> | null
+  omit?: Prisma.AuthSessionOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.TrainerSharingSettingInclude<ExtArgs> | null
-  where?: Prisma.TrainerSharingSettingWhereInput
-}
-
-/**
- * User.ptContracts
- */
-export type User$ptContractsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the PTContract
-   */
-  select?: Prisma.PTContractSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the PTContract
-   */
-  omit?: Prisma.PTContractOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PTContractInclude<ExtArgs> | null
-  where?: Prisma.PTContractWhereInput
-  orderBy?: Prisma.PTContractOrderByWithRelationInput | Prisma.PTContractOrderByWithRelationInput[]
-  cursor?: Prisma.PTContractWhereUniqueInput
+  include?: Prisma.AuthSessionInclude<ExtArgs> | null
+  where?: Prisma.AuthSessionWhereInput
+  orderBy?: Prisma.AuthSessionOrderByWithRelationInput | Prisma.AuthSessionOrderByWithRelationInput[]
+  cursor?: Prisma.AuthSessionWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.PTContractScalarFieldEnum | Prisma.PTContractScalarFieldEnum[]
+  distinct?: Prisma.AuthSessionScalarFieldEnum | Prisma.AuthSessionScalarFieldEnum[]
 }
 
 /**
- * User.ptSessions
+ * User.bodyRecords
  */
-export type User$ptSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$bodyRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the PTSession
+   * Select specific fields to fetch from the BodyRecord
    */
-  select?: Prisma.PTSessionSelect<ExtArgs> | null
+  select?: Prisma.BodyRecordSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the PTSession
+   * Omit specific fields from the BodyRecord
    */
-  omit?: Prisma.PTSessionOmit<ExtArgs> | null
+  omit?: Prisma.BodyRecordOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.PTSessionInclude<ExtArgs> | null
-  where?: Prisma.PTSessionWhereInput
-  orderBy?: Prisma.PTSessionOrderByWithRelationInput | Prisma.PTSessionOrderByWithRelationInput[]
-  cursor?: Prisma.PTSessionWhereUniqueInput
+  include?: Prisma.BodyRecordInclude<ExtArgs> | null
+  where?: Prisma.BodyRecordWhereInput
+  orderBy?: Prisma.BodyRecordOrderByWithRelationInput | Prisma.BodyRecordOrderByWithRelationInput[]
+  cursor?: Prisma.BodyRecordWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.PTSessionScalarFieldEnum | Prisma.PTSessionScalarFieldEnum[]
+  distinct?: Prisma.BodyRecordScalarFieldEnum | Prisma.BodyRecordScalarFieldEnum[]
+}
+
+/**
+ * User.centerMemberships
+ */
+export type User$centerMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CenterMembership
+   */
+  select?: Prisma.CenterMembershipSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CenterMembership
+   */
+  omit?: Prisma.CenterMembershipOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CenterMembershipInclude<ExtArgs> | null
+  where?: Prisma.CenterMembershipWhereInput
+  orderBy?: Prisma.CenterMembershipOrderByWithRelationInput | Prisma.CenterMembershipOrderByWithRelationInput[]
+  cursor?: Prisma.CenterMembershipWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CenterMembershipScalarFieldEnum | Prisma.CenterMembershipScalarFieldEnum[]
+}
+
+/**
+ * User.deviceTokens
+ */
+export type User$deviceTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DeviceToken
+   */
+  select?: Prisma.DeviceTokenSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DeviceToken
+   */
+  omit?: Prisma.DeviceTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DeviceTokenInclude<ExtArgs> | null
+  where?: Prisma.DeviceTokenWhereInput
+  orderBy?: Prisma.DeviceTokenOrderByWithRelationInput | Prisma.DeviceTokenOrderByWithRelationInput[]
+  cursor?: Prisma.DeviceTokenWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DeviceTokenScalarFieldEnum | Prisma.DeviceTokenScalarFieldEnum[]
+}
+
+/**
+ * User.dietRecords
+ */
+export type User$dietRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DietRecord
+   */
+  select?: Prisma.DietRecordSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DietRecord
+   */
+  omit?: Prisma.DietRecordOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DietRecordInclude<ExtArgs> | null
+  where?: Prisma.DietRecordWhereInput
+  orderBy?: Prisma.DietRecordOrderByWithRelationInput | Prisma.DietRecordOrderByWithRelationInput[]
+  cursor?: Prisma.DietRecordWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DietRecordScalarFieldEnum | Prisma.DietRecordScalarFieldEnum[]
+}
+
+/**
+ * User.goals
+ */
+export type User$goalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Goal
+   */
+  select?: Prisma.GoalSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Goal
+   */
+  omit?: Prisma.GoalOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GoalInclude<ExtArgs> | null
+  where?: Prisma.GoalWhereInput
+  orderBy?: Prisma.GoalOrderByWithRelationInput | Prisma.GoalOrderByWithRelationInput[]
+  cursor?: Prisma.GoalWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.GoalScalarFieldEnum | Prisma.GoalScalarFieldEnum[]
 }
 
 /**
@@ -5618,30 +5657,6 @@ export type User$journalCommentsArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
- * User.authSessions
- */
-export type User$authSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the AuthSession
-   */
-  select?: Prisma.AuthSessionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the AuthSession
-   */
-  omit?: Prisma.AuthSessionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AuthSessionInclude<ExtArgs> | null
-  where?: Prisma.AuthSessionWhereInput
-  orderBy?: Prisma.AuthSessionOrderByWithRelationInput | Prisma.AuthSessionOrderByWithRelationInput[]
-  cursor?: Prisma.AuthSessionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.AuthSessionScalarFieldEnum | Prisma.AuthSessionScalarFieldEnum[]
-}
-
-/**
  * User.claimCodes
  */
 export type User$claimCodesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -5666,243 +5681,22 @@ export type User$claimCodesArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * User.deviceTokens
+ * User.memberProfile
  */
-export type User$deviceTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$memberProfileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the DeviceToken
+   * Select specific fields to fetch from the MemberProfile
    */
-  select?: Prisma.DeviceTokenSelect<ExtArgs> | null
+  select?: Prisma.MemberProfileSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the DeviceToken
+   * Omit specific fields from the MemberProfile
    */
-  omit?: Prisma.DeviceTokenOmit<ExtArgs> | null
+  omit?: Prisma.MemberProfileOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.DeviceTokenInclude<ExtArgs> | null
-  where?: Prisma.DeviceTokenWhereInput
-  orderBy?: Prisma.DeviceTokenOrderByWithRelationInput | Prisma.DeviceTokenOrderByWithRelationInput[]
-  cursor?: Prisma.DeviceTokenWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.DeviceTokenScalarFieldEnum | Prisma.DeviceTokenScalarFieldEnum[]
-}
-
-/**
- * User.centerMemberships
- */
-export type User$centerMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the CenterMembership
-   */
-  select?: Prisma.CenterMembershipSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the CenterMembership
-   */
-  omit?: Prisma.CenterMembershipOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CenterMembershipInclude<ExtArgs> | null
-  where?: Prisma.CenterMembershipWhereInput
-  orderBy?: Prisma.CenterMembershipOrderByWithRelationInput | Prisma.CenterMembershipOrderByWithRelationInput[]
-  cursor?: Prisma.CenterMembershipWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.CenterMembershipScalarFieldEnum | Prisma.CenterMembershipScalarFieldEnum[]
-}
-
-/**
- * User.routines
- */
-export type User$routinesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Routine
-   */
-  select?: Prisma.RoutineSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Routine
-   */
-  omit?: Prisma.RoutineOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.RoutineInclude<ExtArgs> | null
-  where?: Prisma.RoutineWhereInput
-  orderBy?: Prisma.RoutineOrderByWithRelationInput | Prisma.RoutineOrderByWithRelationInput[]
-  cursor?: Prisma.RoutineWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.RoutineScalarFieldEnum | Prisma.RoutineScalarFieldEnum[]
-}
-
-/**
- * User.workoutSessions
- */
-export type User$workoutSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the WorkoutSession
-   */
-  select?: Prisma.WorkoutSessionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the WorkoutSession
-   */
-  omit?: Prisma.WorkoutSessionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.WorkoutSessionInclude<ExtArgs> | null
-  where?: Prisma.WorkoutSessionWhereInput
-  orderBy?: Prisma.WorkoutSessionOrderByWithRelationInput | Prisma.WorkoutSessionOrderByWithRelationInput[]
-  cursor?: Prisma.WorkoutSessionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.WorkoutSessionScalarFieldEnum | Prisma.WorkoutSessionScalarFieldEnum[]
-}
-
-/**
- * User.recordedWorkoutSessions
- */
-export type User$recordedWorkoutSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the WorkoutSession
-   */
-  select?: Prisma.WorkoutSessionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the WorkoutSession
-   */
-  omit?: Prisma.WorkoutSessionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.WorkoutSessionInclude<ExtArgs> | null
-  where?: Prisma.WorkoutSessionWhereInput
-  orderBy?: Prisma.WorkoutSessionOrderByWithRelationInput | Prisma.WorkoutSessionOrderByWithRelationInput[]
-  cursor?: Prisma.WorkoutSessionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.WorkoutSessionScalarFieldEnum | Prisma.WorkoutSessionScalarFieldEnum[]
-}
-
-/**
- * User.workoutRecords
- */
-export type User$workoutRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the WorkoutRecord
-   */
-  select?: Prisma.WorkoutRecordSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the WorkoutRecord
-   */
-  omit?: Prisma.WorkoutRecordOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.WorkoutRecordInclude<ExtArgs> | null
-  where?: Prisma.WorkoutRecordWhereInput
-  orderBy?: Prisma.WorkoutRecordOrderByWithRelationInput | Prisma.WorkoutRecordOrderByWithRelationInput[]
-  cursor?: Prisma.WorkoutRecordWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.WorkoutRecordScalarFieldEnum | Prisma.WorkoutRecordScalarFieldEnum[]
-}
-
-/**
- * User.workoutFavorites
- */
-export type User$workoutFavoritesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the WorkoutFavorite
-   */
-  select?: Prisma.WorkoutFavoriteSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the WorkoutFavorite
-   */
-  omit?: Prisma.WorkoutFavoriteOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.WorkoutFavoriteInclude<ExtArgs> | null
-  where?: Prisma.WorkoutFavoriteWhereInput
-  orderBy?: Prisma.WorkoutFavoriteOrderByWithRelationInput | Prisma.WorkoutFavoriteOrderByWithRelationInput[]
-  cursor?: Prisma.WorkoutFavoriteWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.WorkoutFavoriteScalarFieldEnum | Prisma.WorkoutFavoriteScalarFieldEnum[]
-}
-
-/**
- * User.dietRecords
- */
-export type User$dietRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the DietRecord
-   */
-  select?: Prisma.DietRecordSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the DietRecord
-   */
-  omit?: Prisma.DietRecordOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.DietRecordInclude<ExtArgs> | null
-  where?: Prisma.DietRecordWhereInput
-  orderBy?: Prisma.DietRecordOrderByWithRelationInput | Prisma.DietRecordOrderByWithRelationInput[]
-  cursor?: Prisma.DietRecordWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.DietRecordScalarFieldEnum | Prisma.DietRecordScalarFieldEnum[]
-}
-
-/**
- * User.bodyRecords
- */
-export type User$bodyRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the BodyRecord
-   */
-  select?: Prisma.BodyRecordSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the BodyRecord
-   */
-  omit?: Prisma.BodyRecordOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.BodyRecordInclude<ExtArgs> | null
-  where?: Prisma.BodyRecordWhereInput
-  orderBy?: Prisma.BodyRecordOrderByWithRelationInput | Prisma.BodyRecordOrderByWithRelationInput[]
-  cursor?: Prisma.BodyRecordWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.BodyRecordScalarFieldEnum | Prisma.BodyRecordScalarFieldEnum[]
-}
-
-/**
- * User.goals
- */
-export type User$goalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Goal
-   */
-  select?: Prisma.GoalSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Goal
-   */
-  omit?: Prisma.GoalOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.GoalInclude<ExtArgs> | null
-  where?: Prisma.GoalWhereInput
-  orderBy?: Prisma.GoalOrderByWithRelationInput | Prisma.GoalOrderByWithRelationInput[]
-  cursor?: Prisma.GoalWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.GoalScalarFieldEnum | Prisma.GoalScalarFieldEnum[]
+  include?: Prisma.MemberProfileInclude<ExtArgs> | null
+  where?: Prisma.MemberProfileWhereInput
 }
 
 /**
@@ -5930,27 +5724,233 @@ export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * User.aiAnalyses
+ * User.ptContracts
  */
-export type User$aiAnalysesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$ptContractsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the AiAnalysis
+   * Select specific fields to fetch from the PTContract
    */
-  select?: Prisma.AiAnalysisSelect<ExtArgs> | null
+  select?: Prisma.PTContractSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the AiAnalysis
+   * Omit specific fields from the PTContract
    */
-  omit?: Prisma.AiAnalysisOmit<ExtArgs> | null
+  omit?: Prisma.PTContractOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.AiAnalysisInclude<ExtArgs> | null
-  where?: Prisma.AiAnalysisWhereInput
-  orderBy?: Prisma.AiAnalysisOrderByWithRelationInput | Prisma.AiAnalysisOrderByWithRelationInput[]
-  cursor?: Prisma.AiAnalysisWhereUniqueInput
+  include?: Prisma.PTContractInclude<ExtArgs> | null
+  where?: Prisma.PTContractWhereInput
+  orderBy?: Prisma.PTContractOrderByWithRelationInput | Prisma.PTContractOrderByWithRelationInput[]
+  cursor?: Prisma.PTContractWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.AiAnalysisScalarFieldEnum | Prisma.AiAnalysisScalarFieldEnum[]
+  distinct?: Prisma.PTContractScalarFieldEnum | Prisma.PTContractScalarFieldEnum[]
+}
+
+/**
+ * User.ptSessions
+ */
+export type User$ptSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PTSession
+   */
+  select?: Prisma.PTSessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PTSession
+   */
+  omit?: Prisma.PTSessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PTSessionInclude<ExtArgs> | null
+  where?: Prisma.PTSessionWhereInput
+  orderBy?: Prisma.PTSessionOrderByWithRelationInput | Prisma.PTSessionOrderByWithRelationInput[]
+  cursor?: Prisma.PTSessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PTSessionScalarFieldEnum | Prisma.PTSessionScalarFieldEnum[]
+}
+
+/**
+ * User.routines
+ */
+export type User$routinesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Routine
+   */
+  select?: Prisma.RoutineSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Routine
+   */
+  omit?: Prisma.RoutineOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RoutineInclude<ExtArgs> | null
+  where?: Prisma.RoutineWhereInput
+  orderBy?: Prisma.RoutineOrderByWithRelationInput | Prisma.RoutineOrderByWithRelationInput[]
+  cursor?: Prisma.RoutineWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RoutineScalarFieldEnum | Prisma.RoutineScalarFieldEnum[]
+}
+
+/**
+ * User.trainerConnections
+ */
+export type User$trainerConnectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TrainerMemberConnection
+   */
+  select?: Prisma.TrainerMemberConnectionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TrainerMemberConnection
+   */
+  omit?: Prisma.TrainerMemberConnectionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TrainerMemberConnectionInclude<ExtArgs> | null
+  where?: Prisma.TrainerMemberConnectionWhereInput
+  orderBy?: Prisma.TrainerMemberConnectionOrderByWithRelationInput | Prisma.TrainerMemberConnectionOrderByWithRelationInput[]
+  cursor?: Prisma.TrainerMemberConnectionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TrainerMemberConnectionScalarFieldEnum | Prisma.TrainerMemberConnectionScalarFieldEnum[]
+}
+
+/**
+ * User.trainerProfile
+ */
+export type User$trainerProfileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TrainerProfile
+   */
+  select?: Prisma.TrainerProfileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TrainerProfile
+   */
+  omit?: Prisma.TrainerProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TrainerProfileInclude<ExtArgs> | null
+  where?: Prisma.TrainerProfileWhereInput
+}
+
+/**
+ * User.sharingSetting
+ */
+export type User$sharingSettingArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TrainerSharingSetting
+   */
+  select?: Prisma.TrainerSharingSettingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TrainerSharingSetting
+   */
+  omit?: Prisma.TrainerSharingSettingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TrainerSharingSettingInclude<ExtArgs> | null
+  where?: Prisma.TrainerSharingSettingWhereInput
+}
+
+/**
+ * User.workoutFavorites
+ */
+export type User$workoutFavoritesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the WorkoutFavorite
+   */
+  select?: Prisma.WorkoutFavoriteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the WorkoutFavorite
+   */
+  omit?: Prisma.WorkoutFavoriteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WorkoutFavoriteInclude<ExtArgs> | null
+  where?: Prisma.WorkoutFavoriteWhereInput
+  orderBy?: Prisma.WorkoutFavoriteOrderByWithRelationInput | Prisma.WorkoutFavoriteOrderByWithRelationInput[]
+  cursor?: Prisma.WorkoutFavoriteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.WorkoutFavoriteScalarFieldEnum | Prisma.WorkoutFavoriteScalarFieldEnum[]
+}
+
+/**
+ * User.workoutRecords
+ */
+export type User$workoutRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the WorkoutRecord
+   */
+  select?: Prisma.WorkoutRecordSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the WorkoutRecord
+   */
+  omit?: Prisma.WorkoutRecordOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WorkoutRecordInclude<ExtArgs> | null
+  where?: Prisma.WorkoutRecordWhereInput
+  orderBy?: Prisma.WorkoutRecordOrderByWithRelationInput | Prisma.WorkoutRecordOrderByWithRelationInput[]
+  cursor?: Prisma.WorkoutRecordWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.WorkoutRecordScalarFieldEnum | Prisma.WorkoutRecordScalarFieldEnum[]
+}
+
+/**
+ * User.recordedWorkoutSessions
+ */
+export type User$recordedWorkoutSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the WorkoutSession
+   */
+  select?: Prisma.WorkoutSessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the WorkoutSession
+   */
+  omit?: Prisma.WorkoutSessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WorkoutSessionInclude<ExtArgs> | null
+  where?: Prisma.WorkoutSessionWhereInput
+  orderBy?: Prisma.WorkoutSessionOrderByWithRelationInput | Prisma.WorkoutSessionOrderByWithRelationInput[]
+  cursor?: Prisma.WorkoutSessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.WorkoutSessionScalarFieldEnum | Prisma.WorkoutSessionScalarFieldEnum[]
+}
+
+/**
+ * User.workoutSessions
+ */
+export type User$workoutSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the WorkoutSession
+   */
+  select?: Prisma.WorkoutSessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the WorkoutSession
+   */
+  omit?: Prisma.WorkoutSessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WorkoutSessionInclude<ExtArgs> | null
+  where?: Prisma.WorkoutSessionWhereInput
+  orderBy?: Prisma.WorkoutSessionOrderByWithRelationInput | Prisma.WorkoutSessionOrderByWithRelationInput[]
+  cursor?: Prisma.WorkoutSessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.WorkoutSessionScalarFieldEnum | Prisma.WorkoutSessionScalarFieldEnum[]
 }
 
 /**

@@ -171,8 +171,6 @@ export async function openSessionWorkout(userId: string, ptSessionId: string) {
     return session.workoutSession.id;
   }
 
-  const durationSec = session.durationMinutes * 60;
-
   return prisma.$transaction(async (tx) => {
     /*
      * PT 수업 상태와 WorkoutSession 생성을 같은 수업 lock 안에서 처리한다.

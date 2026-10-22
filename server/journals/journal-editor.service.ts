@@ -4,6 +4,7 @@ import { randomUUID } from "node:crypto";
 
 import { JournalStatus, NotificationType } from "@/generated/prisma/enums";
 import { kstStartOfDay } from "@/lib/date";
+import { isJournalPhotoPath } from "@/lib/photo-path";
 import { prisma } from "@/lib/prisma";
 import { createNotification } from "@/server/notifications/notification.service";
 import {
@@ -432,11 +433,10 @@ export async function attachPhoto(
 ) {
   await requireMyJournal(userId, journalId);
 
-  const prefix = `journals/${journalId}/`;
-
   if (
-    !storagePath.startsWith(prefix) ||
-    (thumbnailPath !== null && !thumbnailPath.startsWith(prefix))
+    !isJournalPhotoPath(journalId, storagePath, "full") ||
+    (thumbnailPath !== null &&
+      !isJournalPhotoPath(journalId, thumbnailPath, "thumb"))
   ) {
     throw new JournalEditError("INVALID", "잘못된 사진 경로예요.");
   }

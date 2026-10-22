@@ -10,6 +10,7 @@
  */
 export type * from './models/User'
 export type * from './models/AuthSession'
+export type * from './models/AuthAttempt'
 export type * from './models/DeviceToken'
 export type * from './models/Center'
 export type * from './models/CenterMembership'

@@ -17,11 +17,24 @@ import {
 
 import { prisma } from "@/lib/prisma";
 import {
-  createSession,
-  deleteSession,
-} from "@/app/lib/session";
+  AUTH_LIMITS,
+  RATE_LIMIT_MESSAGE,
+  attemptKey,
+  clearAttempts,
+  getClientIp,
+  isRateLimited,
+  recordAttempt,
+} from "@/app/lib/rate-limit";
+import { createSession, deleteSession } from "@/app/lib/session";
 
 const SALT_ROUNDS = 10;
+
+/**
+ * 없는 계정에도 같은 시간만큼 bcrypt 를 돌리기 위한 값.
+ * 이게 없으면 없는 이메일이 눈에 띄게 빨리 돌아와 응답 시간으로 계정이 드러난다.
+ */
+const DUMMY_HASH =
+  "$2b$10$kLb.J.yOyj1k9CAE8neuN.Giho6zF0SBQo5Al70SWGVLMLfWbPUoC";
 
 export async function signup(
   _state: AuthFormState,
@@ -39,11 +52,16 @@ export async function signup(
     };
   }
 
-  const {
-    name,
-    email,
-    password,
-  } = validated.data;
+  const { name, email, password } = validated.data;
+
+  const ip = await getClientIp();
+  const signupKey = attemptKey("signup", ip);
+
+  if (await isRateLimited(signupKey, AUTH_LIMITS.signupIp)) {
+    return { message: RATE_LIMIT_MESSAGE };
+  }
+
+  await recordAttempt(signupKey);
 
   const existingUser = await prisma.user.findUnique({
     where: { email },
@@ -100,16 +118,16 @@ export async function claimAccount(
     };
   }
 
-  const {
-    email,
-    password,
-  } = validated.data;
+  const { email, password } = validated.data;
+
+  const claimKey = attemptKey("claim", await getClientIp());
+
+  if (await isRateLimited(claimKey, AUTH_LIMITS.claimIp)) {
+    return { message: RATE_LIMIT_MESSAGE };
+  }
 
   try {
-    const passwordHash = await bcrypt.hash(
-      password,
-      SALT_ROUNDS,
-    );
+    const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
 
     const user = await claimMemberAccount(code, {
       email,
@@ -121,6 +139,9 @@ export async function claimAccount(
     redirect("/home");
   } catch (error) {
     if (error instanceof ConnectionError) {
+      // 코드를 추측하는 시도를 막으려고 실패만 센다.
+      await recordAttempt(claimKey);
+
       return {
         message: error.message,
       };
@@ -145,10 +166,18 @@ export async function login(
     };
   }
 
-  const {
-    email,
-    password,
-  } = validated.data;
+  const { email, password } = validated.data;
+
+  const ip = await getClientIp();
+  const accountKey = attemptKey("login", ip, email);
+  const ipKey = attemptKey("login", ip);
+
+  if (
+    (await isRateLimited(accountKey, AUTH_LIMITS.loginAccount)) ||
+    (await isRateLimited(ipKey, AUTH_LIMITS.loginIp))
+  ) {
+    return { message: RATE_LIMIT_MESSAGE };
+  }
 
   const user = await prisma.user.findUnique({
     where: { email },
@@ -156,24 +185,24 @@ export async function login(
       id: true,
       passwordHash: true,
       status: true,
+      trainerProfile: {
+        select: {
+          id: true,
+        },
+      },
     },
   });
 
-  const invalidMessage =
-    "이메일 또는 비밀번호가 올바르지 않습니다.";
-
-  if (!user?.passwordHash) {
-    return {
-      message: invalidMessage,
-    };
-  }
+  const invalidMessage = "이메일 또는 비밀번호가 올바르지 않습니다.";
 
   const matched = await bcrypt.compare(
     password,
-    user.passwordHash,
+    user?.passwordHash ?? DUMMY_HASH,
   );
 
-  if (!matched) {
+  if (!user?.passwordHash || !matched) {
+    await Promise.all([recordAttempt(accountKey), recordAttempt(ipKey)]);
+
     return {
       message: invalidMessage,
     };
@@ -192,7 +221,12 @@ export async function login(
     },
   });
 
+  await clearAttempts(accountKey);
   await createSession(user.id);
+
+  if (user.trainerProfile) {
+    redirect("/trainer");
+  }
 
   redirect("/home");
 }

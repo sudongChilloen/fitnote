@@ -1,12 +1,24 @@
 import * as z from "zod";
 
+/**
+ * 정규화한 뒤에 형식을 검사한다.
+ *
+ * 형식 검사가 먼저 돌면 앞뒤 공백이 있는 값이 걸러지고, 대소문자가 다른 같은
+ * 주소가 서로 다른 계정으로 들어간다. 소문자로 통일해야 가입과 로그인이 맞물린다.
+ */
+const EmailSchema = z
+  .string()
+  .trim()
+  .toLowerCase()
+  .pipe(z.email({ error: "올바른 이메일 형식이 아닙니다." }));
+
 export const SignupFormSchema = z.object({
   name: z
     .string()
     .min(2, { error: "이름은 2자 이상 입력해주세요." })
     .max(20, { error: "이름은 20자 이하로 입력해주세요." })
     .trim(),
-  email: z.email({ error: "올바른 이메일 형식이 아닙니다." }).trim(),
+  email: EmailSchema,
   password: z
     .string()
     .min(8, { error: "비밀번호는 8자 이상이어야 합니다." })
@@ -23,7 +35,7 @@ export const SignupFormSchema = z.object({
  * 트레이너의 목록에서 사람이 바뀐 것처럼 보인다.
  */
 export const ClaimFormSchema = z.object({
-  email: z.email({ error: "올바른 이메일 형식이 아닙니다." }).trim(),
+  email: EmailSchema,
   password: z
     .string()
     .min(8, { error: "비밀번호는 8자 이상이어야 합니다." })
@@ -33,7 +45,7 @@ export const ClaimFormSchema = z.object({
 });
 
 export const LoginFormSchema = z.object({
-  email: z.email({ error: "올바른 이메일 형식이 아닙니다." }).trim(),
+  email: EmailSchema,
   password: z.string().min(1, { error: "비밀번호를 입력해주세요." }),
 });
 

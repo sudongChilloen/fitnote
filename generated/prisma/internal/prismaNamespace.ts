@@ -399,6 +399,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   AuthSession: 'AuthSession',
+  AuthAttempt: 'AuthAttempt',
   DeviceToken: 'DeviceToken',
   Center: 'Center',
   CenterMembership: 'CenterMembership',
@@ -453,7 +454,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "authSession" | "deviceToken" | "center" | "centerMembership" | "centerInvitation" | "memberProfile" | "trainerProfile" | "trainerMemberConnection" | "memberClaimCode" | "trainerInvitation" | "equipment" | "memberEquipment" | "gym" | "gymEquipment" | "exercise" | "exerciseEquipment" | "workoutAlternative" | "routine" | "routineExercise" | "workoutSession" | "workoutRecord" | "workoutSet" | "workoutFavorite" | "pTProduct" | "pTSessionReschedule" | "trainerPTPrice" | "pTContract" | "pTSession" | "dietRecord" | "dietFeedback" | "bodyRecord" | "goal" | "journal" | "journalPhoto" | "journalComment" | "notice" | "noticeRead" | "notification" | "aiAnalysis" | "trainerSharingSetting"
+    modelProps: "user" | "authSession" | "authAttempt" | "deviceToken" | "center" | "centerMembership" | "centerInvitation" | "memberProfile" | "trainerProfile" | "trainerMemberConnection" | "memberClaimCode" | "trainerInvitation" | "equipment" | "memberEquipment" | "gym" | "gymEquipment" | "exercise" | "exerciseEquipment" | "workoutAlternative" | "routine" | "routineExercise" | "workoutSession" | "workoutRecord" | "workoutSet" | "workoutFavorite" | "pTProduct" | "pTSessionReschedule" | "trainerPTPrice" | "pTContract" | "pTSession" | "dietRecord" | "dietFeedback" | "bodyRecord" | "goal" | "journal" | "journalPhoto" | "journalComment" | "notice" | "noticeRead" | "notification" | "aiAnalysis" | "trainerSharingSetting"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -602,6 +603,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.AuthSessionCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.AuthSessionCountAggregateOutputType> | number
+        }
+      }
+    }
+    AuthAttempt: {
+      payload: Prisma.$AuthAttemptPayload<ExtArgs>
+      fields: Prisma.AuthAttemptFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AuthAttemptFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthAttemptPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AuthAttemptFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthAttemptPayload>
+        }
+        findFirst: {
+          args: Prisma.AuthAttemptFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthAttemptPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AuthAttemptFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthAttemptPayload>
+        }
+        findMany: {
+          args: Prisma.AuthAttemptFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthAttemptPayload>[]
+        }
+        create: {
+          args: Prisma.AuthAttemptCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthAttemptPayload>
+        }
+        createMany: {
+          args: Prisma.AuthAttemptCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AuthAttemptCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthAttemptPayload>[]
+        }
+        delete: {
+          args: Prisma.AuthAttemptDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthAttemptPayload>
+        }
+        update: {
+          args: Prisma.AuthAttemptUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthAttemptPayload>
+        }
+        deleteMany: {
+          args: Prisma.AuthAttemptDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AuthAttemptUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AuthAttemptUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthAttemptPayload>[]
+        }
+        upsert: {
+          args: Prisma.AuthAttemptUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthAttemptPayload>
+        }
+        aggregate: {
+          args: Prisma.AuthAttemptAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAuthAttempt>
+        }
+        groupBy: {
+          args: Prisma.AuthAttemptGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AuthAttemptGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AuthAttemptCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AuthAttemptCountAggregateOutputType> | number
         }
       }
     }
@@ -3549,7 +3624,6 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 export const AuthSessionScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  refreshTokenHash: 'refreshTokenHash',
   expiresAt: 'expiresAt',
   lastUsedAt: 'lastUsedAt',
   revokedAt: 'revokedAt',
@@ -3557,6 +3631,15 @@ export const AuthSessionScalarFieldEnum = {
 } as const
 
 export type AuthSessionScalarFieldEnum = (typeof AuthSessionScalarFieldEnum)[keyof typeof AuthSessionScalarFieldEnum]
+
+
+export const AuthAttemptScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  createdAt: 'createdAt'
+} as const
+
+export type AuthAttemptScalarFieldEnum = (typeof AuthAttemptScalarFieldEnum)[keyof typeof AuthAttemptScalarFieldEnum]
 
 
 export const DeviceTokenScalarFieldEnum = {
@@ -3595,9 +3678,9 @@ export const CenterMembershipScalarFieldEnum = {
   userId: 'userId',
   role: 'role',
   status: 'status',
-  joinedViaInvitationId: 'joinedViaInvitationId',
   joinedAt: 'joinedAt',
-  leftAt: 'leftAt'
+  leftAt: 'leftAt',
+  joinedViaInvitationId: 'joinedViaInvitationId'
 } as const
 
 export type CenterMembershipScalarFieldEnum = (typeof CenterMembershipScalarFieldEnum)[keyof typeof CenterMembershipScalarFieldEnum]
@@ -3609,12 +3692,12 @@ export const CenterInvitationScalarFieldEnum = {
   email: 'email',
   code: 'code',
   role: 'role',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
   createdByMembershipId: 'createdByMembershipId',
   maxUses: 'maxUses',
-  usedCount: 'usedCount',
-  expiresAt: 'expiresAt',
   revokedAt: 'revokedAt',
-  createdAt: 'createdAt'
+  usedCount: 'usedCount'
 } as const
 
 export type CenterInvitationScalarFieldEnum = (typeof CenterInvitationScalarFieldEnum)[keyof typeof CenterInvitationScalarFieldEnum]
@@ -3638,14 +3721,14 @@ export type MemberProfileScalarFieldEnum = (typeof MemberProfileScalarFieldEnum)
 
 export const TrainerProfileScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
-  displayName: 'displayName',
   bio: 'bio',
   specialty: 'specialty',
   careerYears: 'careerYears',
   profileImageUrl: 'profileImageUrl',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  displayName: 'displayName'
 } as const
 
 export type TrainerProfileScalarFieldEnum = (typeof TrainerProfileScalarFieldEnum)[keyof typeof TrainerProfileScalarFieldEnum]
@@ -3799,9 +3882,9 @@ export const RoutineScalarFieldEnum = {
   name: 'name',
   description: 'description',
   status: 'status',
-  createdByTrainerProfileId: 'createdByTrainerProfileId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  createdByTrainerProfileId: 'createdByTrainerProfileId'
 } as const
 
 export type RoutineScalarFieldEnum = (typeof RoutineScalarFieldEnum)[keyof typeof RoutineScalarFieldEnum]
@@ -3830,12 +3913,12 @@ export const WorkoutSessionScalarFieldEnum = {
   endedAt: 'endedAt',
   durationSec: 'durationSec',
   status: 'status',
-  entryMode: 'entryMode',
-  ptSessionId: 'ptSessionId',
-  recordedByUserId: 'recordedByUserId',
   memo: 'memo',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  entryMode: 'entryMode',
+  recordedByUserId: 'recordedByUserId',
+  ptSessionId: 'ptSessionId'
 } as const
 
 export type WorkoutSessionScalarFieldEnum = (typeof WorkoutSessionScalarFieldEnum)[keyof typeof WorkoutSessionScalarFieldEnum]
@@ -3845,12 +3928,12 @@ export const WorkoutRecordScalarFieldEnum = {
   id: 'id',
   sessionId: 'sessionId',
   exerciseId: 'exerciseId',
-  userId: 'userId',
   orderIndex: 'orderIndex',
   note: 'note',
   totalVolume: 'totalVolume',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  userId: 'userId'
 } as const
 
 export type WorkoutRecordScalarFieldEnum = (typeof WorkoutRecordScalarFieldEnum)[keyof typeof WorkoutRecordScalarFieldEnum]
@@ -3914,11 +3997,11 @@ export type PTSessionRescheduleScalarFieldEnum = (typeof PTSessionRescheduleScal
 
 export const TrainerPTPriceScalarFieldEnum = {
   id: 'id',
-  trainerProfileId: 'trainerProfileId',
   productId: 'productId',
   price: 'price',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  trainerProfileId: 'trainerProfileId'
 } as const
 
 export type TrainerPTPriceScalarFieldEnum = (typeof TrainerPTPriceScalarFieldEnum)[keyof typeof TrainerPTPriceScalarFieldEnum]
@@ -3926,10 +4009,7 @@ export type TrainerPTPriceScalarFieldEnum = (typeof TrainerPTPriceScalarFieldEnu
 
 export const PTContractScalarFieldEnum = {
   id: 'id',
-  memberUserId: 'memberUserId',
-  trainerProfileId: 'trainerProfileId',
   productId: 'productId',
-  centerId: 'centerId',
   title: 'title',
   totalSessions: 'totalSessions',
   usedSessions: 'usedSessions',
@@ -3937,7 +4017,10 @@ export const PTContractScalarFieldEnum = {
   expiresAt: 'expiresAt',
   status: 'status',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  memberUserId: 'memberUserId',
+  trainerProfileId: 'trainerProfileId',
+  centerId: 'centerId'
 } as const
 
 export type PTContractScalarFieldEnum = (typeof PTContractScalarFieldEnum)[keyof typeof PTContractScalarFieldEnum]
@@ -3946,21 +4029,21 @@ export type PTContractScalarFieldEnum = (typeof PTContractScalarFieldEnum)[keyof
 export const PTSessionScalarFieldEnum = {
   id: 'id',
   contractId: 'contractId',
-  memberUserId: 'memberUserId',
-  trainerProfileId: 'trainerProfileId',
   sessionNumber: 'sessionNumber',
   scheduledAt: 'scheduledAt',
   durationMinutes: 'durationMinutes',
   status: 'status',
-  deducted: 'deducted',
   memo: 'memo',
   completedAt: 'completedAt',
   cancelledAt: 'cancelledAt',
-  cancelledBy: 'cancelledBy',
   cancelReason: 'cancelReason',
-  memberAlertAt: 'memberAlertAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  memberUserId: 'memberUserId',
+  trainerProfileId: 'trainerProfileId',
+  deducted: 'deducted',
+  cancelledBy: 'cancelledBy',
+  memberAlertAt: 'memberAlertAt'
 } as const
 
 export type PTSessionScalarFieldEnum = (typeof PTSessionScalarFieldEnum)[keyof typeof PTSessionScalarFieldEnum]
@@ -3978,12 +4061,12 @@ export const DietRecordScalarFieldEnum = {
   protein: 'protein',
   fat: 'fat',
   memo: 'memo',
-  imagePath: 'imagePath',
-  thumbnailPath: 'thumbnailPath',
   aiAnalyzed: 'aiAnalyzed',
   aiResult: 'aiResult',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  imagePath: 'imagePath',
+  thumbnailPath: 'thumbnailPath'
 } as const
 
 export type DietRecordScalarFieldEnum = (typeof DietRecordScalarFieldEnum)[keyof typeof DietRecordScalarFieldEnum]
@@ -3992,10 +4075,10 @@ export type DietRecordScalarFieldEnum = (typeof DietRecordScalarFieldEnum)[keyof
 export const DietFeedbackScalarFieldEnum = {
   id: 'id',
   dietRecordId: 'dietRecordId',
-  trainerProfileId: 'trainerProfileId',
   content: 'content',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  trainerProfileId: 'trainerProfileId'
 } as const
 
 export type DietFeedbackScalarFieldEnum = (typeof DietFeedbackScalarFieldEnum)[keyof typeof DietFeedbackScalarFieldEnum]
@@ -4024,13 +4107,13 @@ export const GoalScalarFieldEnum = {
   title: 'title',
   description: 'description',
   targetValue: 'targetValue',
-  startValue: 'startValue',
   unit: 'unit',
   startDate: 'startDate',
   targetDate: 'targetDate',
   status: 'status',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  startValue: 'startValue'
 } as const
 
 export type GoalScalarFieldEnum = (typeof GoalScalarFieldEnum)[keyof typeof GoalScalarFieldEnum]
@@ -4038,8 +4121,6 @@ export type GoalScalarFieldEnum = (typeof GoalScalarFieldEnum)[keyof typeof Goal
 
 export const JournalScalarFieldEnum = {
   id: 'id',
-  memberUserId: 'memberUserId',
-  trainerProfileId: 'trainerProfileId',
   ptSessionId: 'ptSessionId',
   date: 'date',
   title: 'title',
@@ -4050,9 +4131,11 @@ export const JournalScalarFieldEnum = {
   caution: 'caution',
   nextGoal: 'nextGoal',
   publishedAt: 'publishedAt',
-  memberReadAt: 'memberReadAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  memberReadAt: 'memberReadAt',
+  memberUserId: 'memberUserId',
+  trainerProfileId: 'trainerProfileId'
 } as const
 
 export type JournalScalarFieldEnum = (typeof JournalScalarFieldEnum)[keyof typeof JournalScalarFieldEnum]
@@ -4061,10 +4144,10 @@ export type JournalScalarFieldEnum = (typeof JournalScalarFieldEnum)[keyof typeo
 export const JournalPhotoScalarFieldEnum = {
   id: 'id',
   journalId: 'journalId',
-  storagePath: 'storagePath',
-  thumbnailPath: 'thumbnailPath',
   orderIndex: 'orderIndex',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  storagePath: 'storagePath',
+  thumbnailPath: 'thumbnailPath'
 } as const
 
 export type JournalPhotoScalarFieldEnum = (typeof JournalPhotoScalarFieldEnum)[keyof typeof JournalPhotoScalarFieldEnum]
@@ -4073,11 +4156,11 @@ export type JournalPhotoScalarFieldEnum = (typeof JournalPhotoScalarFieldEnum)[k
 export const JournalCommentScalarFieldEnum = {
   id: 'id',
   journalId: 'journalId',
-  authorUserId: 'authorUserId',
   content: 'content',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
+  authorUserId: 'authorUserId'
 } as const
 
 export type JournalCommentScalarFieldEnum = (typeof JournalCommentScalarFieldEnum)[keyof typeof JournalCommentScalarFieldEnum]
@@ -4143,13 +4226,13 @@ export type AiAnalysisScalarFieldEnum = (typeof AiAnalysisScalarFieldEnum)[keyof
 
 export const TrainerSharingSettingScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
   shareDiet: 'shareDiet',
   shareDietPhoto: 'shareDietPhoto',
   sharePersonalWorkout: 'sharePersonalWorkout',
   shareBody: 'shareBody',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  userId: 'userId'
 } as const
 
 export type TrainerSharingSettingScalarFieldEnum = (typeof TrainerSharingSettingScalarFieldEnum)[keyof typeof TrainerSharingSettingScalarFieldEnum]
@@ -4795,6 +4878,7 @@ export type PrismaClientOptions = PrismaClientOptionsWithAccelerateUrl | PrismaC
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   authSession?: Prisma.AuthSessionOmit
+  authAttempt?: Prisma.AuthAttemptOmit
   deviceToken?: Prisma.DeviceTokenOmit
   center?: Prisma.CenterOmit
   centerMembership?: Prisma.CenterMembershipOmit

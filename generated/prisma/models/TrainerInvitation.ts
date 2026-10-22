@@ -15,10 +15,10 @@ import type * as Prisma from "../internal/prismaNamespace"
 /**
  * Model TrainerInvitation
  * *
- *  * 트레이너가 회원을 부르는 코드.
- *  * 센터 코드와 나눈 이유는 두 코드가 하는 일이 다르기 때문이다. 센터 코드는
- *  * "이 센터의 회원이 된다" 이고, 트레이너 코드는 "이 트레이너에게 코칭받는다"
- *  * 이다. 무소속 트레이너에게는 센터가 없어 센터 코드를 만들 수도 없다.
+ * * 트레이너가 회원을 부르는 코드.
+ * * 센터 코드와 나눈 이유는 두 코드가 하는 일이 다르기 때문이다. 센터 코드는
+ * * "이 센터의 회원이 된다" 이고, 트레이너 코드는 "이 트레이너에게 코칭받는다"
+ * * 이다. 무소속 트레이너에게는 센터가 없어 센터 코드를 만들 수도 없다.
  */
 export type TrainerInvitationModel = runtime.Types.Result.DefaultSelection<Prisma.$TrainerInvitationPayload>
 

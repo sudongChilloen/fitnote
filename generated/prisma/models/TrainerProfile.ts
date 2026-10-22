@@ -15,12 +15,12 @@ import type * as Prisma from "../internal/prismaNamespace"
 /**
  * Model TrainerProfile
  * *
- *  * 트레이너라는 신분.
- *  * 센터가 아니라 사람에 붙는다. 센터에 매달아 두면 센터 없는 트레이너가 존재할
- *  * 수 없고, 트레이너가 센터를 옮기는 순간 그가 쌓은 회원 관계와 알림장이 전부
- *  * 끊긴다. 회원의 여정을 보여주겠다면서 여정이 이직 한 번에 사라지면 앞뒤가
- *  * 맞지 않는다.
- *  * 센터 소속 여부는 같은 User 의 CenterMembership 이 있는가로 따로 본다.
+ * * 트레이너라는 신분.
+ * * 센터가 아니라 사람에 붙는다. 센터에 매달아 두면 센터 없는 트레이너가 존재할
+ * * 수 없고, 트레이너가 센터를 옮기는 순간 그가 쌓은 회원 관계와 알림장이 전부
+ * * 끊긴다. 회원의 여정을 보여주겠다면서 여정이 이직 한 번에 사라지면 앞뒤가
+ * * 맞지 않는다.
+ * * 센터 소속 여부는 같은 User 의 CenterMembership 이 있는가로 따로 본다.
  */
 export type TrainerProfileModel = runtime.Types.Result.DefaultSelection<Prisma.$TrainerProfilePayload>
 
@@ -42,38 +42,38 @@ export type TrainerProfileSumAggregateOutputType = {
 
 export type TrainerProfileMinAggregateOutputType = {
   id: string | null
-  userId: string | null
-  displayName: string | null
   bio: string | null
   specialty: string | null
   careerYears: number | null
   profileImageUrl: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  userId: string | null
+  displayName: string | null
 }
 
 export type TrainerProfileMaxAggregateOutputType = {
   id: string | null
-  userId: string | null
-  displayName: string | null
   bio: string | null
   specialty: string | null
   careerYears: number | null
   profileImageUrl: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  userId: string | null
+  displayName: string | null
 }
 
 export type TrainerProfileCountAggregateOutputType = {
   id: number
-  userId: number
-  displayName: number
   bio: number
   specialty: number
   careerYears: number
   profileImageUrl: number
   createdAt: number
   updatedAt: number
+  userId: number
+  displayName: number
   _all: number
 }
 
@@ -88,38 +88,38 @@ export type TrainerProfileSumAggregateInputType = {
 
 export type TrainerProfileMinAggregateInputType = {
   id?: true
-  userId?: true
-  displayName?: true
   bio?: true
   specialty?: true
   careerYears?: true
   profileImageUrl?: true
   createdAt?: true
   updatedAt?: true
+  userId?: true
+  displayName?: true
 }
 
 export type TrainerProfileMaxAggregateInputType = {
   id?: true
-  userId?: true
-  displayName?: true
   bio?: true
   specialty?: true
   careerYears?: true
   profileImageUrl?: true
   createdAt?: true
   updatedAt?: true
+  userId?: true
+  displayName?: true
 }
 
 export type TrainerProfileCountAggregateInputType = {
   id?: true
-  userId?: true
-  displayName?: true
   bio?: true
   specialty?: true
   careerYears?: true
   profileImageUrl?: true
   createdAt?: true
   updatedAt?: true
+  userId?: true
+  displayName?: true
   _all?: true
 }
 
@@ -211,14 +211,14 @@ export type TrainerProfileGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
 
 export type TrainerProfileGroupByOutputType = {
   id: string
-  userId: string
-  displayName: string | null
   bio: string | null
   specialty: string | null
   careerYears: number | null
   profileImageUrl: string | null
   createdAt: Date
   updatedAt: Date
+  userId: string
+  displayName: string | null
   _count: TrainerProfileCountAggregateOutputType | null
   _avg: TrainerProfileAvgAggregateOutputType | null
   _sum: TrainerProfileSumAggregateOutputType | null
@@ -246,46 +246,46 @@ export type TrainerProfileWhereInput = {
   OR?: Prisma.TrainerProfileWhereInput[]
   NOT?: Prisma.TrainerProfileWhereInput | Prisma.TrainerProfileWhereInput[]
   id?: Prisma.StringFilter<"TrainerProfile"> | string
-  userId?: Prisma.StringFilter<"TrainerProfile"> | string
-  displayName?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   bio?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   specialty?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   careerYears?: Prisma.IntNullableFilter<"TrainerProfile"> | number | null
   profileImageUrl?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   createdAt?: Prisma.DateTimeFilter<"TrainerProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TrainerProfile"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  connections?: Prisma.TrainerMemberConnectionListRelationFilter
-  invitations?: Prisma.TrainerInvitationListRelationFilter
+  userId?: Prisma.StringFilter<"TrainerProfile"> | string
+  displayName?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
+  dietFeedbacks?: Prisma.DietFeedbackListRelationFilter
+  journals?: Prisma.JournalListRelationFilter
   claimCodes?: Prisma.MemberClaimCodeListRelationFilter
   contracts?: Prisma.PTContractListRelationFilter
   ptSessions?: Prisma.PTSessionListRelationFilter
-  journals?: Prisma.JournalListRelationFilter
-  ptPrices?: Prisma.TrainerPTPriceListRelationFilter
-  dietFeedbacks?: Prisma.DietFeedbackListRelationFilter
   createdRoutines?: Prisma.RoutineListRelationFilter
+  invitations?: Prisma.TrainerInvitationListRelationFilter
+  connections?: Prisma.TrainerMemberConnectionListRelationFilter
+  ptPrices?: Prisma.TrainerPTPriceListRelationFilter
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type TrainerProfileOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  displayName?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
   specialty?: Prisma.SortOrderInput | Prisma.SortOrder
   careerYears?: Prisma.SortOrderInput | Prisma.SortOrder
   profileImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
-  connections?: Prisma.TrainerMemberConnectionOrderByRelationAggregateInput
-  invitations?: Prisma.TrainerInvitationOrderByRelationAggregateInput
+  userId?: Prisma.SortOrder
+  displayName?: Prisma.SortOrderInput | Prisma.SortOrder
+  dietFeedbacks?: Prisma.DietFeedbackOrderByRelationAggregateInput
+  journals?: Prisma.JournalOrderByRelationAggregateInput
   claimCodes?: Prisma.MemberClaimCodeOrderByRelationAggregateInput
   contracts?: Prisma.PTContractOrderByRelationAggregateInput
   ptSessions?: Prisma.PTSessionOrderByRelationAggregateInput
-  journals?: Prisma.JournalOrderByRelationAggregateInput
-  ptPrices?: Prisma.TrainerPTPriceOrderByRelationAggregateInput
-  dietFeedbacks?: Prisma.DietFeedbackOrderByRelationAggregateInput
   createdRoutines?: Prisma.RoutineOrderByRelationAggregateInput
+  invitations?: Prisma.TrainerInvitationOrderByRelationAggregateInput
+  connections?: Prisma.TrainerMemberConnectionOrderByRelationAggregateInput
+  ptPrices?: Prisma.TrainerPTPriceOrderByRelationAggregateInput
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type TrainerProfileWhereUniqueInput = Prisma.AtLeast<{
@@ -294,35 +294,35 @@ export type TrainerProfileWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.TrainerProfileWhereInput | Prisma.TrainerProfileWhereInput[]
   OR?: Prisma.TrainerProfileWhereInput[]
   NOT?: Prisma.TrainerProfileWhereInput | Prisma.TrainerProfileWhereInput[]
-  displayName?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   bio?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   specialty?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   careerYears?: Prisma.IntNullableFilter<"TrainerProfile"> | number | null
   profileImageUrl?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   createdAt?: Prisma.DateTimeFilter<"TrainerProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TrainerProfile"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  connections?: Prisma.TrainerMemberConnectionListRelationFilter
-  invitations?: Prisma.TrainerInvitationListRelationFilter
+  displayName?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
+  dietFeedbacks?: Prisma.DietFeedbackListRelationFilter
+  journals?: Prisma.JournalListRelationFilter
   claimCodes?: Prisma.MemberClaimCodeListRelationFilter
   contracts?: Prisma.PTContractListRelationFilter
   ptSessions?: Prisma.PTSessionListRelationFilter
-  journals?: Prisma.JournalListRelationFilter
-  ptPrices?: Prisma.TrainerPTPriceListRelationFilter
-  dietFeedbacks?: Prisma.DietFeedbackListRelationFilter
   createdRoutines?: Prisma.RoutineListRelationFilter
+  invitations?: Prisma.TrainerInvitationListRelationFilter
+  connections?: Prisma.TrainerMemberConnectionListRelationFilter
+  ptPrices?: Prisma.TrainerPTPriceListRelationFilter
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id" | "userId">
 
 export type TrainerProfileOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  displayName?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
   specialty?: Prisma.SortOrderInput | Prisma.SortOrder
   careerYears?: Prisma.SortOrderInput | Prisma.SortOrder
   profileImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  displayName?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TrainerProfileCountOrderByAggregateInput
   _avg?: Prisma.TrainerProfileAvgOrderByAggregateInput
   _max?: Prisma.TrainerProfileMaxOrderByAggregateInput
@@ -335,133 +335,133 @@ export type TrainerProfileScalarWhereWithAggregatesInput = {
   OR?: Prisma.TrainerProfileScalarWhereWithAggregatesInput[]
   NOT?: Prisma.TrainerProfileScalarWhereWithAggregatesInput | Prisma.TrainerProfileScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"TrainerProfile"> | string
-  userId?: Prisma.StringWithAggregatesFilter<"TrainerProfile"> | string
-  displayName?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
   bio?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
   specialty?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
   careerYears?: Prisma.IntNullableWithAggregatesFilter<"TrainerProfile"> | number | null
   profileImageUrl?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"TrainerProfile"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"TrainerProfile"> | Date | string
+  userId?: Prisma.StringWithAggregatesFilter<"TrainerProfile"> | string
+  displayName?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
 }
 
 export type TrainerProfileCreateInput = {
   id?: string
-  displayName?: string | null
   bio?: string | null
   specialty?: string | null
   careerYears?: number | null
   profileImageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
-  connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
-  invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  displayName?: string | null
+  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerProfileInput
+  journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerProfileInput
-  journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
-  ptPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerProfileInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerProfileInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
+  invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
+  ptPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerProfileInput
+  user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
 }
 
 export type TrainerProfileUncheckedCreateInput = {
   id?: string
-  userId: string
-  displayName?: string | null
   bio?: string | null
   specialty?: string | null
   careerYears?: number | null
   profileImageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
-  invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  userId: string
+  displayName?: string | null
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerProfileInput
+  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerProfileInput
-  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
-  ptPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerProfileInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerProfileInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
+  invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
+  ptPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerProfileInput
 }
 
 export type TrainerProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
-  connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
-  invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerProfileNestedInput
+  journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutTrainerProfileNestedInput
-  journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
-  ptPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerProfileNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerProfileNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
+  invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
+  ptPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerProfileNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
 }
 
 export type TrainerProfileUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  ptPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerProfileNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
+  invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  ptPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileNestedInput
 }
 
 export type TrainerProfileCreateManyInput = {
   id?: string
-  userId: string
-  displayName?: string | null
   bio?: string | null
   specialty?: string | null
   careerYears?: number | null
   profileImageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  userId: string
+  displayName?: string | null
 }
 
 export type TrainerProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TrainerProfileUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TrainerProfileNullableScalarRelationFilter = {
@@ -471,14 +471,14 @@ export type TrainerProfileNullableScalarRelationFilter = {
 
 export type TrainerProfileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  displayName?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   specialty?: Prisma.SortOrder
   careerYears?: Prisma.SortOrder
   profileImageUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  displayName?: Prisma.SortOrder
 }
 
 export type TrainerProfileAvgOrderByAggregateInput = {
@@ -487,26 +487,26 @@ export type TrainerProfileAvgOrderByAggregateInput = {
 
 export type TrainerProfileMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  displayName?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   specialty?: Prisma.SortOrder
   careerYears?: Prisma.SortOrder
   profileImageUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  displayName?: Prisma.SortOrder
 }
 
 export type TrainerProfileMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  displayName?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   specialty?: Prisma.SortOrder
   careerYears?: Prisma.SortOrder
   profileImageUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  displayName?: Prisma.SortOrder
 }
 
 export type TrainerProfileSumOrderByAggregateInput = {
@@ -688,42 +688,42 @@ export type TrainerProfileUpdateOneRequiredWithoutJournalsNestedInput = {
 
 export type TrainerProfileCreateWithoutUserInput = {
   id?: string
-  displayName?: string | null
   bio?: string | null
   specialty?: string | null
   careerYears?: number | null
   profileImageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
-  invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  displayName?: string | null
+  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerProfileInput
+  journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerProfileInput
-  journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
-  ptPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerProfileInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerProfileInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
+  invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
+  ptPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerProfileInput
 }
 
 export type TrainerProfileUncheckedCreateWithoutUserInput = {
   id?: string
-  displayName?: string | null
   bio?: string | null
   specialty?: string | null
   careerYears?: number | null
   profileImageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
-  invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  displayName?: string | null
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerProfileInput
+  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerProfileInput
-  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
-  ptPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerProfileInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerProfileInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
+  invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
+  ptPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerProfileInput
 }
 
 export type TrainerProfileCreateOrConnectWithoutUserInput = {
@@ -744,82 +744,82 @@ export type TrainerProfileUpdateToOneWithWhereWithoutUserInput = {
 
 export type TrainerProfileUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
-  invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerProfileNestedInput
+  journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutTrainerProfileNestedInput
-  journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
-  ptPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerProfileNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerProfileNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
+  invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
+  ptPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerProfileNestedInput
 }
 
 export type TrainerProfileUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  ptPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerProfileNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
+  invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  ptPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileNestedInput
 }
 
 export type TrainerProfileCreateWithoutConnectionsInput = {
   id?: string
-  displayName?: string | null
   bio?: string | null
   specialty?: string | null
   careerYears?: number | null
   profileImageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
-  invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  displayName?: string | null
+  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerProfileInput
+  journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerProfileInput
-  journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
-  ptPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerProfileInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerProfileInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
+  invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  ptPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerProfileInput
+  user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
 }
 
 export type TrainerProfileUncheckedCreateWithoutConnectionsInput = {
   id?: string
-  userId: string
-  displayName?: string | null
   bio?: string | null
   specialty?: string | null
   careerYears?: number | null
   profileImageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  userId: string
+  displayName?: string | null
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerProfileInput
+  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerProfileInput
-  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
-  ptPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerProfileInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerProfileInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
+  invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  ptPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerProfileInput
 }
 
 export type TrainerProfileCreateOrConnectWithoutConnectionsInput = {
@@ -840,82 +840,82 @@ export type TrainerProfileUpdateToOneWithWhereWithoutConnectionsInput = {
 
 export type TrainerProfileUpdateWithoutConnectionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
-  invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerProfileNestedInput
+  journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutTrainerProfileNestedInput
-  journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
-  ptPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerProfileNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerProfileNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
+  invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  ptPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerProfileNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
 }
 
 export type TrainerProfileUncheckedUpdateWithoutConnectionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  ptPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerProfileNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
+  invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  ptPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileNestedInput
 }
 
 export type TrainerProfileCreateWithoutClaimCodesInput = {
   id?: string
-  displayName?: string | null
   bio?: string | null
   specialty?: string | null
   careerYears?: number | null
   profileImageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
-  connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
-  invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  displayName?: string | null
+  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerProfileInput
+  journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerProfileInput
-  journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
-  ptPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerProfileInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerProfileInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
+  invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
+  ptPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerProfileInput
+  user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
 }
 
 export type TrainerProfileUncheckedCreateWithoutClaimCodesInput = {
   id?: string
-  userId: string
-  displayName?: string | null
   bio?: string | null
   specialty?: string | null
   careerYears?: number | null
   profileImageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
-  invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  userId: string
+  displayName?: string | null
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerProfileInput
+  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerProfileInput
-  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
-  ptPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerProfileInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerProfileInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
+  invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
+  ptPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerProfileInput
 }
 
 export type TrainerProfileCreateOrConnectWithoutClaimCodesInput = {
@@ -936,82 +936,82 @@ export type TrainerProfileUpdateToOneWithWhereWithoutClaimCodesInput = {
 
 export type TrainerProfileUpdateWithoutClaimCodesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
-  connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
-  invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerProfileNestedInput
+  journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutTrainerProfileNestedInput
-  journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
-  ptPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerProfileNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerProfileNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
+  invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
+  ptPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerProfileNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
 }
 
 export type TrainerProfileUncheckedUpdateWithoutClaimCodesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  ptPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerProfileNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
+  invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  ptPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileNestedInput
 }
 
 export type TrainerProfileCreateWithoutInvitationsInput = {
   id?: string
-  displayName?: string | null
   bio?: string | null
   specialty?: string | null
   careerYears?: number | null
   profileImageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
-  connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
+  displayName?: string | null
+  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerProfileInput
+  journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerProfileInput
-  journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
-  ptPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerProfileInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerProfileInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
+  connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
+  ptPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerProfileInput
+  user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
 }
 
 export type TrainerProfileUncheckedCreateWithoutInvitationsInput = {
   id?: string
-  userId: string
-  displayName?: string | null
   bio?: string | null
   specialty?: string | null
   careerYears?: number | null
   profileImageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
+  userId: string
+  displayName?: string | null
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerProfileInput
+  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerProfileInput
-  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
-  ptPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerProfileInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerProfileInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
+  connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
+  ptPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerProfileInput
 }
 
 export type TrainerProfileCreateOrConnectWithoutInvitationsInput = {
@@ -1032,82 +1032,82 @@ export type TrainerProfileUpdateToOneWithWhereWithoutInvitationsInput = {
 
 export type TrainerProfileUpdateWithoutInvitationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
-  connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerProfileNestedInput
+  journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutTrainerProfileNestedInput
-  journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
-  ptPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerProfileNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerProfileNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
+  connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
+  ptPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerProfileNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
 }
 
 export type TrainerProfileUncheckedUpdateWithoutInvitationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  ptPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerProfileNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
+  connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  ptPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileNestedInput
 }
 
 export type TrainerProfileCreateWithoutCreatedRoutinesInput = {
   id?: string
-  displayName?: string | null
   bio?: string | null
   specialty?: string | null
   careerYears?: number | null
   profileImageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
-  connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
-  invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  displayName?: string | null
+  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerProfileInput
+  journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerProfileInput
-  journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
+  invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
   ptPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerProfileInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerProfileInput
+  user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
 }
 
 export type TrainerProfileUncheckedCreateWithoutCreatedRoutinesInput = {
   id?: string
-  userId: string
-  displayName?: string | null
   bio?: string | null
   specialty?: string | null
   careerYears?: number | null
   profileImageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
-  invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  userId: string
+  displayName?: string | null
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerProfileInput
+  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerProfileInput
-  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
+  invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
   ptPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerProfileInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerProfileInput
 }
 
 export type TrainerProfileCreateOrConnectWithoutCreatedRoutinesInput = {
@@ -1128,82 +1128,82 @@ export type TrainerProfileUpdateToOneWithWhereWithoutCreatedRoutinesInput = {
 
 export type TrainerProfileUpdateWithoutCreatedRoutinesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
-  connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
-  invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerProfileNestedInput
+  journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutTrainerProfileNestedInput
-  journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
+  invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
   ptPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerProfileNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerProfileNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
 }
 
 export type TrainerProfileUncheckedUpdateWithoutCreatedRoutinesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
   ptPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerProfileNestedInput
 }
 
 export type TrainerProfileCreateWithoutPtPricesInput = {
   id?: string
-  displayName?: string | null
   bio?: string | null
   specialty?: string | null
   careerYears?: number | null
   profileImageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
-  connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
-  invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  displayName?: string | null
+  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerProfileInput
+  journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerProfileInput
-  journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerProfileInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
+  invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
+  user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
 }
 
 export type TrainerProfileUncheckedCreateWithoutPtPricesInput = {
   id?: string
-  userId: string
-  displayName?: string | null
   bio?: string | null
   specialty?: string | null
   careerYears?: number | null
   profileImageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
-  invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  userId: string
+  displayName?: string | null
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerProfileInput
+  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerProfileInput
-  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerProfileInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
+  invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
 }
 
 export type TrainerProfileCreateOrConnectWithoutPtPricesInput = {
@@ -1224,82 +1224,82 @@ export type TrainerProfileUpdateToOneWithWhereWithoutPtPricesInput = {
 
 export type TrainerProfileUpdateWithoutPtPricesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
-  connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
-  invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerProfileNestedInput
+  journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutTrainerProfileNestedInput
-  journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerProfileNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
+  invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
 }
 
 export type TrainerProfileUncheckedUpdateWithoutPtPricesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerProfileNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
+  invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
 }
 
 export type TrainerProfileCreateWithoutContractsInput = {
   id?: string
-  displayName?: string | null
   bio?: string | null
   specialty?: string | null
   careerYears?: number | null
   profileImageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
-  connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
-  invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  displayName?: string | null
+  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerProfileInput
+  journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerProfileInput
-  journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
-  ptPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerProfileInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerProfileInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
+  invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
+  ptPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerProfileInput
+  user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
 }
 
 export type TrainerProfileUncheckedCreateWithoutContractsInput = {
   id?: string
-  userId: string
-  displayName?: string | null
   bio?: string | null
   specialty?: string | null
   careerYears?: number | null
   profileImageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
-  invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  userId: string
+  displayName?: string | null
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerProfileInput
+  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerProfileInput
-  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
-  ptPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerProfileInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerProfileInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
+  invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
+  ptPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerProfileInput
 }
 
 export type TrainerProfileCreateOrConnectWithoutContractsInput = {
@@ -1320,82 +1320,82 @@ export type TrainerProfileUpdateToOneWithWhereWithoutContractsInput = {
 
 export type TrainerProfileUpdateWithoutContractsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
-  connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
-  invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerProfileNestedInput
+  journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutTrainerProfileNestedInput
-  journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
-  ptPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerProfileNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerProfileNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
+  invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
+  ptPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerProfileNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
 }
 
 export type TrainerProfileUncheckedUpdateWithoutContractsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  ptPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerProfileNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
+  invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  ptPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileNestedInput
 }
 
 export type TrainerProfileCreateWithoutPtSessionsInput = {
   id?: string
-  displayName?: string | null
   bio?: string | null
   specialty?: string | null
   careerYears?: number | null
   profileImageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
-  connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
-  invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  displayName?: string | null
+  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerProfileInput
+  journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractCreateNestedManyWithoutTrainerProfileInput
-  journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
-  ptPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerProfileInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerProfileInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
+  invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
+  ptPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerProfileInput
+  user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
 }
 
 export type TrainerProfileUncheckedCreateWithoutPtSessionsInput = {
   id?: string
-  userId: string
-  displayName?: string | null
   bio?: string | null
   specialty?: string | null
   careerYears?: number | null
   profileImageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
-  invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  userId: string
+  displayName?: string | null
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerProfileInput
+  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerProfileInput
-  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
-  ptPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerProfileInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerProfileInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
+  invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
+  ptPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerProfileInput
 }
 
 export type TrainerProfileCreateOrConnectWithoutPtSessionsInput = {
@@ -1416,82 +1416,82 @@ export type TrainerProfileUpdateToOneWithWhereWithoutPtSessionsInput = {
 
 export type TrainerProfileUpdateWithoutPtSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
-  connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
-  invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerProfileNestedInput
+  journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUpdateManyWithoutTrainerProfileNestedInput
-  journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
-  ptPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerProfileNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerProfileNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
+  invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
+  ptPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerProfileNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
 }
 
 export type TrainerProfileUncheckedUpdateWithoutPtSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  ptPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerProfileNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
+  invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  ptPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileNestedInput
 }
 
 export type TrainerProfileCreateWithoutDietFeedbacksInput = {
   id?: string
-  displayName?: string | null
   bio?: string | null
   specialty?: string | null
   careerYears?: number | null
   profileImageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
-  connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
-  invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  displayName?: string | null
+  journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerProfileInput
-  journals?: Prisma.JournalCreateNestedManyWithoutTrainerProfileInput
-  ptPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerProfileInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
+  invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
+  ptPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerProfileInput
+  user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
 }
 
 export type TrainerProfileUncheckedCreateWithoutDietFeedbacksInput = {
   id?: string
-  userId: string
-  displayName?: string | null
   bio?: string | null
   specialty?: string | null
   careerYears?: number | null
   profileImageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
-  invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  userId: string
+  displayName?: string | null
+  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerProfileInput
-  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutTrainerProfileInput
-  ptPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerProfileInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
+  invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
+  ptPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerProfileInput
 }
 
 export type TrainerProfileCreateOrConnectWithoutDietFeedbacksInput = {
@@ -1512,82 +1512,82 @@ export type TrainerProfileUpdateToOneWithWhereWithoutDietFeedbacksInput = {
 
 export type TrainerProfileUpdateWithoutDietFeedbacksInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
-  connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
-  invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutTrainerProfileNestedInput
-  journals?: Prisma.JournalUpdateManyWithoutTrainerProfileNestedInput
-  ptPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerProfileNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
+  invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
+  ptPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerProfileNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
 }
 
 export type TrainerProfileUncheckedUpdateWithoutDietFeedbacksInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  journals?: Prisma.JournalUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  ptPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
+  invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  ptPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileNestedInput
 }
 
 export type TrainerProfileCreateWithoutJournalsInput = {
   id?: string
-  displayName?: string | null
   bio?: string | null
   specialty?: string | null
   careerYears?: number | null
   profileImageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
-  connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
-  invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  displayName?: string | null
+  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerProfileInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutTrainerProfileInput
-  ptPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerProfileInput
-  dietFeedbacks?: Prisma.DietFeedbackCreateNestedManyWithoutTrainerProfileInput
   createdRoutines?: Prisma.RoutineCreateNestedManyWithoutCreatedByTrainerInput
+  invitations?: Prisma.TrainerInvitationCreateNestedManyWithoutTrainerProfileInput
+  connections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutTrainerProfileInput
+  ptPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutTrainerProfileInput
+  user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
 }
 
 export type TrainerProfileUncheckedCreateWithoutJournalsInput = {
   id?: string
-  userId: string
-  displayName?: string | null
   bio?: string | null
   specialty?: string | null
   careerYears?: number | null
   profileImageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
-  invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  userId: string
+  displayName?: string | null
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerProfileInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutTrainerProfileInput
   contracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutTrainerProfileInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutTrainerProfileInput
-  ptPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerProfileInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedCreateNestedManyWithoutTrainerProfileInput
   createdRoutines?: Prisma.RoutineUncheckedCreateNestedManyWithoutCreatedByTrainerInput
+  invitations?: Prisma.TrainerInvitationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  connections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutTrainerProfileInput
+  ptPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutTrainerProfileInput
 }
 
 export type TrainerProfileCreateOrConnectWithoutJournalsInput = {
@@ -1608,42 +1608,42 @@ export type TrainerProfileUpdateToOneWithWhereWithoutJournalsInput = {
 
 export type TrainerProfileUpdateWithoutJournalsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
-  connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
-  invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerProfileNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutTrainerProfileNestedInput
-  ptPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerProfileNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUpdateManyWithoutTrainerProfileNestedInput
   createdRoutines?: Prisma.RoutineUpdateManyWithoutCreatedByTrainerNestedInput
+  invitations?: Prisma.TrainerInvitationUpdateManyWithoutTrainerProfileNestedInput
+  connections?: Prisma.TrainerMemberConnectionUpdateManyWithoutTrainerProfileNestedInput
+  ptPrices?: Prisma.TrainerPTPriceUpdateManyWithoutTrainerProfileNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
 }
 
 export type TrainerProfileUncheckedUpdateWithoutJournalsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerProfileNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutTrainerProfileNestedInput
   contracts?: Prisma.PTContractUncheckedUpdateManyWithoutTrainerProfileNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  ptPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  dietFeedbacks?: Prisma.DietFeedbackUncheckedUpdateManyWithoutTrainerProfileNestedInput
   createdRoutines?: Prisma.RoutineUncheckedUpdateManyWithoutCreatedByTrainerNestedInput
+  invitations?: Prisma.TrainerInvitationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  connections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  ptPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutTrainerProfileNestedInput
 }
 
 
@@ -1652,27 +1652,27 @@ export type TrainerProfileUncheckedUpdateWithoutJournalsInput = {
  */
 
 export type TrainerProfileCountOutputType = {
-  connections: number
-  invitations: number
+  dietFeedbacks: number
+  journals: number
   claimCodes: number
   contracts: number
   ptSessions: number
-  journals: number
-  ptPrices: number
-  dietFeedbacks: number
   createdRoutines: number
+  invitations: number
+  connections: number
+  ptPrices: number
 }
 
 export type TrainerProfileCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  connections?: boolean | TrainerProfileCountOutputTypeCountConnectionsArgs
-  invitations?: boolean | TrainerProfileCountOutputTypeCountInvitationsArgs
+  dietFeedbacks?: boolean | TrainerProfileCountOutputTypeCountDietFeedbacksArgs
+  journals?: boolean | TrainerProfileCountOutputTypeCountJournalsArgs
   claimCodes?: boolean | TrainerProfileCountOutputTypeCountClaimCodesArgs
   contracts?: boolean | TrainerProfileCountOutputTypeCountContractsArgs
   ptSessions?: boolean | TrainerProfileCountOutputTypeCountPtSessionsArgs
-  journals?: boolean | TrainerProfileCountOutputTypeCountJournalsArgs
-  ptPrices?: boolean | TrainerProfileCountOutputTypeCountPtPricesArgs
-  dietFeedbacks?: boolean | TrainerProfileCountOutputTypeCountDietFeedbacksArgs
   createdRoutines?: boolean | TrainerProfileCountOutputTypeCountCreatedRoutinesArgs
+  invitations?: boolean | TrainerProfileCountOutputTypeCountInvitationsArgs
+  connections?: boolean | TrainerProfileCountOutputTypeCountConnectionsArgs
+  ptPrices?: boolean | TrainerProfileCountOutputTypeCountPtPricesArgs
 }
 
 /**
@@ -1688,15 +1688,15 @@ export type TrainerProfileCountOutputTypeDefaultArgs<ExtArgs extends runtime.Typ
 /**
  * TrainerProfileCountOutputType without action
  */
-export type TrainerProfileCountOutputTypeCountConnectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TrainerMemberConnectionWhereInput
+export type TrainerProfileCountOutputTypeCountDietFeedbacksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DietFeedbackWhereInput
 }
 
 /**
  * TrainerProfileCountOutputType without action
  */
-export type TrainerProfileCountOutputTypeCountInvitationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TrainerInvitationWhereInput
+export type TrainerProfileCountOutputTypeCountJournalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.JournalWhereInput
 }
 
 /**
@@ -1723,8 +1723,22 @@ export type TrainerProfileCountOutputTypeCountPtSessionsArgs<ExtArgs extends run
 /**
  * TrainerProfileCountOutputType without action
  */
-export type TrainerProfileCountOutputTypeCountJournalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.JournalWhereInput
+export type TrainerProfileCountOutputTypeCountCreatedRoutinesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RoutineWhereInput
+}
+
+/**
+ * TrainerProfileCountOutputType without action
+ */
+export type TrainerProfileCountOutputTypeCountInvitationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TrainerInvitationWhereInput
+}
+
+/**
+ * TrainerProfileCountOutputType without action
+ */
+export type TrainerProfileCountOutputTypeCountConnectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TrainerMemberConnectionWhereInput
 }
 
 /**
@@ -1734,94 +1748,80 @@ export type TrainerProfileCountOutputTypeCountPtPricesArgs<ExtArgs extends runti
   where?: Prisma.TrainerPTPriceWhereInput
 }
 
-/**
- * TrainerProfileCountOutputType without action
- */
-export type TrainerProfileCountOutputTypeCountDietFeedbacksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.DietFeedbackWhereInput
-}
-
-/**
- * TrainerProfileCountOutputType without action
- */
-export type TrainerProfileCountOutputTypeCountCreatedRoutinesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.RoutineWhereInput
-}
-
 
 export type TrainerProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
-  displayName?: boolean
   bio?: boolean
   specialty?: boolean
   careerYears?: boolean
   profileImageUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  connections?: boolean | Prisma.TrainerProfile$connectionsArgs<ExtArgs>
-  invitations?: boolean | Prisma.TrainerProfile$invitationsArgs<ExtArgs>
+  userId?: boolean
+  displayName?: boolean
+  dietFeedbacks?: boolean | Prisma.TrainerProfile$dietFeedbacksArgs<ExtArgs>
+  journals?: boolean | Prisma.TrainerProfile$journalsArgs<ExtArgs>
   claimCodes?: boolean | Prisma.TrainerProfile$claimCodesArgs<ExtArgs>
   contracts?: boolean | Prisma.TrainerProfile$contractsArgs<ExtArgs>
   ptSessions?: boolean | Prisma.TrainerProfile$ptSessionsArgs<ExtArgs>
-  journals?: boolean | Prisma.TrainerProfile$journalsArgs<ExtArgs>
-  ptPrices?: boolean | Prisma.TrainerProfile$ptPricesArgs<ExtArgs>
-  dietFeedbacks?: boolean | Prisma.TrainerProfile$dietFeedbacksArgs<ExtArgs>
   createdRoutines?: boolean | Prisma.TrainerProfile$createdRoutinesArgs<ExtArgs>
+  invitations?: boolean | Prisma.TrainerProfile$invitationsArgs<ExtArgs>
+  connections?: boolean | Prisma.TrainerProfile$connectionsArgs<ExtArgs>
+  ptPrices?: boolean | Prisma.TrainerProfile$ptPricesArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.TrainerProfileCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["trainerProfile"]>
 
 export type TrainerProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
-  displayName?: boolean
   bio?: boolean
   specialty?: boolean
   careerYears?: boolean
   profileImageUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  userId?: boolean
+  displayName?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["trainerProfile"]>
 
 export type TrainerProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
-  displayName?: boolean
   bio?: boolean
   specialty?: boolean
   careerYears?: boolean
   profileImageUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  userId?: boolean
+  displayName?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["trainerProfile"]>
 
 export type TrainerProfileSelectScalar = {
   id?: boolean
-  userId?: boolean
-  displayName?: boolean
   bio?: boolean
   specialty?: boolean
   careerYears?: boolean
   profileImageUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  userId?: boolean
+  displayName?: boolean
 }
 
-export type TrainerProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "displayName" | "bio" | "specialty" | "careerYears" | "profileImageUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["trainerProfile"]>
+export type TrainerProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "bio" | "specialty" | "careerYears" | "profileImageUrl" | "createdAt" | "updatedAt" | "userId" | "displayName", ExtArgs["result"]["trainerProfile"]>
 export type TrainerProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  connections?: boolean | Prisma.TrainerProfile$connectionsArgs<ExtArgs>
-  invitations?: boolean | Prisma.TrainerProfile$invitationsArgs<ExtArgs>
+  dietFeedbacks?: boolean | Prisma.TrainerProfile$dietFeedbacksArgs<ExtArgs>
+  journals?: boolean | Prisma.TrainerProfile$journalsArgs<ExtArgs>
   claimCodes?: boolean | Prisma.TrainerProfile$claimCodesArgs<ExtArgs>
   contracts?: boolean | Prisma.TrainerProfile$contractsArgs<ExtArgs>
   ptSessions?: boolean | Prisma.TrainerProfile$ptSessionsArgs<ExtArgs>
-  journals?: boolean | Prisma.TrainerProfile$journalsArgs<ExtArgs>
-  ptPrices?: boolean | Prisma.TrainerProfile$ptPricesArgs<ExtArgs>
-  dietFeedbacks?: boolean | Prisma.TrainerProfile$dietFeedbacksArgs<ExtArgs>
   createdRoutines?: boolean | Prisma.TrainerProfile$createdRoutinesArgs<ExtArgs>
+  invitations?: boolean | Prisma.TrainerProfile$invitationsArgs<ExtArgs>
+  connections?: boolean | Prisma.TrainerProfile$connectionsArgs<ExtArgs>
+  ptPrices?: boolean | Prisma.TrainerProfile$ptPricesArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.TrainerProfileCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TrainerProfileIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1834,27 +1834,27 @@ export type TrainerProfileIncludeUpdateManyAndReturn<ExtArgs extends runtime.Typ
 export type $TrainerProfilePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "TrainerProfile"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
-    connections: Prisma.$TrainerMemberConnectionPayload<ExtArgs>[]
-    invitations: Prisma.$TrainerInvitationPayload<ExtArgs>[]
+    dietFeedbacks: Prisma.$DietFeedbackPayload<ExtArgs>[]
+    journals: Prisma.$JournalPayload<ExtArgs>[]
     claimCodes: Prisma.$MemberClaimCodePayload<ExtArgs>[]
     contracts: Prisma.$PTContractPayload<ExtArgs>[]
     ptSessions: Prisma.$PTSessionPayload<ExtArgs>[]
-    journals: Prisma.$JournalPayload<ExtArgs>[]
-    ptPrices: Prisma.$TrainerPTPricePayload<ExtArgs>[]
-    dietFeedbacks: Prisma.$DietFeedbackPayload<ExtArgs>[]
     createdRoutines: Prisma.$RoutinePayload<ExtArgs>[]
+    invitations: Prisma.$TrainerInvitationPayload<ExtArgs>[]
+    connections: Prisma.$TrainerMemberConnectionPayload<ExtArgs>[]
+    ptPrices: Prisma.$TrainerPTPricePayload<ExtArgs>[]
+    user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    userId: string
-    displayName: string | null
     bio: string | null
     specialty: string | null
     careerYears: number | null
     profileImageUrl: string | null
     createdAt: Date
     updatedAt: Date
+    userId: string
+    displayName: string | null
   }, ExtArgs["result"]["trainerProfile"]>
   composites: {}
 }
@@ -2249,16 +2249,16 @@ readonly fields: TrainerProfileFieldRefs;
  */
 export interface Prisma__TrainerProfileClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  connections<T extends Prisma.TrainerProfile$connectionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$connectionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrainerMemberConnectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  invitations<T extends Prisma.TrainerProfile$invitationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$invitationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrainerInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  dietFeedbacks<T extends Prisma.TrainerProfile$dietFeedbacksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$dietFeedbacksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DietFeedbackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  journals<T extends Prisma.TrainerProfile$journalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$journalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   claimCodes<T extends Prisma.TrainerProfile$claimCodesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$claimCodesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MemberClaimCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   contracts<T extends Prisma.TrainerProfile$contractsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$contractsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PTContractPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   ptSessions<T extends Prisma.TrainerProfile$ptSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$ptSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PTSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  journals<T extends Prisma.TrainerProfile$journalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$journalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  ptPrices<T extends Prisma.TrainerProfile$ptPricesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$ptPricesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrainerPTPricePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  dietFeedbacks<T extends Prisma.TrainerProfile$dietFeedbacksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$dietFeedbacksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DietFeedbackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdRoutines<T extends Prisma.TrainerProfile$createdRoutinesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$createdRoutinesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RoutinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  invitations<T extends Prisma.TrainerProfile$invitationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$invitationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrainerInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  connections<T extends Prisma.TrainerProfile$connectionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$connectionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrainerMemberConnectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  ptPrices<T extends Prisma.TrainerProfile$ptPricesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$ptPricesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrainerPTPricePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2289,14 +2289,14 @@ export interface Prisma__TrainerProfileClient<T, Null = never, ExtArgs extends r
  */
 export interface TrainerProfileFieldRefs {
   readonly id: Prisma.FieldRef<"TrainerProfile", 'String'>
-  readonly userId: Prisma.FieldRef<"TrainerProfile", 'String'>
-  readonly displayName: Prisma.FieldRef<"TrainerProfile", 'String'>
   readonly bio: Prisma.FieldRef<"TrainerProfile", 'String'>
   readonly specialty: Prisma.FieldRef<"TrainerProfile", 'String'>
   readonly careerYears: Prisma.FieldRef<"TrainerProfile", 'Int'>
   readonly profileImageUrl: Prisma.FieldRef<"TrainerProfile", 'String'>
   readonly createdAt: Prisma.FieldRef<"TrainerProfile", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"TrainerProfile", 'DateTime'>
+  readonly userId: Prisma.FieldRef<"TrainerProfile", 'String'>
+  readonly displayName: Prisma.FieldRef<"TrainerProfile", 'String'>
 }
     
 
@@ -2698,51 +2698,51 @@ export type TrainerProfileDeleteManyArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
- * TrainerProfile.connections
+ * TrainerProfile.dietFeedbacks
  */
-export type TrainerProfile$connectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type TrainerProfile$dietFeedbacksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the TrainerMemberConnection
+   * Select specific fields to fetch from the DietFeedback
    */
-  select?: Prisma.TrainerMemberConnectionSelect<ExtArgs> | null
+  select?: Prisma.DietFeedbackSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the TrainerMemberConnection
+   * Omit specific fields from the DietFeedback
    */
-  omit?: Prisma.TrainerMemberConnectionOmit<ExtArgs> | null
+  omit?: Prisma.DietFeedbackOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.TrainerMemberConnectionInclude<ExtArgs> | null
-  where?: Prisma.TrainerMemberConnectionWhereInput
-  orderBy?: Prisma.TrainerMemberConnectionOrderByWithRelationInput | Prisma.TrainerMemberConnectionOrderByWithRelationInput[]
-  cursor?: Prisma.TrainerMemberConnectionWhereUniqueInput
+  include?: Prisma.DietFeedbackInclude<ExtArgs> | null
+  where?: Prisma.DietFeedbackWhereInput
+  orderBy?: Prisma.DietFeedbackOrderByWithRelationInput | Prisma.DietFeedbackOrderByWithRelationInput[]
+  cursor?: Prisma.DietFeedbackWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.TrainerMemberConnectionScalarFieldEnum | Prisma.TrainerMemberConnectionScalarFieldEnum[]
+  distinct?: Prisma.DietFeedbackScalarFieldEnum | Prisma.DietFeedbackScalarFieldEnum[]
 }
 
 /**
- * TrainerProfile.invitations
+ * TrainerProfile.journals
  */
-export type TrainerProfile$invitationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type TrainerProfile$journalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the TrainerInvitation
+   * Select specific fields to fetch from the Journal
    */
-  select?: Prisma.TrainerInvitationSelect<ExtArgs> | null
+  select?: Prisma.JournalSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the TrainerInvitation
+   * Omit specific fields from the Journal
    */
-  omit?: Prisma.TrainerInvitationOmit<ExtArgs> | null
+  omit?: Prisma.JournalOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.TrainerInvitationInclude<ExtArgs> | null
-  where?: Prisma.TrainerInvitationWhereInput
-  orderBy?: Prisma.TrainerInvitationOrderByWithRelationInput | Prisma.TrainerInvitationOrderByWithRelationInput[]
-  cursor?: Prisma.TrainerInvitationWhereUniqueInput
+  include?: Prisma.JournalInclude<ExtArgs> | null
+  where?: Prisma.JournalWhereInput
+  orderBy?: Prisma.JournalOrderByWithRelationInput | Prisma.JournalOrderByWithRelationInput[]
+  cursor?: Prisma.JournalWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.TrainerInvitationScalarFieldEnum | Prisma.TrainerInvitationScalarFieldEnum[]
+  distinct?: Prisma.JournalScalarFieldEnum | Prisma.JournalScalarFieldEnum[]
 }
 
 /**
@@ -2818,27 +2818,75 @@ export type TrainerProfile$ptSessionsArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
- * TrainerProfile.journals
+ * TrainerProfile.createdRoutines
  */
-export type TrainerProfile$journalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type TrainerProfile$createdRoutinesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Journal
+   * Select specific fields to fetch from the Routine
    */
-  select?: Prisma.JournalSelect<ExtArgs> | null
+  select?: Prisma.RoutineSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Journal
+   * Omit specific fields from the Routine
    */
-  omit?: Prisma.JournalOmit<ExtArgs> | null
+  omit?: Prisma.RoutineOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.JournalInclude<ExtArgs> | null
-  where?: Prisma.JournalWhereInput
-  orderBy?: Prisma.JournalOrderByWithRelationInput | Prisma.JournalOrderByWithRelationInput[]
-  cursor?: Prisma.JournalWhereUniqueInput
+  include?: Prisma.RoutineInclude<ExtArgs> | null
+  where?: Prisma.RoutineWhereInput
+  orderBy?: Prisma.RoutineOrderByWithRelationInput | Prisma.RoutineOrderByWithRelationInput[]
+  cursor?: Prisma.RoutineWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.JournalScalarFieldEnum | Prisma.JournalScalarFieldEnum[]
+  distinct?: Prisma.RoutineScalarFieldEnum | Prisma.RoutineScalarFieldEnum[]
+}
+
+/**
+ * TrainerProfile.invitations
+ */
+export type TrainerProfile$invitationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TrainerInvitation
+   */
+  select?: Prisma.TrainerInvitationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TrainerInvitation
+   */
+  omit?: Prisma.TrainerInvitationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TrainerInvitationInclude<ExtArgs> | null
+  where?: Prisma.TrainerInvitationWhereInput
+  orderBy?: Prisma.TrainerInvitationOrderByWithRelationInput | Prisma.TrainerInvitationOrderByWithRelationInput[]
+  cursor?: Prisma.TrainerInvitationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TrainerInvitationScalarFieldEnum | Prisma.TrainerInvitationScalarFieldEnum[]
+}
+
+/**
+ * TrainerProfile.connections
+ */
+export type TrainerProfile$connectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TrainerMemberConnection
+   */
+  select?: Prisma.TrainerMemberConnectionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TrainerMemberConnection
+   */
+  omit?: Prisma.TrainerMemberConnectionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TrainerMemberConnectionInclude<ExtArgs> | null
+  where?: Prisma.TrainerMemberConnectionWhereInput
+  orderBy?: Prisma.TrainerMemberConnectionOrderByWithRelationInput | Prisma.TrainerMemberConnectionOrderByWithRelationInput[]
+  cursor?: Prisma.TrainerMemberConnectionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TrainerMemberConnectionScalarFieldEnum | Prisma.TrainerMemberConnectionScalarFieldEnum[]
 }
 
 /**
@@ -2863,54 +2911,6 @@ export type TrainerProfile$ptPricesArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.TrainerPTPriceScalarFieldEnum | Prisma.TrainerPTPriceScalarFieldEnum[]
-}
-
-/**
- * TrainerProfile.dietFeedbacks
- */
-export type TrainerProfile$dietFeedbacksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the DietFeedback
-   */
-  select?: Prisma.DietFeedbackSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the DietFeedback
-   */
-  omit?: Prisma.DietFeedbackOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.DietFeedbackInclude<ExtArgs> | null
-  where?: Prisma.DietFeedbackWhereInput
-  orderBy?: Prisma.DietFeedbackOrderByWithRelationInput | Prisma.DietFeedbackOrderByWithRelationInput[]
-  cursor?: Prisma.DietFeedbackWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.DietFeedbackScalarFieldEnum | Prisma.DietFeedbackScalarFieldEnum[]
-}
-
-/**
- * TrainerProfile.createdRoutines
- */
-export type TrainerProfile$createdRoutinesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Routine
-   */
-  select?: Prisma.RoutineSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Routine
-   */
-  omit?: Prisma.RoutineOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.RoutineInclude<ExtArgs> | null
-  where?: Prisma.RoutineWhereInput
-  orderBy?: Prisma.RoutineOrderByWithRelationInput | Prisma.RoutineOrderByWithRelationInput[]
-  cursor?: Prisma.RoutineWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.RoutineScalarFieldEnum | Prisma.RoutineScalarFieldEnum[]
 }
 
 /**

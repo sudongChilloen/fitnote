@@ -264,8 +264,8 @@ export type RoutineExerciseWhereInput = {
   targetWeight?: Prisma.DecimalNullableFilter<"RoutineExercise"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restSeconds?: Prisma.IntNullableFilter<"RoutineExercise"> | number | null
   note?: Prisma.StringNullableFilter<"RoutineExercise"> | string | null
-  routine?: Prisma.XOR<Prisma.RoutineScalarRelationFilter, Prisma.RoutineWhereInput>
   exercise?: Prisma.XOR<Prisma.ExerciseScalarRelationFilter, Prisma.ExerciseWhereInput>
+  routine?: Prisma.XOR<Prisma.RoutineScalarRelationFilter, Prisma.RoutineWhereInput>
 }
 
 export type RoutineExerciseOrderByWithRelationInput = {
@@ -278,8 +278,8 @@ export type RoutineExerciseOrderByWithRelationInput = {
   targetWeight?: Prisma.SortOrderInput | Prisma.SortOrder
   restSeconds?: Prisma.SortOrderInput | Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
-  routine?: Prisma.RoutineOrderByWithRelationInput
   exercise?: Prisma.ExerciseOrderByWithRelationInput
+  routine?: Prisma.RoutineOrderByWithRelationInput
 }
 
 export type RoutineExerciseWhereUniqueInput = Prisma.AtLeast<{
@@ -296,8 +296,8 @@ export type RoutineExerciseWhereUniqueInput = Prisma.AtLeast<{
   targetWeight?: Prisma.DecimalNullableFilter<"RoutineExercise"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restSeconds?: Prisma.IntNullableFilter<"RoutineExercise"> | number | null
   note?: Prisma.StringNullableFilter<"RoutineExercise"> | string | null
-  routine?: Prisma.XOR<Prisma.RoutineScalarRelationFilter, Prisma.RoutineWhereInput>
   exercise?: Prisma.XOR<Prisma.ExerciseScalarRelationFilter, Prisma.ExerciseWhereInput>
+  routine?: Prisma.XOR<Prisma.RoutineScalarRelationFilter, Prisma.RoutineWhereInput>
 }, "id" | "routineId_orderIndex">
 
 export type RoutineExerciseOrderByWithAggregationInput = {
@@ -340,8 +340,8 @@ export type RoutineExerciseCreateInput = {
   targetWeight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restSeconds?: number | null
   note?: string | null
-  routine: Prisma.RoutineCreateNestedOneWithoutExercisesInput
   exercise: Prisma.ExerciseCreateNestedOneWithoutRoutineExercisesInput
+  routine: Prisma.RoutineCreateNestedOneWithoutExercisesInput
 }
 
 export type RoutineExerciseUncheckedCreateInput = {
@@ -364,8 +364,8 @@ export type RoutineExerciseUpdateInput = {
   targetWeight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  routine?: Prisma.RoutineUpdateOneRequiredWithoutExercisesNestedInput
   exercise?: Prisma.ExerciseUpdateOneRequiredWithoutRoutineExercisesNestedInput
+  routine?: Prisma.RoutineUpdateOneRequiredWithoutExercisesNestedInput
 }
 
 export type RoutineExerciseUncheckedUpdateInput = {
@@ -776,8 +776,8 @@ export type RoutineExerciseSelect<ExtArgs extends runtime.Types.Extensions.Inter
   targetWeight?: boolean
   restSeconds?: boolean
   note?: boolean
-  routine?: boolean | Prisma.RoutineDefaultArgs<ExtArgs>
   exercise?: boolean | Prisma.ExerciseDefaultArgs<ExtArgs>
+  routine?: boolean | Prisma.RoutineDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["routineExercise"]>
 
 export type RoutineExerciseSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -790,8 +790,8 @@ export type RoutineExerciseSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   targetWeight?: boolean
   restSeconds?: boolean
   note?: boolean
-  routine?: boolean | Prisma.RoutineDefaultArgs<ExtArgs>
   exercise?: boolean | Prisma.ExerciseDefaultArgs<ExtArgs>
+  routine?: boolean | Prisma.RoutineDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["routineExercise"]>
 
 export type RoutineExerciseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -804,8 +804,8 @@ export type RoutineExerciseSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   targetWeight?: boolean
   restSeconds?: boolean
   note?: boolean
-  routine?: boolean | Prisma.RoutineDefaultArgs<ExtArgs>
   exercise?: boolean | Prisma.ExerciseDefaultArgs<ExtArgs>
+  routine?: boolean | Prisma.RoutineDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["routineExercise"]>
 
 export type RoutineExerciseSelectScalar = {
@@ -822,23 +822,23 @@ export type RoutineExerciseSelectScalar = {
 
 export type RoutineExerciseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "routineId" | "exerciseId" | "orderIndex" | "targetSets" | "targetReps" | "targetWeight" | "restSeconds" | "note", ExtArgs["result"]["routineExercise"]>
 export type RoutineExerciseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  routine?: boolean | Prisma.RoutineDefaultArgs<ExtArgs>
   exercise?: boolean | Prisma.ExerciseDefaultArgs<ExtArgs>
+  routine?: boolean | Prisma.RoutineDefaultArgs<ExtArgs>
 }
 export type RoutineExerciseIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  routine?: boolean | Prisma.RoutineDefaultArgs<ExtArgs>
   exercise?: boolean | Prisma.ExerciseDefaultArgs<ExtArgs>
+  routine?: boolean | Prisma.RoutineDefaultArgs<ExtArgs>
 }
 export type RoutineExerciseIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  routine?: boolean | Prisma.RoutineDefaultArgs<ExtArgs>
   exercise?: boolean | Prisma.ExerciseDefaultArgs<ExtArgs>
+  routine?: boolean | Prisma.RoutineDefaultArgs<ExtArgs>
 }
 
 export type $RoutineExercisePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "RoutineExercise"
   objects: {
-    routine: Prisma.$RoutinePayload<ExtArgs>
     exercise: Prisma.$ExercisePayload<ExtArgs>
+    routine: Prisma.$RoutinePayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1244,8 +1244,8 @@ readonly fields: RoutineExerciseFieldRefs;
  */
 export interface Prisma__RoutineExerciseClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  routine<T extends Prisma.RoutineDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RoutineDefaultArgs<ExtArgs>>): Prisma.Prisma__RoutineClient<runtime.Types.Result.GetResult<Prisma.$RoutinePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   exercise<T extends Prisma.ExerciseDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ExerciseDefaultArgs<ExtArgs>>): Prisma.Prisma__ExerciseClient<runtime.Types.Result.GetResult<Prisma.$ExercisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  routine<T extends Prisma.RoutineDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RoutineDefaultArgs<ExtArgs>>): Prisma.Prisma__RoutineClient<runtime.Types.Result.GetResult<Prisma.$RoutinePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

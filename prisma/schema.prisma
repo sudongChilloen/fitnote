@@ -50,17 +50,27 @@ model User {
 }
 
 model AuthSession {
-  id               String    @id @default(uuid())
-  userId           String
-  refreshTokenHash String    @unique
-  expiresAt        DateTime
-  lastUsedAt       DateTime?
-  revokedAt        DateTime?
-  createdAt        DateTime  @default(now())
-  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String    @id @default(uuid())
+  userId     String
+  expiresAt  DateTime
+  lastUsedAt DateTime?
+  revokedAt  DateTime?
+  createdAt  DateTime  @default(now())
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([expiresAt])
+}
+
+/// 로그인·가입·이어받기 시도 기록. 시도 횟수 제한(rate limit)에만 쓴다.
+/// key 는 `종류:ip:<ip>` 처럼 만든 문자열이고 이메일은 해시해서 넣는다.
+model AuthAttempt {
+  id        String   @id @default(uuid())
+  key       String
+  createdAt DateTime @default(now())
+
+  @@index([key, createdAt])
+  @@index([createdAt])
 }
 
 model DeviceToken {

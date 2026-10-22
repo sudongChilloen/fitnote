@@ -39,7 +39,6 @@ import { getNotificationUnreadCount } from "@/server/notifications/notification.
 import { AcknowledgeButton } from "../sessions/acknowledge-button";
 import { LogPastWorkoutButton } from "../workouts/log-past-button";
 import { StartWorkoutButton } from "../workouts/start-workout-button";
-import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "홈 | FitNote",

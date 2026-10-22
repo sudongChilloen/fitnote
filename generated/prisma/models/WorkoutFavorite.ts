@@ -174,8 +174,8 @@ export type WorkoutFavoriteWhereInput = {
   userId?: Prisma.StringFilter<"WorkoutFavorite"> | string
   exerciseId?: Prisma.StringFilter<"WorkoutFavorite"> | string
   createdAt?: Prisma.DateTimeFilter<"WorkoutFavorite"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   exercise?: Prisma.XOR<Prisma.ExerciseScalarRelationFilter, Prisma.ExerciseWhereInput>
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type WorkoutFavoriteOrderByWithRelationInput = {
@@ -183,8 +183,8 @@ export type WorkoutFavoriteOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   exerciseId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
   exercise?: Prisma.ExerciseOrderByWithRelationInput
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type WorkoutFavoriteWhereUniqueInput = Prisma.AtLeast<{
@@ -196,8 +196,8 @@ export type WorkoutFavoriteWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"WorkoutFavorite"> | string
   exerciseId?: Prisma.StringFilter<"WorkoutFavorite"> | string
   createdAt?: Prisma.DateTimeFilter<"WorkoutFavorite"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   exercise?: Prisma.XOR<Prisma.ExerciseScalarRelationFilter, Prisma.ExerciseWhereInput>
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id" | "userId_exerciseId">
 
 export type WorkoutFavoriteOrderByWithAggregationInput = {
@@ -223,8 +223,8 @@ export type WorkoutFavoriteScalarWhereWithAggregatesInput = {
 export type WorkoutFavoriteCreateInput = {
   id?: string
   createdAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutWorkoutFavoritesInput
   exercise: Prisma.ExerciseCreateNestedOneWithoutFavoritesInput
+  user: Prisma.UserCreateNestedOneWithoutWorkoutFavoritesInput
 }
 
 export type WorkoutFavoriteUncheckedCreateInput = {
@@ -237,8 +237,8 @@ export type WorkoutFavoriteUncheckedCreateInput = {
 export type WorkoutFavoriteUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutWorkoutFavoritesNestedInput
   exercise?: Prisma.ExerciseUpdateOneRequiredWithoutFavoritesNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutWorkoutFavoritesNestedInput
 }
 
 export type WorkoutFavoriteUncheckedUpdateInput = {
@@ -528,8 +528,8 @@ export type WorkoutFavoriteSelect<ExtArgs extends runtime.Types.Extensions.Inter
   userId?: boolean
   exerciseId?: boolean
   createdAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   exercise?: boolean | Prisma.ExerciseDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["workoutFavorite"]>
 
 export type WorkoutFavoriteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -537,8 +537,8 @@ export type WorkoutFavoriteSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   userId?: boolean
   exerciseId?: boolean
   createdAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   exercise?: boolean | Prisma.ExerciseDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["workoutFavorite"]>
 
 export type WorkoutFavoriteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -546,8 +546,8 @@ export type WorkoutFavoriteSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   userId?: boolean
   exerciseId?: boolean
   createdAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   exercise?: boolean | Prisma.ExerciseDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["workoutFavorite"]>
 
 export type WorkoutFavoriteSelectScalar = {
@@ -559,23 +559,23 @@ export type WorkoutFavoriteSelectScalar = {
 
 export type WorkoutFavoriteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "exerciseId" | "createdAt", ExtArgs["result"]["workoutFavorite"]>
 export type WorkoutFavoriteInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   exercise?: boolean | Prisma.ExerciseDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type WorkoutFavoriteIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   exercise?: boolean | Prisma.ExerciseDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type WorkoutFavoriteIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   exercise?: boolean | Prisma.ExerciseDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $WorkoutFavoritePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "WorkoutFavorite"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
     exercise: Prisma.$ExercisePayload<ExtArgs>
+    user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -976,8 +976,8 @@ readonly fields: WorkoutFavoriteFieldRefs;
  */
 export interface Prisma__WorkoutFavoriteClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   exercise<T extends Prisma.ExerciseDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ExerciseDefaultArgs<ExtArgs>>): Prisma.Prisma__ExerciseClient<runtime.Types.Result.GetResult<Prisma.$ExercisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

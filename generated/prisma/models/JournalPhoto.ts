@@ -37,28 +37,28 @@ export type JournalPhotoSumAggregateOutputType = {
 export type JournalPhotoMinAggregateOutputType = {
   id: string | null
   journalId: string | null
-  storagePath: string | null
-  thumbnailPath: string | null
   orderIndex: number | null
   createdAt: Date | null
+  storagePath: string | null
+  thumbnailPath: string | null
 }
 
 export type JournalPhotoMaxAggregateOutputType = {
   id: string | null
   journalId: string | null
-  storagePath: string | null
-  thumbnailPath: string | null
   orderIndex: number | null
   createdAt: Date | null
+  storagePath: string | null
+  thumbnailPath: string | null
 }
 
 export type JournalPhotoCountAggregateOutputType = {
   id: number
   journalId: number
-  storagePath: number
-  thumbnailPath: number
   orderIndex: number
   createdAt: number
+  storagePath: number
+  thumbnailPath: number
   _all: number
 }
 
@@ -74,28 +74,28 @@ export type JournalPhotoSumAggregateInputType = {
 export type JournalPhotoMinAggregateInputType = {
   id?: true
   journalId?: true
-  storagePath?: true
-  thumbnailPath?: true
   orderIndex?: true
   createdAt?: true
+  storagePath?: true
+  thumbnailPath?: true
 }
 
 export type JournalPhotoMaxAggregateInputType = {
   id?: true
   journalId?: true
-  storagePath?: true
-  thumbnailPath?: true
   orderIndex?: true
   createdAt?: true
+  storagePath?: true
+  thumbnailPath?: true
 }
 
 export type JournalPhotoCountAggregateInputType = {
   id?: true
   journalId?: true
-  storagePath?: true
-  thumbnailPath?: true
   orderIndex?: true
   createdAt?: true
+  storagePath?: true
+  thumbnailPath?: true
   _all?: true
 }
 
@@ -188,10 +188,10 @@ export type JournalPhotoGroupByArgs<ExtArgs extends runtime.Types.Extensions.Int
 export type JournalPhotoGroupByOutputType = {
   id: string
   journalId: string
-  storagePath: string
-  thumbnailPath: string | null
   orderIndex: number
   createdAt: Date
+  storagePath: string
+  thumbnailPath: string | null
   _count: JournalPhotoCountAggregateOutputType | null
   _avg: JournalPhotoAvgAggregateOutputType | null
   _sum: JournalPhotoSumAggregateOutputType | null
@@ -220,20 +220,20 @@ export type JournalPhotoWhereInput = {
   NOT?: Prisma.JournalPhotoWhereInput | Prisma.JournalPhotoWhereInput[]
   id?: Prisma.StringFilter<"JournalPhoto"> | string
   journalId?: Prisma.StringFilter<"JournalPhoto"> | string
-  storagePath?: Prisma.StringFilter<"JournalPhoto"> | string
-  thumbnailPath?: Prisma.StringNullableFilter<"JournalPhoto"> | string | null
   orderIndex?: Prisma.IntFilter<"JournalPhoto"> | number
   createdAt?: Prisma.DateTimeFilter<"JournalPhoto"> | Date | string
+  storagePath?: Prisma.StringFilter<"JournalPhoto"> | string
+  thumbnailPath?: Prisma.StringNullableFilter<"JournalPhoto"> | string | null
   journal?: Prisma.XOR<Prisma.JournalScalarRelationFilter, Prisma.JournalWhereInput>
 }
 
 export type JournalPhotoOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   journalId?: Prisma.SortOrder
-  storagePath?: Prisma.SortOrder
-  thumbnailPath?: Prisma.SortOrderInput | Prisma.SortOrder
   orderIndex?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  storagePath?: Prisma.SortOrder
+  thumbnailPath?: Prisma.SortOrderInput | Prisma.SortOrder
   journal?: Prisma.JournalOrderByWithRelationInput
 }
 
@@ -243,20 +243,20 @@ export type JournalPhotoWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.JournalPhotoWhereInput[]
   NOT?: Prisma.JournalPhotoWhereInput | Prisma.JournalPhotoWhereInput[]
   journalId?: Prisma.StringFilter<"JournalPhoto"> | string
-  storagePath?: Prisma.StringFilter<"JournalPhoto"> | string
-  thumbnailPath?: Prisma.StringNullableFilter<"JournalPhoto"> | string | null
   orderIndex?: Prisma.IntFilter<"JournalPhoto"> | number
   createdAt?: Prisma.DateTimeFilter<"JournalPhoto"> | Date | string
+  storagePath?: Prisma.StringFilter<"JournalPhoto"> | string
+  thumbnailPath?: Prisma.StringNullableFilter<"JournalPhoto"> | string | null
   journal?: Prisma.XOR<Prisma.JournalScalarRelationFilter, Prisma.JournalWhereInput>
 }, "id">
 
 export type JournalPhotoOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   journalId?: Prisma.SortOrder
-  storagePath?: Prisma.SortOrder
-  thumbnailPath?: Prisma.SortOrderInput | Prisma.SortOrder
   orderIndex?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  storagePath?: Prisma.SortOrder
+  thumbnailPath?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.JournalPhotoCountOrderByAggregateInput
   _avg?: Prisma.JournalPhotoAvgOrderByAggregateInput
   _max?: Prisma.JournalPhotoMaxOrderByAggregateInput
@@ -270,72 +270,72 @@ export type JournalPhotoScalarWhereWithAggregatesInput = {
   NOT?: Prisma.JournalPhotoScalarWhereWithAggregatesInput | Prisma.JournalPhotoScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"JournalPhoto"> | string
   journalId?: Prisma.StringWithAggregatesFilter<"JournalPhoto"> | string
-  storagePath?: Prisma.StringWithAggregatesFilter<"JournalPhoto"> | string
-  thumbnailPath?: Prisma.StringNullableWithAggregatesFilter<"JournalPhoto"> | string | null
   orderIndex?: Prisma.IntWithAggregatesFilter<"JournalPhoto"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"JournalPhoto"> | Date | string
+  storagePath?: Prisma.StringWithAggregatesFilter<"JournalPhoto"> | string
+  thumbnailPath?: Prisma.StringNullableWithAggregatesFilter<"JournalPhoto"> | string | null
 }
 
 export type JournalPhotoCreateInput = {
   id?: string
-  storagePath: string
-  thumbnailPath?: string | null
   orderIndex?: number
   createdAt?: Date | string
+  storagePath: string
+  thumbnailPath?: string | null
   journal: Prisma.JournalCreateNestedOneWithoutPhotosInput
 }
 
 export type JournalPhotoUncheckedCreateInput = {
   id?: string
   journalId: string
-  storagePath: string
-  thumbnailPath?: string | null
   orderIndex?: number
   createdAt?: Date | string
+  storagePath: string
+  thumbnailPath?: string | null
 }
 
 export type JournalPhotoUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  storagePath?: Prisma.StringFieldUpdateOperationsInput | string
-  thumbnailPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  storagePath?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   journal?: Prisma.JournalUpdateOneRequiredWithoutPhotosNestedInput
 }
 
 export type JournalPhotoUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   journalId?: Prisma.StringFieldUpdateOperationsInput | string
-  storagePath?: Prisma.StringFieldUpdateOperationsInput | string
-  thumbnailPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  storagePath?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type JournalPhotoCreateManyInput = {
   id?: string
   journalId: string
-  storagePath: string
-  thumbnailPath?: string | null
   orderIndex?: number
   createdAt?: Date | string
+  storagePath: string
+  thumbnailPath?: string | null
 }
 
 export type JournalPhotoUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  storagePath?: Prisma.StringFieldUpdateOperationsInput | string
-  thumbnailPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  storagePath?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type JournalPhotoUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   journalId?: Prisma.StringFieldUpdateOperationsInput | string
-  storagePath?: Prisma.StringFieldUpdateOperationsInput | string
-  thumbnailPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  storagePath?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type JournalPhotoListRelationFilter = {
@@ -351,10 +351,10 @@ export type JournalPhotoOrderByRelationAggregateInput = {
 export type JournalPhotoCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   journalId?: Prisma.SortOrder
-  storagePath?: Prisma.SortOrder
-  thumbnailPath?: Prisma.SortOrder
   orderIndex?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  storagePath?: Prisma.SortOrder
+  thumbnailPath?: Prisma.SortOrder
 }
 
 export type JournalPhotoAvgOrderByAggregateInput = {
@@ -364,19 +364,19 @@ export type JournalPhotoAvgOrderByAggregateInput = {
 export type JournalPhotoMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   journalId?: Prisma.SortOrder
-  storagePath?: Prisma.SortOrder
-  thumbnailPath?: Prisma.SortOrder
   orderIndex?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  storagePath?: Prisma.SortOrder
+  thumbnailPath?: Prisma.SortOrder
 }
 
 export type JournalPhotoMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   journalId?: Prisma.SortOrder
-  storagePath?: Prisma.SortOrder
-  thumbnailPath?: Prisma.SortOrder
   orderIndex?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  storagePath?: Prisma.SortOrder
+  thumbnailPath?: Prisma.SortOrder
 }
 
 export type JournalPhotoSumOrderByAggregateInput = {
@@ -427,18 +427,18 @@ export type JournalPhotoUncheckedUpdateManyWithoutJournalNestedInput = {
 
 export type JournalPhotoCreateWithoutJournalInput = {
   id?: string
-  storagePath: string
-  thumbnailPath?: string | null
   orderIndex?: number
   createdAt?: Date | string
+  storagePath: string
+  thumbnailPath?: string | null
 }
 
 export type JournalPhotoUncheckedCreateWithoutJournalInput = {
   id?: string
-  storagePath: string
-  thumbnailPath?: string | null
   orderIndex?: number
   createdAt?: Date | string
+  storagePath: string
+  thumbnailPath?: string | null
 }
 
 export type JournalPhotoCreateOrConnectWithoutJournalInput = {
@@ -473,42 +473,42 @@ export type JournalPhotoScalarWhereInput = {
   NOT?: Prisma.JournalPhotoScalarWhereInput | Prisma.JournalPhotoScalarWhereInput[]
   id?: Prisma.StringFilter<"JournalPhoto"> | string
   journalId?: Prisma.StringFilter<"JournalPhoto"> | string
-  storagePath?: Prisma.StringFilter<"JournalPhoto"> | string
-  thumbnailPath?: Prisma.StringNullableFilter<"JournalPhoto"> | string | null
   orderIndex?: Prisma.IntFilter<"JournalPhoto"> | number
   createdAt?: Prisma.DateTimeFilter<"JournalPhoto"> | Date | string
+  storagePath?: Prisma.StringFilter<"JournalPhoto"> | string
+  thumbnailPath?: Prisma.StringNullableFilter<"JournalPhoto"> | string | null
 }
 
 export type JournalPhotoCreateManyJournalInput = {
   id?: string
-  storagePath: string
-  thumbnailPath?: string | null
   orderIndex?: number
   createdAt?: Date | string
+  storagePath: string
+  thumbnailPath?: string | null
 }
 
 export type JournalPhotoUpdateWithoutJournalInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  storagePath?: Prisma.StringFieldUpdateOperationsInput | string
-  thumbnailPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  storagePath?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type JournalPhotoUncheckedUpdateWithoutJournalInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  storagePath?: Prisma.StringFieldUpdateOperationsInput | string
-  thumbnailPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  storagePath?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type JournalPhotoUncheckedUpdateManyWithoutJournalInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  storagePath?: Prisma.StringFieldUpdateOperationsInput | string
-  thumbnailPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  storagePath?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -516,43 +516,43 @@ export type JournalPhotoUncheckedUpdateManyWithoutJournalInput = {
 export type JournalPhotoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   journalId?: boolean
-  storagePath?: boolean
-  thumbnailPath?: boolean
   orderIndex?: boolean
   createdAt?: boolean
+  storagePath?: boolean
+  thumbnailPath?: boolean
   journal?: boolean | Prisma.JournalDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["journalPhoto"]>
 
 export type JournalPhotoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   journalId?: boolean
-  storagePath?: boolean
-  thumbnailPath?: boolean
   orderIndex?: boolean
   createdAt?: boolean
+  storagePath?: boolean
+  thumbnailPath?: boolean
   journal?: boolean | Prisma.JournalDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["journalPhoto"]>
 
 export type JournalPhotoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   journalId?: boolean
-  storagePath?: boolean
-  thumbnailPath?: boolean
   orderIndex?: boolean
   createdAt?: boolean
+  storagePath?: boolean
+  thumbnailPath?: boolean
   journal?: boolean | Prisma.JournalDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["journalPhoto"]>
 
 export type JournalPhotoSelectScalar = {
   id?: boolean
   journalId?: boolean
-  storagePath?: boolean
-  thumbnailPath?: boolean
   orderIndex?: boolean
   createdAt?: boolean
+  storagePath?: boolean
+  thumbnailPath?: boolean
 }
 
-export type JournalPhotoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "journalId" | "storagePath" | "thumbnailPath" | "orderIndex" | "createdAt", ExtArgs["result"]["journalPhoto"]>
+export type JournalPhotoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "journalId" | "orderIndex" | "createdAt" | "storagePath" | "thumbnailPath", ExtArgs["result"]["journalPhoto"]>
 export type JournalPhotoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   journal?: boolean | Prisma.JournalDefaultArgs<ExtArgs>
 }
@@ -571,16 +571,16 @@ export type $JournalPhotoPayload<ExtArgs extends runtime.Types.Extensions.Intern
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     journalId: string
+    orderIndex: number
+    createdAt: Date
     /**
      * *
-     *    * 저장소 안의 경로. 주소가 아니다.
-     *    * 비공개 버킷이라 주소는 볼 때마다 서명해서 만든다. 서명된 주소를 저장하면
-     *    * 한 시간 뒤에 죽은 값이 DB 에 남는다.
+     * * 저장소 안의 경로. 주소가 아니다.
+     * * 비공개 버킷이라 주소는 볼 때마다 서명해서 만든다. 서명된 주소를 저장하면
+     * * 한 시간 뒤에 죽은 값이 DB 에 남는다.
      */
     storagePath: string
     thumbnailPath: string | null
-    orderIndex: number
-    createdAt: Date
   }, ExtArgs["result"]["journalPhoto"]>
   composites: {}
 }
@@ -1007,10 +1007,10 @@ export interface Prisma__JournalPhotoClient<T, Null = never, ExtArgs extends run
 export interface JournalPhotoFieldRefs {
   readonly id: Prisma.FieldRef<"JournalPhoto", 'String'>
   readonly journalId: Prisma.FieldRef<"JournalPhoto", 'String'>
-  readonly storagePath: Prisma.FieldRef<"JournalPhoto", 'String'>
-  readonly thumbnailPath: Prisma.FieldRef<"JournalPhoto", 'String'>
   readonly orderIndex: Prisma.FieldRef<"JournalPhoto", 'Int'>
   readonly createdAt: Prisma.FieldRef<"JournalPhoto", 'DateTime'>
+  readonly storagePath: Prisma.FieldRef<"JournalPhoto", 'String'>
+  readonly thumbnailPath: Prisma.FieldRef<"JournalPhoto", 'String'>
 }
     
 
