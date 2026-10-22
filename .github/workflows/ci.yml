@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+
+      # lib/prisma.ts 와 app/lib/jwt.ts 가 import 시점에 환경변수를 검사한다.
+      # 빌드가 DB 에 접속하지는 않으므로 자리만 채운 값이면 된다.
+      - run: npm run build
+        env:
+          DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
+          SESSION_SECRET: ci-only-secret-not-used-anywhere-else

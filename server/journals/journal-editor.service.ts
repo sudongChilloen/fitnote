@@ -4,6 +4,7 @@ import { randomUUID } from "node:crypto";
 
 import { JournalStatus, NotificationType } from "@/generated/prisma/enums";
 import { kstStartOfDay } from "@/lib/date";
+import { isJournalPhotoPath } from "@/lib/photo-path";
 import { prisma } from "@/lib/prisma";
 import { createNotification } from "@/server/notifications/notification.service";
 import {
@@ -432,15 +433,10 @@ export async function attachPhoto(
 ) {
   await requireMyJournal(userId, journalId);
 
-  // createPhotoUpload 가 만드는 모양만 받는다. 접두사만 보면 `../` 가 낀 경로도 통과한다.
-  const fullPattern = new RegExp(`^journals/${journalId}/[0-9a-f-]{36}\\.webp$`);
-  const thumbPattern = new RegExp(
-    `^journals/${journalId}/[0-9a-f-]{36}-thumb\\.webp$`,
-  );
-
   if (
-    !fullPattern.test(storagePath) ||
-    (thumbnailPath !== null && !thumbPattern.test(thumbnailPath))
+    !isJournalPhotoPath(journalId, storagePath, "full") ||
+    (thumbnailPath !== null &&
+      !isJournalPhotoPath(journalId, thumbnailPath, "thumb"))
   ) {
     throw new JournalEditError("INVALID", "잘못된 사진 경로예요.");
   }
