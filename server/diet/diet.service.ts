@@ -3,7 +3,7 @@ import "server-only";
 import { randomUUID } from "node:crypto";
 
 import { DietMealType } from "@/generated/prisma/enums";
-import { toKstDateKey } from "@/lib/date";
+import { kstStartOfDay, toKstDateKey } from "@/lib/date";
 import { prisma } from "@/lib/prisma";
 import {
   createSignedReadUrls,
@@ -242,7 +242,7 @@ export interface DietDetail extends DietRecordDto {
 }
 
 async function loadDetail(
-  where: { id: string; userId?: string },
+  where: { id: string; userId?: string; date?: { gte: Date } },
   withPhoto: boolean,
 ): Promise<DietDetail> {
   const row = await prisma.dietRecord.findFirst({
@@ -292,8 +292,13 @@ export async function getDietDetailForTrainer(
   memberUserId: string,
   id: string,
   withPhoto: boolean,
+  since: Date,
 ) {
-  return loadDetail({ id, userId: memberUserId }, withPhoto);
+  // 관계가 시작된 날부터만 연다. 주소를 직접 알아도 그 전 기록은 없는 것으로 친다.
+  return loadDetail(
+    { id, userId: memberUserId, date: { gte: kstStartOfDay(since) } },
+    withPhoto,
+  );
 }
 
 function trim(value: unknown, max: number) {

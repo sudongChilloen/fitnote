@@ -1,6 +1,6 @@
 import "server-only";
 
-import { kstStartOfDay } from "@/lib/date";
+import { kstStartOfDay, toKstDateKey } from "@/lib/date";
 import { prisma } from "@/lib/prisma";
 import { assertTrainerCanView } from "@/server/sharing/sharing.service";
 
@@ -51,7 +51,8 @@ export async function getMemberBody(
   const rows: BodyRow[] = records.map((record) => ({
     id: record.id,
     recordedAt: record.recordedAt,
-    dateKey: record.recordedAt.toISOString().slice(0, 10),
+    // 기록은 KST 자정으로 저장된다. toISOString 은 UTC 라 하루 전 날짜가 나온다.
+    dateKey: toKstDateKey(record.recordedAt),
     weightKg: record.weightKg === null ? null : Number(record.weightKg),
     bodyFatPercent:
       record.bodyFatPercent === null ? null : Number(record.bodyFatPercent),

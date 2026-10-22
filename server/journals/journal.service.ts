@@ -199,34 +199,29 @@ export async function getTimeline(userId: string, limit = 30) {
   ]);
 
   const entries: TimelineEntry[] = [
-    ...journals.map(
-      (journal): TimelineEntry => ({
-        kind: "JOURNAL",
-        id: journal.id,
-        date: journal.date,
-        title: journal.title ?? "PT 알림장",
-        preview: preview(journal.content),
-        authorName:
-          journal.trainerProfile.displayName ??
-          journal.trainerProfile.user.name,
-        photoCount: journal._count.photos,
-        commentCount: journal._count.comments,
-        unread: journal.memberReadAt === null,
-      }),
-    ),
-    ...notices.map(
-      (notice): TimelineEntry => ({
-        kind: "NOTICE",
-        id: notice.id,
-        // publishedAt 이 없는 공지는 위 조건에서 걸러진다.
-        date: notice.publishedAt!,
-        title: notice.title,
-        preview: preview(notice.content),
-        authorName: notice.authorMembership.user.name,
-        pinned: notice.pinnedAt !== null,
-        unread: notice.reads.length === 0,
-      }),
-    ),
+    ...journals.map((journal): TimelineEntry => ({
+      kind: "JOURNAL",
+      id: journal.id,
+      date: journal.date,
+      title: journal.title ?? "PT 알림장",
+      preview: preview(journal.content),
+      authorName:
+        journal.trainerProfile.displayName ?? journal.trainerProfile.user.name,
+      photoCount: journal._count.photos,
+      commentCount: journal._count.comments,
+      unread: journal.memberReadAt === null,
+    })),
+    ...notices.map((notice): TimelineEntry => ({
+      kind: "NOTICE",
+      id: notice.id,
+      // publishedAt 이 없는 공지는 위 조건에서 걸러진다.
+      date: notice.publishedAt!,
+      title: notice.title,
+      preview: preview(notice.content),
+      authorName: notice.authorMembership.user.name,
+      pinned: notice.pinnedAt !== null,
+      unread: notice.reads.length === 0,
+    })),
     ...sessions.map((session): TimelineEntry => {
       const names = session.records.map((record) => record.exercise.name);
       const isPt = session.ptSessionId !== null;
@@ -550,6 +545,24 @@ export async function addJournalComment(
         title: "회원 댓글이 달렸어요",
         message: `${journal.memberUser.name} 회원이 알림장에 댓글을 남겼어요.`,
         relatedType: "JOURNAL_COMMENT",
+        relatedId: journal.id,
+      });
+    } else {
+      /*
+        트레이너가 단 댓글도 회원에게 알린다.
+
+        회원은 알림장을 다시 열어 보기 전에는 답이 왔는지 알 수 없다. 알림이 가는
+        곳은 회원 화면이므로 relatedType 을 JOURNAL 로 해서 /journal/{id} 로 연결한다
+        (JOURNAL_COMMENT 는 트레이너 화면으로 가는 주소다).
+      */
+      await createNotification(tx, {
+        userId: journal.memberUserId,
+        type: NotificationType.GENERAL,
+        title: "알림장에 댓글이 달렸어요",
+        message: `${
+          journal.trainerProfile.displayName ?? journal.trainerProfile.user.name
+        } 트레이너가 알림장에 댓글을 남겼어요.`,
+        relatedType: "JOURNAL",
         relatedId: journal.id,
       });
     }

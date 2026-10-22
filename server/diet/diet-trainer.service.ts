@@ -17,7 +17,7 @@ import {
 } from "./diet.service";
 
 import { createSignedReadUrls } from "@/lib/storage";
-import { toKstDateKey } from "@/lib/date";
+import { kstStartOfDay, toKstDateKey } from "@/lib/date";
 
 /**
  * 트레이너가 보는 회원 식단.
@@ -56,14 +56,19 @@ export async function listMemberDiet(
   connectionId: string,
   limit = 12,
 ): Promise<{ days: MemberDietDay[]; setting: SharingSetting }> {
-  const { member, setting } = await assertTrainerCanView(
+  const { member, setting, since } = await assertTrainerCanView(
     trainerUserId,
     connectionId,
     "DIET",
   );
 
   const rows = await prisma.dietRecord.findMany({
-    where: { userId: member.memberUserId },
+    // 회원이 그 전에 올린 식단은 이 트레이너를 염두에 두고 남긴 것이 아니다. 식단은
+    // 날짜 단위라 연결한 날 0시(KST)부터 본다 (신체 기록과 같은 기준).
+    where: {
+      userId: member.memberUserId,
+      date: { gte: kstStartOfDay(since) },
+    },
     orderBy: [{ date: "desc" }, { createdAt: "desc" }],
     take: limit,
     select: listSelect,
@@ -119,7 +124,7 @@ export async function getMemberDietDetail(
   connectionId: string,
   dietId: string,
 ) {
-  const { member, setting } = await assertTrainerCanView(
+  const { member, setting, since } = await assertTrainerCanView(
     trainerUserId,
     connectionId,
     "DIET",
@@ -129,6 +134,7 @@ export async function getMemberDietDetail(
     member.memberUserId,
     dietId,
     setting.shareDietPhoto,
+    since,
   );
 
   return { detail, member, setting };
@@ -146,7 +152,7 @@ export async function addDietFeedback(
   dietId: string,
   content: unknown,
 ) {
-  const { trainer, member } = await assertTrainerCanView(
+  const { trainer, member, since } = await assertTrainerCanView(
     trainerUserId,
     connectionId,
     "DIET",
@@ -159,7 +165,11 @@ export async function addDietFeedback(
   }
 
   const diet = await prisma.dietRecord.findFirst({
-    where: { id: dietId, userId: member.memberUserId },
+    where: {
+      id: dietId,
+      userId: member.memberUserId,
+      date: { gte: kstStartOfDay(since) },
+    },
     select: { id: true },
   });
 

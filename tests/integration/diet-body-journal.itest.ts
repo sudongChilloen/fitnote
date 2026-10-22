@@ -8,6 +8,7 @@ import { getMemberBody } from "@/server/body/body-trainer.service";
 import { createDiet, DietError } from "@/server/diet/diet.service";
 import {
   addDietFeedback,
+  getMemberDietDetail,
   listMemberDiet,
 } from "@/server/diet/diet-trainer.service";
 import {
@@ -21,6 +22,7 @@ import {
   addJournalComment,
   getJournalDetail,
 } from "@/server/journals/journal.service";
+import { getNotificationHref } from "@/server/notifications/notification.service";
 import { SharingError } from "@/server/sharing/sharing.service";
 
 import { makePendingMember, makeTrainer, uniq } from "./helpers";
@@ -160,6 +162,62 @@ describe("식단", () => {
   });
 });
 
+describe("식단 공유는 연결한 날부터", () => {
+  async function withOldAndNewDiet() {
+    const ctx = await setup();
+
+    const old = await createDiet(ctx.member.memberUserId, {
+      dateKey: dateKeyDaysFromNow(-5),
+      mealType: "LUNCH",
+      foodName: "연결 전 점심",
+    });
+    const fresh = await createDiet(ctx.member.memberUserId, {
+      dateKey: dateKeyDaysFromNow(0),
+      mealType: "DINNER",
+      foodName: "연결한 날 저녁",
+    });
+
+    return { ...ctx, old, fresh };
+  }
+
+  it("연결 전에 올린 식단은 목록에 안 보이고, 연결한 날 것은 보인다", async () => {
+    const { trainer, member } = await withOldAndNewDiet();
+
+    const { days } = await listMemberDiet(trainer.userId, member.connectionId);
+    const names = JSON.stringify(days);
+
+    expect(names).toContain("연결한 날 저녁");
+    expect(names).not.toContain("연결 전 점심");
+  });
+
+  it("연결 전 식단은 주소를 직접 알아도 열 수 없다", async () => {
+    const { trainer, member, old, fresh } = await withOldAndNewDiet();
+
+    await expect(
+      getMemberDietDetail(trainer.userId, member.connectionId, old.id),
+    ).rejects.toBeDefined();
+
+    const detail = await getMemberDietDetail(
+      trainer.userId,
+      member.connectionId,
+      fresh.id,
+    );
+    expect(detail.detail.foodName).toBe("연결한 날 저녁");
+  });
+
+  it("연결 전 식단에는 피드백을 남길 수 없다", async () => {
+    const { trainer, member, old } = await withOldAndNewDiet();
+
+    await expect(
+      addDietFeedback(trainer.userId, member.connectionId, old.id, "피드백"),
+    ).rejects.toMatchObject({ code: "NOT_FOUND" });
+
+    expect(
+      await prisma.dietFeedback.count({ where: { dietRecordId: old.id } }),
+    ).toBe(0);
+  });
+});
+
 describe("신체 기록 공유", () => {
   it("기본값은 비공개라 트레이너가 볼 수 없다", async () => {
     const { trainer, member } = await setup();
@@ -190,10 +248,10 @@ describe("신체 기록 공유", () => {
     await setSharing(member.memberUserId, { shareBody: true });
 
     const body = await getMemberBody(trainer.userId, member.connectionId);
-    const weights = JSON.stringify(body).match(/75|80/g) ?? [];
 
-    expect(weights).toContain("75");
-    expect(weights).not.toContain("80");
+    expect(body.rows.map((row) => row.weightKg)).toEqual([75]);
+    // 날짜 키는 회원이 적은 날(KST)과 같아야 한다.
+    expect(body.rows[0].dateKey).toBe(dateKeyDaysFromNow(0));
   });
 });
 
@@ -312,6 +370,47 @@ describe("알림장", () => {
     await expect(
       addJournalComment(member.memberUserId, journalId, "가".repeat(1001)),
     ).rejects.toMatchObject({ code: "TOO_LONG" });
+  });
+
+  it("트레이너가 댓글을 달면 회원에게 알림이 가고, 알림은 그 알림장으로 연결된다", async () => {
+    const { trainer, member, journalId } = await publishedJournal();
+
+    await addJournalComment(trainer.userId, journalId, "다음 주에 봐요");
+
+    const notices = await prisma.notification.findMany({
+      where: { userId: member.memberUserId, relatedType: "JOURNAL" },
+      select: { relatedId: true, title: true, type: true },
+    });
+
+    // 게시할 때 간 알림(JOURNAL_CREATED)과 별개로 댓글 알림이 하나 더 있다.
+    const reply = notices.filter((n) => n.type === "GENERAL");
+    expect(reply).toHaveLength(1);
+    expect(reply[0].relatedId).toBe(journalId);
+    expect(
+      getNotificationHref({
+        type: "GENERAL",
+        relatedType: "JOURNAL",
+        relatedId: journalId,
+      }),
+    ).toBe(`/journal/${journalId}`);
+  });
+
+  it("회원이 자기 댓글로 자기 알림을 받지는 않고, 트레이너 댓글은 트레이너에게 알림을 만들지 않는다", async () => {
+    const { trainer, member, journalId } = await publishedJournal();
+
+    await addJournalComment(member.memberUserId, journalId, "감사합니다");
+    await addJournalComment(trainer.userId, journalId, "네");
+
+    expect(
+      await prisma.notification.count({
+        where: { userId: member.memberUserId, type: "GENERAL" },
+      }),
+    ).toBe(1);
+    expect(
+      await prisma.notification.count({
+        where: { userId: trainer.userId, relatedType: "JOURNAL_COMMENT" },
+      }),
+    ).toBe(1);
   });
 
   describe("사진", () => {
