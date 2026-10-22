@@ -18,6 +18,13 @@ jobs:
 
       - run: npm ci
 
+      # PageProps / LayoutProps 같은 전역 라우트 타입은 next dev·build·typegen 이
+      # 만든다. 깨끗한 체크아웃에는 없어서, typecheck 전에 생성해야 한다.
+      - run: npx next typegen
+        env:
+          DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
+          SESSION_SECRET: ci-only-secret-not-used-anywhere-else
+
       - run: npm run typecheck
       - run: npm run lint
       - run: npm test
