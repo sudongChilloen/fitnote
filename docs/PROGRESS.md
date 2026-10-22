@@ -2087,6 +2087,13 @@ CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint 
 
 ### 7-2. 버그
 
+- **공유를 끈 회원의 개인 운동이 PT 기록으로 복사되던 문제.** 트레이너가 "지난 기록
+  담기"를 누르면 서버 액션이 `ptOnly` 를 클라이언트에서 받아 그대로 믿었다. 화면은
+  `!sharePersonalWorkout` 을 넘기지만 서버 액션 인자는 누구나 바꿔 보낼 수 있어서,
+  담당 트레이너가 `ptOnly=false` 로 부르면 공유하지 않은 개인 운동의 무게·횟수가 수업
+  기록에 담겼다. `copyPreviousSets` 가 회원의 `TrainerSharingSetting` 을 직접 보고
+  정하도록 고쳤다. 넘어온 옵션은 범위를 좁히는 데만 쓴다 (`tests/integration/sharing.itest.ts`)
+
 - **수업을 동시에 잡으면 서버 오류.** `scheduleSession` 이 잠금 없이 마지막 회차를
   읽고 +1 해서, 동시 요청이 같은 번호를 만들려다 unique 위반으로 죽었다.
   `lockPTContract` 가 정의만 되고 쓰이지 않고 있었다. 트랜잭션 맨 앞에서 쓰도록
@@ -2123,9 +2130,13 @@ CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint 
   already executing a query` 경고를 낸다. 분리 전 코드에서도 똑같다. 같은 연결에
   쿼리가 겹쳐 나가는 곳이 있다는 신호이고 `pg` 9 에서 제거될 예정이다. 아직 어디인지
   찾지 않았다
-- `app/trainer/**` 는 레이아웃에서 트레이너 여부를 확인한다. 서버 액션은 서비스에서
-  다시 확인하지만, 페이지가 서비스를 거치지 않고 직접 조회하는 곳이 있으면 각 페이지
-  에서도 확인해야 한다. 점검하지 않았다
+- 트레이너 페이지 권한 점검(2026-10-22): `app/trainer` 페이지 11개가 부르는 서비스 함수
+  19개를 확인했다. 모두 `requireTrainerProfile` / `requireMyMember` / `assertTrainerCanView`
+  중 하나나 `trainerProfileId` 조건으로 소유권을 확인한다. 페이지에서 `prisma` 를
+  직접 쓰는 곳은 `profile/page.tsx` 하나이고 본인 프로필만 읽는다. 문제는 위 7-2 의 한 건뿐이었다
+- 남은 것: 회원이 올린 기록을 트레이너가 읽을 때 "관계가 시작된 날 이전 기록은 자른다"
+  (`assertTrainerCanView` 의 `since`) 는 규칙을 `getLastRecord` 힌트에는 적용하지 않는다.
+  지난 PT 이력이 없을 때 관계 시작 전의 개인 운동이 힌트로 보일 수 있다 (공유를 켠 경우에 한함)
 
 ---
 

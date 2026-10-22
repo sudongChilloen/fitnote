@@ -466,16 +466,31 @@ export async function copyPreviousSets(
     );
   }
 
+  /*
+    PT 수업에서 이 함수를 부르는 사람은 담당 트레이너뿐이다.
+
+    개인 운동을 참고해도 되는지는 호출하는 쪽이 넘긴 값이 아니라 회원이 켜 둔 공유
+    설정으로 정한다. ptOnly 는 서버 액션 인자라 클라이언트가 마음대로 보낼 수 있고,
+    그 값을 믿으면 공유를 끈 회원의 개인 운동 무게와 횟수가 수업 기록으로 복사된다.
+    넘어온 옵션은 범위를 좁히는 데만 쓸 수 있다.
+  */
+  let ptOnly = options.ptOnly;
+
+  if (owner.ptSessionId) {
+    const sharing = await prisma.trainerSharingSetting.findUnique({
+      where: { userId: owner.ownerUserId },
+      select: { sharePersonalWorkout: true },
+    });
+
+    ptOnly = sharing?.sharePersonalWorkout ? (options.ptOnly ?? true) : true;
+  }
+
   const previous = await getLastRecord(
     owner.ownerUserId,
     record.exerciseId,
     record.sessionId,
     owner.ptSessionId
-      ? {
-          ...options,
-          trainerProfileId: owner.trainerProfileId ?? undefined,
-          ptOnly: options.ptOnly ?? true,
-        }
+      ? { trainerProfileId: owner.trainerProfileId ?? undefined, ptOnly }
       : options,
   );
 
