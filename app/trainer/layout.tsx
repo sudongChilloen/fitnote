@@ -1,6 +1,4 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeftRight } from "lucide-react";
 
 import { requireUser } from "@/app/lib/dal";
 import { TrainerBottomNav } from "@/components/layout/trainer-bottom-nav";
@@ -21,8 +19,8 @@ export default async function TrainerLayout({
 
   return (
     <div className="flex min-h-dvh flex-col bg-background">
-      <header className="sticky top-0 z-40 border-b border-border/70 bg-background/90 backdrop-blur-xl">
-        <div className="mx-auto flex w-full max-w-md items-center justify-between px-5 py-3">
+      <header className="sticky top-0 z-40 border-b border-border/70 bg-background/95 shadow-[0_2px_12px_rgba(0,0,0,0.025)] backdrop-blur-xl">
+        <div className="mx-auto flex w-full max-w-md items-center justify-between gap-3 px-5 py-3.5">
           <div className="min-w-0">
             <p className="truncate text-sm font-bold">
               {user.trainerDisplayName ?? user.name}
@@ -30,16 +28,6 @@ export default async function TrainerLayout({
 
             <p className="text-xs text-muted-foreground">트레이너</p>
           </div>
-
-          {user.isMember ? (
-            <Link
-              href="/home"
-              className="flex shrink-0 items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs font-semibold"
-            >
-              <ArrowLeftRight className="size-3.5" aria-hidden />
-              회원 화면
-            </Link>
-          ) : null}
         </div>
       </header>
 

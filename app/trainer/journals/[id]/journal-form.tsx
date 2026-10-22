@@ -35,19 +35,21 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="text-sm font-bold">{label}</span>
+      <span className="text-sm font-bold tracking-tight">{label}</span>
+
       {hint ? (
-        <span className="mt-0.5 block text-xs text-muted-foreground">
+        <span className="mt-1 block text-xs leading-relaxed text-muted-foreground">
           {hint}
         </span>
       ) : null}
-      <span className="mt-1.5 block">{children}</span>
+
+      <span className="mt-2 block">{children}</span>
     </label>
   );
 }
 
 const boxClass =
-  "w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-[15px]";
+  "w-full rounded-xl border border-border bg-background px-3.5 py-3 text-sm leading-relaxed outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-brand focus:ring-2 focus:ring-brand/15 disabled:opacity-50";
 
 /**
  * 알림장 작성.
@@ -65,7 +67,7 @@ export function JournalForm(props: Props) {
   >(saveJournalAction, undefined);
 
   return (
-    <form action={formAction} className="flex flex-col gap-4">
+    <form action={formAction} className="flex flex-col gap-6">
       <input type="hidden" name="journalId" value={props.journalId} />
 
       {props.sessionOptions.length > 0 ? (
@@ -158,7 +160,12 @@ export function JournalForm(props: Props) {
       </Field>
 
       {state?.error ? (
-        <p className="text-sm font-medium text-destructive">{state.error}</p>
+        <p
+          role="alert"
+          className="rounded-xl border border-destructive/20 bg-destructive/5 px-3.5 py-3 text-sm font-medium leading-relaxed text-destructive"
+        >
+          {state.error}
+        </p>
       ) : null}
 
       <div className="flex gap-2.5">
@@ -167,7 +174,7 @@ export function JournalForm(props: Props) {
           name="publish"
           value="0"
           disabled={pending}
-          className="h-12 flex-1 rounded-xl border border-border font-bold disabled:opacity-50"
+          className="h-12 flex-1 rounded-xl border border-border bg-card text-sm font-bold transition-colors hover:bg-secondary active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
         >
           임시 저장
         </button>
@@ -176,7 +183,7 @@ export function JournalForm(props: Props) {
           name="publish"
           value="1"
           disabled={pending}
-          className="h-12 flex-1 rounded-xl bg-brand font-bold text-brand-foreground disabled:opacity-50"
+          className="h-12 flex-1 rounded-xl bg-brand text-sm font-bold text-brand-foreground shadow-sm transition-opacity hover:opacity-90 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
         >
           {props.status === "PUBLISHED" ? "수정 반영" : "게시하기"}
         </button>

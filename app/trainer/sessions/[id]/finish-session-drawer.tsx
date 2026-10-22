@@ -49,7 +49,7 @@ export function FinishSessionDrawer({
       <Button
         type="button"
         size="lg"
-        className="h-12 w-full rounded-xl text-sm font-bold"
+        className="h-14 w-full rounded-2xl text-sm font-bold shadow-sm transition-all hover:shadow-md active:scale-[0.99]"
         onClick={() => setIntent("complete")}
       >
         <Check className="size-4" aria-hidden />
@@ -63,7 +63,7 @@ export function FinishSessionDrawer({
         open={intent !== null}
         onOpenChange={(open) => !open && setIntent(null)}
       >
-        <DrawerContent className="mx-auto max-w-md">
+        <DrawerContent className="mx-auto max-h-[90dvh] max-w-md overflow-y-auto rounded-t-[2rem]">
           <DrawerHeader className="text-left">
             <DrawerTitle>{memberName} 회원 수업</DrawerTitle>
             <DrawerDescription>
@@ -204,7 +204,7 @@ function Choice({
       className={
         selected
           ? "flex items-start gap-3 rounded-xl border-2 border-primary bg-accent px-3.5 py-3 text-left"
-          : "flex items-start gap-3 rounded-xl border border-border px-3.5 py-3 text-left"
+          : "flex items-start gap-3 rounded-2xl border border-border bg-card px-4 py-4 text-left transition-colors hover:bg-secondary/50"
       }
     >
       <Icon className="mt-0.5 size-4 shrink-0" aria-hidden />

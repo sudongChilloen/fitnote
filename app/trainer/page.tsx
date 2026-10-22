@@ -247,7 +247,6 @@ export default async function TrainerHomePage() {
           </div>
         </div>
       </header>
-
       {/* Today's Summary */}
       <section aria-label="오늘 요약" className="mt-5 grid grid-cols-3 gap-2.5">
         <SummaryCard
@@ -274,7 +273,6 @@ export default async function TrainerHomePage() {
           tint="bg-tint-mint text-tint-mint-foreground"
         />
       </section>
-
       {/* ─────────────────────────
           Today's Schedule
       ───────────────────────── */}
@@ -360,68 +358,91 @@ export default async function TrainerHomePage() {
           </ul>
         </section>
       )}
-      {/* ─────────────────────────
-          Expiring PT contracts
-      ───────────────────────── */}
+      {/* Expiring PT contracts */}
       {expiring.length > 0 && (
         <Link
           href="/trainer/members?filter=soon"
-          className="mt-3 flex items-center gap-2.5 rounded-3xl bg-tint-peach px-4 py-3.5 text-tint-peach-foreground"
+          className="group mt-4 flex items-center gap-3 rounded-2xl border border-status-urgent/15 bg-status-urgent-bg/50 p-4 transition-all duration-200 hover:border-status-urgent/30 hover:bg-status-urgent-bg active:scale-[0.99]"
         >
-          <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-white/70">
-            <CalendarClock className="size-4" aria-hidden />
+          <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-card text-status-urgent shadow-sm">
+            <CalendarClock className="size-5" aria-hidden />
           </span>
 
-          <span className="min-w-0 flex-1 text-sm font-bold">
-            PT가 곧 끝나는 회원 {expiring.length}명
+          <span className="min-w-0 flex-1">
+            <span className="flex flex-wrap items-center gap-2">
+              <span className="text-sm font-bold tracking-tight">
+                PT 만료 임박
+              </span>
+              <span className="rounded-full bg-status-urgent px-2 py-0.5 text-[10px] font-bold text-white">
+                {expiring.length}명
+              </span>
+            </span>
+
+            <span className="mt-1.5 block truncate text-xs leading-relaxed text-muted-foreground">
+              {expiring
+                .slice(0, 2)
+                .map((member) => member.name)
+                .join(", ")}
+              {expiring.length > 2 ? " 외 추가 회원" : ""}
+            </span>
           </span>
 
-          <span className="max-w-[42%] shrink-0 truncate text-xs opacity-80">
-            {expiring
-              .slice(0, 2)
-              .map((member) => member.name)
-              .join(", ")}
-
-            {expiring.length > 2 ? " 외" : ""}
+          <span className="flex shrink-0 items-center gap-1 text-xs font-bold text-status-urgent">
+            확인하기
+            <ChevronRight
+              className="size-4 transition-transform group-hover:translate-x-0.5"
+              aria-hidden
+            />
           </span>
-
-          <ChevronRight
-            className="size-4 shrink-0 text-muted-foreground"
-            aria-hidden
-          />
         </Link>
       )}
-      {/* ─────────────────────────
-          Members
-      ───────────────────────── */}
-      <section className="mt-7">
-        <div className="flex items-baseline justify-between gap-2">
-          <div>
+
+      {/* Members */}
+      <section className="mt-8">
+        <div className="flex items-end justify-between gap-3">
+          <div className="min-w-0">
             <h2 className="text-lg font-bold tracking-tight">담당 회원</h2>
 
-            <p className="mt-0.5 text-xs text-muted-foreground">
-              관리 중인 회원 {home.members.length}명
+            <p className="mt-1 text-xs text-muted-foreground">
+              현재 관리 중인 회원{" "}
+              <span className="font-semibold text-foreground">
+                {home.members.length}명
+              </span>
             </p>
           </div>
 
           <Link
             href="/trainer/members"
-            className="shrink-0 rounded-full bg-accent px-3 py-1.5 text-xs font-bold text-accent-foreground"
+            className="inline-flex shrink-0 items-center gap-1 rounded-full border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground transition-colors hover:bg-muted"
           >
             전체 보기
+            <ChevronRight className="size-3.5" aria-hidden />
           </Link>
         </div>
 
         {home.members.length === 0 ? (
-          <NoMembers />
+          <div className="mt-4">
+            <NoMembers />
+          </div>
         ) : (
-          <ul className="mt-3 flex flex-col gap-2.5">
+          <ul className="mt-4 flex flex-col gap-3">
             {home.members.slice(0, 5).map((member) => (
               <MemberCard key={member.connectionId} member={member} />
             ))}
           </ul>
         )}
+
+        {home.members.length > 5 && (
+          <Link
+            href="/trainer/members"
+            className="mt-3 flex w-full items-center justify-center gap-1 rounded-xl border border-dashed border-border py-3 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          >
+            회원 {home.members.length - 5}명 더 보기
+            <ChevronRight className="size-3.5" aria-hidden />
+          </Link>
+        )}
       </section>
+
       {/* ─────────────────────────
           Todo shortcut
       ───────────────────────── */}

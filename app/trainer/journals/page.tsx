@@ -1,11 +1,6 @@
 import Link from "next/link";
 
-import {
-  AlertCircle,
-  Check,
-  MessageSquare,
-  NotebookPen,
-} from "lucide-react";
+import { AlertCircle, Check, MessageSquare, NotebookPen } from "lucide-react";
 
 import { requireUser } from "@/app/lib/dal";
 import { formatKstDateLabel } from "@/lib/date";
@@ -53,24 +48,49 @@ export default async function TrainerJournalsPage() {
       ) : (
         <>
           {/* Summary */}
-          <section className="mt-5 rounded-2xl bg-accent px-4 py-4">
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <p className="text-xs font-semibold text-muted-foreground">
-                  지금 처리할 일
+          <section className="mt-5 overflow-hidden rounded-2xl border border-border/70 bg-card shadow-card">
+            <div className="flex items-center justify-between gap-4 p-5">
+              <div className="min-w-0">
+                <p className="text-sm font-semibold text-muted-foreground">
+                  지금 처리할 업무
                 </p>
 
-                <p className="mt-0.5 text-lg font-bold tabular-nums">
-                  {totalCount}
-                  <span className="ml-1 text-sm font-semibold">
-                    건
+                <p className="mt-2 flex items-baseline gap-1.5">
+                  <span className="text-3xl font-bold tracking-tight tabular-nums">
+                    {totalCount}
                   </span>
+                  <span className="text-sm font-medium text-muted-foreground">
+                    건 남음
+                  </span>
+                </p>
+
+                <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                  {todos.needComplete.length > 0
+                    ? `완료 처리 ${todos.needComplete.length}건`
+                    : "미완료 수업 없음"}
+                  {" · "}
+                  {todos.needJournal.length > 0
+                    ? `알림장 ${todos.needJournal.length}건`
+                    : "작성할 알림장 없음"}
+                  {" · "}
+                  {todos.awaitingReply.length > 0
+                    ? `회원 답변 ${todos.awaitingReply.length}건`
+                    : "확인할 답변 없음"}
                 </p>
               </div>
 
-              <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-card text-brand-strong">
+              <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-accent text-brand-strong">
                 <NotebookPen className="size-5" aria-hidden />
               </span>
+            </div>
+
+            <div className="h-1 w-full bg-secondary">
+              <div
+                className="h-full bg-brand transition-all"
+                style={{
+                  width: `${Math.min(100, (totalCount / 10) * 100)}%`,
+                }}
+              />
             </div>
           </section>
 
@@ -129,13 +149,10 @@ export default async function TrainerJournalsPage() {
                   <li key={row.journalId}>
                     <Link
                       href={`/trainer/journals/${row.journalId}`}
-                      className="group flex items-center gap-3 rounded-2xl bg-card shadow-card p-4 transition-colors hover:bg-muted/40"
+                      className="group flex min-h-[76px] items-center gap-3 rounded-2xl border border-border/60 bg-card p-4 shadow-card transition-all hover:border-border hover:bg-muted/30 active:scale-[0.99]"
                     >
                       <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent text-brand-strong">
-                        <MessageSquare
-                          className="size-4"
-                          aria-hidden
-                        />
+                        <MessageSquare className="size-4" aria-hidden />
                       </span>
 
                       <span className="min-w-0 flex-1">
@@ -179,9 +196,7 @@ function EmptyTodo() {
         <Check className="size-5" aria-hidden />
       </span>
 
-      <p className="mt-3 text-sm font-bold">
-        지금 처리할 일이 없어요
-      </p>
+      <p className="mt-3 text-sm font-bold">지금 처리할 일이 없어요</p>
 
       <p className="mt-1 text-center text-xs text-muted-foreground">
         수업이 끝나거나 회원의 답변이 도착하면
@@ -206,11 +221,11 @@ function TodoSection({
   children: React.ReactNode;
 }) {
   return (
-    <section className="mt-7">
-      <div className="flex items-baseline justify-between gap-2">
-        <h2 className="text-lg font-bold tracking-tight">{title}</h2>
+    <section className="mt-8">
+      <div className="flex items-center justify-between gap-3">
+        <h2 className="text-base font-bold tracking-tight">{title}</h2>
 
-        <span className="shrink-0 text-xs font-semibold text-muted-foreground tabular-nums">
+        <span className="shrink-0 rounded-full bg-secondary px-2.5 py-1 text-xs font-semibold tabular-nums text-foreground">
           {count}건
         </span>
       </div>
@@ -224,10 +239,7 @@ function TodoSection({
         ].join(" ")}
       >
         {tone === "attention" ? (
-          <AlertCircle
-            className="mt-0.5 size-3.5 shrink-0"
-            aria-hidden
-          />
+          <AlertCircle className="mt-0.5 size-3.5 shrink-0" aria-hidden />
         ) : null}
 
         <span>{description}</span>

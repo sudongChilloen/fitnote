@@ -93,7 +93,7 @@ export function MemberCard({ member }: { member: TrainerMemberRow }) {
     <li>
       <Link
         href={`/trainer/members/${member.connectionId}`}
-        className="group block rounded-3xl border border-border/60 bg-card p-4 shadow-card transition-all duration-200 hover:border-primary/25 hover:shadow-md active:scale-[0.99]"
+        className="group block rounded-3xl border border-border/70 bg-card p-4 shadow-card transition-[border-color,box-shadow,background-color] duration-200 hover:border-primary/30 hover:bg-secondary/[0.12] hover:shadow-md active:bg-secondary/30"
       >
         {/* 회원 기본 정보 */}
         <div className="flex items-center gap-3">
@@ -140,7 +140,7 @@ export function MemberCard({ member }: { member: TrainerMemberRow }) {
 
         {/* 처리할 일 */}
         {managementReasonText || todo ? (
-          <div className="mt-4 flex items-center gap-2.5 rounded-2xl border border-border/50 bg-secondary/50 p-3">
+          <div className="mt-4 flex items-center gap-2.5 rounded-2xl border border-border/70 bg-secondary/40 p-3.5">
             <span
               className={cn(
                 "flex size-9 shrink-0 items-center justify-center rounded-xl",
@@ -191,7 +191,7 @@ export function MemberCard({ member }: { member: TrainerMemberRow }) {
               {member.todaySessions.map((session) => (
                 <div
                   key={session.id}
-                  className="flex items-center justify-between gap-3 rounded-xl bg-tint-sky/70 px-3 py-2.5 text-tint-sky-foreground"
+                  className="flex min-h-10 items-center justify-between gap-3 rounded-xl border border-tint-sky/20 bg-tint-sky/60 px-3 py-2.5 text-tint-sky-foreground"
                 >
                   <span className="text-xs font-bold tabular-nums">
                     {formatKstTimeLabel(session.scheduledAt)}
@@ -215,7 +215,7 @@ export function MemberCard({ member }: { member: TrainerMemberRow }) {
         ) : null}
 
         {/* 최근 기록 */}
-        <div className="mt-4 flex items-center gap-2 border-t border-border/60 pt-3.5 text-xs text-muted-foreground">
+        <div className="mt-4 flex min-h-9 items-center gap-2 border-t border-border/70 pt-3.5 text-xs text-muted-foreground">
           <NotebookPen className="size-4 shrink-0" aria-hidden />
 
           <span className="min-w-0 flex-1 truncate">

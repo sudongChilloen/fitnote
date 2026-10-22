@@ -57,25 +57,27 @@ export function NewSessionDrawer({
       <Button
         type="button"
         onClick={() => setOpen(true)}
-        className="mt-5 h-13 w-full rounded-2xl text-sm font-bold shadow-sm transition-transform active:scale-[0.98]"
+        className="mt-5 h-14 w-full rounded-2xl text-sm font-bold shadow-sm transition-all hover:shadow-md active:scale-[0.98]"
       >
         <CalendarPlus className="size-4" aria-hidden />
         수업 잡기
       </Button>
 
       <Drawer open={open} onOpenChange={setOpen}>
-        <DrawerContent className="mx-auto max-w-md rounded-t-[2rem]">
-          <DrawerHeader className="px-5 pb-4 pt-3 text-left">
-            <div className="mb-2 flex size-11 items-center justify-center rounded-2xl bg-accent text-accent-foreground">
+        <DrawerContent className="mx-auto max-h-[90dvh] max-w-md overflow-y-auto rounded-t-[2rem]">
+          <DrawerHeader className="px-5 pb-5 pt-4 text-left">
+            <div className="mb-3 flex size-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
               <CalendarPlus className="size-5" aria-hidden />
             </div>
+
             <DrawerTitle className="text-xl font-bold tracking-tight">
               수업 잡기
             </DrawerTitle>
-            <DrawerDescription className="text-sm leading-relaxed">
+
+            <DrawerDescription className="mt-1 text-sm leading-relaxed">
               {contracts.length === 0
                 ? "수업을 잡을 수 있는 계약이 없어요."
-                : "회원과 수업 시간을 정해 일정을 추가해 주세요."}
+                : "회원과 시간을 선택해 새로운 수업 일정을 등록하세요."}
             </DrawerDescription>
           </DrawerHeader>
 
@@ -111,7 +113,7 @@ export function NewSessionDrawer({
                   name="contractId"
                   required
                   defaultValue={contracts.length === 1 ? contracts[0]!.id : ""}
-                  className="h-12 w-full rounded-2xl border border-border/70 bg-background px-3.5 text-sm outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/15"
+                  className="h-12 w-full rounded-xl border border-border bg-background px-3.5 text-sm tabular-nums outline-none transition-[border-color,box-shadow] placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/15"
                 >
                   <option value="" disabled>
                     회원을 선택해 주세요
@@ -124,7 +126,7 @@ export function NewSessionDrawer({
                 </select>
               </label>
 
-              <div className="rounded-2xl bg-secondary/50 p-4">
+              <div className="rounded-2xl border border-border/60 bg-secondary/30 p-4">
                 <p className="mb-3 text-sm font-bold">수업 일정</p>
                 <div className="grid grid-cols-2 gap-3">
                   <label className="flex min-w-0 flex-col gap-2">
@@ -186,7 +188,7 @@ export function NewSessionDrawer({
               <Button
                 type="submit"
                 disabled={pending}
-                className="h-13 rounded-2xl text-sm font-bold shadow-sm"
+                className="h-14 rounded-2xl text-sm font-bold shadow-sm transition-all hover:shadow-md"
               >
                 {pending ? (
                   <>

@@ -15,13 +15,6 @@ import type { TrainerSessionRow } from "@/server/trainers/trainer-board.service"
 
 import { enterSessionRecord } from "./sessions/[id]/actions";
 
-const STATUS_LABEL: Record<string, string> = {
-  SCHEDULED: "예정",
-  COMPLETED: "완료",
-  NO_SHOW: "노쇼",
-  CANCELLED: "취소",
-};
-
 function ManagementEventIcon({ type }: { type: string }) {
   switch (type) {
     case "SESSION_JOURNAL":
@@ -79,14 +72,15 @@ export function SessionRow({ session }: { session: TrainerSessionRow }) {
   const body = (
     <div
       className={cn(
-        "flex min-h-[5.5rem] items-center gap-3 rounded-2xl border border-border/60 bg-card p-3.5 shadow-card",
-        "transition-all duration-200",
-        !cancelled && "hover:border-primary/25 hover:bg-secondary/20",
+        "flex min-h-23 items-center gap-3 rounded-2xl border border-border/70 bg-card p-3.5 shadow-card",
+        "transition-colors duration-200",
+        !cancelled &&
+          "hover:border-primary/30 hover:bg-secondary/20 active:bg-secondary/40",
         cancelled && "opacity-55",
       )}
     >
       {/* 수업 시간 */}
-      <div className="w-[3.5rem] shrink-0 text-center">
+      <div className="w-15 shrink-0 text-center">
         <p
           className={cn(
             "text-base font-bold leading-none tabular-nums",
@@ -103,7 +97,7 @@ export function SessionRow({ session }: { session: TrainerSessionRow }) {
       </div>
 
       {/* 회원 정보 */}
-      <div className="min-w-0 flex-1 border-l border-border/70 pl-3">
+      <div className="min-w-0 flex-1 border-l border-border/70 pl-3.5">
         <div className="flex min-w-0 flex-wrap items-center gap-1.5">
           <p
             className={cn(
@@ -172,7 +166,7 @@ export function SessionRow({ session }: { session: TrainerSessionRow }) {
       {label ? (
         <span
           className={cn(
-            "inline-flex shrink-0 items-center gap-1 rounded-xl px-2.5 py-2 text-xs font-bold",
+            "inline-flex min-h-10 shrink-0 items-center gap-1 rounded-xl px-3 py-2 text-xs font-bold transition-colors",
             session.journalStatus === "PUBLISHED"
               ? "bg-secondary text-muted-foreground"
               : "bg-accent text-accent-foreground",

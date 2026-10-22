@@ -89,7 +89,7 @@ export function AddMemberDrawer() {
                 maxLength={20}
                 autoComplete="off"
                 placeholder="회원 이름 입력"
-                className="h-12 rounded-xl border border-border bg-background px-3.5 text-sm outline-none transition-shadow placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/15"
+                className="h-12 rounded-xl border border-border bg-background px-3.5 text-sm tabular-nums outline-none transition-shadow placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/15"
               />
 
               <span className="text-xs leading-relaxed text-muted-foreground">
@@ -132,7 +132,7 @@ export function AddMemberDrawer() {
             <button
               type="submit"
               disabled={pending}
-              className="mt-1 inline-flex h-12 items-center justify-center rounded-xl bg-brand px-4 text-sm font-bold text-brand-foreground shadow-sm transition-all hover:opacity-90 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
+              className="mt-1 inline-flex h-12 w-full items-center justify-center rounded-xl bg-brand px-4 text-sm font-bold text-brand-foreground shadow-sm transition-colors hover:brightness-95 active:brightness-90 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {pending ? "등록하는 중..." : "회원 등록하기"}
             </button>
