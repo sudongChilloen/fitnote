@@ -9,6 +9,7 @@ import { kstDaysAgo, kstMonthRange, toKstDateKey } from "@/lib/date";
 import { prisma } from "@/lib/prisma";
 import {
   WorkoutError,
+  loadSession,
   sessionInclude,
   toSessionDto,
   serializableTransaction,
@@ -72,7 +73,7 @@ export async function finishSession(
   // 사용자가 직접 적어 주기 전까지는 비워 둔다.
   const endedAt = manual ? session.startedAt : new Date();
 
-  const updated = await prisma.workoutSession.update({
+  await prisma.workoutSession.update({
     where: { id: session.id },
     data: {
       endedAt,
@@ -86,10 +87,10 @@ export async function finishSession(
             ),
           ),
     },
-    include: sessionInclude,
+    select: { id: true },
   });
 
-  return toSessionDto(updated);
+  return toSessionDto(await loadSession(session.id));
 }
 
 export type StartSessionMode = "ask" | "resume" | "new";
@@ -156,10 +157,12 @@ export async function startSession(
     }
   }
 
-  const created = await prisma.workoutSession.create({
+  const { id } = await prisma.workoutSession.create({
     data: { userId, routineId, memo, startedAt: new Date() },
-    include: sessionInclude,
+    select: { id: true },
   });
+
+  const created = await loadSession(id);
 
   return { conflict: false as const, session: toSessionDto(created) };
 }
@@ -427,17 +430,17 @@ export async function openManualSession(
     return toSessionDto(draft);
   }
 
-  const created = await prisma.workoutSession.create({
+  const { id } = await prisma.workoutSession.create({
     data: {
       userId,
       startedAt,
       entryMode: WorkoutEntryMode.MANUAL,
       recordedByUserId: options.recordedByUserId,
     },
-    include: sessionInclude,
+    select: { id: true },
   });
 
-  return toSessionDto(created);
+  return toSessionDto(await loadSession(id));
 }
 
 /**

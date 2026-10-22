@@ -2045,15 +2045,19 @@ PTSession ─┬─ WorkoutSession ─ WorkoutRecord ─ WorkoutSet   (수업 �
 | 통합: 이어받기      | 7    | 동시 이어받기에서 한쪽만 성공, 만료·회수·중복 이메일, 새 코드 발급           |
 | 통합: PT            | 7    | 차감과 계약 상태 전이, 동시 완료·동시 예약, 남의 수업 접근                   |
 | 통합: 시도 제한     | 4    | 한도, 창 밖 기록, 키 격리, 성공 시 초기화                                    |
-| 통합: 운동 기록     | 3    | 시작 → 담기 → 세트 → 볼륨 → 종료 → 요약 한 바퀴                              |
+| 통합: 운동 기록     | 3    | 시작 → 담기 → 세트 → 볼륨 → 종료 → 요약 한 바퀴, `pg` 경고가 없는지         |
+| 통합: 개인 운동 공유 | 3   | 공유를 끈 회원의 개인 운동이 클라이언트 인자와 무관하게 PT 기록으로 안 복사됨 |
+| 통합: 식단          | 9    | 빈 기록 거절, 남의 사진 경로 무시, 피드백과 알림, 공유 끔, 담당 아님, 남의 식단, 연결 전 식단 안 보임(목록·상세·피드백) |
+| 통합: 신체 공유     | 2    | 기본 비공개, 공유를 켜면 연결한 날부터만 보임, 날짜 키가 KST 와 일치        |
+| 통합: 알림장        | 11   | 초안 이어쓰기, 게시와 알림 1회, 초안 비공개, 남의 접근, 회원·트레이너 댓글 알림, 사진 경로·한도 |
 
 CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint → 단위 →
 통합 → build 순서로 돈다. 빌드는 더미 `DATABASE_URL` / `SESSION_SECRET` 으로 한다.
 **아직 GitHub 에서 실제로 돌려 본 적은 없다.** 첫 PR 에서 통합 테스트 단계가
 통과하는지 확인할 것.
 
-**아직 테스트가 없는 곳:** 일지·식단·신체 기록 서비스, 서버 액션의 권한 확인,
-화면. 동시성·정합성이 걸린 곳(PT, 이어받기)을 먼저 덮었다.
+**아직 테스트가 없는 곳:** 서버 액션의 권한 확인, 화면, 체성분 추이 계산(`getTrends`),
+목표(`setGoal`), 식단 사진 삭제. 동시성·정합성이 걸린 곳(PT, 이어받기)을 먼저 덮었다.
 
 ---
 
@@ -2099,6 +2103,25 @@ CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint 
   `lockPTContract` 가 정의만 되고 쓰이지 않고 있었다. 트랜잭션 맨 앞에서 쓰도록
   고쳤다. 통합 테스트가 잡았다
 
+- **연결한 날의 신체 기록이 트레이너에게 안 보이던 문제.** 신체 기록은 날짜 단위라
+  그날 0시(KST)로 저장되는데, 트레이너가 볼 수 있는 시작점(`since`)은 연결한 *시각*이었다.
+  오늘 연결하고 오늘 몸무게를 적으면 기록(오늘 0시)이 연결 시각보다 앞서 영영 안 보였다.
+  미래 날짜는 적을 수 없어서 그 하루 치는 되살릴 방법도 없었다. 문서는 "관계가 시작된
+  날부터"라고 적고 있어서 비교 기준을 그날 0시로 맞췄다 (`body-trainer.service.ts`)
+
+- **트레이너가 보는 신체 기록의 날짜가 하루 전으로 나오던 문제.** `getMemberBody` 가
+  `dateKey` 를 `toISOString().slice(0, 10)`(UTC)로 만들었다. 기록은 KST 자정으로
+  저장되니 UTC 로는 전날 15시라 날짜가 하루씩 밀렸다. 회원 쪽 `body.service` 와 같은
+  `toKstDateKey` 로 맞췄다
+- **식단이 연결 이전 기록까지 트레이너에게 보이던 것 (제품 결정 후 변경).** 신체 기록·개인
+  운동처럼 "관계가 시작된 날부터"만 보인다. 목록, 상세(주소를 직접 알아도), 피드백 작성
+  세 곳에 모두 적용했다. 식단 공유는 기본이 켜져 있어서 연결하는 순간 그동안 올린 사진과
+  글이 전부 보이던 것이 막힌다. 회원 본인의 식단은 그대로다
+- **트레이너가 알림장에 댓글을 달면 회원에게 알림이 간다 (제품 결정 후 추가).** 알림은
+  `GENERAL` 타입에 `relatedType: "JOURNAL"` 이라 `/journal/{id}` 로 연결된다. 같은 알림장에
+  회원이 단 댓글은 지금처럼 트레이너에게만 간다. 새 알림 종류(enum)는 만들지 않아서
+  마이그레이션이 필요 없다
+
 ### 7-3. 구조
 
 - `pt.service.ts`(1,100줄)를 `pt-shared` / `pt-contract.service` /
@@ -2107,6 +2130,15 @@ CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint 
   `workout-record.service` / `workout-stats.service` 로 나눴다
 - 두 파일 모두 기존 공개 API 를 그대로 다시 내보내는 진입점으로 남아서 import 경로는
   바뀌지 않았다. 코드는 옮기기만 했다 (공유하게 된 헬퍼에 `export` 만 붙임)
+- 이어서 네 파일도 같은 방식으로 나눴다. 분리 전후의 공개 이름 목록을 대조해 하나도 빠지지
+  않았음을 확인했다
+  - `trainer.service.ts`(817줄) → `trainer-shared`(접근 확인: `requireTrainerProfile`,
+    `requireMyMember` 등) / `trainer-home.service` / `trainer-member-detail.service`
+  - `connection.service.ts`(656줄) → `connection-shared` / `connection-invite.service`(트레이너
+    프로필·초대·연결) / `connection-claim.service`(미가입 회원·이어받기)
+  - `journal.service.ts`(654줄) → `journal-shared` / `journal-timeline.service` /
+    `journal-detail.service`(상세·댓글·공지)
+  - `trainer-board.service.ts`(637줄) → `trainer-board-shared` / `-week` / `-todos` / `-month`
 
 ### 7-4. 배포 전에 할 일
 
@@ -2126,10 +2158,14 @@ CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint 
 
 ### 7-5. 알려진 이슈
 
-- 워크아웃 테스트를 돌리면 `pg` 가 `Calling client.query() when the client is
-  already executing a query` 경고를 낸다. 분리 전 코드에서도 똑같다. 같은 연결에
-  쿼리가 겹쳐 나가는 곳이 있다는 신호이고 `pg` 9 에서 제거될 예정이다. 아직 어디인지
-  찾지 않았다
+- ~~`pg` 경고~~ (해결, 2026-10-22). 워크아웃 테스트에서 `pg` 가 `Calling client.query()
+  when the client is already executing a query` 를 냈다. 원인은 `create` / `update` 에
+  `include: sessionInclude` 를 붙인 세 곳(`startSession`, `finishSession`,
+  `openManualSession`)이었다. 관계(기록 → 운동·세트, 기록한 사람)까지 한 번에 돌려받으면
+  Prisma 가 읽어 오는 쿼리들을 변경 쿼리의 트랜잭션 연결에 동시에 보낸다 (`@prisma/adapter-pg`
+  와의 조합). 변경은 `select: { id: true }` 만 받고 `loadSession(id)` 로 따로 읽도록 바꿨다.
+  같은 경고는 프로세스에서 한 번만 뜨므로 `workout.itest.ts` 가 파일 전체에 걸어 두고 끝에서
+  확인한다. 새로 변경 쿼리에 깊은 `include` 를 붙이면 이 테스트가 잡는다
 - 트레이너 페이지 권한 점검(2026-10-22): `app/trainer` 페이지 11개가 부르는 서비스 함수
   19개를 확인했다. 모두 `requireTrainerProfile` / `requireMyMember` / `assertTrainerCanView`
   중 하나나 `trainerProfileId` 조건으로 소유권을 확인한다. 페이지에서 `prisma` 를
@@ -2149,11 +2185,10 @@ CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint 
 - **`DataAccessLog`.** 회원이 "누가 언제 내 무엇을 봤는지" 를 직접 확인하는 기록.
   지금은 공유가 꺼져 있으면 조회 자체를 하지 않는 것으로 대신한다
 - **테스트 확대.** 6장의 "테스트가 없는 곳"
-- **남은 큰 서비스 파일.** `trainer.service.ts` 817줄, `connection.service.ts` 656줄,
-  `journal.service.ts` 654줄, `trainer-board.service.ts` 637줄
+- **남은 큰 서비스 파일.** `workout-record.service.ts` 약 600줄, `journal-editor.service.ts`
+  약 485줄 정도가 가장 크다. 지금은 나눌 필요가 크지 않다
 - **CI 첫 실행 확인.** 6장 참고
 - **트레이너 페이지 권한 확인 점검.** 7-5 참고
-- **`pg` 경고 원인 찾기.** 7-5 참고
 
 ### 정리 필요
 

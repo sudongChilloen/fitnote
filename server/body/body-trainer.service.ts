@@ -1,5 +1,6 @@
 import "server-only";
 
+import { kstStartOfDay, toKstDateKey } from "@/lib/date";
 import { prisma } from "@/lib/prisma";
 import { assertTrainerCanView } from "@/server/sharing/sharing.service";
 
@@ -26,7 +27,15 @@ export async function getMemberBody(
   );
 
   const records = await prisma.bodyRecord.findMany({
-    where: { userId: member.memberUserId, recordedAt: { gte: since } },
+    where: {
+      userId: member.memberUserId,
+      /*
+        신체 기록은 날짜 단위라 자정(KST)으로 저장된다. 연결한 시각과 그대로 비교하면
+        연결한 날 적은 기록(그날 0시)이 연결 시각보다 앞서 영영 안 보인다. "시작된
+        날부터" 라는 말대로 그날 0시를 기준으로 자른다.
+      */
+      recordedAt: { gte: kstStartOfDay(since) },
+    },
     orderBy: { recordedAt: "desc" },
     take: limit,
     select: {
@@ -42,7 +51,8 @@ export async function getMemberBody(
   const rows: BodyRow[] = records.map((record) => ({
     id: record.id,
     recordedAt: record.recordedAt,
-    dateKey: record.recordedAt.toISOString().slice(0, 10),
+    // 기록은 KST 자정으로 저장된다. toISOString 은 UTC 라 하루 전 날짜가 나온다.
+    dateKey: toKstDateKey(record.recordedAt),
     weightKg: record.weightKg === null ? null : Number(record.weightKg),
     bodyFatPercent:
       record.bodyFatPercent === null ? null : Number(record.bodyFatPercent),

@@ -77,6 +77,22 @@ type SessionPayload = Prisma.WorkoutSessionGetPayload<{
   include: typeof sessionInclude;
 }>;
 
+/**
+ * 세션을 관계까지 읽어 온다.
+ *
+ * create / update 에 `include: sessionInclude` 를 붙이지 않고 이 함수를 따로 부른다.
+ * 관계(기록 → 운동·세트, 기록한 사람)까지 한 번에 돌려받으려 하면 Prisma 가 읽어 오는
+ * 쿼리들을 변경 쿼리가 쓰는 같은 트랜잭션 연결에 동시에 보내고, pg 가 "이미 쿼리를
+ * 실행 중인 연결에 query() 를 불렀다" 는 경고를 낸다 (pg 9 에서 제거 예정).
+ * 변경은 id 만 받고 조회는 따로 하면 이 경고가 나지 않는다.
+ */
+export function loadSession(id: string) {
+  return prisma.workoutSession.findUniqueOrThrow({
+    where: { id },
+    include: sessionInclude,
+  });
+}
+
 export function toSetDto(set: SetPayload) {
   return {
     id: set.id,

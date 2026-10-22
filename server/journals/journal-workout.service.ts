@@ -25,7 +25,9 @@ export async function getJournalWorkout(userId: string, journalId: string) {
 
   const journal = await prisma.journal.findFirst({
     where: { id: journalId, trainerProfileId: trainer.id },
-    select: { ptSession: { select: { workoutSession: { select: { id: true } } } } },
+    select: {
+      ptSession: { select: { workoutSession: { select: { id: true } } } },
+    },
   });
 
   const sessionId = journal?.ptSession?.workoutSession?.id;
