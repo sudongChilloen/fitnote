@@ -12,7 +12,7 @@ export default function UserLayout({ children }: LayoutProps<"/">) {
       <div
         className="mx-auto w-full max-w-md flex-1"
         style={{
-          paddingBottom: "calc(4.25rem + env(safe-area-inset-bottom))",
+          paddingBottom: "calc(6.25rem + env(safe-area-inset-bottom))",
         }}
       >
         {children}

@@ -98,7 +98,7 @@ export default async function NewDietPage({
             type="text"
             maxLength={100}
             placeholder="현미밥, 닭가슴살, 샐러드"
-            className="mt-2 h-13 w-full rounded-xl border border-border bg-card px-4 text-sm"
+            className="mt-2 h-13 w-full rounded-2xl bg-card shadow-card px-4 text-sm"
           />
         </div>
 
@@ -115,7 +115,7 @@ export default async function NewDietPage({
             rows={3}
             maxLength={500}
             placeholder="운동 전에 먹었어요"
-            className="mt-2 w-full rounded-xl border border-border bg-card p-4 text-sm"
+            className="mt-2 w-full rounded-2xl bg-card shadow-card p-4 text-sm"
           />
         </div>
 

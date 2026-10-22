@@ -16,7 +16,7 @@ export function BecomeTrainerButton() {
       <button
         type="submit"
         disabled={pending}
-        className="inline-flex h-11 items-center gap-1.5 rounded-xl bg-primary px-4 text-sm font-bold text-primary-foreground disabled:opacity-50"
+        className="inline-flex h-11 items-center gap-1.5 rounded-xl bg-brand px-4 text-sm font-bold text-brand-foreground disabled:opacity-50"
       >
         <UserPlus className="size-4" aria-hidden />
         {pending ? "시작하는 중" : "트레이너로 시작하기"}

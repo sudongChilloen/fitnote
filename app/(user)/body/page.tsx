@@ -48,7 +48,7 @@ export default async function BodyPage({ searchParams }: PageProps<"/body">) {
       ) : null}
 
       {records.length === 0 ? (
-        <div className="mt-6 rounded-2xl border border-border bg-card p-6 text-center">
+        <div className="mt-6 rounded-2xl bg-card shadow-card p-6 text-center">
           <TrendingDown
             className="mx-auto size-6 text-muted-foreground"
             aria-hidden
@@ -71,7 +71,7 @@ export default async function BodyPage({ searchParams }: PageProps<"/body">) {
           {measured.map((trend) => (
             <article
               key={trend.type}
-              className="rounded-2xl border border-border bg-card p-4"
+              className="rounded-2xl bg-card shadow-card p-4"
             >
               <div className="flex items-baseline justify-between gap-2">
                 <h2 className="text-sm font-bold">{trend.label}</h2>
@@ -109,7 +109,7 @@ export default async function BodyPage({ searchParams }: PageProps<"/body">) {
 
       <section className="mt-8">
         <div className="flex items-center justify-between gap-2">
-          <h2 className="text-base font-bold">목표</h2>
+          <h2 className="text-lg font-bold tracking-tight">목표</h2>
 
           <Link
             href="/body/goal"
@@ -121,7 +121,7 @@ export default async function BodyPage({ searchParams }: PageProps<"/body">) {
         </div>
 
         {goals.length === 0 ? (
-          <p className="mt-2 rounded-2xl border border-border bg-card p-4 text-xs leading-relaxed text-muted-foreground">
+          <p className="mt-2 rounded-2xl bg-card shadow-card p-4 text-xs leading-relaxed text-muted-foreground">
             목표를 정해두면 지금 값이 자동으로 따라와요. 체중·체지방률·골격근량
             중 원하는 것만 정하면 돼요.
           </p>
@@ -130,7 +130,7 @@ export default async function BodyPage({ searchParams }: PageProps<"/body">) {
             {goals.map((goal) => (
               <li
                 key={goal.id}
-                className="rounded-2xl border border-border bg-card p-4"
+                className="rounded-2xl bg-card shadow-card p-4"
               >
                 <div className="flex items-baseline justify-between gap-2">
                   <p className="text-sm font-bold">
@@ -188,13 +188,13 @@ export default async function BodyPage({ searchParams }: PageProps<"/body">) {
 
       {records.length > 0 ? (
         <section className="mt-8">
-          <h2 className="text-base font-bold">기록</h2>
+          <h2 className="text-lg font-bold tracking-tight">기록</h2>
 
           <ul className="mt-2 flex flex-col gap-2">
             {records.map((record) => (
               <li
                 key={record.id}
-                className="rounded-2xl border border-border bg-card p-4"
+                className="rounded-2xl bg-card shadow-card p-4"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">

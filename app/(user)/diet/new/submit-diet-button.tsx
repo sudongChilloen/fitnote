@@ -15,7 +15,7 @@ export function SubmitDietButton() {
     <button
       type="submit"
       disabled={pending}
-      className="mt-6 h-13 w-full rounded-xl bg-primary text-sm font-bold text-primary-foreground disabled:opacity-60"
+      className="mt-6 h-13 w-full rounded-xl bg-brand text-sm font-bold text-brand-foreground disabled:opacity-60"
     >
       {pending ? "남기는 중..." : "남기기"}
     </button>

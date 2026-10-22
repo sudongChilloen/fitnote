@@ -1,6 +1,7 @@
 import "server-only";
 
 import { prisma } from "@/lib/prisma";
+import { NotificationType } from "@/generated/prisma/enums";
 import {
   assertTrainerCanView,
   type SharingSetting,
@@ -166,13 +167,28 @@ export async function addDietFeedback(
     throw new DietError("NOT_FOUND", "식단 기록을 찾을 수 없어요.");
   }
 
-  return prisma.dietFeedback.create({
-    data: {
-      dietRecordId: diet.id,
-      trainerProfileId: trainer.id,
-      content: text,
-    },
-    select: { id: true },
+  return prisma.$transaction(async (tx) => {
+    const feedback = await tx.dietFeedback.create({
+      data: {
+        dietRecordId: diet.id,
+        trainerProfileId: trainer.id,
+        content: text,
+      },
+      select: { id: true },
+    });
+
+    await tx.notification.create({
+      data: {
+        userId: member.memberUserId,
+        type: NotificationType.GENERAL,
+        title: "식단 피드백이 도착했어요",
+        message: `${trainer.name} 트레이너가 식단에 피드백을 남겼어요.`,
+        relatedType: "DIET_RECORD",
+        relatedId: diet.id,
+      },
+    });
+
+    return feedback;
   });
 }
 

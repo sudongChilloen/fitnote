@@ -124,7 +124,7 @@ export default async function TrainerMemberDietPage({
             {detail.feedbacks.map((feedback) => (
               <li
                 key={feedback.id}
-                className="rounded-2xl border border-border bg-card p-4"
+                className="rounded-2xl bg-card shadow-card p-4"
               >
                 <div className="flex items-baseline justify-between gap-2">
                   <p className="text-xs font-bold text-brand-strong">
@@ -181,7 +181,7 @@ export default async function TrainerMemberDietPage({
             rows={3}
             maxLength={1000}
             placeholder="단백질 섭취량 좋아요. 저녁에는 채소를 조금 더 챙겨주세요."
-            className="w-full rounded-xl border border-border bg-card p-4 text-sm"
+            className="w-full rounded-2xl bg-card shadow-card p-4 text-sm"
           />
 
           <SubmitFeedbackButton />

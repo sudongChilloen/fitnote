@@ -52,7 +52,7 @@ export default async function WorkoutSummaryPage({
         </p>
       ) : null}
 
-      <section className="rounded-2xl border border-border bg-card p-5">
+      <section className="rounded-2xl bg-card shadow-card p-5">
         <dl className="grid grid-cols-3 gap-2 text-center">
           <div>
             <dt className="text-xs text-muted-foreground">시간</dt>
@@ -99,7 +99,7 @@ export default async function WorkoutSummaryPage({
           {summary.records.map((record) => (
             <li
               key={record.id}
-              className="rounded-2xl border border-border bg-card p-4"
+              className="rounded-2xl bg-card shadow-card p-4"
             >
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0">

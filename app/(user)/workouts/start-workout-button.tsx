@@ -55,19 +55,31 @@ export function StartWorkoutButton() {
 
   return (
     <>
-      <Button
-        size="lg"
-        className="h-14 w-full rounded-2xl text-base font-bold"
-        disabled={pending}
-        onClick={() => run("ask")}
-      >
-        {pending ? (
-          <Loader2 className="size-5 animate-spin" />
-        ) : (
-          <Play className="size-5 fill-current" />
-        )}
-        운동 시작하기
-      </Button>
+      <div className="rounded-3xl bg-brand p-5 text-brand-foreground shadow-card">
+        <p className="text-xs font-bold tracking-widest text-brand-foreground/80">
+          TODAY WORKOUT
+        </p>
+
+        <p className="mt-1.5 text-[1.75rem] leading-snug font-extrabold">
+          오늘 운동,
+          <br />
+          지금 시작해볼까요?
+        </p>
+
+        <Button
+          size="lg"
+          className="mt-5 h-14 w-full rounded-full bg-primary text-base font-bold text-primary-foreground hover:bg-primary/90"
+          disabled={pending}
+          onClick={() => run("ask")}
+        >
+          {pending ? (
+            <Loader2 className="size-5 animate-spin" />
+          ) : (
+            <Play className="size-5 fill-current" />
+          )}
+          운동 시작하기
+        </Button>
+      </div>
 
       {error ? (
         <p role="alert" className="mt-2 text-center text-sm text-destructive">

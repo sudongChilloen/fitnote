@@ -272,9 +272,9 @@ export type PTProductWhereInput = {
   status?: Prisma.EnumPTProductStatusFilter<"PTProduct"> | $Enums.PTProductStatus
   createdAt?: Prisma.DateTimeFilter<"PTProduct"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PTProduct"> | Date | string
+  contracts?: Prisma.PTContractListRelationFilter
   center?: Prisma.XOR<Prisma.CenterScalarRelationFilter, Prisma.CenterWhereInput>
   trainerPrices?: Prisma.TrainerPTPriceListRelationFilter
-  contracts?: Prisma.PTContractListRelationFilter
 }
 
 export type PTProductOrderByWithRelationInput = {
@@ -289,9 +289,9 @@ export type PTProductOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  contracts?: Prisma.PTContractOrderByRelationAggregateInput
   center?: Prisma.CenterOrderByWithRelationInput
   trainerPrices?: Prisma.TrainerPTPriceOrderByRelationAggregateInput
-  contracts?: Prisma.PTContractOrderByRelationAggregateInput
 }
 
 export type PTProductWhereUniqueInput = Prisma.AtLeast<{
@@ -309,9 +309,9 @@ export type PTProductWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumPTProductStatusFilter<"PTProduct"> | $Enums.PTProductStatus
   createdAt?: Prisma.DateTimeFilter<"PTProduct"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PTProduct"> | Date | string
+  contracts?: Prisma.PTContractListRelationFilter
   center?: Prisma.XOR<Prisma.CenterScalarRelationFilter, Prisma.CenterWhereInput>
   trainerPrices?: Prisma.TrainerPTPriceListRelationFilter
-  contracts?: Prisma.PTContractListRelationFilter
 }, "id">
 
 export type PTProductOrderByWithAggregationInput = {
@@ -361,9 +361,9 @@ export type PTProductCreateInput = {
   status?: $Enums.PTProductStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  contracts?: Prisma.PTContractCreateNestedManyWithoutProductInput
   center: Prisma.CenterCreateNestedOneWithoutPtProductsInput
   trainerPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutProductInput
-  contracts?: Prisma.PTContractCreateNestedManyWithoutProductInput
 }
 
 export type PTProductUncheckedCreateInput = {
@@ -378,8 +378,8 @@ export type PTProductUncheckedCreateInput = {
   status?: $Enums.PTProductStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  trainerPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutProductInput
   contracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutProductInput
+  trainerPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type PTProductUpdateInput = {
@@ -393,9 +393,9 @@ export type PTProductUpdateInput = {
   status?: Prisma.EnumPTProductStatusFieldUpdateOperationsInput | $Enums.PTProductStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contracts?: Prisma.PTContractUpdateManyWithoutProductNestedInput
   center?: Prisma.CenterUpdateOneRequiredWithoutPtProductsNestedInput
   trainerPrices?: Prisma.TrainerPTPriceUpdateManyWithoutProductNestedInput
-  contracts?: Prisma.PTContractUpdateManyWithoutProductNestedInput
 }
 
 export type PTProductUncheckedUpdateInput = {
@@ -410,8 +410,8 @@ export type PTProductUncheckedUpdateInput = {
   status?: Prisma.EnumPTProductStatusFieldUpdateOperationsInput | $Enums.PTProductStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  trainerPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutProductNestedInput
   contracts?: Prisma.PTContractUncheckedUpdateManyWithoutProductNestedInput
+  trainerPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type PTProductCreateManyInput = {
@@ -624,8 +624,8 @@ export type PTProductCreateWithoutCenterInput = {
   status?: $Enums.PTProductStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  trainerPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutProductInput
   contracts?: Prisma.PTContractCreateNestedManyWithoutProductInput
+  trainerPrices?: Prisma.TrainerPTPriceCreateNestedManyWithoutProductInput
 }
 
 export type PTProductUncheckedCreateWithoutCenterInput = {
@@ -639,8 +639,8 @@ export type PTProductUncheckedCreateWithoutCenterInput = {
   status?: $Enums.PTProductStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  trainerPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutProductInput
   contracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutProductInput
+  trainerPrices?: Prisma.TrainerPTPriceUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type PTProductCreateOrConnectWithoutCenterInput = {
@@ -697,8 +697,8 @@ export type PTProductCreateWithoutTrainerPricesInput = {
   status?: $Enums.PTProductStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  center: Prisma.CenterCreateNestedOneWithoutPtProductsInput
   contracts?: Prisma.PTContractCreateNestedManyWithoutProductInput
+  center: Prisma.CenterCreateNestedOneWithoutPtProductsInput
 }
 
 export type PTProductUncheckedCreateWithoutTrainerPricesInput = {
@@ -743,8 +743,8 @@ export type PTProductUpdateWithoutTrainerPricesInput = {
   status?: Prisma.EnumPTProductStatusFieldUpdateOperationsInput | $Enums.PTProductStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  center?: Prisma.CenterUpdateOneRequiredWithoutPtProductsNestedInput
   contracts?: Prisma.PTContractUpdateManyWithoutProductNestedInput
+  center?: Prisma.CenterUpdateOneRequiredWithoutPtProductsNestedInput
 }
 
 export type PTProductUncheckedUpdateWithoutTrainerPricesInput = {
@@ -862,8 +862,8 @@ export type PTProductUpdateWithoutCenterInput = {
   status?: Prisma.EnumPTProductStatusFieldUpdateOperationsInput | $Enums.PTProductStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  trainerPrices?: Prisma.TrainerPTPriceUpdateManyWithoutProductNestedInput
   contracts?: Prisma.PTContractUpdateManyWithoutProductNestedInput
+  trainerPrices?: Prisma.TrainerPTPriceUpdateManyWithoutProductNestedInput
 }
 
 export type PTProductUncheckedUpdateWithoutCenterInput = {
@@ -877,8 +877,8 @@ export type PTProductUncheckedUpdateWithoutCenterInput = {
   status?: Prisma.EnumPTProductStatusFieldUpdateOperationsInput | $Enums.PTProductStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  trainerPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutProductNestedInput
   contracts?: Prisma.PTContractUncheckedUpdateManyWithoutProductNestedInput
+  trainerPrices?: Prisma.TrainerPTPriceUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type PTProductUncheckedUpdateManyWithoutCenterInput = {
@@ -900,13 +900,13 @@ export type PTProductUncheckedUpdateManyWithoutCenterInput = {
  */
 
 export type PTProductCountOutputType = {
-  trainerPrices: number
   contracts: number
+  trainerPrices: number
 }
 
 export type PTProductCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  trainerPrices?: boolean | PTProductCountOutputTypeCountTrainerPricesArgs
   contracts?: boolean | PTProductCountOutputTypeCountContractsArgs
+  trainerPrices?: boolean | PTProductCountOutputTypeCountTrainerPricesArgs
 }
 
 /**
@@ -922,15 +922,15 @@ export type PTProductCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ex
 /**
  * PTProductCountOutputType without action
  */
-export type PTProductCountOutputTypeCountTrainerPricesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TrainerPTPriceWhereInput
+export type PTProductCountOutputTypeCountContractsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PTContractWhereInput
 }
 
 /**
  * PTProductCountOutputType without action
  */
-export type PTProductCountOutputTypeCountContractsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PTContractWhereInput
+export type PTProductCountOutputTypeCountTrainerPricesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TrainerPTPriceWhereInput
 }
 
 
@@ -946,9 +946,9 @@ export type PTProductSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  contracts?: boolean | Prisma.PTProduct$contractsArgs<ExtArgs>
   center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
   trainerPrices?: boolean | Prisma.PTProduct$trainerPricesArgs<ExtArgs>
-  contracts?: boolean | Prisma.PTProduct$contractsArgs<ExtArgs>
   _count?: boolean | Prisma.PTProductCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["pTProduct"]>
 
@@ -998,9 +998,9 @@ export type PTProductSelectScalar = {
 
 export type PTProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "centerId" | "name" | "description" | "basePrice" | "sessionCount" | "durationDays" | "isTrial" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["pTProduct"]>
 export type PTProductInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  contracts?: boolean | Prisma.PTProduct$contractsArgs<ExtArgs>
   center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
   trainerPrices?: boolean | Prisma.PTProduct$trainerPricesArgs<ExtArgs>
-  contracts?: boolean | Prisma.PTProduct$contractsArgs<ExtArgs>
   _count?: boolean | Prisma.PTProductCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PTProductIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1013,9 +1013,9 @@ export type PTProductIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
 export type $PTProductPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PTProduct"
   objects: {
+    contracts: Prisma.$PTContractPayload<ExtArgs>[]
     center: Prisma.$CenterPayload<ExtArgs>
     trainerPrices: Prisma.$TrainerPTPricePayload<ExtArgs>[]
-    contracts: Prisma.$PTContractPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1423,9 +1423,9 @@ readonly fields: PTProductFieldRefs;
  */
 export interface Prisma__PTProductClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  contracts<T extends Prisma.PTProduct$contractsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PTProduct$contractsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PTContractPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   center<T extends Prisma.CenterDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterDefaultArgs<ExtArgs>>): Prisma.Prisma__CenterClient<runtime.Types.Result.GetResult<Prisma.$CenterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   trainerPrices<T extends Prisma.PTProduct$trainerPricesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PTProduct$trainerPricesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrainerPTPricePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  contracts<T extends Prisma.PTProduct$contractsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PTProduct$contractsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PTContractPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1867,30 +1867,6 @@ export type PTProductDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
- * PTProduct.trainerPrices
- */
-export type PTProduct$trainerPricesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the TrainerPTPrice
-   */
-  select?: Prisma.TrainerPTPriceSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the TrainerPTPrice
-   */
-  omit?: Prisma.TrainerPTPriceOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TrainerPTPriceInclude<ExtArgs> | null
-  where?: Prisma.TrainerPTPriceWhereInput
-  orderBy?: Prisma.TrainerPTPriceOrderByWithRelationInput | Prisma.TrainerPTPriceOrderByWithRelationInput[]
-  cursor?: Prisma.TrainerPTPriceWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.TrainerPTPriceScalarFieldEnum | Prisma.TrainerPTPriceScalarFieldEnum[]
-}
-
-/**
  * PTProduct.contracts
  */
 export type PTProduct$contractsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1912,6 +1888,30 @@ export type PTProduct$contractsArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.PTContractScalarFieldEnum | Prisma.PTContractScalarFieldEnum[]
+}
+
+/**
+ * PTProduct.trainerPrices
+ */
+export type PTProduct$trainerPricesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TrainerPTPrice
+   */
+  select?: Prisma.TrainerPTPriceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TrainerPTPrice
+   */
+  omit?: Prisma.TrainerPTPriceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TrainerPTPriceInclude<ExtArgs> | null
+  where?: Prisma.TrainerPTPriceWhereInput
+  orderBy?: Prisma.TrainerPTPriceOrderByWithRelationInput | Prisma.TrainerPTPriceOrderByWithRelationInput[]
+  cursor?: Prisma.TrainerPTPriceWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TrainerPTPriceScalarFieldEnum | Prisma.TrainerPTPriceScalarFieldEnum[]
 }
 
 /**

@@ -232,8 +232,8 @@ export type GymEquipmentWhereInput = {
   quantity?: Prisma.IntFilter<"GymEquipment"> | number
   createdAt?: Prisma.DateTimeFilter<"GymEquipment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"GymEquipment"> | Date | string
-  gym?: Prisma.XOR<Prisma.GymScalarRelationFilter, Prisma.GymWhereInput>
   equipment?: Prisma.XOR<Prisma.EquipmentScalarRelationFilter, Prisma.EquipmentWhereInput>
+  gym?: Prisma.XOR<Prisma.GymScalarRelationFilter, Prisma.GymWhereInput>
 }
 
 export type GymEquipmentOrderByWithRelationInput = {
@@ -244,8 +244,8 @@ export type GymEquipmentOrderByWithRelationInput = {
   quantity?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  gym?: Prisma.GymOrderByWithRelationInput
   equipment?: Prisma.EquipmentOrderByWithRelationInput
+  gym?: Prisma.GymOrderByWithRelationInput
 }
 
 export type GymEquipmentWhereUniqueInput = Prisma.AtLeast<{
@@ -260,8 +260,8 @@ export type GymEquipmentWhereUniqueInput = Prisma.AtLeast<{
   quantity?: Prisma.IntFilter<"GymEquipment"> | number
   createdAt?: Prisma.DateTimeFilter<"GymEquipment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"GymEquipment"> | Date | string
-  gym?: Prisma.XOR<Prisma.GymScalarRelationFilter, Prisma.GymWhereInput>
   equipment?: Prisma.XOR<Prisma.EquipmentScalarRelationFilter, Prisma.EquipmentWhereInput>
+  gym?: Prisma.XOR<Prisma.GymScalarRelationFilter, Prisma.GymWhereInput>
 }, "id" | "gymId_equipmentId">
 
 export type GymEquipmentOrderByWithAggregationInput = {
@@ -298,8 +298,8 @@ export type GymEquipmentCreateInput = {
   quantity?: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  gym: Prisma.GymCreateNestedOneWithoutEquipmentInput
   equipment: Prisma.EquipmentCreateNestedOneWithoutGymEquipmentInput
+  gym: Prisma.GymCreateNestedOneWithoutEquipmentInput
 }
 
 export type GymEquipmentUncheckedCreateInput = {
@@ -318,8 +318,8 @@ export type GymEquipmentUpdateInput = {
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  gym?: Prisma.GymUpdateOneRequiredWithoutEquipmentNestedInput
   equipment?: Prisma.EquipmentUpdateOneRequiredWithoutGymEquipmentNestedInput
+  gym?: Prisma.GymUpdateOneRequiredWithoutEquipmentNestedInput
 }
 
 export type GymEquipmentUncheckedUpdateInput = {
@@ -680,8 +680,8 @@ export type GymEquipmentSelect<ExtArgs extends runtime.Types.Extensions.Internal
   quantity?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  gym?: boolean | Prisma.GymDefaultArgs<ExtArgs>
   equipment?: boolean | Prisma.EquipmentDefaultArgs<ExtArgs>
+  gym?: boolean | Prisma.GymDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["gymEquipment"]>
 
 export type GymEquipmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -692,8 +692,8 @@ export type GymEquipmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   quantity?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  gym?: boolean | Prisma.GymDefaultArgs<ExtArgs>
   equipment?: boolean | Prisma.EquipmentDefaultArgs<ExtArgs>
+  gym?: boolean | Prisma.GymDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["gymEquipment"]>
 
 export type GymEquipmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -704,8 +704,8 @@ export type GymEquipmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   quantity?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  gym?: boolean | Prisma.GymDefaultArgs<ExtArgs>
   equipment?: boolean | Prisma.EquipmentDefaultArgs<ExtArgs>
+  gym?: boolean | Prisma.GymDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["gymEquipment"]>
 
 export type GymEquipmentSelectScalar = {
@@ -720,23 +720,23 @@ export type GymEquipmentSelectScalar = {
 
 export type GymEquipmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "gymId" | "equipmentId" | "available" | "quantity" | "createdAt" | "updatedAt", ExtArgs["result"]["gymEquipment"]>
 export type GymEquipmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  gym?: boolean | Prisma.GymDefaultArgs<ExtArgs>
   equipment?: boolean | Prisma.EquipmentDefaultArgs<ExtArgs>
+  gym?: boolean | Prisma.GymDefaultArgs<ExtArgs>
 }
 export type GymEquipmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  gym?: boolean | Prisma.GymDefaultArgs<ExtArgs>
   equipment?: boolean | Prisma.EquipmentDefaultArgs<ExtArgs>
+  gym?: boolean | Prisma.GymDefaultArgs<ExtArgs>
 }
 export type GymEquipmentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  gym?: boolean | Prisma.GymDefaultArgs<ExtArgs>
   equipment?: boolean | Prisma.EquipmentDefaultArgs<ExtArgs>
+  gym?: boolean | Prisma.GymDefaultArgs<ExtArgs>
 }
 
 export type $GymEquipmentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "GymEquipment"
   objects: {
-    gym: Prisma.$GymPayload<ExtArgs>
     equipment: Prisma.$EquipmentPayload<ExtArgs>
+    gym: Prisma.$GymPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1140,8 +1140,8 @@ readonly fields: GymEquipmentFieldRefs;
  */
 export interface Prisma__GymEquipmentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  gym<T extends Prisma.GymDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GymDefaultArgs<ExtArgs>>): Prisma.Prisma__GymClient<runtime.Types.Result.GetResult<Prisma.$GymPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   equipment<T extends Prisma.EquipmentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EquipmentDefaultArgs<ExtArgs>>): Prisma.Prisma__EquipmentClient<runtime.Types.Result.GetResult<Prisma.$EquipmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  gym<T extends Prisma.GymDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GymDefaultArgs<ExtArgs>>): Prisma.Prisma__GymClient<runtime.Types.Result.GetResult<Prisma.$GymPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

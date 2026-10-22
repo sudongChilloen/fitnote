@@ -34,6 +34,8 @@ export async function postComment(
     await addJournalComment(user.id, journalId, content);
     revalidatePath(`/journal/${journalId}`);
     revalidatePath("/journal");
+    revalidatePath(`/trainer/journals/${journalId}`);
+    revalidatePath("/trainer");
     return { error: null, token: randomUUID() };
   } catch (error) {
     if (error instanceof JournalError) {

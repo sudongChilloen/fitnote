@@ -34,7 +34,7 @@ export function JoinCenterForm() {
         <button
           type="submit"
           disabled={pending}
-          className="h-12 shrink-0 rounded-xl bg-primary px-5 font-bold text-primary-foreground disabled:opacity-50"
+          className="h-12 shrink-0 rounded-xl bg-brand px-5 font-bold text-brand-foreground disabled:opacity-50"
         >
           {pending ? "확인 중" : "연결"}
         </button>

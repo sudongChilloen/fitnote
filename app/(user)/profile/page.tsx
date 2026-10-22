@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import {
   ArrowLeftRight,
+  CalendarClock,
   ShieldCheck,
   Sparkles,
   TrendingUp,
@@ -45,14 +46,14 @@ export default async function ProfilePage() {
 
   return (
     <main className="mx-auto w-full max-w-md px-5 pt-6 pb-28">
-      <h1 className="text-xl font-bold">내 정보</h1>
+      <h1 className="text-2xl font-bold tracking-tight">내 정보</h1>
 
-      <section className="mt-4 rounded-2xl border border-border bg-card p-5">
+      <section className="mt-4 rounded-2xl bg-card shadow-card p-5">
         <p className="text-lg font-bold">{user.name}</p>
         <p className="mt-0.5 text-sm text-muted-foreground">{user.email}</p>
       </section>
 
-      <section className="mt-4 rounded-2xl border border-border bg-card p-5">
+      <section className="mt-4 rounded-2xl bg-card shadow-card p-5">
         <h2 className="text-sm font-bold">담당 트레이너</h2>
 
         {trainers.length === 0 ? (
@@ -99,7 +100,26 @@ export default async function ProfilePage() {
         </div>
       </section>
 
-      <section className="mt-4 rounded-2xl border border-border bg-card p-5">
+      {/*
+        홈의 "내 PT" 링크는 다음 수업이 있을 때만 보인다. 계약은 있는데 아직
+        일정이 안 잡힌 회원에게는 그 문이 없어서, 여기에도 낸다.
+      */}
+      <section className="mt-4 rounded-2xl bg-card shadow-card p-5">
+        <h2 className="text-sm font-bold">내 PT</h2>
+        <p className="mt-1 mb-2 text-xs text-muted-foreground">
+          남은 횟수와 지난 회차를 봐요. 안 간 수업이 횟수에서 빠졌는지도 여기서
+          확인할 수 있어요.
+        </p>
+        <Link
+          href="/sessions"
+          className="inline-flex h-11 items-center gap-1.5 rounded-xl border border-border px-4 text-sm font-bold"
+        >
+          <CalendarClock className="size-4" aria-hidden />
+          PT 횟수 · 회차
+        </Link>
+      </section>
+
+      <section className="mt-4 rounded-2xl bg-card shadow-card p-5">
         <h2 className="text-sm font-bold">내 몸</h2>
         <p className="mt-1 mb-2 text-xs text-muted-foreground">
           체중 · 체지방률 · 골격근량을 남기고 목표까지 얼마나 왔는지 봐요.
@@ -113,7 +133,7 @@ export default async function ProfilePage() {
         </Link>
       </section>
 
-      <section className="mt-4 rounded-2xl border border-border bg-card p-5">
+      <section className="mt-4 rounded-2xl bg-card shadow-card p-5">
         <h2 className="text-sm font-bold">트레이너 화면</h2>
 
         {trainerProfile ? (
@@ -123,7 +143,7 @@ export default async function ProfilePage() {
             </p>
             <Link
               href="/trainer"
-              className="inline-flex h-11 items-center gap-1.5 rounded-xl bg-primary px-4 text-sm font-bold text-primary-foreground"
+              className="inline-flex h-11 items-center gap-1.5 rounded-xl bg-brand px-4 text-sm font-bold text-brand-foreground"
             >
               <ArrowLeftRight className="size-4" aria-hidden />
               트레이너 화면으로

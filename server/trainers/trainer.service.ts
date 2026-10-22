@@ -3,6 +3,8 @@ import "server-only";
 import {
   ConnectionStatus,
   JournalStatus,
+  MembershipRole,
+  MembershipStatus,
   PTContractStatus,
   PTSessionStatus,
 } from "@/generated/prisma/enums";
@@ -49,6 +51,42 @@ export async function requireTrainerProfile(userId: string) {
 }
 
 /**
+ * 현재 로그인한 트레이너가 실제로 소속되어 있는 활성 센터 목록.
+ *
+ * PT 계약 생성 시 센터를 선택할 수 있게 하는 화면에서 사용한다.
+ * 회원의 센터 소속이 아니라 "계약을 만드는 트레이너 본인"의 소속을 기준으로
+ * 해야 하므로 trainer.service에 둔다.
+ */
+export async function getActiveMemberships(userId: string) {
+  const memberships = await prisma.centerMembership.findMany({
+    where: {
+      userId,
+      status: MembershipStatus.ACTIVE,
+      role: {
+        in: [MembershipRole.TRAINER, MembershipRole.CENTER_ADMIN],
+      },
+    },
+    orderBy: {
+      center: { name: "asc" },
+    },
+    select: {
+      centerId: true,
+      center: {
+        select: {
+          id: true,
+          name: true,
+          status: true,
+        },
+      },
+    },
+  });
+
+  return memberships.filter(
+    (membership) => membership.center.status === "ACTIVE",
+  );
+}
+
+/**
  * 이 회원이 내 담당인지 확인한다.
  *
  * 트레이너 화면의 회원 식별자는 회원의 userId 가 아니라 연결의 id 다. 연결에는
@@ -69,7 +107,7 @@ export async function requireMyMember(
       id: true,
       startedAt: true,
       memberUserId: true,
-      memberUser: { select: { id: true, name: true } },
+      memberUser: { select: { id: true, name: true, status: true } },
     },
   });
 
@@ -99,7 +137,7 @@ export async function requireMyMemberByUserId(
       status: true,
       startedAt: true,
       memberUserId: true,
-      memberUser: { select: { id: true, name: true } },
+      memberUser: { select: { id: true, name: true, status: true } },
     },
   });
 
@@ -110,21 +148,51 @@ export async function requireMyMemberByUserId(
   return connection;
 }
 
+export type TrainerManagementStatus = "normal" | "attention" | "urgent";
+
+export type TrainerManagementEventType =
+  | "MEMBER_PENDING"
+  | "SESSION_JOURNAL"
+  | "JOURNAL_REPLY"
+  | "CONTRACT_EXPIRING";
+
+export interface TrainerManagementEvent {
+  type: TrainerManagementEventType;
+  status: TrainerManagementStatus;
+  reason: string;
+  href: string;
+}
+
 export interface TrainerMemberRow {
   /** 트레이너 화면의 회원 식별자. 연결의 id 다. */
   connectionId: string;
   userId: string;
   name: string;
-  /** 오늘 잡힌 PT 수업. 없으면 null. */
-  todaySession: {
+  /**
+   * 트레이너가 대신 만들어 둔, 아직 본인이 이어받지 않은 회원.
+   *
+   * 트레이너에게 이걸 알려 줘야 하는 이유는, 이 회원에게 쓴 알림장은 아무도
+   * 읽지 않기 때문이다. 답이 없는 게 무시당한 게 아니라 계정이 없어서라는 걸
+   * 모르면 트레이너는 엉뚱한 오해를 한다.
+   */
+  pending: boolean;
+  /** 오늘 잡힌 PT 수업들. 없으면 빈 배열. */
+  todaySessions: {
     id: string;
+    sessionNumber: number;
     scheduledAt: Date;
     status: string;
     /** 이 수업의 알림장. 아직 없으면 null. */
     journal: { id: string; status: JournalStatus } | null;
-  } | null;
+  }[];
   /** 마지막 댓글이 회원 것이라 답을 기다리는 알림장. */
-  awaitingReply: { journalId: string; date: Date; count: number }[];
+  awaitingReply: {
+    journalId: string;
+    date: Date;
+    title: string | null;
+    content: string;
+    count: number;
+  }[];
   lastJournalAt: Date | null;
   /**
    * 지금 진행 중인 PT 계약. 없으면 null.
@@ -141,6 +209,11 @@ export interface TrainerMemberRow {
     /** 만료까지 남은 날. 만료일이 없으면 null. 오늘이면 0. */
     daysLeft: number | null;
   } | null;
+
+  /** 트레이너가 지금 확인해야 하는 관리 상태 */
+  managementStatus: TrainerManagementStatus;
+  /** 관리 상태의 구체적인 이유 */
+  managementEvents: TrainerManagementEvent[];
 }
 
 /**
@@ -161,6 +234,89 @@ export function memberContractGroup(row: TrainerMemberRow) {
   const byDate = row.contract.daysLeft !== null && row.contract.daysLeft <= 14;
 
   return byCount || byDate ? ("soon" as const) : ("pt" as const);
+}
+
+/**
+ * 회원의 현재 관리 우선순위를 실제 관리 이벤트에서 계산한다.
+ *
+ * 건강 상태를 판단하지 않고, 트레이너가 실제로 처리해야 할 업무만 대상으로 한다.
+ * 운동/식단 기록이 없다는 이유만으로 즉시 확인 상태를 만들지 않는다.
+ */
+function getManagementEvents(
+  row: Omit<TrainerMemberRow, "managementStatus" | "managementEvents">,
+): TrainerManagementEvent[] {
+  const events: TrainerManagementEvent[] = [];
+
+  if (row.pending) {
+    events.push({
+      type: "MEMBER_PENDING",
+      status: "attention",
+      reason: "회원 가입 대기",
+      href: `/trainer/members/${row.connectionId}`,
+    });
+  }
+
+  if (
+    row.todaySessions.some(
+      (session) =>
+        session.journal === null ||
+        session.journal.status !== JournalStatus.PUBLISHED,
+    )
+  ) {
+    events.push({
+      type: "SESSION_JOURNAL",
+      status: "attention",
+      reason: "오늘 수업 기록 필요",
+      href: `/trainer/members/${row.connectionId}`,
+    });
+  }
+
+  if (row.awaitingReply.length > 0) {
+    const firstAwaitingReply = row.awaitingReply[0];
+
+    const content = String(firstAwaitingReply.content ?? "")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    const preview =
+      content.length > 36
+        ? `${content.slice(0, 36)}…`
+        : content || "알림장 답변 대기";
+
+    events.push({
+      type: "JOURNAL_REPLY",
+      status: "attention",
+      reason: preview,
+      href: `/trainer/journals/${firstAwaitingReply.journalId}`,
+    });
+  }
+
+  if (row.contract) {
+    const remainingSoon = row.contract.remaining <= 3;
+    const expirySoon =
+      row.contract.daysLeft !== null && row.contract.daysLeft <= 14;
+
+    if (remainingSoon || expirySoon) {
+      let reason = "PT 계약 마감 임박";
+
+      if (remainingSoon && expirySoon) {
+        reason = `PT ${row.contract.remaining}회 / ${row.contract.daysLeft}일 남음`;
+      } else if (remainingSoon) {
+        reason = `PT ${row.contract.remaining}회 남음`;
+      } else if (expirySoon) {
+        reason = `PT 계약 ${row.contract.daysLeft}일 남음`;
+      }
+
+      events.push({
+        type: "CONTRACT_EXPIRING",
+        status: "attention",
+        reason,
+        href: `/trainer/members/${row.connectionId}/contracts`,
+      });
+    }
+  }
+
+  return events;
 }
 
 export interface TrainerHome {
@@ -193,7 +349,7 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
       select: {
         id: true,
         memberUserId: true,
-        memberUser: { select: { id: true, name: true } },
+        memberUser: { select: { id: true, name: true, status: true } },
       },
     }),
 
@@ -205,6 +361,7 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
       orderBy: { scheduledAt: "asc" },
       select: {
         id: true,
+        sessionNumber: true,
         scheduledAt: true,
         status: true,
         memberUserId: true,
@@ -228,11 +385,20 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
       select: {
         id: true,
         date: true,
+        title: true,
         status: true,
         memberUserId: true,
         comments: {
+          where: {
+            deletedAt: null,
+          },
           orderBy: { createdAt: "desc" },
-          select: { id: true, createdAt: true, authorUserId: true },
+          select: {
+            id: true,
+            createdAt: true,
+            authorUserId: true,
+            content: true,
+          },
         },
       },
     }),
@@ -288,12 +454,16 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
     }
   }
 
-  const sessionByMember = new Map(
-    todaySessions.map((session) => [session.memberUserId, session]),
-  );
+  const sessionsByMember = new Map<string, (typeof todaySessions)[number][]>();
+
+  for (const session of todaySessions) {
+    const sessions = sessionsByMember.get(session.memberUserId) ?? [];
+    sessions.push(session);
+    sessionsByMember.set(session.memberUserId, sessions);
+  }
 
   const rows: TrainerMemberRow[] = connections.map((connection) => {
-    const session = sessionByMember.get(connection.memberUserId) ?? null;
+    const sessions = sessionsByMember.get(connection.memberUserId) ?? [];
     const mine = journals.filter(
       (j) => j.memberUserId === connection.memberUserId,
     );
@@ -305,28 +475,40 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
         const [latest] = journal.comments;
         if (!latest || latest.authorUserId === trainer.userId) return null;
 
+        const mine = journal.comments.find(
+          (comment) => comment.authorUserId === trainer.userId,
+        );
+
         const count = journal.comments.filter(
-          (c) => c.authorUserId !== trainer.userId,
+          (comment) =>
+            comment.authorUserId !== trainer.userId &&
+            (!mine || comment.createdAt > mine.createdAt),
         ).length;
 
-        return { journalId: journal.id, date: journal.date, count };
+        return {
+          journalId: journal.id,
+          date: journal.date,
+          title: journal.title,
+          content: String(latest.content ?? ""),
+          count,
+        };
       })
       .filter((value): value is NonNullable<typeof value> => value !== null);
 
     const published = mine.filter((j) => j.status === JournalStatus.PUBLISHED);
 
-    return {
+    const baseRow = {
       connectionId: connection.id,
       userId: connection.memberUser.id,
       name: connection.memberUser.name,
-      todaySession: session
-        ? {
-            id: session.id,
-            scheduledAt: session.scheduledAt,
-            status: session.status,
-            journal: session.journals[0] ?? null,
-          }
-        : null,
+      pending: connection.memberUser.status === "PENDING",
+      todaySessions: sessions.map((session) => ({
+        id: session.id,
+        sessionNumber: session.sessionNumber,
+        scheduledAt: session.scheduledAt,
+        status: session.status,
+        journal: session.journals[0] ?? null,
+      })),
       awaitingReply,
       lastJournalAt: published[0]?.date ?? null,
       contract: (() => {
@@ -351,27 +533,63 @@ export async function getTrainerHome(userId: string): Promise<TrainerHome> {
         };
       })(),
     };
+
+    const managementEvents = getManagementEvents(baseRow);
+
+    const managementStatus: TrainerManagementStatus = managementEvents.some(
+      (event) => event.status === "urgent",
+    )
+      ? "urgent"
+      : managementEvents.some((event) => event.status === "attention")
+        ? "attention"
+        : "normal";
+
+    return {
+      ...baseRow,
+      managementStatus,
+      managementEvents,
+    };
   });
 
-  const pendingJournalCount = rows.filter(
-    (row) =>
-      row.todaySession !== null &&
-      (row.todaySession.journal === null ||
-        row.todaySession.journal.status !== JournalStatus.PUBLISHED),
-  ).length;
+  const pendingJournalCount = rows.reduce(
+    (count, row) =>
+      count +
+      row.todaySessions.filter(
+        (session) =>
+          session.journal === null ||
+          session.journal.status !== JournalStatus.PUBLISHED,
+      ).length,
+    0,
+  );
 
-  // 할 일이 있는 회원을 위로. 오늘 수업 > 답장 대기 > 이름순.
+  // 관리가 필요한 회원을 위로. 즉시 확인 > 확인 필요 > 정상.
+  // 같은 상태에서는 오늘 수업 > 답장 대기 > 이름순.
   rows.sort((a, b) => {
+    const statusScore = {
+      urgent: 3,
+      attention: 2,
+      normal: 1,
+    } as const;
+
+    const statusDiff =
+      statusScore[b.managementStatus] - statusScore[a.managementStatus];
+
+    if (statusDiff !== 0) return statusDiff;
+
     const score = (row: TrainerMemberRow) =>
-      (row.todaySession ? 2 : 0) + (row.awaitingReply.length > 0 ? 1 : 0);
+      (row.todaySessions.length > 0 ? 2 : 0) +
+      (row.awaitingReply.length > 0 ? 1 : 0);
 
     const diff = score(b) - score(a);
     if (diff !== 0) return diff;
 
-    if (a.todaySession && b.todaySession) {
+    const aFirstSession = a.todaySessions[0];
+    const bFirstSession = b.todaySessions[0];
+
+    if (aFirstSession && bFirstSession) {
       const gap =
-        a.todaySession.scheduledAt.getTime() -
-        b.todaySession.scheduledAt.getTime();
+        aFirstSession.scheduledAt.getTime() -
+        bFirstSession.scheduledAt.getTime();
       if (gap !== 0) return gap;
     }
 
@@ -393,6 +611,8 @@ export interface TrainerMemberDetail {
   connectionId: string;
   userId: string;
   name: string;
+  /** 아직 본인이 계정을 이어받지 않은 회원. */
+  pending: boolean;
   /** 이 트레이너가 이 회원을 봐 주기 시작한 날. */
   startedAt: Date;
   /** 오늘 이후 잡힌 수업. */
@@ -412,6 +632,18 @@ export interface TrainerMemberDetail {
     commentCount: number;
     awaitingReply: boolean;
   }[];
+  recentSessions: {
+    id: string;
+    scheduledAt: Date;
+    sessionNumber: number;
+    status: PTSessionStatus;
+    deducted: boolean;
+    workoutSessionId: string | null;
+    journalId: string | null;
+    journalStatus: JournalStatus | null;
+    exerciseCount: number;
+    setCount: number;
+  }[];
 }
 
 /**
@@ -429,12 +661,15 @@ export async function getMemberDetail(
 
   const todayStart = kstStartOfDay();
 
-  const [upcoming, journals] = await Promise.all([
+  const [upcoming, recentSessions, journals] = await Promise.all([
+    /*
+     * 앞으로 잡힌 수업.
+     */
     prisma.pTSession.findMany({
       where: {
         memberUserId: connection.memberUserId,
         trainerProfileId: trainer.id,
-        status: "SCHEDULED",
+        status: PTSessionStatus.SCHEDULED,
         scheduledAt: { gte: todayStart },
       },
       orderBy: { scheduledAt: "asc" },
@@ -447,11 +682,68 @@ export async function getMemberDetail(
         journals: {
           orderBy: { createdAt: "desc" },
           take: 1,
-          select: { id: true },
+          select: {
+            id: true,
+          },
         },
       },
     }),
 
+    /*
+     * 최근 완료된 PT 수업.
+     *
+     * 회원 상세에서 "최근에 어떤 수업을 했는지" 빠르게 보여주기 위한 데이터다.
+     * 상세한 운동 세트는 /trainer/sessions/[id] 에서 본다.
+     */
+    prisma.pTSession.findMany({
+      where: {
+        memberUserId: connection.memberUserId,
+        trainerProfileId: trainer.id,
+        status: PTSessionStatus.COMPLETED,
+      },
+      orderBy: {
+        scheduledAt: "desc",
+      },
+      take: 5,
+      select: {
+        id: true,
+        scheduledAt: true,
+        sessionNumber: true,
+        status: true,
+        deducted: true,
+        workoutSession: {
+          select: {
+            id: true,
+            _count: {
+              select: {
+                records: true,
+              },
+            },
+            records: {
+              select: {
+                _count: {
+                  select: {
+                    sets: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        journals: {
+          orderBy: { createdAt: "desc" },
+          take: 1,
+          select: {
+            id: true,
+            status: true,
+          },
+        },
+      },
+    }),
+
+    /*
+     * 알림장.
+     */
     prisma.journal.findMany({
       where: {
         memberUserId: connection.memberUserId,
@@ -466,7 +758,10 @@ export async function getMemberDetail(
         status: true,
         comments: {
           orderBy: { createdAt: "desc" },
-          select: { id: true, authorUserId: true },
+          select: {
+            id: true,
+            authorUserId: true,
+          },
         },
       },
     }),
@@ -477,7 +772,9 @@ export async function getMemberDetail(
     connectionId: connection.id,
     userId: connection.memberUser.id,
     name: connection.memberUser.name,
+    pending: connection.memberUser.status === "PENDING",
     startedAt: connection.startedAt,
+
     upcomingSessions: upcoming.map((session) => ({
       id: session.id,
       scheduledAt: session.scheduledAt,
@@ -485,6 +782,24 @@ export async function getMemberDetail(
       status: session.status,
       journalId: session.journals[0]?.id ?? null,
     })),
+
+    recentSessions: recentSessions.map((session) => ({
+      id: session.id,
+      scheduledAt: session.scheduledAt,
+      sessionNumber: session.sessionNumber,
+      status: session.status,
+      deducted: session.deducted,
+      workoutSessionId: session.workoutSession?.id ?? null,
+      journalId: session.journals[0]?.id ?? null,
+      journalStatus: session.journals[0]?.status ?? null,
+      exerciseCount: session.workoutSession?._count.records ?? 0,
+      setCount:
+        session.workoutSession?.records.reduce(
+          (total, record) => total + record._count.sets,
+          0,
+        ) ?? 0,
+    })),
+
     journals: journals.map((journal) => {
       const [latest] = journal.comments;
 

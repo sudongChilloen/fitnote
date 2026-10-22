@@ -19,7 +19,8 @@ export default async function proxy(request: NextRequest) {
   }
 
   if (session && (path === "/login" || path === "/signup")) {
-    return NextResponse.redirect(new URL("/home", request.nextUrl));
+    // 역할별 첫 화면은 루트가 DB 를 보고 정한다. 여기서는 /home 으로 못 박지 않는다.
+    return NextResponse.redirect(new URL("/", request.nextUrl));
   }
 
   return NextResponse.next();

@@ -30,9 +30,9 @@ export type CenterMembershipMinAggregateOutputType = {
   userId: string | null
   role: $Enums.MembershipRole | null
   status: $Enums.MembershipStatus | null
-  joinedViaInvitationId: string | null
   joinedAt: Date | null
   leftAt: Date | null
+  joinedViaInvitationId: string | null
 }
 
 export type CenterMembershipMaxAggregateOutputType = {
@@ -41,9 +41,9 @@ export type CenterMembershipMaxAggregateOutputType = {
   userId: string | null
   role: $Enums.MembershipRole | null
   status: $Enums.MembershipStatus | null
-  joinedViaInvitationId: string | null
   joinedAt: Date | null
   leftAt: Date | null
+  joinedViaInvitationId: string | null
 }
 
 export type CenterMembershipCountAggregateOutputType = {
@@ -52,9 +52,9 @@ export type CenterMembershipCountAggregateOutputType = {
   userId: number
   role: number
   status: number
-  joinedViaInvitationId: number
   joinedAt: number
   leftAt: number
+  joinedViaInvitationId: number
   _all: number
 }
 
@@ -65,9 +65,9 @@ export type CenterMembershipMinAggregateInputType = {
   userId?: true
   role?: true
   status?: true
-  joinedViaInvitationId?: true
   joinedAt?: true
   leftAt?: true
+  joinedViaInvitationId?: true
 }
 
 export type CenterMembershipMaxAggregateInputType = {
@@ -76,9 +76,9 @@ export type CenterMembershipMaxAggregateInputType = {
   userId?: true
   role?: true
   status?: true
-  joinedViaInvitationId?: true
   joinedAt?: true
   leftAt?: true
+  joinedViaInvitationId?: true
 }
 
 export type CenterMembershipCountAggregateInputType = {
@@ -87,9 +87,9 @@ export type CenterMembershipCountAggregateInputType = {
   userId?: true
   role?: true
   status?: true
-  joinedViaInvitationId?: true
   joinedAt?: true
   leftAt?: true
+  joinedViaInvitationId?: true
   _all?: true
 }
 
@@ -171,9 +171,9 @@ export type CenterMembershipGroupByOutputType = {
   userId: string
   role: $Enums.MembershipRole
   status: $Enums.MembershipStatus
-  joinedViaInvitationId: string | null
   joinedAt: Date
   leftAt: Date | null
+  joinedViaInvitationId: string | null
   _count: CenterMembershipCountAggregateOutputType | null
   _min: CenterMembershipMinAggregateOutputType | null
   _max: CenterMembershipMaxAggregateOutputType | null
@@ -203,13 +203,13 @@ export type CenterMembershipWhereInput = {
   userId?: Prisma.StringFilter<"CenterMembership"> | string
   role?: Prisma.EnumMembershipRoleFilter<"CenterMembership"> | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFilter<"CenterMembership"> | $Enums.MembershipStatus
-  joinedViaInvitationId?: Prisma.StringNullableFilter<"CenterMembership"> | string | null
   joinedAt?: Prisma.DateTimeFilter<"CenterMembership"> | Date | string
   leftAt?: Prisma.DateTimeNullableFilter<"CenterMembership"> | Date | string | null
-  center?: Prisma.XOR<Prisma.CenterScalarRelationFilter, Prisma.CenterWhereInput>
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  joinedViaInvitationId?: Prisma.StringNullableFilter<"CenterMembership"> | string | null
   createdInvitations?: Prisma.CenterInvitationListRelationFilter
+  center?: Prisma.XOR<Prisma.CenterScalarRelationFilter, Prisma.CenterWhereInput>
   joinedViaInvitation?: Prisma.XOR<Prisma.CenterInvitationNullableScalarRelationFilter, Prisma.CenterInvitationWhereInput> | null
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   authoredNotices?: Prisma.NoticeListRelationFilter
   noticeReads?: Prisma.NoticeReadListRelationFilter
 }
@@ -220,13 +220,13 @@ export type CenterMembershipOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  joinedViaInvitationId?: Prisma.SortOrderInput | Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   leftAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  center?: Prisma.CenterOrderByWithRelationInput
-  user?: Prisma.UserOrderByWithRelationInput
+  joinedViaInvitationId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdInvitations?: Prisma.CenterInvitationOrderByRelationAggregateInput
+  center?: Prisma.CenterOrderByWithRelationInput
   joinedViaInvitation?: Prisma.CenterInvitationOrderByWithRelationInput
+  user?: Prisma.UserOrderByWithRelationInput
   authoredNotices?: Prisma.NoticeOrderByRelationAggregateInput
   noticeReads?: Prisma.NoticeReadOrderByRelationAggregateInput
 }
@@ -241,13 +241,13 @@ export type CenterMembershipWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"CenterMembership"> | string
   role?: Prisma.EnumMembershipRoleFilter<"CenterMembership"> | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFilter<"CenterMembership"> | $Enums.MembershipStatus
-  joinedViaInvitationId?: Prisma.StringNullableFilter<"CenterMembership"> | string | null
   joinedAt?: Prisma.DateTimeFilter<"CenterMembership"> | Date | string
   leftAt?: Prisma.DateTimeNullableFilter<"CenterMembership"> | Date | string | null
-  center?: Prisma.XOR<Prisma.CenterScalarRelationFilter, Prisma.CenterWhereInput>
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  joinedViaInvitationId?: Prisma.StringNullableFilter<"CenterMembership"> | string | null
   createdInvitations?: Prisma.CenterInvitationListRelationFilter
+  center?: Prisma.XOR<Prisma.CenterScalarRelationFilter, Prisma.CenterWhereInput>
   joinedViaInvitation?: Prisma.XOR<Prisma.CenterInvitationNullableScalarRelationFilter, Prisma.CenterInvitationWhereInput> | null
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   authoredNotices?: Prisma.NoticeListRelationFilter
   noticeReads?: Prisma.NoticeReadListRelationFilter
 }, "id" | "centerId_userId">
@@ -258,9 +258,9 @@ export type CenterMembershipOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  joinedViaInvitationId?: Prisma.SortOrderInput | Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   leftAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  joinedViaInvitationId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.CenterMembershipCountOrderByAggregateInput
   _max?: Prisma.CenterMembershipMaxOrderByAggregateInput
   _min?: Prisma.CenterMembershipMinOrderByAggregateInput
@@ -275,9 +275,9 @@ export type CenterMembershipScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"CenterMembership"> | string
   role?: Prisma.EnumMembershipRoleWithAggregatesFilter<"CenterMembership"> | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusWithAggregatesFilter<"CenterMembership"> | $Enums.MembershipStatus
-  joinedViaInvitationId?: Prisma.StringNullableWithAggregatesFilter<"CenterMembership"> | string | null
   joinedAt?: Prisma.DateTimeWithAggregatesFilter<"CenterMembership"> | Date | string
   leftAt?: Prisma.DateTimeNullableWithAggregatesFilter<"CenterMembership"> | Date | string | null
+  joinedViaInvitationId?: Prisma.StringNullableWithAggregatesFilter<"CenterMembership"> | string | null
 }
 
 export type CenterMembershipCreateInput = {
@@ -286,10 +286,10 @@ export type CenterMembershipCreateInput = {
   status?: $Enums.MembershipStatus
   joinedAt?: Date | string
   leftAt?: Date | string | null
-  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
-  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
   createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
+  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
   joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
+  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
   authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
   noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
 }
@@ -300,9 +300,9 @@ export type CenterMembershipUncheckedCreateInput = {
   userId: string
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
-  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
+  joinedViaInvitationId?: string | null
   createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
   authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
   noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
@@ -314,10 +314,10 @@ export type CenterMembershipUpdateInput = {
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
   createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
+  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
   joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
   authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
   noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
 }
@@ -328,9 +328,9 @@ export type CenterMembershipUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
   authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
   noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
@@ -342,9 +342,9 @@ export type CenterMembershipCreateManyInput = {
   userId: string
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
-  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
+  joinedViaInvitationId?: string | null
 }
 
 export type CenterMembershipUpdateManyMutationInput = {
@@ -361,9 +361,9 @@ export type CenterMembershipUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CenterMembershipListRelationFilter = {
@@ -387,9 +387,9 @@ export type CenterMembershipCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  joinedViaInvitationId?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   leftAt?: Prisma.SortOrder
+  joinedViaInvitationId?: Prisma.SortOrder
 }
 
 export type CenterMembershipMaxOrderByAggregateInput = {
@@ -398,9 +398,9 @@ export type CenterMembershipMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  joinedViaInvitationId?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   leftAt?: Prisma.SortOrder
+  joinedViaInvitationId?: Prisma.SortOrder
 }
 
 export type CenterMembershipMinOrderByAggregateInput = {
@@ -409,9 +409,9 @@ export type CenterMembershipMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  joinedViaInvitationId?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   leftAt?: Prisma.SortOrder
+  joinedViaInvitationId?: Prisma.SortOrder
 }
 
 export type CenterMembershipScalarRelationFilter = {
@@ -601,8 +601,8 @@ export type CenterMembershipCreateWithoutUserInput = {
   status?: $Enums.MembershipStatus
   joinedAt?: Date | string
   leftAt?: Date | string | null
-  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
   createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
+  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
   joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
   authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
   noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
@@ -613,9 +613,9 @@ export type CenterMembershipUncheckedCreateWithoutUserInput = {
   centerId: string
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
-  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
+  joinedViaInvitationId?: string | null
   createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
   authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
   noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
@@ -656,9 +656,9 @@ export type CenterMembershipScalarWhereInput = {
   userId?: Prisma.StringFilter<"CenterMembership"> | string
   role?: Prisma.EnumMembershipRoleFilter<"CenterMembership"> | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFilter<"CenterMembership"> | $Enums.MembershipStatus
-  joinedViaInvitationId?: Prisma.StringNullableFilter<"CenterMembership"> | string | null
   joinedAt?: Prisma.DateTimeFilter<"CenterMembership"> | Date | string
   leftAt?: Prisma.DateTimeNullableFilter<"CenterMembership"> | Date | string | null
+  joinedViaInvitationId?: Prisma.StringNullableFilter<"CenterMembership"> | string | null
 }
 
 export type CenterMembershipCreateWithoutCenterInput = {
@@ -667,9 +667,9 @@ export type CenterMembershipCreateWithoutCenterInput = {
   status?: $Enums.MembershipStatus
   joinedAt?: Date | string
   leftAt?: Date | string | null
-  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
   createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
   joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
+  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
   authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
   noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
 }
@@ -679,9 +679,9 @@ export type CenterMembershipUncheckedCreateWithoutCenterInput = {
   userId: string
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
-  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
+  joinedViaInvitationId?: string | null
   createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
   authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
   noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
@@ -720,8 +720,8 @@ export type CenterMembershipCreateWithoutCreatedInvitationsInput = {
   joinedAt?: Date | string
   leftAt?: Date | string | null
   center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
-  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
   joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
+  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
   authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
   noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
 }
@@ -732,9 +732,9 @@ export type CenterMembershipUncheckedCreateWithoutCreatedInvitationsInput = {
   userId: string
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
-  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
+  joinedViaInvitationId?: string | null
   authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
   noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
 }
@@ -750,9 +750,9 @@ export type CenterMembershipCreateWithoutJoinedViaInvitationInput = {
   status?: $Enums.MembershipStatus
   joinedAt?: Date | string
   leftAt?: Date | string | null
+  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
   center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
-  createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
   authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
   noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
 }
@@ -798,8 +798,8 @@ export type CenterMembershipUpdateWithoutCreatedInvitationsInput = {
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
   joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
   authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
   noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
 }
@@ -810,9 +810,9 @@ export type CenterMembershipUncheckedUpdateWithoutCreatedInvitationsInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
   noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
 }
@@ -839,10 +839,10 @@ export type CenterMembershipCreateWithoutAuthoredNoticesInput = {
   status?: $Enums.MembershipStatus
   joinedAt?: Date | string
   leftAt?: Date | string | null
-  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
-  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
   createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
+  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
   joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
+  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
   noticeReads?: Prisma.NoticeReadCreateNestedManyWithoutMembershipInput
 }
 
@@ -852,9 +852,9 @@ export type CenterMembershipUncheckedCreateWithoutAuthoredNoticesInput = {
   userId: string
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
-  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
+  joinedViaInvitationId?: string | null
   createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
   noticeReads?: Prisma.NoticeReadUncheckedCreateNestedManyWithoutMembershipInput
 }
@@ -881,10 +881,10 @@ export type CenterMembershipUpdateWithoutAuthoredNoticesInput = {
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
   createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
+  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
   joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
   noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
 }
 
@@ -894,9 +894,9 @@ export type CenterMembershipUncheckedUpdateWithoutAuthoredNoticesInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
   noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
 }
@@ -907,10 +907,10 @@ export type CenterMembershipCreateWithoutNoticeReadsInput = {
   status?: $Enums.MembershipStatus
   joinedAt?: Date | string
   leftAt?: Date | string | null
-  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
-  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
   createdInvitations?: Prisma.CenterInvitationCreateNestedManyWithoutCreatedByInput
+  center: Prisma.CenterCreateNestedOneWithoutMembershipsInput
   joinedViaInvitation?: Prisma.CenterInvitationCreateNestedOneWithoutJoinedMembershipsInput
+  user: Prisma.UserCreateNestedOneWithoutCenterMembershipsInput
   authoredNotices?: Prisma.NoticeCreateNestedManyWithoutAuthorMembershipInput
 }
 
@@ -920,9 +920,9 @@ export type CenterMembershipUncheckedCreateWithoutNoticeReadsInput = {
   userId: string
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
-  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
+  joinedViaInvitationId?: string | null
   createdInvitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCreatedByInput
   authoredNotices?: Prisma.NoticeUncheckedCreateNestedManyWithoutAuthorMembershipInput
 }
@@ -949,10 +949,10 @@ export type CenterMembershipUpdateWithoutNoticeReadsInput = {
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
   createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
+  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
   joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
   authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
 }
 
@@ -962,9 +962,9 @@ export type CenterMembershipUncheckedUpdateWithoutNoticeReadsInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
   authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
 }
@@ -974,9 +974,9 @@ export type CenterMembershipCreateManyUserInput = {
   centerId: string
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
-  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
+  joinedViaInvitationId?: string | null
 }
 
 export type CenterMembershipUpdateWithoutUserInput = {
@@ -985,8 +985,8 @@ export type CenterMembershipUpdateWithoutUserInput = {
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
   createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
+  center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
   joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
   authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
   noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
@@ -997,9 +997,9 @@ export type CenterMembershipUncheckedUpdateWithoutUserInput = {
   centerId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
   authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
   noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
@@ -1010,9 +1010,9 @@ export type CenterMembershipUncheckedUpdateManyWithoutUserInput = {
   centerId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CenterMembershipCreateManyCenterInput = {
@@ -1020,9 +1020,9 @@ export type CenterMembershipCreateManyCenterInput = {
   userId: string
   role: $Enums.MembershipRole
   status?: $Enums.MembershipStatus
-  joinedViaInvitationId?: string | null
   joinedAt?: Date | string
   leftAt?: Date | string | null
+  joinedViaInvitationId?: string | null
 }
 
 export type CenterMembershipUpdateWithoutCenterInput = {
@@ -1031,9 +1031,9 @@ export type CenterMembershipUpdateWithoutCenterInput = {
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
   createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
   joinedViaInvitation?: Prisma.CenterInvitationUpdateOneWithoutJoinedMembershipsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
   authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
   noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
 }
@@ -1043,9 +1043,9 @@ export type CenterMembershipUncheckedUpdateWithoutCenterInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdInvitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCreatedByNestedInput
   authoredNotices?: Prisma.NoticeUncheckedUpdateManyWithoutAuthorMembershipNestedInput
   noticeReads?: Prisma.NoticeReadUncheckedUpdateManyWithoutMembershipNestedInput
@@ -1056,9 +1056,9 @@ export type CenterMembershipUncheckedUpdateManyWithoutCenterInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumMembershipRoleFieldUpdateOperationsInput | $Enums.MembershipRole
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  joinedViaInvitationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CenterMembershipCreateManyJoinedViaInvitationInput = {
@@ -1077,9 +1077,9 @@ export type CenterMembershipUpdateWithoutJoinedViaInvitationInput = {
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
   center?: Prisma.CenterUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutCenterMembershipsNestedInput
-  createdInvitations?: Prisma.CenterInvitationUpdateManyWithoutCreatedByNestedInput
   authoredNotices?: Prisma.NoticeUpdateManyWithoutAuthorMembershipNestedInput
   noticeReads?: Prisma.NoticeReadUpdateManyWithoutMembershipNestedInput
 }
@@ -1162,13 +1162,13 @@ export type CenterMembershipSelect<ExtArgs extends runtime.Types.Extensions.Inte
   userId?: boolean
   role?: boolean
   status?: boolean
-  joinedViaInvitationId?: boolean
   joinedAt?: boolean
   leftAt?: boolean
-  center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  joinedViaInvitationId?: boolean
   createdInvitations?: boolean | Prisma.CenterMembership$createdInvitationsArgs<ExtArgs>
+  center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
   joinedViaInvitation?: boolean | Prisma.CenterMembership$joinedViaInvitationArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   authoredNotices?: boolean | Prisma.CenterMembership$authoredNoticesArgs<ExtArgs>
   noticeReads?: boolean | Prisma.CenterMembership$noticeReadsArgs<ExtArgs>
   _count?: boolean | Prisma.CenterMembershipCountOutputTypeDefaultArgs<ExtArgs>
@@ -1180,12 +1180,12 @@ export type CenterMembershipSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   userId?: boolean
   role?: boolean
   status?: boolean
-  joinedViaInvitationId?: boolean
   joinedAt?: boolean
   leftAt?: boolean
+  joinedViaInvitationId?: boolean
   center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   joinedViaInvitation?: boolean | Prisma.CenterMembership$joinedViaInvitationArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["centerMembership"]>
 
 export type CenterMembershipSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1194,12 +1194,12 @@ export type CenterMembershipSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   userId?: boolean
   role?: boolean
   status?: boolean
-  joinedViaInvitationId?: boolean
   joinedAt?: boolean
   leftAt?: boolean
+  joinedViaInvitationId?: boolean
   center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   joinedViaInvitation?: boolean | Prisma.CenterMembership$joinedViaInvitationArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["centerMembership"]>
 
 export type CenterMembershipSelectScalar = {
@@ -1208,39 +1208,39 @@ export type CenterMembershipSelectScalar = {
   userId?: boolean
   role?: boolean
   status?: boolean
-  joinedViaInvitationId?: boolean
   joinedAt?: boolean
   leftAt?: boolean
+  joinedViaInvitationId?: boolean
 }
 
-export type CenterMembershipOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "centerId" | "userId" | "role" | "status" | "joinedViaInvitationId" | "joinedAt" | "leftAt", ExtArgs["result"]["centerMembership"]>
+export type CenterMembershipOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "centerId" | "userId" | "role" | "status" | "joinedAt" | "leftAt" | "joinedViaInvitationId", ExtArgs["result"]["centerMembership"]>
 export type CenterMembershipInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   createdInvitations?: boolean | Prisma.CenterMembership$createdInvitationsArgs<ExtArgs>
+  center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
   joinedViaInvitation?: boolean | Prisma.CenterMembership$joinedViaInvitationArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   authoredNotices?: boolean | Prisma.CenterMembership$authoredNoticesArgs<ExtArgs>
   noticeReads?: boolean | Prisma.CenterMembership$noticeReadsArgs<ExtArgs>
   _count?: boolean | Prisma.CenterMembershipCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CenterMembershipIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   joinedViaInvitation?: boolean | Prisma.CenterMembership$joinedViaInvitationArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type CenterMembershipIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   joinedViaInvitation?: boolean | Prisma.CenterMembership$joinedViaInvitationArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $CenterMembershipPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "CenterMembership"
   objects: {
-    center: Prisma.$CenterPayload<ExtArgs>
-    user: Prisma.$UserPayload<ExtArgs>
     createdInvitations: Prisma.$CenterInvitationPayload<ExtArgs>[]
+    center: Prisma.$CenterPayload<ExtArgs>
     joinedViaInvitation: Prisma.$CenterInvitationPayload<ExtArgs> | null
+    user: Prisma.$UserPayload<ExtArgs>
     authoredNotices: Prisma.$NoticePayload<ExtArgs>[]
     noticeReads: Prisma.$NoticeReadPayload<ExtArgs>[]
   }
@@ -1250,9 +1250,9 @@ export type $CenterMembershipPayload<ExtArgs extends runtime.Types.Extensions.In
     userId: string
     role: $Enums.MembershipRole
     status: $Enums.MembershipStatus
-    joinedViaInvitationId: string | null
     joinedAt: Date
     leftAt: Date | null
+    joinedViaInvitationId: string | null
   }, ExtArgs["result"]["centerMembership"]>
   composites: {}
 }
@@ -1647,10 +1647,10 @@ readonly fields: CenterMembershipFieldRefs;
  */
 export interface Prisma__CenterMembershipClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  center<T extends Prisma.CenterDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterDefaultArgs<ExtArgs>>): Prisma.Prisma__CenterClient<runtime.Types.Result.GetResult<Prisma.$CenterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   createdInvitations<T extends Prisma.CenterMembership$createdInvitationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$createdInvitationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CenterInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  center<T extends Prisma.CenterDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterDefaultArgs<ExtArgs>>): Prisma.Prisma__CenterClient<runtime.Types.Result.GetResult<Prisma.$CenterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   joinedViaInvitation<T extends Prisma.CenterMembership$joinedViaInvitationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$joinedViaInvitationArgs<ExtArgs>>): Prisma.Prisma__CenterInvitationClient<runtime.Types.Result.GetResult<Prisma.$CenterInvitationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   authoredNotices<T extends Prisma.CenterMembership$authoredNoticesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$authoredNoticesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NoticePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   noticeReads<T extends Prisma.CenterMembership$noticeReadsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembership$noticeReadsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NoticeReadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1687,9 +1687,9 @@ export interface CenterMembershipFieldRefs {
   readonly userId: Prisma.FieldRef<"CenterMembership", 'String'>
   readonly role: Prisma.FieldRef<"CenterMembership", 'MembershipRole'>
   readonly status: Prisma.FieldRef<"CenterMembership", 'MembershipStatus'>
-  readonly joinedViaInvitationId: Prisma.FieldRef<"CenterMembership", 'String'>
   readonly joinedAt: Prisma.FieldRef<"CenterMembership", 'DateTime'>
   readonly leftAt: Prisma.FieldRef<"CenterMembership", 'DateTime'>
+  readonly joinedViaInvitationId: Prisma.FieldRef<"CenterMembership", 'String'>
 }
     
 

@@ -80,7 +80,7 @@ export default async function SharingPage({
         </p>
 
         <form action={saveSharing} className="mt-4">
-          <div className="rounded-2xl border border-border bg-card px-5 py-1.5">
+          <div className="rounded-2xl bg-card shadow-card px-5 py-1.5">
             <Toggle
               name="shareDiet"
               label="식단"

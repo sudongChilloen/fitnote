@@ -110,29 +110,36 @@ export function PhotoUploader({
 
   return (
     <div>
-      <div className="flex items-baseline justify-between">
-        <p className="text-sm font-bold">사진</p>
-        <p className="text-xs text-muted-foreground tabular-nums">
+      <div className="flex items-center justify-between gap-3">
+        <div>
+          <p className="text-sm font-bold tracking-tight">수업 사진</p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            회원에게 보여줄 사진을 첨부해요.
+          </p>
+        </div>
+
+        <span className="shrink-0 rounded-full bg-secondary px-2.5 py-1 text-xs font-bold tabular-nums">
           {photos.length} / {maxPhotos}
-        </p>
+        </span>
       </div>
 
       <ul className="mt-2 grid grid-cols-3 gap-2">
         {photos.map((photo) => (
-          <li key={photo.id} className="relative">
+          <li
+            key={photo.id}
+            className="group relative min-w-0 overflow-visible"
+          >
             {photo.url ? (
-              // 서명 주소는 열 때마다 값이 달라 이미지 최적화 캐시가 매번 빗나간다.
-              // 올릴 때 이미 줄여서 저장하므로 최적화로 얻을 것도 없다.
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={photo.url}
-                alt=""
+                alt="알림장 첨부 사진"
                 loading="lazy"
-                className="aspect-square w-full rounded-xl bg-secondary object-cover"
+                className="aspect-square w-full rounded-2xl border border-border/50 bg-secondary object-cover"
               />
             ) : (
-              <span className="flex aspect-square w-full items-center justify-center rounded-xl bg-secondary text-[0.6875rem] text-muted-foreground">
-                불러오지 못함
+              <span className="flex aspect-square w-full items-center justify-center rounded-2xl bg-secondary px-1 text-center text-[0.6875rem] text-muted-foreground">
+                사진을 불러오지 못했어요
               </span>
             )}
 
@@ -149,7 +156,7 @@ export function PhotoUploader({
                   router.refresh();
                 });
               }}
-              className="absolute -top-1.5 -right-1.5 flex size-6 items-center justify-center rounded-full bg-primary text-primary-foreground disabled:opacity-50"
+              className="absolute -right-1.5 -top-1.5 flex size-7 items-center justify-center rounded-full border-2 border-background bg-foreground text-background shadow-sm transition-transform hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <X className="size-3.5" aria-hidden />
             </button>
@@ -160,17 +167,20 @@ export function PhotoUploader({
           <li>
             <button
               type="button"
-              disabled={busy}
+              disabled={busy || pending}
               onClick={() => inputRef.current?.click()}
-              className="flex aspect-square w-full flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-border text-muted-foreground disabled:opacity-50"
+              className="flex aspect-square w-full flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-border bg-secondary/30 text-muted-foreground transition-colors hover:border-brand/50 hover:bg-secondary/70 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {busy ? (
-                <Loader2 className="size-5 animate-spin" aria-hidden />
-              ) : (
-                <ImagePlus className="size-5" aria-hidden />
-              )}
-              <span className="text-[0.6875rem]">
-                {busy ? "올리는 중" : "사진 추가"}
+              <span className="flex size-9 items-center justify-center rounded-xl bg-card shadow-sm">
+                {busy ? (
+                  <Loader2 className="size-5 animate-spin" aria-hidden />
+                ) : (
+                  <ImagePlus className="size-5" aria-hidden />
+                )}
+              </span>
+
+              <span className="text-xs font-semibold">
+                {busy ? "업로드 중..." : "사진 추가"}
               </span>
             </button>
           </li>
@@ -187,7 +197,12 @@ export function PhotoUploader({
       />
 
       {error ? (
-        <p className="mt-2 text-xs font-medium text-destructive">{error}</p>
+        <p
+          role="alert"
+          className="mt-3 rounded-xl border border-destructive/20 bg-destructive/5 px-3.5 py-3 text-xs font-medium leading-relaxed text-destructive"
+        >
+          {error}
+        </p>
       ) : null}
     </div>
   );

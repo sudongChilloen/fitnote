@@ -174,8 +174,8 @@ export type NoticeReadWhereInput = {
   noticeId?: Prisma.StringFilter<"NoticeRead"> | string
   membershipId?: Prisma.StringFilter<"NoticeRead"> | string
   readAt?: Prisma.DateTimeFilter<"NoticeRead"> | Date | string
-  notice?: Prisma.XOR<Prisma.NoticeScalarRelationFilter, Prisma.NoticeWhereInput>
   membership?: Prisma.XOR<Prisma.CenterMembershipScalarRelationFilter, Prisma.CenterMembershipWhereInput>
+  notice?: Prisma.XOR<Prisma.NoticeScalarRelationFilter, Prisma.NoticeWhereInput>
 }
 
 export type NoticeReadOrderByWithRelationInput = {
@@ -183,8 +183,8 @@ export type NoticeReadOrderByWithRelationInput = {
   noticeId?: Prisma.SortOrder
   membershipId?: Prisma.SortOrder
   readAt?: Prisma.SortOrder
-  notice?: Prisma.NoticeOrderByWithRelationInput
   membership?: Prisma.CenterMembershipOrderByWithRelationInput
+  notice?: Prisma.NoticeOrderByWithRelationInput
 }
 
 export type NoticeReadWhereUniqueInput = Prisma.AtLeast<{
@@ -196,8 +196,8 @@ export type NoticeReadWhereUniqueInput = Prisma.AtLeast<{
   noticeId?: Prisma.StringFilter<"NoticeRead"> | string
   membershipId?: Prisma.StringFilter<"NoticeRead"> | string
   readAt?: Prisma.DateTimeFilter<"NoticeRead"> | Date | string
-  notice?: Prisma.XOR<Prisma.NoticeScalarRelationFilter, Prisma.NoticeWhereInput>
   membership?: Prisma.XOR<Prisma.CenterMembershipScalarRelationFilter, Prisma.CenterMembershipWhereInput>
+  notice?: Prisma.XOR<Prisma.NoticeScalarRelationFilter, Prisma.NoticeWhereInput>
 }, "id" | "noticeId_membershipId">
 
 export type NoticeReadOrderByWithAggregationInput = {
@@ -223,8 +223,8 @@ export type NoticeReadScalarWhereWithAggregatesInput = {
 export type NoticeReadCreateInput = {
   id?: string
   readAt?: Date | string
-  notice: Prisma.NoticeCreateNestedOneWithoutReadsInput
   membership: Prisma.CenterMembershipCreateNestedOneWithoutNoticeReadsInput
+  notice: Prisma.NoticeCreateNestedOneWithoutReadsInput
 }
 
 export type NoticeReadUncheckedCreateInput = {
@@ -237,8 +237,8 @@ export type NoticeReadUncheckedCreateInput = {
 export type NoticeReadUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   readAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  notice?: Prisma.NoticeUpdateOneRequiredWithoutReadsNestedInput
   membership?: Prisma.CenterMembershipUpdateOneRequiredWithoutNoticeReadsNestedInput
+  notice?: Prisma.NoticeUpdateOneRequiredWithoutReadsNestedInput
 }
 
 export type NoticeReadUncheckedUpdateInput = {
@@ -528,8 +528,8 @@ export type NoticeReadSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   noticeId?: boolean
   membershipId?: boolean
   readAt?: boolean
-  notice?: boolean | Prisma.NoticeDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  notice?: boolean | Prisma.NoticeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["noticeRead"]>
 
 export type NoticeReadSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -537,8 +537,8 @@ export type NoticeReadSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   noticeId?: boolean
   membershipId?: boolean
   readAt?: boolean
-  notice?: boolean | Prisma.NoticeDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  notice?: boolean | Prisma.NoticeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["noticeRead"]>
 
 export type NoticeReadSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -546,8 +546,8 @@ export type NoticeReadSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   noticeId?: boolean
   membershipId?: boolean
   readAt?: boolean
-  notice?: boolean | Prisma.NoticeDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  notice?: boolean | Prisma.NoticeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["noticeRead"]>
 
 export type NoticeReadSelectScalar = {
@@ -559,23 +559,23 @@ export type NoticeReadSelectScalar = {
 
 export type NoticeReadOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "noticeId" | "membershipId" | "readAt", ExtArgs["result"]["noticeRead"]>
 export type NoticeReadInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  notice?: boolean | Prisma.NoticeDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  notice?: boolean | Prisma.NoticeDefaultArgs<ExtArgs>
 }
 export type NoticeReadIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  notice?: boolean | Prisma.NoticeDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  notice?: boolean | Prisma.NoticeDefaultArgs<ExtArgs>
 }
 export type NoticeReadIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  notice?: boolean | Prisma.NoticeDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  notice?: boolean | Prisma.NoticeDefaultArgs<ExtArgs>
 }
 
 export type $NoticeReadPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "NoticeRead"
   objects: {
-    notice: Prisma.$NoticePayload<ExtArgs>
     membership: Prisma.$CenterMembershipPayload<ExtArgs>
+    notice: Prisma.$NoticePayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -976,8 +976,8 @@ readonly fields: NoticeReadFieldRefs;
  */
 export interface Prisma__NoticeReadClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  notice<T extends Prisma.NoticeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.NoticeDefaultArgs<ExtArgs>>): Prisma.Prisma__NoticeClient<runtime.Types.Result.GetResult<Prisma.$NoticePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   membership<T extends Prisma.CenterMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__CenterMembershipClient<runtime.Types.Result.GetResult<Prisma.$CenterMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  notice<T extends Prisma.NoticeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.NoticeDefaultArgs<ExtArgs>>): Prisma.Prisma__NoticeClient<runtime.Types.Result.GetResult<Prisma.$NoticePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

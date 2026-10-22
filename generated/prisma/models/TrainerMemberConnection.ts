@@ -15,12 +15,12 @@ import type * as Prisma from "../internal/prismaNamespace"
 /**
  * Model TrainerMemberConnection
  * *
- *  * 트레이너와 회원의 코칭 관계.
- *  * PT 관계의 단 하나뿐인 진실이다. 예전에는 CenterMembership 이 자기 자신을
- *  * 가리켜 담당을 표현했는데, 그러면 센터가 없으면 관계도 없고 센터를 옮기면
- *  * 관계가 끊겼다.
- *  * 센터 가입과는 별개다. 센터에만 등록하고 PT 는 안 받는 회원이 정상 상태여야
- *  * 하는데, 예전 구조에서는 그런 사람이 "담당이 비어 있는 이상한 회원" 이었다.
+ * * 트레이너와 회원의 코칭 관계.
+ * * PT 관계의 단 하나뿐인 진실이다. 예전에는 CenterMembership 이 자기 자신을
+ * * 가리켜 담당을 표현했는데, 그러면 센터가 없으면 관계도 없고 센터를 옮기면
+ * * 관계가 끊겼다.
+ * * 센터 가입과는 별개다. 센터에만 등록하고 PT 는 안 받는 회원이 정상 상태여야
+ * * 하는데, 예전 구조에서는 그런 사람이 "담당이 비어 있는 이상한 회원" 이었다.
  */
 export type TrainerMemberConnectionModel = runtime.Types.Result.DefaultSelection<Prisma.$TrainerMemberConnectionPayload>
 
@@ -220,9 +220,9 @@ export type TrainerMemberConnectionWhereInput = {
   endedAt?: Prisma.DateTimeNullableFilter<"TrainerMemberConnection"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"TrainerMemberConnection"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TrainerMemberConnection"> | Date | string
-  trainerProfile?: Prisma.XOR<Prisma.TrainerProfileScalarRelationFilter, Prisma.TrainerProfileWhereInput>
   memberUser?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   originCenter?: Prisma.XOR<Prisma.CenterNullableScalarRelationFilter, Prisma.CenterWhereInput> | null
+  trainerProfile?: Prisma.XOR<Prisma.TrainerProfileScalarRelationFilter, Prisma.TrainerProfileWhereInput>
 }
 
 export type TrainerMemberConnectionOrderByWithRelationInput = {
@@ -235,9 +235,9 @@ export type TrainerMemberConnectionOrderByWithRelationInput = {
   endedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  trainerProfile?: Prisma.TrainerProfileOrderByWithRelationInput
   memberUser?: Prisma.UserOrderByWithRelationInput
   originCenter?: Prisma.CenterOrderByWithRelationInput
+  trainerProfile?: Prisma.TrainerProfileOrderByWithRelationInput
 }
 
 export type TrainerMemberConnectionWhereUniqueInput = Prisma.AtLeast<{
@@ -254,9 +254,9 @@ export type TrainerMemberConnectionWhereUniqueInput = Prisma.AtLeast<{
   endedAt?: Prisma.DateTimeNullableFilter<"TrainerMemberConnection"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"TrainerMemberConnection"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TrainerMemberConnection"> | Date | string
-  trainerProfile?: Prisma.XOR<Prisma.TrainerProfileScalarRelationFilter, Prisma.TrainerProfileWhereInput>
   memberUser?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   originCenter?: Prisma.XOR<Prisma.CenterNullableScalarRelationFilter, Prisma.CenterWhereInput> | null
+  trainerProfile?: Prisma.XOR<Prisma.TrainerProfileScalarRelationFilter, Prisma.TrainerProfileWhereInput>
 }, "id" | "trainerProfileId_memberUserId">
 
 export type TrainerMemberConnectionOrderByWithAggregationInput = {
@@ -296,9 +296,9 @@ export type TrainerMemberConnectionCreateInput = {
   endedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutConnectionsInput
   memberUser: Prisma.UserCreateNestedOneWithoutTrainerConnectionsInput
   originCenter?: Prisma.CenterCreateNestedOneWithoutStartedConnectionsInput
+  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutConnectionsInput
 }
 
 export type TrainerMemberConnectionUncheckedCreateInput = {
@@ -320,9 +320,9 @@ export type TrainerMemberConnectionUpdateInput = {
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutConnectionsNestedInput
   memberUser?: Prisma.UserUpdateOneRequiredWithoutTrainerConnectionsNestedInput
   originCenter?: Prisma.CenterUpdateOneWithoutStartedConnectionsNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutConnectionsNestedInput
 }
 
 export type TrainerMemberConnectionUncheckedUpdateInput = {
@@ -558,8 +558,8 @@ export type TrainerMemberConnectionCreateWithoutMemberUserInput = {
   endedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutConnectionsInput
   originCenter?: Prisma.CenterCreateNestedOneWithoutStartedConnectionsInput
+  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutConnectionsInput
 }
 
 export type TrainerMemberConnectionUncheckedCreateWithoutMemberUserInput = {
@@ -621,8 +621,8 @@ export type TrainerMemberConnectionCreateWithoutOriginCenterInput = {
   endedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutConnectionsInput
   memberUser: Prisma.UserCreateNestedOneWithoutTrainerConnectionsInput
+  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutConnectionsInput
 }
 
 export type TrainerMemberConnectionUncheckedCreateWithoutOriginCenterInput = {
@@ -728,8 +728,8 @@ export type TrainerMemberConnectionUpdateWithoutMemberUserInput = {
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutConnectionsNestedInput
   originCenter?: Prisma.CenterUpdateOneWithoutStartedConnectionsNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutConnectionsNestedInput
 }
 
 export type TrainerMemberConnectionUncheckedUpdateWithoutMemberUserInput = {
@@ -772,8 +772,8 @@ export type TrainerMemberConnectionUpdateWithoutOriginCenterInput = {
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutConnectionsNestedInput
   memberUser?: Prisma.UserUpdateOneRequiredWithoutTrainerConnectionsNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutConnectionsNestedInput
 }
 
 export type TrainerMemberConnectionUncheckedUpdateWithoutOriginCenterInput = {
@@ -854,9 +854,9 @@ export type TrainerMemberConnectionSelect<ExtArgs extends runtime.Types.Extensio
   endedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   originCenter?: boolean | Prisma.TrainerMemberConnection$originCenterArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["trainerMemberConnection"]>
 
 export type TrainerMemberConnectionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -869,9 +869,9 @@ export type TrainerMemberConnectionSelectCreateManyAndReturn<ExtArgs extends run
   endedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   originCenter?: boolean | Prisma.TrainerMemberConnection$originCenterArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["trainerMemberConnection"]>
 
 export type TrainerMemberConnectionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -884,9 +884,9 @@ export type TrainerMemberConnectionSelectUpdateManyAndReturn<ExtArgs extends run
   endedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   originCenter?: boolean | Prisma.TrainerMemberConnection$originCenterArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["trainerMemberConnection"]>
 
 export type TrainerMemberConnectionSelectScalar = {
@@ -903,27 +903,27 @@ export type TrainerMemberConnectionSelectScalar = {
 
 export type TrainerMemberConnectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "trainerProfileId" | "memberUserId" | "status" | "originCenterId" | "startedAt" | "endedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["trainerMemberConnection"]>
 export type TrainerMemberConnectionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   originCenter?: boolean | Prisma.TrainerMemberConnection$originCenterArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
 }
 export type TrainerMemberConnectionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   originCenter?: boolean | Prisma.TrainerMemberConnection$originCenterArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
 }
 export type TrainerMemberConnectionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   originCenter?: boolean | Prisma.TrainerMemberConnection$originCenterArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
 }
 
 export type $TrainerMemberConnectionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "TrainerMemberConnection"
   objects: {
-    trainerProfile: Prisma.$TrainerProfilePayload<ExtArgs>
     memberUser: Prisma.$UserPayload<ExtArgs>
     originCenter: Prisma.$CenterPayload<ExtArgs> | null
+    trainerProfile: Prisma.$TrainerProfilePayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -932,10 +932,10 @@ export type $TrainerMemberConnectionPayload<ExtArgs extends runtime.Types.Extens
     status: $Enums.ConnectionStatus
     /**
      * *
-     *    * 이 관계가 어느 센터에서 시작됐는지. 무소속 트레이너면 null.
-     *    * 지금은 쓰지 않지만 나중에 센터가 트레이너 좌석을 결제하는 구조가 되면
-     *    * "센터가 데려온 회원인가, 트레이너가 데려온 회원인가" 를 반드시 묻게 된다.
-     *    * 그때 가서 넣으면 이미 생긴 관계들의 출처를 알 방법이 없다.
+     * * 이 관계가 어느 센터에서 시작됐는지. 무소속 트레이너면 null.
+     * * 지금은 쓰지 않지만 나중에 센터가 트레이너 좌석을 결제하는 구조가 되면
+     * * "센터가 데려온 회원인가, 트레이너가 데려온 회원인가" 를 반드시 묻게 된다.
+     * * 그때 가서 넣으면 이미 생긴 관계들의 출처를 알 방법이 없다.
      */
     originCenterId: string | null
     startedAt: Date
@@ -1336,9 +1336,9 @@ readonly fields: TrainerMemberConnectionFieldRefs;
  */
 export interface Prisma__TrainerMemberConnectionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  trainerProfile<T extends Prisma.TrainerProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__TrainerProfileClient<runtime.Types.Result.GetResult<Prisma.$TrainerProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   memberUser<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   originCenter<T extends Prisma.TrainerMemberConnection$originCenterArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerMemberConnection$originCenterArgs<ExtArgs>>): Prisma.Prisma__CenterClient<runtime.Types.Result.GetResult<Prisma.$CenterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  trainerProfile<T extends Prisma.TrainerProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__TrainerProfileClient<runtime.Types.Result.GetResult<Prisma.$TrainerProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

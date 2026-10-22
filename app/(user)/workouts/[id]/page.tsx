@@ -105,7 +105,7 @@ export default async function WorkoutSessionPage({
         </p>
       ) : null}
 
-      <section className="rounded-2xl border border-border bg-card p-5">
+      <section className="rounded-2xl bg-card shadow-card p-5">
         {/*
           신기록은 이 운동에서 가장 자랑스러운 한 줄이라 맨 위에 둔다.
           이걸 보려고 요약 화면을 한 번 더 열게 만들 이유가 없다.

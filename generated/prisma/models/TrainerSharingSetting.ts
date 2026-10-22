@@ -15,13 +15,13 @@ import type * as Prisma from "../internal/prismaNamespace"
 /**
  * Model TrainerSharingSetting
  * *
- *  * 회원이 담당 트레이너에게 무엇까지 보여줄지.
- *  * 회원 계정에 붙인다. 예전에는 센터 소속에 붙였는데, 이제 코칭 관계가 센터와
- *  * 무관하게 이어지므로 소속에 매달면 센터를 옮길 때마다 설정이 초기화된다.
- *  * 켜 둔 줄 알았던 것이 조용히 꺼지는 쪽이, 지난 설정이 따라오는 것보다 나쁘다.
- *  * 트레이너를 여럿 두게 되면 이 표가 연결(TrainerMemberConnection)로 내려간다.
- *  * PT 수업 기록은 여기에 없다. 그건 트레이너가 직접 적은 것이라 회원이
- *  * 가릴 대상이 아니다. 회원이 스스로 남긴 것만 고를 수 있게 한다.
+ * * 회원이 담당 트레이너에게 무엇까지 보여줄지.
+ * * 회원 계정에 붙인다. 예전에는 센터 소속에 붙였는데, 이제 코칭 관계가 센터와
+ * * 무관하게 이어지므로 소속에 매달면 센터를 옮길 때마다 설정이 초기화된다.
+ * * 켜 둔 줄 알았던 것이 조용히 꺼지는 쪽이, 지난 설정이 따라오는 것보다 나쁘다.
+ * * 트레이너를 여럿 두게 되면 이 표가 연결(TrainerMemberConnection)로 내려간다.
+ * * PT 수업 기록은 여기에 없다. 그건 트레이너가 직접 적은 것이라 회원이
+ * * 가릴 대상이 아니다. 회원이 스스로 남긴 것만 고를 수 있게 한다.
  */
 export type TrainerSharingSettingModel = runtime.Types.Result.DefaultSelection<Prisma.$TrainerSharingSettingPayload>
 
@@ -33,70 +33,70 @@ export type AggregateTrainerSharingSetting = {
 
 export type TrainerSharingSettingMinAggregateOutputType = {
   id: string | null
-  userId: string | null
   shareDiet: boolean | null
   shareDietPhoto: boolean | null
   sharePersonalWorkout: boolean | null
   shareBody: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  userId: string | null
 }
 
 export type TrainerSharingSettingMaxAggregateOutputType = {
   id: string | null
-  userId: string | null
   shareDiet: boolean | null
   shareDietPhoto: boolean | null
   sharePersonalWorkout: boolean | null
   shareBody: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  userId: string | null
 }
 
 export type TrainerSharingSettingCountAggregateOutputType = {
   id: number
-  userId: number
   shareDiet: number
   shareDietPhoto: number
   sharePersonalWorkout: number
   shareBody: number
   createdAt: number
   updatedAt: number
+  userId: number
   _all: number
 }
 
 
 export type TrainerSharingSettingMinAggregateInputType = {
   id?: true
-  userId?: true
   shareDiet?: true
   shareDietPhoto?: true
   sharePersonalWorkout?: true
   shareBody?: true
   createdAt?: true
   updatedAt?: true
+  userId?: true
 }
 
 export type TrainerSharingSettingMaxAggregateInputType = {
   id?: true
-  userId?: true
   shareDiet?: true
   shareDietPhoto?: true
   sharePersonalWorkout?: true
   shareBody?: true
   createdAt?: true
   updatedAt?: true
+  userId?: true
 }
 
 export type TrainerSharingSettingCountAggregateInputType = {
   id?: true
-  userId?: true
   shareDiet?: true
   shareDietPhoto?: true
   sharePersonalWorkout?: true
   shareBody?: true
   createdAt?: true
   updatedAt?: true
+  userId?: true
   _all?: true
 }
 
@@ -174,13 +174,13 @@ export type TrainerSharingSettingGroupByArgs<ExtArgs extends runtime.Types.Exten
 
 export type TrainerSharingSettingGroupByOutputType = {
   id: string
-  userId: string
   shareDiet: boolean
   shareDietPhoto: boolean
   sharePersonalWorkout: boolean
   shareBody: boolean
   createdAt: Date
   updatedAt: Date
+  userId: string
   _count: TrainerSharingSettingCountAggregateOutputType | null
   _min: TrainerSharingSettingMinAggregateOutputType | null
   _max: TrainerSharingSettingMaxAggregateOutputType | null
@@ -206,25 +206,25 @@ export type TrainerSharingSettingWhereInput = {
   OR?: Prisma.TrainerSharingSettingWhereInput[]
   NOT?: Prisma.TrainerSharingSettingWhereInput | Prisma.TrainerSharingSettingWhereInput[]
   id?: Prisma.StringFilter<"TrainerSharingSetting"> | string
-  userId?: Prisma.StringFilter<"TrainerSharingSetting"> | string
   shareDiet?: Prisma.BoolFilter<"TrainerSharingSetting"> | boolean
   shareDietPhoto?: Prisma.BoolFilter<"TrainerSharingSetting"> | boolean
   sharePersonalWorkout?: Prisma.BoolFilter<"TrainerSharingSetting"> | boolean
   shareBody?: Prisma.BoolFilter<"TrainerSharingSetting"> | boolean
   createdAt?: Prisma.DateTimeFilter<"TrainerSharingSetting"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TrainerSharingSetting"> | Date | string
+  userId?: Prisma.StringFilter<"TrainerSharingSetting"> | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type TrainerSharingSettingOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   shareDiet?: Prisma.SortOrder
   shareDietPhoto?: Prisma.SortOrder
   sharePersonalWorkout?: Prisma.SortOrder
   shareBody?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -245,13 +245,13 @@ export type TrainerSharingSettingWhereUniqueInput = Prisma.AtLeast<{
 
 export type TrainerSharingSettingOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   shareDiet?: Prisma.SortOrder
   shareDietPhoto?: Prisma.SortOrder
   sharePersonalWorkout?: Prisma.SortOrder
   shareBody?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   _count?: Prisma.TrainerSharingSettingCountOrderByAggregateInput
   _max?: Prisma.TrainerSharingSettingMaxOrderByAggregateInput
   _min?: Prisma.TrainerSharingSettingMinOrderByAggregateInput
@@ -262,13 +262,13 @@ export type TrainerSharingSettingScalarWhereWithAggregatesInput = {
   OR?: Prisma.TrainerSharingSettingScalarWhereWithAggregatesInput[]
   NOT?: Prisma.TrainerSharingSettingScalarWhereWithAggregatesInput | Prisma.TrainerSharingSettingScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"TrainerSharingSetting"> | string
-  userId?: Prisma.StringWithAggregatesFilter<"TrainerSharingSetting"> | string
   shareDiet?: Prisma.BoolWithAggregatesFilter<"TrainerSharingSetting"> | boolean
   shareDietPhoto?: Prisma.BoolWithAggregatesFilter<"TrainerSharingSetting"> | boolean
   sharePersonalWorkout?: Prisma.BoolWithAggregatesFilter<"TrainerSharingSetting"> | boolean
   shareBody?: Prisma.BoolWithAggregatesFilter<"TrainerSharingSetting"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"TrainerSharingSetting"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"TrainerSharingSetting"> | Date | string
+  userId?: Prisma.StringWithAggregatesFilter<"TrainerSharingSetting"> | string
 }
 
 export type TrainerSharingSettingCreateInput = {
@@ -284,13 +284,13 @@ export type TrainerSharingSettingCreateInput = {
 
 export type TrainerSharingSettingUncheckedCreateInput = {
   id?: string
-  userId: string
   shareDiet?: boolean
   shareDietPhoto?: boolean
   sharePersonalWorkout?: boolean
   shareBody?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  userId: string
 }
 
 export type TrainerSharingSettingUpdateInput = {
@@ -306,24 +306,24 @@ export type TrainerSharingSettingUpdateInput = {
 
 export type TrainerSharingSettingUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   shareDiet?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shareDietPhoto?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sharePersonalWorkout?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shareBody?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type TrainerSharingSettingCreateManyInput = {
   id?: string
-  userId: string
   shareDiet?: boolean
   shareDietPhoto?: boolean
   sharePersonalWorkout?: boolean
   shareBody?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  userId: string
 }
 
 export type TrainerSharingSettingUpdateManyMutationInput = {
@@ -338,13 +338,13 @@ export type TrainerSharingSettingUpdateManyMutationInput = {
 
 export type TrainerSharingSettingUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   shareDiet?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shareDietPhoto?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sharePersonalWorkout?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shareBody?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type TrainerSharingSettingNullableScalarRelationFilter = {
@@ -354,35 +354,35 @@ export type TrainerSharingSettingNullableScalarRelationFilter = {
 
 export type TrainerSharingSettingCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   shareDiet?: Prisma.SortOrder
   shareDietPhoto?: Prisma.SortOrder
   sharePersonalWorkout?: Prisma.SortOrder
   shareBody?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
 export type TrainerSharingSettingMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   shareDiet?: Prisma.SortOrder
   shareDietPhoto?: Prisma.SortOrder
   sharePersonalWorkout?: Prisma.SortOrder
   shareBody?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
 export type TrainerSharingSettingMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   shareDiet?: Prisma.SortOrder
   shareDietPhoto?: Prisma.SortOrder
   sharePersonalWorkout?: Prisma.SortOrder
   shareBody?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
 export type TrainerSharingSettingCreateNestedOneWithoutUserInput = {
@@ -477,52 +477,52 @@ export type TrainerSharingSettingUncheckedUpdateWithoutUserInput = {
 
 export type TrainerSharingSettingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
   shareDiet?: boolean
   shareDietPhoto?: boolean
   sharePersonalWorkout?: boolean
   shareBody?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  userId?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["trainerSharingSetting"]>
 
 export type TrainerSharingSettingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
   shareDiet?: boolean
   shareDietPhoto?: boolean
   sharePersonalWorkout?: boolean
   shareBody?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  userId?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["trainerSharingSetting"]>
 
 export type TrainerSharingSettingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
   shareDiet?: boolean
   shareDietPhoto?: boolean
   sharePersonalWorkout?: boolean
   shareBody?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  userId?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["trainerSharingSetting"]>
 
 export type TrainerSharingSettingSelectScalar = {
   id?: boolean
-  userId?: boolean
   shareDiet?: boolean
   shareDietPhoto?: boolean
   sharePersonalWorkout?: boolean
   shareBody?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  userId?: boolean
 }
 
-export type TrainerSharingSettingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "shareDiet" | "shareDietPhoto" | "sharePersonalWorkout" | "shareBody" | "createdAt" | "updatedAt", ExtArgs["result"]["trainerSharingSetting"]>
+export type TrainerSharingSettingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "shareDiet" | "shareDietPhoto" | "sharePersonalWorkout" | "shareBody" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["trainerSharingSetting"]>
 export type TrainerSharingSettingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -540,25 +540,25 @@ export type $TrainerSharingSettingPayload<ExtArgs extends runtime.Types.Extensio
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    userId: string
     /**
      * *
-     *    * 식단은 기본으로 켠다.
-     *    * 회원이 식단을 올리는 이유가 대개 피드백을 받기 위해서다. 기본이 꺼져
-     *    * 있으면 올려 두고 "왜 답이 없지" 하게 된다.
+     * * 식단은 기본으로 켠다.
+     * * 회원이 식단을 올리는 이유가 대개 피드백을 받기 위해서다. 기본이 꺼져
+     * * 있으면 올려 두고 "왜 답이 없지" 하게 된다.
      */
     shareDiet: boolean
     shareDietPhoto: boolean
     /**
      * *
-     *    * 개인 운동과 체중은 기본으로 끈다.
-     *    * 혼자 한 운동과 몸무게는 보여주려고 적는 게 아니다. 켜는 건 회원이
-     *    * 정하게 한다.
+     * * 개인 운동과 체중은 기본으로 끈다.
+     * * 혼자 한 운동과 몸무게는 보여주려고 적는 게 아니다. 켜는 건 회원이
+     * * 정하게 한다.
      */
     sharePersonalWorkout: boolean
     shareBody: boolean
     createdAt: Date
     updatedAt: Date
+    userId: string
   }, ExtArgs["result"]["trainerSharingSetting"]>
   composites: {}
 }
@@ -984,13 +984,13 @@ export interface Prisma__TrainerSharingSettingClient<T, Null = never, ExtArgs ex
  */
 export interface TrainerSharingSettingFieldRefs {
   readonly id: Prisma.FieldRef<"TrainerSharingSetting", 'String'>
-  readonly userId: Prisma.FieldRef<"TrainerSharingSetting", 'String'>
   readonly shareDiet: Prisma.FieldRef<"TrainerSharingSetting", 'Boolean'>
   readonly shareDietPhoto: Prisma.FieldRef<"TrainerSharingSetting", 'Boolean'>
   readonly sharePersonalWorkout: Prisma.FieldRef<"TrainerSharingSetting", 'Boolean'>
   readonly shareBody: Prisma.FieldRef<"TrainerSharingSetting", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"TrainerSharingSetting", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"TrainerSharingSetting", 'DateTime'>
+  readonly userId: Prisma.FieldRef<"TrainerSharingSetting", 'String'>
 }
     
 

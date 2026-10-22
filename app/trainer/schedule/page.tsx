@@ -5,132 +5,225 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { requireUser } from "@/app/lib/dal";
 import { formatKstDateLabel } from "@/lib/date";
 import { listSchedulableContracts } from "@/server/pt/pt.service";
-import { getTrainerWeek } from "@/server/trainers/trainer-board.service";
+import {
+  getTrainerMonth,
+  getTrainerWeek,
+} from "@/server/trainers/trainer-board.service";
 import { cn } from "@/lib/utils";
 
 import { EmptyDay, SessionRow } from "../session-row";
 import { NewSessionDrawer } from "./new-session-drawer";
 import { nextFreeTime } from "./next-free-time";
 
-export const metadata = { title: "일정 | FitNote" };
+export const metadata = {
+  title: "일정 | FitNote",
+};
 
 const WEEKDAYS = ["월", "화", "수", "목", "금", "토", "일"] as const;
 
-
-/**
- * 트레이너 일정.
- *
- * 요일 스트립 + 그 날 목록이다. 시간축 그리드를 쓰지 않았다. PT 일정은 아침과
- * 저녁에 몰려서 7열 그리드의 대부분이 빈칸이고, 폰 폭에서는 이름이 두 글자도
- * 안 들어간다. 트레이너가 수업 사이에 꺼내 보는 화면이라 "다음이 몇 시에
- * 누구인가" 가 한눈에 답해져야 한다.
- */
 export default async function TrainerSchedulePage({
   searchParams,
 }: PageProps<"/trainer/schedule">) {
   const user = await requireUser();
   const query = await searchParams;
-
   const raw = query.date;
-  const [week, contracts] = await Promise.all([
-    getTrainerWeek(user.id, typeof raw === "string" ? raw : undefined),
+  const dateKey = typeof raw === "string" ? raw : undefined;
+
+  const [week, month, contracts] = await Promise.all([
+    getTrainerWeek(user.id, dateKey),
+    getTrainerMonth(user.id, dateKey),
     listSchedulableContracts(user.id),
   ]);
 
   const isToday = week.dateKey === week.todayDateKey;
   const selectedDate = new Date(`${week.dateKey}T00:00:00+09:00`);
+  const monthDate = new Date(`${month.monthStartDateKey}T00:00:00+09:00`);
+
+  // 월요일부터 시작하는 달력에 필요한 앞쪽 빈칸
+  const leadingBlankCount = (monthDate.getDay() + 6) % 7;
+
+  const monthLabel = new Intl.DateTimeFormat("ko-KR", {
+    timeZone: "Asia/Seoul",
+    year: "numeric",
+    month: "long",
+  }).format(monthDate);
 
   return (
     <main className="px-5 pt-5 pb-16">
-      <h1 className="text-xl font-bold">일정</h1>
+      <header className="mb-6">
+        <p className="text-xs font-semibold tracking-wide text-primary">
+          TRAINER WORKSPACE
+        </p>
+        <h1 className="mt-1 text-2xl font-bold tracking-tight">일정</h1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          월간 일정을 확인하고 날짜별 수업을 관리하세요.
+        </p>
+      </header>
 
-      <div className="mt-4 flex items-center gap-1">
-        <Link
-          href={`/trainer/schedule?date=${week.prevWeekDateKey}`}
-          aria-label="지난 주"
-          className="flex size-8 shrink-0 items-center justify-center rounded-full text-muted-foreground"
-        >
-          <ChevronLeft className="size-4" aria-hidden />
-        </Link>
+      {/* 월간 달력 */}
+      <section
+        aria-label={`${monthLabel} 수업 달력`}
+        className="rounded-3xl border border-border/70 bg-card p-3 shadow-card"
+      >
+        <div className="mb-4 flex items-center justify-between px-1">
+          <Link
+            href={`/trainer/schedule?date=${month.prevMonthDateKey}`}
+            aria-label="지난 달"
+            className="flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-secondary active:scale-95"
+          >
+            <ChevronLeft className="size-5" aria-hidden />
+          </Link>
 
-        <ul className="flex flex-1 items-stretch gap-1">
-          {week.days.map((day, index) => (
-            <li key={day.dateKey} className="flex-1">
+          <h2 className="text-lg font-bold tracking-tight">{monthLabel}</h2>
+
+          <Link
+            href={`/trainer/schedule?date=${month.nextMonthDateKey}`}
+            aria-label="다음 달"
+            className="flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-secondary active:scale-95"
+          >
+            <ChevronRight className="size-5" aria-hidden />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-7">
+          {WEEKDAYS.map((day, index) => (
+            <div
+              key={day}
+              className={cn(
+                "flex h-8 items-center justify-center text-xs font-semibold",
+                index === 5
+                  ? "text-blue-500"
+                  : index === 6
+                    ? "text-rose-500"
+                    : "text-muted-foreground",
+              )}
+            >
+              {day}
+            </div>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-7 gap-y-1">
+          {Array.from({ length: leadingBlankCount }, (_, index) => (
+            <div key={`blank-${index}`} aria-hidden className="min-h-[68px]" />
+          ))}
+
+          {month.days.map((day) => {
+            const dayNumber = Number(day.dateKey.slice(8));
+            const weekday = new Date(`${day.dateKey}T00:00:00+09:00`).getDay();
+
+            return (
               <Link
+                key={day.dateKey}
                 href={`/trainer/schedule?date=${day.dateKey}`}
+                aria-label={`${day.dateKey}, 수업 ${day.count}개`}
                 aria-current={day.isSelected ? "date" : undefined}
                 className={cn(
-                  "flex flex-col items-center gap-1 rounded-xl py-2 transition-colors",
+                  "flex min-h-17 min-w-0 flex-col items-center rounded-xl px-0.5 py-2 transition-colors active:scale-95",
                   day.isSelected
                     ? "bg-primary text-primary-foreground"
                     : day.isToday
-                      ? "bg-accent text-brand-strong"
-                      : "text-muted-foreground",
+                      ? "bg-accent text-accent-foreground"
+                      : "hover:bg-secondary/70",
                 )}
               >
-                <span className="text-[0.625rem] leading-none font-semibold">
-                  {WEEKDAYS[index]}
-                </span>
-                <span className="text-sm leading-none font-bold tabular-nums">
-                  {Number(day.dateKey.slice(8))}
-                </span>
-                {/*
-                  수업 수를 점이 아니라 숫자로 쓴다. 하루에 여덟 개씩 있는
-                  트레이너에게 점 여덟 개는 셀 수 없는 정보다.
-                */}
                 <span
                   className={cn(
-                    "min-h-3.5 text-[0.625rem] leading-none font-bold tabular-nums",
-                    day.count === 0 && "opacity-0",
+                    "flex size-8 items-center justify-center rounded-full text-sm font-semibold tabular-nums",
+                    !day.isSelected &&
+                      !day.isToday &&
+                      weekday === 0 &&
+                      "text-rose-500",
+                    !day.isSelected &&
+                      !day.isToday &&
+                      weekday === 6 &&
+                      "text-blue-500",
                   )}
                 >
-                  {day.count}
+                  {dayNumber}
+                </span>
+
+                <span
+                  className={cn(
+                    "mt-1 min-h-4 text-[10px] font-semibold leading-4 tabular-nums",
+                    day.isSelected
+                      ? "text-primary-foreground"
+                      : day.count > 0
+                        ? "text-primary"
+                        : "text-transparent",
+                  )}
+                >
+                  {day.count > 0 ? `${day.count}회` : "·"}
                 </span>
               </Link>
-            </li>
-          ))}
-        </ul>
+            );
+          })}
+        </div>
 
-        <Link
-          href={`/trainer/schedule?date=${week.nextWeekDateKey}`}
-          aria-label="다음 주"
-          className="flex size-8 shrink-0 items-center justify-center rounded-full text-muted-foreground"
-        >
-          <ChevronRight className="size-4" aria-hidden />
-        </Link>
-      </div>
+        <div className="mt-3 flex items-center justify-between border-t border-border/70 px-1 pt-3">
+          <p className="text-xs text-muted-foreground">
+            <span className="mr-1 inline-block size-1.5 rounded-full bg-primary" />
+            날짜를 누르면 해당 일정을 확인할 수 있어요.
+          </p>
 
-      <div className="mt-6 flex items-baseline justify-between gap-2">
-        <h2 className="text-base font-bold">
-          {isToday ? "오늘" : formatKstDateLabel(selectedDate)}
-        </h2>
-        {isToday ? null : (
-          <Link
-            href="/trainer/schedule"
-            className="shrink-0 text-xs font-semibold text-brand-strong"
-          >
-            오늘로
-          </Link>
+          {!isToday ? (
+            <Link
+              href="/trainer/schedule"
+              className="shrink-0 rounded-full border border-border px-3 py-1.5 text-xs font-semibold transition-colors hover:bg-secondary"
+            >
+              오늘로
+            </Link>
+          ) : (
+            <span className="shrink-0 text-xs font-semibold text-primary">
+              오늘
+            </span>
+          )}
+        </div>
+      </section>
+
+      {/* 선택한 날짜의 수업 */}
+      <section className="mt-7">
+        <div className="flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-xs font-semibold tracking-wide text-muted-foreground">
+              {isToday ? "TODAY" : "SELECTED DATE"}
+            </p>
+
+            <h2 className="mt-1.5 text-xl font-bold tracking-tight">
+              {isToday ? "오늘 수업" : formatKstDateLabel(selectedDate)}
+            </h2>
+
+            <p className="mt-1 text-xs text-muted-foreground">
+              {isToday
+                ? "오늘 예정된 수업을 확인하세요."
+                : "선택한 날짜의 수업 목록이에요."}
+            </p>
+          </div>
+
+          <span className="shrink-0 rounded-full bg-primary/10 px-3 py-2 text-xs font-bold text-primary">
+            수업{" "}
+            {
+              week.sessions.filter((session) => session.status !== "CANCELLED")
+                .length
+            }
+            개
+          </span>
+        </div>
+
+        {week.sessions.length === 0 ? (
+          <div className="mt-5">
+            <EmptyDay message="이 날은 잡힌 수업이 없어요" />
+          </div>
+        ) : (
+          <ul className="mt-5 flex flex-col gap-3">
+            {week.sessions.map((session) => (
+              <SessionRow key={session.id} session={session} />
+            ))}
+          </ul>
         )}
-      </div>
+      </section>
 
-      {week.sessions.length === 0 ? (
-        <EmptyDay message="이 날은 잡힌 수업이 없어요" />
-      ) : (
-        <ul className="mt-3 flex flex-col gap-2.5">
-          {week.sessions.map((session) => (
-            <SessionRow key={session.id} session={session} />
-          ))}
-        </ul>
-      )}
-
-      {/*
-        보고 있던 날짜를 그대로 들고 들어간다.
-
-        여기 있던 "수업은 회원의 PT 계약에서 잡아요" 라는 안내는 사실 기능이
-        없다는 사과문이었다. 다음 수업을 잡는 건 일정을 보다가 생각나는 일인데,
-        그때마다 회원 → 계약 → 상세로 세 번 들어갔다 돌아와야 했다.
-      */}
+      {/* 수업 추가 */}
       <NewSessionDrawer
         dateKey={week.dateKey}
         contracts={contracts}

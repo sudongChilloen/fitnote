@@ -214,13 +214,13 @@ export type CenterWhereInput = {
   status?: Prisma.EnumCenterStatusFilter<"Center"> | $Enums.CenterStatus
   createdAt?: Prisma.DateTimeFilter<"Center"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Center"> | Date | string
-  memberships?: Prisma.CenterMembershipListRelationFilter
   invitations?: Prisma.CenterInvitationListRelationFilter
-  startedConnections?: Prisma.TrainerMemberConnectionListRelationFilter
-  ptContracts?: Prisma.PTContractListRelationFilter
-  ptProducts?: Prisma.PTProductListRelationFilter
+  memberships?: Prisma.CenterMembershipListRelationFilter
   gyms?: Prisma.GymListRelationFilter
   notices?: Prisma.NoticeListRelationFilter
+  ptContracts?: Prisma.PTContractListRelationFilter
+  ptProducts?: Prisma.PTProductListRelationFilter
+  startedConnections?: Prisma.TrainerMemberConnectionListRelationFilter
 }
 
 export type CenterOrderByWithRelationInput = {
@@ -233,13 +233,13 @@ export type CenterOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  memberships?: Prisma.CenterMembershipOrderByRelationAggregateInput
   invitations?: Prisma.CenterInvitationOrderByRelationAggregateInput
-  startedConnections?: Prisma.TrainerMemberConnectionOrderByRelationAggregateInput
-  ptContracts?: Prisma.PTContractOrderByRelationAggregateInput
-  ptProducts?: Prisma.PTProductOrderByRelationAggregateInput
+  memberships?: Prisma.CenterMembershipOrderByRelationAggregateInput
   gyms?: Prisma.GymOrderByRelationAggregateInput
   notices?: Prisma.NoticeOrderByRelationAggregateInput
+  ptContracts?: Prisma.PTContractOrderByRelationAggregateInput
+  ptProducts?: Prisma.PTProductOrderByRelationAggregateInput
+  startedConnections?: Prisma.TrainerMemberConnectionOrderByRelationAggregateInput
 }
 
 export type CenterWhereUniqueInput = Prisma.AtLeast<{
@@ -255,13 +255,13 @@ export type CenterWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumCenterStatusFilter<"Center"> | $Enums.CenterStatus
   createdAt?: Prisma.DateTimeFilter<"Center"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Center"> | Date | string
-  memberships?: Prisma.CenterMembershipListRelationFilter
   invitations?: Prisma.CenterInvitationListRelationFilter
-  startedConnections?: Prisma.TrainerMemberConnectionListRelationFilter
-  ptContracts?: Prisma.PTContractListRelationFilter
-  ptProducts?: Prisma.PTProductListRelationFilter
+  memberships?: Prisma.CenterMembershipListRelationFilter
   gyms?: Prisma.GymListRelationFilter
   notices?: Prisma.NoticeListRelationFilter
+  ptContracts?: Prisma.PTContractListRelationFilter
+  ptProducts?: Prisma.PTProductListRelationFilter
+  startedConnections?: Prisma.TrainerMemberConnectionListRelationFilter
 }, "id">
 
 export type CenterOrderByWithAggregationInput = {
@@ -304,13 +304,13 @@ export type CenterCreateInput = {
   status?: $Enums.CenterStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberships?: Prisma.CenterMembershipCreateNestedManyWithoutCenterInput
   invitations?: Prisma.CenterInvitationCreateNestedManyWithoutCenterInput
-  startedConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutOriginCenterInput
-  ptContracts?: Prisma.PTContractCreateNestedManyWithoutCenterInput
-  ptProducts?: Prisma.PTProductCreateNestedManyWithoutCenterInput
+  memberships?: Prisma.CenterMembershipCreateNestedManyWithoutCenterInput
   gyms?: Prisma.GymCreateNestedManyWithoutCenterInput
   notices?: Prisma.NoticeCreateNestedManyWithoutCenterInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutCenterInput
+  ptProducts?: Prisma.PTProductCreateNestedManyWithoutCenterInput
+  startedConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutOriginCenterInput
 }
 
 export type CenterUncheckedCreateInput = {
@@ -323,13 +323,13 @@ export type CenterUncheckedCreateInput = {
   status?: $Enums.CenterStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutCenterInput
   invitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCenterInput
-  startedConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutOriginCenterInput
-  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutCenterInput
-  ptProducts?: Prisma.PTProductUncheckedCreateNestedManyWithoutCenterInput
+  memberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutCenterInput
   gyms?: Prisma.GymUncheckedCreateNestedManyWithoutCenterInput
   notices?: Prisma.NoticeUncheckedCreateNestedManyWithoutCenterInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutCenterInput
+  ptProducts?: Prisma.PTProductUncheckedCreateNestedManyWithoutCenterInput
+  startedConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutOriginCenterInput
 }
 
 export type CenterUpdateInput = {
@@ -342,13 +342,13 @@ export type CenterUpdateInput = {
   status?: Prisma.EnumCenterStatusFieldUpdateOperationsInput | $Enums.CenterStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberships?: Prisma.CenterMembershipUpdateManyWithoutCenterNestedInput
   invitations?: Prisma.CenterInvitationUpdateManyWithoutCenterNestedInput
-  startedConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutOriginCenterNestedInput
-  ptContracts?: Prisma.PTContractUpdateManyWithoutCenterNestedInput
-  ptProducts?: Prisma.PTProductUpdateManyWithoutCenterNestedInput
+  memberships?: Prisma.CenterMembershipUpdateManyWithoutCenterNestedInput
   gyms?: Prisma.GymUpdateManyWithoutCenterNestedInput
   notices?: Prisma.NoticeUpdateManyWithoutCenterNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutCenterNestedInput
+  ptProducts?: Prisma.PTProductUpdateManyWithoutCenterNestedInput
+  startedConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutOriginCenterNestedInput
 }
 
 export type CenterUncheckedUpdateInput = {
@@ -361,13 +361,13 @@ export type CenterUncheckedUpdateInput = {
   status?: Prisma.EnumCenterStatusFieldUpdateOperationsInput | $Enums.CenterStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutCenterNestedInput
   invitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCenterNestedInput
-  startedConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutOriginCenterNestedInput
-  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutCenterNestedInput
-  ptProducts?: Prisma.PTProductUncheckedUpdateManyWithoutCenterNestedInput
+  memberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutCenterNestedInput
   gyms?: Prisma.GymUncheckedUpdateManyWithoutCenterNestedInput
   notices?: Prisma.NoticeUncheckedUpdateManyWithoutCenterNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutCenterNestedInput
+  ptProducts?: Prisma.PTProductUncheckedUpdateManyWithoutCenterNestedInput
+  startedConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutOriginCenterNestedInput
 }
 
 export type CenterCreateManyInput = {
@@ -569,11 +569,11 @@ export type CenterCreateWithoutMembershipsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   invitations?: Prisma.CenterInvitationCreateNestedManyWithoutCenterInput
-  startedConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutOriginCenterInput
-  ptContracts?: Prisma.PTContractCreateNestedManyWithoutCenterInput
-  ptProducts?: Prisma.PTProductCreateNestedManyWithoutCenterInput
   gyms?: Prisma.GymCreateNestedManyWithoutCenterInput
   notices?: Prisma.NoticeCreateNestedManyWithoutCenterInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutCenterInput
+  ptProducts?: Prisma.PTProductCreateNestedManyWithoutCenterInput
+  startedConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutOriginCenterInput
 }
 
 export type CenterUncheckedCreateWithoutMembershipsInput = {
@@ -587,11 +587,11 @@ export type CenterUncheckedCreateWithoutMembershipsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   invitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCenterInput
-  startedConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutOriginCenterInput
-  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutCenterInput
-  ptProducts?: Prisma.PTProductUncheckedCreateNestedManyWithoutCenterInput
   gyms?: Prisma.GymUncheckedCreateNestedManyWithoutCenterInput
   notices?: Prisma.NoticeUncheckedCreateNestedManyWithoutCenterInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutCenterInput
+  ptProducts?: Prisma.PTProductUncheckedCreateNestedManyWithoutCenterInput
+  startedConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutOriginCenterInput
 }
 
 export type CenterCreateOrConnectWithoutMembershipsInput = {
@@ -621,11 +621,11 @@ export type CenterUpdateWithoutMembershipsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   invitations?: Prisma.CenterInvitationUpdateManyWithoutCenterNestedInput
-  startedConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutOriginCenterNestedInput
-  ptContracts?: Prisma.PTContractUpdateManyWithoutCenterNestedInput
-  ptProducts?: Prisma.PTProductUpdateManyWithoutCenterNestedInput
   gyms?: Prisma.GymUpdateManyWithoutCenterNestedInput
   notices?: Prisma.NoticeUpdateManyWithoutCenterNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutCenterNestedInput
+  ptProducts?: Prisma.PTProductUpdateManyWithoutCenterNestedInput
+  startedConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutOriginCenterNestedInput
 }
 
 export type CenterUncheckedUpdateWithoutMembershipsInput = {
@@ -639,11 +639,11 @@ export type CenterUncheckedUpdateWithoutMembershipsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   invitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCenterNestedInput
-  startedConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutOriginCenterNestedInput
-  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutCenterNestedInput
-  ptProducts?: Prisma.PTProductUncheckedUpdateManyWithoutCenterNestedInput
   gyms?: Prisma.GymUncheckedUpdateManyWithoutCenterNestedInput
   notices?: Prisma.NoticeUncheckedUpdateManyWithoutCenterNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutCenterNestedInput
+  ptProducts?: Prisma.PTProductUncheckedUpdateManyWithoutCenterNestedInput
+  startedConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutOriginCenterNestedInput
 }
 
 export type CenterCreateWithoutInvitationsInput = {
@@ -657,11 +657,11 @@ export type CenterCreateWithoutInvitationsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   memberships?: Prisma.CenterMembershipCreateNestedManyWithoutCenterInput
-  startedConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutOriginCenterInput
-  ptContracts?: Prisma.PTContractCreateNestedManyWithoutCenterInput
-  ptProducts?: Prisma.PTProductCreateNestedManyWithoutCenterInput
   gyms?: Prisma.GymCreateNestedManyWithoutCenterInput
   notices?: Prisma.NoticeCreateNestedManyWithoutCenterInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutCenterInput
+  ptProducts?: Prisma.PTProductCreateNestedManyWithoutCenterInput
+  startedConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutOriginCenterInput
 }
 
 export type CenterUncheckedCreateWithoutInvitationsInput = {
@@ -675,11 +675,11 @@ export type CenterUncheckedCreateWithoutInvitationsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   memberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutCenterInput
-  startedConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutOriginCenterInput
-  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutCenterInput
-  ptProducts?: Prisma.PTProductUncheckedCreateNestedManyWithoutCenterInput
   gyms?: Prisma.GymUncheckedCreateNestedManyWithoutCenterInput
   notices?: Prisma.NoticeUncheckedCreateNestedManyWithoutCenterInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutCenterInput
+  ptProducts?: Prisma.PTProductUncheckedCreateNestedManyWithoutCenterInput
+  startedConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutOriginCenterInput
 }
 
 export type CenterCreateOrConnectWithoutInvitationsInput = {
@@ -709,11 +709,11 @@ export type CenterUpdateWithoutInvitationsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   memberships?: Prisma.CenterMembershipUpdateManyWithoutCenterNestedInput
-  startedConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutOriginCenterNestedInput
-  ptContracts?: Prisma.PTContractUpdateManyWithoutCenterNestedInput
-  ptProducts?: Prisma.PTProductUpdateManyWithoutCenterNestedInput
   gyms?: Prisma.GymUpdateManyWithoutCenterNestedInput
   notices?: Prisma.NoticeUpdateManyWithoutCenterNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutCenterNestedInput
+  ptProducts?: Prisma.PTProductUpdateManyWithoutCenterNestedInput
+  startedConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutOriginCenterNestedInput
 }
 
 export type CenterUncheckedUpdateWithoutInvitationsInput = {
@@ -727,11 +727,11 @@ export type CenterUncheckedUpdateWithoutInvitationsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   memberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutCenterNestedInput
-  startedConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutOriginCenterNestedInput
-  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutCenterNestedInput
-  ptProducts?: Prisma.PTProductUncheckedUpdateManyWithoutCenterNestedInput
   gyms?: Prisma.GymUncheckedUpdateManyWithoutCenterNestedInput
   notices?: Prisma.NoticeUncheckedUpdateManyWithoutCenterNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutCenterNestedInput
+  ptProducts?: Prisma.PTProductUncheckedUpdateManyWithoutCenterNestedInput
+  startedConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutOriginCenterNestedInput
 }
 
 export type CenterCreateWithoutStartedConnectionsInput = {
@@ -744,12 +744,12 @@ export type CenterCreateWithoutStartedConnectionsInput = {
   status?: $Enums.CenterStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberships?: Prisma.CenterMembershipCreateNestedManyWithoutCenterInput
   invitations?: Prisma.CenterInvitationCreateNestedManyWithoutCenterInput
-  ptContracts?: Prisma.PTContractCreateNestedManyWithoutCenterInput
-  ptProducts?: Prisma.PTProductCreateNestedManyWithoutCenterInput
+  memberships?: Prisma.CenterMembershipCreateNestedManyWithoutCenterInput
   gyms?: Prisma.GymCreateNestedManyWithoutCenterInput
   notices?: Prisma.NoticeCreateNestedManyWithoutCenterInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutCenterInput
+  ptProducts?: Prisma.PTProductCreateNestedManyWithoutCenterInput
 }
 
 export type CenterUncheckedCreateWithoutStartedConnectionsInput = {
@@ -762,12 +762,12 @@ export type CenterUncheckedCreateWithoutStartedConnectionsInput = {
   status?: $Enums.CenterStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutCenterInput
   invitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCenterInput
-  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutCenterInput
-  ptProducts?: Prisma.PTProductUncheckedCreateNestedManyWithoutCenterInput
+  memberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutCenterInput
   gyms?: Prisma.GymUncheckedCreateNestedManyWithoutCenterInput
   notices?: Prisma.NoticeUncheckedCreateNestedManyWithoutCenterInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutCenterInput
+  ptProducts?: Prisma.PTProductUncheckedCreateNestedManyWithoutCenterInput
 }
 
 export type CenterCreateOrConnectWithoutStartedConnectionsInput = {
@@ -796,12 +796,12 @@ export type CenterUpdateWithoutStartedConnectionsInput = {
   status?: Prisma.EnumCenterStatusFieldUpdateOperationsInput | $Enums.CenterStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberships?: Prisma.CenterMembershipUpdateManyWithoutCenterNestedInput
   invitations?: Prisma.CenterInvitationUpdateManyWithoutCenterNestedInput
-  ptContracts?: Prisma.PTContractUpdateManyWithoutCenterNestedInput
-  ptProducts?: Prisma.PTProductUpdateManyWithoutCenterNestedInput
+  memberships?: Prisma.CenterMembershipUpdateManyWithoutCenterNestedInput
   gyms?: Prisma.GymUpdateManyWithoutCenterNestedInput
   notices?: Prisma.NoticeUpdateManyWithoutCenterNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutCenterNestedInput
+  ptProducts?: Prisma.PTProductUpdateManyWithoutCenterNestedInput
 }
 
 export type CenterUncheckedUpdateWithoutStartedConnectionsInput = {
@@ -814,12 +814,12 @@ export type CenterUncheckedUpdateWithoutStartedConnectionsInput = {
   status?: Prisma.EnumCenterStatusFieldUpdateOperationsInput | $Enums.CenterStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutCenterNestedInput
   invitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCenterNestedInput
-  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutCenterNestedInput
-  ptProducts?: Prisma.PTProductUncheckedUpdateManyWithoutCenterNestedInput
+  memberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutCenterNestedInput
   gyms?: Prisma.GymUncheckedUpdateManyWithoutCenterNestedInput
   notices?: Prisma.NoticeUncheckedUpdateManyWithoutCenterNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutCenterNestedInput
+  ptProducts?: Prisma.PTProductUncheckedUpdateManyWithoutCenterNestedInput
 }
 
 export type CenterCreateWithoutGymsInput = {
@@ -832,12 +832,12 @@ export type CenterCreateWithoutGymsInput = {
   status?: $Enums.CenterStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberships?: Prisma.CenterMembershipCreateNestedManyWithoutCenterInput
   invitations?: Prisma.CenterInvitationCreateNestedManyWithoutCenterInput
-  startedConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutOriginCenterInput
+  memberships?: Prisma.CenterMembershipCreateNestedManyWithoutCenterInput
+  notices?: Prisma.NoticeCreateNestedManyWithoutCenterInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutCenterInput
   ptProducts?: Prisma.PTProductCreateNestedManyWithoutCenterInput
-  notices?: Prisma.NoticeCreateNestedManyWithoutCenterInput
+  startedConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutOriginCenterInput
 }
 
 export type CenterUncheckedCreateWithoutGymsInput = {
@@ -850,12 +850,12 @@ export type CenterUncheckedCreateWithoutGymsInput = {
   status?: $Enums.CenterStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutCenterInput
   invitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCenterInput
-  startedConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutOriginCenterInput
+  memberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutCenterInput
+  notices?: Prisma.NoticeUncheckedCreateNestedManyWithoutCenterInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutCenterInput
   ptProducts?: Prisma.PTProductUncheckedCreateNestedManyWithoutCenterInput
-  notices?: Prisma.NoticeUncheckedCreateNestedManyWithoutCenterInput
+  startedConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutOriginCenterInput
 }
 
 export type CenterCreateOrConnectWithoutGymsInput = {
@@ -884,12 +884,12 @@ export type CenterUpdateWithoutGymsInput = {
   status?: Prisma.EnumCenterStatusFieldUpdateOperationsInput | $Enums.CenterStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberships?: Prisma.CenterMembershipUpdateManyWithoutCenterNestedInput
   invitations?: Prisma.CenterInvitationUpdateManyWithoutCenterNestedInput
-  startedConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutOriginCenterNestedInput
+  memberships?: Prisma.CenterMembershipUpdateManyWithoutCenterNestedInput
+  notices?: Prisma.NoticeUpdateManyWithoutCenterNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutCenterNestedInput
   ptProducts?: Prisma.PTProductUpdateManyWithoutCenterNestedInput
-  notices?: Prisma.NoticeUpdateManyWithoutCenterNestedInput
+  startedConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutOriginCenterNestedInput
 }
 
 export type CenterUncheckedUpdateWithoutGymsInput = {
@@ -902,12 +902,12 @@ export type CenterUncheckedUpdateWithoutGymsInput = {
   status?: Prisma.EnumCenterStatusFieldUpdateOperationsInput | $Enums.CenterStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutCenterNestedInput
   invitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCenterNestedInput
-  startedConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutOriginCenterNestedInput
+  memberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutCenterNestedInput
+  notices?: Prisma.NoticeUncheckedUpdateManyWithoutCenterNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutCenterNestedInput
   ptProducts?: Prisma.PTProductUncheckedUpdateManyWithoutCenterNestedInput
-  notices?: Prisma.NoticeUncheckedUpdateManyWithoutCenterNestedInput
+  startedConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutOriginCenterNestedInput
 }
 
 export type CenterCreateWithoutPtProductsInput = {
@@ -920,12 +920,12 @@ export type CenterCreateWithoutPtProductsInput = {
   status?: $Enums.CenterStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberships?: Prisma.CenterMembershipCreateNestedManyWithoutCenterInput
   invitations?: Prisma.CenterInvitationCreateNestedManyWithoutCenterInput
-  startedConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutOriginCenterInput
-  ptContracts?: Prisma.PTContractCreateNestedManyWithoutCenterInput
+  memberships?: Prisma.CenterMembershipCreateNestedManyWithoutCenterInput
   gyms?: Prisma.GymCreateNestedManyWithoutCenterInput
   notices?: Prisma.NoticeCreateNestedManyWithoutCenterInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutCenterInput
+  startedConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutOriginCenterInput
 }
 
 export type CenterUncheckedCreateWithoutPtProductsInput = {
@@ -938,12 +938,12 @@ export type CenterUncheckedCreateWithoutPtProductsInput = {
   status?: $Enums.CenterStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutCenterInput
   invitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCenterInput
-  startedConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutOriginCenterInput
-  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutCenterInput
+  memberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutCenterInput
   gyms?: Prisma.GymUncheckedCreateNestedManyWithoutCenterInput
   notices?: Prisma.NoticeUncheckedCreateNestedManyWithoutCenterInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutCenterInput
+  startedConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutOriginCenterInput
 }
 
 export type CenterCreateOrConnectWithoutPtProductsInput = {
@@ -972,12 +972,12 @@ export type CenterUpdateWithoutPtProductsInput = {
   status?: Prisma.EnumCenterStatusFieldUpdateOperationsInput | $Enums.CenterStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberships?: Prisma.CenterMembershipUpdateManyWithoutCenterNestedInput
   invitations?: Prisma.CenterInvitationUpdateManyWithoutCenterNestedInput
-  startedConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutOriginCenterNestedInput
-  ptContracts?: Prisma.PTContractUpdateManyWithoutCenterNestedInput
+  memberships?: Prisma.CenterMembershipUpdateManyWithoutCenterNestedInput
   gyms?: Prisma.GymUpdateManyWithoutCenterNestedInput
   notices?: Prisma.NoticeUpdateManyWithoutCenterNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutCenterNestedInput
+  startedConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutOriginCenterNestedInput
 }
 
 export type CenterUncheckedUpdateWithoutPtProductsInput = {
@@ -990,12 +990,12 @@ export type CenterUncheckedUpdateWithoutPtProductsInput = {
   status?: Prisma.EnumCenterStatusFieldUpdateOperationsInput | $Enums.CenterStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutCenterNestedInput
   invitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCenterNestedInput
-  startedConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutOriginCenterNestedInput
-  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutCenterNestedInput
+  memberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutCenterNestedInput
   gyms?: Prisma.GymUncheckedUpdateManyWithoutCenterNestedInput
   notices?: Prisma.NoticeUncheckedUpdateManyWithoutCenterNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutCenterNestedInput
+  startedConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutOriginCenterNestedInput
 }
 
 export type CenterCreateWithoutPtContractsInput = {
@@ -1008,12 +1008,12 @@ export type CenterCreateWithoutPtContractsInput = {
   status?: $Enums.CenterStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberships?: Prisma.CenterMembershipCreateNestedManyWithoutCenterInput
   invitations?: Prisma.CenterInvitationCreateNestedManyWithoutCenterInput
-  startedConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutOriginCenterInput
-  ptProducts?: Prisma.PTProductCreateNestedManyWithoutCenterInput
+  memberships?: Prisma.CenterMembershipCreateNestedManyWithoutCenterInput
   gyms?: Prisma.GymCreateNestedManyWithoutCenterInput
   notices?: Prisma.NoticeCreateNestedManyWithoutCenterInput
+  ptProducts?: Prisma.PTProductCreateNestedManyWithoutCenterInput
+  startedConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutOriginCenterInput
 }
 
 export type CenterUncheckedCreateWithoutPtContractsInput = {
@@ -1026,12 +1026,12 @@ export type CenterUncheckedCreateWithoutPtContractsInput = {
   status?: $Enums.CenterStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutCenterInput
   invitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCenterInput
-  startedConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutOriginCenterInput
-  ptProducts?: Prisma.PTProductUncheckedCreateNestedManyWithoutCenterInput
+  memberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutCenterInput
   gyms?: Prisma.GymUncheckedCreateNestedManyWithoutCenterInput
   notices?: Prisma.NoticeUncheckedCreateNestedManyWithoutCenterInput
+  ptProducts?: Prisma.PTProductUncheckedCreateNestedManyWithoutCenterInput
+  startedConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutOriginCenterInput
 }
 
 export type CenterCreateOrConnectWithoutPtContractsInput = {
@@ -1060,12 +1060,12 @@ export type CenterUpdateWithoutPtContractsInput = {
   status?: Prisma.EnumCenterStatusFieldUpdateOperationsInput | $Enums.CenterStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberships?: Prisma.CenterMembershipUpdateManyWithoutCenterNestedInput
   invitations?: Prisma.CenterInvitationUpdateManyWithoutCenterNestedInput
-  startedConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutOriginCenterNestedInput
-  ptProducts?: Prisma.PTProductUpdateManyWithoutCenterNestedInput
+  memberships?: Prisma.CenterMembershipUpdateManyWithoutCenterNestedInput
   gyms?: Prisma.GymUpdateManyWithoutCenterNestedInput
   notices?: Prisma.NoticeUpdateManyWithoutCenterNestedInput
+  ptProducts?: Prisma.PTProductUpdateManyWithoutCenterNestedInput
+  startedConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutOriginCenterNestedInput
 }
 
 export type CenterUncheckedUpdateWithoutPtContractsInput = {
@@ -1078,12 +1078,12 @@ export type CenterUncheckedUpdateWithoutPtContractsInput = {
   status?: Prisma.EnumCenterStatusFieldUpdateOperationsInput | $Enums.CenterStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutCenterNestedInput
   invitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCenterNestedInput
-  startedConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutOriginCenterNestedInput
-  ptProducts?: Prisma.PTProductUncheckedUpdateManyWithoutCenterNestedInput
+  memberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutCenterNestedInput
   gyms?: Prisma.GymUncheckedUpdateManyWithoutCenterNestedInput
   notices?: Prisma.NoticeUncheckedUpdateManyWithoutCenterNestedInput
+  ptProducts?: Prisma.PTProductUncheckedUpdateManyWithoutCenterNestedInput
+  startedConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutOriginCenterNestedInput
 }
 
 export type CenterCreateWithoutNoticesInput = {
@@ -1096,12 +1096,12 @@ export type CenterCreateWithoutNoticesInput = {
   status?: $Enums.CenterStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberships?: Prisma.CenterMembershipCreateNestedManyWithoutCenterInput
   invitations?: Prisma.CenterInvitationCreateNestedManyWithoutCenterInput
-  startedConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutOriginCenterInput
+  memberships?: Prisma.CenterMembershipCreateNestedManyWithoutCenterInput
+  gyms?: Prisma.GymCreateNestedManyWithoutCenterInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutCenterInput
   ptProducts?: Prisma.PTProductCreateNestedManyWithoutCenterInput
-  gyms?: Prisma.GymCreateNestedManyWithoutCenterInput
+  startedConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutOriginCenterInput
 }
 
 export type CenterUncheckedCreateWithoutNoticesInput = {
@@ -1114,12 +1114,12 @@ export type CenterUncheckedCreateWithoutNoticesInput = {
   status?: $Enums.CenterStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutCenterInput
   invitations?: Prisma.CenterInvitationUncheckedCreateNestedManyWithoutCenterInput
-  startedConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutOriginCenterInput
+  memberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutCenterInput
+  gyms?: Prisma.GymUncheckedCreateNestedManyWithoutCenterInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutCenterInput
   ptProducts?: Prisma.PTProductUncheckedCreateNestedManyWithoutCenterInput
-  gyms?: Prisma.GymUncheckedCreateNestedManyWithoutCenterInput
+  startedConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutOriginCenterInput
 }
 
 export type CenterCreateOrConnectWithoutNoticesInput = {
@@ -1148,12 +1148,12 @@ export type CenterUpdateWithoutNoticesInput = {
   status?: Prisma.EnumCenterStatusFieldUpdateOperationsInput | $Enums.CenterStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberships?: Prisma.CenterMembershipUpdateManyWithoutCenterNestedInput
   invitations?: Prisma.CenterInvitationUpdateManyWithoutCenterNestedInput
-  startedConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutOriginCenterNestedInput
+  memberships?: Prisma.CenterMembershipUpdateManyWithoutCenterNestedInput
+  gyms?: Prisma.GymUpdateManyWithoutCenterNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutCenterNestedInput
   ptProducts?: Prisma.PTProductUpdateManyWithoutCenterNestedInput
-  gyms?: Prisma.GymUpdateManyWithoutCenterNestedInput
+  startedConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutOriginCenterNestedInput
 }
 
 export type CenterUncheckedUpdateWithoutNoticesInput = {
@@ -1166,12 +1166,12 @@ export type CenterUncheckedUpdateWithoutNoticesInput = {
   status?: Prisma.EnumCenterStatusFieldUpdateOperationsInput | $Enums.CenterStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutCenterNestedInput
   invitations?: Prisma.CenterInvitationUncheckedUpdateManyWithoutCenterNestedInput
-  startedConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutOriginCenterNestedInput
+  memberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutCenterNestedInput
+  gyms?: Prisma.GymUncheckedUpdateManyWithoutCenterNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutCenterNestedInput
   ptProducts?: Prisma.PTProductUncheckedUpdateManyWithoutCenterNestedInput
-  gyms?: Prisma.GymUncheckedUpdateManyWithoutCenterNestedInput
+  startedConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutOriginCenterNestedInput
 }
 
 
@@ -1180,23 +1180,23 @@ export type CenterUncheckedUpdateWithoutNoticesInput = {
  */
 
 export type CenterCountOutputType = {
-  memberships: number
   invitations: number
-  startedConnections: number
-  ptContracts: number
-  ptProducts: number
+  memberships: number
   gyms: number
   notices: number
+  ptContracts: number
+  ptProducts: number
+  startedConnections: number
 }
 
 export type CenterCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  memberships?: boolean | CenterCountOutputTypeCountMembershipsArgs
   invitations?: boolean | CenterCountOutputTypeCountInvitationsArgs
-  startedConnections?: boolean | CenterCountOutputTypeCountStartedConnectionsArgs
-  ptContracts?: boolean | CenterCountOutputTypeCountPtContractsArgs
-  ptProducts?: boolean | CenterCountOutputTypeCountPtProductsArgs
+  memberships?: boolean | CenterCountOutputTypeCountMembershipsArgs
   gyms?: boolean | CenterCountOutputTypeCountGymsArgs
   notices?: boolean | CenterCountOutputTypeCountNoticesArgs
+  ptContracts?: boolean | CenterCountOutputTypeCountPtContractsArgs
+  ptProducts?: boolean | CenterCountOutputTypeCountPtProductsArgs
+  startedConnections?: boolean | CenterCountOutputTypeCountStartedConnectionsArgs
 }
 
 /**
@@ -1212,13 +1212,6 @@ export type CenterCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exten
 /**
  * CenterCountOutputType without action
  */
-export type CenterCountOutputTypeCountMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.CenterMembershipWhereInput
-}
-
-/**
- * CenterCountOutputType without action
- */
 export type CenterCountOutputTypeCountInvitationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.CenterInvitationWhereInput
 }
@@ -1226,8 +1219,22 @@ export type CenterCountOutputTypeCountInvitationsArgs<ExtArgs extends runtime.Ty
 /**
  * CenterCountOutputType without action
  */
-export type CenterCountOutputTypeCountStartedConnectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TrainerMemberConnectionWhereInput
+export type CenterCountOutputTypeCountMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CenterMembershipWhereInput
+}
+
+/**
+ * CenterCountOutputType without action
+ */
+export type CenterCountOutputTypeCountGymsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.GymWhereInput
+}
+
+/**
+ * CenterCountOutputType without action
+ */
+export type CenterCountOutputTypeCountNoticesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NoticeWhereInput
 }
 
 /**
@@ -1247,15 +1254,8 @@ export type CenterCountOutputTypeCountPtProductsArgs<ExtArgs extends runtime.Typ
 /**
  * CenterCountOutputType without action
  */
-export type CenterCountOutputTypeCountGymsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.GymWhereInput
-}
-
-/**
- * CenterCountOutputType without action
- */
-export type CenterCountOutputTypeCountNoticesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.NoticeWhereInput
+export type CenterCountOutputTypeCountStartedConnectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TrainerMemberConnectionWhereInput
 }
 
 
@@ -1269,13 +1269,13 @@ export type CenterSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  memberships?: boolean | Prisma.Center$membershipsArgs<ExtArgs>
   invitations?: boolean | Prisma.Center$invitationsArgs<ExtArgs>
-  startedConnections?: boolean | Prisma.Center$startedConnectionsArgs<ExtArgs>
-  ptContracts?: boolean | Prisma.Center$ptContractsArgs<ExtArgs>
-  ptProducts?: boolean | Prisma.Center$ptProductsArgs<ExtArgs>
+  memberships?: boolean | Prisma.Center$membershipsArgs<ExtArgs>
   gyms?: boolean | Prisma.Center$gymsArgs<ExtArgs>
   notices?: boolean | Prisma.Center$noticesArgs<ExtArgs>
+  ptContracts?: boolean | Prisma.Center$ptContractsArgs<ExtArgs>
+  ptProducts?: boolean | Prisma.Center$ptProductsArgs<ExtArgs>
+  startedConnections?: boolean | Prisma.Center$startedConnectionsArgs<ExtArgs>
   _count?: boolean | Prisma.CenterCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["center"]>
 
@@ -1317,13 +1317,13 @@ export type CenterSelectScalar = {
 
 export type CenterOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "address" | "phone" | "description" | "logoUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["center"]>
 export type CenterInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  memberships?: boolean | Prisma.Center$membershipsArgs<ExtArgs>
   invitations?: boolean | Prisma.Center$invitationsArgs<ExtArgs>
-  startedConnections?: boolean | Prisma.Center$startedConnectionsArgs<ExtArgs>
-  ptContracts?: boolean | Prisma.Center$ptContractsArgs<ExtArgs>
-  ptProducts?: boolean | Prisma.Center$ptProductsArgs<ExtArgs>
+  memberships?: boolean | Prisma.Center$membershipsArgs<ExtArgs>
   gyms?: boolean | Prisma.Center$gymsArgs<ExtArgs>
   notices?: boolean | Prisma.Center$noticesArgs<ExtArgs>
+  ptContracts?: boolean | Prisma.Center$ptContractsArgs<ExtArgs>
+  ptProducts?: boolean | Prisma.Center$ptProductsArgs<ExtArgs>
+  startedConnections?: boolean | Prisma.Center$startedConnectionsArgs<ExtArgs>
   _count?: boolean | Prisma.CenterCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CenterIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1332,13 +1332,13 @@ export type CenterIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type $CenterPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Center"
   objects: {
-    memberships: Prisma.$CenterMembershipPayload<ExtArgs>[]
     invitations: Prisma.$CenterInvitationPayload<ExtArgs>[]
-    startedConnections: Prisma.$TrainerMemberConnectionPayload<ExtArgs>[]
-    ptContracts: Prisma.$PTContractPayload<ExtArgs>[]
-    ptProducts: Prisma.$PTProductPayload<ExtArgs>[]
+    memberships: Prisma.$CenterMembershipPayload<ExtArgs>[]
     gyms: Prisma.$GymPayload<ExtArgs>[]
     notices: Prisma.$NoticePayload<ExtArgs>[]
+    ptContracts: Prisma.$PTContractPayload<ExtArgs>[]
+    ptProducts: Prisma.$PTProductPayload<ExtArgs>[]
+    startedConnections: Prisma.$TrainerMemberConnectionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1744,13 +1744,13 @@ readonly fields: CenterFieldRefs;
  */
 export interface Prisma__CenterClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  memberships<T extends Prisma.Center$membershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Center$membershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CenterMembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   invitations<T extends Prisma.Center$invitationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Center$invitationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CenterInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  startedConnections<T extends Prisma.Center$startedConnectionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Center$startedConnectionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrainerMemberConnectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  ptContracts<T extends Prisma.Center$ptContractsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Center$ptContractsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PTContractPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  ptProducts<T extends Prisma.Center$ptProductsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Center$ptProductsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PTProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  memberships<T extends Prisma.Center$membershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Center$membershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CenterMembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   gyms<T extends Prisma.Center$gymsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Center$gymsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GymPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notices<T extends Prisma.Center$noticesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Center$noticesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NoticePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  ptContracts<T extends Prisma.Center$ptContractsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Center$ptContractsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PTContractPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  ptProducts<T extends Prisma.Center$ptProductsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Center$ptProductsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PTProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  startedConnections<T extends Prisma.Center$startedConnectionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Center$startedConnectionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrainerMemberConnectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2182,30 +2182,6 @@ export type CenterDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
- * Center.memberships
- */
-export type Center$membershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the CenterMembership
-   */
-  select?: Prisma.CenterMembershipSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the CenterMembership
-   */
-  omit?: Prisma.CenterMembershipOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CenterMembershipInclude<ExtArgs> | null
-  where?: Prisma.CenterMembershipWhereInput
-  orderBy?: Prisma.CenterMembershipOrderByWithRelationInput | Prisma.CenterMembershipOrderByWithRelationInput[]
-  cursor?: Prisma.CenterMembershipWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.CenterMembershipScalarFieldEnum | Prisma.CenterMembershipScalarFieldEnum[]
-}
-
-/**
  * Center.invitations
  */
 export type Center$invitationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2230,27 +2206,75 @@ export type Center$invitationsArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * Center.startedConnections
+ * Center.memberships
  */
-export type Center$startedConnectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Center$membershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the TrainerMemberConnection
+   * Select specific fields to fetch from the CenterMembership
    */
-  select?: Prisma.TrainerMemberConnectionSelect<ExtArgs> | null
+  select?: Prisma.CenterMembershipSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the TrainerMemberConnection
+   * Omit specific fields from the CenterMembership
    */
-  omit?: Prisma.TrainerMemberConnectionOmit<ExtArgs> | null
+  omit?: Prisma.CenterMembershipOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.TrainerMemberConnectionInclude<ExtArgs> | null
-  where?: Prisma.TrainerMemberConnectionWhereInput
-  orderBy?: Prisma.TrainerMemberConnectionOrderByWithRelationInput | Prisma.TrainerMemberConnectionOrderByWithRelationInput[]
-  cursor?: Prisma.TrainerMemberConnectionWhereUniqueInput
+  include?: Prisma.CenterMembershipInclude<ExtArgs> | null
+  where?: Prisma.CenterMembershipWhereInput
+  orderBy?: Prisma.CenterMembershipOrderByWithRelationInput | Prisma.CenterMembershipOrderByWithRelationInput[]
+  cursor?: Prisma.CenterMembershipWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.TrainerMemberConnectionScalarFieldEnum | Prisma.TrainerMemberConnectionScalarFieldEnum[]
+  distinct?: Prisma.CenterMembershipScalarFieldEnum | Prisma.CenterMembershipScalarFieldEnum[]
+}
+
+/**
+ * Center.gyms
+ */
+export type Center$gymsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Gym
+   */
+  select?: Prisma.GymSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Gym
+   */
+  omit?: Prisma.GymOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GymInclude<ExtArgs> | null
+  where?: Prisma.GymWhereInput
+  orderBy?: Prisma.GymOrderByWithRelationInput | Prisma.GymOrderByWithRelationInput[]
+  cursor?: Prisma.GymWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.GymScalarFieldEnum | Prisma.GymScalarFieldEnum[]
+}
+
+/**
+ * Center.notices
+ */
+export type Center$noticesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Notice
+   */
+  select?: Prisma.NoticeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Notice
+   */
+  omit?: Prisma.NoticeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NoticeInclude<ExtArgs> | null
+  where?: Prisma.NoticeWhereInput
+  orderBy?: Prisma.NoticeOrderByWithRelationInput | Prisma.NoticeOrderByWithRelationInput[]
+  cursor?: Prisma.NoticeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NoticeScalarFieldEnum | Prisma.NoticeScalarFieldEnum[]
 }
 
 /**
@@ -2302,51 +2326,27 @@ export type Center$ptProductsArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
- * Center.gyms
+ * Center.startedConnections
  */
-export type Center$gymsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Center$startedConnectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Gym
+   * Select specific fields to fetch from the TrainerMemberConnection
    */
-  select?: Prisma.GymSelect<ExtArgs> | null
+  select?: Prisma.TrainerMemberConnectionSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Gym
+   * Omit specific fields from the TrainerMemberConnection
    */
-  omit?: Prisma.GymOmit<ExtArgs> | null
+  omit?: Prisma.TrainerMemberConnectionOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.GymInclude<ExtArgs> | null
-  where?: Prisma.GymWhereInput
-  orderBy?: Prisma.GymOrderByWithRelationInput | Prisma.GymOrderByWithRelationInput[]
-  cursor?: Prisma.GymWhereUniqueInput
+  include?: Prisma.TrainerMemberConnectionInclude<ExtArgs> | null
+  where?: Prisma.TrainerMemberConnectionWhereInput
+  orderBy?: Prisma.TrainerMemberConnectionOrderByWithRelationInput | Prisma.TrainerMemberConnectionOrderByWithRelationInput[]
+  cursor?: Prisma.TrainerMemberConnectionWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.GymScalarFieldEnum | Prisma.GymScalarFieldEnum[]
-}
-
-/**
- * Center.notices
- */
-export type Center$noticesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Notice
-   */
-  select?: Prisma.NoticeSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Notice
-   */
-  omit?: Prisma.NoticeOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.NoticeInclude<ExtArgs> | null
-  where?: Prisma.NoticeWhereInput
-  orderBy?: Prisma.NoticeOrderByWithRelationInput | Prisma.NoticeOrderByWithRelationInput[]
-  cursor?: Prisma.NoticeWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.NoticeScalarFieldEnum | Prisma.NoticeScalarFieldEnum[]
+  distinct?: Prisma.TrainerMemberConnectionScalarFieldEnum | Prisma.TrainerMemberConnectionScalarFieldEnum[]
 }
 
 /**

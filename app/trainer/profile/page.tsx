@@ -37,43 +37,76 @@ export default async function TrainerProfilePage() {
   ]);
 
   return (
-    <main className="px-5 pt-5 pb-16">
-      <h1 className="text-xl font-bold">내 정보</h1>
-
-      <section className="mt-4 rounded-2xl border border-border bg-card p-5">
-        <p className="text-lg font-bold">{profile?.displayName ?? user.name}</p>
-        <p className="mt-0.5 text-sm text-muted-foreground">{user.email}</p>
-        <p className="mt-3 flex items-center gap-1.5 text-sm text-muted-foreground">
-          <Users className="size-4" aria-hidden />
-          담당 회원{" "}
-          <span className="font-bold text-foreground tabular-nums">
-            {memberCount}
-          </span>
-          명
+    <main className="px-5 pt-6 pb-16">
+      <header className="mb-6">
+        <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-brand-strong">
+          MY PROFILE
         </p>
+        <h1 className="mt-2 text-2xl font-bold tracking-tight">내 정보</h1>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          트레이너 계정과 회원 초대를 관리해요.
+        </p>
+      </header>
+
+      <section className="rounded-3xl border border-border/70 bg-card p-5 shadow-card">
+        <div className="flex items-start gap-4">
+          <div className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-accent text-lg font-bold text-brand-strong">
+            {(profile?.displayName ?? user.name)?.charAt(0) ?? "T"}
+          </div>
+
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-lg font-bold tracking-tight">
+              {profile?.displayName ?? user.name}
+            </p>
+            <p className="mt-1 break-all text-sm text-muted-foreground">
+              {user.email}
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-5 flex items-center justify-between rounded-2xl bg-secondary/70 px-4 py-3.5">
+          <span className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+            <Users className="size-4" aria-hidden />
+            담당 회원
+          </span>
+
+          <span className="text-xl font-bold tabular-nums">
+            {memberCount}
+            <span className="ml-1 text-sm font-medium">명</span>
+          </span>
+        </div>
       </section>
 
       <div className="mt-4">
         <InvitePanel invitations={invitations} />
       </div>
 
-      <section className="mt-4 rounded-2xl border border-border bg-card p-5">
-        <h2 className="text-sm font-bold">회원 화면</h2>
-        <p className="mt-1 mb-2 text-xs text-muted-foreground">
-          내 운동 기록과 캘린더는 회원 화면에 있어요.
-        </p>
+      <section className="mt-4 rounded-3xl border border-border/70 bg-card p-5 shadow-card">
+        <div className="flex items-center gap-3">
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-secondary text-foreground">
+            <ArrowLeftRight className="size-4" aria-hidden />
+          </span>
+
+          <div>
+            <h2 className="text-sm font-bold">회원 화면</h2>
+            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+              내 운동 기록과 캘린더를 확인할 수 있어요.
+            </p>
+          </div>
+        </div>
+
         <Link
           href="/home"
-          className="inline-flex h-11 items-center gap-1.5 rounded-xl border border-border px-4 text-sm font-bold"
+          className="mt-4 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-border bg-background text-sm font-bold transition-colors hover:bg-secondary active:scale-[0.99]"
         >
+          회원 화면으로 이동
           <ArrowLeftRight className="size-4" aria-hidden />
-          회원 화면으로
         </Link>
       </section>
 
       <Link
         href="/profile"
-        className="mt-4 flex h-11 items-center justify-center gap-1.5 rounded-xl text-sm font-semibold text-muted-foreground"
+        className="mt-3 flex h-11 items-center justify-center gap-2 rounded-xl text-sm font-semibold text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
       >
         <LogOut className="size-4" aria-hidden />
         계정 설정

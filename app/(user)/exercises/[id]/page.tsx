@@ -39,7 +39,7 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-2xl border border-border bg-card p-5">
+    <section className="rounded-2xl bg-card shadow-card p-5">
       <h2 className="text-sm font-bold">{title}</h2>
       <div className="mt-3">{children}</div>
     </section>
@@ -111,7 +111,7 @@ export default async function ExerciseDetailPage({
           <input type="hidden" name="exerciseId" value={exercise.id} />
           <button
             type="submit"
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary text-sm font-bold text-primary-foreground"
+            className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-bold text-brand-foreground"
           >
             <Plus className="size-4" />
             {alreadyAdded
@@ -188,11 +188,11 @@ export default async function ExerciseDetailPage({
       )}
 
       {exercise.caution && (
-        <section className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-5">
-          <h2 className="text-sm font-bold text-amber-700 dark:text-amber-400">
+        <section className="rounded-2xl bg-status-check-bg p-5">
+          <h2 className="text-sm font-bold text-status-check">
             주의사항
           </h2>
-          <p className="mt-3 text-sm leading-6 text-amber-800 dark:text-amber-200/80">
+          <p className="mt-3 text-sm leading-6 text-status-check">
             {exercise.caution}
           </p>
         </section>

@@ -15,10 +15,10 @@ import type * as Prisma from "../internal/prismaNamespace"
 /**
  * Model Notice
  * *
- *  * 공지사항.
- *  * 알림장이 한 회원에게 가는 글이라면 이건 여러 명에게 간다. 대상을 회원 목록으로
- *  * 펼쳐 저장하지 않는다. 회원이 늘거나 나갈 때마다 대상을 고쳐야 하기 때문이다.
- *  * 대신 범위만 저장하고 읽을 때 계산한다.
+ * * 공지사항.
+ * * 알림장이 한 회원에게 가는 글이라면 이건 여러 명에게 간다. 대상을 회원 목록으로
+ * * 펼쳐 저장하지 않는다. 회원이 늘거나 나갈 때마다 대상을 고쳐야 하기 때문이다.
+ * * 대신 범위만 저장하고 읽을 때 계산한다.
  */
 export type NoticeModel = runtime.Types.Result.DefaultSelection<Prisma.$NoticePayload>
 
@@ -226,8 +226,8 @@ export type NoticeWhereInput = {
   publishedAt?: Prisma.DateTimeNullableFilter<"Notice"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Notice"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Notice"> | Date | string
-  center?: Prisma.XOR<Prisma.CenterScalarRelationFilter, Prisma.CenterWhereInput>
   authorMembership?: Prisma.XOR<Prisma.CenterMembershipScalarRelationFilter, Prisma.CenterMembershipWhereInput>
+  center?: Prisma.XOR<Prisma.CenterScalarRelationFilter, Prisma.CenterWhereInput>
   reads?: Prisma.NoticeReadListRelationFilter
 }
 
@@ -242,8 +242,8 @@ export type NoticeOrderByWithRelationInput = {
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  center?: Prisma.CenterOrderByWithRelationInput
   authorMembership?: Prisma.CenterMembershipOrderByWithRelationInput
+  center?: Prisma.CenterOrderByWithRelationInput
   reads?: Prisma.NoticeReadOrderByRelationAggregateInput
 }
 
@@ -261,8 +261,8 @@ export type NoticeWhereUniqueInput = Prisma.AtLeast<{
   publishedAt?: Prisma.DateTimeNullableFilter<"Notice"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Notice"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Notice"> | Date | string
-  center?: Prisma.XOR<Prisma.CenterScalarRelationFilter, Prisma.CenterWhereInput>
   authorMembership?: Prisma.XOR<Prisma.CenterMembershipScalarRelationFilter, Prisma.CenterMembershipWhereInput>
+  center?: Prisma.XOR<Prisma.CenterScalarRelationFilter, Prisma.CenterWhereInput>
   reads?: Prisma.NoticeReadListRelationFilter
 }, "id">
 
@@ -307,8 +307,8 @@ export type NoticeCreateInput = {
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  center: Prisma.CenterCreateNestedOneWithoutNoticesInput
   authorMembership: Prisma.CenterMembershipCreateNestedOneWithoutAuthoredNoticesInput
+  center: Prisma.CenterCreateNestedOneWithoutNoticesInput
   reads?: Prisma.NoticeReadCreateNestedManyWithoutNoticeInput
 }
 
@@ -335,8 +335,8 @@ export type NoticeUpdateInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  center?: Prisma.CenterUpdateOneRequiredWithoutNoticesNestedInput
   authorMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutAuthoredNoticesNestedInput
+  center?: Prisma.CenterUpdateOneRequiredWithoutNoticesNestedInput
   reads?: Prisma.NoticeReadUpdateManyWithoutNoticeNestedInput
 }
 
@@ -676,8 +676,8 @@ export type NoticeCreateWithoutReadsInput = {
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  center: Prisma.CenterCreateNestedOneWithoutNoticesInput
   authorMembership: Prisma.CenterMembershipCreateNestedOneWithoutAuthoredNoticesInput
+  center: Prisma.CenterCreateNestedOneWithoutNoticesInput
 }
 
 export type NoticeUncheckedCreateWithoutReadsInput = {
@@ -718,8 +718,8 @@ export type NoticeUpdateWithoutReadsInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  center?: Prisma.CenterUpdateOneRequiredWithoutNoticesNestedInput
   authorMembership?: Prisma.CenterMembershipUpdateOneRequiredWithoutAuthoredNoticesNestedInput
+  center?: Prisma.CenterUpdateOneRequiredWithoutNoticesNestedInput
 }
 
 export type NoticeUncheckedUpdateWithoutReadsInput = {
@@ -877,8 +877,8 @@ export type NoticeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
   authorMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
   reads?: boolean | Prisma.Notice$readsArgs<ExtArgs>
   _count?: boolean | Prisma.NoticeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["notice"]>
@@ -894,8 +894,8 @@ export type NoticeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
   authorMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["notice"]>
 
 export type NoticeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -909,8 +909,8 @@ export type NoticeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
   authorMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["notice"]>
 
 export type NoticeSelectScalar = {
@@ -928,25 +928,25 @@ export type NoticeSelectScalar = {
 
 export type NoticeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "centerId" | "authorMembershipId" | "scope" | "title" | "content" | "pinnedAt" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["notice"]>
 export type NoticeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
   authorMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
   reads?: boolean | Prisma.Notice$readsArgs<ExtArgs>
   _count?: boolean | Prisma.NoticeCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type NoticeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
   authorMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
 }
 export type NoticeIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
   authorMembership?: boolean | Prisma.CenterMembershipDefaultArgs<ExtArgs>
+  center?: boolean | Prisma.CenterDefaultArgs<ExtArgs>
 }
 
 export type $NoticePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Notice"
   objects: {
-    center: Prisma.$CenterPayload<ExtArgs>
     authorMembership: Prisma.$CenterMembershipPayload<ExtArgs>
+    center: Prisma.$CenterPayload<ExtArgs>
     reads: Prisma.$NoticeReadPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1354,8 +1354,8 @@ readonly fields: NoticeFieldRefs;
  */
 export interface Prisma__NoticeClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  center<T extends Prisma.CenterDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterDefaultArgs<ExtArgs>>): Prisma.Prisma__CenterClient<runtime.Types.Result.GetResult<Prisma.$CenterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   authorMembership<T extends Prisma.CenterMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__CenterMembershipClient<runtime.Types.Result.GetResult<Prisma.$CenterMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  center<T extends Prisma.CenterDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CenterDefaultArgs<ExtArgs>>): Prisma.Prisma__CenterClient<runtime.Types.Result.GetResult<Prisma.$CenterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   reads<T extends Prisma.Notice$readsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Notice$readsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NoticeReadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.

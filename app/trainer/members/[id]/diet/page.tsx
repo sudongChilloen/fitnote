@@ -88,7 +88,7 @@ export default async function TrainerMemberDietListPage({
           ) : null}
 
           {days.length === 0 ? (
-            <p className="mt-4 rounded-2xl border border-border bg-card p-4 text-xs text-muted-foreground">
+            <p className="mt-4 rounded-2xl bg-card shadow-card p-4 text-xs text-muted-foreground">
               아직 올린 식단이 없어요.
             </p>
           ) : (
@@ -106,7 +106,7 @@ export default async function TrainerMemberDietListPage({
                       <li key={record.id}>
                         <Link
                           href={`/trainer/members/${id}/diet/${record.id}`}
-                          className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3"
+                          className="flex items-center gap-3 rounded-2xl bg-card shadow-card p-3"
                         >
                           {record.thumbnailUrl ? (
                             // 서명 주소는 열 때마다 값이 달라 최적화 캐시가 빗나간다.
