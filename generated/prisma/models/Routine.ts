@@ -30,9 +30,9 @@ export type RoutineMinAggregateOutputType = {
   name: string | null
   description: string | null
   status: $Enums.RoutineStatus | null
-  createdByTrainerProfileId: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  createdByTrainerProfileId: string | null
 }
 
 export type RoutineMaxAggregateOutputType = {
@@ -41,9 +41,9 @@ export type RoutineMaxAggregateOutputType = {
   name: string | null
   description: string | null
   status: $Enums.RoutineStatus | null
-  createdByTrainerProfileId: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  createdByTrainerProfileId: string | null
 }
 
 export type RoutineCountAggregateOutputType = {
@@ -52,9 +52,9 @@ export type RoutineCountAggregateOutputType = {
   name: number
   description: number
   status: number
-  createdByTrainerProfileId: number
   createdAt: number
   updatedAt: number
+  createdByTrainerProfileId: number
   _all: number
 }
 
@@ -65,9 +65,9 @@ export type RoutineMinAggregateInputType = {
   name?: true
   description?: true
   status?: true
-  createdByTrainerProfileId?: true
   createdAt?: true
   updatedAt?: true
+  createdByTrainerProfileId?: true
 }
 
 export type RoutineMaxAggregateInputType = {
@@ -76,9 +76,9 @@ export type RoutineMaxAggregateInputType = {
   name?: true
   description?: true
   status?: true
-  createdByTrainerProfileId?: true
   createdAt?: true
   updatedAt?: true
+  createdByTrainerProfileId?: true
 }
 
 export type RoutineCountAggregateInputType = {
@@ -87,9 +87,9 @@ export type RoutineCountAggregateInputType = {
   name?: true
   description?: true
   status?: true
-  createdByTrainerProfileId?: true
   createdAt?: true
   updatedAt?: true
+  createdByTrainerProfileId?: true
   _all?: true
 }
 
@@ -171,9 +171,9 @@ export type RoutineGroupByOutputType = {
   name: string
   description: string | null
   status: $Enums.RoutineStatus
-  createdByTrainerProfileId: string | null
   createdAt: Date
   updatedAt: Date
+  createdByTrainerProfileId: string | null
   _count: RoutineCountAggregateOutputType | null
   _min: RoutineMinAggregateOutputType | null
   _max: RoutineMaxAggregateOutputType | null
@@ -203,11 +203,11 @@ export type RoutineWhereInput = {
   name?: Prisma.StringFilter<"Routine"> | string
   description?: Prisma.StringNullableFilter<"Routine"> | string | null
   status?: Prisma.EnumRoutineStatusFilter<"Routine"> | $Enums.RoutineStatus
-  createdByTrainerProfileId?: Prisma.StringNullableFilter<"Routine"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Routine"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Routine"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  createdByTrainerProfileId?: Prisma.StringNullableFilter<"Routine"> | string | null
   createdByTrainer?: Prisma.XOR<Prisma.TrainerProfileNullableScalarRelationFilter, Prisma.TrainerProfileWhereInput> | null
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   exercises?: Prisma.RoutineExerciseListRelationFilter
   workoutSessions?: Prisma.WorkoutSessionListRelationFilter
 }
@@ -218,11 +218,11 @@ export type RoutineOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
-  createdByTrainerProfileId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
+  createdByTrainerProfileId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdByTrainer?: Prisma.TrainerProfileOrderByWithRelationInput
+  user?: Prisma.UserOrderByWithRelationInput
   exercises?: Prisma.RoutineExerciseOrderByRelationAggregateInput
   workoutSessions?: Prisma.WorkoutSessionOrderByRelationAggregateInput
 }
@@ -236,11 +236,11 @@ export type RoutineWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Routine"> | string
   description?: Prisma.StringNullableFilter<"Routine"> | string | null
   status?: Prisma.EnumRoutineStatusFilter<"Routine"> | $Enums.RoutineStatus
-  createdByTrainerProfileId?: Prisma.StringNullableFilter<"Routine"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Routine"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Routine"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  createdByTrainerProfileId?: Prisma.StringNullableFilter<"Routine"> | string | null
   createdByTrainer?: Prisma.XOR<Prisma.TrainerProfileNullableScalarRelationFilter, Prisma.TrainerProfileWhereInput> | null
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   exercises?: Prisma.RoutineExerciseListRelationFilter
   workoutSessions?: Prisma.WorkoutSessionListRelationFilter
 }, "id">
@@ -251,9 +251,9 @@ export type RoutineOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
-  createdByTrainerProfileId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  createdByTrainerProfileId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.RoutineCountOrderByAggregateInput
   _max?: Prisma.RoutineMaxOrderByAggregateInput
   _min?: Prisma.RoutineMinOrderByAggregateInput
@@ -268,9 +268,9 @@ export type RoutineScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"Routine"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Routine"> | string | null
   status?: Prisma.EnumRoutineStatusWithAggregatesFilter<"Routine"> | $Enums.RoutineStatus
-  createdByTrainerProfileId?: Prisma.StringNullableWithAggregatesFilter<"Routine"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Routine"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Routine"> | Date | string
+  createdByTrainerProfileId?: Prisma.StringNullableWithAggregatesFilter<"Routine"> | string | null
 }
 
 export type RoutineCreateInput = {
@@ -280,8 +280,8 @@ export type RoutineCreateInput = {
   status?: $Enums.RoutineStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutRoutinesInput
   createdByTrainer?: Prisma.TrainerProfileCreateNestedOneWithoutCreatedRoutinesInput
+  user: Prisma.UserCreateNestedOneWithoutRoutinesInput
   exercises?: Prisma.RoutineExerciseCreateNestedManyWithoutRoutineInput
   workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRoutineInput
 }
@@ -292,9 +292,9 @@ export type RoutineUncheckedCreateInput = {
   name: string
   description?: string | null
   status?: $Enums.RoutineStatus
-  createdByTrainerProfileId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  createdByTrainerProfileId?: string | null
   exercises?: Prisma.RoutineExerciseUncheckedCreateNestedManyWithoutRoutineInput
   workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRoutineInput
 }
@@ -306,8 +306,8 @@ export type RoutineUpdateInput = {
   status?: Prisma.EnumRoutineStatusFieldUpdateOperationsInput | $Enums.RoutineStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutRoutinesNestedInput
   createdByTrainer?: Prisma.TrainerProfileUpdateOneWithoutCreatedRoutinesNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutRoutinesNestedInput
   exercises?: Prisma.RoutineExerciseUpdateManyWithoutRoutineNestedInput
   workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRoutineNestedInput
 }
@@ -318,9 +318,9 @@ export type RoutineUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumRoutineStatusFieldUpdateOperationsInput | $Enums.RoutineStatus
-  createdByTrainerProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdByTrainerProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   exercises?: Prisma.RoutineExerciseUncheckedUpdateManyWithoutRoutineNestedInput
   workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRoutineNestedInput
 }
@@ -331,9 +331,9 @@ export type RoutineCreateManyInput = {
   name: string
   description?: string | null
   status?: $Enums.RoutineStatus
-  createdByTrainerProfileId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  createdByTrainerProfileId?: string | null
 }
 
 export type RoutineUpdateManyMutationInput = {
@@ -351,9 +351,9 @@ export type RoutineUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumRoutineStatusFieldUpdateOperationsInput | $Enums.RoutineStatus
-  createdByTrainerProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdByTrainerProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type RoutineListRelationFilter = {
@@ -372,9 +372,9 @@ export type RoutineCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  createdByTrainerProfileId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  createdByTrainerProfileId?: Prisma.SortOrder
 }
 
 export type RoutineMaxOrderByAggregateInput = {
@@ -383,9 +383,9 @@ export type RoutineMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  createdByTrainerProfileId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  createdByTrainerProfileId?: Prisma.SortOrder
 }
 
 export type RoutineMinOrderByAggregateInput = {
@@ -394,9 +394,9 @@ export type RoutineMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  createdByTrainerProfileId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  createdByTrainerProfileId?: Prisma.SortOrder
 }
 
 export type RoutineScalarRelationFilter = {
@@ -544,9 +544,9 @@ export type RoutineUncheckedCreateWithoutUserInput = {
   name: string
   description?: string | null
   status?: $Enums.RoutineStatus
-  createdByTrainerProfileId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  createdByTrainerProfileId?: string | null
   exercises?: Prisma.RoutineExerciseUncheckedCreateNestedManyWithoutRoutineInput
   workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRoutineInput
 }
@@ -586,9 +586,9 @@ export type RoutineScalarWhereInput = {
   name?: Prisma.StringFilter<"Routine"> | string
   description?: Prisma.StringNullableFilter<"Routine"> | string | null
   status?: Prisma.EnumRoutineStatusFilter<"Routine"> | $Enums.RoutineStatus
-  createdByTrainerProfileId?: Prisma.StringNullableFilter<"Routine"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Routine"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Routine"> | Date | string
+  createdByTrainerProfileId?: Prisma.StringNullableFilter<"Routine"> | string | null
 }
 
 export type RoutineCreateWithoutCreatedByTrainerInput = {
@@ -648,8 +648,8 @@ export type RoutineCreateWithoutExercisesInput = {
   status?: $Enums.RoutineStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutRoutinesInput
   createdByTrainer?: Prisma.TrainerProfileCreateNestedOneWithoutCreatedRoutinesInput
+  user: Prisma.UserCreateNestedOneWithoutRoutinesInput
   workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRoutineInput
 }
 
@@ -659,9 +659,9 @@ export type RoutineUncheckedCreateWithoutExercisesInput = {
   name: string
   description?: string | null
   status?: $Enums.RoutineStatus
-  createdByTrainerProfileId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  createdByTrainerProfileId?: string | null
   workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRoutineInput
 }
 
@@ -688,8 +688,8 @@ export type RoutineUpdateWithoutExercisesInput = {
   status?: Prisma.EnumRoutineStatusFieldUpdateOperationsInput | $Enums.RoutineStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutRoutinesNestedInput
   createdByTrainer?: Prisma.TrainerProfileUpdateOneWithoutCreatedRoutinesNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutRoutinesNestedInput
   workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRoutineNestedInput
 }
 
@@ -699,9 +699,9 @@ export type RoutineUncheckedUpdateWithoutExercisesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumRoutineStatusFieldUpdateOperationsInput | $Enums.RoutineStatus
-  createdByTrainerProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdByTrainerProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRoutineNestedInput
 }
 
@@ -712,8 +712,8 @@ export type RoutineCreateWithoutWorkoutSessionsInput = {
   status?: $Enums.RoutineStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutRoutinesInput
   createdByTrainer?: Prisma.TrainerProfileCreateNestedOneWithoutCreatedRoutinesInput
+  user: Prisma.UserCreateNestedOneWithoutRoutinesInput
   exercises?: Prisma.RoutineExerciseCreateNestedManyWithoutRoutineInput
 }
 
@@ -723,9 +723,9 @@ export type RoutineUncheckedCreateWithoutWorkoutSessionsInput = {
   name: string
   description?: string | null
   status?: $Enums.RoutineStatus
-  createdByTrainerProfileId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  createdByTrainerProfileId?: string | null
   exercises?: Prisma.RoutineExerciseUncheckedCreateNestedManyWithoutRoutineInput
 }
 
@@ -752,8 +752,8 @@ export type RoutineUpdateWithoutWorkoutSessionsInput = {
   status?: Prisma.EnumRoutineStatusFieldUpdateOperationsInput | $Enums.RoutineStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutRoutinesNestedInput
   createdByTrainer?: Prisma.TrainerProfileUpdateOneWithoutCreatedRoutinesNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutRoutinesNestedInput
   exercises?: Prisma.RoutineExerciseUpdateManyWithoutRoutineNestedInput
 }
 
@@ -763,9 +763,9 @@ export type RoutineUncheckedUpdateWithoutWorkoutSessionsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumRoutineStatusFieldUpdateOperationsInput | $Enums.RoutineStatus
-  createdByTrainerProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdByTrainerProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   exercises?: Prisma.RoutineExerciseUncheckedUpdateManyWithoutRoutineNestedInput
 }
 
@@ -774,9 +774,9 @@ export type RoutineCreateManyUserInput = {
   name: string
   description?: string | null
   status?: $Enums.RoutineStatus
-  createdByTrainerProfileId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  createdByTrainerProfileId?: string | null
 }
 
 export type RoutineUpdateWithoutUserInput = {
@@ -796,9 +796,9 @@ export type RoutineUncheckedUpdateWithoutUserInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumRoutineStatusFieldUpdateOperationsInput | $Enums.RoutineStatus
-  createdByTrainerProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdByTrainerProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   exercises?: Prisma.RoutineExerciseUncheckedUpdateManyWithoutRoutineNestedInput
   workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRoutineNestedInput
 }
@@ -808,9 +808,9 @@ export type RoutineUncheckedUpdateManyWithoutUserInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumRoutineStatusFieldUpdateOperationsInput | $Enums.RoutineStatus
-  createdByTrainerProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdByTrainerProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type RoutineCreateManyCreatedByTrainerInput = {
@@ -903,11 +903,11 @@ export type RoutineSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   name?: boolean
   description?: boolean
   status?: boolean
-  createdByTrainerProfileId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  createdByTrainerProfileId?: boolean
   createdByTrainer?: boolean | Prisma.Routine$createdByTrainerArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   exercises?: boolean | Prisma.Routine$exercisesArgs<ExtArgs>
   workoutSessions?: boolean | Prisma.Routine$workoutSessionsArgs<ExtArgs>
   _count?: boolean | Prisma.RoutineCountOutputTypeDefaultArgs<ExtArgs>
@@ -919,11 +919,11 @@ export type RoutineSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   name?: boolean
   description?: boolean
   status?: boolean
-  createdByTrainerProfileId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  createdByTrainerProfileId?: boolean
   createdByTrainer?: boolean | Prisma.Routine$createdByTrainerArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["routine"]>
 
 export type RoutineSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -932,11 +932,11 @@ export type RoutineSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   name?: boolean
   description?: boolean
   status?: boolean
-  createdByTrainerProfileId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  createdByTrainerProfileId?: boolean
   createdByTrainer?: boolean | Prisma.Routine$createdByTrainerArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["routine"]>
 
 export type RoutineSelectScalar = {
@@ -945,33 +945,33 @@ export type RoutineSelectScalar = {
   name?: boolean
   description?: boolean
   status?: boolean
-  createdByTrainerProfileId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  createdByTrainerProfileId?: boolean
 }
 
-export type RoutineOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "description" | "status" | "createdByTrainerProfileId" | "createdAt" | "updatedAt", ExtArgs["result"]["routine"]>
+export type RoutineOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "description" | "status" | "createdAt" | "updatedAt" | "createdByTrainerProfileId", ExtArgs["result"]["routine"]>
 export type RoutineInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   createdByTrainer?: boolean | Prisma.Routine$createdByTrainerArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   exercises?: boolean | Prisma.Routine$exercisesArgs<ExtArgs>
   workoutSessions?: boolean | Prisma.Routine$workoutSessionsArgs<ExtArgs>
   _count?: boolean | Prisma.RoutineCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type RoutineIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   createdByTrainer?: boolean | Prisma.Routine$createdByTrainerArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type RoutineIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   createdByTrainer?: boolean | Prisma.Routine$createdByTrainerArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $RoutinePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Routine"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
     createdByTrainer: Prisma.$TrainerProfilePayload<ExtArgs> | null
+    user: Prisma.$UserPayload<ExtArgs>
     exercises: Prisma.$RoutineExercisePayload<ExtArgs>[]
     workoutSessions: Prisma.$WorkoutSessionPayload<ExtArgs>[]
   }
@@ -981,9 +981,9 @@ export type $RoutinePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     name: string
     description: string | null
     status: $Enums.RoutineStatus
-    createdByTrainerProfileId: string | null
     createdAt: Date
     updatedAt: Date
+    createdByTrainerProfileId: string | null
   }, ExtArgs["result"]["routine"]>
   composites: {}
 }
@@ -1378,8 +1378,8 @@ readonly fields: RoutineFieldRefs;
  */
 export interface Prisma__RoutineClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   createdByTrainer<T extends Prisma.Routine$createdByTrainerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Routine$createdByTrainerArgs<ExtArgs>>): Prisma.Prisma__TrainerProfileClient<runtime.Types.Result.GetResult<Prisma.$TrainerProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   exercises<T extends Prisma.Routine$exercisesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Routine$exercisesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RoutineExercisePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   workoutSessions<T extends Prisma.Routine$workoutSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Routine$workoutSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorkoutSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1416,9 +1416,9 @@ export interface RoutineFieldRefs {
   readonly name: Prisma.FieldRef<"Routine", 'String'>
   readonly description: Prisma.FieldRef<"Routine", 'String'>
   readonly status: Prisma.FieldRef<"Routine", 'RoutineStatus'>
-  readonly createdByTrainerProfileId: Prisma.FieldRef<"Routine", 'String'>
   readonly createdAt: Prisma.FieldRef<"Routine", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Routine", 'DateTime'>
+  readonly createdByTrainerProfileId: Prisma.FieldRef<"Routine", 'String'>
 }
     
 

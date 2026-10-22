@@ -43,13 +43,13 @@ export type GoalMinAggregateOutputType = {
   title: string | null
   description: string | null
   targetValue: runtime.Decimal | null
-  startValue: runtime.Decimal | null
   unit: string | null
   startDate: Date | null
   targetDate: Date | null
   status: $Enums.GoalStatus | null
   createdAt: Date | null
   updatedAt: Date | null
+  startValue: runtime.Decimal | null
 }
 
 export type GoalMaxAggregateOutputType = {
@@ -59,13 +59,13 @@ export type GoalMaxAggregateOutputType = {
   title: string | null
   description: string | null
   targetValue: runtime.Decimal | null
-  startValue: runtime.Decimal | null
   unit: string | null
   startDate: Date | null
   targetDate: Date | null
   status: $Enums.GoalStatus | null
   createdAt: Date | null
   updatedAt: Date | null
+  startValue: runtime.Decimal | null
 }
 
 export type GoalCountAggregateOutputType = {
@@ -75,13 +75,13 @@ export type GoalCountAggregateOutputType = {
   title: number
   description: number
   targetValue: number
-  startValue: number
   unit: number
   startDate: number
   targetDate: number
   status: number
   createdAt: number
   updatedAt: number
+  startValue: number
   _all: number
 }
 
@@ -103,13 +103,13 @@ export type GoalMinAggregateInputType = {
   title?: true
   description?: true
   targetValue?: true
-  startValue?: true
   unit?: true
   startDate?: true
   targetDate?: true
   status?: true
   createdAt?: true
   updatedAt?: true
+  startValue?: true
 }
 
 export type GoalMaxAggregateInputType = {
@@ -119,13 +119,13 @@ export type GoalMaxAggregateInputType = {
   title?: true
   description?: true
   targetValue?: true
-  startValue?: true
   unit?: true
   startDate?: true
   targetDate?: true
   status?: true
   createdAt?: true
   updatedAt?: true
+  startValue?: true
 }
 
 export type GoalCountAggregateInputType = {
@@ -135,13 +135,13 @@ export type GoalCountAggregateInputType = {
   title?: true
   description?: true
   targetValue?: true
-  startValue?: true
   unit?: true
   startDate?: true
   targetDate?: true
   status?: true
   createdAt?: true
   updatedAt?: true
+  startValue?: true
   _all?: true
 }
 
@@ -238,13 +238,13 @@ export type GoalGroupByOutputType = {
   title: string
   description: string | null
   targetValue: runtime.Decimal | null
-  startValue: runtime.Decimal | null
   unit: string | null
   startDate: Date
   targetDate: Date | null
   status: $Enums.GoalStatus
   createdAt: Date
   updatedAt: Date
+  startValue: runtime.Decimal | null
   _count: GoalCountAggregateOutputType | null
   _avg: GoalAvgAggregateOutputType | null
   _sum: GoalSumAggregateOutputType | null
@@ -277,13 +277,13 @@ export type GoalWhereInput = {
   title?: Prisma.StringFilter<"Goal"> | string
   description?: Prisma.StringNullableFilter<"Goal"> | string | null
   targetValue?: Prisma.DecimalNullableFilter<"Goal"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  startValue?: Prisma.DecimalNullableFilter<"Goal"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: Prisma.StringNullableFilter<"Goal"> | string | null
   startDate?: Prisma.DateTimeFilter<"Goal"> | Date | string
   targetDate?: Prisma.DateTimeNullableFilter<"Goal"> | Date | string | null
   status?: Prisma.EnumGoalStatusFilter<"Goal"> | $Enums.GoalStatus
   createdAt?: Prisma.DateTimeFilter<"Goal"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Goal"> | Date | string
+  startValue?: Prisma.DecimalNullableFilter<"Goal"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
@@ -294,13 +294,13 @@ export type GoalOrderByWithRelationInput = {
   title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   targetValue?: Prisma.SortOrderInput | Prisma.SortOrder
-  startValue?: Prisma.SortOrderInput | Prisma.SortOrder
   unit?: Prisma.SortOrderInput | Prisma.SortOrder
   startDate?: Prisma.SortOrder
   targetDate?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  startValue?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -314,13 +314,13 @@ export type GoalWhereUniqueInput = Prisma.AtLeast<{
   title?: Prisma.StringFilter<"Goal"> | string
   description?: Prisma.StringNullableFilter<"Goal"> | string | null
   targetValue?: Prisma.DecimalNullableFilter<"Goal"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  startValue?: Prisma.DecimalNullableFilter<"Goal"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: Prisma.StringNullableFilter<"Goal"> | string | null
   startDate?: Prisma.DateTimeFilter<"Goal"> | Date | string
   targetDate?: Prisma.DateTimeNullableFilter<"Goal"> | Date | string | null
   status?: Prisma.EnumGoalStatusFilter<"Goal"> | $Enums.GoalStatus
   createdAt?: Prisma.DateTimeFilter<"Goal"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Goal"> | Date | string
+  startValue?: Prisma.DecimalNullableFilter<"Goal"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
@@ -331,13 +331,13 @@ export type GoalOrderByWithAggregationInput = {
   title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   targetValue?: Prisma.SortOrderInput | Prisma.SortOrder
-  startValue?: Prisma.SortOrderInput | Prisma.SortOrder
   unit?: Prisma.SortOrderInput | Prisma.SortOrder
   startDate?: Prisma.SortOrder
   targetDate?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  startValue?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.GoalCountOrderByAggregateInput
   _avg?: Prisma.GoalAvgOrderByAggregateInput
   _max?: Prisma.GoalMaxOrderByAggregateInput
@@ -355,13 +355,13 @@ export type GoalScalarWhereWithAggregatesInput = {
   title?: Prisma.StringWithAggregatesFilter<"Goal"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Goal"> | string | null
   targetValue?: Prisma.DecimalNullableWithAggregatesFilter<"Goal"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  startValue?: Prisma.DecimalNullableWithAggregatesFilter<"Goal"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: Prisma.StringNullableWithAggregatesFilter<"Goal"> | string | null
   startDate?: Prisma.DateTimeWithAggregatesFilter<"Goal"> | Date | string
   targetDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Goal"> | Date | string | null
   status?: Prisma.EnumGoalStatusWithAggregatesFilter<"Goal"> | $Enums.GoalStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Goal"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Goal"> | Date | string
+  startValue?: Prisma.DecimalNullableWithAggregatesFilter<"Goal"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type GoalCreateInput = {
@@ -370,13 +370,13 @@ export type GoalCreateInput = {
   title: string
   description?: string | null
   targetValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  startValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: string | null
   startDate: Date | string
   targetDate?: Date | string | null
   status?: $Enums.GoalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  startValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   user: Prisma.UserCreateNestedOneWithoutGoalsInput
 }
 
@@ -387,13 +387,13 @@ export type GoalUncheckedCreateInput = {
   title: string
   description?: string | null
   targetValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  startValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: string | null
   startDate: Date | string
   targetDate?: Date | string | null
   status?: $Enums.GoalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  startValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type GoalUpdateInput = {
@@ -402,13 +402,13 @@ export type GoalUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   targetValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  startValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumGoalStatusFieldUpdateOperationsInput | $Enums.GoalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutGoalsNestedInput
 }
 
@@ -419,13 +419,13 @@ export type GoalUncheckedUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   targetValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  startValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumGoalStatusFieldUpdateOperationsInput | $Enums.GoalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type GoalCreateManyInput = {
@@ -435,13 +435,13 @@ export type GoalCreateManyInput = {
   title: string
   description?: string | null
   targetValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  startValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: string | null
   startDate: Date | string
   targetDate?: Date | string | null
   status?: $Enums.GoalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  startValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type GoalUpdateManyMutationInput = {
@@ -450,13 +450,13 @@ export type GoalUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   targetValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  startValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumGoalStatusFieldUpdateOperationsInput | $Enums.GoalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type GoalUncheckedUpdateManyInput = {
@@ -466,13 +466,13 @@ export type GoalUncheckedUpdateManyInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   targetValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  startValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumGoalStatusFieldUpdateOperationsInput | $Enums.GoalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type GoalListRelationFilter = {
@@ -492,13 +492,13 @@ export type GoalCountOrderByAggregateInput = {
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   targetValue?: Prisma.SortOrder
-  startValue?: Prisma.SortOrder
   unit?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   targetDate?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  startValue?: Prisma.SortOrder
 }
 
 export type GoalAvgOrderByAggregateInput = {
@@ -513,13 +513,13 @@ export type GoalMaxOrderByAggregateInput = {
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   targetValue?: Prisma.SortOrder
-  startValue?: Prisma.SortOrder
   unit?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   targetDate?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  startValue?: Prisma.SortOrder
 }
 
 export type GoalMinOrderByAggregateInput = {
@@ -529,13 +529,13 @@ export type GoalMinOrderByAggregateInput = {
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   targetValue?: Prisma.SortOrder
-  startValue?: Prisma.SortOrder
   unit?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   targetDate?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  startValue?: Prisma.SortOrder
 }
 
 export type GoalSumOrderByAggregateInput = {
@@ -599,13 +599,13 @@ export type GoalCreateWithoutUserInput = {
   title: string
   description?: string | null
   targetValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  startValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: string | null
   startDate: Date | string
   targetDate?: Date | string | null
   status?: $Enums.GoalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  startValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type GoalUncheckedCreateWithoutUserInput = {
@@ -614,13 +614,13 @@ export type GoalUncheckedCreateWithoutUserInput = {
   title: string
   description?: string | null
   targetValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  startValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: string | null
   startDate: Date | string
   targetDate?: Date | string | null
   status?: $Enums.GoalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  startValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type GoalCreateOrConnectWithoutUserInput = {
@@ -659,13 +659,13 @@ export type GoalScalarWhereInput = {
   title?: Prisma.StringFilter<"Goal"> | string
   description?: Prisma.StringNullableFilter<"Goal"> | string | null
   targetValue?: Prisma.DecimalNullableFilter<"Goal"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  startValue?: Prisma.DecimalNullableFilter<"Goal"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: Prisma.StringNullableFilter<"Goal"> | string | null
   startDate?: Prisma.DateTimeFilter<"Goal"> | Date | string
   targetDate?: Prisma.DateTimeNullableFilter<"Goal"> | Date | string | null
   status?: Prisma.EnumGoalStatusFilter<"Goal"> | $Enums.GoalStatus
   createdAt?: Prisma.DateTimeFilter<"Goal"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Goal"> | Date | string
+  startValue?: Prisma.DecimalNullableFilter<"Goal"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type GoalCreateManyUserInput = {
@@ -674,13 +674,13 @@ export type GoalCreateManyUserInput = {
   title: string
   description?: string | null
   targetValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  startValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: string | null
   startDate: Date | string
   targetDate?: Date | string | null
   status?: $Enums.GoalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  startValue?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type GoalUpdateWithoutUserInput = {
@@ -689,13 +689,13 @@ export type GoalUpdateWithoutUserInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   targetValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  startValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumGoalStatusFieldUpdateOperationsInput | $Enums.GoalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type GoalUncheckedUpdateWithoutUserInput = {
@@ -704,13 +704,13 @@ export type GoalUncheckedUpdateWithoutUserInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   targetValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  startValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumGoalStatusFieldUpdateOperationsInput | $Enums.GoalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type GoalUncheckedUpdateManyWithoutUserInput = {
@@ -719,13 +719,13 @@ export type GoalUncheckedUpdateManyWithoutUserInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   targetValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  startValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumGoalStatusFieldUpdateOperationsInput | $Enums.GoalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startValue?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 
@@ -737,13 +737,13 @@ export type GoalSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   title?: boolean
   description?: boolean
   targetValue?: boolean
-  startValue?: boolean
   unit?: boolean
   startDate?: boolean
   targetDate?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  startValue?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["goal"]>
 
@@ -754,13 +754,13 @@ export type GoalSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   title?: boolean
   description?: boolean
   targetValue?: boolean
-  startValue?: boolean
   unit?: boolean
   startDate?: boolean
   targetDate?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  startValue?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["goal"]>
 
@@ -771,13 +771,13 @@ export type GoalSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   title?: boolean
   description?: boolean
   targetValue?: boolean
-  startValue?: boolean
   unit?: boolean
   startDate?: boolean
   targetDate?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  startValue?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["goal"]>
 
@@ -788,16 +788,16 @@ export type GoalSelectScalar = {
   title?: boolean
   description?: boolean
   targetValue?: boolean
-  startValue?: boolean
   unit?: boolean
   startDate?: boolean
   targetDate?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  startValue?: boolean
 }
 
-export type GoalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "type" | "title" | "description" | "targetValue" | "startValue" | "unit" | "startDate" | "targetDate" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["goal"]>
+export type GoalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "type" | "title" | "description" | "targetValue" | "unit" | "startDate" | "targetDate" | "status" | "createdAt" | "updatedAt" | "startValue", ExtArgs["result"]["goal"]>
 export type GoalInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -820,22 +820,22 @@ export type $GoalPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     title: string
     description: string | null
     targetValue: runtime.Decimal | null
-    /**
-     * *
-     *    * 목표를 세울 때의 값.
-     *    * 파생하지 않고 그때 박는다. "startDate 이전의 가장 최근 기록" 으로 계산하면
-     *    * 나중에 빠뜨린 과거 기록을 하나 넣는 순간 시작값이 바뀌고, 그러면 진행률이
-     *    * 소리 없이 달라진다. 시작값은 "그때 나는 78kg 이었다" 는 사실이다.
-     *    * 지금 값은 반대로 저장하지 않는다. 최신 BodyRecord 에서 읽는다. 저장하면
-     *    * 회원이 체중을 새로 적는 순간 목표 카드만 옛날 숫자로 남는다.
-     */
-    startValue: runtime.Decimal | null
     unit: string | null
     startDate: Date
     targetDate: Date | null
     status: $Enums.GoalStatus
     createdAt: Date
     updatedAt: Date
+    /**
+     * *
+     * * 목표를 세울 때의 값.
+     * * 파생하지 않고 그때 박는다. "startDate 이전의 가장 최근 기록" 으로 계산하면
+     * * 나중에 빠뜨린 과거 기록을 하나 넣는 순간 시작값이 바뀌고, 그러면 진행률이
+     * * 소리 없이 달라진다. 시작값은 "그때 나는 78kg 이었다" 는 사실이다.
+     * * 지금 값은 반대로 저장하지 않는다. 최신 BodyRecord 에서 읽는다. 저장하면
+     * * 회원이 체중을 새로 적는 순간 목표 카드만 옛날 숫자로 남는다.
+     */
+    startValue: runtime.Decimal | null
   }, ExtArgs["result"]["goal"]>
   composites: {}
 }
@@ -1266,13 +1266,13 @@ export interface GoalFieldRefs {
   readonly title: Prisma.FieldRef<"Goal", 'String'>
   readonly description: Prisma.FieldRef<"Goal", 'String'>
   readonly targetValue: Prisma.FieldRef<"Goal", 'Decimal'>
-  readonly startValue: Prisma.FieldRef<"Goal", 'Decimal'>
   readonly unit: Prisma.FieldRef<"Goal", 'String'>
   readonly startDate: Prisma.FieldRef<"Goal", 'DateTime'>
   readonly targetDate: Prisma.FieldRef<"Goal", 'DateTime'>
   readonly status: Prisma.FieldRef<"Goal", 'GoalStatus'>
   readonly createdAt: Prisma.FieldRef<"Goal", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Goal", 'DateTime'>
+  readonly startValue: Prisma.FieldRef<"Goal", 'Decimal'>
 }
     
 

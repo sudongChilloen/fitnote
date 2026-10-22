@@ -26,8 +26,6 @@ export type AggregateJournal = {
 
 export type JournalMinAggregateOutputType = {
   id: string | null
-  memberUserId: string | null
-  trainerProfileId: string | null
   ptSessionId: string | null
   date: Date | null
   title: string | null
@@ -38,15 +36,15 @@ export type JournalMinAggregateOutputType = {
   caution: string | null
   nextGoal: string | null
   publishedAt: Date | null
-  memberReadAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  memberReadAt: Date | null
+  memberUserId: string | null
+  trainerProfileId: string | null
 }
 
 export type JournalMaxAggregateOutputType = {
   id: string | null
-  memberUserId: string | null
-  trainerProfileId: string | null
   ptSessionId: string | null
   date: Date | null
   title: string | null
@@ -57,15 +55,15 @@ export type JournalMaxAggregateOutputType = {
   caution: string | null
   nextGoal: string | null
   publishedAt: Date | null
-  memberReadAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  memberReadAt: Date | null
+  memberUserId: string | null
+  trainerProfileId: string | null
 }
 
 export type JournalCountAggregateOutputType = {
   id: number
-  memberUserId: number
-  trainerProfileId: number
   ptSessionId: number
   date: number
   title: number
@@ -76,17 +74,17 @@ export type JournalCountAggregateOutputType = {
   caution: number
   nextGoal: number
   publishedAt: number
-  memberReadAt: number
   createdAt: number
   updatedAt: number
+  memberReadAt: number
+  memberUserId: number
+  trainerProfileId: number
   _all: number
 }
 
 
 export type JournalMinAggregateInputType = {
   id?: true
-  memberUserId?: true
-  trainerProfileId?: true
   ptSessionId?: true
   date?: true
   title?: true
@@ -97,15 +95,15 @@ export type JournalMinAggregateInputType = {
   caution?: true
   nextGoal?: true
   publishedAt?: true
-  memberReadAt?: true
   createdAt?: true
   updatedAt?: true
+  memberReadAt?: true
+  memberUserId?: true
+  trainerProfileId?: true
 }
 
 export type JournalMaxAggregateInputType = {
   id?: true
-  memberUserId?: true
-  trainerProfileId?: true
   ptSessionId?: true
   date?: true
   title?: true
@@ -116,15 +114,15 @@ export type JournalMaxAggregateInputType = {
   caution?: true
   nextGoal?: true
   publishedAt?: true
-  memberReadAt?: true
   createdAt?: true
   updatedAt?: true
+  memberReadAt?: true
+  memberUserId?: true
+  trainerProfileId?: true
 }
 
 export type JournalCountAggregateInputType = {
   id?: true
-  memberUserId?: true
-  trainerProfileId?: true
   ptSessionId?: true
   date?: true
   title?: true
@@ -135,9 +133,11 @@ export type JournalCountAggregateInputType = {
   caution?: true
   nextGoal?: true
   publishedAt?: true
-  memberReadAt?: true
   createdAt?: true
   updatedAt?: true
+  memberReadAt?: true
+  memberUserId?: true
+  trainerProfileId?: true
   _all?: true
 }
 
@@ -215,8 +215,6 @@ export type JournalGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 
 export type JournalGroupByOutputType = {
   id: string
-  memberUserId: string
-  trainerProfileId: string
   ptSessionId: string | null
   date: Date
   title: string | null
@@ -227,9 +225,11 @@ export type JournalGroupByOutputType = {
   caution: string | null
   nextGoal: string | null
   publishedAt: Date | null
-  memberReadAt: Date | null
   createdAt: Date
   updatedAt: Date
+  memberReadAt: Date | null
+  memberUserId: string
+  trainerProfileId: string
   _count: JournalCountAggregateOutputType | null
   _min: JournalMinAggregateOutputType | null
   _max: JournalMaxAggregateOutputType | null
@@ -255,8 +255,6 @@ export type JournalWhereInput = {
   OR?: Prisma.JournalWhereInput[]
   NOT?: Prisma.JournalWhereInput | Prisma.JournalWhereInput[]
   id?: Prisma.StringFilter<"Journal"> | string
-  memberUserId?: Prisma.StringFilter<"Journal"> | string
-  trainerProfileId?: Prisma.StringFilter<"Journal"> | string
   ptSessionId?: Prisma.StringNullableFilter<"Journal"> | string | null
   date?: Prisma.DateTimeFilter<"Journal"> | Date | string
   title?: Prisma.StringNullableFilter<"Journal"> | string | null
@@ -267,20 +265,20 @@ export type JournalWhereInput = {
   caution?: Prisma.StringNullableFilter<"Journal"> | string | null
   nextGoal?: Prisma.StringNullableFilter<"Journal"> | string | null
   publishedAt?: Prisma.DateTimeNullableFilter<"Journal"> | Date | string | null
-  memberReadAt?: Prisma.DateTimeNullableFilter<"Journal"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Journal"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Journal"> | Date | string
+  memberReadAt?: Prisma.DateTimeNullableFilter<"Journal"> | Date | string | null
+  memberUserId?: Prisma.StringFilter<"Journal"> | string
+  trainerProfileId?: Prisma.StringFilter<"Journal"> | string
   memberUser?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  trainerProfile?: Prisma.XOR<Prisma.TrainerProfileScalarRelationFilter, Prisma.TrainerProfileWhereInput>
   ptSession?: Prisma.XOR<Prisma.PTSessionNullableScalarRelationFilter, Prisma.PTSessionWhereInput> | null
-  photos?: Prisma.JournalPhotoListRelationFilter
+  trainerProfile?: Prisma.XOR<Prisma.TrainerProfileScalarRelationFilter, Prisma.TrainerProfileWhereInput>
   comments?: Prisma.JournalCommentListRelationFilter
+  photos?: Prisma.JournalPhotoListRelationFilter
 }
 
 export type JournalOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  memberUserId?: Prisma.SortOrder
-  trainerProfileId?: Prisma.SortOrder
   ptSessionId?: Prisma.SortOrderInput | Prisma.SortOrder
   date?: Prisma.SortOrder
   title?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -291,14 +289,16 @@ export type JournalOrderByWithRelationInput = {
   caution?: Prisma.SortOrderInput | Prisma.SortOrder
   nextGoal?: Prisma.SortOrderInput | Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  memberReadAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  memberReadAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  memberUserId?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
   memberUser?: Prisma.UserOrderByWithRelationInput
-  trainerProfile?: Prisma.TrainerProfileOrderByWithRelationInput
   ptSession?: Prisma.PTSessionOrderByWithRelationInput
-  photos?: Prisma.JournalPhotoOrderByRelationAggregateInput
+  trainerProfile?: Prisma.TrainerProfileOrderByWithRelationInput
   comments?: Prisma.JournalCommentOrderByRelationAggregateInput
+  photos?: Prisma.JournalPhotoOrderByRelationAggregateInput
 }
 
 export type JournalWhereUniqueInput = Prisma.AtLeast<{
@@ -306,8 +306,6 @@ export type JournalWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.JournalWhereInput | Prisma.JournalWhereInput[]
   OR?: Prisma.JournalWhereInput[]
   NOT?: Prisma.JournalWhereInput | Prisma.JournalWhereInput[]
-  memberUserId?: Prisma.StringFilter<"Journal"> | string
-  trainerProfileId?: Prisma.StringFilter<"Journal"> | string
   ptSessionId?: Prisma.StringNullableFilter<"Journal"> | string | null
   date?: Prisma.DateTimeFilter<"Journal"> | Date | string
   title?: Prisma.StringNullableFilter<"Journal"> | string | null
@@ -318,20 +316,20 @@ export type JournalWhereUniqueInput = Prisma.AtLeast<{
   caution?: Prisma.StringNullableFilter<"Journal"> | string | null
   nextGoal?: Prisma.StringNullableFilter<"Journal"> | string | null
   publishedAt?: Prisma.DateTimeNullableFilter<"Journal"> | Date | string | null
-  memberReadAt?: Prisma.DateTimeNullableFilter<"Journal"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Journal"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Journal"> | Date | string
+  memberReadAt?: Prisma.DateTimeNullableFilter<"Journal"> | Date | string | null
+  memberUserId?: Prisma.StringFilter<"Journal"> | string
+  trainerProfileId?: Prisma.StringFilter<"Journal"> | string
   memberUser?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  trainerProfile?: Prisma.XOR<Prisma.TrainerProfileScalarRelationFilter, Prisma.TrainerProfileWhereInput>
   ptSession?: Prisma.XOR<Prisma.PTSessionNullableScalarRelationFilter, Prisma.PTSessionWhereInput> | null
-  photos?: Prisma.JournalPhotoListRelationFilter
+  trainerProfile?: Prisma.XOR<Prisma.TrainerProfileScalarRelationFilter, Prisma.TrainerProfileWhereInput>
   comments?: Prisma.JournalCommentListRelationFilter
+  photos?: Prisma.JournalPhotoListRelationFilter
 }, "id">
 
 export type JournalOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  memberUserId?: Prisma.SortOrder
-  trainerProfileId?: Prisma.SortOrder
   ptSessionId?: Prisma.SortOrderInput | Prisma.SortOrder
   date?: Prisma.SortOrder
   title?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -342,9 +340,11 @@ export type JournalOrderByWithAggregationInput = {
   caution?: Prisma.SortOrderInput | Prisma.SortOrder
   nextGoal?: Prisma.SortOrderInput | Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  memberReadAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  memberReadAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  memberUserId?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
   _count?: Prisma.JournalCountOrderByAggregateInput
   _max?: Prisma.JournalMaxOrderByAggregateInput
   _min?: Prisma.JournalMinOrderByAggregateInput
@@ -355,8 +355,6 @@ export type JournalScalarWhereWithAggregatesInput = {
   OR?: Prisma.JournalScalarWhereWithAggregatesInput[]
   NOT?: Prisma.JournalScalarWhereWithAggregatesInput | Prisma.JournalScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Journal"> | string
-  memberUserId?: Prisma.StringWithAggregatesFilter<"Journal"> | string
-  trainerProfileId?: Prisma.StringWithAggregatesFilter<"Journal"> | string
   ptSessionId?: Prisma.StringNullableWithAggregatesFilter<"Journal"> | string | null
   date?: Prisma.DateTimeWithAggregatesFilter<"Journal"> | Date | string
   title?: Prisma.StringNullableWithAggregatesFilter<"Journal"> | string | null
@@ -367,9 +365,11 @@ export type JournalScalarWhereWithAggregatesInput = {
   caution?: Prisma.StringNullableWithAggregatesFilter<"Journal"> | string | null
   nextGoal?: Prisma.StringNullableWithAggregatesFilter<"Journal"> | string | null
   publishedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Journal"> | Date | string | null
-  memberReadAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Journal"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Journal"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Journal"> | Date | string
+  memberReadAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Journal"> | Date | string | null
+  memberUserId?: Prisma.StringWithAggregatesFilter<"Journal"> | string
+  trainerProfileId?: Prisma.StringWithAggregatesFilter<"Journal"> | string
 }
 
 export type JournalCreateInput = {
@@ -383,20 +383,18 @@ export type JournalCreateInput = {
   caution?: string | null
   nextGoal?: string | null
   publishedAt?: Date | string | null
-  memberReadAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  memberReadAt?: Date | string | null
   memberUser: Prisma.UserCreateNestedOneWithoutJournalsInput
-  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutJournalsInput
   ptSession?: Prisma.PTSessionCreateNestedOneWithoutJournalsInput
-  photos?: Prisma.JournalPhotoCreateNestedManyWithoutJournalInput
+  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutJournalsInput
   comments?: Prisma.JournalCommentCreateNestedManyWithoutJournalInput
+  photos?: Prisma.JournalPhotoCreateNestedManyWithoutJournalInput
 }
 
 export type JournalUncheckedCreateInput = {
   id?: string
-  memberUserId: string
-  trainerProfileId: string
   ptSessionId?: string | null
   date: Date | string
   title?: string | null
@@ -407,11 +405,13 @@ export type JournalUncheckedCreateInput = {
   caution?: string | null
   nextGoal?: string | null
   publishedAt?: Date | string | null
-  memberReadAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  photos?: Prisma.JournalPhotoUncheckedCreateNestedManyWithoutJournalInput
+  memberReadAt?: Date | string | null
+  memberUserId: string
+  trainerProfileId: string
   comments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutJournalInput
+  photos?: Prisma.JournalPhotoUncheckedCreateNestedManyWithoutJournalInput
 }
 
 export type JournalUpdateInput = {
@@ -425,20 +425,18 @@ export type JournalUpdateInput = {
   caution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nextGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberUser?: Prisma.UserUpdateOneRequiredWithoutJournalsNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutJournalsNestedInput
   ptSession?: Prisma.PTSessionUpdateOneWithoutJournalsNestedInput
-  photos?: Prisma.JournalPhotoUpdateManyWithoutJournalNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutJournalsNestedInput
   comments?: Prisma.JournalCommentUpdateManyWithoutJournalNestedInput
+  photos?: Prisma.JournalPhotoUpdateManyWithoutJournalNestedInput
 }
 
 export type JournalUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   ptSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -449,17 +447,17 @@ export type JournalUncheckedUpdateInput = {
   caution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nextGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  photos?: Prisma.JournalPhotoUncheckedUpdateManyWithoutJournalNestedInput
+  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   comments?: Prisma.JournalCommentUncheckedUpdateManyWithoutJournalNestedInput
+  photos?: Prisma.JournalPhotoUncheckedUpdateManyWithoutJournalNestedInput
 }
 
 export type JournalCreateManyInput = {
   id?: string
-  memberUserId: string
-  trainerProfileId: string
   ptSessionId?: string | null
   date: Date | string
   title?: string | null
@@ -470,9 +468,11 @@ export type JournalCreateManyInput = {
   caution?: string | null
   nextGoal?: string | null
   publishedAt?: Date | string | null
-  memberReadAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  memberReadAt?: Date | string | null
+  memberUserId: string
+  trainerProfileId: string
 }
 
 export type JournalUpdateManyMutationInput = {
@@ -486,15 +486,13 @@ export type JournalUpdateManyMutationInput = {
   caution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nextGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type JournalUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   ptSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -505,9 +503,11 @@ export type JournalUncheckedUpdateManyInput = {
   caution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nextGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type JournalListRelationFilter = {
@@ -522,8 +522,6 @@ export type JournalOrderByRelationAggregateInput = {
 
 export type JournalCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  memberUserId?: Prisma.SortOrder
-  trainerProfileId?: Prisma.SortOrder
   ptSessionId?: Prisma.SortOrder
   date?: Prisma.SortOrder
   title?: Prisma.SortOrder
@@ -534,15 +532,15 @@ export type JournalCountOrderByAggregateInput = {
   caution?: Prisma.SortOrder
   nextGoal?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
-  memberReadAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  memberReadAt?: Prisma.SortOrder
+  memberUserId?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
 }
 
 export type JournalMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  memberUserId?: Prisma.SortOrder
-  trainerProfileId?: Prisma.SortOrder
   ptSessionId?: Prisma.SortOrder
   date?: Prisma.SortOrder
   title?: Prisma.SortOrder
@@ -553,15 +551,15 @@ export type JournalMaxOrderByAggregateInput = {
   caution?: Prisma.SortOrder
   nextGoal?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
-  memberReadAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  memberReadAt?: Prisma.SortOrder
+  memberUserId?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
 }
 
 export type JournalMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  memberUserId?: Prisma.SortOrder
-  trainerProfileId?: Prisma.SortOrder
   ptSessionId?: Prisma.SortOrder
   date?: Prisma.SortOrder
   title?: Prisma.SortOrder
@@ -572,9 +570,11 @@ export type JournalMinOrderByAggregateInput = {
   caution?: Prisma.SortOrder
   nextGoal?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
-  memberReadAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  memberReadAt?: Prisma.SortOrder
+  memberUserId?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
 }
 
 export type JournalScalarRelationFilter = {
@@ -751,18 +751,17 @@ export type JournalCreateWithoutMemberUserInput = {
   caution?: string | null
   nextGoal?: string | null
   publishedAt?: Date | string | null
-  memberReadAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutJournalsInput
+  memberReadAt?: Date | string | null
   ptSession?: Prisma.PTSessionCreateNestedOneWithoutJournalsInput
-  photos?: Prisma.JournalPhotoCreateNestedManyWithoutJournalInput
+  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutJournalsInput
   comments?: Prisma.JournalCommentCreateNestedManyWithoutJournalInput
+  photos?: Prisma.JournalPhotoCreateNestedManyWithoutJournalInput
 }
 
 export type JournalUncheckedCreateWithoutMemberUserInput = {
   id?: string
-  trainerProfileId: string
   ptSessionId?: string | null
   date: Date | string
   title?: string | null
@@ -773,11 +772,12 @@ export type JournalUncheckedCreateWithoutMemberUserInput = {
   caution?: string | null
   nextGoal?: string | null
   publishedAt?: Date | string | null
-  memberReadAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  photos?: Prisma.JournalPhotoUncheckedCreateNestedManyWithoutJournalInput
+  memberReadAt?: Date | string | null
+  trainerProfileId: string
   comments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutJournalInput
+  photos?: Prisma.JournalPhotoUncheckedCreateNestedManyWithoutJournalInput
 }
 
 export type JournalCreateOrConnectWithoutMemberUserInput = {
@@ -811,8 +811,6 @@ export type JournalScalarWhereInput = {
   OR?: Prisma.JournalScalarWhereInput[]
   NOT?: Prisma.JournalScalarWhereInput | Prisma.JournalScalarWhereInput[]
   id?: Prisma.StringFilter<"Journal"> | string
-  memberUserId?: Prisma.StringFilter<"Journal"> | string
-  trainerProfileId?: Prisma.StringFilter<"Journal"> | string
   ptSessionId?: Prisma.StringNullableFilter<"Journal"> | string | null
   date?: Prisma.DateTimeFilter<"Journal"> | Date | string
   title?: Prisma.StringNullableFilter<"Journal"> | string | null
@@ -823,9 +821,11 @@ export type JournalScalarWhereInput = {
   caution?: Prisma.StringNullableFilter<"Journal"> | string | null
   nextGoal?: Prisma.StringNullableFilter<"Journal"> | string | null
   publishedAt?: Prisma.DateTimeNullableFilter<"Journal"> | Date | string | null
-  memberReadAt?: Prisma.DateTimeNullableFilter<"Journal"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Journal"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Journal"> | Date | string
+  memberReadAt?: Prisma.DateTimeNullableFilter<"Journal"> | Date | string | null
+  memberUserId?: Prisma.StringFilter<"Journal"> | string
+  trainerProfileId?: Prisma.StringFilter<"Journal"> | string
 }
 
 export type JournalCreateWithoutTrainerProfileInput = {
@@ -839,18 +839,17 @@ export type JournalCreateWithoutTrainerProfileInput = {
   caution?: string | null
   nextGoal?: string | null
   publishedAt?: Date | string | null
-  memberReadAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  memberReadAt?: Date | string | null
   memberUser: Prisma.UserCreateNestedOneWithoutJournalsInput
   ptSession?: Prisma.PTSessionCreateNestedOneWithoutJournalsInput
-  photos?: Prisma.JournalPhotoCreateNestedManyWithoutJournalInput
   comments?: Prisma.JournalCommentCreateNestedManyWithoutJournalInput
+  photos?: Prisma.JournalPhotoCreateNestedManyWithoutJournalInput
 }
 
 export type JournalUncheckedCreateWithoutTrainerProfileInput = {
   id?: string
-  memberUserId: string
   ptSessionId?: string | null
   date: Date | string
   title?: string | null
@@ -861,11 +860,12 @@ export type JournalUncheckedCreateWithoutTrainerProfileInput = {
   caution?: string | null
   nextGoal?: string | null
   publishedAt?: Date | string | null
-  memberReadAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  photos?: Prisma.JournalPhotoUncheckedCreateNestedManyWithoutJournalInput
+  memberReadAt?: Date | string | null
+  memberUserId: string
   comments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutJournalInput
+  photos?: Prisma.JournalPhotoUncheckedCreateNestedManyWithoutJournalInput
 }
 
 export type JournalCreateOrConnectWithoutTrainerProfileInput = {
@@ -905,19 +905,17 @@ export type JournalCreateWithoutPtSessionInput = {
   caution?: string | null
   nextGoal?: string | null
   publishedAt?: Date | string | null
-  memberReadAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  memberReadAt?: Date | string | null
   memberUser: Prisma.UserCreateNestedOneWithoutJournalsInput
   trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutJournalsInput
-  photos?: Prisma.JournalPhotoCreateNestedManyWithoutJournalInput
   comments?: Prisma.JournalCommentCreateNestedManyWithoutJournalInput
+  photos?: Prisma.JournalPhotoCreateNestedManyWithoutJournalInput
 }
 
 export type JournalUncheckedCreateWithoutPtSessionInput = {
   id?: string
-  memberUserId: string
-  trainerProfileId: string
   date: Date | string
   title?: string | null
   content: string
@@ -927,11 +925,13 @@ export type JournalUncheckedCreateWithoutPtSessionInput = {
   caution?: string | null
   nextGoal?: string | null
   publishedAt?: Date | string | null
-  memberReadAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  photos?: Prisma.JournalPhotoUncheckedCreateNestedManyWithoutJournalInput
+  memberReadAt?: Date | string | null
+  memberUserId: string
+  trainerProfileId: string
   comments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutJournalInput
+  photos?: Prisma.JournalPhotoUncheckedCreateNestedManyWithoutJournalInput
 }
 
 export type JournalCreateOrConnectWithoutPtSessionInput = {
@@ -971,19 +971,17 @@ export type JournalCreateWithoutPhotosInput = {
   caution?: string | null
   nextGoal?: string | null
   publishedAt?: Date | string | null
-  memberReadAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  memberReadAt?: Date | string | null
   memberUser: Prisma.UserCreateNestedOneWithoutJournalsInput
-  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutJournalsInput
   ptSession?: Prisma.PTSessionCreateNestedOneWithoutJournalsInput
+  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutJournalsInput
   comments?: Prisma.JournalCommentCreateNestedManyWithoutJournalInput
 }
 
 export type JournalUncheckedCreateWithoutPhotosInput = {
   id?: string
-  memberUserId: string
-  trainerProfileId: string
   ptSessionId?: string | null
   date: Date | string
   title?: string | null
@@ -994,9 +992,11 @@ export type JournalUncheckedCreateWithoutPhotosInput = {
   caution?: string | null
   nextGoal?: string | null
   publishedAt?: Date | string | null
-  memberReadAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  memberReadAt?: Date | string | null
+  memberUserId: string
+  trainerProfileId: string
   comments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutJournalInput
 }
 
@@ -1027,19 +1027,17 @@ export type JournalUpdateWithoutPhotosInput = {
   caution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nextGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberUser?: Prisma.UserUpdateOneRequiredWithoutJournalsNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutJournalsNestedInput
   ptSession?: Prisma.PTSessionUpdateOneWithoutJournalsNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutJournalsNestedInput
   comments?: Prisma.JournalCommentUpdateManyWithoutJournalNestedInput
 }
 
 export type JournalUncheckedUpdateWithoutPhotosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   ptSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1050,9 +1048,11 @@ export type JournalUncheckedUpdateWithoutPhotosInput = {
   caution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nextGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   comments?: Prisma.JournalCommentUncheckedUpdateManyWithoutJournalNestedInput
 }
 
@@ -1067,19 +1067,17 @@ export type JournalCreateWithoutCommentsInput = {
   caution?: string | null
   nextGoal?: string | null
   publishedAt?: Date | string | null
-  memberReadAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  memberReadAt?: Date | string | null
   memberUser: Prisma.UserCreateNestedOneWithoutJournalsInput
-  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutJournalsInput
   ptSession?: Prisma.PTSessionCreateNestedOneWithoutJournalsInput
+  trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutJournalsInput
   photos?: Prisma.JournalPhotoCreateNestedManyWithoutJournalInput
 }
 
 export type JournalUncheckedCreateWithoutCommentsInput = {
   id?: string
-  memberUserId: string
-  trainerProfileId: string
   ptSessionId?: string | null
   date: Date | string
   title?: string | null
@@ -1090,9 +1088,11 @@ export type JournalUncheckedCreateWithoutCommentsInput = {
   caution?: string | null
   nextGoal?: string | null
   publishedAt?: Date | string | null
-  memberReadAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  memberReadAt?: Date | string | null
+  memberUserId: string
+  trainerProfileId: string
   photos?: Prisma.JournalPhotoUncheckedCreateNestedManyWithoutJournalInput
 }
 
@@ -1123,19 +1123,17 @@ export type JournalUpdateWithoutCommentsInput = {
   caution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nextGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberUser?: Prisma.UserUpdateOneRequiredWithoutJournalsNestedInput
-  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutJournalsNestedInput
   ptSession?: Prisma.PTSessionUpdateOneWithoutJournalsNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutJournalsNestedInput
   photos?: Prisma.JournalPhotoUpdateManyWithoutJournalNestedInput
 }
 
 export type JournalUncheckedUpdateWithoutCommentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   ptSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1146,15 +1144,16 @@ export type JournalUncheckedUpdateWithoutCommentsInput = {
   caution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nextGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   photos?: Prisma.JournalPhotoUncheckedUpdateManyWithoutJournalNestedInput
 }
 
 export type JournalCreateManyMemberUserInput = {
   id?: string
-  trainerProfileId: string
   ptSessionId?: string | null
   date: Date | string
   title?: string | null
@@ -1165,9 +1164,10 @@ export type JournalCreateManyMemberUserInput = {
   caution?: string | null
   nextGoal?: string | null
   publishedAt?: Date | string | null
-  memberReadAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  memberReadAt?: Date | string | null
+  trainerProfileId: string
 }
 
 export type JournalUpdateWithoutMemberUserInput = {
@@ -1181,18 +1181,17 @@ export type JournalUpdateWithoutMemberUserInput = {
   caution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nextGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutJournalsNestedInput
+  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ptSession?: Prisma.PTSessionUpdateOneWithoutJournalsNestedInput
-  photos?: Prisma.JournalPhotoUpdateManyWithoutJournalNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutJournalsNestedInput
   comments?: Prisma.JournalCommentUpdateManyWithoutJournalNestedInput
+  photos?: Prisma.JournalPhotoUpdateManyWithoutJournalNestedInput
 }
 
 export type JournalUncheckedUpdateWithoutMemberUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   ptSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1203,16 +1202,16 @@ export type JournalUncheckedUpdateWithoutMemberUserInput = {
   caution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nextGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  photos?: Prisma.JournalPhotoUncheckedUpdateManyWithoutJournalNestedInput
+  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   comments?: Prisma.JournalCommentUncheckedUpdateManyWithoutJournalNestedInput
+  photos?: Prisma.JournalPhotoUncheckedUpdateManyWithoutJournalNestedInput
 }
 
 export type JournalUncheckedUpdateManyWithoutMemberUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   ptSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1223,14 +1222,14 @@ export type JournalUncheckedUpdateManyWithoutMemberUserInput = {
   caution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nextGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type JournalCreateManyTrainerProfileInput = {
   id?: string
-  memberUserId: string
   ptSessionId?: string | null
   date: Date | string
   title?: string | null
@@ -1241,9 +1240,10 @@ export type JournalCreateManyTrainerProfileInput = {
   caution?: string | null
   nextGoal?: string | null
   publishedAt?: Date | string | null
-  memberReadAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  memberReadAt?: Date | string | null
+  memberUserId: string
 }
 
 export type JournalUpdateWithoutTrainerProfileInput = {
@@ -1257,18 +1257,17 @@ export type JournalUpdateWithoutTrainerProfileInput = {
   caution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nextGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberUser?: Prisma.UserUpdateOneRequiredWithoutJournalsNestedInput
   ptSession?: Prisma.PTSessionUpdateOneWithoutJournalsNestedInput
-  photos?: Prisma.JournalPhotoUpdateManyWithoutJournalNestedInput
   comments?: Prisma.JournalCommentUpdateManyWithoutJournalNestedInput
+  photos?: Prisma.JournalPhotoUpdateManyWithoutJournalNestedInput
 }
 
 export type JournalUncheckedUpdateWithoutTrainerProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
   ptSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1279,16 +1278,16 @@ export type JournalUncheckedUpdateWithoutTrainerProfileInput = {
   caution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nextGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  photos?: Prisma.JournalPhotoUncheckedUpdateManyWithoutJournalNestedInput
+  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
   comments?: Prisma.JournalCommentUncheckedUpdateManyWithoutJournalNestedInput
+  photos?: Prisma.JournalPhotoUncheckedUpdateManyWithoutJournalNestedInput
 }
 
 export type JournalUncheckedUpdateManyWithoutTrainerProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
   ptSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1299,15 +1298,14 @@ export type JournalUncheckedUpdateManyWithoutTrainerProfileInput = {
   caution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nextGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type JournalCreateManyPtSessionInput = {
   id?: string
-  memberUserId: string
-  trainerProfileId: string
   date: Date | string
   title?: string | null
   content: string
@@ -1317,9 +1315,11 @@ export type JournalCreateManyPtSessionInput = {
   caution?: string | null
   nextGoal?: string | null
   publishedAt?: Date | string | null
-  memberReadAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  memberReadAt?: Date | string | null
+  memberUserId: string
+  trainerProfileId: string
 }
 
 export type JournalUpdateWithoutPtSessionInput = {
@@ -1333,19 +1333,17 @@ export type JournalUpdateWithoutPtSessionInput = {
   caution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nextGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberUser?: Prisma.UserUpdateOneRequiredWithoutJournalsNestedInput
   trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutJournalsNestedInput
-  photos?: Prisma.JournalPhotoUpdateManyWithoutJournalNestedInput
   comments?: Prisma.JournalCommentUpdateManyWithoutJournalNestedInput
+  photos?: Prisma.JournalPhotoUpdateManyWithoutJournalNestedInput
 }
 
 export type JournalUncheckedUpdateWithoutPtSessionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1355,17 +1353,17 @@ export type JournalUncheckedUpdateWithoutPtSessionInput = {
   caution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nextGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  photos?: Prisma.JournalPhotoUncheckedUpdateManyWithoutJournalNestedInput
+  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   comments?: Prisma.JournalCommentUncheckedUpdateManyWithoutJournalNestedInput
+  photos?: Prisma.JournalPhotoUncheckedUpdateManyWithoutJournalNestedInput
 }
 
 export type JournalUncheckedUpdateManyWithoutPtSessionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1375,9 +1373,11 @@ export type JournalUncheckedUpdateManyWithoutPtSessionInput = {
   caution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nextGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  memberReadAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  memberUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -1386,13 +1386,13 @@ export type JournalUncheckedUpdateManyWithoutPtSessionInput = {
  */
 
 export type JournalCountOutputType = {
-  photos: number
   comments: number
+  photos: number
 }
 
 export type JournalCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  photos?: boolean | JournalCountOutputTypeCountPhotosArgs
   comments?: boolean | JournalCountOutputTypeCountCommentsArgs
+  photos?: boolean | JournalCountOutputTypeCountPhotosArgs
 }
 
 /**
@@ -1408,22 +1408,20 @@ export type JournalCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exte
 /**
  * JournalCountOutputType without action
  */
-export type JournalCountOutputTypeCountPhotosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.JournalPhotoWhereInput
+export type JournalCountOutputTypeCountCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.JournalCommentWhereInput
 }
 
 /**
  * JournalCountOutputType without action
  */
-export type JournalCountOutputTypeCountCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.JournalCommentWhereInput
+export type JournalCountOutputTypeCountPhotosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.JournalPhotoWhereInput
 }
 
 
 export type JournalSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  memberUserId?: boolean
-  trainerProfileId?: boolean
   ptSessionId?: boolean
   date?: boolean
   title?: boolean
@@ -1434,21 +1432,21 @@ export type JournalSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   caution?: boolean
   nextGoal?: boolean
   publishedAt?: boolean
-  memberReadAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  memberReadAt?: boolean
+  memberUserId?: boolean
+  trainerProfileId?: boolean
   memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   ptSession?: boolean | Prisma.Journal$ptSessionArgs<ExtArgs>
-  photos?: boolean | Prisma.Journal$photosArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   comments?: boolean | Prisma.Journal$commentsArgs<ExtArgs>
+  photos?: boolean | Prisma.Journal$photosArgs<ExtArgs>
   _count?: boolean | Prisma.JournalCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["journal"]>
 
 export type JournalSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  memberUserId?: boolean
-  trainerProfileId?: boolean
   ptSessionId?: boolean
   date?: boolean
   title?: boolean
@@ -1459,18 +1457,18 @@ export type JournalSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   caution?: boolean
   nextGoal?: boolean
   publishedAt?: boolean
-  memberReadAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  memberReadAt?: boolean
+  memberUserId?: boolean
+  trainerProfileId?: boolean
   memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   ptSession?: boolean | Prisma.Journal$ptSessionArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["journal"]>
 
 export type JournalSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  memberUserId?: boolean
-  trainerProfileId?: boolean
   ptSessionId?: boolean
   date?: boolean
   title?: boolean
@@ -1481,18 +1479,18 @@ export type JournalSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   caution?: boolean
   nextGoal?: boolean
   publishedAt?: boolean
-  memberReadAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  memberReadAt?: boolean
+  memberUserId?: boolean
+  trainerProfileId?: boolean
   memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   ptSession?: boolean | Prisma.Journal$ptSessionArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["journal"]>
 
 export type JournalSelectScalar = {
   id?: boolean
-  memberUserId?: boolean
-  trainerProfileId?: boolean
   ptSessionId?: boolean
   date?: boolean
   title?: boolean
@@ -1503,44 +1501,44 @@ export type JournalSelectScalar = {
   caution?: boolean
   nextGoal?: boolean
   publishedAt?: boolean
-  memberReadAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  memberReadAt?: boolean
+  memberUserId?: boolean
+  trainerProfileId?: boolean
 }
 
-export type JournalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "memberUserId" | "trainerProfileId" | "ptSessionId" | "date" | "title" | "content" | "status" | "workoutSummary" | "dietGuidance" | "caution" | "nextGoal" | "publishedAt" | "memberReadAt" | "createdAt" | "updatedAt", ExtArgs["result"]["journal"]>
+export type JournalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "ptSessionId" | "date" | "title" | "content" | "status" | "workoutSummary" | "dietGuidance" | "caution" | "nextGoal" | "publishedAt" | "createdAt" | "updatedAt" | "memberReadAt" | "memberUserId" | "trainerProfileId", ExtArgs["result"]["journal"]>
 export type JournalInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   ptSession?: boolean | Prisma.Journal$ptSessionArgs<ExtArgs>
-  photos?: boolean | Prisma.Journal$photosArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   comments?: boolean | Prisma.Journal$commentsArgs<ExtArgs>
+  photos?: boolean | Prisma.Journal$photosArgs<ExtArgs>
   _count?: boolean | Prisma.JournalCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type JournalIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   ptSession?: boolean | Prisma.Journal$ptSessionArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
 }
 export type JournalIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   memberUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
   ptSession?: boolean | Prisma.Journal$ptSessionArgs<ExtArgs>
+  trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
 }
 
 export type $JournalPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Journal"
   objects: {
     memberUser: Prisma.$UserPayload<ExtArgs>
-    trainerProfile: Prisma.$TrainerProfilePayload<ExtArgs>
     ptSession: Prisma.$PTSessionPayload<ExtArgs> | null
-    photos: Prisma.$JournalPhotoPayload<ExtArgs>[]
+    trainerProfile: Prisma.$TrainerProfilePayload<ExtArgs>
     comments: Prisma.$JournalCommentPayload<ExtArgs>[]
+    photos: Prisma.$JournalPhotoPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    memberUserId: string
-    trainerProfileId: string
     ptSessionId: string | null
     date: Date
     title: string | null
@@ -1551,15 +1549,17 @@ export type $JournalPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     caution: string | null
     nextGoal: string | null
     publishedAt: Date | null
-    /**
-     * *
-     *    * 회원이 읽은 시각.
-     *    * 이게 없으면 홈의 "오늘 확인할 것" 을 고를 수 없다. 안 읽은 것을 세는 게
-     *    * 아니라 "무엇을 보여줄지" 를 정하는 데 쓴다.
-     */
-    memberReadAt: Date | null
     createdAt: Date
     updatedAt: Date
+    /**
+     * *
+     * * 회원이 읽은 시각.
+     * * 이게 없으면 홈의 "오늘 확인할 것" 을 고를 수 없다. 안 읽은 것을 세는 게
+     * * 아니라 "무엇을 보여줄지" 를 정하는 데 쓴다.
+     */
+    memberReadAt: Date | null
+    memberUserId: string
+    trainerProfileId: string
   }, ExtArgs["result"]["journal"]>
   composites: {}
 }
@@ -1955,10 +1955,10 @@ readonly fields: JournalFieldRefs;
 export interface Prisma__JournalClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   memberUser<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  trainerProfile<T extends Prisma.TrainerProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__TrainerProfileClient<runtime.Types.Result.GetResult<Prisma.$TrainerProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   ptSession<T extends Prisma.Journal$ptSessionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Journal$ptSessionArgs<ExtArgs>>): Prisma.Prisma__PTSessionClient<runtime.Types.Result.GetResult<Prisma.$PTSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  photos<T extends Prisma.Journal$photosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Journal$photosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalPhotoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  trainerProfile<T extends Prisma.TrainerProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__TrainerProfileClient<runtime.Types.Result.GetResult<Prisma.$TrainerProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   comments<T extends Prisma.Journal$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Journal$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  photos<T extends Prisma.Journal$photosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Journal$photosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalPhotoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1989,8 +1989,6 @@ export interface Prisma__JournalClient<T, Null = never, ExtArgs extends runtime.
  */
 export interface JournalFieldRefs {
   readonly id: Prisma.FieldRef<"Journal", 'String'>
-  readonly memberUserId: Prisma.FieldRef<"Journal", 'String'>
-  readonly trainerProfileId: Prisma.FieldRef<"Journal", 'String'>
   readonly ptSessionId: Prisma.FieldRef<"Journal", 'String'>
   readonly date: Prisma.FieldRef<"Journal", 'DateTime'>
   readonly title: Prisma.FieldRef<"Journal", 'String'>
@@ -2001,9 +1999,11 @@ export interface JournalFieldRefs {
   readonly caution: Prisma.FieldRef<"Journal", 'String'>
   readonly nextGoal: Prisma.FieldRef<"Journal", 'String'>
   readonly publishedAt: Prisma.FieldRef<"Journal", 'DateTime'>
-  readonly memberReadAt: Prisma.FieldRef<"Journal", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Journal", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Journal", 'DateTime'>
+  readonly memberReadAt: Prisma.FieldRef<"Journal", 'DateTime'>
+  readonly memberUserId: Prisma.FieldRef<"Journal", 'String'>
+  readonly trainerProfileId: Prisma.FieldRef<"Journal", 'String'>
 }
     
 
@@ -2424,30 +2424,6 @@ export type Journal$ptSessionArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
- * Journal.photos
- */
-export type Journal$photosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the JournalPhoto
-   */
-  select?: Prisma.JournalPhotoSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the JournalPhoto
-   */
-  omit?: Prisma.JournalPhotoOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.JournalPhotoInclude<ExtArgs> | null
-  where?: Prisma.JournalPhotoWhereInput
-  orderBy?: Prisma.JournalPhotoOrderByWithRelationInput | Prisma.JournalPhotoOrderByWithRelationInput[]
-  cursor?: Prisma.JournalPhotoWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.JournalPhotoScalarFieldEnum | Prisma.JournalPhotoScalarFieldEnum[]
-}
-
-/**
  * Journal.comments
  */
 export type Journal$commentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2469,6 +2445,30 @@ export type Journal$commentsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.JournalCommentScalarFieldEnum | Prisma.JournalCommentScalarFieldEnum[]
+}
+
+/**
+ * Journal.photos
+ */
+export type Journal$photosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the JournalPhoto
+   */
+  select?: Prisma.JournalPhotoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the JournalPhoto
+   */
+  omit?: Prisma.JournalPhotoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.JournalPhotoInclude<ExtArgs> | null
+  where?: Prisma.JournalPhotoWhereInput
+  orderBy?: Prisma.JournalPhotoOrderByWithRelationInput | Prisma.JournalPhotoOrderByWithRelationInput[]
+  cursor?: Prisma.JournalPhotoWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.JournalPhotoScalarFieldEnum | Prisma.JournalPhotoScalarFieldEnum[]
 }
 
 /**

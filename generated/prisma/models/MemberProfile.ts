@@ -256,8 +256,8 @@ export type MemberProfileWhereInput = {
   onboardingDone?: Prisma.BoolFilter<"MemberProfile"> | boolean
   createdAt?: Prisma.DateTimeFilter<"MemberProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MemberProfile"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   equipment?: Prisma.MemberEquipmentListRelationFilter
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type MemberProfileOrderByWithRelationInput = {
@@ -271,8 +271,8 @@ export type MemberProfileOrderByWithRelationInput = {
   onboardingDone?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
   equipment?: Prisma.MemberEquipmentOrderByRelationAggregateInput
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type MemberProfileWhereUniqueInput = Prisma.AtLeast<{
@@ -289,8 +289,8 @@ export type MemberProfileWhereUniqueInput = Prisma.AtLeast<{
   onboardingDone?: Prisma.BoolFilter<"MemberProfile"> | boolean
   createdAt?: Prisma.DateTimeFilter<"MemberProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MemberProfile"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   equipment?: Prisma.MemberEquipmentListRelationFilter
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id" | "userId">
 
 export type MemberProfileOrderByWithAggregationInput = {
@@ -337,8 +337,8 @@ export type MemberProfileCreateInput = {
   onboardingDone?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutMemberProfileInput
   equipment?: Prisma.MemberEquipmentCreateNestedManyWithoutMemberInput
+  user: Prisma.UserCreateNestedOneWithoutMemberProfileInput
 }
 
 export type MemberProfileUncheckedCreateInput = {
@@ -365,8 +365,8 @@ export type MemberProfileUpdateInput = {
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutMemberProfileNestedInput
   equipment?: Prisma.MemberEquipmentUpdateManyWithoutMemberNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutMemberProfileNestedInput
 }
 
 export type MemberProfileUncheckedUpdateInput = {
@@ -710,8 +710,8 @@ export type MemberProfileSelect<ExtArgs extends runtime.Types.Extensions.Interna
   onboardingDone?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   equipment?: boolean | Prisma.MemberProfile$equipmentArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.MemberProfileCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["memberProfile"]>
 
@@ -758,8 +758,8 @@ export type MemberProfileSelectScalar = {
 
 export type MemberProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "birthDate" | "gender" | "heightCm" | "fitnessLevel" | "primaryGoal" | "onboardingDone" | "createdAt" | "updatedAt", ExtArgs["result"]["memberProfile"]>
 export type MemberProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   equipment?: boolean | Prisma.MemberProfile$equipmentArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.MemberProfileCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type MemberProfileIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -772,8 +772,8 @@ export type MemberProfileIncludeUpdateManyAndReturn<ExtArgs extends runtime.Type
 export type $MemberProfilePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "MemberProfile"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
     equipment: Prisma.$MemberEquipmentPayload<ExtArgs>[]
+    user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1180,8 +1180,8 @@ readonly fields: MemberProfileFieldRefs;
  */
 export interface Prisma__MemberProfileClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   equipment<T extends Prisma.MemberProfile$equipmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MemberProfile$equipmentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MemberEquipmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

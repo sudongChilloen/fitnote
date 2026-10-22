@@ -27,28 +27,28 @@ export type AggregateDietFeedback = {
 export type DietFeedbackMinAggregateOutputType = {
   id: string | null
   dietRecordId: string | null
-  trainerProfileId: string | null
   content: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  trainerProfileId: string | null
 }
 
 export type DietFeedbackMaxAggregateOutputType = {
   id: string | null
   dietRecordId: string | null
-  trainerProfileId: string | null
   content: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  trainerProfileId: string | null
 }
 
 export type DietFeedbackCountAggregateOutputType = {
   id: number
   dietRecordId: number
-  trainerProfileId: number
   content: number
   createdAt: number
   updatedAt: number
+  trainerProfileId: number
   _all: number
 }
 
@@ -56,28 +56,28 @@ export type DietFeedbackCountAggregateOutputType = {
 export type DietFeedbackMinAggregateInputType = {
   id?: true
   dietRecordId?: true
-  trainerProfileId?: true
   content?: true
   createdAt?: true
   updatedAt?: true
+  trainerProfileId?: true
 }
 
 export type DietFeedbackMaxAggregateInputType = {
   id?: true
   dietRecordId?: true
-  trainerProfileId?: true
   content?: true
   createdAt?: true
   updatedAt?: true
+  trainerProfileId?: true
 }
 
 export type DietFeedbackCountAggregateInputType = {
   id?: true
   dietRecordId?: true
-  trainerProfileId?: true
   content?: true
   createdAt?: true
   updatedAt?: true
+  trainerProfileId?: true
   _all?: true
 }
 
@@ -156,10 +156,10 @@ export type DietFeedbackGroupByArgs<ExtArgs extends runtime.Types.Extensions.Int
 export type DietFeedbackGroupByOutputType = {
   id: string
   dietRecordId: string
-  trainerProfileId: string
   content: string
   createdAt: Date
   updatedAt: Date
+  trainerProfileId: string
   _count: DietFeedbackCountAggregateOutputType | null
   _min: DietFeedbackMinAggregateOutputType | null
   _max: DietFeedbackMaxAggregateOutputType | null
@@ -186,10 +186,10 @@ export type DietFeedbackWhereInput = {
   NOT?: Prisma.DietFeedbackWhereInput | Prisma.DietFeedbackWhereInput[]
   id?: Prisma.StringFilter<"DietFeedback"> | string
   dietRecordId?: Prisma.StringFilter<"DietFeedback"> | string
-  trainerProfileId?: Prisma.StringFilter<"DietFeedback"> | string
   content?: Prisma.StringFilter<"DietFeedback"> | string
   createdAt?: Prisma.DateTimeFilter<"DietFeedback"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DietFeedback"> | Date | string
+  trainerProfileId?: Prisma.StringFilter<"DietFeedback"> | string
   dietRecord?: Prisma.XOR<Prisma.DietRecordScalarRelationFilter, Prisma.DietRecordWhereInput>
   trainerProfile?: Prisma.XOR<Prisma.TrainerProfileScalarRelationFilter, Prisma.TrainerProfileWhereInput>
 }
@@ -197,10 +197,10 @@ export type DietFeedbackWhereInput = {
 export type DietFeedbackOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   dietRecordId?: Prisma.SortOrder
-  trainerProfileId?: Prisma.SortOrder
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
   dietRecord?: Prisma.DietRecordOrderByWithRelationInput
   trainerProfile?: Prisma.TrainerProfileOrderByWithRelationInput
 }
@@ -211,10 +211,10 @@ export type DietFeedbackWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.DietFeedbackWhereInput[]
   NOT?: Prisma.DietFeedbackWhereInput | Prisma.DietFeedbackWhereInput[]
   dietRecordId?: Prisma.StringFilter<"DietFeedback"> | string
-  trainerProfileId?: Prisma.StringFilter<"DietFeedback"> | string
   content?: Prisma.StringFilter<"DietFeedback"> | string
   createdAt?: Prisma.DateTimeFilter<"DietFeedback"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DietFeedback"> | Date | string
+  trainerProfileId?: Prisma.StringFilter<"DietFeedback"> | string
   dietRecord?: Prisma.XOR<Prisma.DietRecordScalarRelationFilter, Prisma.DietRecordWhereInput>
   trainerProfile?: Prisma.XOR<Prisma.TrainerProfileScalarRelationFilter, Prisma.TrainerProfileWhereInput>
 }, "id">
@@ -222,10 +222,10 @@ export type DietFeedbackWhereUniqueInput = Prisma.AtLeast<{
 export type DietFeedbackOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   dietRecordId?: Prisma.SortOrder
-  trainerProfileId?: Prisma.SortOrder
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
   _count?: Prisma.DietFeedbackCountOrderByAggregateInput
   _max?: Prisma.DietFeedbackMaxOrderByAggregateInput
   _min?: Prisma.DietFeedbackMinOrderByAggregateInput
@@ -237,10 +237,10 @@ export type DietFeedbackScalarWhereWithAggregatesInput = {
   NOT?: Prisma.DietFeedbackScalarWhereWithAggregatesInput | Prisma.DietFeedbackScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"DietFeedback"> | string
   dietRecordId?: Prisma.StringWithAggregatesFilter<"DietFeedback"> | string
-  trainerProfileId?: Prisma.StringWithAggregatesFilter<"DietFeedback"> | string
   content?: Prisma.StringWithAggregatesFilter<"DietFeedback"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"DietFeedback"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"DietFeedback"> | Date | string
+  trainerProfileId?: Prisma.StringWithAggregatesFilter<"DietFeedback"> | string
 }
 
 export type DietFeedbackCreateInput = {
@@ -255,10 +255,10 @@ export type DietFeedbackCreateInput = {
 export type DietFeedbackUncheckedCreateInput = {
   id?: string
   dietRecordId: string
-  trainerProfileId: string
   content: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  trainerProfileId: string
 }
 
 export type DietFeedbackUpdateInput = {
@@ -273,19 +273,19 @@ export type DietFeedbackUpdateInput = {
 export type DietFeedbackUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   dietRecordId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type DietFeedbackCreateManyInput = {
   id?: string
   dietRecordId: string
-  trainerProfileId: string
   content: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  trainerProfileId: string
 }
 
 export type DietFeedbackUpdateManyMutationInput = {
@@ -298,10 +298,10 @@ export type DietFeedbackUpdateManyMutationInput = {
 export type DietFeedbackUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   dietRecordId?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type DietFeedbackListRelationFilter = {
@@ -317,28 +317,28 @@ export type DietFeedbackOrderByRelationAggregateInput = {
 export type DietFeedbackCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   dietRecordId?: Prisma.SortOrder
-  trainerProfileId?: Prisma.SortOrder
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
 }
 
 export type DietFeedbackMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   dietRecordId?: Prisma.SortOrder
-  trainerProfileId?: Prisma.SortOrder
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
 }
 
 export type DietFeedbackMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   dietRecordId?: Prisma.SortOrder
-  trainerProfileId?: Prisma.SortOrder
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  trainerProfileId?: Prisma.SortOrder
 }
 
 export type DietFeedbackCreateNestedManyWithoutTrainerProfileInput = {
@@ -473,10 +473,10 @@ export type DietFeedbackScalarWhereInput = {
   NOT?: Prisma.DietFeedbackScalarWhereInput | Prisma.DietFeedbackScalarWhereInput[]
   id?: Prisma.StringFilter<"DietFeedback"> | string
   dietRecordId?: Prisma.StringFilter<"DietFeedback"> | string
-  trainerProfileId?: Prisma.StringFilter<"DietFeedback"> | string
   content?: Prisma.StringFilter<"DietFeedback"> | string
   createdAt?: Prisma.DateTimeFilter<"DietFeedback"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DietFeedback"> | Date | string
+  trainerProfileId?: Prisma.StringFilter<"DietFeedback"> | string
 }
 
 export type DietFeedbackCreateWithoutDietRecordInput = {
@@ -489,10 +489,10 @@ export type DietFeedbackCreateWithoutDietRecordInput = {
 
 export type DietFeedbackUncheckedCreateWithoutDietRecordInput = {
   id?: string
-  trainerProfileId: string
   content: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  trainerProfileId: string
 }
 
 export type DietFeedbackCreateOrConnectWithoutDietRecordInput = {
@@ -555,10 +555,10 @@ export type DietFeedbackUncheckedUpdateManyWithoutTrainerProfileInput = {
 
 export type DietFeedbackCreateManyDietRecordInput = {
   id?: string
-  trainerProfileId: string
   content: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  trainerProfileId: string
 }
 
 export type DietFeedbackUpdateWithoutDietRecordInput = {
@@ -571,18 +571,18 @@ export type DietFeedbackUpdateWithoutDietRecordInput = {
 
 export type DietFeedbackUncheckedUpdateWithoutDietRecordInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type DietFeedbackUncheckedUpdateManyWithoutDietRecordInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -590,10 +590,10 @@ export type DietFeedbackUncheckedUpdateManyWithoutDietRecordInput = {
 export type DietFeedbackSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   dietRecordId?: boolean
-  trainerProfileId?: boolean
   content?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  trainerProfileId?: boolean
   dietRecord?: boolean | Prisma.DietRecordDefaultArgs<ExtArgs>
   trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["dietFeedback"]>
@@ -601,10 +601,10 @@ export type DietFeedbackSelect<ExtArgs extends runtime.Types.Extensions.Internal
 export type DietFeedbackSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   dietRecordId?: boolean
-  trainerProfileId?: boolean
   content?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  trainerProfileId?: boolean
   dietRecord?: boolean | Prisma.DietRecordDefaultArgs<ExtArgs>
   trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["dietFeedback"]>
@@ -612,10 +612,10 @@ export type DietFeedbackSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
 export type DietFeedbackSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   dietRecordId?: boolean
-  trainerProfileId?: boolean
   content?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  trainerProfileId?: boolean
   dietRecord?: boolean | Prisma.DietRecordDefaultArgs<ExtArgs>
   trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["dietFeedback"]>
@@ -623,13 +623,13 @@ export type DietFeedbackSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
 export type DietFeedbackSelectScalar = {
   id?: boolean
   dietRecordId?: boolean
-  trainerProfileId?: boolean
   content?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  trainerProfileId?: boolean
 }
 
-export type DietFeedbackOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "dietRecordId" | "trainerProfileId" | "content" | "createdAt" | "updatedAt", ExtArgs["result"]["dietFeedback"]>
+export type DietFeedbackOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "dietRecordId" | "content" | "createdAt" | "updatedAt" | "trainerProfileId", ExtArgs["result"]["dietFeedback"]>
 export type DietFeedbackInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   dietRecord?: boolean | Prisma.DietRecordDefaultArgs<ExtArgs>
   trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
@@ -652,10 +652,10 @@ export type $DietFeedbackPayload<ExtArgs extends runtime.Types.Extensions.Intern
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     dietRecordId: string
-    trainerProfileId: string
     content: string
     createdAt: Date
     updatedAt: Date
+    trainerProfileId: string
   }, ExtArgs["result"]["dietFeedback"]>
   composites: {}
 }
@@ -1083,10 +1083,10 @@ export interface Prisma__DietFeedbackClient<T, Null = never, ExtArgs extends run
 export interface DietFeedbackFieldRefs {
   readonly id: Prisma.FieldRef<"DietFeedback", 'String'>
   readonly dietRecordId: Prisma.FieldRef<"DietFeedback", 'String'>
-  readonly trainerProfileId: Prisma.FieldRef<"DietFeedback", 'String'>
   readonly content: Prisma.FieldRef<"DietFeedback", 'String'>
   readonly createdAt: Prisma.FieldRef<"DietFeedback", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"DietFeedback", 'DateTime'>
+  readonly trainerProfileId: Prisma.FieldRef<"DietFeedback", 'String'>
 }
     
 

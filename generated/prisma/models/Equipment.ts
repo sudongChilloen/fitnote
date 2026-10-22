@@ -214,9 +214,9 @@ export type EquipmentWhereInput = {
   isActive?: Prisma.BoolFilter<"Equipment"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Equipment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Equipment"> | Date | string
-  memberEquipment?: Prisma.MemberEquipmentListRelationFilter
   exerciseEquipment?: Prisma.ExerciseEquipmentListRelationFilter
   gymEquipment?: Prisma.GymEquipmentListRelationFilter
+  memberEquipment?: Prisma.MemberEquipmentListRelationFilter
 }
 
 export type EquipmentOrderByWithRelationInput = {
@@ -229,9 +229,9 @@ export type EquipmentOrderByWithRelationInput = {
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  memberEquipment?: Prisma.MemberEquipmentOrderByRelationAggregateInput
   exerciseEquipment?: Prisma.ExerciseEquipmentOrderByRelationAggregateInput
   gymEquipment?: Prisma.GymEquipmentOrderByRelationAggregateInput
+  memberEquipment?: Prisma.MemberEquipmentOrderByRelationAggregateInput
 }
 
 export type EquipmentWhereUniqueInput = Prisma.AtLeast<{
@@ -247,9 +247,9 @@ export type EquipmentWhereUniqueInput = Prisma.AtLeast<{
   isActive?: Prisma.BoolFilter<"Equipment"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Equipment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Equipment"> | Date | string
-  memberEquipment?: Prisma.MemberEquipmentListRelationFilter
   exerciseEquipment?: Prisma.ExerciseEquipmentListRelationFilter
   gymEquipment?: Prisma.GymEquipmentListRelationFilter
+  memberEquipment?: Prisma.MemberEquipmentListRelationFilter
 }, "id" | "name">
 
 export type EquipmentOrderByWithAggregationInput = {
@@ -292,9 +292,9 @@ export type EquipmentCreateInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberEquipment?: Prisma.MemberEquipmentCreateNestedManyWithoutEquipmentInput
   exerciseEquipment?: Prisma.ExerciseEquipmentCreateNestedManyWithoutEquipmentInput
   gymEquipment?: Prisma.GymEquipmentCreateNestedManyWithoutEquipmentInput
+  memberEquipment?: Prisma.MemberEquipmentCreateNestedManyWithoutEquipmentInput
 }
 
 export type EquipmentUncheckedCreateInput = {
@@ -307,9 +307,9 @@ export type EquipmentUncheckedCreateInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberEquipment?: Prisma.MemberEquipmentUncheckedCreateNestedManyWithoutEquipmentInput
   exerciseEquipment?: Prisma.ExerciseEquipmentUncheckedCreateNestedManyWithoutEquipmentInput
   gymEquipment?: Prisma.GymEquipmentUncheckedCreateNestedManyWithoutEquipmentInput
+  memberEquipment?: Prisma.MemberEquipmentUncheckedCreateNestedManyWithoutEquipmentInput
 }
 
 export type EquipmentUpdateInput = {
@@ -322,9 +322,9 @@ export type EquipmentUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberEquipment?: Prisma.MemberEquipmentUpdateManyWithoutEquipmentNestedInput
   exerciseEquipment?: Prisma.ExerciseEquipmentUpdateManyWithoutEquipmentNestedInput
   gymEquipment?: Prisma.GymEquipmentUpdateManyWithoutEquipmentNestedInput
+  memberEquipment?: Prisma.MemberEquipmentUpdateManyWithoutEquipmentNestedInput
 }
 
 export type EquipmentUncheckedUpdateInput = {
@@ -337,9 +337,9 @@ export type EquipmentUncheckedUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberEquipment?: Prisma.MemberEquipmentUncheckedUpdateManyWithoutEquipmentNestedInput
   exerciseEquipment?: Prisma.ExerciseEquipmentUncheckedUpdateManyWithoutEquipmentNestedInput
   gymEquipment?: Prisma.GymEquipmentUncheckedUpdateManyWithoutEquipmentNestedInput
+  memberEquipment?: Prisma.MemberEquipmentUncheckedUpdateManyWithoutEquipmentNestedInput
 }
 
 export type EquipmentCreateManyInput = {
@@ -547,8 +547,8 @@ export type EquipmentCreateWithoutGymEquipmentInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberEquipment?: Prisma.MemberEquipmentCreateNestedManyWithoutEquipmentInput
   exerciseEquipment?: Prisma.ExerciseEquipmentCreateNestedManyWithoutEquipmentInput
+  memberEquipment?: Prisma.MemberEquipmentCreateNestedManyWithoutEquipmentInput
 }
 
 export type EquipmentUncheckedCreateWithoutGymEquipmentInput = {
@@ -561,8 +561,8 @@ export type EquipmentUncheckedCreateWithoutGymEquipmentInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberEquipment?: Prisma.MemberEquipmentUncheckedCreateNestedManyWithoutEquipmentInput
   exerciseEquipment?: Prisma.ExerciseEquipmentUncheckedCreateNestedManyWithoutEquipmentInput
+  memberEquipment?: Prisma.MemberEquipmentUncheckedCreateNestedManyWithoutEquipmentInput
 }
 
 export type EquipmentCreateOrConnectWithoutGymEquipmentInput = {
@@ -591,8 +591,8 @@ export type EquipmentUpdateWithoutGymEquipmentInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberEquipment?: Prisma.MemberEquipmentUpdateManyWithoutEquipmentNestedInput
   exerciseEquipment?: Prisma.ExerciseEquipmentUpdateManyWithoutEquipmentNestedInput
+  memberEquipment?: Prisma.MemberEquipmentUpdateManyWithoutEquipmentNestedInput
 }
 
 export type EquipmentUncheckedUpdateWithoutGymEquipmentInput = {
@@ -605,8 +605,8 @@ export type EquipmentUncheckedUpdateWithoutGymEquipmentInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberEquipment?: Prisma.MemberEquipmentUncheckedUpdateManyWithoutEquipmentNestedInput
   exerciseEquipment?: Prisma.ExerciseEquipmentUncheckedUpdateManyWithoutEquipmentNestedInput
+  memberEquipment?: Prisma.MemberEquipmentUncheckedUpdateManyWithoutEquipmentNestedInput
 }
 
 export type EquipmentCreateWithoutExerciseEquipmentInput = {
@@ -619,8 +619,8 @@ export type EquipmentCreateWithoutExerciseEquipmentInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberEquipment?: Prisma.MemberEquipmentCreateNestedManyWithoutEquipmentInput
   gymEquipment?: Prisma.GymEquipmentCreateNestedManyWithoutEquipmentInput
+  memberEquipment?: Prisma.MemberEquipmentCreateNestedManyWithoutEquipmentInput
 }
 
 export type EquipmentUncheckedCreateWithoutExerciseEquipmentInput = {
@@ -633,8 +633,8 @@ export type EquipmentUncheckedCreateWithoutExerciseEquipmentInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  memberEquipment?: Prisma.MemberEquipmentUncheckedCreateNestedManyWithoutEquipmentInput
   gymEquipment?: Prisma.GymEquipmentUncheckedCreateNestedManyWithoutEquipmentInput
+  memberEquipment?: Prisma.MemberEquipmentUncheckedCreateNestedManyWithoutEquipmentInput
 }
 
 export type EquipmentCreateOrConnectWithoutExerciseEquipmentInput = {
@@ -663,8 +663,8 @@ export type EquipmentUpdateWithoutExerciseEquipmentInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberEquipment?: Prisma.MemberEquipmentUpdateManyWithoutEquipmentNestedInput
   gymEquipment?: Prisma.GymEquipmentUpdateManyWithoutEquipmentNestedInput
+  memberEquipment?: Prisma.MemberEquipmentUpdateManyWithoutEquipmentNestedInput
 }
 
 export type EquipmentUncheckedUpdateWithoutExerciseEquipmentInput = {
@@ -677,8 +677,8 @@ export type EquipmentUncheckedUpdateWithoutExerciseEquipmentInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  memberEquipment?: Prisma.MemberEquipmentUncheckedUpdateManyWithoutEquipmentNestedInput
   gymEquipment?: Prisma.GymEquipmentUncheckedUpdateManyWithoutEquipmentNestedInput
+  memberEquipment?: Prisma.MemberEquipmentUncheckedUpdateManyWithoutEquipmentNestedInput
 }
 
 
@@ -687,15 +687,15 @@ export type EquipmentUncheckedUpdateWithoutExerciseEquipmentInput = {
  */
 
 export type EquipmentCountOutputType = {
-  memberEquipment: number
   exerciseEquipment: number
   gymEquipment: number
+  memberEquipment: number
 }
 
 export type EquipmentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  memberEquipment?: boolean | EquipmentCountOutputTypeCountMemberEquipmentArgs
   exerciseEquipment?: boolean | EquipmentCountOutputTypeCountExerciseEquipmentArgs
   gymEquipment?: boolean | EquipmentCountOutputTypeCountGymEquipmentArgs
+  memberEquipment?: boolean | EquipmentCountOutputTypeCountMemberEquipmentArgs
 }
 
 /**
@@ -706,13 +706,6 @@ export type EquipmentCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ex
    * Select specific fields to fetch from the EquipmentCountOutputType
    */
   select?: Prisma.EquipmentCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * EquipmentCountOutputType without action
- */
-export type EquipmentCountOutputTypeCountMemberEquipmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.MemberEquipmentWhereInput
 }
 
 /**
@@ -729,6 +722,13 @@ export type EquipmentCountOutputTypeCountGymEquipmentArgs<ExtArgs extends runtim
   where?: Prisma.GymEquipmentWhereInput
 }
 
+/**
+ * EquipmentCountOutputType without action
+ */
+export type EquipmentCountOutputTypeCountMemberEquipmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MemberEquipmentWhereInput
+}
+
 
 export type EquipmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -740,9 +740,9 @@ export type EquipmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  memberEquipment?: boolean | Prisma.Equipment$memberEquipmentArgs<ExtArgs>
   exerciseEquipment?: boolean | Prisma.Equipment$exerciseEquipmentArgs<ExtArgs>
   gymEquipment?: boolean | Prisma.Equipment$gymEquipmentArgs<ExtArgs>
+  memberEquipment?: boolean | Prisma.Equipment$memberEquipmentArgs<ExtArgs>
   _count?: boolean | Prisma.EquipmentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["equipment"]>
 
@@ -784,9 +784,9 @@ export type EquipmentSelectScalar = {
 
 export type EquipmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "category" | "description" | "imageUrl" | "isSystem" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["equipment"]>
 export type EquipmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  memberEquipment?: boolean | Prisma.Equipment$memberEquipmentArgs<ExtArgs>
   exerciseEquipment?: boolean | Prisma.Equipment$exerciseEquipmentArgs<ExtArgs>
   gymEquipment?: boolean | Prisma.Equipment$gymEquipmentArgs<ExtArgs>
+  memberEquipment?: boolean | Prisma.Equipment$memberEquipmentArgs<ExtArgs>
   _count?: boolean | Prisma.EquipmentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type EquipmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -795,9 +795,9 @@ export type EquipmentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
 export type $EquipmentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Equipment"
   objects: {
-    memberEquipment: Prisma.$MemberEquipmentPayload<ExtArgs>[]
     exerciseEquipment: Prisma.$ExerciseEquipmentPayload<ExtArgs>[]
     gymEquipment: Prisma.$GymEquipmentPayload<ExtArgs>[]
+    memberEquipment: Prisma.$MemberEquipmentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1203,9 +1203,9 @@ readonly fields: EquipmentFieldRefs;
  */
 export interface Prisma__EquipmentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  memberEquipment<T extends Prisma.Equipment$memberEquipmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Equipment$memberEquipmentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MemberEquipmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   exerciseEquipment<T extends Prisma.Equipment$exerciseEquipmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Equipment$exerciseEquipmentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExerciseEquipmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   gymEquipment<T extends Prisma.Equipment$gymEquipmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Equipment$gymEquipmentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GymEquipmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  memberEquipment<T extends Prisma.Equipment$memberEquipmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Equipment$memberEquipmentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MemberEquipmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1637,30 +1637,6 @@ export type EquipmentDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
- * Equipment.memberEquipment
- */
-export type Equipment$memberEquipmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the MemberEquipment
-   */
-  select?: Prisma.MemberEquipmentSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the MemberEquipment
-   */
-  omit?: Prisma.MemberEquipmentOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.MemberEquipmentInclude<ExtArgs> | null
-  where?: Prisma.MemberEquipmentWhereInput
-  orderBy?: Prisma.MemberEquipmentOrderByWithRelationInput | Prisma.MemberEquipmentOrderByWithRelationInput[]
-  cursor?: Prisma.MemberEquipmentWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.MemberEquipmentScalarFieldEnum | Prisma.MemberEquipmentScalarFieldEnum[]
-}
-
-/**
  * Equipment.exerciseEquipment
  */
 export type Equipment$exerciseEquipmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1706,6 +1682,30 @@ export type Equipment$gymEquipmentArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.GymEquipmentScalarFieldEnum | Prisma.GymEquipmentScalarFieldEnum[]
+}
+
+/**
+ * Equipment.memberEquipment
+ */
+export type Equipment$memberEquipmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MemberEquipment
+   */
+  select?: Prisma.MemberEquipmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MemberEquipment
+   */
+  omit?: Prisma.MemberEquipmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MemberEquipmentInclude<ExtArgs> | null
+  where?: Prisma.MemberEquipmentWhereInput
+  orderBy?: Prisma.MemberEquipmentOrderByWithRelationInput | Prisma.MemberEquipmentOrderByWithRelationInput[]
+  cursor?: Prisma.MemberEquipmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MemberEquipmentScalarFieldEnum | Prisma.MemberEquipmentScalarFieldEnum[]
 }
 
 /**
