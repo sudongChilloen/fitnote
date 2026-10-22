@@ -126,9 +126,6 @@ export default async function TrainerMemberPage({
 
   const nextSession = member.upcomingSessions[0] ?? null;
 
-  const nextSessionIsToday =
-    nextSession !== null && toKstDateKey(nextSession.scheduledAt) === todayKey;
-
   /*
    * 오늘 수업 중에는 가장 가까운 수업 하나를
    * 메인 CTA로 보여준다.
@@ -750,7 +747,7 @@ export default async function TrainerMemberPage({
           </div>
         ) : (
           <ul className="mt-4 flex flex-col gap-3">
-            {personalWorkouts.map((session, index) => (
+            {personalWorkouts.map((session) => (
               <li key={session.id}>
                 <div className="rounded-3xl border border-border/60 bg-card p-4 shadow-card">
                   <div className="flex items-start gap-3">
