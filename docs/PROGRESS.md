@@ -2049,6 +2049,7 @@ PTSession ─┬─ WorkoutSession ─ WorkoutRecord ─ WorkoutSet   (수업 �
 | 통합: 개인 운동 공유 | 3   | 공유를 끈 회원의 개인 운동이 클라이언트 인자와 무관하게 PT 기록으로 안 복사됨 |
 | 통합: 식단          | 9    | 빈 기록 거절, 남의 사진 경로 무시, 피드백과 알림, 공유 끔, 담당 아님, 남의 식단, 연결 전 식단 안 보임(목록·상세·피드백) |
 | 통합: 신체 공유     | 2    | 기본 비공개, 공유를 켜면 연결한 날부터만 보임, 날짜 키가 KST 와 일치        |
+| 통합: 푸시          | 15   | 토큰 등록·이전·해제, 발송 내용, RS256 서명, 인증 토큰 캐시, 404/400/500 구분, 설정 없음, 롤백 |
 | 통합: 알림장        | 11   | 초안 이어쓰기, 게시와 알림 1회, 초안 비공개, 남의 접근, 회원·트레이너 댓글 알림, 사진 경로·한도 |
 
 CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint → 단위 →
@@ -2140,6 +2141,36 @@ CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint 
     `journal-detail.service`(상세·댓글·공지)
   - `trainer-board.service.ts`(637줄) → `trainer-board-shared` / `-week` / `-todos` / `-month`
 
+### 7-3b. 푸시 알림 (서버 쪽)
+
+앱 안 알림(`Notification`)이 원본이고 푸시는 그 사본을 기기로 한 번 더 보내는 것이다.
+푸시가 실패해도 알림은 남아 있어서 앱을 열면 보인다.
+
+- **보내는 시점.** `createNotification` 이 알림을 저장한 *뒤에* `after()` 로 푸시를 예약한다.
+  이 함수는 대부분 트랜잭션 안에서 불리는데, 거기서 바로 보내면 아직 커밋되지 않은 알림을
+  가리키고 롤백돼도 푸시는 이미 나간 뒤다. `after()` 는 응답이 끝난 뒤에 돌아서 커밋 이후가
+  보장되고, 롤백되면 행이 없어 보낼 것도 없다. 요청 밖(시드 스크립트·테스트)에서는 `after()`
+  가 던지므로 건너뛴다
+- **FCM 호출.** `firebase-admin` 없이 `lib/fcm.ts` 가 REST(HTTP v1)로 직접 부른다. 이미 있는
+  `jose` 로 서비스 계정 JWT 를 RS256 으로 서명해 액세스 토큰을 받고(1시간, 메모리에 캐시),
+  메시지를 보낸다. 환경변수가 없으면 아무것도 안 한다
+- **기기 토큰.** `DeviceToken`(기존 모델, 마이그레이션 없음). 같은 기기에서 다른 계정으로
+  로그인하면 토큰을 새 사용자 쪽으로 옮겨서 이전 사용자의 알림이 새 사용자 기기로 가지
+  않게 한다. 등록·해제는 서버 액션 `registerPushTokenAction` / `unregisterPushTokenAction`
+- **만료된 토큰.** FCM 이 404(`UNREGISTERED`)를 주면 그 기기를 끈다. 400 은 토큰을
+  가리킬 때만 토큰 탓으로 본다(메시지 모양 문제일 수 있다). 401·429·5xx 는 일시적이므로
+  지우지 않는다
+- **알림 경로.** `getNotificationHref` 를 `notification-href.ts` 로 분리해 앱 안 알림과 푸시가
+  같은 규칙을 쓴다 (`notification.service` 가 다시 내보내서 기존 import 는 그대로)
+
+**켜려면 (아직 안 됨):**
+1. Firebase 프로젝트를 만들고 서비스 계정 키(JSON)를 받아 `FCM_PROJECT_ID` /
+   `FCM_CLIENT_EMAIL` / `FCM_PRIVATE_KEY` 를 등록한다. 값은 `.env.example` 참고
+2. **브라우저 쪽이 아직 없다.** 토큰을 받아 `registerPushTokenAction` 을 부르는 코드가
+   필요하다: Firebase 웹 앱 설정과 VAPID 키, `firebase` 패키지, 서비스 워커
+   (`public/firebase-messaging-sw.js` — 푸시를 보여 주고 눌렀을 때 `data.href` 를 연다),
+   그리고 알림 화면의 "푸시 켜기" 버튼. iOS 는 홈 화면에 추가한 웹앱에서만 웹 푸시를 받는다
+
 ### 7-4. 배포 전에 할 일
 
 1. 마이그레이션 두 건을 각 DB 에 적용한다. **적용 전에 코드를 배포하면 로그인과 가입이
@@ -2180,8 +2211,8 @@ CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint 
 
 ### 남은 것
 
-- **FCM 푸시 알림.** `DeviceToken` 모델만 있고 발송 코드는 없다. 지금 알림은 앱 안의
-  `Notification` 뿐이다
+- **FCM 푸시 알림, 브라우저 쪽.** 서버 발송은 끝났다(7-3b). 토큰을 받아 등록하는 클라이언트
+  코드와 서비스 워커, Firebase 프로젝트 설정이 남았다
 - **`DataAccessLog`.** 회원이 "누가 언제 내 무엇을 봤는지" 를 직접 확인하는 기록.
   지금은 공유가 꺼져 있으면 조회 자체를 하지 않는 것으로 대신한다
 - **테스트 확대.** 6장의 "테스트가 없는 곳"

@@ -35,6 +35,8 @@ http://localhost:3000 에서 확인한다. 패키지 매니저는 **npm** 이다
 | `SUPABASE_URL`              | 사진 저장소 (선택)                         | 없으면 사진 영역만 "저장소가 설정되지 않았어요"   |
 | `SUPABASE_SERVICE_ROLE_KEY` | 사진 서명 주소 발급 (선택)                 | **서버 전용.** 브라우저로 나가면 안 된다          |
 | `SUPABASE_PHOTO_BUCKET`     | 사진 버킷 이름 (선택)                      | 기본값 `fitnote-photos`                           |
+| `FCM_PROJECT_ID` · `FCM_CLIENT_EMAIL` · `FCM_PRIVATE_KEY` | 푸시 알림 (선택) | 세 값이 모두 있어야 켜진다. 서버 전용 |
+| `APP_URL`                   | 푸시를 눌렀을 때 열 주소 (선택)            | `https://도메인` 처럼 끝에 `/` 없이               |
 
 `DATABASE_URL` 과 `SESSION_SECRET` 이 없으면 빌드가 실패한다 (모듈 로드 시점에 검사).
 사진 버킷은 새 환경에서 한 번만 만든다: `npx tsx --conditions=react-server scripts/setup-storage.mts`
