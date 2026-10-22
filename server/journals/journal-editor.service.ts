@@ -432,11 +432,15 @@ export async function attachPhoto(
 ) {
   await requireMyJournal(userId, journalId);
 
-  const prefix = `journals/${journalId}/`;
+  // createPhotoUpload 가 만드는 모양만 받는다. 접두사만 보면 `../` 가 낀 경로도 통과한다.
+  const fullPattern = new RegExp(`^journals/${journalId}/[0-9a-f-]{36}\\.webp$`);
+  const thumbPattern = new RegExp(
+    `^journals/${journalId}/[0-9a-f-]{36}-thumb\\.webp$`,
+  );
 
   if (
-    !storagePath.startsWith(prefix) ||
-    (thumbnailPath !== null && !thumbnailPath.startsWith(prefix))
+    !fullPattern.test(storagePath) ||
+    (thumbnailPath !== null && !thumbPattern.test(thumbnailPath))
   ) {
     throw new JournalEditError("INVALID", "잘못된 사진 경로예요.");
   }
