@@ -50,14 +50,13 @@ model User {
 }
 
 model AuthSession {
-  id               String    @id @default(uuid())
-  userId           String
-  refreshTokenHash String    @unique
-  expiresAt        DateTime
-  lastUsedAt       DateTime?
-  revokedAt        DateTime?
-  createdAt        DateTime  @default(now())
-  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String    @id @default(uuid())
+  userId     String
+  expiresAt  DateTime
+  lastUsedAt DateTime?
+  revokedAt  DateTime?
+  createdAt  DateTime  @default(now())
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([expiresAt])

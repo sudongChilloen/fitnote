@@ -1,7 +1,5 @@
 import "server-only";
 
-import { createHash, randomBytes } from "node:crypto";
-
 import { cookies } from "next/headers";
 
 import {
@@ -15,26 +13,21 @@ import { prisma } from "@/lib/prisma";
 export { SESSION_COOKIE_NAME, decrypt } from "@/app/lib/jwt";
 export type { SessionPayload } from "@/app/lib/jwt";
 
-function hashToken(token: string) {
-  return createHash("sha256").update(token).digest("hex");
-}
-
 /**
  * AuthSession 레코드를 만들고 서명된 JWT 를 쿠키에 저장한다.
- * DB 에는 토큰 해시만 저장해 유출 시에도 세션을 되살릴 수 없도록 한다.
+ *
+ * 쿠키의 JWT 는 { userId, sessionId } 만 담고, 유효한지는 요청마다 DB 의 이 행으로
+ * 판단한다(dal.getCurrentUser). 그래서 행을 폐기하면 JWT 가 만료 전이어도 바로 무효다.
  */
 export async function createSession(userId: string) {
   const expiresAt = new Date(Date.now() + SESSION_DURATION_MS);
-  const rawToken = randomBytes(32).toString("hex");
 
   const authSession = await prisma.authSession.create({
-    data: {
-      userId,
-      refreshTokenHash: hashToken(rawToken),
-      expiresAt,
-    },
+    data: { userId, expiresAt },
     select: { id: true },
   });
+
+  await sweepDeadSessions();
 
   const jwt = await encrypt(
     { userId, sessionId: authSession.id },
@@ -49,6 +42,17 @@ export async function createSession(userId: string) {
     sameSite: "lax",
     expires: expiresAt,
     path: "/",
+  });
+}
+
+/** 만료되거나 폐기된 지 하루 넘은 세션을 치운다. 로그인할 때 가끔만 돈다. */
+async function sweepDeadSessions() {
+  if (Math.random() >= 0.05) return;
+
+  const cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
+  await prisma.authSession.deleteMany({
+    where: { OR: [{ expiresAt: { lt: cutoff } }, { revokedAt: { lt: cutoff } }] },
   });
 }
 
