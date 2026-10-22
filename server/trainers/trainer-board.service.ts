@@ -119,8 +119,7 @@ function getSessionManagementEvents(
     return [];
   }
 
-  const isToday =
-    toKstDateKey(session.scheduledAt) === todayDateKey;
+  const isToday = toKstDateKey(session.scheduledAt) === todayDateKey;
 
   if (!isToday) {
     return [];
@@ -156,8 +155,7 @@ function toRow(
   todayDateKey: string,
 ): TrainerSessionRow {
   const journal = session.journals[0] ?? null;
-  const connectionId =
-    connectionByUser.get(session.memberUserId) ?? null;
+  const connectionId = connectionByUser.get(session.memberUserId) ?? null;
 
   return {
     id: session.id,
@@ -200,10 +198,7 @@ async function connectionMap(trainerProfileId: string) {
   });
 
   return new Map(
-    connections.map((connection) => [
-      connection.memberUserId,
-      connection.id,
-    ]),
+    connections.map((connection) => [connection.memberUserId, connection.id]),
   );
 }
 
@@ -240,9 +235,7 @@ const DAY_MS = 86_400_000;
 function shiftDateKey(dateKey: string, days: number) {
   const [y, m, d] = dateKey.split("-").map(Number);
 
-  const shifted = new Date(
-    Date.UTC(y, m - 1, d) + days * DAY_MS,
-  );
+  const shifted = new Date(Date.UTC(y, m - 1, d) + days * DAY_MS);
 
   return shifted.toISOString().slice(0, 10);
 }
@@ -250,20 +243,13 @@ function shiftDateKey(dateKey: string, days: number) {
 function weekStartKey(dateKey: string) {
   const [y, m, d] = dateKey.split("-").map(Number);
 
-  const dow = new Date(
-    Date.UTC(y, m - 1, d),
-  ).getUTCDay();
+  const dow = new Date(Date.UTC(y, m - 1, d)).getUTCDay();
 
-  return shiftDateKey(
-    dateKey,
-    -((dow + 6) % 7),
-  );
+  return shiftDateKey(dateKey, -((dow + 6) % 7));
 }
 
 function kstRange(fromKey: string, days: number) {
-  const start = new Date(
-    `${fromKey}T00:00:00+09:00`,
-  );
+  const start = new Date(`${fromKey}T00:00:00+09:00`);
 
   return {
     start,
@@ -288,10 +274,7 @@ export async function getTrainerWeek(
   const todayDateKey = toKstDateKey(new Date());
 
   const selected =
-    dateKey &&
-    /^\d{4}-\d{2}-\d{2}$/.test(dateKey)
-      ? dateKey
-      : todayDateKey;
+    dateKey && /^\d{4}-\d{2}-\d{2}$/.test(dateKey) ? dateKey : todayDateKey;
 
   const startKey = weekStartKey(selected);
   const { start, end } = kstRange(startKey, 7);
@@ -313,57 +296,36 @@ export async function getTrainerWeek(
     connectionMap(trainer.id),
   ]);
 
-  const rows = sessions.map((session) =>
-    toRow(
-      session,
-      byUser,
-      todayDateKey,
-    ),
-  );
+  const rows = sessions.map((session) => toRow(session, byUser, todayDateKey));
 
-  const days: TrainerWeekDay[] = Array.from(
-    { length: 7 },
-    (_, index) => {
-      const key = shiftDateKey(
-        startKey,
-        index,
-      );
+  const days: TrainerWeekDay[] = Array.from({ length: 7 }, (_, index) => {
+    const key = shiftDateKey(startKey, index);
 
-      return {
-        dateKey: key,
+    return {
+      dateKey: key,
 
-        // 취소한 수업은 세지 않는다.
-        // 점이 찍혀 있는데 열어 보면 아무것도 없는 상황을 막는다.
-        count: rows.filter(
-          (row) =>
-            toKstDateKey(row.scheduledAt) === key &&
-            row.status !== PTSessionStatus.CANCELLED,
-        ).length,
+      // 취소한 수업은 세지 않는다.
+      // 점이 찍혀 있는데 열어 보면 아무것도 없는 상황을 막는다.
+      count: rows.filter(
+        (row) =>
+          toKstDateKey(row.scheduledAt) === key &&
+          row.status !== PTSessionStatus.CANCELLED,
+      ).length,
 
-        isToday: key === todayDateKey,
-        isSelected: key === selected,
-      };
-    },
-  );
+      isToday: key === todayDateKey,
+      isSelected: key === selected,
+    };
+  });
 
   return {
     dateKey: selected,
     days,
 
-    sessions: rows.filter(
-      (row) =>
-        toKstDateKey(row.scheduledAt) === selected,
-    ),
+    sessions: rows.filter((row) => toKstDateKey(row.scheduledAt) === selected),
 
-    prevWeekDateKey: shiftDateKey(
-      startKey,
-      -7,
-    ),
+    prevWeekDateKey: shiftDateKey(startKey, -7),
 
-    nextWeekDateKey: shiftDateKey(
-      startKey,
-      7,
-    ),
+    nextWeekDateKey: shiftDateKey(startKey, 7),
 
     todayDateKey,
   };
@@ -424,110 +386,105 @@ export interface TrainerTodos {
 /** 두 달이 넘은 일은 이제 와서 하라고 띄우지 않는다. */
 const TODO_WINDOW_DAYS = 60;
 
-export async function getTrainerTodos(
-  userId: string,
-): Promise<TrainerTodos> {
+export async function getTrainerTodos(userId: string): Promise<TrainerTodos> {
   const trainer = await requireTrainerProfile(userId);
 
-  const since = new Date(
-    Date.now() - TODO_WINDOW_DAYS * DAY_MS,
-  );
+  const since = new Date(Date.now() - TODO_WINDOW_DAYS * DAY_MS);
 
-  const [sessions, overdue, journals, byUser] =
-    await Promise.all([
-      prisma.pTSession.findMany({
-        where: {
-          trainerProfileId: trainer.id,
+  const [sessions, overdue, journals, byUser] = await Promise.all([
+    prisma.pTSession.findMany({
+      where: {
+        trainerProfileId: trainer.id,
 
-          // 노쇼와 취소는 적을 내용이 없다.
-          // 완료한 수업만 알림장을 기다린다.
-          status: PTSessionStatus.COMPLETED,
+        // 노쇼와 취소는 적을 내용이 없다.
+        // 완료한 수업만 알림장을 기다린다.
+        status: PTSessionStatus.COMPLETED,
 
-          scheduledAt: {
-            gte: since,
-          },
-
-          journals: {
-            none: {
-              status: JournalStatus.PUBLISHED,
-            },
-          },
+        scheduledAt: {
+          gte: since,
         },
 
-        orderBy: {
-          scheduledAt: "desc",
+        journals: {
+          none: {
+            status: JournalStatus.PUBLISHED,
+          },
         },
+      },
 
-        select: sessionSelect,
-      }),
+      orderBy: {
+        scheduledAt: "desc",
+      },
 
-      /*
+      select: sessionSelect,
+    }),
+
+    /*
         끝났어야 할 시간이 지난 예정 수업.
 
         `scheduledAt` 만으로 거르면 지금 진행 중인 수업까지
         "완료 안 함" 으로 올라온다.
         수업 길이를 더해 실제로 끝났을 시간을 넘긴 것만 센다.
       */
-      prisma.pTSession.findMany({
-        where: {
-          trainerProfileId: trainer.id,
-          status: PTSessionStatus.SCHEDULED,
+    prisma.pTSession.findMany({
+      where: {
+        trainerProfileId: trainer.id,
+        status: PTSessionStatus.SCHEDULED,
 
-          scheduledAt: {
-            gte: since,
-            lt: new Date(),
+        scheduledAt: {
+          gte: since,
+          lt: new Date(),
+        },
+      },
+
+      orderBy: {
+        scheduledAt: "desc",
+      },
+
+      select: sessionSelect,
+    }),
+
+    prisma.journal.findMany({
+      where: {
+        trainerProfileId: trainer.id,
+        status: JournalStatus.PUBLISHED,
+
+        date: {
+          gte: since,
+        },
+      },
+
+      orderBy: {
+        date: "desc",
+      },
+
+      select: {
+        id: true,
+        date: true,
+        title: true,
+
+        memberUser: {
+          select: {
+            name: true,
           },
         },
 
-        orderBy: {
-          scheduledAt: "desc",
-        },
-
-        select: sessionSelect,
-      }),
-
-      prisma.journal.findMany({
-        where: {
-          trainerProfileId: trainer.id,
-          status: JournalStatus.PUBLISHED,
-
-          date: {
-            gte: since,
-          },
-        },
-
-        orderBy: {
-          date: "desc",
-        },
-
-        select: {
-          id: true,
-          date: true,
-          title: true,
-
-          memberUser: {
-            select: {
-              name: true,
-            },
+        comments: {
+          orderBy: {
+            createdAt: "desc",
           },
 
-          comments: {
-            orderBy: {
-              createdAt: "desc",
-            },
-
-            select: {
-              id: true,
-              createdAt: true,
-              authorUserId: true,
-              content: true,
-            },
+          select: {
+            id: true,
+            createdAt: true,
+            authorUserId: true,
+            content: true,
           },
         },
-      }),
+      },
+    }),
 
-      connectionMap(trainer.id),
-    ]);
+    connectionMap(trainer.id),
+  ]);
 
   const awaitingReply: TrainerReplyRow[] = [];
 
@@ -539,25 +496,20 @@ export async function getTrainerTodos(
     */
     const [latest] = journal.comments;
 
-    if (
-      !latest ||
-      latest.authorUserId === trainer.userId
-    ) {
+    if (!latest || latest.authorUserId === trainer.userId) {
       continue;
     }
 
     // 가장 최근 트레이너 답변 이후에 온 회원 댓글만 센다.
     // 댓글 전체를 세면 예전 대화까지 다시 답해야 하는 것처럼 보인다.
     const latestMine = journal.comments.find(
-      (comment) =>
-        comment.authorUserId === trainer.userId,
+      (comment) => comment.authorUserId === trainer.userId,
     );
 
     const count = journal.comments.filter(
       (comment) =>
         comment.authorUserId !== trainer.userId &&
-        (!latestMine ||
-          comment.createdAt > latestMine.createdAt),
+        (!latestMine || comment.createdAt > latestMine.createdAt),
     ).length;
 
     awaitingReply.push({
@@ -572,9 +524,7 @@ export async function getTrainerTodos(
   }
 
   awaitingReply.sort(
-    (a, b) =>
-      b.lastCommentAt.getTime() -
-      a.lastCommentAt.getTime(),
+    (a, b) => b.lastCommentAt.getTime() - a.lastCommentAt.getTime(),
   );
 
   const now = Date.now();
@@ -583,26 +533,105 @@ export async function getTrainerTodos(
     needComplete: overdue
       .filter(
         (session) =>
-          session.scheduledAt.getTime() +
-            session.durationMinutes * 60_000 <
+          session.scheduledAt.getTime() + session.durationMinutes * 60_000 <
           now,
       )
-      .map((session) =>
-        toRow(
-          session,
-          byUser,
-          toKstDateKey(new Date()),
-        ),
-      ),
+      .map((session) => toRow(session, byUser, toKstDateKey(new Date()))),
 
     needJournal: sessions.map((session) =>
-      toRow(
-        session,
-        byUser,
-        toKstDateKey(new Date()),
-      ),
+      toRow(session, byUser, toKstDateKey(new Date())),
     ),
 
     awaitingReply,
+  };
+}
+export interface TrainerMonthDay {
+  dateKey: string;
+  count: number;
+  isToday: boolean;
+  isSelected: boolean;
+}
+
+export interface TrainerMonth {
+  dateKey: string;
+  monthStartDateKey: string;
+  days: TrainerMonthDay[];
+  prevMonthDateKey: string;
+  nextMonthDateKey: string;
+  todayDateKey: string;
+}
+
+export async function getTrainerMonth(
+  userId: string,
+  dateKey?: string,
+): Promise<TrainerMonth> {
+  const trainer = await requireTrainerProfile(userId);
+  const todayDateKey = toKstDateKey(new Date());
+
+  const selected =
+    dateKey && /^\d{4}-\d{2}-\d{2}$/.test(dateKey) ? dateKey : todayDateKey;
+
+  const [year, month] = selected.split("-").map(Number);
+  const monthStartDateKey = `${year}-${String(month).padStart(2, "0")}-01`;
+
+  const daysInMonth = new Date(Date.UTC(year, month, 0)).getUTCDate();
+
+  const { start, end } = kstRange(monthStartDateKey, daysInMonth);
+
+  const sessions = await prisma.pTSession.findMany({
+    where: {
+      trainerProfileId: trainer.id,
+      scheduledAt: {
+        gte: start,
+        lt: end,
+      },
+    },
+    select: {
+      scheduledAt: true,
+      status: true,
+    },
+  });
+
+  const counts = new Map<string, number>();
+
+  for (const session of sessions) {
+    if (session.status === PTSessionStatus.CANCELLED) {
+      continue;
+    }
+
+    const key = toKstDateKey(session.scheduledAt);
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+  }
+
+  const days: TrainerMonthDay[] = Array.from(
+    { length: daysInMonth },
+    (_, index) => {
+      const key = shiftDateKey(monthStartDateKey, index);
+
+      return {
+        dateKey: key,
+        count: counts.get(key) ?? 0,
+        isToday: key === todayDateKey,
+        isSelected: key === selected,
+      };
+    },
+  );
+
+  const previousMonth = new Date(Date.UTC(year, month - 2, 1));
+  const nextMonth = new Date(Date.UTC(year, month, 1));
+
+  const toDateKey = (date: Date) =>
+    `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(
+      2,
+      "0",
+    )}-01`;
+
+  return {
+    dateKey: selected,
+    monthStartDateKey,
+    days,
+    prevMonthDateKey: toDateKey(previousMonth),
+    nextMonthDateKey: toDateKey(nextMonth),
+    todayDateKey,
   };
 }
