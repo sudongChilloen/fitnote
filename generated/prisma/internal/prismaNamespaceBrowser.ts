@@ -91,6 +91,7 @@ export const ModelName = {
   Notice: 'Notice',
   NoticeRead: 'NoticeRead',
   Notification: 'Notification',
+  NotificationPreference: 'NotificationPreference',
   AiAnalysis: 'AiAnalysis',
   TrainerSharingSetting: 'TrainerSharingSetting'
 } as const
@@ -712,6 +713,17 @@ export const NotificationScalarFieldEnum = {
 } as const
 
 export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+export const NotificationPreferenceScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  pushEnabled: 'pushEnabled',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NotificationPreferenceScalarFieldEnum = (typeof NotificationPreferenceScalarFieldEnum)[keyof typeof NotificationPreferenceScalarFieldEnum]
 
 
 export const AiAnalysisScalarFieldEnum = {

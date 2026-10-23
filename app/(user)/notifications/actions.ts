@@ -9,6 +9,10 @@ import {
   markNotificationRead,
 } from "@/server/notifications/notification.service";
 import {
+  PreferenceError,
+  setPushPreference,
+} from "@/server/notifications/notification-preference.service";
+import {
   PushError,
   registerDeviceToken,
   unregisterDeviceToken,
@@ -74,6 +78,22 @@ export async function unregisterPushTokenAction(
   const user = await requireUser();
 
   await unregisterDeviceToken(user.id, token);
+
+  return { error: null };
+}
+
+export async function setPushPreferenceAction(
+  type: string,
+  enabled: boolean,
+): Promise<PushActionResult> {
+  const user = await requireUser();
+
+  try {
+    await setPushPreference(user.id, type, enabled);
+  } catch (error) {
+    if (error instanceof PreferenceError) return { error: error.message };
+    throw error;
+  }
 
   return { error: null };
 }

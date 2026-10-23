@@ -288,6 +288,11 @@ export type NoticeRead = Prisma.NoticeReadModel
  */
 export type Notification = Prisma.NotificationModel
 /**
+ * Model NotificationPreference
+ * 푸시를 끈 알림 종류. 행이 없으면 켜진 것이다. 앱 안 알림 목록에는 영향이 없다.
+ */
+export type NotificationPreference = Prisma.NotificationPreferenceModel
+/**
  * Model AiAnalysis
  * 
  */

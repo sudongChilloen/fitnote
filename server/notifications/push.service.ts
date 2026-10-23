@@ -6,6 +6,7 @@ import { DevicePlatform } from "@/generated/prisma/enums";
 import { isPushConfigured, sendPush } from "@/lib/fcm";
 import { prisma } from "@/lib/prisma";
 
+import { isPushEnabledFor } from "./notification-preference.service";
 import { getNotificationAudience } from "./notification-audience";
 import { getNotificationHref } from "./notification-href";
 
@@ -103,6 +104,11 @@ export async function sendPushForNotification(notificationId: string) {
     });
 
     if (!notification) return summary;
+
+    // 앱 안 알림은 이미 쌓였다. 푸시만 이 종류를 껐는지 본다.
+    if (!(await isPushEnabledFor(notification.userId, notification.type))) {
+      return summary;
+    }
 
     const devices = await prisma.deviceToken.findMany({
       where: { userId: notification.userId, isActive: true },
