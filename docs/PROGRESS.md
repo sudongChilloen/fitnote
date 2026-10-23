@@ -2049,16 +2049,20 @@ PTSession ─┬─ WorkoutSession ─ WorkoutRecord ─ WorkoutSet   (수업 �
 | 통합: 개인 운동 공유 | 3   | 공유를 끈 회원의 개인 운동이 클라이언트 인자와 무관하게 PT 기록으로 안 복사됨 |
 | 통합: 식단          | 9    | 빈 기록 거절, 남의 사진 경로 무시, 피드백과 알림, 공유 끔, 담당 아님, 남의 식단, 연결 전 식단 안 보임(목록·상세·피드백) |
 | 통합: 신체 공유     | 2    | 기본 비공개, 공유를 켜면 연결한 날부터만 보임, 날짜 키가 KST 와 일치        |
-| 통합: 푸시          | 15   | 토큰 등록·이전·해제, 발송 내용, RS256 서명, 인증 토큰 캐시, 404/400/500 구분, 설정 없음, 롤백 |
+| 통합: 푸시          | 19   | 토큰 등록·이전·해제, 발송 내용, RS256 서명, 인증 토큰 캐시, 404/400/500 구분, 설정 없음, 롤백 |
 | 통합: 알림장        | 11   | 초안 이어쓰기, 게시와 알림 1회, 초안 비공개, 남의 접근, 회원·트레이너 댓글 알림, 사진 경로·한도 |
+| 통합: 역할          | 5    | 한 계정에 두 프로필 거절(DB 트리거), 알림 이동 경로가 받는 사람의 역할을 따름 |
+| 통합: 체성분·식단 사진 | 13 | 지표별 추이와 변화량, 목표 갈아 끼우기·진행률·범위 검사, 남의 기록·목표 거절, 식단 삭제 시 저장소 정리 |
+| 통합: 서비스 권한   | 7    | 트레이너 프로필 없는 계정·담당이 아닌 트레이너가 계약·알림장·연결을 못 건드림, 초안은 회원에게 안 보임 |
 
 CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint → 단위 →
 통합 → build 순서로 돈다. 빌드는 더미 `DATABASE_URL` / `SESSION_SECRET` 으로 한다.
 **아직 GitHub 에서 실제로 돌려 본 적은 없다.** 첫 PR 에서 통합 테스트 단계가
 통과하는지 확인할 것.
 
-**아직 테스트가 없는 곳:** 서버 액션의 권한 확인, 화면, 체성분 추이 계산(`getTrends`),
-목표(`setGoal`), 식단 사진 삭제. 동시성·정합성이 걸린 곳(PT, 이어받기)을 먼저 덮었다.
+**아직 테스트가 없는 곳:** 서버 액션 자체(쿠키에서 사용자를 읽는 부분)와 화면. 권한은
+서비스가 직접 확인하므로 서비스 수준에서 덮었다. 동시성·정합성이 걸린 곳(PT, 이어받기)을
+먼저 덮었다.
 
 ---
 
@@ -2171,6 +2175,16 @@ CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint 
    (`public/firebase-messaging-sw.js` — 푸시를 보여 주고 눌렀을 때 `data.href` 를 연다),
    그리고 알림 화면의 "푸시 켜기" 버튼. iOS 는 홈 화면에 추가한 웹앱에서만 웹 푸시를 받는다
 
+### 7-3c. 푸시 알림 (브라우저 쪽)과 종류별 설정
+
+- 알림 화면(회원 `/notifications`, 트레이너 `/trainer/notifications`)의 "푸시 알림" 토글이
+  권한을 요청하고 FCM 토큰을 받아 `registerPushTokenAction` 으로 등록한다.
+  `NEXT_PUBLIC_FIREBASE_*` 5개가 없으면 토글이 숨겨진다 (`.env.example` 참고)
+- 서비스 워커(`public/firebase-messaging-sw.js`)는 Firebase SDK 없이 `push` 이벤트를 직접
+  처리하고, 눌렀을 때 `data.href` 로 이동한다. `proxy.ts` 의 matcher 에서 제외했다
+- 종류별 설정은 `NotificationPreference` (끈 종류만 기록, 행이 없으면 켜짐). 끄면 푸시만
+  건너뛰고 앱 안 알림은 쌓인다. 설정 화면에 보이는 종류는 `PUSH_CATEGORIES` 에 있다
+
 ### 7-4. 배포 전에 할 일
 
 1. 마이그레이션 두 건을 각 DB 에 적용한다. **적용 전에 코드를 배포하면 로그인과 가입이
@@ -2186,6 +2200,20 @@ CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint 
    중복이 없으면 `UPDATE "User" SET email = lower(email);`, 있으면 먼저 손으로 합친다
 3. `generated/prisma` 는 스키마를 바꿀 때마다 필드 순서까지 통째로 바뀌어 diff 가 크다.
    내용이 달라진 게 아니니 놀라지 말 것
+
+### 7-6. 한 계정은 한 역할
+
+배경: 회원 이메일로 로그인했는데 트레이너 화면으로 들어가는 계정이 있었다. 원인은 앱의
+"트레이너로 시작하기" 버튼으로 회원 계정에 `TrainerProfile` 이 붙은 것이었고, 로그인이
+프로필 유무만 보고 `/trainer` 로 보냈다.
+
+- 가입 화면에서 회원/트레이너를 고른다. 고른 쪽 프로필만 만든다
+- `app/(user)/layout.tsx` 가 트레이너를 `/trainer` 로 돌려보낸다 (반대는 `app/trainer/layout.tsx`)
+- DB 트리거 `enforce_single_role` 이 두 프로필의 공존을 거절한다 (마이그레이션 `one_role_per_user`)
+- 알림 이동 경로는 받는 사람의 역할로 정한다 (`getNotificationHref(…, audience)`)
+- "회원에게 보이는 화면"은 `/trainer/journals/[id]/preview` 로 옮겼다 (`JournalView` 공용)
+- 없앤 것: "트레이너로 시작하기", 트레이너 화면의 "회원 화면으로 이동"
+- 운영 DB 정리: 겸하던 계정(김수정)의 `TrainerProfile` 을 삭제했다
 
 ### 7-5. 알려진 이슈
 
@@ -2225,12 +2253,8 @@ CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint 
 
 - `favicon` — `app/favicon.ico` 가 있지만 직접 만든 것인지 템플릿 기본인지 확인하지
   않았다 (4-4 에서 v0 로고를 지웠던 이력)
-- `components/layout/coming-soon.tsx` — 어디서도 쓰이지 않는다 (알림장 / 내정보 "준비 중"
-  탭이 사라진 뒤 남은 파일). 지워도 된다
 - `Exercise.thumbnailUrl` 이 시드에 없어 운동 목록에 이미지가 없다
 - MANUAL 세션에 소요 시간을 직접 입력하는 칸 (지금은 비워 둔 채로만 저장된다)
-- `postinstall: "prisma skills sync || exit 0"` 이 Vercel 빌드에서도 실행된다
-  (`|| exit 0` 로 실패는 무시되지만 불필요)
 - 스키마 변경 시 `npx prisma generate` 결과(`generated/prisma`)를 **반드시 함께
   커밋**한다. 안 하면 Vercel 빌드가 타입 에러로 실패한다
 
@@ -2242,6 +2266,10 @@ CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint 
 ### 공유 설계 메모 (설계 근거, 구현은 4-23 에서 완료)
 
 > 사용자와 합의한 결론이 한 번 더 정리됐다. 아래 내용이 최신이다.
+
+> **(2026-10 갱신)** 아래 "회원가입은 역할별로 나누지 않는다"는 옛 설계다. 지금은 가입할
+> 때 회원/트레이너를 고르고 한 계정은 한 역할만 가진다. §7-6 참고. 센터 역할(`CENTER_ADMIN`
+> 등)을 가입 화면에서 고르게 하지 않는다는 점만 여전히 맞다.
 
 **회원가입은 역할별로 나누지 않는다.** 이유는 §1 참고 — `User` 에는 role 이 없고
 role 은 `CenterMembership` 에 있다. 가입 화면에 "관리자로 가입"을 두면 그대로
