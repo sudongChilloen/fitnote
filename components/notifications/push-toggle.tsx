@@ -15,7 +15,7 @@ import {
 import {
   registerPushTokenAction,
   unregisterPushTokenAction,
-} from "./actions";
+} from "@/app/(user)/notifications/actions";
 
 type State = "loading" | PushSupport | "on" | "off" | "denied";
 

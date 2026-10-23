@@ -284,7 +284,7 @@ export default async function JournalEditorPage({
       */}
       {published ? (
         <Link
-          href={`/journal/${draft.id}`}
+          href={`/trainer/journals/${draft.id}/preview`}
           className="mt-4 flex h-12 items-center justify-center gap-2 rounded-xl border border-border bg-card text-sm font-bold transition-colors hover:bg-secondary active:scale-[0.99]"
         >
           <Eye className="size-4" aria-hidden />

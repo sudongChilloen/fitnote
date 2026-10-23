@@ -1,7 +1,6 @@
-import Link from "next/link";
+import { LogOut, Users } from "lucide-react";
 
-import { ArrowLeftRight, LogOut, Users } from "lucide-react";
-
+import { logout } from "@/app/actions/auth";
 import { requireUser } from "@/app/lib/dal";
 import { InvitePanel } from "@/app/(user)/profile/invite-panel";
 import { prisma } from "@/lib/prisma";
@@ -17,7 +16,7 @@ export const metadata = { title: "내 정보 | FitNote" };
  * 회원을 늘리는 게 트레이너가 이 화면에 오는 거의 유일한 이유라, 초대 코드를
  * 맨 위로 올린다.
  *
- * 회원 화면으로 넘어가는 길은 남긴다. 트레이너도 자기 운동을 기록한다.
+ * 한 계정은 회원이거나 트레이너 중 하나라 회원 화면으로 넘어가는 길은 없다.
  */
 export default async function TrainerProfilePage() {
   const user = await requireUser();
@@ -81,36 +80,15 @@ export default async function TrainerProfilePage() {
         <InvitePanel invitations={invitations} />
       </div>
 
-      <section className="mt-4 rounded-3xl border border-border/70 bg-card p-5 shadow-card">
-        <div className="flex items-center gap-3">
-          <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-secondary text-foreground">
-            <ArrowLeftRight className="size-4" aria-hidden />
-          </span>
-
-          <div>
-            <h2 className="text-sm font-bold">회원 화면</h2>
-            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-              내 운동 기록과 캘린더를 확인할 수 있어요.
-            </p>
-          </div>
-        </div>
-
-        <Link
-          href="/home"
-          className="mt-4 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-border bg-background text-sm font-bold transition-colors hover:bg-secondary active:scale-[0.99]"
+      <form action={logout} className="mt-3">
+        <button
+          type="submit"
+          className="flex h-11 w-full items-center justify-center gap-2 rounded-xl text-sm font-semibold text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
         >
-          회원 화면으로 이동
-          <ArrowLeftRight className="size-4" aria-hidden />
-        </Link>
-      </section>
-
-      <Link
-        href="/profile"
-        className="mt-3 flex h-11 items-center justify-center gap-2 rounded-xl text-sm font-semibold text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-      >
-        <LogOut className="size-4" aria-hidden />
-        계정 설정
-      </Link>
+          <LogOut className="size-4" aria-hidden />
+          로그아웃
+        </button>
+      </form>
     </main>
   );
 }

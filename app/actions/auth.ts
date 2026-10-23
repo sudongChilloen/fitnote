@@ -54,6 +54,9 @@ export async function signup(
 
   const { name, email, password } = validated.data;
 
+  // 역할은 가입할 때 정하고 하나만 가진다. 값이 이상하면 회원으로 본다.
+  const isTrainer = formData.get("role") === "TRAINER";
+
   const ip = await getClientIp();
   const signupKey = attemptKey("signup", ip);
 
@@ -81,9 +84,9 @@ export async function signup(
       email,
       name,
       passwordHash,
-      memberProfile: {
-        create: {},
-      },
+      ...(isTrainer
+        ? { trainerProfile: { create: {} } }
+        : { memberProfile: { create: {} } }),
     },
     select: {
       id: true,
@@ -92,7 +95,7 @@ export async function signup(
 
   await createSession(user.id);
 
-  redirect("/home");
+  redirect(isTrainer ? "/trainer" : "/home");
 }
 
 export async function claimAccount(

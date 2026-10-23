@@ -26,6 +26,8 @@ export async function openNotificationAction(formData: FormData) {
 
   revalidatePath("/notifications");
   revalidatePath("/home");
+  revalidatePath("/trainer");
+  revalidatePath("/trainer/notifications");
 
   redirect(href);
 }
@@ -37,6 +39,8 @@ export async function markAllNotificationsReadAction() {
 
   revalidatePath("/notifications");
   revalidatePath("/home");
+  revalidatePath("/trainer");
+  revalidatePath("/trainer/notifications");
 }
 
 export type PushActionResult = { error: string | null };

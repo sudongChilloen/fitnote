@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 import {
-  ArrowLeftRight,
   CalendarClock,
   ShieldCheck,
   Sparkles,
@@ -10,15 +9,9 @@ import {
 
 import { requireUser } from "@/app/lib/dal";
 import { formatKstDateLabel } from "@/lib/date";
-import { prisma } from "@/lib/prisma";
-import {
-  getMyTrainers,
-  listActiveTrainerInvitations,
-} from "@/server/trainers/connection.service";
+import { getMyTrainers } from "@/server/trainers/connection.service";
 
-import { BecomeTrainerButton } from "./become-trainer-button";
 import { DisconnectTrainerButton } from "./disconnect-trainer-button";
-import { InvitePanel } from "./invite-panel";
 import { JoinCenterForm } from "./join-center-form";
 
 export const metadata = { title: "내 정보 | FitNote" };
@@ -34,15 +27,7 @@ export const metadata = { title: "내 정보 | FitNote" };
 export default async function ProfilePage() {
   const user = await requireUser();
 
-  const trainerProfile = await prisma.trainerProfile.findUnique({
-    where: { userId: user.id },
-    select: { id: true },
-  });
-
-  const [trainers, invitations] = await Promise.all([
-    getMyTrainers(user.id),
-    trainerProfile ? listActiveTrainerInvitations(user.id) : [],
-  ]);
+  const trainers = await getMyTrainers(user.id);
 
   return (
     <main className="mx-auto w-full max-w-md px-5 pt-6 pb-28">
@@ -132,39 +117,6 @@ export default async function ProfilePage() {
           체성분
         </Link>
       </section>
-
-      <section className="mt-4 rounded-2xl bg-card shadow-card p-5">
-        <h2 className="text-sm font-bold">트레이너 화면</h2>
-
-        {trainerProfile ? (
-          <>
-            <p className="mt-1 mb-2 text-xs text-muted-foreground">
-              담당 회원과 오늘 수업, 알림장을 여기서 관리해요.
-            </p>
-            <Link
-              href="/trainer"
-              className="inline-flex h-11 items-center gap-1.5 rounded-xl bg-brand px-4 text-sm font-bold text-brand-foreground"
-            >
-              <ArrowLeftRight className="size-4" aria-hidden />
-              트레이너 화면으로
-            </Link>
-          </>
-        ) : (
-          <>
-            <p className="mt-1 mb-2 text-xs text-muted-foreground">
-              회원을 가르치고 있다면 트레이너로 시작할 수 있어요. 센터에 속해
-              있지 않아도 괜찮아요.
-            </p>
-            <BecomeTrainerButton />
-          </>
-        )}
-      </section>
-
-      {trainerProfile ? (
-        <div className="mt-4">
-          <InvitePanel invitations={invitations} />
-        </div>
-      ) : null}
 
       <p className="mt-6 flex items-center justify-center gap-1 text-xs text-muted-foreground">
         <Sparkles className="size-3" aria-hidden />
