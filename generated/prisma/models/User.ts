@@ -234,6 +234,7 @@ export type UserWhereInput = {
   claimCodes?: Prisma.MemberClaimCodeListRelationFilter
   memberProfile?: Prisma.XOR<Prisma.MemberProfileNullableScalarRelationFilter, Prisma.MemberProfileWhereInput> | null
   notifications?: Prisma.NotificationListRelationFilter
+  notificationPreferences?: Prisma.NotificationPreferenceListRelationFilter
   ptContracts?: Prisma.PTContractListRelationFilter
   ptSessions?: Prisma.PTSessionListRelationFilter
   routines?: Prisma.RoutineListRelationFilter
@@ -269,6 +270,7 @@ export type UserOrderByWithRelationInput = {
   claimCodes?: Prisma.MemberClaimCodeOrderByRelationAggregateInput
   memberProfile?: Prisma.MemberProfileOrderByWithRelationInput
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
+  notificationPreferences?: Prisma.NotificationPreferenceOrderByRelationAggregateInput
   ptContracts?: Prisma.PTContractOrderByRelationAggregateInput
   ptSessions?: Prisma.PTSessionOrderByRelationAggregateInput
   routines?: Prisma.RoutineOrderByRelationAggregateInput
@@ -307,6 +309,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   claimCodes?: Prisma.MemberClaimCodeListRelationFilter
   memberProfile?: Prisma.XOR<Prisma.MemberProfileNullableScalarRelationFilter, Prisma.MemberProfileWhereInput> | null
   notifications?: Prisma.NotificationListRelationFilter
+  notificationPreferences?: Prisma.NotificationPreferenceListRelationFilter
   ptContracts?: Prisma.PTContractListRelationFilter
   ptSessions?: Prisma.PTSessionListRelationFilter
   routines?: Prisma.RoutineListRelationFilter
@@ -374,6 +377,7 @@ export type UserCreateInput = {
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -409,6 +413,7 @@ export type UserUncheckedCreateInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -444,6 +449,7 @@ export type UserUpdateInput = {
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -479,6 +485,7 @@ export type UserUncheckedUpdateInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -881,6 +888,20 @@ export type UserUpdateOneRequiredWithoutNotificationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotificationsInput, Prisma.UserUpdateWithoutNotificationsInput>, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
 }
 
+export type UserCreateNestedOneWithoutNotificationPreferencesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationPreferencesInput, Prisma.UserUncheckedCreateWithoutNotificationPreferencesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationPreferencesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutNotificationPreferencesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationPreferencesInput, Prisma.UserUncheckedCreateWithoutNotificationPreferencesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationPreferencesInput
+  upsert?: Prisma.UserUpsertWithoutNotificationPreferencesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotificationPreferencesInput, Prisma.UserUpdateWithoutNotificationPreferencesInput>, Prisma.UserUncheckedUpdateWithoutNotificationPreferencesInput>
+}
+
 export type UserCreateNestedOneWithoutAiAnalysesInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutAiAnalysesInput, Prisma.UserUncheckedCreateWithoutAiAnalysesInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutAiAnalysesInput
@@ -931,6 +952,7 @@ export type UserCreateWithoutAuthSessionsInput = {
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -965,6 +987,7 @@ export type UserUncheckedCreateWithoutAuthSessionsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -1015,6 +1038,7 @@ export type UserUpdateWithoutAuthSessionsInput = {
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -1049,6 +1073,7 @@ export type UserUncheckedUpdateWithoutAuthSessionsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -1083,6 +1108,7 @@ export type UserCreateWithoutDeviceTokensInput = {
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -1117,6 +1143,7 @@ export type UserUncheckedCreateWithoutDeviceTokensInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -1167,6 +1194,7 @@ export type UserUpdateWithoutDeviceTokensInput = {
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -1201,6 +1229,7 @@ export type UserUncheckedUpdateWithoutDeviceTokensInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -1235,6 +1264,7 @@ export type UserCreateWithoutCenterMembershipsInput = {
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -1269,6 +1299,7 @@ export type UserUncheckedCreateWithoutCenterMembershipsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -1319,6 +1350,7 @@ export type UserUpdateWithoutCenterMembershipsInput = {
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -1353,6 +1385,7 @@ export type UserUncheckedUpdateWithoutCenterMembershipsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -1387,6 +1420,7 @@ export type UserCreateWithoutMemberProfileInput = {
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -1421,6 +1455,7 @@ export type UserUncheckedCreateWithoutMemberProfileInput = {
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -1471,6 +1506,7 @@ export type UserUpdateWithoutMemberProfileInput = {
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -1505,6 +1541,7 @@ export type UserUncheckedUpdateWithoutMemberProfileInput = {
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -1540,6 +1577,7 @@ export type UserCreateWithoutTrainerProfileInput = {
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -1574,6 +1612,7 @@ export type UserUncheckedCreateWithoutTrainerProfileInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -1624,6 +1663,7 @@ export type UserUpdateWithoutTrainerProfileInput = {
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -1658,6 +1698,7 @@ export type UserUncheckedUpdateWithoutTrainerProfileInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -1692,6 +1733,7 @@ export type UserCreateWithoutTrainerConnectionsInput = {
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -1726,6 +1768,7 @@ export type UserUncheckedCreateWithoutTrainerConnectionsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -1776,6 +1819,7 @@ export type UserUpdateWithoutTrainerConnectionsInput = {
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -1810,6 +1854,7 @@ export type UserUncheckedUpdateWithoutTrainerConnectionsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -1843,6 +1888,7 @@ export type UserCreateWithoutClaimCodesInput = {
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
   memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -1877,6 +1923,7 @@ export type UserUncheckedCreateWithoutClaimCodesInput = {
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
   memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -1927,6 +1974,7 @@ export type UserUpdateWithoutClaimCodesInput = {
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
   memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -1961,6 +2009,7 @@ export type UserUncheckedUpdateWithoutClaimCodesInput = {
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
   memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -1996,6 +2045,7 @@ export type UserCreateWithoutRoutinesInput = {
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
@@ -2030,6 +2080,7 @@ export type UserUncheckedCreateWithoutRoutinesInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
@@ -2080,6 +2131,7 @@ export type UserUpdateWithoutRoutinesInput = {
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
@@ -2114,6 +2166,7 @@ export type UserUncheckedUpdateWithoutRoutinesInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
@@ -2148,6 +2201,7 @@ export type UserCreateWithoutRecordedWorkoutSessionsInput = {
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -2182,6 +2236,7 @@ export type UserUncheckedCreateWithoutRecordedWorkoutSessionsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -2221,6 +2276,7 @@ export type UserCreateWithoutWorkoutSessionsInput = {
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -2255,6 +2311,7 @@ export type UserUncheckedCreateWithoutWorkoutSessionsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -2305,6 +2362,7 @@ export type UserUpdateWithoutRecordedWorkoutSessionsInput = {
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -2339,6 +2397,7 @@ export type UserUncheckedUpdateWithoutRecordedWorkoutSessionsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -2384,6 +2443,7 @@ export type UserUpdateWithoutWorkoutSessionsInput = {
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -2418,6 +2478,7 @@ export type UserUncheckedUpdateWithoutWorkoutSessionsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -2452,6 +2513,7 @@ export type UserCreateWithoutWorkoutRecordsInput = {
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -2486,6 +2548,7 @@ export type UserUncheckedCreateWithoutWorkoutRecordsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -2536,6 +2599,7 @@ export type UserUpdateWithoutWorkoutRecordsInput = {
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -2570,6 +2634,7 @@ export type UserUncheckedUpdateWithoutWorkoutRecordsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -2604,6 +2669,7 @@ export type UserCreateWithoutWorkoutFavoritesInput = {
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -2638,6 +2704,7 @@ export type UserUncheckedCreateWithoutWorkoutFavoritesInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -2688,6 +2755,7 @@ export type UserUpdateWithoutWorkoutFavoritesInput = {
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -2722,6 +2790,7 @@ export type UserUncheckedUpdateWithoutWorkoutFavoritesInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -2756,6 +2825,7 @@ export type UserCreateWithoutPtContractsInput = {
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceCreateNestedManyWithoutUserInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
   trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
@@ -2790,6 +2860,7 @@ export type UserUncheckedCreateWithoutPtContractsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
   trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
@@ -2840,6 +2911,7 @@ export type UserUpdateWithoutPtContractsInput = {
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUpdateManyWithoutUserNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
   trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
@@ -2874,6 +2946,7 @@ export type UserUncheckedUpdateWithoutPtContractsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
   trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
@@ -2908,6 +2981,7 @@ export type UserCreateWithoutPtSessionsInput = {
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
   trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
@@ -2942,6 +3016,7 @@ export type UserUncheckedCreateWithoutPtSessionsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
   trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
@@ -2992,6 +3067,7 @@ export type UserUpdateWithoutPtSessionsInput = {
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
   trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
@@ -3026,6 +3102,7 @@ export type UserUncheckedUpdateWithoutPtSessionsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
   trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
@@ -3059,6 +3136,7 @@ export type UserCreateWithoutDietRecordsInput = {
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -3093,6 +3171,7 @@ export type UserUncheckedCreateWithoutDietRecordsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -3143,6 +3222,7 @@ export type UserUpdateWithoutDietRecordsInput = {
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -3177,6 +3257,7 @@ export type UserUncheckedUpdateWithoutDietRecordsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -3211,6 +3292,7 @@ export type UserCreateWithoutBodyRecordsInput = {
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -3245,6 +3327,7 @@ export type UserUncheckedCreateWithoutBodyRecordsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -3295,6 +3378,7 @@ export type UserUpdateWithoutBodyRecordsInput = {
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -3329,6 +3413,7 @@ export type UserUncheckedUpdateWithoutBodyRecordsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -3363,6 +3448,7 @@ export type UserCreateWithoutGoalsInput = {
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -3397,6 +3483,7 @@ export type UserUncheckedCreateWithoutGoalsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -3447,6 +3534,7 @@ export type UserUpdateWithoutGoalsInput = {
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -3481,6 +3569,7 @@ export type UserUncheckedUpdateWithoutGoalsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -3515,6 +3604,7 @@ export type UserCreateWithoutJournalsInput = {
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -3549,6 +3639,7 @@ export type UserUncheckedCreateWithoutJournalsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -3599,6 +3690,7 @@ export type UserUpdateWithoutJournalsInput = {
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -3633,6 +3725,7 @@ export type UserUncheckedUpdateWithoutJournalsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -3667,6 +3760,7 @@ export type UserCreateWithoutJournalCommentsInput = {
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -3701,6 +3795,7 @@ export type UserUncheckedCreateWithoutJournalCommentsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -3751,6 +3846,7 @@ export type UserUpdateWithoutJournalCommentsInput = {
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -3785,6 +3881,7 @@ export type UserUncheckedUpdateWithoutJournalCommentsInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -3819,6 +3916,7 @@ export type UserCreateWithoutNotificationsInput = {
   journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -3853,6 +3951,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -3903,6 +4002,7 @@ export type UserUpdateWithoutNotificationsInput = {
   journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -3937,6 +4037,163 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutNotificationPreferencesInput = {
+  id?: string
+  email?: string | null
+  passwordHash?: string | null
+  name: string
+  phone?: string | null
+  profileImageUrl?: string | null
+  status?: $Enums.UserStatus
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  aiAnalyses?: Prisma.AiAnalysisCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  journals?: Prisma.JournalCreateNestedManyWithoutMemberUserInput
+  journalComments?: Prisma.JournalCommentCreateNestedManyWithoutAuthorInput
+  claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
+  memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutNotificationPreferencesInput = {
+  id?: string
+  email?: string | null
+  passwordHash?: string | null
+  name: string
+  phone?: string | null
+  profileImageUrl?: string | null
+  status?: $Enums.UserStatus
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  aiAnalyses?: Prisma.AiAnalysisUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  bodyRecords?: Prisma.BodyRecordUncheckedCreateNestedManyWithoutUserInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedCreateNestedManyWithoutUserInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedCreateNestedManyWithoutUserInput
+  dietRecords?: Prisma.DietRecordUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  journals?: Prisma.JournalUncheckedCreateNestedManyWithoutMemberUserInput
+  journalComments?: Prisma.JournalCommentUncheckedCreateNestedManyWithoutAuthorInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
+  memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
+  ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
+  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUncheckedCreateNestedManyWithoutMemberUserInput
+  trainerProfile?: Prisma.TrainerProfileUncheckedCreateNestedOneWithoutUserInput
+  sharingSetting?: Prisma.TrainerSharingSettingUncheckedCreateNestedOneWithoutUserInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUncheckedCreateNestedManyWithoutUserInput
+  workoutRecords?: Prisma.WorkoutRecordUncheckedCreateNestedManyWithoutUserInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRecordedByInput
+  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutNotificationPreferencesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutNotificationPreferencesInput, Prisma.UserUncheckedCreateWithoutNotificationPreferencesInput>
+}
+
+export type UserUpsertWithoutNotificationPreferencesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutNotificationPreferencesInput, Prisma.UserUncheckedUpdateWithoutNotificationPreferencesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutNotificationPreferencesInput, Prisma.UserUncheckedCreateWithoutNotificationPreferencesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutNotificationPreferencesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutNotificationPreferencesInput, Prisma.UserUncheckedUpdateWithoutNotificationPreferencesInput>
+}
+
+export type UserUpdateWithoutNotificationPreferencesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  aiAnalyses?: Prisma.AiAnalysisUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  journals?: Prisma.JournalUpdateManyWithoutMemberUserNestedInput
+  journalComments?: Prisma.JournalCommentUpdateManyWithoutAuthorNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
+  memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
+  ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
+  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
+  trainerConnections?: Prisma.TrainerMemberConnectionUpdateManyWithoutMemberUserNestedInput
+  trainerProfile?: Prisma.TrainerProfileUpdateOneWithoutUserNestedInput
+  sharingSetting?: Prisma.TrainerSharingSettingUpdateOneWithoutUserNestedInput
+  workoutFavorites?: Prisma.WorkoutFavoriteUpdateManyWithoutUserNestedInput
+  workoutRecords?: Prisma.WorkoutRecordUpdateManyWithoutUserNestedInput
+  recordedWorkoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRecordedByNestedInput
+  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutNotificationPreferencesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  aiAnalyses?: Prisma.AiAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  bodyRecords?: Prisma.BodyRecordUncheckedUpdateManyWithoutUserNestedInput
+  centerMemberships?: Prisma.CenterMembershipUncheckedUpdateManyWithoutUserNestedInput
+  deviceTokens?: Prisma.DeviceTokenUncheckedUpdateManyWithoutUserNestedInput
+  dietRecords?: Prisma.DietRecordUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  journals?: Prisma.JournalUncheckedUpdateManyWithoutMemberUserNestedInput
+  journalComments?: Prisma.JournalCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
+  memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -3971,6 +4228,7 @@ export type UserCreateWithoutAiAnalysesInput = {
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -4005,6 +4263,7 @@ export type UserUncheckedCreateWithoutAiAnalysesInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -4055,6 +4314,7 @@ export type UserUpdateWithoutAiAnalysesInput = {
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -4089,6 +4349,7 @@ export type UserUncheckedUpdateWithoutAiAnalysesInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -4124,6 +4385,7 @@ export type UserCreateWithoutSharingSettingInput = {
   claimCodes?: Prisma.MemberClaimCodeCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
@@ -4158,6 +4420,7 @@ export type UserUncheckedCreateWithoutSharingSettingInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedCreateNestedManyWithoutMemberUserInput
   memberProfile?: Prisma.MemberProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
   ptContracts?: Prisma.PTContractUncheckedCreateNestedManyWithoutMemberUserInput
   ptSessions?: Prisma.PTSessionUncheckedCreateNestedManyWithoutMemberUserInput
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
@@ -4208,6 +4471,7 @@ export type UserUpdateWithoutSharingSettingInput = {
   claimCodes?: Prisma.MemberClaimCodeUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
@@ -4242,6 +4506,7 @@ export type UserUncheckedUpdateWithoutSharingSettingInput = {
   claimCodes?: Prisma.MemberClaimCodeUncheckedUpdateManyWithoutMemberUserNestedInput
   memberProfile?: Prisma.MemberProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
   ptContracts?: Prisma.PTContractUncheckedUpdateManyWithoutMemberUserNestedInput
   ptSessions?: Prisma.PTSessionUncheckedUpdateManyWithoutMemberUserNestedInput
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
@@ -4270,6 +4535,7 @@ export type UserCountOutputType = {
   journalComments: number
   claimCodes: number
   notifications: number
+  notificationPreferences: number
   ptContracts: number
   ptSessions: number
   routines: number
@@ -4292,6 +4558,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   journalComments?: boolean | UserCountOutputTypeCountJournalCommentsArgs
   claimCodes?: boolean | UserCountOutputTypeCountClaimCodesArgs
   notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
+  notificationPreferences?: boolean | UserCountOutputTypeCountNotificationPreferencesArgs
   ptContracts?: boolean | UserCountOutputTypeCountPtContractsArgs
   ptSessions?: boolean | UserCountOutputTypeCountPtSessionsArgs
   routines?: boolean | UserCountOutputTypeCountRoutinesArgs
@@ -4392,6 +4659,13 @@ export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Ty
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountNotificationPreferencesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificationPreferenceWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountPtContractsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.PTContractWhereInput
 }
@@ -4469,6 +4743,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   claimCodes?: boolean | Prisma.User$claimCodesArgs<ExtArgs>
   memberProfile?: boolean | Prisma.User$memberProfileArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
+  notificationPreferences?: boolean | Prisma.User$notificationPreferencesArgs<ExtArgs>
   ptContracts?: boolean | Prisma.User$ptContractsArgs<ExtArgs>
   ptSessions?: boolean | Prisma.User$ptSessionsArgs<ExtArgs>
   routines?: boolean | Prisma.User$routinesArgs<ExtArgs>
@@ -4535,6 +4810,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   claimCodes?: boolean | Prisma.User$claimCodesArgs<ExtArgs>
   memberProfile?: boolean | Prisma.User$memberProfileArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
+  notificationPreferences?: boolean | Prisma.User$notificationPreferencesArgs<ExtArgs>
   ptContracts?: boolean | Prisma.User$ptContractsArgs<ExtArgs>
   ptSessions?: boolean | Prisma.User$ptSessionsArgs<ExtArgs>
   routines?: boolean | Prisma.User$routinesArgs<ExtArgs>
@@ -4565,6 +4841,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     claimCodes: Prisma.$MemberClaimCodePayload<ExtArgs>[]
     memberProfile: Prisma.$MemberProfilePayload<ExtArgs> | null
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
+    notificationPreferences: Prisma.$NotificationPreferencePayload<ExtArgs>[]
     ptContracts: Prisma.$PTContractPayload<ExtArgs>[]
     ptSessions: Prisma.$PTSessionPayload<ExtArgs>[]
     routines: Prisma.$RoutinePayload<ExtArgs>[]
@@ -4999,6 +5276,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   claimCodes<T extends Prisma.User$claimCodesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$claimCodesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MemberClaimCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   memberProfile<T extends Prisma.User$memberProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$memberProfileArgs<ExtArgs>>): Prisma.Prisma__MemberProfileClient<runtime.Types.Result.GetResult<Prisma.$MemberProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notificationPreferences<T extends Prisma.User$notificationPreferencesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationPreferencesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPreferencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   ptContracts<T extends Prisma.User$ptContractsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ptContractsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PTContractPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   ptSessions<T extends Prisma.User$ptSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ptSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PTSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   routines<T extends Prisma.User$routinesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$routinesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RoutinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5721,6 +5999,30 @@ export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
+}
+
+/**
+ * User.notificationPreferences
+ */
+export type User$notificationPreferencesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the NotificationPreference
+   */
+  select?: Prisma.NotificationPreferenceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the NotificationPreference
+   */
+  omit?: Prisma.NotificationPreferenceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationPreferenceInclude<ExtArgs> | null
+  where?: Prisma.NotificationPreferenceWhereInput
+  orderBy?: Prisma.NotificationPreferenceOrderByWithRelationInput | Prisma.NotificationPreferenceOrderByWithRelationInput[]
+  cursor?: Prisma.NotificationPreferenceWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificationPreferenceScalarFieldEnum | Prisma.NotificationPreferenceScalarFieldEnum[]
 }
 
 /**

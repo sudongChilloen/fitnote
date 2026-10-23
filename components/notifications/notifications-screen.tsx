@@ -12,15 +12,24 @@ import {
   openNotificationAction,
 } from "@/app/(user)/notifications/actions";
 
+import {
+  PUSH_CATEGORIES,
+  getDisabledPushTypes,
+} from "@/server/notifications/notification-preference.service";
+
+import { PushPreferences } from "./push-preferences";
 import { PushToggle } from "./push-toggle";
 
 /** 회원·트레이너 화면이 함께 쓰는 알림 목록. 이동 경로는 서버가 역할에 맞게 정한다. */
 export async function NotificationsScreen() {
   const user = await requireUser();
-  const [notifications, unreadCount] = await Promise.all([
+  const [notifications, unreadCount, disabledTypes] = await Promise.all([
     getNotifications(user.id),
     getNotificationUnreadCount(user.id),
+    getDisabledPushTypes(user.id),
   ]);
+
+  const categories = PUSH_CATEGORIES[user.isTrainer ? "TRAINER" : "MEMBER"];
 
   return (
     <main className="flex flex-col px-5 pt-8 pb-8">
@@ -49,6 +58,8 @@ export async function NotificationsScreen() {
       </header>
 
       <PushToggle />
+
+      <PushPreferences categories={categories} disabled={disabledTypes} />
 
       {notifications.length === 0 ? (
         <div className="mt-10 flex flex-col items-center rounded-2xl bg-card shadow-card px-6 py-12 text-center">

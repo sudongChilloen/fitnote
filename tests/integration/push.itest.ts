@@ -15,6 +15,10 @@ import { prisma } from "@/lib/prisma";
 import { resetFcmTokenCache } from "@/lib/fcm";
 import { createNotification } from "@/server/notifications/notification.service";
 import {
+  getDisabledPushTypes,
+  setPushPreference,
+} from "@/server/notifications/notification-preference.service";
+import {
   PushError,
   registerDeviceToken,
   sendPushForNotification,
@@ -199,6 +203,45 @@ describe("기기 토큰 등록", () => {
       (await prisma.deviceToken.findUniqueOrThrow({ where: { token } }))
         .isActive,
     ).toBe(true);
+  });
+});
+
+describe("푸시 종류별 설정", () => {
+  it("끈 종류는 푸시만 건너뛰고 앱 안 알림은 남긴다", async () => {
+    const userId = await makeUser();
+    await registerDeviceToken(userId, { token: tokenOf(), platform: "WEB" });
+    await setPushPreference(userId, "GENERAL", false);
+
+    const id = await notify(userId);
+
+    expect(await sendPushForNotification(id)).toEqual({
+      sent: 0,
+      failed: 0,
+      deactivated: 0,
+    });
+    expect(sent).toHaveLength(0);
+    expect(await prisma.notification.findUnique({ where: { id } })).not.toBeNull();
+  });
+
+  it("다른 종류는 그대로 보내고, 다시 켜면 보낸다", async () => {
+    const userId = await makeUser();
+    await registerDeviceToken(userId, { token: tokenOf(), platform: "WEB" });
+    await setPushPreference(userId, "PT_SESSION_CHANGED", false);
+
+    expect((await sendPushForNotification(await notify(userId))).sent).toBe(1);
+
+    await setPushPreference(userId, "GENERAL", false);
+    await setPushPreference(userId, "GENERAL", true);
+
+    expect((await sendPushForNotification(await notify(userId))).sent).toBe(1);
+    expect(await getDisabledPushTypes(userId)).toEqual(["PT_SESSION_CHANGED"]);
+  });
+
+  it("알 수 없는 종류나 값은 거절한다", async () => {
+    const userId = await makeUser();
+
+    await expect(setPushPreference(userId, "NOPE", false)).rejects.toThrow();
+    await expect(setPushPreference(userId, "GENERAL", "false")).rejects.toThrow();
   });
 });
 

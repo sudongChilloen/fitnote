@@ -34,6 +34,7 @@ model User {
   claimCodes              MemberClaimCode[]
   memberProfile           MemberProfile?
   notifications           Notification[]
+  notificationPreferences NotificationPreference[]
   ptContracts             PTContract[]              @relation("ContractMember")
   ptSessions              PTSession[]               @relation("PTSessionMember")
   routines                Routine[]
@@ -870,6 +871,18 @@ model Notification {
 
   @@index([userId, isRead, createdAt])
   @@index([userId, createdAt])
+}
+
+/// 푸시를 끈 알림 종류. 행이 없으면 켜진 것이다. 앱 안 알림 목록에는 영향이 없다.
+model NotificationPreference {
+  id          String           @id @default(uuid())
+  userId      String
+  type        NotificationType
+  pushEnabled Boolean          @default(true)
+  updatedAt   DateTime         @updatedAt
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, type])
 }
 
 model AiAnalysis {
