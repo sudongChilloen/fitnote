@@ -11,6 +11,7 @@ import {
   markAllNotificationsReadAction,
   openNotificationAction,
 } from "./actions";
+import { PushToggle } from "./push-toggle";
 
 export const metadata = {
   title: "알림 | FitNote",
@@ -48,6 +49,8 @@ export default async function NotificationsPage() {
           </form>
         ) : null}
       </header>
+
+      <PushToggle />
 
       {notifications.length === 0 ? (
         <div className="mt-10 flex flex-col items-center rounded-2xl bg-card shadow-card px-6 py-12 text-center">
