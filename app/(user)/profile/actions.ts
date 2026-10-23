@@ -15,7 +15,6 @@ import {
   endConnection,
   redeemTrainerCode,
   revokeTrainerInvitation,
-  startTrainerProfile,
 } from "@/server/trainers/connection.service";
 
 export type CenterActionState = {
@@ -86,18 +85,6 @@ export async function redeemCode(
     revalidate();
 
     return { error: null, notice: `${membership.center.name}에 들어왔어요.` };
-  });
-}
-
-/** 트레이너로 시작한다. 센터도 초대 코드도 필요 없다. */
-export async function becomeTrainer(): Promise<CenterActionState> {
-  const user = await requireUser();
-
-  return run(async () => {
-    await startTrainerProfile(user.id);
-    revalidate();
-
-    return { error: null, notice: "트레이너로 시작했어요." };
   });
 }
 

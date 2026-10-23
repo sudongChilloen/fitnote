@@ -6,6 +6,7 @@ import { DevicePlatform } from "@/generated/prisma/enums";
 import { isPushConfigured, sendPush } from "@/lib/fcm";
 import { prisma } from "@/lib/prisma";
 
+import { getNotificationAudience } from "./notification-audience";
 import { getNotificationHref } from "./notification-href";
 
 /**
@@ -110,7 +111,10 @@ export async function sendPushForNotification(notificationId: string) {
 
     if (devices.length === 0) return summary;
 
-    const href = getNotificationHref(notification);
+    const href = getNotificationHref(
+      notification,
+      await getNotificationAudience(notification.userId),
+    );
 
     const results = await Promise.all(
       devices.map(async (device) => ({

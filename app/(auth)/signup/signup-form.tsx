@@ -14,6 +14,32 @@ export function SignupForm() {
       <h1 className="mb-8 text-3xl font-bold tracking-tight">회원가입</h1>
 
       <form action={formAction} className="flex flex-col gap-4">
+        <fieldset className="flex flex-col gap-1">
+          <legend className="mb-1 text-sm font-medium">가입 유형</legend>
+          <div className="grid grid-cols-2 gap-2">
+            {[
+              { value: "MEMBER", label: "회원", hint: "운동을 기록해요" },
+              { value: "TRAINER", label: "트레이너", hint: "회원을 관리해요" },
+            ].map((option) => (
+              <label key={option.value} className="cursor-pointer">
+                <input
+                  type="radio"
+                  name="role"
+                  value={option.value}
+                  defaultChecked={option.value === "MEMBER"}
+                  className="peer sr-only"
+                />
+                <span className="flex h-16 flex-col items-center justify-center rounded-xl border border-border bg-card text-sm font-bold transition-colors peer-checked:border-brand peer-checked:bg-accent peer-focus-visible:ring-2 peer-focus-visible:ring-brand/30">
+                  {option.label}
+                  <span className="mt-0.5 text-xs font-normal text-muted-foreground">
+                    {option.hint}
+                  </span>
+                </span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
         <div className="flex flex-col gap-1">
           <label htmlFor="name" className="text-sm font-medium">
             이름

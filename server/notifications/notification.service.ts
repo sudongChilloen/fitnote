@@ -5,6 +5,7 @@ import { NotificationType } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
 
 import { getNotificationHref } from "./notification-href";
+import { getNotificationAudience } from "./notification-audience";
 import { queuePush } from "./push.service";
 
 export { getNotificationHref };
@@ -125,7 +126,10 @@ export async function markNotificationRead(
     });
   }
 
-  return getNotificationHref(notification);
+  return getNotificationHref(
+    notification,
+    await getNotificationAudience(userId),
+  );
 }
 
 export async function markAllNotificationsRead(userId: string) {

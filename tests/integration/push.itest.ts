@@ -95,9 +95,18 @@ beforeEach(() => {
   resetFcmTokenCache();
 });
 
+/** 회원 계정. 트레이너 프로필이 없으면 회원 경로로 알림이 간다. */
 async function makeUser() {
-  const trainer = await makeTrainer();
-  return trainer.userId;
+  const user = await prisma.user.create({
+    data: {
+      name: `회원${uniq()}`,
+      email: `push-${uniq()}@test.com`,
+      passwordHash: "x",
+    },
+    select: { id: true },
+  });
+
+  return user.id;
 }
 
 const tokenOf = () => `tok-${uniq()}-${uniq()}`;
@@ -194,6 +203,17 @@ describe("기기 토큰 등록", () => {
 });
 
 describe("푸시 발송", () => {
+  it("트레이너에게는 트레이너 화면 경로를 싣는다", async () => {
+    const trainer = await makeTrainer();
+    await registerDeviceToken(trainer.userId, { token: tokenOf(), platform: "WEB" });
+
+    const id = await notify(trainer.userId, "JOURNAL_COMMENT");
+    await sendPushForNotification(id);
+
+    const message = sent[0].body as { data: Record<string, string> };
+    expect(message.data.href).toBe("/trainer/journals/journal-1");
+  });
+
   it("켜 둔 기기마다 보내고, 제목·내용·이동 경로를 싣는다", async () => {
     const userId = await makeUser();
     const [a, b] = [tokenOf(), tokenOf()];
