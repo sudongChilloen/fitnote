@@ -79,7 +79,7 @@ test.describe("운동 기록", () => {
     await signup(page, "MEMBER", "지난운동", uniqueEmail("wk"));
 
     await page.goto("/calendar");
-    await page.getByRole("button", { name: /지난 운동 기록|기록/ }).first().click();
+    await page.getByRole("button", { name: /이 날짜/ }).first().click();
     await page.waitForURL(/\/workouts\/[0-9a-f-]{36}$/);
     await addExercise(page, "백스쿼트");
 
@@ -108,7 +108,7 @@ test.describe("운동 기록", () => {
     await signup(page, "MEMBER", "시간없음", uniqueEmail("wk"));
 
     await page.goto("/calendar");
-    await page.getByRole("button", { name: /지난 운동 기록|기록/ }).first().click();
+    await page.getByRole("button", { name: /이 날짜/ }).first().click();
     await page.waitForURL(/\/workouts\/[0-9a-f-]{36}$/);
     await addExercise(page, "덤벨컬");
 
