@@ -2185,6 +2185,20 @@ CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint 
 - 종류별 설정은 `NotificationPreference` (끈 종류만 기록, 행이 없으면 켜짐). 끄면 푸시만
   건너뛰고 앱 안 알림은 쌓인다. 설정 화면에 보이는 종류는 `PUSH_CATEGORIES` 에 있다
 
+### 7-7. 수업 알림과 이용권 안내 (매일 도는 알림)
+
+`/api/cron/reminders` 를 Vercel Cron 이 매일 09:00 KST(`vercel.json`, `0 0 * * *`) 에 부른다.
+`CRON_SECRET` 환경변수가 없거나 Bearer 값이 다르면 401 이고 아무것도 하지 않는다.
+
+- **수업 알림**: 지금부터 24시간 안의 `SCHEDULED` 수업을 회원과 트레이너에게 알린다.
+- **이용권 안내**: `ACTIVE` 계약이 만료 3일 안이거나 남은 횟수가 1~2회이면 회원과 트레이너에게 알린다.
+- 같은 대상(받는 사람·종류·`relatedType`·`relatedId`)에 이미 알림이 있으면 건너뛴다. 두 번 돌려도 한 번만 간다.
+  만료일(`PT_CONTRACT_EXPIRY`)과 남은 횟수(`PT_CONTRACT_SESSIONS`)는 `relatedType` 으로 따로 센다.
+- 아직 가입하지 않은 회원(`PENDING`)에게는 보내지 않는다.
+- 푸시 종류별 설정에 "수업 알림", "이용권 안내" 가 추가됐다.
+- 서버 코드는 `server/notifications/reminder.service.ts`, 테스트는 `tests/integration/reminder.itest.ts`.
+- **Vercel 에 `CRON_SECRET` 을 넣어야 동작한다.** Hobby 요금제의 Cron 은 하루 한 번만 돈다.
+
 ### 7-4. 배포 전에 할 일
 
 1. 마이그레이션 두 건을 각 DB 에 적용한다. **적용 전에 코드를 배포하면 로그인과 가입이
