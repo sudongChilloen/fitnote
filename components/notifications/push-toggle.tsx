@@ -19,7 +19,12 @@ import {
 
 type State = "loading" | PushSupport | "on" | "off" | "denied";
 
-export function PushToggle() {
+export function PushToggle({
+  onChange,
+}: {
+  /** 이 기기에서 푸시가 켜져 있는지 바뀔 때마다 알린다. */
+  onChange?: (on: boolean) => void;
+}) {
   const [state, setState] = useState<State>("loading");
   const [message, setMessage] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
@@ -44,6 +49,12 @@ export function PushToggle() {
     };
   }, []);
 
+  const on = state === "on";
+
+  useEffect(() => {
+    onChange?.(on);
+  }, [on, onChange]);
+
   if (state === "loading" || state === "unconfigured") return null;
 
   if (state === "unsupported") {
@@ -62,8 +73,6 @@ export function PushToggle() {
       </p>
     );
   }
-
-  const on = state === "on";
 
   function toggle() {
     setMessage(null);

@@ -36,8 +36,8 @@ export const PUSH_CATEGORIES: Record<
     },
     {
       type: NotificationType.GENERAL,
-      label: "댓글",
-      hint: "알림장에 댓글이 달렸을 때",
+      label: "댓글·기타",
+      hint: "알림장에 댓글이 달렸을 때와 그 밖의 안내",
     },
   ],
   TRAINER: [
@@ -53,8 +53,8 @@ export const PUSH_CATEGORIES: Record<
     },
     {
       type: NotificationType.GENERAL,
-      label: "댓글",
-      hint: "회원이 알림장에 댓글을 남겼을 때",
+      label: "댓글·기타",
+      hint: "회원이 알림장에 댓글을 남겼을 때와 그 밖의 안내",
     },
   ],
 };

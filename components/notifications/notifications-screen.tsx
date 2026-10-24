@@ -17,8 +17,7 @@ import {
   getDisabledPushTypes,
 } from "@/server/notifications/notification-preference.service";
 
-import { PushPreferences } from "./push-preferences";
-import { PushToggle } from "./push-toggle";
+import { PushSettings } from "./push-settings";
 
 /** 회원·트레이너 화면이 함께 쓰는 알림 목록. 이동 경로는 서버가 역할에 맞게 정한다. */
 export async function NotificationsScreen() {
@@ -59,9 +58,7 @@ export async function NotificationsScreen() {
         ) : null}
       </header>
 
-      <PushToggle />
-
-      <PushPreferences categories={categories} disabled={disabledTypes} />
+      <PushSettings categories={categories} disabled={disabledTypes} />
 
       {notifications.length === 0 ? (
         <div className="mt-10 flex flex-col items-center rounded-2xl bg-card shadow-card px-6 py-12 text-center">
