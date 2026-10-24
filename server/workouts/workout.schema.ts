@@ -13,6 +13,8 @@ export const StartSessionSchema = z.object({
 export const UpdateSessionSchema = z.object({
   action: z.enum(["finish", "cancel", "memo"]),
   memo: z.string().max(500).nullish(),
+  /** 몰아서 입력한 기록의 운동 시간(분). 실시간 기록에서는 무시한다. */
+  durationMinutes: z.number().int().min(1).max(1440).nullish(),
 });
 
 export const AddRecordSchema = z.object({
