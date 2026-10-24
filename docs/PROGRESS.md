@@ -2185,20 +2185,6 @@ CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint 
 - 종류별 설정은 `NotificationPreference` (끈 종류만 기록, 행이 없으면 켜짐). 끄면 푸시만
   건너뛰고 앱 안 알림은 쌓인다. 설정 화면에 보이는 종류는 `PUSH_CATEGORIES` 에 있다
 
-### 7-7. 수업 알림과 이용권 안내 (매일 도는 알림)
-
-`/api/cron/reminders` 를 Vercel Cron 이 매일 09:00 KST(`vercel.json`, `0 0 * * *`) 에 부른다.
-`CRON_SECRET` 환경변수가 없거나 Bearer 값이 다르면 401 이고 아무것도 하지 않는다.
-
-- **수업 알림**: 지금부터 24시간 안의 `SCHEDULED` 수업을 회원과 트레이너에게 알린다.
-- **이용권 안내**: `ACTIVE` 계약이 만료 3일 안이거나 남은 횟수가 1~2회이면 회원과 트레이너에게 알린다.
-- 같은 대상(받는 사람·종류·`relatedType`·`relatedId`)에 이미 알림이 있으면 건너뛴다. 두 번 돌려도 한 번만 간다.
-  만료일(`PT_CONTRACT_EXPIRY`)과 남은 횟수(`PT_CONTRACT_SESSIONS`)는 `relatedType` 으로 따로 센다.
-- 아직 가입하지 않은 회원(`PENDING`)에게는 보내지 않는다.
-- 푸시 종류별 설정에 "수업 알림", "이용권 안내" 가 추가됐다.
-- 서버 코드는 `server/notifications/reminder.service.ts`, 테스트는 `tests/integration/reminder.itest.ts`.
-- **Vercel 에 `CRON_SECRET` 을 넣어야 동작한다.** Hobby 요금제의 Cron 은 하루 한 번만 돈다.
-
 ### 7-4. 배포 전에 할 일
 
 1. 마이그레이션 두 건을 각 DB 에 적용한다. **적용 전에 코드를 배포하면 로그인과 가입이
@@ -2214,20 +2200,6 @@ CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint 
    중복이 없으면 `UPDATE "User" SET email = lower(email);`, 있으면 먼저 손으로 합친다
 3. `generated/prisma` 는 스키마를 바꿀 때마다 필드 순서까지 통째로 바뀌어 diff 가 크다.
    내용이 달라진 게 아니니 놀라지 말 것
-
-### 7-6. 한 계정은 한 역할
-
-배경: 회원 이메일로 로그인했는데 트레이너 화면으로 들어가는 계정이 있었다. 원인은 앱의
-"트레이너로 시작하기" 버튼으로 회원 계정에 `TrainerProfile` 이 붙은 것이었고, 로그인이
-프로필 유무만 보고 `/trainer` 로 보냈다.
-
-- 가입 화면에서 회원/트레이너를 고른다. 고른 쪽 프로필만 만든다
-- `app/(user)/layout.tsx` 가 트레이너를 `/trainer` 로 돌려보낸다 (반대는 `app/trainer/layout.tsx`)
-- DB 트리거 `enforce_single_role` 이 두 프로필의 공존을 거절한다 (마이그레이션 `one_role_per_user`)
-- 알림 이동 경로는 받는 사람의 역할로 정한다 (`getNotificationHref(…, audience)`)
-- "회원에게 보이는 화면"은 `/trainer/journals/[id]/preview` 로 옮겼다 (`JournalView` 공용)
-- 없앤 것: "트레이너로 시작하기", 트레이너 화면의 "회원 화면으로 이동"
-- 운영 DB 정리: 겸하던 계정(김수정)의 `TrainerProfile` 을 삭제했다
 
 ### 7-5. 알려진 이슈
 
@@ -2248,6 +2220,34 @@ CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint 
   지난 PT 이력이 없을 때 관계 시작 전의 개인 운동이 힌트로 보일 수 있다 (공유를 켠 경우에 한함)
 
 ---
+
+### 7-6. 한 계정은 한 역할
+
+배경: 회원 이메일로 로그인했는데 트레이너 화면으로 들어가는 계정이 있었다. 원인은 앱의
+"트레이너로 시작하기" 버튼으로 회원 계정에 `TrainerProfile` 이 붙은 것이었고, 로그인이
+프로필 유무만 보고 `/trainer` 로 보냈다.
+
+- 가입 화면에서 회원/트레이너를 고른다. 고른 쪽 프로필만 만든다
+- `app/(user)/layout.tsx` 가 트레이너를 `/trainer` 로 돌려보낸다 (반대는 `app/trainer/layout.tsx`)
+- DB 트리거 `enforce_single_role` 이 두 프로필의 공존을 거절한다 (마이그레이션 `one_role_per_user`)
+- 알림 이동 경로는 받는 사람의 역할로 정한다 (`getNotificationHref(…, audience)`)
+- "회원에게 보이는 화면"은 `/trainer/journals/[id]/preview` 로 옮겼다 (`JournalView` 공용)
+- 없앤 것: "트레이너로 시작하기", 트레이너 화면의 "회원 화면으로 이동"
+- 운영 DB 정리: 겸하던 계정(김수정)의 `TrainerProfile` 을 삭제했다
+
+### 7-7. 수업 알림과 이용권 안내 (매일 도는 알림)
+
+`/api/cron/reminders` 를 Vercel Cron 이 매일 09:00 KST(`vercel.json`, `0 0 * * *`) 에 부른다.
+`CRON_SECRET` 환경변수가 없거나 Bearer 값이 다르면 401 이고 아무것도 하지 않는다.
+
+- **수업 알림**: 지금부터 24시간 안의 `SCHEDULED` 수업을 회원과 트레이너에게 알린다.
+- **이용권 안내**: `ACTIVE` 계약이 만료 3일 안이거나 남은 횟수가 1~2회이면 회원과 트레이너에게 알린다.
+- 같은 대상(받는 사람·종류·`relatedType`·`relatedId`)에 이미 알림이 있으면 건너뛴다. 두 번 돌려도 한 번만 간다.
+  만료일(`PT_CONTRACT_EXPIRY`)과 남은 횟수(`PT_CONTRACT_SESSIONS`)는 `relatedType` 으로 따로 센다.
+- 아직 가입하지 않은 회원(`PENDING`)에게는 보내지 않는다.
+- 푸시 종류별 설정에 "수업 알림", "이용권 안내" 가 추가됐다.
+- 서버 코드는 `server/notifications/reminder.service.ts`, 테스트는 `tests/integration/reminder.itest.ts`.
+- **Vercel 에 `CRON_SECRET` 을 넣어야 동작한다.** Hobby 요금제의 Cron 은 하루 한 번만 돈다.
 
 ## 8. 다음 작업
 
