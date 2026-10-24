@@ -28,7 +28,10 @@ import {
   TrainerError,
 } from "@/server/trainers/trainer.service";
 
+import { getMemberClaimCode } from "@/server/trainers/connection.service";
+
 import { beginJournal } from "../../journals/actions";
+import { ClaimLinkPanel } from "./claim-link-panel";
 
 export async function generateMetadata({
   params,
@@ -89,6 +92,9 @@ export default async function TrainerMemberPage({
    * 공유하지 않는 데이터는 아예 조회하지 않는다.
    */
   const sharing = await getSharingForTrainer(user.id, id);
+  const claimCode = member.pending
+    ? await getMemberClaimCode(user.id, id)
+    : null;
 
   const [contracts, personalWorkouts, recentDiet, body] = await Promise.all([
     listContracts(user.id, id),
@@ -359,6 +365,14 @@ export default async function TrainerMemberPage({
             이 계정을 이어받기 전까지는 회원 쪽에 보이지 않아요.
           </p>
         </section>
+      ) : null}
+
+      {member.pending ? (
+        <ClaimLinkPanel
+          connectionId={id}
+          initialCode={claimCode?.code ?? null}
+          initialExpiresAt={claimCode?.expiresAt.toISOString() ?? null}
+        />
       ) : null}
 
       {/* =========================================================
