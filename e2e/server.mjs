@@ -63,6 +63,8 @@ const env = {
 };
 
 execFileSync("npx", ["prisma", "migrate", "deploy"], { env, stdio: "pipe" });
+// 운동 라이브러리. 운동 기록 화면이 이 목록에서 고른다.
+execFileSync("npx", ["prisma", "db", "seed"], { env, stdio: "pipe" });
 execFileSync("npx", ["next", "build"], { env, stdio: "inherit" });
 
 const app = spawn("npx", ["next", "start", "-p", APP_PORT], {

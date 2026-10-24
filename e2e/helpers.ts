@@ -52,3 +52,33 @@ export async function newPage(browser: Browser) {
 export async function expectPath(page: Page, path: string) {
   await expect.poll(() => new URL(page.url()).pathname).toBe(path);
 }
+
+/** 트레이너와 회원을 가입시키고 연결 코드로 이어 준다. 회원 상세 주소를 돌려준다. */
+export async function connectPair(browser: Browser) {
+  const trainer = await newPage(browser);
+  const member = await newPage(browser);
+
+  await signup(trainer.page, "TRAINER", "정트레이너", uniqueEmail("tr"));
+  await signup(member.page, "MEMBER", "최회원", uniqueEmail("me"));
+
+  await trainer.page.goto("/trainer/profile");
+  await trainer.page
+    .getByRole("button", { name: "회원 연결 코드 만들기" })
+    .click();
+  const code = (
+    await trainer.page.locator("p.font-mono").first().innerText()
+  ).trim();
+
+  await member.page.goto("/profile");
+  await member.page.getByLabel("초대 코드").fill(code);
+  await member.page.getByRole("button", { name: "연결" }).click();
+  await expect(
+    member.page.getByText("정트레이너 트레이너와 연결됐어요."),
+  ).toBeVisible();
+
+  await trainer.page.goto("/trainer/members");
+  await trainer.page.getByRole("link", { name: /최회원/ }).first().click();
+  await trainer.page.waitForURL(/\/trainer\/members\/[^/]+$/);
+
+  return { trainer, member, memberUrl: trainer.page.url() };
+}
