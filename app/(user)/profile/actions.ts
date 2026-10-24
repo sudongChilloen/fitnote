@@ -3,12 +3,7 @@
 import { revalidatePath } from "next/cache";
 
 import { requireUser } from "@/app/lib/dal";
-import {
-  CenterError,
-  getCurrentMembership,
-  leaveCenter,
-  redeemInvitation,
-} from "@/server/centers/center.service";
+import { CenterError } from "@/server/centers/center.service";
 import {
   ConnectionError,
   createTrainerInvitation,
@@ -47,13 +42,7 @@ function revalidate() {
   revalidatePath("/journal");
 }
 
-/**
- * 코드 한 칸으로 두 가지를 받는다.
- *
- * 트레이너 코드는 TR 로 시작한다. 회원에게 "이건 트레이너 코드 칸, 저건 센터
- * 코드 칸" 이라고 설명하게 만들면 절반은 틀린 칸에 넣는다. 어디서 받았는지는
- * 코드 자체가 알고 있으니 서버가 가른다.
- */
+/** 회원이 트레이너 코드를 넣어 연결한다. */
 export async function redeemCode(
   _prev: CenterActionState | undefined,
   formData: FormData,
@@ -66,25 +55,13 @@ export async function redeemCode(
   }
 
   return run(async () => {
-    if (
-      code
-        .replace(/[^A-Za-z0-9]/g, "")
-        .toUpperCase()
-        .startsWith("TR")
-    ) {
-      const { trainerName } = await redeemTrainerCode(user.id, code);
-      revalidate();
-
-      return {
-        error: null,
-        notice: `${trainerName} 트레이너와 연결됐어요.`,
-      };
-    }
-
-    const { membership } = await redeemInvitation(user.id, code);
+    const { trainerName } = await redeemTrainerCode(user.id, code);
     revalidate();
 
-    return { error: null, notice: `${membership.center.name}에 들어왔어요.` };
+    return {
+      error: null,
+      notice: `${trainerName} 트레이너와 연결됐어요.`,
+    };
   });
 }
 
@@ -128,27 +105,5 @@ export async function revokeCode(
     revalidate();
 
     return { error: null, notice: "코드를 껐어요." };
-  });
-}
-
-/**
- * 인자를 받지 않는다. useActionState 는 (이전 상태, 폼) 을 넘기지만 여기서는
- * 쓸 값이 없다. 대신 감싸는 화살표 함수를 두면 서버 액션 참조가 아니게 되어
- * 자바스크립트가 없을 때 폼이 동작하지 않는다.
- */
-export async function leaveMyCenter(): Promise<CenterActionState> {
-  const user = await requireUser();
-
-  return run(async () => {
-    const membership = await getCurrentMembership(user.id);
-
-    if (!membership) {
-      return fail("소속된 센터가 없어요.");
-    }
-
-    await leaveCenter(user.id, membership.id);
-    revalidate();
-
-    return { error: null, notice: "센터에서 나왔어요." };
   });
 }

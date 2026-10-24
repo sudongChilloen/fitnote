@@ -7,10 +7,9 @@ import { redeemCode, type CenterActionState } from "./actions";
 /**
  * 코드 입력.
  *
- * 트레이너 코드든 센터 코드든 이 한 칸으로 받는다. 어느 쪽인지는 코드가 알고
- * 있어서 서버가 가른다. 회원에게 칸을 두 개 보여 주면 절반은 틀린 칸에 넣는다.
+ * 트레이너에게 받은 연결 코드를 넣는 칸.
  */
-export function JoinCenterForm() {
+export function TrainerCodeForm() {
   const [state, formAction, pending] = useActionState<
     CenterActionState | undefined,
     FormData

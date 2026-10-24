@@ -12,7 +12,7 @@ import { formatKstDateLabel } from "@/lib/date";
 import { getMyTrainers } from "@/server/trainers/connection.service";
 
 import { DisconnectTrainerButton } from "./disconnect-trainer-button";
-import { JoinCenterForm } from "./join-center-form";
+import { TrainerCodeForm } from "./trainer-code-form";
 
 export const metadata = { title: "내 정보 | FitNote" };
 
@@ -68,7 +68,7 @@ export default async function ProfilePage() {
           </ul>
         )}
 
-        <JoinCenterForm />
+        <TrainerCodeForm />
 
         <div className="mt-4 border-t border-border pt-4">
           <p className="text-sm font-bold">트레이너와 공유</p>

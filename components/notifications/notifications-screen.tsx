@@ -39,9 +39,11 @@ export async function NotificationsScreen() {
             <Bell className="size-5 text-brand-strong" aria-hidden />
             <h1 className="text-2xl font-bold tracking-tight">알림</h1>
           </div>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {unreadCount > 0 ? `읽지 않은 알림 ${unreadCount}개` : "새로운 알림이 없어요"}
-          </p>
+          {unreadCount > 0 ? (
+            <p className="mt-1 text-sm text-muted-foreground">
+              읽지 않은 알림 {unreadCount}개
+            </p>
+          ) : null}
         </div>
 
         {unreadCount > 0 ? (
