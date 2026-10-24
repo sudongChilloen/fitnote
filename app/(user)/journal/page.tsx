@@ -61,7 +61,7 @@ function Badge({ entry }: { entry: TimelineEntry }) {
 
 export default async function JournalPage() {
   const user = await requireUser();
-  const { hasCenter, unreadCount, entries } = await getTimeline(user.id);
+  const { unreadCount, entries } = await getTimeline(user.id);
 
   return (
     <main className="mx-auto w-full max-w-md px-5 pt-6 pb-28">
@@ -73,21 +73,6 @@ export default async function JournalPage() {
           </span>
         ) : null}
       </div>
-
-      {!hasCenter ? (
-        <div className="mt-4 rounded-2xl bg-card shadow-card p-5">
-          <p className="text-sm font-bold">아직 센터에 연결되지 않았어요</p>
-          <p className="mt-1 text-xs text-muted-foreground">
-            트레이너에게 받은 코드를 넣으면 알림장과 공지를 받아볼 수 있어요.
-          </p>
-          <Link
-            href="/profile"
-            className="mt-3 inline-flex h-10 items-center rounded-xl bg-brand px-4 text-sm font-bold text-brand-foreground"
-          >
-            코드 입력하러 가기
-          </Link>
-        </div>
-      ) : null}
 
       {entries.length === 0 ? (
         <p className="mt-10 text-center text-sm text-muted-foreground">

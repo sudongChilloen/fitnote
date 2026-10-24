@@ -6,7 +6,6 @@ import { ChevronLeft } from "lucide-react";
 import { requireUser } from "@/app/lib/dal";
 import { toKstDateKey } from "@/lib/date";
 import {
-  getActiveMemberships,
   getMemberDetail,
   TrainerError,
 } from "@/server/trainers/trainer.service";
@@ -33,7 +32,6 @@ export default async function NewContractPage({
     throw caught;
   }
 
-  const memberships = await getActiveMemberships(user.id);
   const today = toKstDateKey(new Date());
   const message = ptErrorMessage(error);
 
@@ -96,33 +94,6 @@ export default async function NewContractPage({
               1회부터 200회까지 등록할 수 있어요.
             </span>
           </label>
-
-          {memberships.length > 0 ? (
-            <label className="flex flex-col gap-1.5">
-              <span className="text-sm font-bold">
-                계약 센터{" "}
-                <span className="font-medium text-muted-foreground">
-                  (선택)
-                </span>
-              </span>
-              <select
-                name="centerId"
-                defaultValue=""
-                className="h-12 rounded-2xl bg-card shadow-card px-3 text-sm"
-              >
-                <option value="">개인 계약 / 센터 미지정</option>
-                {memberships.map((membership) => (
-                  <option key={membership.centerId} value={membership.centerId}>
-                    {membership.center.name}
-                  </option>
-                ))}
-              </select>
-              <span className="text-xs text-muted-foreground">
-                실제 PT 계약을 맺은 센터를 선택하세요. 회원의 현재 센터 소속으로
-                자동 결정하지 않습니다.
-              </span>
-            </label>
-          ) : null}
         </section>
 
         <section className="rounded-3xl border border-border/60 bg-card p-5 shadow-card">
