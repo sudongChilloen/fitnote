@@ -12,6 +12,7 @@ import { DietError } from "@/server/diet/diet.service";
 import { SharingError } from "@/server/sharing/sharing.service";
 import {
   ConnectionError,
+  createMemberClaimCode,
   createPendingMember,
 } from "@/server/trainers/connection.service";
 import { TrainerError } from "@/server/trainers/trainer.service";
@@ -103,4 +104,44 @@ export async function createMemberAction(formData: FormData) {
   revalidatePath("/trainer");
 
   return { error: null, connectionId: created.connectionId };
+}
+
+export type ClaimLinkResult = {
+  error: string | null;
+  code: string | null;
+  expiresAt: string | null;
+};
+
+/**
+ * 아직 가입하지 않은 회원에게 줄 이어받기 코드를 새로 만든다.
+ *
+ * 살아 있던 코드는 이 호출로 닫힌다. 링크가 하나뿐이어야 어느 것을 보냈는지 헷갈리지 않는다.
+ */
+export async function issueClaimLinkAction(
+  connectionId: string,
+): Promise<ClaimLinkResult> {
+  const user = await requireUser();
+
+  try {
+    const created = await createMemberClaimCode(user.id, connectionId);
+
+    revalidatePath(`/trainer/members/${connectionId}`);
+
+    return {
+      error: null,
+      code: created.code,
+      expiresAt: created.expiresAt.toISOString(),
+    };
+  } catch (error) {
+    if (error instanceof ConnectionError || error instanceof TrainerError) {
+      return { error: error.message, code: null, expiresAt: null };
+    }
+
+    console.error("claim link error:", error);
+    return {
+      error: "잠시 후 다시 시도해주세요.",
+      code: null,
+      expiresAt: null,
+    };
+  }
 }
