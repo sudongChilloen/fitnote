@@ -2031,6 +2031,7 @@ PTSession ─┬─ WorkoutSession ─ WorkoutRecord ─ WorkoutSet   (수업 �
 | `npm run lint`             | eslint                                                 | —         |
 | `npm test`                 | 단위 테스트 (vitest, `tests/*.test.ts`)                | —         |
 | `npm run test:integration` | 통합 테스트 (`tests/integration/*.itest.ts`)           | 인터넷\* |
+| `npm run test:e2e`         | E2E 테스트 (Playwright, `e2e/*.spec.ts`)               | 인터넷\*, 브라우저 |
 
 \* `embedded-postgres` 가 처음 한 번 Postgres 바이너리를 받는다. 이후엔 캐시를 쓴다.
 
@@ -2055,12 +2056,23 @@ PTSession ─┬─ WorkoutSession ─ WorkoutRecord ─ WorkoutSet   (수업 �
 | 통합: 체성분·식단 사진 | 13 | 지표별 추이와 변화량, 목표 갈아 끼우기·진행률·범위 검사, 남의 기록·목표 거절, 식단 삭제 시 저장소 정리 |
 | 통합: 서비스 권한   | 7    | 트레이너 프로필 없는 계정·담당이 아닌 트레이너가 계약·알림장·연결을 못 건드림, 초안은 회원에게 안 보임 |
 
+**E2E 테스트(`e2e/`)** 는 진짜 브라우저로 화면을 눌러 본다. `e2e/server.mjs` 가 임시 Postgres 를
+띄우고 마이그레이션을 적용한 뒤 앱을 빌드해서 띄우므로 운영 DB 와 무관하다. 푸시(FCM)는 꺼 둔다.
+가입 시도 제한(IP당 1시간 10번)에 걸리지 않도록 창마다 다른 `x-forwarded-for` 를 실어 보낸다.
+처음 한 번 `npx playwright install chromium` 이 필요하다. 로컬에서 설치된 Chrome 을 쓰려면
+`E2E_CHANNEL=chrome npm run test:e2e`.
+
+| 영역              | 건수 | 검증하는 것                                                                                   |
+| ----------------- | ---- | --------------------------------------------------------------------------------------------- |
+| E2E: 가입·로그인  | 7    | 가입 화면 도달, 입력 오류, 역할별 첫 화면, 다른 역할 화면 차단, 중복 이메일, 로그아웃·재로그인, 비밀번호 오류 |
+| E2E: 한 바퀴      | 2    | 연결 코드 → 계약 → 수업 → 알림장 게시 → 회원 알림·열람·댓글 · 가입 링크로 기록 이어받기       |
+
 CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint → 단위 →
-통합 → build 순서로 돈다. 빌드는 더미 `DATABASE_URL` / `SESSION_SECRET` 으로 한다.
+통합 → build 순서로 돌고, E2E 는 별도 작업(`e2e`)으로 돈다. 실패하면 리포트를 아티팩트로 남긴다. 빌드는 더미 `DATABASE_URL` / `SESSION_SECRET` 으로 한다.
 **아직 GitHub 에서 실제로 돌려 본 적은 없다.** 첫 PR 에서 통합 테스트 단계가
 통과하는지 확인할 것.
 
-**아직 테스트가 없는 곳:** 서버 액션 자체(쿠키에서 사용자를 읽는 부분)와 화면. 권한은
+**아직 테스트가 없는 곳:** 식단·체성분·운동 기록·캘린더 화면의 E2E, 실기기 푸시. 권한은
 서비스가 직접 확인하므로 서비스 수준에서 덮었다. 동시성·정합성이 걸린 곳(PT, 이어받기)을
 먼저 덮었다.
 
