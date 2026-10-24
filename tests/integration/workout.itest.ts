@@ -9,6 +9,7 @@ import {
   getActiveSession,
   getSessionById,
   getSessionSummary,
+  openManualSession,
   startSession,
 } from "@/server/workouts/workout.service";
 
@@ -129,5 +130,65 @@ describe("운동 기록 한 바퀴", () => {
         exerciseId: other.exerciseId,
       }),
     ).toBeNull();
+  });
+});
+
+describe("몰아서 입력한 기록의 운동 시간", () => {
+  const yesterday = () =>
+    new Date(Date.now() - 24 * 3_600_000 + 9 * 3_600_000)
+      .toISOString()
+      .slice(0, 10);
+
+  async function openManual() {
+    const { userId } = await setup();
+    const session = await openManualSession(userId, yesterday());
+    return { userId, sessionId: session.id };
+  }
+
+  it("적어 준 분을 초로 저장한다", async () => {
+    const { userId, sessionId } = await openManual();
+
+    const done = await finishSession(userId, sessionId, undefined, {
+      durationMinutes: 45,
+    });
+
+    expect(done?.durationSec).toBe(45 * 60);
+  });
+
+  it("비워 두면 시간 없이 저장한다", async () => {
+    const { userId, sessionId } = await openManual();
+
+    const done = await finishSession(userId, sessionId);
+
+    expect(done?.durationSec).toBeNull();
+  });
+
+  it.each([0, -5, 1.5, 1441])("%s분은 거절한다", async (minutes) => {
+    const { userId, sessionId } = await openManual();
+
+    await expect(
+      finishSession(userId, sessionId, undefined, { durationMinutes: minutes }),
+    ).rejects.toMatchObject({ code: "INVALID_DURATION" });
+
+    // 거절되면 세션은 그대로 작성 중이라 다시 저장할 수 있다.
+    expect(
+      (await finishSession(userId, sessionId, undefined, {
+        durationMinutes: 30,
+      }))?.durationSec,
+    ).toBe(30 * 60);
+  });
+
+  it("실시간 세션은 적어 준 시간을 무시하고 재서 저장한다", async () => {
+    const { userId } = await setup();
+    const started = await startSession(userId, { mode: "new" });
+
+    const done = await finishSession(
+      userId,
+      started.session!.id,
+      undefined,
+      { durationMinutes: 999 },
+    );
+
+    expect(done?.durationSec).toBeLessThan(60);
   });
 });

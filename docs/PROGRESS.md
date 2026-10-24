@@ -497,7 +497,7 @@ GET /api/workouts/sessions/active
 
 - 저장할 때 소요 시간을 **벽시계로 재지 않는다.** 그러면 *입력하는 데 걸린 시간*이
   운동 시간이 되고, 지난 날짜면 며칠짜리 운동이 된다. `durationSec` 은 비워 두고
-  화면에는 `—` 를 보여준다
+  화면에는 `—` 를 보여준다. 사용자가 "운동 시간"(분, 1~1440)을 적으면 그 값을 `durationSec` 에 저장한다
 - `elapsedSec` 도 `null` 이다. `startedAt` 이 며칠 전이라 "3일 경과" 가 된다
 
 같은 날짜를 다시 열면 **작성 중인** 세션을 재사용한다(매번 새로 만들면 입력하다
@@ -2268,7 +2268,6 @@ CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint 
 - `favicon` — `app/favicon.ico` 가 있지만 직접 만든 것인지 템플릿 기본인지 확인하지
   않았다 (4-4 에서 v0 로고를 지웠던 이력)
 - `Exercise.thumbnailUrl` 이 시드에 없어 운동 목록에 이미지가 없다
-- MANUAL 세션에 소요 시간을 직접 입력하는 칸 (지금은 비워 둔 채로만 저장된다)
 - 스키마 변경 시 `npx prisma generate` 결과(`generated/prisma`)를 **반드시 함께
   커밋**한다. 안 하면 Vercel 빌드가 타입 에러로 실패한다
 

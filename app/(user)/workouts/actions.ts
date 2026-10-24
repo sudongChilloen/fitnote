@@ -90,10 +90,20 @@ export async function startManualWorkout(dateKey: string) {
   redirect(`/workouts/${sessionId}`);
 }
 
-export async function finishWorkout(sessionId: string) {
+export async function finishWorkout(
+  sessionId: string,
+  durationMinutes: number | null = null,
+): Promise<ActionResult | undefined> {
   const user = await requireUser();
 
-  await finishSession(user.id, sessionId);
+  try {
+    await finishSession(user.id, sessionId, undefined, { durationMinutes });
+  } catch (error) {
+    if (error instanceof WorkoutError) {
+      return { error: error.message };
+    }
+    throw error;
+  }
 
   revalidatePath("/home");
   revalidatePath("/calendar");

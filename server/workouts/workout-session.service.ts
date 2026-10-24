@@ -48,11 +48,27 @@ export async function getSessionById(userId: string, sessionId: string) {
   return session ? toSessionDto(session) : null;
 }
 
+/** 몰아서 입력한 운동 시간으로 받는 최대치. 하루를 넘는 운동은 오타다. */
+const MAX_MANUAL_MINUTES = 24 * 60;
+
 export async function finishSession(
   userId: string,
   sessionId: string,
   status: WorkoutSessionStatus = WorkoutSessionStatus.COMPLETED,
+  options: { durationMinutes?: number | null } = {},
 ) {
+  const minutes = options.durationMinutes ?? null;
+
+  if (
+    minutes !== null &&
+    (!Number.isInteger(minutes) || minutes < 1 || minutes > MAX_MANUAL_MINUTES)
+  ) {
+    throw new WorkoutError(
+      "INVALID_DURATION",
+      `운동 시간은 1분에서 ${MAX_MANUAL_MINUTES}분 사이로 적어 주세요.`,
+    );
+  }
+
   const session = await prisma.workoutSession.findFirst({
     where: { id: sessionId, userId },
     select: { id: true, startedAt: true, status: true, entryMode: true },
@@ -70,7 +86,7 @@ export async function finishSession(
 
   // 몰아서 입력한 세션의 소요 시간을 벽시계로 재면, 입력하는 데 걸린 시간이
   // 운동 시간이 된다. 지난 날짜라면 며칠짜리 운동이 되어 버린다.
-  // 사용자가 직접 적어 주기 전까지는 비워 둔다.
+  // 사용자가 직접 적어 주기 전까지는 비워 둔다. 적어 준 시간은 그대로 쓴다.
   const endedAt = manual ? session.startedAt : new Date();
 
   await prisma.workoutSession.update({
@@ -79,7 +95,9 @@ export async function finishSession(
       endedAt,
       status,
       durationSec: manual
-        ? null
+        ? minutes === null
+          ? null
+          : minutes * 60
         : Math.max(
             0,
             Math.round(

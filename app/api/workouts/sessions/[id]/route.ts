@@ -53,7 +53,7 @@ export async function PATCH(
     return fail("잘못된 요청입니다.", 400);
   }
 
-  const { action, memo } = parsed.data;
+  const { action, memo, durationMinutes } = parsed.data;
 
   try {
     const session =
@@ -65,6 +65,7 @@ export async function PATCH(
             action === "finish"
               ? WorkoutSessionStatus.COMPLETED
               : WorkoutSessionStatus.CANCELLED,
+            { durationMinutes },
           );
 
     if (!session) {
