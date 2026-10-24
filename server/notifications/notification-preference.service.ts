@@ -6,8 +6,8 @@ import type { NotificationAudience } from "./notification-href";
 /**
  * 푸시 설정 화면에 보여주는 알림 종류.
  *
- * 아직 만들어지지 않는 종류(수업 알림, 이용권 만료)는 뺐다. 켜고 끌 수 있어도
- * 받을 알림이 없으면 "이걸 왜 끄지" 만 남는다.
+ * 실제로 만들어지는 알림만 둔다. 켜고 끌 수 있어도 받을 알림이 없으면
+ * "이걸 왜 끄지" 만 남는다.
  */
 export const PUSH_CATEGORIES: Record<
   NotificationAudience,
@@ -25,12 +25,32 @@ export const PUSH_CATEGORIES: Record<
       hint: "수업 일정이 바뀌거나 취소됐을 때",
     },
     {
+      type: NotificationType.PT_SESSION_REMINDER,
+      label: "수업 알림",
+      hint: "수업 하루 전부터 알려줘요",
+    },
+    {
+      type: NotificationType.PT_CONTRACT_EXPIRING,
+      label: "이용권 안내",
+      hint: "만료가 가깝거나 횟수가 얼마 안 남았을 때",
+    },
+    {
       type: NotificationType.GENERAL,
       label: "댓글",
       hint: "알림장에 댓글이 달렸을 때",
     },
   ],
   TRAINER: [
+    {
+      type: NotificationType.PT_SESSION_REMINDER,
+      label: "수업 알림",
+      hint: "수업 하루 전부터 알려줘요",
+    },
+    {
+      type: NotificationType.PT_CONTRACT_EXPIRING,
+      label: "이용권 안내",
+      hint: "회원 이용권 만료가 가깝거나 횟수가 얼마 안 남았을 때",
+    },
     {
       type: NotificationType.GENERAL,
       label: "댓글",

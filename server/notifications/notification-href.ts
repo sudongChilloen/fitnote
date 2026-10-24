@@ -73,5 +73,9 @@ function getTrainerNotificationHref(notification: {
     return "/trainer/schedule";
   }
 
+  if (notification.relatedType?.startsWith("PT_CONTRACT")) {
+    return "/trainer/members";
+  }
+
   return "/trainer/notifications";
 }
