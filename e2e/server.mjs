@@ -8,6 +8,7 @@
  */
 import { execFileSync, spawn } from "node:child_process";
 import { mkdtempSync, rmSync } from "node:fs";
+import { createServer as createHttpServer } from "node:http";
 import { createServer } from "node:net";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -15,6 +16,97 @@ import path from "node:path";
 import EmbeddedPostgres from "embedded-postgres";
 
 const APP_PORT = process.env.E2E_PORT ?? "3200";
+const STORAGE_PORT = process.env.E2E_STORAGE_PORT ?? "3201";
+const BUCKET = "fitnote-photos";
+
+/**
+ * 가짜 Supabase Storage.
+ *
+ * 앱이 부르는 주소(lib/storage.ts)만 흉내 낸다. 올린 파일은 메모리에 두고,
+ * 테스트가 GET /__objects 로 무엇이 남아 있는지 볼 수 있다.
+ * 브라우저가 이 서버로 직접 PUT 하므로 CORS 를 열어 둔다.
+ */
+const objects = new Map();
+
+function readBody(req) {
+  return new Promise((resolve) => {
+    const chunks = [];
+    req.on("data", (chunk) => chunks.push(chunk));
+    req.on("end", () => resolve(Buffer.concat(chunks)));
+  });
+}
+
+const storage = createHttpServer(async (req, res) => {
+  const url = new URL(req.url, `http://localhost:${STORAGE_PORT}`);
+  const cors = {
+    "access-control-allow-origin": "*",
+    "access-control-allow-headers": "*",
+    "access-control-allow-methods": "GET,PUT,POST,DELETE,OPTIONS",
+  };
+  const json = (status, body) => {
+    res.writeHead(status, { ...cors, "content-type": "application/json" });
+    res.end(JSON.stringify(body));
+  };
+
+  if (req.method === "OPTIONS") {
+    res.writeHead(204, cors);
+    return res.end();
+  }
+
+  const path = decodeURIComponent(url.pathname);
+  const prefix = `/storage/v1`;
+
+  if (path === "/__objects") return json(200, [...objects.keys()].sort());
+
+  if (path === `${prefix}/bucket/${BUCKET}`) return json(200, { id: BUCKET });
+
+  // 업로드 주소 만들기
+  let m = path.match(new RegExp(`^${prefix}/object/upload/sign/${BUCKET}/(.+)$`));
+  if (m && req.method === "POST") {
+    return json(200, {
+      url: `/object/upload/sign/${BUCKET}/${m[1]}?token=e2e`,
+    });
+  }
+
+  // 올리기
+  if (m && req.method === "PUT") {
+    objects.set(m[1], await readBody(req));
+    return json(200, { Key: `${BUCKET}/${m[1]}` });
+  }
+
+  // 읽기 주소 만들기
+  if (path === `${prefix}/object/sign/${BUCKET}` && req.method === "POST") {
+    const { paths = [] } = JSON.parse((await readBody(req)).toString() || "{}");
+    return json(
+      200,
+      paths.map((p) =>
+        objects.has(p)
+          ? { path: p, signedURL: `/object/sign/${BUCKET}/${p}?token=e2e`, error: null }
+          : { path: p, signedURL: null, error: "Object not found" },
+      ),
+    );
+  }
+
+  // 읽기
+  m = path.match(new RegExp(`^${prefix}/object/sign/${BUCKET}/(.+)$`));
+  if (m && req.method === "GET") {
+    const body = objects.get(m[1]);
+    if (!body) return json(404, { error: "not_found" });
+    res.writeHead(200, { ...cors, "content-type": "image/webp" });
+    return res.end(body);
+  }
+
+  // 지우기
+  if (path === `${prefix}/object/${BUCKET}` && req.method === "DELETE") {
+    const { prefixes = [] } = JSON.parse((await readBody(req)).toString() || "{}");
+    for (const p of prefixes) objects.delete(p);
+    return json(200, []);
+  }
+
+  return json(404, { error: `unhandled ${req.method} ${path}` });
+});
+
+await new Promise((resolve) => storage.listen(Number(STORAGE_PORT), resolve));
 
 function freePort() {
   return new Promise((resolve, reject) => {
@@ -55,6 +147,9 @@ const env = {
   FCM_CLIENT_EMAIL: "",
   FCM_PRIVATE_KEY: "",
   CRON_SECRET: "",
+  SUPABASE_URL: `http://localhost:${STORAGE_PORT}`,
+  SUPABASE_SERVICE_ROLE_KEY: "e2e-service-key",
+  SUPABASE_PHOTO_BUCKET: BUCKET,
   NEXT_PUBLIC_FIREBASE_API_KEY: "",
   NEXT_PUBLIC_FIREBASE_PROJECT_ID: "",
   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: "",
@@ -78,6 +173,7 @@ async function stop(code = 0) {
   if (stopping) return;
   stopping = true;
   app.kill("SIGTERM");
+  storage.close();
   await pg.stop().catch(() => {});
   rmSync(dir, { recursive: true, force: true });
   process.exit(code);

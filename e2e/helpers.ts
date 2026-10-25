@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import { deflateSync } from "node:zlib";
 
 import { expect, type Browser, type Page } from "@playwright/test";
 
@@ -87,4 +88,50 @@ export async function connectPair(browser: Browser) {
 export function kstDateKey(daysAgo = 0) {
   const kst = new Date(Date.now() + 9 * 3_600_000 - daysAgo * 86_400_000);
   return kst.toISOString().slice(0, 10);
+}
+
+const STORAGE_PORT = process.env.E2E_STORAGE_PORT ?? "3201";
+
+/** 가짜 저장소에 지금 남아 있는 파일 경로들. */
+export async function storedObjects(): Promise<string[]> {
+  const res = await fetch(`http://localhost:${STORAGE_PORT}/__objects`);
+  return (await res.json()) as string[];
+}
+
+/** 단색 PNG. 사진 올리기 테스트에서 파일 선택기에 넘긴다. */
+export function solidPng(size = 64, rgb: [number, number, number] = [220, 90, 60]) {
+  const row = Buffer.alloc(1 + size * 3);
+  for (let x = 0; x < size; x += 1) row.set(rgb, 1 + x * 3);
+  const raw = Buffer.concat(Array.from({ length: size }, () => row));
+
+  const crcTable = Array.from({ length: 256 }, (_, n) => {
+    let c = n;
+    for (let k = 0; k < 8; k += 1) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+    return c >>> 0;
+  });
+  const crc = (buf: Buffer) => {
+    let c = 0xffffffff;
+    for (const byte of buf) c = crcTable[(c ^ byte) & 0xff] ^ (c >>> 8);
+    return (c ^ 0xffffffff) >>> 0;
+  };
+  const chunk = (type: string, data: Buffer) => {
+    const body = Buffer.concat([Buffer.from(type), data]);
+    const length = Buffer.alloc(4);
+    length.writeUInt32BE(data.length);
+    const sum = Buffer.alloc(4);
+    sum.writeUInt32BE(crc(body));
+    return Buffer.concat([length, body, sum]);
+  };
+
+  const header = Buffer.alloc(13);
+  header.writeUInt32BE(size, 0);
+  header.writeUInt32BE(size, 4);
+  header.set([8, 2, 0, 0, 0], 8);
+
+  return Buffer.concat([
+    Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
+    chunk("IHDR", header),
+    chunk("IDAT", deflateSync(raw)),
+    chunk("IEND", Buffer.alloc(0)),
+  ]);
 }
