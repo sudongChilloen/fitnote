@@ -82,3 +82,9 @@ export async function connectPair(browser: Browser) {
 
   return { trainer, member, memberUrl: trainer.page.url() };
 }
+
+/** 오늘(KST)에서 days 일 전의 날짜 키(YYYY-MM-DD). */
+export function kstDateKey(daysAgo = 0) {
+  const kst = new Date(Date.now() + 9 * 3_600_000 - daysAgo * 86_400_000);
+  return kst.toISOString().slice(0, 10);
+}

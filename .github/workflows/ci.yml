@@ -52,6 +52,19 @@ jobs:
 
       - run: npm ci
 
+      # 브라우저와 Next 빌드 캐시를 재사용해 느린 러너에서도 시작이 오래 걸리지 않게 한다.
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - uses: actions/cache@v4
+        with:
+          path: .next/cache
+          key: next-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ hashFiles('**/*.ts', '**/*.tsx') }}
+          restore-keys: |
+            next-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-
+
       - run: npx playwright install --with-deps chromium
 
       - run: npm run test:e2e
