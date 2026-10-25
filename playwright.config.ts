@@ -22,7 +22,7 @@ export default defineConfig({
     command: "node e2e/server.mjs",
     url: `http://localhost:${PORT}/login`,
     // 빌드까지 하므로 넉넉히 둔다.
-    timeout: 300_000,
+    timeout: 600_000,
     reuseExistingServer: false,
     stdout: "pipe",
   },
