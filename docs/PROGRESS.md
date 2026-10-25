@@ -2281,8 +2281,6 @@ CI(`.github/workflows/ci.yml`)는 PR 과 `main` 푸시에서 typecheck → lint 
 
 ### 정리 필요
 
-- `favicon` — `app/favicon.ico` 가 있지만 직접 만든 것인지 템플릿 기본인지 확인하지
-  않았다 (4-4 에서 v0 로고를 지웠던 이력)
 - `Exercise.thumbnailUrl`·`videoUrl` 은 비어 있다. 쓸 만한 이미지가 생기면 시드에 넣고 목록에 썸네일을 단다 (지금은 화면에서 쓰지 않는다)
 - 스키마 변경 시 `npx prisma generate` 결과(`generated/prisma`)를 **반드시 함께
   커밋**한다. 안 하면 Vercel 빌드가 타입 에러로 실패한다

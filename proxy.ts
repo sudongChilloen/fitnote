@@ -27,5 +27,5 @@ export default async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|firebase-messaging-sw\\.js|.*\\.png$).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|icon\\.svg|firebase-messaging-sw\\.js|.*\\.png$).*)"],
 };
