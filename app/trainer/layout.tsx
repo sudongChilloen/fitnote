@@ -25,26 +25,25 @@ export default async function TrainerLayout({
 
   return (
     <div className="flex min-h-dvh flex-col bg-background">
-      <header className="sticky top-0 z-40 border-b border-border/70 bg-background/95 shadow-[0_2px_12px_rgba(0,0,0,0.025)] backdrop-blur-xl">
-        <div className="mx-auto flex w-full max-w-md items-center justify-between gap-3 px-5 py-3.5">
-          <div className="min-w-0">
-            <p className="truncate text-sm font-bold">
-              {user.trainerDisplayName ?? user.name}
-            </p>
-
-            <p className="text-xs text-muted-foreground">트레이너</p>
-          </div>
+      <header className="sticky top-0 z-40 border-b border-line bg-background">
+        <div className="mx-auto flex w-full max-w-md items-center justify-between gap-2 py-2.5 pr-4 pl-5">
+          <p className="min-w-0 truncate text-sm font-bold">
+            {user.trainerDisplayName ?? user.name}
+            <span className="ml-1.5 font-medium text-muted-foreground">
+              트레이너
+            </span>
+          </p>
 
           <Link
             href="/trainer/notifications"
             aria-label={
               unreadCount > 0 ? `알림 ${unreadCount}개 읽지 않음` : "알림"
             }
-            className="relative flex size-10 shrink-0 items-center justify-center rounded-xl text-muted-foreground transition-colors hover:bg-secondary"
+            className="relative flex size-10 shrink-0 items-center justify-center rounded-full text-ink transition-colors hover:bg-surface"
           >
             <Bell className="size-5" aria-hidden />
             {unreadCount > 0 ? (
-              <span className="absolute top-2 right-2 size-2 rounded-full bg-brand" />
+              <span className="absolute top-2.25 right-2.5 size-[0.4375rem] rounded-full bg-coral" />
             ) : null}
           </Link>
         </div>
@@ -53,7 +52,7 @@ export default async function TrainerLayout({
       <div
         className="mx-auto w-full max-w-md flex-1"
         style={{
-          paddingBottom: "calc(6.25rem + env(safe-area-inset-bottom))",
+          paddingBottom: "calc(5.5rem + env(safe-area-inset-bottom))",
         }}
       >
         {children}

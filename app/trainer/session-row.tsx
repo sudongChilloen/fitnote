@@ -41,7 +41,14 @@ function ManagementEventIcon({ type }: { type: string }) {
  * SessionRow는 일정 / 할 일 화면에서 함께 사용하기 때문에
  * 수업 데이터 자체의 표현은 여기에서 일관되게 유지한다.
  */
-export function SessionRow({ session }: { session: TrainerSessionRow }) {
+export function SessionRow({
+  session,
+  isNext = false,
+}: {
+  session: TrainerSessionRow;
+  /** 지금 바로 다음 수업. 딥그린으로 칠해 한눈에 찾게 한다. */
+  isNext?: boolean;
+}) {
   const cancelled = session.status === "CANCELLED";
 
   const done = session.status === "COMPLETED";
@@ -69,117 +76,135 @@ export function SessionRow({ session }: { session: TrainerSessionRow }) {
       ? "기록 보기"
       : "수업 기록";
 
+  /*
+    v3: 바탕은 흰색·연회색 두 가지, 급한 것만 코랄 테두리.
+    - 급한 관리 이벤트(마무리 필요 등) → 흰 바탕 + 코랄 테두리
+    - 확인할 것 · 예정 → 흰 바탕 + 회색 테두리
+    - 완료·노쇼·취소 → 연회색 (지나간 일)
+  */
+  const tone = cancelled || done || noShow
+    ? "past"
+    : isNext && !managementEvent
+      ? "next"
+      : managementEvent?.status === "urgent"
+      ? "urgent"
+      : managementEvent
+        ? "check"
+        : "scheduled";
+
+  const toneClass = {
+    past: "bg-surface",
+    next: "bg-primary text-white",
+    urgent: "bg-card ring-[1.5px] ring-coral ring-inset",
+    check: "bg-card ring-1 ring-border ring-inset",
+    scheduled: "bg-card ring-1 ring-border ring-inset",
+  }[tone];
+
+  const inkClass = {
+    past: "text-muted-foreground",
+    next: "text-white/75",
+    urgent: "text-status-urgent",
+    check: "text-muted-foreground",
+    scheduled: "text-muted-foreground",
+  }[tone];
+
   const body = (
     <div
       className={cn(
-        "flex min-h-23 items-center gap-3 rounded-2xl border border-border/70 bg-card p-3.5 shadow-card",
-        "transition-colors duration-200",
-        !cancelled &&
-          "hover:border-primary/30 hover:bg-secondary/20 active:bg-secondary/40",
+        "flex min-h-16 items-center gap-3 rounded-[1.125rem] py-2.5 pr-2.5 pl-3.5 transition-transform active:scale-[0.99]",
+        tone === "next" ? "" : "text-ink",
+        toneClass,
         cancelled && "opacity-55",
       )}
     >
       {/* 수업 시간 */}
-      <div className="w-15 shrink-0 text-center">
+      <div className="w-12 shrink-0">
         <p
           className={cn(
-            "text-base font-bold leading-none tabular-nums",
-            session.status === "SCHEDULED" && "text-primary",
+            "text-base leading-none font-extrabold tabular-nums",
             cancelled && "line-through",
           )}
         >
           {toKstTimeValue(session.scheduledAt)}
         </p>
-
-        <p className="mt-2 text-[11px] leading-none text-muted-foreground tabular-nums">
+        <p className={cn("mt-1.5 text-[11px] leading-none tabular-nums", inkClass)}>
           {session.durationMinutes}분
         </p>
       </div>
 
       {/* 회원 정보 */}
-      <div className="min-w-0 flex-1 border-l border-border/70 pl-3.5">
+      <div className="min-w-0 flex-1">
         <div className="flex min-w-0 flex-wrap items-center gap-1.5">
           <p
             className={cn(
               "truncate text-sm font-bold tracking-tight",
-              cancelled && "text-muted-foreground line-through",
+              cancelled && "line-through",
             )}
           >
             {session.memberName}
           </p>
 
           {done ? (
-            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-status-ok-bg px-2 py-1 text-[10px] font-bold text-status-ok">
+            <span className="inline-flex shrink-0 items-center gap-0.5 rounded-full border border-brand px-2 py-0.5 text-[0.6875rem] font-bold text-primary">
               <Check className="size-3" aria-hidden />
               완료
             </span>
           ) : null}
-
           {noShow ? (
-            <span className="shrink-0 rounded-full bg-status-urgent-bg px-2 py-1 text-[10px] font-bold text-status-urgent">
+            <span className="shrink-0 rounded-full border border-coral px-2 py-0.5 text-[0.6875rem] font-bold text-status-urgent">
               노쇼
             </span>
           ) : null}
-
           {cancelled ? (
-            <span className="shrink-0 rounded-full bg-secondary px-2 py-1 text-[10px] font-semibold text-muted-foreground">
+            <span className="shrink-0 rounded-full border border-input px-2 py-0.5 text-[0.6875rem] font-semibold text-muted-foreground">
               취소
             </span>
           ) : null}
         </div>
 
-        <div className="mt-2 flex min-w-0 items-center gap-2 text-xs text-muted-foreground">
-          <span className="shrink-0 tabular-nums">
-            {session.sessionNumber}회차
-          </span>
-
-          {session.hasWorkout ? (
+        <p className={cn("mt-1 flex min-w-0 items-center gap-1 truncate text-xs", inkClass)}>
+          <span className="shrink-0 tabular-nums">{session.sessionNumber}회차</span>
+          {managementEvent ? (
             <>
-              <span
-                className="size-1 shrink-0 rounded-full bg-border"
-                aria-hidden
-              />
-              <span className="inline-flex min-w-0 items-center gap-1 truncate text-primary">
-                <Dumbbell className="size-3.5 shrink-0" aria-hidden />
-                운동 기록 있음
-              </span>
+              <span aria-hidden>·</span>
+              <ManagementEventIcon type={managementEvent.type} />
+              <span className="truncate font-semibold">{managementEvent.reason}</span>
+            </>
+          ) : session.hasWorkout ? (
+            <>
+              <span aria-hidden>·</span>
+              <Dumbbell className="size-3.5 shrink-0" aria-hidden />
+              <span className="truncate">운동 기록 있음</span>
             </>
           ) : null}
-        </div>
-
-        {managementEvent ? (
-          <div
-            className={cn(
-              "mt-2.5 flex min-w-0 items-center gap-1.5 rounded-lg px-2 py-1.5 text-xs font-semibold",
-              managementEvent.status === "urgent"
-                ? "bg-status-urgent-bg text-status-urgent"
-                : "bg-status-check-bg text-status-check",
-            )}
-          >
-            <ManagementEventIcon type={managementEvent.type} />
-            <span className="truncate">{managementEvent.reason}</span>
-          </div>
-        ) : null}
+        </p>
       </div>
 
-      {/* 기존 기록 진입 액션 */}
+      {/* 다음 행동은 하나만, 검정 알약으로 */}
       {label ? (
         <span
           className={cn(
-            "inline-flex min-h-10 shrink-0 items-center gap-1 rounded-xl px-3 py-2 text-xs font-bold transition-colors",
+            "inline-flex h-9 shrink-0 items-center gap-0.5 rounded-full px-3.5 text-xs font-bold",
+            // 목록 안의 작은 버튼은 흰 알약으로 둔다. 진한 버튼은 화면당 하나
+            // (수업 마무리, 운동 시작)만 쓴다.
             session.journalStatus === "PUBLISHED"
-              ? "bg-secondary text-muted-foreground"
-              : "bg-accent text-accent-foreground",
+              ? tone === "past"
+                ? "bg-card text-muted-foreground"
+                : "bg-surface text-muted-foreground"
+              : tone === "next"
+                ? "bg-brand text-ink"
+                : tone === "past"
+                  ? "bg-card text-ink"
+                  : "bg-surface text-ink",
           )}
         >
           {label}
           <ChevronRight className="size-3.5" aria-hidden />
         </span>
       ) : session.connectionId ? (
-        <ChevronRight
-          className="size-4 shrink-0 text-muted-foreground"
-          aria-hidden
-        />
+        <span className="flex size-8 shrink-0 items-center justify-center rounded-full text-faint">
+          <ChevronRight className="size-4" aria-hidden />
+        </span>
       ) : null}
     </div>
   );
@@ -219,16 +244,14 @@ export function SessionRow({ session }: { session: TrainerSessionRow }) {
 
 export function EmptyDay({ message }: { message: string }) {
   return (
-    <div className="mt-3 overflow-hidden rounded-3xl border border-dashed border-border bg-card px-5 py-8 text-center">
-      <div className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-accent text-accent-foreground">
-        <CalendarDays className="size-6" aria-hidden />
+    <div className="mt-3 rounded-[1.375rem] bg-surface px-5 py-7 text-center">
+      <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-brand-muted text-primary">
+        <CalendarDays className="size-5" aria-hidden />
       </div>
 
-      <p className="mt-4 text-sm font-bold tracking-tight text-foreground">
-        {message}
-      </p>
+      <p className="mt-3 text-sm font-bold tracking-tight">{message}</p>
 
-      <p className="mx-auto mt-2 max-w-xs text-xs leading-relaxed text-muted-foreground">
+      <p className="mx-auto mt-1.5 max-w-xs text-xs leading-relaxed text-muted-foreground">
         새로운 수업이 등록되면 이곳에서 시간과 회원 정보를 확인할 수 있어요.
       </p>
     </div>

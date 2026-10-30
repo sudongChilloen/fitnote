@@ -60,7 +60,7 @@ export function OpenWorkoutButton({
         size="lg"
         disabled={pending}
         onClick={openWorkout}
-        className="h-12 w-full rounded-xl font-bold"
+        className="h-12 w-full rounded-full font-bold"
       >
         {pending ? (
           <>

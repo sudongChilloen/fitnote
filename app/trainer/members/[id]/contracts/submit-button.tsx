@@ -28,12 +28,12 @@ export function SubmitButton({
   const { pending } = useFormStatus();
 
   const base =
-    "inline-flex h-11 items-center justify-center gap-1.5 rounded-xl px-4 text-sm font-bold transition disabled:opacity-50";
+    "inline-flex h-11 items-center justify-center gap-1.5 rounded-full px-4 text-sm font-bold transition disabled:opacity-50";
   const skin =
     variant === "primary"
-      ? "bg-brand text-brand-foreground"
+      ? "bg-primary text-primary-foreground"
       : variant === "danger"
-        ? "border border-destructive/40 text-destructive"
+        ? "border border-coral/50 text-status-urgent"
         : "border border-border text-foreground";
 
   return (

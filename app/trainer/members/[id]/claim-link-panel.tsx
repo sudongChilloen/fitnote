@@ -64,15 +64,15 @@ export function ClaimLinkPanel({
   }
 
   return (
-    <section className="mt-3 rounded-2xl bg-card p-4 shadow-card">
-      <h2 className="text-sm font-bold">가입 링크</h2>
+    <section className="mt-3 rounded-[1.375rem] border border-border p-4">
+      <h2 className="text-[0.9375rem] font-bold">가입 링크</h2>
       <p className="mt-1 text-xs text-muted-foreground">
         회원에게 이 링크를 보내면 가입하면서 지금까지의 기록을 이어받아요.
       </p>
 
       {link ? (
         <>
-          <p className="mt-3 rounded-xl bg-secondary px-3 py-2.5 font-mono text-xs break-all">
+          <p className="mt-3 rounded-[0.875rem] bg-brand-muted px-3 py-2.5 font-mono text-primary text-xs break-all">
             {link}
           </p>
           {expiresAt ? (
@@ -89,7 +89,7 @@ export function ClaimLinkPanel({
             <button
               type="button"
               onClick={copy}
-              className="h-11 flex-1 rounded-xl bg-brand font-bold text-brand-foreground"
+              className="h-11 flex-1 rounded-full bg-primary font-bold text-primary-foreground"
             >
               {copied ? "복사했어요" : "링크 복사"}
             </button>
@@ -97,7 +97,7 @@ export function ClaimLinkPanel({
               type="button"
               onClick={issue}
               disabled={pending}
-              className="h-11 shrink-0 rounded-xl border border-border px-4 text-sm font-semibold disabled:opacity-50"
+              className="h-11 shrink-0 rounded-full border border-border px-4 text-sm font-semibold disabled:opacity-50"
             >
               {pending ? "만드는 중" : "새로 만들기"}
             </button>
@@ -108,7 +108,7 @@ export function ClaimLinkPanel({
           type="button"
           onClick={issue}
           disabled={pending}
-          className="mt-3 h-11 w-full rounded-xl border border-border font-semibold disabled:opacity-50"
+          className="mt-3 h-11 w-full rounded-full border border-border font-semibold disabled:opacity-50"
         >
           {pending ? "만드는 중" : "가입 링크 만들기"}
         </button>

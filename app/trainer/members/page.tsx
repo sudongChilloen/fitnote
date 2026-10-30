@@ -5,6 +5,11 @@ import {
 } from "@/server/trainers/trainer.service";
 import type { TrainerManagementStatus } from "@/server/trainers/trainer.service";
 
+import { InvitePanel } from "@/app/(user)/profile/invite-panel";
+import { listActiveTrainerInvitations } from "@/server/trainers/connection.service";
+import { getTrainerWeek } from "@/server/trainers/trainer-board.service";
+import { Search } from "lucide-react";
+
 import { MemberCard, NoMembers } from "../member-card";
 import { AddMemberDrawer } from "./add-member-drawer";
 import { MemberFilterChips } from "./filter-chips";
@@ -33,7 +38,13 @@ export default async function TrainerMembersPage({
 }) {
   const [user, query] = await Promise.all([requireUser(), searchParams]);
 
-  const home = await getTrainerHome(user.id);
+  const [home, week, invitations] = await Promise.all([
+    getTrainerHome(user.id),
+    getTrainerWeek(user.id),
+    listActiveTrainerInvitations(user.id),
+  ]);
+  const search = typeof query.q === "string" ? query.q.trim() : "";
+  const weekSessions = week.days.reduce((sum, day) => sum + day.count, 0);
 
   const filter = parseMemberFilter(query.filter);
 
@@ -56,6 +67,7 @@ export default async function TrainerMembersPage({
   };
 
   const shown = home.members
+    .filter((member) => (search ? member.name.includes(search) : true))
     .filter((member) => {
       if (filter === "attention") {
         return (
@@ -85,97 +97,77 @@ export default async function TrainerMembersPage({
     });
 
   return (
-    <main className="px-5 pb-16 pt-6">
-      {/* 페이지 헤더 */}
-      <header className="mb-7">
-        <div className="flex items-start justify-between gap-4">
-          <div className="min-w-0">
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-brand-strong">
-              MEMBER MANAGEMENT
-            </p>
-
-            <div className="mt-2.5 flex flex-wrap items-center gap-2">
-              <h1 className="text-2xl font-bold tracking-tight">담당 회원</h1>
-
-              <span className="inline-flex items-center rounded-full bg-secondary px-2.5 py-1 text-xs font-bold tabular-nums text-foreground">
-                {home.members.length}명
-              </span>
-            </div>
-
-            <p className="mt-2 max-w-[260px] text-sm leading-relaxed text-muted-foreground">
-              회원 현황과 관리가 필요한 항목을 확인해요.
-            </p>
-          </div>
-
-          <div className="shrink-0 pt-1">
-            <AddMemberDrawer />
-          </div>
-        </div>
+    <main className="flex flex-col pb-6">
+      <header className="flex items-center gap-2 py-3.5 pr-4 pl-5">
+        <h1 className="min-w-0 flex-1 text-xl font-extrabold">
+          회원{" "}
+          <span className="text-sm font-semibold text-muted-foreground tabular-nums">
+            {home.members.length}명
+          </span>
+        </h1>
+        <AddMemberDrawer />
       </header>
 
-      {home.members.length === 0 ? (
-        <NoMembers />
-      ) : (
-        <>
-          <MemberFilterChips current={filter} counts={counts} />
+      <div className="flex flex-col gap-3 px-4 pt-1.5">
+        {home.members.length === 0 ? (
+          <NoMembers />
+        ) : (
+          <>
+            <form action="/trainer/members" className="flex h-11.5 items-center gap-2 rounded-full bg-surface px-4">
+              <Search className="size-4.5 shrink-0 text-faint" aria-hidden />
+              {filter !== "all" ? <input type="hidden" name="filter" value={filter} /> : null}
+              <input
+                type="search"
+                name="q"
+                defaultValue={search}
+                placeholder="이름으로 찾기"
+                aria-label="회원 이름으로 찾기"
+                className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-faint"
+              />
+            </form>
 
-          {/* 결과 */}
-          {shown.length === 0 ? (
-            <div className="mt-6 rounded-3xl border border-dashed border-border bg-card px-5 py-9 text-center">
-              <div className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-secondary text-muted-foreground">
-                <span className="text-2xl" aria-hidden>
-                  🙂
+            <MemberFilterChips current={filter} counts={counts} />
+
+            <div className="grid grid-cols-3 gap-2">
+              {[
+                { k: "이번 주 수업", v: `${weekSessions}회`, c: "text-ink" },
+                { k: "확인 필요", v: `${counts.attention}명`, c: "text-primary" },
+                { k: "곧 만료", v: `${counts.soon}명`, c: counts.soon > 0 ? "text-status-urgent" : "text-ink" },
+              ].map((stat) => (
+                <span key={stat.k} className="min-w-0 rounded-2xl bg-[#f7f8f7] px-3 py-2.5">
+                  <span className="block truncate text-[0.6875rem] text-muted-foreground">{stat.k}</span>
+                  <b className={`block text-lg tabular-nums ${stat.c}`}>{stat.v}</b>
                 </span>
-              </div>
-
-              <p className="mt-4 text-sm font-bold">
-                해당 조건의 회원이 없어요
-              </p>
-
-              <p className="mx-auto mt-2 max-w-xs text-xs leading-relaxed text-muted-foreground">
-                현재 필터에 해당하는 회원이 없어요. 다른 관리 상태나 계약 상태를
-                선택해 보세요.
-              </p>
-
-              <Link
-                href="/trainer/members"
-                className="mt-5 inline-flex h-10 items-center justify-center rounded-xl border border-border px-4 text-sm font-semibold transition-colors hover:bg-secondary"
-              >
-                전체 회원 보기
-              </Link>
+              ))}
             </div>
-          ) : (
-            <>
-              <div className="mt-7 flex items-end justify-between gap-3">
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <h2 className="text-base font-bold tracking-tight">
-                      회원 목록
-                    </h2>
-                    <span className="rounded-full bg-secondary px-2 py-0.5 text-[11px] font-bold tabular-nums text-foreground">
-                      {shown.length}
-                    </span>
-                  </div>
 
-                  <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
-                    현재 필터 조건에 해당하는 회원이에요.
-                  </p>
-                </div>
-
-                <span className="shrink-0 pb-0.5 text-[11px] font-medium text-muted-foreground">
-                  관리 우선순 정렬
-                </span>
+            {shown.length === 0 ? (
+              <div className="rounded-[1.25rem] bg-[#f7f8f7] px-5 py-9 text-center">
+                <p className="text-sm font-bold">해당 조건의 회원이 없어요</p>
+                <p className="mx-auto mt-2 max-w-xs text-xs leading-relaxed text-muted-foreground">
+                  {search ? `"${search}" 이름의 회원이 없어요.` : "다른 필터를 골라 보세요."}
+                </p>
+                <Link
+                  href="/trainer/members"
+                  className="mt-4 inline-flex h-10 items-center justify-center rounded-full bg-ink px-5 text-sm font-bold text-white"
+                >
+                  전체 회원 보기
+                </Link>
               </div>
-
-              <ul className="mt-3 flex flex-col gap-3">
+            ) : (
+              <ul className="flex flex-col">
                 {shown.map((member) => (
-                  <MemberCard key={member.connectionId} member={member} />
+                  <MemberCard key={member.connectionId} member={member} variant="bar" />
                 ))}
               </ul>
-            </>
-          )}
-        </>
-      )}
+            )}
+          </>
+        )}
+
+        <div className="mt-1">
+          <InvitePanel invitations={invitations} />
+        </div>
+      </div>
     </main>
   );
 }

@@ -1,251 +1,230 @@
 import Link from "next/link";
 
-import { AlertCircle, Check, MessageSquare, NotebookPen } from "lucide-react";
+import { Check } from "lucide-react";
 
 import { requireUser } from "@/app/lib/dal";
-import { formatKstDateLabel } from "@/lib/date";
-import { getTrainerTodos } from "@/server/trainers/trainer-board.service";
+import { formatKstDateLabel, formatKstTimeLabel } from "@/lib/date";
+import { cn } from "@/lib/utils";
+import {
+  getTrainerTodos,
+  type TrainerSessionRow,
+} from "@/server/trainers/trainer-board.service";
 
-import { SessionRow } from "../session-row";
+import { enterSessionRecord } from "../sessions/[id]/actions";
 
 export const metadata = { title: "할 일 | FitNote" };
 
+type Tab = "all" | "session" | "journal" | "reply";
+
+const TABS: { key: Tab; label: string }[] = [
+  { key: "all", label: "전체" },
+  { key: "session", label: "수업" },
+  { key: "journal", label: "알림장" },
+  { key: "reply", label: "답장" },
+];
+
+function Avatar({ name }: { name: string }) {
+  return (
+    <span className="flex size-9.5 shrink-0 items-center justify-center rounded-full bg-surface text-sm font-extrabold">
+      {name.trim().slice(0, 1)}
+    </span>
+  );
+}
+
 /**
- * 트레이너의 관리 업무 Inbox.
- *
- * 단순히 밀린 기록을 나열하는 것이 아니라
- * "지금 무엇을 처리해야 하는가"를 먼저 보여준다.
- *
- * 실제 업무 데이터는 getTrainerTodos()를 그대로 사용한다.
- * 수업 정보는 일정 화면과 동일한 SessionRow를 사용해 표현을 통일한다.
+ * 수업 한 줄. 누르면 기존처럼 서버 액션으로 수업 기록 화면에 들어간다.
+ * 오른쪽 알약 하나가 지금 할 일이다.
  */
-export default async function TrainerJournalsPage() {
-  const user = await requireUser();
-  const todos = await getTrainerTodos(user.id);
-
-  const totalCount =
-    todos.needComplete.length +
-    todos.needJournal.length +
-    todos.awaitingReply.length;
-
-  const clear = totalCount === 0;
-
+function SessionTodo({
+  session,
+  sub,
+  cta,
+  primary,
+}: {
+  session: TrainerSessionRow;
+  sub: string;
+  cta: string;
+  primary: boolean;
+}) {
   return (
-    <main className="px-5 pt-5 pb-16">
-      {/* Header */}
-      <header>
-        <h1 className="text-2xl font-bold tracking-tight">할 일</h1>
-
-        {!clear ? (
-          <p className="mt-1 text-sm text-muted-foreground">
-            지금 처리해야 할 업무를 확인해 주세요.
-          </p>
-        ) : null}
-      </header>
-
-      {clear ? (
-        <EmptyTodo />
-      ) : (
-        <>
-          {/* Summary */}
-          <section className="mt-5 overflow-hidden rounded-2xl border border-border/70 bg-card shadow-card">
-            <div className="flex items-center justify-between gap-4 p-5">
-              <div className="min-w-0">
-                <p className="text-sm font-semibold text-muted-foreground">
-                  지금 처리할 업무
-                </p>
-
-                <p className="mt-2 flex items-baseline gap-1.5">
-                  <span className="text-3xl font-bold tracking-tight tabular-nums">
-                    {totalCount}
-                  </span>
-                  <span className="text-sm font-medium text-muted-foreground">
-                    건 남음
-                  </span>
-                </p>
-
-                <p className="mt-2 text-xs leading-5 text-muted-foreground">
-                  {todos.needComplete.length > 0
-                    ? `완료 처리 ${todos.needComplete.length}건`
-                    : "미완료 수업 없음"}
-                  {" · "}
-                  {todos.needJournal.length > 0
-                    ? `알림장 ${todos.needJournal.length}건`
-                    : "작성할 알림장 없음"}
-                  {" · "}
-                  {todos.awaitingReply.length > 0
-                    ? `회원 답변 ${todos.awaitingReply.length}건`
-                    : "확인할 답변 없음"}
-                </p>
-              </div>
-
-              <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-accent text-brand-strong">
-                <NotebookPen className="size-5" aria-hidden />
-              </span>
-            </div>
-
-            <div className="h-1 w-full bg-secondary">
-              <div
-                className="h-full bg-brand transition-all"
-                style={{
-                  width: `${Math.min(100, (totalCount / 10) * 100)}%`,
-                }}
-              />
-            </div>
-          </section>
-
-          {/* 완료 처리 */}
-          {todos.needComplete.length > 0 ? (
-            <TodoSection
-              title="완료하지 않은 수업"
-              count={todos.needComplete.length}
-              description="수업을 완료 처리해야 PT 횟수에 반영돼요."
-              tone="attention"
-            >
-              <ul className="flex flex-col gap-2.5">
-                {todos.needComplete.map((session) => (
-                  <li key={session.id}>
-                    <p className="mb-1 pl-1 text-xs text-muted-foreground">
-                      {formatKstDateLabel(session.scheduledAt)}
-                    </p>
-
-                    <SessionRow session={session} />
-                  </li>
-                ))}
-              </ul>
-            </TodoSection>
-          ) : null}
-
-          {/* 알림장 작성 */}
-          {todos.needJournal.length > 0 ? (
-            <TodoSection
-              title="작성하지 않은 알림장"
-              count={todos.needJournal.length}
-              description="수업 기록을 남기고 회원에게 알림장을 보내 주세요."
-            >
-              <ul className="flex flex-col gap-2.5">
-                {todos.needJournal.map((session) => (
-                  <li key={session.id}>
-                    <p className="mb-1 pl-1 text-xs text-muted-foreground">
-                      {formatKstDateLabel(session.scheduledAt)}
-                    </p>
-
-                    <SessionRow session={session} />
-                  </li>
-                ))}
-              </ul>
-            </TodoSection>
-          ) : null}
-
-          {/* 회원 답변 */}
-          {todos.awaitingReply.length > 0 ? (
-            <TodoSection
-              title="회원 답변 확인"
-              count={todos.awaitingReply.length}
-              description="회원이 알림장에 남긴 답변을 확인해 주세요."
-            >
-              <ul className="flex flex-col gap-2.5">
-                {todos.awaitingReply.map((row) => (
-                  <li key={row.journalId}>
-                    <Link
-                      href={`/trainer/journals/${row.journalId}`}
-                      className="group flex min-h-[76px] items-center gap-3 rounded-2xl border border-border/60 bg-card p-4 shadow-card transition-all hover:border-border hover:bg-muted/30 active:scale-[0.99]"
-                    >
-                      <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent text-brand-strong">
-                        <MessageSquare className="size-4" aria-hidden />
-                      </span>
-
-                      <span className="min-w-0 flex-1">
-                        <span className="flex min-w-0 items-center gap-2">
-                          <span className="truncate text-sm font-bold">
-                            {row.memberName}
-                          </span>
-
-                          <span className="shrink-0 rounded-full bg-brand px-2 py-0.5 text-[0.625rem] font-bold text-primary tabular-nums">
-                            답변 {row.count}
-                          </span>
-                        </span>
-
-                        <span className="mt-1 block text-xs text-muted-foreground">
-                          {formatKstDateLabel(row.date)} 알림장
-                        </span>
-                      </span>
-
-                      <span
-                        className="text-sm text-muted-foreground transition-transform group-hover:translate-x-0.5"
-                        aria-hidden
-                      >
-                        ›
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </TodoSection>
-          ) : null}
-        </>
-      )}
-    </main>
+    <li>
+      <form action={enterSessionRecord}>
+        <input type="hidden" name="ptSessionId" value={session.id} />
+        <button
+          type="submit"
+          aria-label={`${session.memberName} ${session.sessionNumber}회차 ${cta}`}
+          className="flex w-full items-center gap-3 border-b border-line px-1 py-2.5 text-left"
+        >
+          <Avatar name={session.memberName} />
+          <span className="min-w-0 flex-1">
+            <b className="block truncate text-sm">{session.memberName}</b>
+            <span className="block truncate text-xs text-muted-foreground tabular-nums">{sub}</span>
+          </span>
+          <span
+            className={cn(
+              "flex h-8.5 shrink-0 items-center rounded-full border px-3 text-xs font-bold whitespace-nowrap",
+              primary
+                ? "border-primary bg-primary text-white"
+                : "border-border bg-card text-ink",
+            )}
+          >
+            {cta}
+          </span>
+        </button>
+      </form>
+    </li>
   );
 }
 
-function EmptyTodo() {
-  return (
-    <div className="mt-5 flex flex-col items-center rounded-2xl bg-card shadow-card px-5 py-10">
-      <span className="flex size-11 items-center justify-center rounded-full bg-accent text-brand-strong">
-        <Check className="size-5" aria-hidden />
-      </span>
-
-      <p className="mt-3 text-sm font-bold">지금 처리할 일이 없어요</p>
-
-      <p className="mt-1 text-center text-xs text-muted-foreground">
-        수업이 끝나거나 회원의 답변이 도착하면
-        <br />
-        여기에 표시돼요.
-      </p>
-    </div>
-  );
-}
-
-function TodoSection({
+function Group({
   title,
   count,
-  description,
-  tone = "default",
+  dot,
   children,
 }: {
   title: string;
   count: number;
-  description: string;
-  tone?: "default" | "attention";
+  dot: string;
   children: React.ReactNode;
 }) {
   return (
-    <section className="mt-8">
-      <div className="flex items-center justify-between gap-3">
-        <h2 className="text-base font-bold tracking-tight">{title}</h2>
-
-        <span className="shrink-0 rounded-full bg-secondary px-2.5 py-1 text-xs font-semibold tabular-nums text-foreground">
-          {count}건
-        </span>
+    <section>
+      <div className="mx-1 mt-1.5 mb-1 flex items-center gap-2">
+        <span aria-hidden className={`size-2 shrink-0 rounded-full ${dot}`} />
+        <h2 className="min-w-0 flex-1 text-[0.9375rem] font-extrabold">
+          {title} <span className="font-semibold text-muted-foreground tabular-nums">{count}</span>
+        </h2>
       </div>
+      <ul>{children}</ul>
+    </section>
+  );
+}
 
-      <p
-        className={[
-          "mt-1 flex items-start gap-1.5 text-xs",
-          tone === "attention"
-            ? "text-muted-foreground"
-            : "text-muted-foreground",
-        ].join(" ")}
-      >
-        {tone === "attention" ? (
-          <AlertCircle className="mt-0.5 size-3.5 shrink-0" aria-hidden />
+/**
+ * 트레이너의 관리 업무 Inbox (v3).
+ *
+ * 종류별로 묶고 줄마다 바로 처리하는 버튼 하나를 둔다.
+ * 실제 업무 데이터는 getTrainerTodos() 를 그대로 사용한다.
+ */
+export default async function TrainerJournalsPage({
+  searchParams,
+}: PageProps<"/trainer/journals">) {
+  const user = await requireUser();
+  const [todos, query] = await Promise.all([getTrainerTodos(user.id), searchParams]);
+
+  const tab: Tab = TABS.some((item) => item.key === query.tab) ? (query.tab as Tab) : "all";
+  const counts: Record<Tab, number> = {
+    all: todos.needComplete.length + todos.needJournal.length + todos.awaitingReply.length,
+    session: todos.needComplete.length,
+    journal: todos.needJournal.length,
+    reply: todos.awaitingReply.length,
+  };
+  const show = (key: Exclude<Tab, "all">) => tab === "all" || tab === key;
+
+  return (
+    <main className="flex flex-col pb-6">
+      <header className="flex items-center gap-2 py-3.5 pr-4 pl-5">
+        <h1 className="min-w-0 flex-1 text-xl font-extrabold">
+          할 일{" "}
+          <span className="text-sm font-semibold text-muted-foreground tabular-nums">
+            {counts.all}건
+          </span>
+        </h1>
+      </header>
+
+      <nav aria-label="종류" className="grid grid-cols-4 border-b border-line px-4 text-center">
+        {TABS.map((item) => {
+          const active = item.key === tab;
+          return (
+            <Link
+              key={item.key}
+              href={item.key === "all" ? "/trainer/journals" : `/trainer/journals?tab=${item.key}`}
+              scroll={false}
+              aria-current={active ? "page" : undefined}
+              className={cn(
+                "flex h-10 items-center justify-center gap-1 text-[0.8125rem] whitespace-nowrap",
+                active
+                  ? "font-extrabold text-ink shadow-[inset_0_-3px_0_var(--primary)]"
+                  : "font-semibold text-faint",
+              )}
+            >
+              {item.label}
+              <small className={cn("text-[0.6875rem] tabular-nums", active ? "text-primary" : "text-faint")}>
+                {counts[item.key]}
+              </small>
+            </Link>
+          );
+        })}
+      </nav>
+
+      <div className="flex flex-col gap-3 px-4 pt-3">
+        {counts[tab] === 0 ? (
+          <div className="flex flex-col items-center rounded-3xl bg-brand-muted px-5 py-10 text-ink">
+            <span className="flex size-12 items-center justify-center rounded-full bg-primary text-white">
+              <Check className="size-5" aria-hidden />
+            </span>
+            <p className="mt-3 text-sm font-bold">지금 처리할 일이 없어요</p>
+            <p className="mt-1 text-center text-xs text-primary">
+              수업이 끝나거나 회원의 답변이 도착하면
+              <br />
+              여기에 표시돼요.
+            </p>
+          </div>
         ) : null}
 
-        <span>{description}</span>
-      </p>
+        {show("session") && todos.needComplete.length > 0 ? (
+          <Group title="수업 완료 처리" count={todos.needComplete.length} dot="bg-coral">
+            {todos.needComplete.map((session) => (
+              <SessionTodo
+                key={session.id}
+                session={session}
+                sub={`${formatKstDateLabel(session.scheduledAt)} ${formatKstTimeLabel(session.scheduledAt)} · ${session.sessionNumber}회차 · 출석 처리 전`}
+                cta="마무리"
+                primary
+              />
+            ))}
+          </Group>
+        ) : null}
 
-      <div className="mt-3">{children}</div>
-    </section>
+        {show("journal") && todos.needJournal.length > 0 ? (
+          <Group title="알림장 작성" count={todos.needJournal.length} dot="bg-primary">
+            {todos.needJournal.map((session) => (
+              <SessionTodo
+                key={session.id}
+                session={session}
+                sub={`${formatKstDateLabel(session.scheduledAt)} 수업 · ${session.sessionNumber}회차`}
+                cta="수업 기록"
+                primary
+              />
+            ))}
+          </Group>
+        ) : null}
+
+        {show("reply") && todos.awaitingReply.length > 0 ? (
+          <Group title="답장 대기" count={todos.awaitingReply.length} dot="bg-brand">
+            {todos.awaitingReply.map((row) => (
+              <li key={row.journalId}>
+                <Link
+                  href={`/trainer/journals/${row.journalId}`}
+                  className="flex items-center gap-3 border-b border-line px-1 py-2.5"
+                >
+                  <Avatar name={row.memberName} />
+                  <span className="min-w-0 flex-1">
+                    <b className="block truncate text-sm">{row.memberName}</b>
+                    <span className="block truncate text-xs text-muted-foreground">
+                      {row.content ? `“${row.content.replace(/\s+/g, " ")}”` : `${formatKstDateLabel(row.date)} 알림장`}
+                      {row.count > 1 ? ` 외 ${row.count - 1}개` : ""}
+                    </span>
+                  </span>
+                  <span className="flex h-8.5 shrink-0 items-center rounded-full border border-border px-3 text-xs font-bold">
+                    답장
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </Group>
+        ) : null}
+      </div>
+    </main>
   );
 }

@@ -35,21 +35,21 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="text-sm font-bold tracking-tight">{label}</span>
+      <span className="mx-1 text-sm font-extrabold">{label}</span>
 
       {hint ? (
-        <span className="mt-1 block text-xs leading-relaxed text-muted-foreground">
+        <span className="mx-1 mt-0.5 block text-xs leading-relaxed text-muted-foreground">
           {hint}
         </span>
       ) : null}
 
-      <span className="mt-2 block">{children}</span>
+      <span className="mt-1.5 block">{children}</span>
     </label>
   );
 }
 
 const boxClass =
-  "w-full rounded-xl border border-border bg-background px-3.5 py-3 text-sm leading-relaxed outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-brand focus:ring-2 focus:ring-brand/15 disabled:opacity-50";
+  "w-full rounded-2xl border border-border bg-background px-3.5 py-3 text-sm leading-relaxed outline-none transition-colors placeholder:text-faint focus:border-[1.5px] focus:border-primary disabled:opacity-50";
 
 /**
  * 알림장 작성.
@@ -67,7 +67,7 @@ export function JournalForm(props: Props) {
   >(saveJournalAction, undefined);
 
   return (
-    <form action={formAction} className="flex flex-col gap-6">
+    <form action={formAction} className="flex flex-col gap-4">
       <input type="hidden" name="journalId" value={props.journalId} />
 
       {props.sessionOptions.length > 0 ? (
@@ -107,7 +107,7 @@ export function JournalForm(props: Props) {
         />
       </Field>
 
-      <Field label="오늘 수업">
+      <Field label="오늘 수업 한마디" hint="회원에게 가장 먼저 보이는 글이에요.">
         <textarea
           name="content"
           rows={5}
@@ -162,19 +162,19 @@ export function JournalForm(props: Props) {
       {state?.error ? (
         <p
           role="alert"
-          className="rounded-xl border border-destructive/20 bg-destructive/5 px-3.5 py-3 text-sm font-medium leading-relaxed text-destructive"
+          className="rounded-[0.875rem] bg-status-urgent-bg px-3.5 py-3 text-sm font-medium leading-relaxed text-status-urgent"
         >
           {state.error}
         </p>
       ) : null}
 
-      <div className="flex gap-2.5">
+      <div className="mt-1 flex gap-2">
         <button
           type="submit"
           name="publish"
           value="0"
           disabled={pending}
-          className="h-12 flex-1 rounded-xl border border-border bg-card text-sm font-bold transition-colors hover:bg-secondary active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
+          className="h-12.5 shrink-0 rounded-full border border-border bg-card px-4.5 text-sm font-bold transition-colors hover:bg-surface active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
         >
           임시 저장
         </button>
@@ -183,7 +183,7 @@ export function JournalForm(props: Props) {
           name="publish"
           value="1"
           disabled={pending}
-          className="h-12 flex-1 rounded-xl bg-brand text-sm font-bold text-brand-foreground shadow-sm transition-opacity hover:opacity-90 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
+          className="h-12.5 min-w-0 flex-1 rounded-full bg-primary text-[0.9375rem] font-extrabold text-primary-foreground transition-opacity hover:opacity-90 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
         >
           {props.status === "PUBLISHED" ? "수정 반영" : "게시하기"}
         </button>

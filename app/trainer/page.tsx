@@ -5,12 +5,10 @@ import {
   ChevronRight,
   ClipboardCheck,
   MessageSquare,
-  NotebookPen,
-  House,
 } from "lucide-react";
 
 import { requireUser } from "@/app/lib/dal";
-import { Avatar } from "@/components/ui/avatar";
+import { SummaryCard } from "@/components/summary-card";
 import { formatKstDateLabel, formatKstTimeLabel } from "@/lib/date";
 import {
   getTrainerToday,
@@ -27,42 +25,6 @@ import { EmptyDay, SessionRow } from "./session-row";
 import { cn } from "@/lib/utils";
 
 export const metadata = { title: "트레이너 | FitNote" };
-
-/** 간결한 숫자 요약 타일 */
-function SummaryCard({
-  icon: Icon,
-  label,
-  value,
-  href,
-  tint,
-}: {
-  icon: typeof CalendarClock;
-  label: string;
-  value: number;
-  href: string;
-  tint: string;
-}) {
-  return (
-    <Link
-      href={href}
-      className={`group flex min-w-0 flex-1 items-center gap-2.5 rounded-2xl p-3 transition-transform active:scale-[0.98] ${tint}`}
-    >
-      <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-white/75">
-        <Icon className="size-[1.125rem]" aria-hidden />
-      </span>
-
-      <span className="min-w-0">
-        <span className="block text-2xl leading-none font-bold tracking-tight tabular-nums">
-          {value}
-        </span>
-
-        <span className="mt-1.5 block truncate text-[0.6875rem] font-semibold opacity-80">
-          {label}
-        </span>
-      </span>
-    </Link>
-  );
-}
 
 function AttentionItem({
   name,
@@ -81,46 +43,40 @@ function AttentionItem({
     <li>
       <Link
         href={href}
-        className="group flex items-center gap-3 rounded-2xl border border-border/60 bg-card p-3.5 shadow-card transition-all duration-200 hover:border-primary/20 hover:bg-secondary/30 active:scale-[0.99]"
+        className="flex items-center gap-3 border-b border-line px-1 py-2.5"
       >
-        <div
-          className={cn(
-            "flex size-11 shrink-0 items-center justify-center rounded-2xl",
-            urgent
-              ? "bg-status-urgent-bg text-status-urgent"
-              : "bg-status-check-bg text-status-check",
-          )}
+        <span
+          aria-hidden
+          className="flex size-9.5 shrink-0 items-center justify-center rounded-full bg-surface text-sm font-extrabold"
         >
-          <Avatar name={name} className="size-9 text-sm" />
-        </div>
+          {name.trim().slice(0, 1)}
+        </span>
 
         <span className="min-w-0 flex-1">
-          <span className="flex min-w-0 flex-wrap items-center gap-1.5">
-            <span className="truncate text-sm font-bold tracking-tight">
+          <span className="flex min-w-0 items-center gap-1.5">
+            <span className="min-w-0 truncate text-sm font-bold tracking-tight">
               {name}
             </span>
-
             <span
               className={cn(
-                "shrink-0 rounded-md px-2 py-1 text-[10px] font-bold",
+                "shrink-0 rounded-full border px-1.5 text-[0.6875rem] leading-[1.0625rem] font-bold",
                 urgent
-                  ? "bg-status-urgent-bg text-status-urgent"
-                  : "bg-status-check-bg text-status-check",
+                  ? "border-coral text-status-urgent"
+                  : "border-input text-muted-foreground",
               )}
             >
               {urgent ? "즉시 확인" : "확인 필요"}
             </span>
           </span>
 
-          <span className="mt-1.5 block text-xs leading-relaxed text-muted-foreground">
+          <span className="mt-0.5 block truncate text-xs text-muted-foreground">
             {reason}
           </span>
         </span>
 
-        <ChevronRight
-          className="size-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5"
-          aria-hidden
-        />
+        <span className="flex h-8 shrink-0 items-center rounded-full bg-surface px-3 text-xs font-bold">
+          처리
+        </span>
       </Link>
     </li>
   );
@@ -210,25 +166,30 @@ export default async function TrainerHomePage() {
 
   const todoCount = todos.needComplete.length + todos.needJournal.length;
 
+  // 아직 안 한 수업 중 가장 빠른 것. 오늘 목록에서 딥그린으로 칠한다.
+  const nextSessionId =
+    today.find(
+      (session) => session.status === "SCHEDULED" && session.managementEvents.length === 0,
+    )?.id ?? null;
+
   const totalAttentionCount = todoCount + todos.awaitingReply.length;
 
   return (
-    <main className="px-5 pt-4 pb-24">
+    <main className="flex flex-col gap-3 px-4 pt-4 pb-6">
       {/* Dashboard Header */}
-      <header className="relative overflow-hidden rounded-3xl border border-border/60 bg-card px-5 py-5 shadow-card">
-        <div className="absolute -right-8 -top-10 size-32 rounded-full bg-primary/5" />
-        <div className="absolute -right-2 top-12 size-16 rounded-full bg-primary/5" />
+      <header className="relative overflow-hidden rounded-3xl border border-border bg-card py-4.5 pr-4.5 pl-5">
+        <div className="absolute -top-9 -right-7.5 size-30 rounded-full bg-[#f3faf6]" />
 
         <div className="relative flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-2.5 py-1">
+            <div className="inline-flex items-center gap-1.5 rounded-full bg-surface px-2.5 py-1">
               <CalendarClock className="size-3.5 text-primary" aria-hidden />
-              <span className="text-xs font-semibold text-muted-foreground">
+              <span className="text-xs font-bold text-[#4b5650]">
                 {formatKstDateLabel(new Date())}
               </span>
             </div>
 
-            <h1 className="mt-4 text-2xl font-extrabold leading-tight tracking-tight">
+            <h1 className="mt-3 text-[1.375rem] leading-snug font-extrabold tracking-tight">
               안녕하세요,
               <br />
               <span className="text-primary">
@@ -237,24 +198,27 @@ export default async function TrainerHomePage() {
               <span className="ml-1">님!</span>
             </h1>
 
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              오늘도 회원들과 좋은 하루를 만들어 봐요.
+            <p className="mt-1.5 text-[0.8125rem] text-muted-foreground">
+              {today.length === 0
+                ? "오늘은 잡힌 수업이 없어요."
+                : remaining > 0
+                  ? `오늘 수업 ${today.length}개 중 ${remaining}개가 남았어요.`
+                  : `오늘 수업 ${today.length}개를 모두 마쳤어요.`}
             </p>
           </div>
 
-          <div className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-tint-mint text-tint-mint-foreground">
-            <House className="size-5" aria-hidden />
+          <div className="relative flex size-12 shrink-0 items-center justify-center rounded-2xl bg-brand-muted text-primary">
+            <ClipboardCheck className="size-5.5" aria-hidden />
           </div>
         </div>
       </header>
       {/* Today's Summary */}
-      <section aria-label="오늘 요약" className="mt-5 grid grid-cols-3 gap-2.5">
+      <section aria-label="오늘 요약" className="grid grid-cols-3 gap-2">
         <SummaryCard
           icon={CalendarClock}
-          label={remaining > 0 ? `남은 수업 ${remaining}` : "오늘 수업"}
+          label="오늘 수업"
           value={today.length}
           href="/trainer/schedule"
-          tint="bg-tint-sky text-tint-sky-foreground"
         />
 
         <SummaryCard
@@ -262,7 +226,7 @@ export default async function TrainerHomePage() {
           label="처리할 일"
           value={todoCount}
           href="/trainer/journals"
-          tint="bg-tint-butter text-tint-butter-foreground"
+          highlight={todoCount > 0}
         />
 
         <SummaryCard
@@ -270,47 +234,34 @@ export default async function TrainerHomePage() {
           label="답장 대기"
           value={todos.awaitingReply.length}
           href="/trainer/journals"
-          tint="bg-tint-mint text-tint-mint-foreground"
         />
       </section>
       {/* ─────────────────────────
           Today's Schedule
       ───────────────────────── */}
-      <section className="mt-7">
-        <div className="flex items-center justify-between gap-3">
-          <div>
-            <div className="flex items-center gap-2">
-              <h2 className="text-lg font-bold tracking-tight">오늘 수업</h2>
-
-              <span className="rounded-full bg-tint-sky px-2 py-0.5 text-xs font-bold text-tint-sky-foreground tabular-nums">
-                {today.length}
-              </span>
-            </div>
-
-            <p className="mt-1 text-xs text-muted-foreground">
-              {remaining > 0
-                ? `아직 ${remaining}개의 수업이 남아 있어요`
-                : today.length > 0
-                  ? "오늘 예정된 수업을 확인해 보세요"
-                  : "잠시 여유를 가져도 좋은 하루예요"}
-            </p>
-          </div>
-
-          <Link
-            href="/trainer/schedule"
-            className="flex shrink-0 items-center gap-1 rounded-xl px-2.5 py-2 text-xs font-semibold text-primary transition-colors hover:bg-accent"
-          >
-            전체 일정
-            <ChevronRight className="size-3.5" aria-hidden />
+      <section>
+        <div className="mx-1 mt-2 mb-1.5 flex items-center justify-between gap-3">
+          <h2 className="flex items-center gap-1.5 text-[1.0625rem] font-extrabold">
+            오늘 수업
+            <span className="rounded-full bg-brand-muted px-2 py-px text-xs font-bold text-primary tabular-nums">
+              {today.length}
+            </span>
+          </h2>
+          <Link href="/trainer/schedule" className="shrink-0 text-xs font-bold text-primary">
+            전체 일정 ›
           </Link>
         </div>
 
         {today.length === 0 ? (
           <EmptyDay message="오늘은 잡힌 수업이 없어요" />
         ) : (
-          <ul className="mt-3 flex flex-col gap-2">
+          <ul className="flex flex-col gap-1.5">
             {today.map((session) => (
-              <SessionRow key={session.id} session={session} />
+              <SessionRow
+                key={session.id}
+                session={session}
+                isNext={session.id === nextSessionId}
+              />
             ))}
           </ul>
         )}
@@ -319,33 +270,19 @@ export default async function TrainerHomePage() {
           Members needing attention
       ───────────────────────── */}
       {attention.length > 0 && (
-        <section className="mt-7">
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <div className="flex items-center gap-2">
-                <h2 className="text-lg font-bold tracking-tight">
-                  확인 필요한 회원
-                </h2>
-
-                <span className="rounded-full bg-status-check-bg px-2 py-0.5 text-xs font-bold text-status-check tabular-nums">
-                  {totalAttentionCount}
-                </span>
-              </div>
-
-              <p className="mt-1 text-xs text-muted-foreground">
-                수업 기록과 회원 답변을 확인해 주세요
-              </p>
-            </div>
-
-            <Link
-              href="/trainer/journals"
-              className="flex shrink-0 items-center gap-1 rounded-xl px-2.5 py-2 text-xs font-semibold text-primary transition-colors hover:bg-accent"
-            >
-              전체 보기
-              <ChevronRight className="size-3.5" aria-hidden />
+        <section>
+          <div className="mx-1 mt-2 mb-0.5 flex items-center justify-between gap-3">
+            <h2 className="flex items-center gap-1.5 text-[1.0625rem] font-extrabold">
+              확인 필요한 회원
+              <span className="rounded-full bg-status-urgent-bg px-2 py-px text-xs font-bold text-status-urgent tabular-nums">
+                {totalAttentionCount}
+              </span>
+            </h2>
+            <Link href="/trainer/journals" className="shrink-0 text-xs font-bold text-primary">
+              전체 보기 ›
             </Link>
           </div>
-          <ul className="mt-3 flex flex-col gap-2.5">
+          <ul className="mt-1 flex flex-col">
             {attention.map((item) => (
               <AttentionItem
                 key={item.key}
@@ -362,61 +299,39 @@ export default async function TrainerHomePage() {
       {expiring.length > 0 && (
         <Link
           href="/trainer/members?filter=soon"
-          className="group mt-4 flex items-center gap-3 rounded-2xl border border-status-urgent/15 bg-status-urgent-bg/50 p-4 transition-all duration-200 hover:border-status-urgent/30 hover:bg-status-urgent-bg active:scale-[0.99]"
+          className="flex items-center gap-2.5 rounded-[1.125rem] border-[1.5px] border-coral bg-card py-3 pr-2 pl-3.5 text-ink transition-transform active:scale-[0.99]"
         >
-          <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-card text-status-urgent shadow-sm">
-            <CalendarClock className="size-5" aria-hidden />
-          </span>
-
           <span className="min-w-0 flex-1">
-            <span className="flex flex-wrap items-center gap-2">
-              <span className="text-sm font-bold tracking-tight">
-                PT 만료 임박
-              </span>
-              <span className="rounded-full bg-status-urgent px-2 py-0.5 text-[10px] font-bold text-white">
-                {expiring.length}명
-              </span>
+            <span className="block text-sm font-bold tracking-tight">
+              PT 만료 임박 {expiring.length}명
             </span>
 
-            <span className="mt-1.5 block truncate text-xs leading-relaxed text-muted-foreground">
+            <span className="mt-0.5 block truncate text-xs text-muted-foreground">
               {expiring
                 .slice(0, 2)
                 .map((member) => member.name)
                 .join(", ")}
-              {expiring.length > 2 ? " 외 추가 회원" : ""}
+              {expiring.length > 2 ? ` 외 ${expiring.length - 2}명` : ""} · 재등록 상담이 필요해요
             </span>
           </span>
 
-          <span className="flex shrink-0 items-center gap-1 text-xs font-bold text-status-urgent">
-            확인하기
-            <ChevronRight
-              className="size-4 transition-transform group-hover:translate-x-0.5"
-              aria-hidden
-            />
+          <span className="flex h-8 shrink-0 items-center rounded-full bg-surface px-3 text-xs font-bold text-ink">
+            확인
           </span>
         </Link>
       )}
 
       {/* Members */}
-      <section className="mt-8">
-        <div className="flex items-end justify-between gap-3">
-          <div className="min-w-0">
-            <h2 className="text-lg font-bold tracking-tight">담당 회원</h2>
-
-            <p className="mt-1 text-xs text-muted-foreground">
-              현재 관리 중인 회원{" "}
-              <span className="font-semibold text-foreground">
-                {home.members.length}명
-              </span>
-            </p>
-          </div>
-
-          <Link
-            href="/trainer/members"
-            className="inline-flex shrink-0 items-center gap-1 rounded-full border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground transition-colors hover:bg-muted"
-          >
-            전체 보기
-            <ChevronRight className="size-3.5" aria-hidden />
+      <section>
+        <div className="mx-1 mt-2 mb-0.5 flex items-center justify-between gap-3">
+          <h2 className="text-[1.0625rem] font-extrabold">
+            담당 회원{" "}
+            <span className="text-[0.8125rem] font-semibold text-muted-foreground tabular-nums">
+              {home.members.length}명
+            </span>
+          </h2>
+          <Link href="/trainer/members" className="shrink-0 text-xs font-bold text-primary">
+            전체 보기 ›
           </Link>
         </div>
 
@@ -425,7 +340,7 @@ export default async function TrainerHomePage() {
             <NoMembers />
           </div>
         ) : (
-          <ul className="mt-4 flex flex-col gap-3">
+          <ul className="flex flex-col">
             {home.members.slice(0, 5).map((member) => (
               <MemberCard key={member.connectionId} member={member} />
             ))}
@@ -435,7 +350,7 @@ export default async function TrainerHomePage() {
         {home.members.length > 5 && (
           <Link
             href="/trainer/members"
-            className="mt-3 flex w-full items-center justify-center gap-1 rounded-xl border border-dashed border-border py-3 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            className="mt-2 flex h-10 w-full items-center justify-center gap-1 rounded-full bg-surface text-xs font-bold text-muted-foreground transition-colors hover:bg-border hover:text-foreground"
           >
             회원 {home.members.length - 5}명 더 보기
             <ChevronRight className="size-3.5" aria-hidden />
@@ -443,29 +358,6 @@ export default async function TrainerHomePage() {
         )}
       </section>
 
-      {/* ─────────────────────────
-          Todo shortcut
-      ───────────────────────── */}
-      <Link
-        href="/trainer/journals"
-        className="mt-7 flex items-center justify-between rounded-3xl bg-tint-lavender px-4 py-4 text-tint-lavender-foreground"
-      >
-        <span className="flex items-center gap-2.5">
-          <span className="flex size-9 items-center justify-center rounded-full bg-white/70">
-            <NotebookPen className="size-4" aria-hidden />
-          </span>
-
-          <span>
-            <span className="block text-sm font-bold">할 일 모아보기</span>
-
-            <span className="mt-0.5 block text-xs opacity-80">
-              수업 기록 · 알림장 · 답장 대기
-            </span>
-          </span>
-        </span>
-
-        <ChevronRight className="size-4 text-muted-foreground" aria-hidden />
-      </Link>
     </main>
   );
 }
