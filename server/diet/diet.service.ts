@@ -223,6 +223,34 @@ export async function getRecentDiet(userId: string, limit = 30) {
   }));
 }
 
+/**
+ * 식단마다 가장 최근 트레이너 피드백 한 줄. 식단 목록 카드 안에 바로 보여 준다.
+ * 피드백을 보려고 하나씩 열어 보게 만들면 대부분 안 연다.
+ */
+export async function getLatestFeedbacks(recordIds: string[]) {
+  if (recordIds.length === 0) return new Map<string, { content: string; trainerName: string }>();
+
+  const rows = await prisma.dietFeedback.findMany({
+    where: { dietRecordId: { in: recordIds } },
+    orderBy: { createdAt: "desc" },
+    select: {
+      dietRecordId: true,
+      content: true,
+      trainerProfile: { select: { displayName: true, user: { select: { name: true } } } },
+    },
+  });
+
+  const latest = new Map<string, { content: string; trainerName: string }>();
+  for (const row of rows) {
+    if (latest.has(row.dietRecordId)) continue;
+    latest.set(row.dietRecordId, {
+      content: row.content,
+      trainerName: row.trainerProfile.displayName ?? row.trainerProfile.user.name,
+    });
+  }
+  return latest;
+}
+
 /** 오늘 몇 끼를 올렸는지. 홈 카드에 쓴다. 사진 주소를 만들지 않아 가볍다. */
 export async function countDietOnDate(userId: string, dateKey: string) {
   const { start, end } = dayRange(dateKey);

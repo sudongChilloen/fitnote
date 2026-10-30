@@ -1,5 +1,6 @@
 "use client";
 
+import { BrandMark } from "@/components/layout/brand-mark";
 import { useActionState } from "react";
 
 import Link from "next/link";
@@ -29,9 +30,10 @@ export function ClaimForm({
 
   return (
     <>
-      <h1 className="mb-2 text-2xl font-bold">{memberName}님, 반가워요</h1>
+      <BrandMark />
+      <h1 className="mb-2 text-2xl font-extrabold">{memberName}님, 반가워요</h1>
       <p className="mb-8 text-sm text-muted-foreground">
-        <b className="font-bold text-black">{trainerName}</b> 트레이너가 먼저
+        <b className="font-bold text-ink">{trainerName}</b> 트레이너가 먼저
         만들어 둔 계정이에요. 이메일과 비밀번호만 정하면 그동안 쌓인 PT 기록과
         알림장을 바로 볼 수 있어요.
       </p>
@@ -40,7 +42,7 @@ export function ClaimForm({
         <input type="hidden" name="code" value={code} />
 
         <div className="flex flex-col gap-1">
-          <label htmlFor="email" className="text-sm font-medium">
+          <label htmlFor="email" className="mx-1 text-[0.8125rem] font-bold">
             이메일
           </label>
           <input
@@ -49,7 +51,7 @@ export function ClaimForm({
             type="email"
             autoComplete="email"
             placeholder="fitnote@example.com"
-            className="h-12 rounded-xl border border-border bg-card px-4 outline-none focus:border-brand focus:ring-2 focus:ring-brand/30"
+            className="h-12 rounded-2xl border border-border bg-card px-4 outline-none focus:border-[1.5px] focus:border-primary"
           />
           {state?.errors?.email && (
             <p className="text-sm text-destructive">{state.errors.email[0]}</p>
@@ -57,7 +59,7 @@ export function ClaimForm({
         </div>
 
         <div className="flex flex-col gap-1">
-          <label htmlFor="password" className="text-sm font-medium">
+          <label htmlFor="password" className="mx-1 text-[0.8125rem] font-bold">
             비밀번호
           </label>
           <input
@@ -65,7 +67,7 @@ export function ClaimForm({
             name="password"
             type="password"
             autoComplete="new-password"
-            className="h-12 rounded-xl border border-border bg-card px-4 outline-none focus:border-brand focus:ring-2 focus:ring-brand/30"
+            className="h-12 rounded-2xl border border-border bg-card px-4 outline-none focus:border-[1.5px] focus:border-primary"
           />
           {state?.errors?.password && (
             <ul className="text-sm text-destructive">
@@ -83,7 +85,7 @@ export function ClaimForm({
         <button
           type="submit"
           disabled={pending}
-          className="mt-2 h-13 rounded-2xl bg-brand font-bold text-brand-foreground disabled:opacity-50"
+          className="mt-2 h-13 rounded-full bg-primary text-[0.9375rem] font-extrabold text-primary-foreground disabled:opacity-50"
         >
           {pending ? "시작하는 중..." : "시작하기"}
         </button>
@@ -91,7 +93,7 @@ export function ClaimForm({
 
       <p className="mt-6 text-center text-sm text-muted-foreground">
         내가 아닌가요?{" "}
-        <Link href="/signup" className="font-bold text-brand-strong underline">
+        <Link href="/signup" className="font-bold text-primary underline underline-offset-4">
           새로 가입하기
         </Link>
       </p>

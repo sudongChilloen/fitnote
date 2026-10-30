@@ -1,8 +1,9 @@
 import Link from "next/link";
+
+import { PageHeader } from "@/components/layout/page-header";
 import { notFound } from "next/navigation";
 
 import {
-  ChevronLeft,
   ImageOff,
   Lock,
   MessageSquare,
@@ -55,20 +56,18 @@ export default async function TrainerMemberDietListPage({
   }
 
   return (
-    <main className="px-5 pt-5 pb-16">
-      <Link
-        href={`/trainer/members/${id}`}
-        className="-ml-1 inline-flex items-center gap-0.5 text-sm text-muted-foreground"
-      >
-        <ChevronLeft className="size-4" aria-hidden />
-        {member.name}
-      </Link>
-
-      <h1 className="mt-2 text-xl font-bold">식단</h1>
+    <main className="pb-6">
+      <PageHeader
+        backHref={`/trainer/members/${id}`}
+        backLabel={`${member.name} 회원 상세`}
+        title={`${member.name} · 식단`}
+        subtitle="회원이 공유한 식단"
+      />
+      <div className="px-4 pt-1.5">
 
       {!sharing.shareDiet ? (
-        <div className="mt-4 rounded-2xl border border-dashed border-border p-4">
-          <span className="flex size-8 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
+        <div className="rounded-[1.25rem] bg-[#f7f8f7] p-4">
+          <span className="flex size-8 items-center justify-center rounded-xl bg-card text-muted-foreground">
             <Lock className="size-4" aria-hidden />
           </span>
           <p className="mt-2.5 text-sm font-bold">
@@ -81,32 +80,32 @@ export default async function TrainerMemberDietListPage({
       ) : (
         <>
           {!sharing.shareDietPhoto ? (
-            <p className="mt-3 flex items-start gap-2 rounded-xl bg-secondary px-4 py-3 text-xs text-muted-foreground">
+            <p className="flex items-start gap-2 rounded-[0.875rem] bg-surface px-3.5 py-3 text-xs text-muted-foreground">
               <ImageOff className="mt-px size-3.5 shrink-0" aria-hidden />
               회원이 사진은 공유하지 않고 있어요. 적어 준 내용만 보여요.
             </p>
           ) : null}
 
           {days.length === 0 ? (
-            <p className="mt-4 rounded-2xl bg-card shadow-card p-4 text-xs text-muted-foreground">
+            <p className="mt-3 rounded-[1.125rem] bg-[#f7f8f7] p-4 text-center text-xs text-muted-foreground">
               아직 올린 식단이 없어요.
             </p>
           ) : (
-            <div className="mt-4 flex flex-col gap-5">
+            <div className="mt-3 flex flex-col gap-4">
               {days.map((day) => (
                 <section key={day.dateKey}>
-                  <h2 className="text-sm font-bold">
+                  <h2 className="mx-1 text-[0.8125rem] font-bold">
                     {formatKstDateLabel(
                       new Date(`${day.dateKey}T00:00:00+09:00`),
                     )}
                   </h2>
 
-                  <ul className="mt-2 flex flex-col gap-2">
+                  <ul className="mt-1 flex flex-col">
                     {day.records.map((record) => (
                       <li key={record.id}>
                         <Link
                           href={`/trainer/members/${id}/diet/${record.id}`}
-                          className="flex items-center gap-3 rounded-2xl bg-card shadow-card p-3"
+                          className="flex items-center gap-3 border-b border-line px-1 py-2.5"
                         >
                           {record.thumbnailUrl ? (
                             // 서명 주소는 열 때마다 값이 달라 최적화 캐시가 빗나간다.
@@ -115,10 +114,10 @@ export default async function TrainerMemberDietListPage({
                               src={record.thumbnailUrl}
                               alt=""
                               loading="lazy"
-                              className="size-16 shrink-0 rounded-xl bg-secondary object-cover"
+                              className="size-13 shrink-0 rounded-[0.875rem] bg-line object-cover"
                             />
                           ) : (
-                            <span className="flex size-16 shrink-0 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
+                            <span className="flex size-13 shrink-0 items-center justify-center rounded-[0.875rem] bg-brand-muted text-primary">
                               {record.hasPhoto ? (
                                 <ImageOff className="size-5" aria-hidden />
                               ) : (
@@ -131,7 +130,7 @@ export default async function TrainerMemberDietListPage({
                           )}
 
                           <span className="min-w-0 flex-1">
-                            <span className="text-xs font-bold text-brand-strong">
+                            <span className="block text-[0.6875rem] font-bold text-muted-foreground">
                               {MEAL_LABEL[record.mealType]}
                             </span>
                             <span className="mt-0.5 block truncate text-sm font-bold">
@@ -139,7 +138,11 @@ export default async function TrainerMemberDietListPage({
                                 record.memo ??
                                 "사진만 올렸어요"}
                             </span>
-                            <span className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
+                            <span
+                              className={`mt-0.5 flex items-center gap-1 text-xs ${
+                                record.feedbackCount > 0 ? "text-primary" : "font-bold text-status-urgent"
+                              }`}
+                            >
                               {record.feedbackCount > 0 ? (
                                 <>
                                   <MessageSquare
@@ -149,7 +152,7 @@ export default async function TrainerMemberDietListPage({
                                   피드백 {record.feedbackCount}
                                 </>
                               ) : (
-                                "아직 피드백 없음"
+                                "피드백 남기기"
                               )}
                             </span>
                           </span>
@@ -163,6 +166,7 @@ export default async function TrainerMemberDietListPage({
           )}
         </>
       )}
+      </div>
     </main>
   );
 }

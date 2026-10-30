@@ -36,14 +36,12 @@ export function FinishWorkoutButton({
   }
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="mt-1 flex flex-col gap-2 border-t border-line pt-3.5">
       {manual ? (
-        <label className="flex items-center justify-between gap-3 rounded-xl border border-border px-4 py-3">
-          <span className="text-sm font-medium">
+        <label className="flex items-center justify-between gap-2.5 rounded-2xl bg-[#f7f8f7] px-3.5 py-2.5">
+          <span className="min-w-0 text-[0.8125rem] font-bold">
             운동 시간{" "}
-            <span className="text-xs font-normal text-muted-foreground">
-              (선택)
-            </span>
+            <span className="font-normal text-muted-foreground">(몰아 적을 때)</span>
           </span>
           <span className="flex items-center gap-2">
             <input
@@ -55,7 +53,7 @@ export function FinishWorkoutButton({
               onChange={(event) => setMinutes(event.target.value)}
               placeholder="60"
               aria-label="운동 시간(분)"
-              className="h-10 w-20 rounded-lg border border-border bg-background px-3 text-right tabular-nums"
+              className="h-9 w-16 rounded-full bg-card text-center text-sm font-bold tabular-nums"
             />
             <span className="text-sm text-muted-foreground">분</span>
           </span>
@@ -64,7 +62,7 @@ export function FinishWorkoutButton({
 
       <Button
         size="lg"
-        className="h-12 w-full rounded-xl font-bold"
+        className="h-13.5 w-full rounded-full bg-primary text-[0.9375rem] font-extrabold text-white hover:bg-primary/90"
         disabled={pending}
         onClick={finish}
       >

@@ -1,7 +1,6 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { ChevronLeft } from "lucide-react";
+import { PageHeader } from "@/components/layout/page-header";
 
 import { requireUser } from "@/app/lib/dal";
 import { formatKstDateLabel } from "@/lib/date";
@@ -24,26 +23,23 @@ export default async function NoticeDetailPage({
   });
 
   return (
-    <main className="mx-auto w-full max-w-md px-5 pt-4 pb-28">
-      <Link
-        href="/journal"
-        className="-ml-1 inline-flex items-center gap-0.5 text-sm text-muted-foreground"
-      >
-        <ChevronLeft className="size-4" aria-hidden />
-        알림장
-      </Link>
-
-      <h1 className="mt-3 text-xl font-bold">{notice.title}</h1>
-      <p className="mt-1 text-sm text-muted-foreground">
-        {notice.publishedAt ? formatKstDateLabel(notice.publishedAt) : ""} ·{" "}
-        {notice.authorMembership.user.name}
-      </p>
-
-      <section className="mt-4 rounded-2xl bg-card shadow-card p-5">
-        <p className="text-[15px] leading-relaxed whitespace-pre-wrap">
+    <main className="mx-auto w-full max-w-md pb-28">
+      <PageHeader backHref="/journal" backLabel="알림장으로" title="공지" />
+      <div className="flex flex-col gap-3.5 px-4 pt-1.5">
+        <section>
+          <span className="inline-block rounded-full border border-brand px-2.25 py-0.5 text-[0.6875rem] font-bold text-primary">
+            공지
+          </span>
+          <h1 className="mt-2 text-[1.375rem] leading-snug font-extrabold">{notice.title}</h1>
+          <p className="mt-1.5 text-[0.8125rem] text-muted-foreground">
+            {notice.authorMembership.user.name}
+            {notice.publishedAt ? ` · ${formatKstDateLabel(notice.publishedAt)}` : ""}
+          </p>
+        </section>
+        <p className="border-l-[3px] border-primary py-0.5 pl-3 text-sm leading-relaxed whitespace-pre-wrap text-[#2b3631]">
           {notice.content}
         </p>
-      </section>
+      </div>
     </main>
   );
 }

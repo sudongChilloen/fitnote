@@ -1,11 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Geist_Mono, Outfit } from "next/font/google";
+import { Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-const outfit = Outfit({
-  variable: "--font-outfit",
-  subsets: ["latin"],
-});
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -19,15 +14,27 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   colorScheme: "light",
-  themeColor: "#f7f5f2",
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="ko"
-      className={`${outfit.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        {/*
+          Pretendard (v3 기본 글꼴). 한글·영문·숫자를 한 글꼴로 맞춰서 기기마다
+          글자 모양이 달라지지 않게 한다. dynamic-subset 은 화면에 나온 글자 범위만
+          받아 와서 처음 열 때 무겁지 않다.
+        */}
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+        />
+      </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

@@ -12,10 +12,10 @@ export function MemberFilterChips({
 }) {
   return (
     <nav
-      className="-mx-5 mt-6 overflow-x-auto px-5 pb-2"
+      className="-mx-4 mt-1 overflow-x-auto px-4 pb-1"
       aria-label="회원 필터"
     >
-      <ul className="flex w-max gap-2">
+      <ul className="flex w-max gap-1.5">
         {MEMBER_FILTERS.map((filter) => {
           const active = filter.key === current;
           const params = new URLSearchParams();
@@ -33,24 +33,21 @@ export function MemberFilterChips({
                 href={href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "flex min-h-11 items-center gap-2 rounded-full border px-4 text-sm font-semibold transition-all duration-200 active:scale-[0.98]",
+                  "flex h-10 items-center gap-2 rounded-full pr-1.5 pl-4 text-[0.8125rem] font-bold transition-transform active:scale-[0.98]",
+                  // v3: 고른 칸은 검정, 나머지는 흰 바탕 + 회색 테두리. 만료 임박만 코랄 글자.
                   active
-                    ? filter.key === "attention"
-                      ? "border-status-check bg-status-check text-white shadow-sm"
-                      : filter.key === "soon"
-                        ? "border-status-urgent bg-status-urgent text-white shadow-sm"
-                        : "border-primary bg-primary text-primary-foreground shadow-sm"
-                    : "border-border/70 bg-card text-muted-foreground hover:border-primary/30 hover:bg-secondary/60 hover:text-foreground",
+                    ? "bg-ink text-white"
+                    : filter.key === "soon"
+                      ? "bg-card text-status-urgent ring-1 ring-border ring-inset"
+                      : "bg-card text-ink ring-1 ring-border ring-inset",
                 )}
               >
                 <span>{filter.label}</span>
 
                 <span
                   className={cn(
-                    "inline-flex min-w-5 items-center justify-center rounded-full px-1.5 py-0.5 text-[11px] font-bold tabular-nums",
-                    active
-                      ? "bg-white/20 text-white"
-                      : "bg-secondary text-muted-foreground",
+                    "inline-flex h-7 min-w-7 items-center justify-center rounded-full px-1.5 text-xs font-extrabold tabular-nums",
+                    active ? "bg-brand text-ink" : "bg-surface text-ink",
                   )}
                 >
                   {counts[filter.key]}

@@ -1,9 +1,10 @@
 import Link from "next/link";
+
+import { PageHeader } from "@/components/layout/page-header";
 import { notFound } from "next/navigation";
 
 import {
   Award,
-  ChevronLeft,
   ChevronRight,
   Flag,
   HeartPulse,
@@ -37,18 +38,18 @@ const ICON: Record<JourneyKind, typeof Flag> = {
 /** 마디마다 색을 달리하면 상담 중에 눈으로 훑기 쉬워진다. */
 const TONE: Record<JourneyKind, string> = {
   CONNECTED: "bg-secondary text-muted-foreground",
-  CONTRACT_STARTED: "bg-brand/15 text-brand-strong",
+  CONTRACT_STARTED: "bg-brand-muted text-primary",
   CONTRACT_CLOSED: "bg-secondary text-muted-foreground",
-  FIRST_SESSION: "bg-brand/15 text-brand-strong",
-  SESSION_MILESTONE: "bg-brand/15 text-brand-strong",
+  FIRST_SESSION: "bg-brand-muted text-primary",
+  SESSION_MILESTONE: "bg-brand-muted text-primary",
   BODY_MILESTONE: "bg-secondary text-foreground",
-  GOAL_REACHED: "bg-brand/15 text-brand-strong",
+  GOAL_REACHED: "bg-brand-muted text-primary",
 };
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <p className="text-xs text-muted-foreground">{label}</p>
+      <p className="text-[0.6875rem] text-white/70">{label}</p>
       <p className="mt-0.5 text-base font-bold tabular-nums">{value}</p>
     </div>
   );
@@ -98,21 +99,16 @@ export default async function MemberJourneyPage({
   const months = Math.floor(summary.days / 30);
 
   return (
-    <main className="px-5 pt-5 pb-16">
-      <Link
-        href={`/trainer/members/${id}`}
-        className="-ml-1 inline-flex items-center gap-1 text-sm text-muted-foreground"
-      >
-        <ChevronLeft className="size-4" aria-hidden />
-        {summary.memberName}
-      </Link>
+    <main className="pb-6">
+      <PageHeader
+        backHref={`/trainer/members/${id}`}
+        backLabel={`${summary.memberName} 회원 상세`}
+        title={`${summary.memberName} · 여정`}
+        subtitle={`${formatKstDateLabel(summary.startedAt)}부터 함께하고 있어요`}
+      />
 
-      <h1 className="mt-3 text-xl font-bold">여정</h1>
-      <p className="mt-1 text-sm text-muted-foreground">
-        {formatKstDateLabel(summary.startedAt)}부터 함께하고 있어요
-      </p>
-
-      <div className="mt-4 rounded-2xl bg-card shadow-card p-4">
+      <div className="px-4 pt-1.5">
+      <div className="rounded-3xl bg-primary px-4.5 py-4 text-white">
         <div className="grid grid-cols-3 gap-3">
           <Stat
             label="함께한 기간"
@@ -126,11 +122,11 @@ export default async function MemberJourneyPage({
         </div>
 
         {summary.weight ? (
-          <div className="mt-4 border-t border-border pt-3">
-            <p className="text-xs text-muted-foreground">체중 변화</p>
+          <div className="mt-3.5 border-t border-white/15 pt-3">
+            <p className="text-[0.6875rem] text-white/70">체중 변화</p>
             <p className="mt-0.5 text-base font-bold tabular-nums">
               {summary.weight.first}kg → {summary.weight.latest}kg
-              <span className="ml-2 text-sm font-medium text-brand-strong">
+              <span className="ml-2 text-sm font-bold text-brand">
                 {summary.weight.delta > 0 ? "+" : ""}
                 {summary.weight.delta}kg
               </span>
@@ -145,7 +141,7 @@ export default async function MemberJourneyPage({
         {summary.noShowSessions > 0 ||
         summary.cancelledSessions > 0 ||
         summary.scheduledSessions > 0 ? (
-          <p className="mt-3 border-t border-border pt-3 text-xs text-muted-foreground tabular-nums">
+          <p className="mt-3 border-t border-white/15 pt-3 text-xs text-white/75 tabular-nums">
             노쇼 {summary.noShowSessions}회 · 취소 {summary.cancelledSessions}회
             · 남은 예약 {summary.scheduledSessions}건
           </p>
@@ -158,7 +154,7 @@ export default async function MemberJourneyPage({
         </p>
       ) : null}
 
-      <h2 className="mt-6 text-base font-bold">
+      <h2 className="mx-1 mt-5 text-base font-extrabold">
         마디
         <span className="ml-1.5 text-sm font-medium text-muted-foreground tabular-nums">
           {events.length}
@@ -179,7 +175,7 @@ export default async function MemberJourneyPage({
                 >
                   <Icon className="size-4" aria-hidden />
                 </span>
-                {!last ? <span className="w-px flex-1 bg-border" /> : null}
+                {!last ? <span className="w-0 flex-1 border-l-2 border-dashed border-[#dfe4e1]" /> : null}
               </div>
 
               {event.href ? (
@@ -195,6 +191,7 @@ export default async function MemberJourneyPage({
           );
         })}
       </ol>
+      </div>
     </main>
   );
 }

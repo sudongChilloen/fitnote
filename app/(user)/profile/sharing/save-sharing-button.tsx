@@ -15,7 +15,7 @@ export function SaveSharingButton() {
     <button
       type="submit"
       disabled={pending}
-      className="mt-4 h-13 w-full rounded-xl bg-brand text-sm font-bold text-brand-foreground disabled:opacity-60"
+      className="h-12 w-full rounded-full bg-primary text-sm font-bold text-primary-foreground disabled:opacity-60"
     >
       {pending ? "저장 중..." : "저장"}
     </button>

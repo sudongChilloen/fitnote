@@ -61,9 +61,9 @@ export const ALTERNATIVE_TYPE_LABEL: Record<AlternativeType, string> = {
 
 /** 난이도별 뱃지 색상 */
 export const DIFFICULTY_BADGE: Record<Difficulty, string> = {
-  BEGINNER: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400",
-  INTERMEDIATE: "bg-amber-500/10 text-amber-700 dark:text-amber-400",
-  ADVANCED: "bg-rose-500/10 text-rose-700 dark:text-rose-400",
+  BEGINNER: "border border-brand-mid text-primary",
+  INTERMEDIATE: "border border-input text-[#4b5650]",
+  ADVANCED: "border border-[#f3b6a7] text-status-urgent",
 };
 
 export const BODY_PART_OPTIONS = Object.entries(BODY_PART_LABEL) as [

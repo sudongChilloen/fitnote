@@ -20,7 +20,7 @@ test.describe("트레이너와 회원의 한 바퀴", () => {
     // 1. 트레이너가 연결 코드를 만든다.
     await trainer.page.goto("/trainer/profile");
     await trainer.page
-      .getByRole("button", { name: "회원 연결 코드 만들기" })
+      .getByRole("button", { name: "회원 초대 코드 만들기" })
       .click();
     const code = (
       await trainer.page.locator("p.font-mono").first().innerText()
@@ -94,7 +94,7 @@ test.describe("트레이너와 회원의 한 바퀴", () => {
 
     // 9. 회원이 알림장에 댓글을 단다.
     await member.page.getByPlaceholder(/./).first().fill("감사합니다!");
-    await member.page.getByRole("button", { name: "등록" }).click();
+    await member.page.getByRole("button", { name: "보내기" }).click();
     await expect(member.page.getByText("감사합니다!")).toBeVisible();
 
     await trainer.context.close();

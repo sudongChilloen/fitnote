@@ -5,7 +5,12 @@ import { useState, type ReactNode } from "react";
 
 import { Button } from "@/components/ui/button";
 
-import { RecordCard, type PreviousRecord, type RecordDto } from "./record-card";
+import {
+  CollapsedRecord,
+  RecordCard,
+  type PreviousRecord,
+  type RecordDto,
+} from "./record-card";
 
 /**
  * 운동 카드 목록 + 수정 모드.
@@ -52,6 +57,16 @@ export function RecordList({
   const [editing, setEditing] = useState(false);
   const editable = !readOnly && (alwaysEditable || editing);
 
+  // 진행 중인 운동은 한 운동만 펼친다. 기본은 아직 끝나지 않은 첫 운동,
+  // 다 끝났으면 마지막 운동. 새 운동을 넣으면 그 운동이 마지막이라 자연스럽게 펼쳐진다.
+  const focusMode = alwaysEditable && !readOnly && records.length > 1;
+  const defaultOpen =
+    records.find((record) => record.sets.length === 0 || record.sets.some((set) => !set.completed))
+      ?.id ?? records.at(-1)?.id ?? null;
+  const [openId, setOpenId] = useState<string | null>(null);
+  const currentId =
+    openId && records.some((record) => record.id === openId) ? openId : defaultOpen;
+
   return (
     <div className="flex flex-col gap-3">
       {alwaysEditable || readOnly ? null : (
@@ -59,7 +74,7 @@ export function RecordList({
           <h2 className="text-sm font-bold">
             운동 {records.length}개
             {editing ? (
-              <span className="ml-2 font-medium text-brand-strong">
+              <span className="ml-2 font-medium text-primary">
                 수정 중
               </span>
             ) : null}
@@ -68,7 +83,7 @@ export function RecordList({
           <Button
             variant={editing ? "default" : "outline"}
             size="sm"
-            className="rounded-lg font-bold"
+            className="h-8.5 rounded-full px-3 font-bold"
             onClick={() => setEditing((prev) => !prev)}
           >
             {editing ? (
@@ -86,18 +101,30 @@ export function RecordList({
         </div>
       )}
 
-      <ul className="flex flex-col gap-3">
-        {records.map((record, index) => (
-          <RecordCard
-            key={record.id}
-            sessionId={sessionId}
-            editable={editable}
-            record={record}
-            previousRecord={previousRecords[index]}
-            showCompleteToggle={showCompleteToggle}
-            ptOnly={ptOnly}
-          />
-        ))}
+      <ul className="flex flex-col gap-2.5">
+        {records.map((record, index) =>
+          focusMode && record.id !== currentId ? (
+            <CollapsedRecord
+              key={record.id}
+              record={record}
+              index={index}
+              onExpand={() => setOpenId(record.id)}
+            />
+          ) : (
+            <RecordCard
+              key={record.id}
+              sessionId={sessionId}
+              editable={editable}
+              record={record}
+              previousRecord={previousRecords[index]}
+              showCompleteToggle={showCompleteToggle}
+              ptOnly={ptOnly}
+              focusLabel={
+                focusMode ? `${index + 1} / ${records.length} · 지금 하는 운동` : undefined
+              }
+            />
+          ),
+        )}
       </ul>
 
       {!alwaysEditable && !readOnly && editing && addSlot ? addSlot : null}

@@ -28,7 +28,7 @@ export function CopyPreviousExercisesButton({
         type="button"
         variant="outline"
         disabled={pending}
-        className="h-11 w-full rounded-xl bg-card text-sm font-bold"
+        className="h-11 w-full rounded-full bg-card text-sm font-bold"
         onClick={() => {
           setError(null);
           startTransition(async () => {

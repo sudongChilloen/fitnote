@@ -2,6 +2,14 @@ import { Plus } from "lucide-react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
+import { EquipmentIcon } from "@/components/fitness/equipment-icon";
+import {
+  BODY_PART_MUSCLES,
+  MuscleFigure,
+  levelsForBodyPart,
+} from "@/components/fitness/muscle-figure";
+import { PageHeader } from "@/components/layout/page-header";
+
 import { requireUser } from "@/app/lib/dal";
 import {
   ALTERNATIVE_TYPE_LABEL,
@@ -39,9 +47,9 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-2xl bg-card shadow-card p-5">
-      <h2 className="text-sm font-bold">{title}</h2>
-      <div className="mt-3">{children}</div>
+    <section className="rounded-[1.25rem] border border-border px-4 py-3.5">
+      <h2 className="text-[0.9375rem] font-bold">{title}</h2>
+      <div className="mt-2.5">{children}</div>
     </section>
   );
 }
@@ -73,33 +81,60 @@ export default async function ExerciseDetailPage({
     ) ?? false;
 
   return (
-    <main className="flex flex-col gap-5 px-5 pt-6">
-      <Link
-        href="/exercises"
-        className="text-sm font-semibold text-muted-foreground hover:text-foreground"
-      >
-        ← 운동 라이브러리
-      </Link>
+    <main className="flex flex-col pb-6">
+      <PageHeader
+        backHref="/exercises"
+        backLabel="운동 목록"
+        title={exercise.name}
+        subtitle={`${BODY_PART_LABEL[exercise.bodyPart]} · ${MOVEMENT_TYPE_LABEL[exercise.movementType]}`}
+        right={
+          <span
+            className={cn(
+              "rounded-full px-2 py-0.5 text-[0.6875rem] font-bold",
+              DIFFICULTY_BADGE[exercise.difficulty],
+            )}
+          >
+            {DIFFICULTY_LABEL[exercise.difficulty]}
+          </span>
+        }
+      />
 
-      <header className="flex items-start justify-between gap-4">
-        <div className="min-w-0">
-          <h1 className="text-2xl font-bold tracking-tight">{exercise.name}</h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            {BODY_PART_LABEL[exercise.bodyPart]}
-            {exercise.targetMuscle ? ` · ${exercise.targetMuscle}` : ""} ·{" "}
-            {MOVEMENT_TYPE_LABEL[exercise.movementType]}
-          </p>
-        </div>
-
-        <span
-          className={cn(
-            "shrink-0 rounded-full px-3 py-1 text-xs font-semibold",
-            DIFFICULTY_BADGE[exercise.difficulty],
-          )}
-        >
-          {DIFFICULTY_LABEL[exercise.difficulty]}
+      <div className="flex flex-col gap-3 px-4 pt-1.5">
+      {/* 어느 근육을 쓰는지 그림과 글자로 함께 보여 준다. */}
+      <section className="flex items-center gap-3.5 rounded-[1.375rem] bg-[#f7f8f7] px-4 py-3.5">
+        {BODY_PART_MUSCLES[exercise.bodyPart].main.length > 0 ? (
+          <MuscleFigure
+            levels={levelsForBodyPart(exercise.bodyPart)}
+            label={`주로 쓰는 근육: ${exercise.targetMuscle ?? BODY_PART_LABEL[exercise.bodyPart]}`}
+            className="h-28 w-15 shrink-0"
+          />
+        ) : (
+          <span className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-brand-muted text-primary">
+            <EquipmentIcon name={exercise.equipment[0]?.name} className="size-7" />
+          </span>
+        )}
+        <span className="min-w-0 flex-1">
+          <span className="block text-[0.6875rem] font-bold text-primary">주로 쓰는 근육</span>
+          <span className="mt-1.5 flex flex-wrap gap-1">
+            <span className="rounded-full bg-primary px-2.25 py-0.5 text-[0.6875rem] font-bold text-white">
+              {exercise.targetMuscle ?? BODY_PART_LABEL[exercise.bodyPart]}
+            </span>
+            {BODY_PART_MUSCLES[exercise.bodyPart].assistLabels.map((label) => (
+              <span
+                key={label}
+                className="rounded-full border border-brand-mid bg-card px-2.25 py-px text-[0.6875rem] font-semibold text-primary"
+              >
+                {label}
+              </span>
+            ))}
+          </span>
+          {exercise.description ? (
+            <span className="mt-2 block text-xs leading-relaxed text-[#4b5650]">
+              {exercise.description}
+            </span>
+          ) : null}
         </span>
-      </header>
+      </section>
 
       {/*
         운동 라이브러리는 설명을 읽는 곳이 아니라 기록의 출발점이어야 한다.
@@ -111,7 +146,7 @@ export default async function ExerciseDetailPage({
           <input type="hidden" name="exerciseId" value={exercise.id} />
           <button
             type="submit"
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-bold text-brand-foreground"
+            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-primary text-sm font-bold text-primary-foreground"
           >
             <Plus className="size-4" />
             {alreadyAdded
@@ -131,12 +166,6 @@ export default async function ExerciseDetailPage({
         </form>
       </div>
 
-      {exercise.description && (
-        <p className="text-sm leading-6 text-muted-foreground">
-          {exercise.description}
-        </p>
-      )}
-
       <Section title="필요한 기구">
         {exercise.equipment.length === 0 ? (
           <p className="text-sm text-muted-foreground">
@@ -148,12 +177,13 @@ export default async function ExerciseDetailPage({
               <li
                 key={item.id}
                 className={cn(
-                  "rounded-lg px-3 py-2 text-sm",
+                  "flex items-center gap-1.5 rounded-full py-1.5 pr-3 pl-2 text-[0.8125rem]",
                   item.isPrimary
-                    ? "bg-primary text-primary-foreground font-semibold"
-                    : "bg-secondary text-secondary-foreground",
+                    ? "bg-primary font-bold text-white"
+                    : "bg-surface text-ink",
                 )}
               >
+                <EquipmentIcon name={item.name} className="size-4 shrink-0" />
                 {item.name}
                 <span
                   className={cn(
@@ -173,7 +203,7 @@ export default async function ExerciseDetailPage({
 
       {exercise.instruction && (
         <Section title="운동 방법">
-          <p className="text-sm leading-6 whitespace-pre-line text-muted-foreground">
+          <p className="text-[0.8125rem] leading-relaxed whitespace-pre-line text-[#2b3631]">
             {exercise.instruction}
           </p>
         </Section>
@@ -181,18 +211,18 @@ export default async function ExerciseDetailPage({
 
       {exercise.breathing && (
         <Section title="호흡">
-          <p className="text-sm leading-6 text-muted-foreground">
+          <p className="text-[0.8125rem] leading-relaxed text-[#2b3631]">
             {exercise.breathing}
           </p>
         </Section>
       )}
 
       {exercise.caution && (
-        <section className="rounded-2xl bg-status-check-bg p-5">
-          <h2 className="text-sm font-bold text-status-check">
-            주의사항
+        <section className="border-l-[3px] border-coral py-0.5 pl-3">
+          <h2 className="text-xs font-extrabold text-status-urgent">
+            주의할 점
           </h2>
-          <p className="mt-3 text-sm leading-6 text-status-check">
+          <p className="mt-1 text-[0.8125rem] leading-relaxed text-[#2b3631]">
             {exercise.caution}
           </p>
         </section>
@@ -215,16 +245,16 @@ export default async function ExerciseDetailPage({
             아직 등록된 대체 운동이 없어요.
           </p>
         ) : (
-          <ul className="flex flex-col gap-3">
+          <ul className="flex flex-col">
             {exercise.alternatives.map((alternative) => (
               <li key={alternative.id}>
                 <Link
                   href={`/exercises/${alternative.id}`}
-                  className="flex flex-col gap-2 rounded-xl bg-secondary p-4 transition-colors hover:bg-muted"
+                  className="flex flex-col gap-1 border-b border-line py-2.5 last:border-b-0"
                 >
                   <div className="flex items-center justify-between gap-3">
-                    <span className="font-semibold">{alternative.name}</span>
-                    <span className="shrink-0 rounded-full bg-card px-2.5 py-1 text-xs font-semibold text-muted-foreground">
+                    <span className="min-w-0 truncate text-sm font-bold">{alternative.name}</span>
+                    <span className="shrink-0 rounded-full border border-brand px-2 py-0.5 text-[0.6875rem] font-bold text-primary">
                       {ALTERNATIVE_TYPE_LABEL[alternative.type]}
                     </span>
                   </div>
@@ -249,6 +279,7 @@ export default async function ExerciseDetailPage({
           </ul>
         )}
       </Section>
+      </div>
     </main>
   );
 }

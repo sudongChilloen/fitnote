@@ -55,31 +55,21 @@ export function StartWorkoutButton() {
 
   return (
     <>
-      <div className="rounded-3xl bg-brand p-5 text-brand-foreground shadow-card">
-        <p className="text-xs font-bold tracking-widest text-brand-foreground/80">
-          TODAY WORKOUT
-        </p>
-
-        <p className="mt-1.5 text-[1.75rem] leading-snug font-extrabold">
-          오늘 운동,
-          <br />
-          지금 시작해볼까요?
-        </p>
-
-        <Button
-          size="lg"
-          className="mt-5 h-14 w-full rounded-full bg-primary text-base font-bold text-primary-foreground hover:bg-primary/90"
-          disabled={pending}
-          onClick={() => run("ask")}
-        >
+      <button
+        type="button"
+        disabled={pending}
+        onClick={() => run("ask")}
+        className="flex h-14 w-full items-center rounded-full bg-ink pr-1.5 pl-5.5 text-left text-white transition-transform active:scale-[0.99] disabled:opacity-70"
+      >
+        <span className="flex-1 text-[0.9375rem] font-bold">운동 시작하기</span>
+        <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-brand text-ink">
           {pending ? (
-            <Loader2 className="size-5 animate-spin" />
+            <Loader2 className="size-5 animate-spin" aria-hidden />
           ) : (
-            <Play className="size-5 fill-current" />
+            <Play className="size-4 fill-current" aria-hidden />
           )}
-          운동 시작하기
-        </Button>
-      </div>
+        </span>
+      </button>
 
       {error ? (
         <p role="alert" className="mt-2 text-center text-sm text-destructive">
@@ -105,7 +95,7 @@ export function StartWorkoutButton() {
           <DrawerFooter>
             <Button
               size="lg"
-              className="h-12 rounded-xl font-bold"
+              className="h-12 rounded-full font-bold"
               onClick={() => active && router.push(`/workouts/${active.id}`)}
             >
               이어서 하기
@@ -114,7 +104,7 @@ export function StartWorkoutButton() {
             <Button
               size="lg"
               variant="outline"
-              className="h-12 rounded-xl font-bold"
+              className="h-12 rounded-full font-bold"
               disabled={pending}
               onClick={() => run("new")}
             >
@@ -123,7 +113,7 @@ export function StartWorkoutButton() {
 
             <Button
               variant="ghost"
-              className="h-11 rounded-xl"
+              className="h-11 rounded-full"
               onClick={() => setActive(null)}
             >
               취소
