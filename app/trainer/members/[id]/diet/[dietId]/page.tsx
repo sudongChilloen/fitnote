@@ -1,8 +1,7 @@
-import Link from "next/link";
+import { PageHeader } from "@/components/layout/page-header";
 import { notFound } from "next/navigation";
 
 import {
-  ChevronLeft,
   ImageOff,
   MessageSquare,
   UtensilsCrossed,
@@ -65,21 +64,14 @@ export default async function TrainerMemberDietPage({
   const message = typeof error === "string" ? ERROR_TEXT[error] : undefined;
 
   return (
-    <main className="px-5 pt-5 pb-16">
-      <Link
-        href={`/trainer/members/${id}/diet`}
-        className="-ml-1 inline-flex items-center gap-0.5 text-sm text-muted-foreground"
-      >
-        <ChevronLeft className="size-4" aria-hidden />
-        {member.memberUser.name} 회원 식단
-      </Link>
-
-      <p className="mt-2 text-sm font-bold text-brand-strong">
-        {MEAL_LABEL[detail.mealType]}
-      </p>
-      <h1 className="mt-0.5 text-xl font-bold">
-        {formatKstDateLabel(detail.date)}
-      </h1>
+    <main className="pb-6">
+      <PageHeader
+        backHref={`/trainer/members/${id}/diet`}
+        backLabel={`${member.memberUser.name} 회원 식단`}
+        title={`${member.memberUser.name} · ${MEAL_LABEL[detail.mealType]} 식단`}
+        subtitle={formatKstDateLabel(detail.date)}
+      />
+      <div className="px-4 pt-1.5">
 
       {detail.imageUrl ? (
         // 서명 주소는 열 때마다 값이 달라 이미지 최적화 캐시가 매번 빗나간다.
@@ -87,21 +79,21 @@ export default async function TrainerMemberDietPage({
         <img
           src={detail.imageUrl}
           alt={detail.foodName ?? "식단 사진"}
-          className="mt-4 aspect-square w-full rounded-2xl bg-secondary object-cover"
+          className="aspect-square w-full rounded-[1.375rem] bg-line object-cover"
         />
       ) : detail.hasPhoto && !setting.shareDietPhoto ? (
-        <p className="mt-4 flex items-center gap-2 rounded-2xl border border-dashed border-border p-4 text-xs text-muted-foreground">
+        <p className="flex items-center gap-2 rounded-[1.125rem] bg-[#f7f8f7] p-4 text-xs text-muted-foreground">
           <ImageOff className="size-4 shrink-0" aria-hidden />
           회원이 사진은 공유하지 않았어요.
         </p>
       ) : null}
 
       {detail.foodName ? (
-        <p className="mt-4 text-base font-bold">{detail.foodName}</p>
+        <p className="mx-1 mt-3.5 text-base font-bold">{detail.foodName}</p>
       ) : null}
 
       {detail.memo ? (
-        <p className="mt-2 text-sm whitespace-pre-wrap text-muted-foreground">
+        <p className="mx-1 mt-1.5 text-[0.8125rem] leading-relaxed whitespace-pre-wrap text-muted-foreground">
           {detail.memo}
         </p>
       ) : null}
@@ -113,8 +105,8 @@ export default async function TrainerMemberDietPage({
         </p>
       ) : null}
 
-      <section className="mt-7">
-        <h2 className="flex items-center gap-1.5 text-base font-bold">
+      <section className="mt-5">
+        <h2 className="mx-1 flex items-center gap-1.5 text-base font-extrabold">
           <MessageSquare className="size-4" aria-hidden />
           피드백
         </h2>
@@ -124,10 +116,10 @@ export default async function TrainerMemberDietPage({
             {detail.feedbacks.map((feedback) => (
               <li
                 key={feedback.id}
-                className="rounded-2xl bg-card shadow-card p-4"
+                className="rounded-[0.25rem_1rem_1rem_1rem] bg-brand-muted px-3.5 py-3"
               >
                 <div className="flex items-baseline justify-between gap-2">
-                  <p className="text-xs font-bold text-brand-strong">
+                  <p className="text-xs font-bold text-primary">
                     {feedback.trainerName} 트레이너
                   </p>
 
@@ -162,7 +154,7 @@ export default async function TrainerMemberDietPage({
         {message ? (
           <p
             role="alert"
-            className="mt-3 rounded-xl bg-destructive/10 px-4 py-3 text-sm font-medium text-destructive"
+            className="mt-3 rounded-[0.875rem] bg-status-urgent-bg px-4 py-3 text-sm font-medium text-status-urgent"
           >
             {message}
           </p>
@@ -181,12 +173,13 @@ export default async function TrainerMemberDietPage({
             rows={3}
             maxLength={1000}
             placeholder="단백질 섭취량 좋아요. 저녁에는 채소를 조금 더 챙겨주세요."
-            className="w-full rounded-2xl bg-card shadow-card p-4 text-sm"
+            className="w-full resize-none rounded-2xl border border-border bg-card px-3.5 py-3 text-sm outline-none focus:border-[1.5px] focus:border-primary"
           />
 
           <SubmitFeedbackButton />
         </form>
       </section>
+      </div>
     </main>
   );
 }

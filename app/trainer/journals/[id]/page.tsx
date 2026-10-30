@@ -73,101 +73,89 @@ export default async function JournalEditorPage({
     ? await getTrainerJournalComments(user.id, id)
     : null;
 
+  const totalSets = workout?.records.reduce((sum, record) => sum + record.sets.length, 0) ?? 0;
+  const totalVolume =
+    workout?.records.reduce(
+      (sum, record) =>
+        sum + record.sets.reduce((acc, set) => acc + (set.weight ?? 0) * (set.reps ?? 0), 0),
+      0,
+    ) ?? 0;
+
   return (
-    <main className="px-5 pt-4 pb-16">
-      <header>
+    <main className="px-4 pt-3.5 pb-6">
+      <header className="flex items-center gap-2.5">
         <Link
           href={`/trainer/members/${draft.connectionId}`}
-          className="inline-flex min-h-9 items-center gap-1 rounded-lg pr-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          aria-label={`${draft.memberName} 회원 상세`}
+          className="flex size-10 shrink-0 items-center justify-center rounded-full border border-border text-ink"
         >
-          <ChevronLeft className="size-4" aria-hidden />
-          {draft.memberName}
+          <ChevronLeft className="size-4.5" aria-hidden />
         </Link>
-
-        <div className="mt-4 flex items-start justify-between gap-3">
-          <div className="min-w-0">
-            <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-brand-strong">
-              SESSION JOURNAL
-            </p>
-
-            <h1 className="mt-1.5 text-2xl font-bold tracking-tight">
-              {published ? "알림장 수정" : "알림장 쓰기"}
-            </h1>
-
-            <p className="mt-2 text-sm text-muted-foreground">
-              {draft.memberName} 회원 · {formatKstDateLabel(draft.date)}
-            </p>
-          </div>
-
-          <span
-            className={`mt-1 shrink-0 rounded-full px-2.5 py-1 text-xs font-bold ${
-              published
-                ? "bg-accent text-brand-strong"
-                : "bg-secondary text-muted-foreground"
-            }`}
-          >
-            {published ? "게시 완료" : "작성 중"}
+        <span className="min-w-0 flex-1 leading-tight">
+          <h1 className="text-[1.0625rem] font-bold">{published ? "알림장 수정" : "알림장 쓰기"}</h1>
+          <span className="block truncate text-xs text-muted-foreground">
+            {draft.memberName} · {formatKstDateLabel(draft.date)}
           </span>
-        </div>
+        </span>
+        <span
+          className={`shrink-0 rounded-full px-2.5 py-1 text-[0.6875rem] font-bold ${
+            published ? "bg-brand-muted text-primary" : "bg-surface text-muted-foreground"
+          }`}
+        >
+          {published ? "게시 완료" : "작성 중"}
+        </span>
       </header>
 
       {/*
-        이 수업에서 한 운동.
+        이 수업에서 한 운동. 알림장에서는 읽기만 하고, 실제 수정은 수업 기록 화면에서 한다.
       */}
       {draft.ptSessionId ? (
-        <section className="mt-6">
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex min-w-0 items-center gap-2.5">
-              <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent text-brand-strong">
-                <Dumbbell className="size-4" aria-hidden />
-              </span>
-
-              <div className="min-w-0">
-                <h2 className="text-base font-bold tracking-tight">
-                  수업 운동 기록
-                </h2>
-                <p className="mt-0.5 text-xs text-muted-foreground">
-                  알림장과 연결된 운동 내역
-                </p>
-              </div>
-            </div>
-
+        <section className="mt-3.5 rounded-[1.375rem] bg-brand-muted px-4 py-3.5">
+          <div className="flex items-center gap-2">
+            <Dumbbell className="size-4.5 shrink-0 text-primary" aria-hidden />
+            <b className="min-w-0 flex-1 text-sm text-primary">
+              {workout && workout.records.length > 0 ? "이 수업의 운동 기록" : "아직 기록된 운동이 없어요"}
+            </b>
             <Link
               href={`/trainer/sessions/${draft.ptSessionId}`}
-              className="inline-flex h-9 shrink-0 items-center justify-center rounded-xl border border-border px-3 text-xs font-bold transition-colors hover:bg-secondary"
+              className="shrink-0 text-xs font-bold text-primary"
             >
               {workout ? "기록 수정" : "운동 기록하기"}
             </Link>
           </div>
 
           {workout && workout.records.length > 0 ? (
-            <ul className="mt-3 divide-y divide-border/70 overflow-hidden rounded-2xl border border-border/70 bg-card">
-              {workout.records.map((record) => (
-                <li key={record.id} className="px-4 py-3.5">
-                  <p className="text-sm font-bold">{record.exercise.name}</p>
-
-                  <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground tabular-nums">
-                    {record.sets.length === 0
-                      ? "세트 없음"
-                      : record.sets
-                          .map(
-                            (set) => `${set.weight ?? 0}kg × ${set.reps ?? 0}`,
-                          )
-                          .join("  ·  ")}
-                  </p>
-                </li>
-              ))}
-            </ul>
+            <>
+              <ul className="mt-1.5">
+                {workout.records.map((record) => {
+                  const top = record.sets.reduce<{ weight: number; reps: number } | null>(
+                    (best, set) =>
+                      best === null || (set.weight ?? 0) > best.weight
+                        ? { weight: set.weight ?? 0, reps: set.reps ?? 0 }
+                        : best,
+                    null,
+                  );
+                  return (
+                    <li key={record.id} className="mt-1.5 flex items-center gap-2 text-[0.8125rem]">
+                      <b className="min-w-0 flex-1 truncate">{record.exercise.name}</b>
+                      <span className="shrink-0 text-[#4b5650] tabular-nums">
+                        {record.sets.length === 0
+                          ? "세트 없음"
+                          : `${top ? `${top.weight}kg × ${top.reps} · ` : ""}${record.sets.length}세트`}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+              <p className="mt-2.5 border-t border-[#c9ecdc] pt-2.5 text-xs font-bold text-primary tabular-nums">
+                총 {totalSets}세트
+                {totalVolume > 0 ? ` · 볼륨 ${Math.round(totalVolume).toLocaleString()}kg` : ""}
+              </p>
+            </>
           ) : (
-            <div className="mt-3 rounded-2xl border border-dashed border-border px-4 py-4">
-              <p className="text-sm font-semibold">
-                아직 기록된 운동이 없어요.
-              </p>
-              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                수업 기록에서 운동을 작성하면 회원의 운동 기록에도 PT 내역으로
-                남아요.
-              </p>
-            </div>
+            <p className="mt-1.5 text-xs leading-relaxed text-primary/80">
+              수업 기록에서 운동을 작성하면 회원의 운동 기록에도 PT 내역으로 남아요.
+            </p>
           )}
         </section>
       ) : null}
@@ -175,7 +163,7 @@ export default async function JournalEditorPage({
       {/*
         사진.
       */}
-      <section className="mt-6">
+      <section className="mt-4">
         {isStorageConfigured() ? (
           <PhotoUploader
             journalId={draft.id}
@@ -183,7 +171,7 @@ export default async function JournalEditorPage({
             maxPhotos={MAX_PHOTOS}
           />
         ) : (
-          <p className="rounded-xl border border-dashed border-border px-3.5 py-2.5 text-xs text-muted-foreground">
+          <p className="rounded-[0.875rem] border border-dashed border-border px-3.5 py-2.5 text-xs text-muted-foreground">
             사진 저장소가 아직 설정되지 않아 사진은 올릴 수 없어요.
           </p>
         )}
@@ -220,10 +208,10 @@ export default async function JournalEditorPage({
         이제 트레이너 알림장 화면 자체에서 바로 본다.
       */}
       {published && comments ? (
-        <section className="mt-6 rounded-2xl border border-border/70 bg-card p-5 shadow-card">
+        <section className="mt-5 rounded-[1.375rem] border border-border p-4">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <h2 className="text-base font-bold tracking-tight">
+              <h2 className="text-[0.9375rem] font-bold">
                 회원과 주고받은 댓글
               </h2>
               <p className="mt-1 text-xs text-muted-foreground">
@@ -231,7 +219,7 @@ export default async function JournalEditorPage({
               </p>
             </div>
 
-            <span className="shrink-0 rounded-full bg-secondary px-2.5 py-1 text-xs font-bold tabular-nums">
+            <span className="shrink-0 rounded-full bg-surface px-2.5 py-1 text-xs font-bold tabular-nums">
               {comments.comments.length}개
             </span>
           </div>
@@ -258,8 +246,8 @@ export default async function JournalEditorPage({
                     </p>
 
                     <p
-                      className={`mt-0.5 rounded-xl px-3 py-2 text-sm leading-relaxed whitespace-pre-wrap ${
-                        mine ? "bg-accent" : "bg-secondary"
+                      className={`mt-0.5 rounded-[0.25rem_1rem_1rem_1rem] px-3 py-2.5 text-[0.8125rem] leading-relaxed whitespace-pre-wrap ${
+                        mine ? "bg-brand-muted" : "bg-surface"
                       }`}
                     >
                       {comment.content}
@@ -285,7 +273,7 @@ export default async function JournalEditorPage({
       {published ? (
         <Link
           href={`/trainer/journals/${draft.id}/preview`}
-          className="mt-4 flex h-12 items-center justify-center gap-2 rounded-xl border border-border bg-card text-sm font-bold transition-colors hover:bg-secondary active:scale-[0.99]"
+          className="mt-4 flex h-12 items-center justify-center gap-2 rounded-full border border-border bg-card text-sm font-bold transition-colors hover:bg-secondary active:scale-[0.99]"
         >
           <Eye className="size-4" aria-hidden />
           회원에게 보이는 화면
@@ -302,7 +290,7 @@ export default async function JournalEditorPage({
 
           <button
             type="submit"
-            className="h-11 w-full rounded-xl text-sm font-semibold text-destructive transition-colors hover:bg-destructive/5"
+            className="h-11 w-full rounded-full text-sm font-semibold text-destructive transition-colors hover:bg-destructive/5"
           >
             초안 삭제
           </button>

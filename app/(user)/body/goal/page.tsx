@@ -1,6 +1,4 @@
-import Link from "next/link";
-
-import { ChevronLeft } from "lucide-react";
+import { PageHeader } from "@/components/layout/page-header";
 
 import { requireUser } from "@/app/lib/dal";
 import { toKstDateKey } from "@/lib/date";
@@ -30,22 +28,15 @@ export default async function GoalPage({
   const today = toKstDateKey(new Date());
 
   return (
-    <main className="px-5 pt-8 pb-16">
-      <Link
-        href="/body"
-        className="-ml-1 inline-flex items-center gap-1 text-sm text-muted-foreground"
-      >
-        <ChevronLeft className="size-4" aria-hidden />
-        체성분
-      </Link>
-
-      <h1 className="mt-3 text-xl font-bold">목표 정하기</h1>
-      <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+    <main className="pb-16">
+      <PageHeader backHref="/body" backLabel="체성분으로" title="목표 정하기" />
+      <div className="px-4 pt-1.5">
+      <p className="mx-1 text-[0.8125rem] leading-relaxed text-muted-foreground">
         지금 값은 적지 않아도 돼요. 기록을 남기면 알아서 따라와요.
       </p>
 
       {message ? (
-        <p className="mt-4 rounded-xl border border-destructive/40 bg-destructive/10 px-4 py-3 text-xs font-medium text-destructive">
+        <p className="mt-3 rounded-[0.875rem] bg-status-urgent-bg px-4 py-3 text-xs font-medium text-status-urgent">
           {message}
         </p>
       ) : null}
@@ -54,9 +45,9 @@ export default async function GoalPage({
         지표를 고르는 것은 라디오로 둔다. 어차피 셋뿐이라 접었다 펴는 것보다
         한눈에 보이는 편이 낫고, 지금 값을 옆에 붙여 목표를 정할 때 참고하게 한다.
       */}
-      <form action={setGoalAction} className="mt-5 flex flex-col gap-4">
+      <form action={setGoalAction} className="mt-4 flex flex-col gap-3.5">
         <fieldset className="flex flex-col gap-2">
-          <legend className="mb-1.5 text-sm font-bold">무엇을</legend>
+          <legend className="mx-1 mb-1.5 text-[0.8125rem] font-bold">무엇을</legend>
 
           {BODY_GOAL_TYPES.map((goalType) => {
             const meta = METRIC[goalType];
@@ -66,14 +57,14 @@ export default async function GoalPage({
             return (
               <label
                 key={goalType}
-                className="flex items-center gap-3 rounded-2xl bg-card shadow-card p-4 has-checked:border-brand has-checked:bg-accent"
+                className="flex items-center gap-3 rounded-2xl border-[1.5px] border-border bg-card p-3.5 has-checked:border-primary has-checked:bg-[#f3faf6]"
               >
                 <input
                   type="radio"
                   name="type"
                   value={goalType}
                   defaultChecked={goalType === selected}
-                  className="size-4"
+                  className="size-4 accent-primary"
                 />
 
                 <span className="min-w-0 flex-1">
@@ -93,7 +84,7 @@ export default async function GoalPage({
         </fieldset>
 
         <label className="flex flex-col gap-1.5">
-          <span className="text-sm font-bold">목표 값</span>
+          <span className="mx-1 text-[0.8125rem] font-bold">목표 값</span>
           <input
             name="targetValue"
             type="number"
@@ -101,12 +92,12 @@ export default async function GoalPage({
             step="0.1"
             required
             placeholder="예: 68"
-            className="h-12 rounded-2xl bg-card shadow-card px-4 text-base tabular-nums"
+            className="h-12 rounded-2xl border border-border bg-card px-3.5 text-base outline-none focus:border-[1.5px] focus:border-primary tabular-nums"
           />
         </label>
 
         <label className="flex flex-col gap-1.5">
-          <span className="text-sm font-bold">
+          <span className="mx-1 text-[0.8125rem] font-bold">
             언제까지{" "}
             <span className="font-medium text-muted-foreground">(선택)</span>
           </span>
@@ -114,12 +105,13 @@ export default async function GoalPage({
             name="targetDate"
             type="date"
             min={today}
-            className="h-12 rounded-2xl bg-card shadow-card px-4 text-base"
+            className="h-12 rounded-2xl border border-border bg-card px-3.5 text-base outline-none focus:border-[1.5px] focus:border-primary"
           />
         </label>
 
         <SaveButton className="mt-2">목표 세우기</SaveButton>
       </form>
+      </div>
     </main>
   );
 }

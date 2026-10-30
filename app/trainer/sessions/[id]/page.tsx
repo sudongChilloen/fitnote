@@ -29,7 +29,7 @@ import { RecordList } from "@/app/(user)/workouts/[id]/record-list";
 import { Briefing } from "./briefing";
 import { ClearWorkoutButton } from "./clear-workout-button";
 import {
-  FinishSessionDrawer,
+  FinishSessionPanel,
   ReopenSessionButton,
 } from "./finish-session-drawer";
 import { OpenWorkoutButton } from "./open-workout-button";
@@ -127,73 +127,150 @@ export default async function SessionRecordPage({
   const setCount =
     workout?.records.reduce((sum, record) => sum + record.sets.length, 0) ?? 0;
 
+  const usedRatio =
+    session.totalSessions > 0 ? Math.min(session.usedSessions / session.totalSessions, 1) : 0;
+
   return (
-    <main className="px-5 pt-4 pb-16">
-      {/* HEADER */}
-      <header className="rounded-3xl border border-border/70 bg-card p-4 shadow-card">
-        <div className="flex items-start gap-3">
-          {session.connectionId ? (
-            <Link
-              href={`/trainer/members/${session.connectionId}`}
-              aria-label={`${session.memberName} 회원 상세로 이동`}
-              className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-border text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-            >
-              <ChevronLeft className="size-4" aria-hidden />
-            </Link>
-          ) : null}
-
-          <div className="min-w-0 flex-1">
-            <div className="flex flex-wrap items-center gap-2">
-              <h1 className="min-w-0 break-words text-xl font-bold tracking-tight">
-                {session.memberName}
-              </h1>
-
-              {!scheduled ? (
-                <span className="rounded-full bg-secondary px-2 py-1 text-[11px] font-semibold text-muted-foreground">
-                  {SESSION_STATUS_LABEL[session.status]}
-                </span>
-              ) : null}
-            </div>
-
-            <p className="mt-1.5 text-sm text-muted-foreground">
-              {formatKstDateLabel(session.scheduledAt)}
-            </p>
-          </div>
-        </div>
-
-        <div className="mt-4 grid grid-cols-3 gap-2">
-          <div className="rounded-2xl bg-secondary/50 px-2 py-3 text-center">
-            <p className="text-[11px] font-medium text-muted-foreground">
-              수업 회차
-            </p>
-            <p className="mt-1 text-base font-bold tabular-nums">
-              {session.sessionNumber}회
-            </p>
-          </div>
-
-          <div className="rounded-2xl bg-secondary/50 px-2 py-3 text-center">
-            <p className="text-[11px] font-medium text-muted-foreground">
-              시작 시각
-            </p>
-            <p className="mt-1 text-base font-bold tabular-nums">
-              {toKstTimeValue(session.scheduledAt)}
-            </p>
-          </div>
-
-          <div className="rounded-2xl bg-secondary/50 px-2 py-3 text-center">
-            <p className="text-[11px] font-medium text-muted-foreground">
-              진행 시간
-            </p>
-            <p className="mt-1 text-base font-bold tabular-nums">
-              {session.durationMinutes}분
-            </p>
-          </div>
-        </div>
+    <main className="px-4 pt-3.5 pb-6">
+      <header className="flex items-center gap-2.5">
+        {session.connectionId ? (
+          <Link
+            href={`/trainer/members/${session.connectionId}`}
+            aria-label={`${session.memberName} 회원 상세로 이동`}
+            className="flex size-10 shrink-0 items-center justify-center rounded-full border border-border text-ink"
+          >
+            <ChevronLeft className="size-4.5" aria-hidden />
+          </Link>
+        ) : (
+          <Link
+            href="/trainer/schedule"
+            aria-label="일정으로"
+            className="flex size-10 shrink-0 items-center justify-center rounded-full border border-border text-ink"
+          >
+            <ChevronLeft className="size-4.5" aria-hidden />
+          </Link>
+        )}
+        <span className="min-w-0 flex-1 leading-tight">
+          <span className="flex min-w-0 items-center gap-1.5">
+            <h1 className="min-w-0 truncate text-[1.0625rem] font-bold">
+              {session.memberName} · {session.sessionNumber}회차
+            </h1>
+            {!scheduled ? (
+              <span className="shrink-0 rounded-full border border-input px-1.5 py-px text-[0.6875rem] font-bold text-muted-foreground">
+                {SESSION_STATUS_LABEL[session.status]}
+              </span>
+            ) : null}
+          </span>
+          <span className="block truncate text-xs text-muted-foreground tabular-nums">
+            {formatKstDateLabel(session.scheduledAt)} {toKstTimeValue(session.scheduledAt)} ·{" "}
+            {session.durationMinutes}분
+          </span>
+        </span>
+        {session.connectionId ? (
+          <Link
+            href={`/trainer/members/${session.connectionId}`}
+            className="flex h-9 shrink-0 items-center rounded-full border border-border px-3 text-xs font-bold"
+          >
+            회원 정보
+          </Link>
+        ) : null}
       </header>
+
+      {/*
+        수업 전 브리핑. 수업 중 트레이너가 가장 자주 확인하는 건 "몇 회 남았나" 와
+        "지난번에 뭘 했나" 다. 둘을 한 장에 모은다.
+      */}
+      <section className="mt-3.5 rounded-3xl bg-primary px-4.5 py-4 text-white">
+        <div className="flex items-center gap-2">
+          <NotebookPen className="size-4.5 shrink-0 text-brand" aria-hidden />
+          <b className="min-w-0 flex-1 text-[0.9375rem]">수업 전 브리핑</b>
+          {briefing ? (
+            <span className="shrink-0 text-[0.6875rem] text-white/70 tabular-nums">
+              지난 수업 {briefing.daysAgo > 0 ? `${briefing.daysAgo}일 전` : "최근"}
+            </span>
+          ) : null}
+        </div>
+
+        <div className="mt-3 grid grid-cols-3 gap-1.5">
+          <span className="min-w-0 rounded-[0.875rem] bg-white/10 px-2.5 py-2">
+            <span className="block text-[0.6875rem] text-white/70">남은 PT</span>
+            <b
+              className={`block truncate text-sm tabular-nums ${remaining <= 3 ? "text-[#ffc4b6]" : ""}`}
+            >
+              {remaining}회
+            </b>
+          </span>
+          <span className="min-w-0 rounded-[0.875rem] bg-white/10 px-2.5 py-2">
+            <span className="block text-[0.6875rem] text-white/70">진행</span>
+            <b className="block truncate text-sm tabular-nums">
+              {session.usedSessions}/{session.totalSessions}회
+            </b>
+          </span>
+          <span className="min-w-0 rounded-[0.875rem] bg-white/10 px-2.5 py-2">
+            <span className="block text-[0.6875rem] text-white/70">오늘 기록</span>
+            <b className="block truncate text-sm tabular-nums">{setCount}세트</b>
+          </span>
+        </div>
+
+        <div
+          className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-white/15"
+          role="progressbar"
+          aria-label="사용한 PT 횟수"
+          aria-valuemin={0}
+          aria-valuemax={session.totalSessions}
+          aria-valuenow={session.usedSessions}
+        >
+          <div
+            className={remaining <= 3 ? "h-full rounded-full bg-coral" : "h-full rounded-full bg-brand"}
+            style={{ width: `${usedRatio * 100}%` }}
+          />
+        </div>
+
+        {briefing && briefing.records.length > 0 ? (
+          <ul className="mt-3 flex flex-col gap-1.5 text-[0.8125rem] leading-snug">
+            {briefing.records.slice(0, 4).map((record) => (
+              <li key={record.exerciseId} className="flex gap-2">
+                <span className="shrink-0 text-brand" aria-hidden>
+                  •
+                </span>
+                <span className="min-w-0 truncate">
+                  {record.name}{" "}
+                  <span className="text-white/75 tabular-nums">
+                    {record.topWeight !== null
+                      ? `${record.topWeight}kg${record.topReps !== null ? ` × ${record.topReps}` : ""} · `
+                      : ""}
+                    {record.setCount}세트
+                  </span>
+                </span>
+              </li>
+            ))}
+            {briefing.records.length > 4 ? (
+              <li className="pl-4 text-xs text-white/70">외 {briefing.records.length - 4}개</li>
+            ) : null}
+          </ul>
+        ) : (
+          <p className="mt-3 text-xs text-white/75">
+            {briefing ? "지난 수업에 적힌 운동이 없어요." : "첫 수업이에요. 지난 기록이 없어요."}
+          </p>
+        )}
+
+        {remaining <= 3 ? (
+          <p className="mt-2.5 flex gap-2 text-[0.8125rem]">
+            <span className="shrink-0 text-[#ef9a85]" aria-hidden>
+              !
+            </span>
+            <span className="min-w-0">PT {remaining}회 남음 · 재등록 상담이 필요해요</span>
+          </p>
+        ) : null}
+
+        {briefing && (workout?.records.length ?? 0) === 0 ? (
+          <Briefing ptSessionId={session.id} briefing={briefing} canCopy={!cancelled} />
+        ) : null}
+      </section>
 
       {/* RESULT MESSAGE */}
       {query.done ? (
-        <p className="mt-4 flex items-center gap-1.5 rounded-xl bg-accent px-3.5 py-2.5 text-sm font-bold text-brand-strong">
+        <p className="mt-3 flex items-center gap-1.5 rounded-[0.875rem] bg-brand-muted px-3.5 py-2.5 text-sm font-bold text-primary">
           <Check className="size-4" aria-hidden />
 
           {query.done === "complete"
@@ -207,23 +284,11 @@ export default async function SessionRecordPage({
       ) : null}
 
       {query.error ? (
-        <p className="mt-4 flex items-center gap-1.5 rounded-xl border border-destructive px-3.5 py-2.5 text-sm font-medium text-destructive">
+        <p className="mt-3 flex items-center gap-1.5 rounded-[0.875rem] bg-status-urgent-bg px-3.5 py-2.5 text-sm font-medium text-status-urgent">
           <AlertCircle className="size-4 shrink-0" aria-hidden />
 
           {query.error}
         </p>
-      ) : null}
-
-      {/* =====================================================
-          PREVIOUS SESSION BRIEFING
-         ===================================================== */}
-
-      {briefing && (workout?.records.length ?? 0) === 0 ? (
-        <Briefing
-          ptSessionId={session.id}
-          briefing={briefing}
-          canCopy={!cancelled}
-        />
       ) : null}
 
       {/* =====================================================
@@ -232,7 +297,7 @@ export default async function SessionRecordPage({
 
       {cancelled ? (
         <section className="mt-6">
-          <div className="rounded-2xl border border-dashed border-border px-4 py-5">
+          <div className="rounded-[1.25rem] border border-dashed border-border px-4 py-5">
             <p className="text-sm font-semibold">취소한 수업이에요.</p>
 
             <p className="mt-1 text-xs text-muted-foreground">
@@ -241,30 +306,21 @@ export default async function SessionRecordPage({
           </div>
         </section>
       ) : (
-        <section className="mt-6">
+        <section className="mt-5">
           {/* =================================================
               WORKOUT HEADER
              ================================================= */}
 
-          <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center justify-between gap-3 px-1">
             <div className="min-w-0">
-              <div className="flex items-center gap-2">
-                <h2 className="text-xl font-bold tracking-tight">
-                  오늘 한 운동
-                </h2>
-
-                {recordCount > 0 ? (
-                  <span className="text-xs font-semibold text-muted-foreground tabular-nums">
-                    {recordCount}개 · {setCount}세트
-                  </span>
-                ) : null}
-              </div>
-
-              <p className="mt-0.5 text-xs text-muted-foreground">
-                입력한 세트는 바로 회원 기록에 저장돼요.
-              </p>
+              <h2 className="text-[1.0625rem] font-extrabold">오늘 운동</h2>
+              <p className="text-xs text-muted-foreground">입력한 세트는 바로 회원 기록에 저장돼요.</p>
             </div>
-
+            {recordCount > 0 ? (
+              <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
+                {recordCount}종목 · {setCount}세트
+              </span>
+            ) : null}
             {workout ? <ClearWorkoutButton ptSessionId={session.id} /> : null}
           </div>
 
@@ -273,14 +329,14 @@ export default async function SessionRecordPage({
              ================================================= */}
 
           {workout ? (
-            <div className="mt-4 flex flex-col gap-4">
+            <div className="mt-3 flex flex-col gap-3">
               {/* ---------------------------------------------
                   EMPTY STATE
                  --------------------------------------------- */}
 
               {workout.records.length === 0 ? (
-                <div className="rounded-3xl border border-dashed border-border bg-card px-5 py-8 text-center shadow-sm">
-                  <div className="mx-auto flex size-11 items-center justify-center rounded-xl bg-secondary">
+                <div className="rounded-[1.375rem] bg-[#f7f8f7] px-5 py-7 text-center">
+                  <div className="mx-auto flex size-11 items-center justify-center rounded-full bg-brand-muted text-primary">
                     <Dumbbell
                       className="size-5 text-muted-foreground"
                       aria-hidden
@@ -342,8 +398,8 @@ export default async function SessionRecordPage({
          ===================================================== */}
 
       {!scheduled ? (
-        <section className="mt-7">
-          <div className="rounded-xl border border-border px-3.5 py-3">
+        <section className="mt-6">
+          <div className="rounded-[0.875rem] bg-[#f7f8f7] px-3.5 py-3">
             <p className="text-xs text-muted-foreground">
               {done
                 ? `완료로 처리했어요. ${session.usedSessions}/${session.totalSessions}회차`
@@ -370,9 +426,9 @@ export default async function SessionRecordPage({
          */}
 
       {done && session.connectionId ? (
-        <section className="mt-7 rounded-2xl border border-border p-4">
+        <section className="mt-6 rounded-3xl border-[1.5px] border-primary p-4">
           <div>
-            <p className="text-sm font-bold">수업이 끝났어요</p>
+            <p className="text-[1.0625rem] font-extrabold">수업이 끝났어요</p>
 
             <p className="mt-1 text-xs text-muted-foreground">
               운동 {recordCount}개 · {setCount}세트가 저장됐어요.
@@ -383,7 +439,7 @@ export default async function SessionRecordPage({
             {session.journalId ? (
               <Link
                 href={`/trainer/journals/${session.journalId}`}
-                className="flex h-12 w-full items-center justify-center gap-1.5 rounded-xl border border-border text-sm font-bold transition-colors hover:bg-secondary"
+                className="flex h-12 w-full items-center justify-center gap-1.5 rounded-full bg-primary text-sm font-extrabold text-white"
               >
                 <NotebookPen className="size-4" aria-hidden />
 
@@ -403,7 +459,7 @@ export default async function SessionRecordPage({
 
                 <button
                   type="submit"
-                  className="flex h-12 w-full items-center justify-center gap-1.5 rounded-xl border border-border text-sm font-bold transition-colors hover:bg-secondary"
+                  className="flex h-12 w-full items-center justify-center gap-1.5 rounded-full bg-primary text-sm font-extrabold text-white"
                 >
                   <NotebookPen className="size-4" aria-hidden />
                   알림장 쓰기
@@ -425,7 +481,7 @@ export default async function SessionRecordPage({
       {!scheduled && session.connectionId ? (
         <Link
           href={`/trainer/members/${session.connectionId}`}
-          className="mt-4 flex h-11 items-center justify-center gap-1.5 rounded-xl text-sm font-semibold text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+          className="mt-4 flex h-11 items-center justify-center gap-1.5 rounded-full text-sm font-semibold text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
         >
           <Dumbbell className="size-4" aria-hidden />
           {session.memberName} 회원 보기
@@ -433,27 +489,18 @@ export default async function SessionRecordPage({
       ) : null}
 
       {/* =====================================================
-          STICKY FINISH
+          FINISH (화면 아래 고정 대신 기록 맨 끝에 펼쳐 둔다)
          ===================================================== */}
 
       {scheduled ? (
-        <div
-          className="sticky z-30 -mx-5 mt-8 border-t border-border/70 bg-background/95 px-5 pt-4 pb-4 shadow-[0_-8px_24px_rgba(0,0,0,0.04)] backdrop-blur-xl"
-          style={{
-            bottom: "calc(5.5rem + env(safe-area-inset-bottom))",
-          }}
-        >
-          <FinishSessionDrawer
+        <div className="mt-6">
+          <FinishSessionPanel
             ptSessionId={session.id}
-            memberName={session.memberName}
             remaining={remaining}
+            summary={
+              setCount > 0 ? `${recordCount}개 운동 · ${setCount}세트 저장됨` : undefined
+            }
           />
-
-          <p className="mt-2 text-center text-xs text-muted-foreground">
-            {setCount > 0
-              ? `${recordCount}개 운동 · ${setCount}세트 저장됨`
-              : "적은 세트는 바로 저장돼요"}
-          </p>
         </div>
       ) : null}
     </main>

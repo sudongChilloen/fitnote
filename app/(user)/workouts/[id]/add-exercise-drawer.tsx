@@ -294,7 +294,7 @@ export function AddExerciseDrawer({
       <Button
         variant="outline"
         size="lg"
-        className="h-12 w-full rounded-xl border-dashed font-bold"
+        className="h-12 w-full rounded-full border border-border bg-card text-sm font-bold hover:bg-surface"
         onClick={() => setOpen(true)}
       >
         <Plus className="size-4" />
@@ -332,7 +332,7 @@ export function AddExerciseDrawer({
                 }
                 placeholder="찾으시는 운동을 검색해보세요"
                 aria-label="운동 검색"
-                className="h-11 w-full rounded-xl bg-secondary pr-10 pl-9 text-sm outline-none focus:ring-2 focus:ring-ring/40"
+                className="h-11 w-full rounded-full bg-surface pr-10 pl-9 text-sm outline-none focus:ring-2 focus:ring-ring/40"
               />
 
               {keyword ? (
@@ -342,7 +342,7 @@ export function AddExerciseDrawer({
                   onClick={() =>
                     setSearch("")
                   }
-                  className="absolute top-1/2 right-2 -translate-y-1/2 rounded-lg p-1.5 text-muted-foreground"
+                  className="absolute top-1/2 right-2 -translate-y-1/2 rounded-full p-1.5 text-muted-foreground"
                 >
                   <X className="size-4" />
                 </button>
@@ -370,7 +370,7 @@ export function AddExerciseDrawer({
 
                 tab.kind ===
                   "favorite"
-                  ? "border-primary bg-primary text-primary-foreground"
+                  ? "border-ink bg-ink text-white"
                   : "border-border text-muted-foreground",
               )}
             >
@@ -388,10 +388,10 @@ export function AddExerciseDrawer({
                   setTab(item.tab)
                 }
                 className={cn(
-                  "shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition-colors",
+                  "shrink-0 rounded-full border px-3.5 py-1.75 text-[0.8125rem] font-bold transition-colors",
 
                   activeKey === item.key
-                    ? "border-primary bg-primary text-primary-foreground"
+                    ? "border-ink bg-ink text-white"
                     : "border-border text-foreground",
                 )}
               >
@@ -464,7 +464,7 @@ export function AddExerciseDrawer({
                         <span
                           aria-hidden
                           className={cn(
-                            "flex size-5 shrink-0 items-center justify-center rounded-md border transition-colors",
+                            "flex size-5.5 shrink-0 items-center justify-center rounded-full border-[1.5px] transition-colors",
 
                             checked
                               ? "border-primary bg-primary text-primary-foreground"
@@ -483,7 +483,7 @@ export function AddExerciseDrawer({
                             </span>
 
                             {added ? (
-                              <span className="shrink-0 rounded-full bg-accent px-1.5 py-0.5 text-[0.65rem] font-bold text-brand-strong">
+                              <span className="shrink-0 rounded-full border border-brand px-1.5 text-[0.6875rem] leading-4 font-bold text-primary">
                                 담김
                               </span>
                             ) : null}
@@ -519,14 +519,14 @@ export function AddExerciseDrawer({
                             exercise.id,
                           )
                         }
-                        className="shrink-0 rounded-lg p-2"
+                        className="shrink-0 rounded-full p-2 hover:bg-surface"
                       >
                         <Bookmark
                           className={cn(
                             "size-4",
 
                             favorite
-                              ? "fill-brand text-brand-strong"
+                              ? "fill-primary text-primary"
                               : "text-muted-foreground",
                           )}
                         />
@@ -540,7 +540,7 @@ export function AddExerciseDrawer({
 
           <div className="border-t border-border px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
             {duplicateCount > 0 ? (
-              <p className="mb-2 text-center text-xs text-brand-strong">
+              <p className="mb-2 text-center text-xs font-semibold text-primary">
                 이미 담긴 운동{" "}
                 {duplicateCount}
                 개가 있어요. 그대로 담으면
@@ -555,7 +555,7 @@ export function AddExerciseDrawer({
                 pending
               }
               onClick={submit}
-              className="h-12 w-full rounded-xl font-bold"
+              className="h-12 w-full rounded-full font-bold"
             >
               {pending ? (
                 <Loader2 className="size-4 animate-spin" />
@@ -584,7 +584,7 @@ function EmptyResult({
 }) {
   return (
     <div className="flex flex-col items-center gap-3 py-12 text-center">
-      <span className="flex size-12 items-center justify-center rounded-2xl bg-secondary">
+      <span className="flex size-12 items-center justify-center rounded-full bg-brand-muted">
         {favoriteTab ? (
           <Bookmark className="size-5 text-muted-foreground" />
         ) : (

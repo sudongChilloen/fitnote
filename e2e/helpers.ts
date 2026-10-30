@@ -64,7 +64,7 @@ export async function connectPair(browser: Browser) {
 
   await trainer.page.goto("/trainer/profile");
   await trainer.page
-    .getByRole("button", { name: "회원 연결 코드 만들기" })
+    .getByRole("button", { name: "회원 초대 코드 만들기" })
     .click();
   const code = (
     await trainer.page.locator("p.font-mono").first().innerText()

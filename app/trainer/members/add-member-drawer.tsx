@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 
-import { UserPlus } from "lucide-react";
+import { Plus, UserPlus } from "lucide-react";
 
 import {
   Drawer,
@@ -54,20 +54,22 @@ export function AddMemberDrawer() {
           setError(null);
           setOpen(true);
         }}
-        className="inline-flex h-10 shrink-0 items-center gap-2 rounded-xl bg-brand px-4 text-sm font-bold text-brand-foreground shadow-sm transition-all hover:opacity-90 active:scale-[0.98]"
+        className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full bg-ink pr-3.5 pl-2.5 text-[0.8125rem] font-bold text-white transition-transform active:scale-[0.98]"
       >
-        <UserPlus className="size-4" aria-hidden />
+        <span className="flex size-5.5 items-center justify-center rounded-full bg-brand text-ink">
+          <Plus className="size-3.5" strokeWidth={3} aria-hidden />
+        </span>
         회원 추가
       </button>
 
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerContent>
           <DrawerHeader>
-            <div className="mb-2 flex size-11 items-center justify-center rounded-2xl bg-accent text-brand-strong">
+            <div className="mb-2 flex size-11 items-center justify-center rounded-full bg-brand-muted text-primary">
               <UserPlus className="size-5" aria-hidden />
             </div>
 
-            <DrawerTitle className="text-xl font-bold tracking-tight">
+            <DrawerTitle className="text-lg font-extrabold">
               회원 추가
             </DrawerTitle>
 
@@ -89,7 +91,7 @@ export function AddMemberDrawer() {
                 maxLength={20}
                 autoComplete="off"
                 placeholder="회원 이름 입력"
-                className="h-12 rounded-xl border border-border bg-background px-3.5 text-sm tabular-nums outline-none transition-shadow placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/15"
+                className="h-12 rounded-2xl border border-border bg-background px-3.5 text-sm tabular-nums outline-none transition-shadow placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/15"
               />
 
               <span className="text-xs leading-relaxed text-muted-foreground">
@@ -112,7 +114,7 @@ export function AddMemberDrawer() {
                 maxLength={20}
                 autoComplete="off"
                 placeholder="010-0000-0000"
-                className="h-12 rounded-xl border border-border bg-background px-3.5 text-sm tabular-nums outline-none transition-shadow placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/15"
+                className="h-12 rounded-2xl border border-border bg-background px-3.5 text-sm tabular-nums outline-none transition-shadow placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/15"
               />
 
               <span className="text-xs leading-relaxed text-muted-foreground">
@@ -123,7 +125,7 @@ export function AddMemberDrawer() {
             {error ? (
               <p
                 role="alert"
-                className="rounded-xl border border-destructive/20 bg-destructive/5 px-3.5 py-3 text-sm font-semibold text-destructive"
+                className="rounded-[0.875rem] bg-status-urgent-bg px-3.5 py-3 text-sm font-semibold text-status-urgent"
               >
                 {error}
               </p>
@@ -132,7 +134,7 @@ export function AddMemberDrawer() {
             <button
               type="submit"
               disabled={pending}
-              className="mt-1 inline-flex h-12 w-full items-center justify-center rounded-xl bg-brand px-4 text-sm font-bold text-brand-foreground shadow-sm transition-colors hover:brightness-95 active:brightness-90 disabled:cursor-not-allowed disabled:opacity-50"
+              className="mt-1 inline-flex h-12 w-full items-center justify-center rounded-full bg-primary px-4 text-sm font-bold text-primary-foreground shadow-sm transition-colors hover:brightness-95 active:brightness-90 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {pending ? "등록하는 중..." : "회원 등록하기"}
             </button>

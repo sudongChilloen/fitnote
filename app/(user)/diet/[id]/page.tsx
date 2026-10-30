@@ -1,7 +1,8 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { ChevronLeft, MessageSquare, UtensilsCrossed } from "lucide-react";
+import { UtensilsCrossed } from "lucide-react";
+
+import { PageHeader } from "@/components/layout/page-header";
 
 import { requireUser } from "@/app/lib/dal";
 import { formatKstDateLabel, toKstDateKey } from "@/lib/date";
@@ -56,97 +57,92 @@ export default async function DietDetailPage({
   const dateKey = toKstDateKey(diet.date);
 
   return (
-    <main className="mx-auto w-full max-w-md px-5 pt-6 pb-28">
-      <Link
-        href={`/diet?date=${dateKey}`}
-        className="-ml-1 inline-flex items-center gap-0.5 text-sm text-muted-foreground"
-      >
-        <ChevronLeft className="size-4" aria-hidden />
-        식단
-      </Link>
+    <main className="mx-auto w-full max-w-md pb-28">
+      <PageHeader
+        backHref={`/diet?date=${dateKey}`}
+        backLabel="식단으로"
+        title={`${MEAL_LABEL[diet.mealType]} 식단`}
+        subtitle={formatKstDateLabel(diet.date)}
+        right={
+          <form action={deleteDietRecord}>
+            <input type="hidden" name="id" value={diet.id} />
+            <DeleteDietButton />
+          </form>
+        }
+      />
 
-      <div className="mt-2 flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="text-sm font-bold text-brand-strong">
-            {MEAL_LABEL[diet.mealType]}
+      <div className="flex flex-col gap-3 px-4 pt-1.5">
+        {diet.imageUrl ? (
+          // 서명 주소는 열 때마다 값이 달라 이미지 최적화 캐시가 매번 빗나간다.
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={diet.imageUrl}
+            alt={diet.foodName ?? "식단 사진"}
+            className="aspect-square w-full rounded-[1.375rem] bg-line object-cover"
+          />
+        ) : diet.hasPhoto ? (
+          <p className="flex aspect-square w-full items-center justify-center rounded-[1.375rem] bg-surface text-xs text-muted-foreground">
+            사진을 불러오지 못했어요
           </p>
-          <h1 className="mt-0.5 text-xl font-bold">
-            {formatKstDateLabel(diet.date)}
-          </h1>
-        </div>
+        ) : null}
 
-        <form action={deleteDietRecord} className="shrink-0">
-          <input type="hidden" name="id" value={diet.id} />
-          <DeleteDietButton />
-        </form>
-      </div>
+        <section className="rounded-[1.25rem] border border-border px-4 py-3.5">
+          <span className="flex items-center gap-2">
+            <span className="shrink-0 rounded-full border border-brand px-2 py-px text-[0.6875rem] font-bold text-primary">
+              {MEAL_LABEL[diet.mealType]}
+            </span>
+            <b className="min-w-0 flex-1 truncate text-[0.9375rem]">
+              {diet.foodName ?? (diet.hasPhoto ? "사진으로 남겼어요" : "내용 없이 끼니만 남겼어요")}
+            </b>
+          </span>
+          {diet.memo ? (
+            <p className="mt-2 text-[0.8125rem] leading-relaxed whitespace-pre-wrap text-muted-foreground">
+              {diet.memo}
+            </p>
+          ) : null}
+          {!diet.foodName && !diet.memo && !diet.hasPhoto ? (
+            <p className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
+              <UtensilsCrossed className="size-4" aria-hidden />
+              사진이나 메모가 없어요.
+            </p>
+          ) : null}
+        </section>
 
-      {diet.imageUrl ? (
-        // 서명 주소는 열 때마다 값이 달라 이미지 최적화 캐시가 매번 빗나간다.
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={diet.imageUrl}
-          alt={diet.foodName ?? "식단 사진"}
-          className="mt-4 aspect-square w-full rounded-2xl bg-secondary object-cover"
-        />
-      ) : diet.hasPhoto ? (
-        <p className="mt-4 flex aspect-square w-full items-center justify-center rounded-2xl bg-secondary text-xs text-muted-foreground">
-          사진을 불러오지 못했어요
-        </p>
-      ) : null}
-
-      {diet.foodName ? (
-        <p className="mt-4 text-base font-bold">{diet.foodName}</p>
-      ) : null}
-
-      {diet.memo ? (
-        <p className="mt-2 text-sm whitespace-pre-wrap text-muted-foreground">
-          {diet.memo}
-        </p>
-      ) : null}
-
-      {!diet.foodName && !diet.memo && !diet.hasPhoto ? (
-        <p className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
-          <UtensilsCrossed className="size-4" aria-hidden />
-          내용 없이 끼니만 남겼어요.
-        </p>
-      ) : null}
-
-      <div className="mt-5">
         <DietSharingNotice userId={user.id} />
+
+        <section className="mt-1">
+          <h2 className="mx-1 mb-2 flex items-center gap-1.5 text-base font-extrabold">
+            트레이너 피드백
+            <span className="text-[0.8125rem] font-semibold text-muted-foreground tabular-nums">
+              {diet.feedbacks.length}
+            </span>
+          </h2>
+
+          {diet.feedbacks.length === 0 ? (
+            <p className="rounded-[1.125rem] bg-[#f7f8f7] px-4 py-4 text-xs text-muted-foreground">
+              아직 피드백이 없어요. 트레이너가 확인하면 여기에 남겨줘요.
+            </p>
+          ) : (
+            <ul className="flex flex-col gap-2.5">
+              {diet.feedbacks.map((feedback) => (
+                <li key={feedback.id} className="flex gap-2">
+                  <span className="flex size-7.5 shrink-0 items-center justify-center rounded-full bg-brand-muted text-xs font-extrabold text-primary">
+                    {feedback.trainerName.trim().slice(0, 1)}
+                  </span>
+                  <span className="min-w-0 flex-1 rounded-[0.25rem_1rem_1rem_1rem] bg-brand-muted px-3 py-2.5">
+                    <span className="block text-[0.6875rem] text-muted-foreground">
+                      {feedback.trainerName} 트레이너 · {formatDateTime(feedback.createdAt)}
+                    </span>
+                    <span className="mt-0.5 block text-[0.8125rem] leading-normal whitespace-pre-wrap">
+                      {feedback.content}
+                    </span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
       </div>
-
-      <section className="mt-7">
-        <h2 className="flex items-center gap-1.5 text-base font-bold">
-          <MessageSquare className="size-4" aria-hidden />
-          트레이너 피드백
-        </h2>
-
-        {diet.feedbacks.length === 0 ? (
-          <p className="mt-2 rounded-2xl border border-dashed border-border p-4 text-xs text-muted-foreground">
-            아직 피드백이 없어요. 트레이너가 확인하면 여기에 남겨줘요.
-          </p>
-        ) : (
-          <ul className="mt-2 flex flex-col gap-2">
-            {diet.feedbacks.map((feedback) => (
-              <li
-                key={feedback.id}
-                className="rounded-2xl border border-border bg-accent p-4"
-              >
-                <p className="text-xs font-bold text-brand-strong">
-                  {feedback.trainerName} 트레이너
-                </p>
-                <p className="mt-1.5 text-sm whitespace-pre-wrap">
-                  {feedback.content}
-                </p>
-                <p className="mt-2 text-xs text-muted-foreground">
-                  {formatDateTime(feedback.createdAt)}
-                </p>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
     </main>
   );
 }

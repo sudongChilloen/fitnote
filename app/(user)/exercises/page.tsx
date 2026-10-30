@@ -7,6 +7,7 @@ import {
   MOVEMENT_TYPE_LABEL,
 } from "@/lib/exercise-labels";
 import { getExercises } from "@/server/exercises/exercise.service";
+import { getFavoriteExerciseIds } from "@/server/workouts/favorite.service";
 import { cn } from "@/lib/utils";
 
 import { ExerciseCard } from "./exercise-card";
@@ -46,7 +47,7 @@ export default async function ExercisesPage({
   const favoriteOnly = params.favorite === "1";
   const page = toPage(params.page);
 
-  const { data, pagination } = await getExercises({
+  const [{ data, pagination }, favoriteIds] = await Promise.all([getExercises({
     search,
     bodyPart,
     difficulty,
@@ -54,7 +55,8 @@ export default async function ExercisesPage({
     favoriteOfUserId: favoriteOnly ? user.id : undefined,
     page,
     limit: 20,
-  });
+  }), getFavoriteExerciseIds(user.id)]);
+  const favorites = new Set(favoriteIds);
 
   function pageHref(target: number) {
     const next = new URLSearchParams();
@@ -85,91 +87,94 @@ export default async function ExercisesPage({
   }
 
   return (
-    <main className="flex flex-col gap-6 px-5 pt-8">
-      <header>
-        <p className="text-sm font-semibold text-muted-foreground">
-          EXERCISE LIBRARY
+    <main className="flex flex-col pt-4">
+      <header className="px-5">
+        <h1 className="text-2xl font-extrabold tracking-tight">운동</h1>
+        <p className="mt-0.5 text-[0.8125rem] text-muted-foreground">
+          부위·기구별로 찾고, 하트로 모아 둬요
         </p>
-        <h1 className="mt-1 text-2xl font-bold tracking-tight">
-          운동 라이브러리
-        </h1>
       </header>
 
-      <nav aria-label="목록 범위" className="flex gap-2">
+      {/* 밑줄 탭: 전체 / 즐겨찾기 */}
+      <nav aria-label="목록 범위" className="mt-2 flex gap-5 border-b border-line px-5">
         {(
           [
             { label: "전체", value: false },
             { label: "즐겨찾기", value: true },
           ] as const
-        ).map((tab) => (
-          <Link
-            key={tab.label}
-            href={scopeHref(tab.value)}
-            aria-current={favoriteOnly === tab.value ? "page" : undefined}
-            className={cn(
-              "rounded-full px-4 py-2 text-sm font-semibold transition-colors",
-              favoriteOnly === tab.value
-                ? "bg-primary text-primary-foreground"
-                : "bg-secondary text-secondary-foreground hover:bg-muted",
-            )}
-          >
-            {tab.label}
-          </Link>
-        ))}
+        ).map((tab) => {
+          const active = favoriteOnly === tab.value;
+          return (
+            <Link
+              key={tab.label}
+              href={scopeHref(tab.value)}
+              aria-current={active ? "page" : undefined}
+              className={cn(
+                "flex h-10.5 items-center px-0.5 text-sm",
+                active
+                  ? "font-extrabold text-ink shadow-[inset_0_-3px_0_var(--primary)]"
+                  : "font-semibold text-faint",
+              )}
+            >
+              {tab.label}
+            </Link>
+          );
+        })}
       </nav>
 
-      <section className="rounded-2xl bg-card shadow-card p-4">
+      <div className="flex flex-col gap-3 px-4 pt-3.5">
         <ExerciseFilters total={pagination.total} />
-      </section>
 
-      {data.length === 0 ? (
-        <p className="rounded-2xl border border-dashed border-border py-16 text-center text-sm text-muted-foreground">
-          {favoriteOnly
-            ? "즐겨찾기한 운동이 없어요. 운동 상세에서 하트를 눌러 두면 여기 모여요."
-            : "조건에 맞는 운동이 없어요."}
-        </p>
-      ) : (
-        <ul className="grid gap-3 sm:grid-cols-2">
-          {data.map((exercise) => (
-            <li key={exercise.id}>
-              <ExerciseCard exercise={exercise} />
-            </li>
-          ))}
-        </ul>
-      )}
+        {data.length === 0 ? (
+          <p className="rounded-[1.375rem] bg-[#f7f8f7] px-6 py-14 text-center text-sm text-muted-foreground">
+            {favoriteOnly
+              ? "즐겨찾기한 운동이 없어요. 운동 상세에서 하트를 눌러 두면 여기 모여요."
+              : "조건에 맞는 운동이 없어요."}
+          </p>
+        ) : (
+          <ul className="flex flex-col">
+            {data.map((exercise) => (
+              <li key={exercise.id}>
+                <ExerciseCard exercise={exercise} favorite={favorites.has(exercise.id)} />
+              </li>
+            ))}
+          </ul>
+        )}
 
-      {pagination.totalPages > 1 && (
-        <nav
-          aria-label="페이지 이동"
-          className="flex items-center justify-between"
-        >
-          {pagination.hasPreviousPage ? (
-            <Link
-              href={pageHref(pagination.page - 1)}
-              className="rounded-lg bg-secondary px-4 py-2 text-sm font-semibold"
-            >
-              이전
-            </Link>
-          ) : (
-            <span />
-          )}
+        {pagination.totalPages > 1 && (
+          <nav aria-label="페이지 이동" className="flex items-center justify-between pb-2">
+            {pagination.hasPreviousPage ? (
+              <Link
+                href={pageHref(pagination.page - 1)}
+                className="flex h-9.5 items-center rounded-full border border-border px-4 text-[0.8125rem] font-bold"
+              >
+                이전
+              </Link>
+            ) : (
+              <span className="flex h-9.5 items-center rounded-full border border-border px-4 text-[0.8125rem] font-bold text-[#c4cbc7]">
+                이전
+              </span>
+            )}
 
-          <span className="text-sm text-muted-foreground">
-            {pagination.page} / {pagination.totalPages}
-          </span>
+            <span className="text-[0.8125rem] text-muted-foreground tabular-nums">
+              {pagination.page} / {pagination.totalPages}
+            </span>
 
-          {pagination.hasNextPage ? (
-            <Link
-              href={pageHref(pagination.page + 1)}
-              className="rounded-lg bg-secondary px-4 py-2 text-sm font-semibold"
-            >
-              다음
-            </Link>
-          ) : (
-            <span />
-          )}
-        </nav>
-      )}
+            {pagination.hasNextPage ? (
+              <Link
+                href={pageHref(pagination.page + 1)}
+                className="flex h-9.5 items-center rounded-full border border-border px-4 text-[0.8125rem] font-bold"
+              >
+                다음
+              </Link>
+            ) : (
+              <span className="flex h-9.5 items-center rounded-full border border-border px-4 text-[0.8125rem] font-bold text-[#c4cbc7]">
+                다음
+              </span>
+            )}
+          </nav>
+        )}
+      </div>
     </main>
   );
 }

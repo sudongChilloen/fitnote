@@ -18,7 +18,7 @@ export function DeleteDietButton() {
     <button
       type="submit"
       disabled={pending}
-      className="flex h-9 items-center gap-1 rounded-xl border border-border px-3 text-xs font-semibold text-muted-foreground disabled:opacity-50"
+      className="flex h-9 items-center gap-1 rounded-full border border-border px-3 text-xs font-semibold text-muted-foreground disabled:opacity-50"
     >
       <Trash2 className="size-3.5" aria-hidden />
       {pending ? "지우는 중" : "삭제"}

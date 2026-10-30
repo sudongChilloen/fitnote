@@ -1,16 +1,9 @@
 import Link from "next/link";
 
-import {
-  AlertCircle,
-  CalendarClock,
-  ChevronRight,
-  MessageSquare,
-  NotebookPen,
-  UserPlus,
-} from "lucide-react";
+import { ChevronRight, UserPlus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-import { Avatar } from "@/components/ui/avatar";
+import { ProgressRing } from "@/components/ui/progress-ring";
 import { formatKstDateLabel, formatKstTimeLabel } from "@/lib/date";
 import { memberContractGroup } from "@/server/trainers/trainer.service";
 import type { TrainerMemberRow } from "@/server/trainers/trainer.service";
@@ -79,7 +72,14 @@ function todoOf(member: TrainerMemberRow) {
   return null;
 }
 
-export function MemberCard({ member }: { member: TrainerMemberRow }) {
+export function MemberCard({
+  member,
+  variant = "ring",
+}: {
+  member: TrainerMemberRow;
+  /** ring = 홈의 동그라미, bar = 회원 목록의 숫자 + 막대 */
+  variant?: "ring" | "bar";
+}) {
   const managementReasonText = managementReason(member);
   const todo = todoOf(member);
   const contract = contractLine(member);
@@ -89,147 +89,124 @@ export function MemberCard({ member }: { member: TrainerMemberRow }) {
     0,
   );
 
+  /*
+    v2 파스텔: 회원 상태를 아바타 바탕색과 링 색으로 말한다.
+    복숭아 = 만료 임박, 노랑 = 할 일 있음, 라벤더 = 미가입, 하늘 = 평소.
+    글자 표시(알약)도 함께 둬서 색만으로 뜻을 전하지 않는다.
+  */
+  const tone = contract.urgent
+    ? "urgent"
+    : todo || replyCount > 0
+      ? "check"
+      : member.pending
+        ? "pending"
+        : "normal";
+
+  const avatarClass = {
+    urgent: "bg-surface text-ink",
+    check: "bg-surface text-ink",
+    pending: "bg-surface text-muted-foreground",
+    normal: "bg-brand-muted text-primary",
+  }[tone];
+
+  const ringColor = contract.urgent ? "var(--coral)" : "var(--brand)";
+
+  const flag = contract.urgent
+    ? "만료 임박"
+    : member.pending
+      ? "미가입"
+      : todo
+        ? todo.label
+        : replyCount > 0
+          ? `답장 ${replyCount}`
+          : null;
+
+  const nextToday = member.todaySessions.find(
+    (session) => session.status === "SCHEDULED",
+  );
+
+  const subline = managementReasonText
+    ? managementReasonText
+    : nextToday
+      ? `오늘 ${formatKstTimeLabel(nextToday.scheduledAt)} 수업`
+      : member.lastJournalAt
+        ? `마지막 알림장 ${formatKstDateLabel(member.lastJournalAt)}`
+        : contract.text;
+
   return (
     <li>
       <Link
         href={`/trainer/members/${member.connectionId}`}
-        className="group block rounded-3xl border border-border/70 bg-card p-4 shadow-card transition-[border-color,box-shadow,background-color] duration-200 hover:border-primary/30 hover:bg-secondary/[0.12] hover:shadow-md active:bg-secondary/30"
+        className="flex items-center gap-3 border-b border-line py-2.5 pr-1 pl-1 text-ink"
       >
-        {/* 회원 기본 정보 */}
-        <div className="flex items-center gap-3">
-          <Avatar name={member.name} className="size-12 shrink-0" />
+        <span
+          aria-hidden
+          className={cn(
+            "flex size-11 shrink-0 items-center justify-center rounded-full text-[0.9375rem] font-extrabold",
+            avatarClass,
+          )}
+        >
+          {member.name.trim().slice(0, 1)}
+        </span>
 
-          <div className="min-w-0 flex-1">
-            <div className="flex min-w-0 flex-wrap items-center gap-1.5">
-              <span className="truncate text-base font-bold tracking-tight">
-                {member.name}
-              </span>
-
-              {member.pending ? (
-                <span className="shrink-0 rounded-full bg-secondary px-2 py-0.5 text-[10px] font-bold text-muted-foreground">
-                  미가입
-                </span>
-              ) : null}
-            </div>
-
-            <p
-              className={cn(
-                "mt-1.5 truncate text-xs font-medium",
-                contract.urgent
-                  ? "text-status-urgent"
-                  : "text-muted-foreground",
-              )}
-            >
-              {contract.text}
-            </p>
-          </div>
-
-          <div className="flex shrink-0 items-center gap-2">
-            {replyCount > 0 ? (
-              <span className="inline-flex items-center gap-1 rounded-full bg-accent px-2.5 py-1.5 text-xs font-bold text-accent-foreground">
-                <MessageSquare className="size-3.5" aria-hidden />
-                {replyCount}
+        <span className="min-w-0 flex-1">
+          <span className="flex min-w-0 items-center gap-1.5">
+            <span className="truncate text-sm font-bold">{member.name}</span>
+            {flag ? (
+              <span
+                className={cn(
+                  "shrink-0 rounded-full border px-1.5 text-[0.6875rem] leading-[1.0625rem] font-bold",
+                  tone === "urgent"
+                    ? "border-coral text-status-urgent"
+                    : "border-input text-muted-foreground",
+                )}
+              >
+                {flag}
               </span>
             ) : null}
-
-            <span className="flex size-8 items-center justify-center rounded-full bg-secondary/70 text-muted-foreground transition-colors group-hover:bg-accent group-hover:text-accent-foreground">
-              <ChevronRight className="size-4" aria-hidden />
-            </span>
-          </div>
-        </div>
-
-        {/* 처리할 일 */}
-        {managementReasonText || todo ? (
-          <div className="mt-4 flex items-center gap-2.5 rounded-2xl border border-border/70 bg-secondary/40 p-3.5">
-            <span
-              className={cn(
-                "flex size-9 shrink-0 items-center justify-center rounded-xl",
-                todo?.tone === "strong"
-                  ? "bg-status-check-bg text-status-check"
-                  : "bg-accent text-accent-foreground",
-              )}
-            >
-              {todo?.tone === "strong" ? (
-                <AlertCircle className="size-4" aria-hidden />
-              ) : (
-                <MessageSquare className="size-4" aria-hidden />
-              )}
-            </span>
-
-            <span className="min-w-0 flex-1">
-              <span className="block text-xs font-bold">
-                {managementReasonText ?? todo?.label}
-              </span>
-
-              {managementReasonText && todo ? (
-                <span className="mt-1 block text-[11px] text-muted-foreground">
-                  {todo.label}
-                </span>
-              ) : null}
-            </span>
-
-            {replyCount > 0 ? (
-              <span className="shrink-0 text-[11px] font-semibold text-muted-foreground">
-                답변 {replyCount}건
-              </span>
-            ) : null}
-          </div>
-        ) : null}
-
-        {/* 오늘 수업 */}
-        {member.todaySessions.length > 0 ? (
-          <div className="mt-4">
-            <div className="mb-2 flex items-center gap-1.5">
-              <CalendarClock className="size-4 text-primary" aria-hidden />
-              <span className="text-xs font-bold">오늘 수업</span>
-              <span className="rounded-full bg-secondary px-1.5 py-0.5 text-[10px] font-bold tabular-nums text-muted-foreground">
-                {member.todaySessions.length}
-              </span>
-            </div>
-
-            <div className="flex flex-col gap-1.5">
-              {member.todaySessions.map((session) => (
-                <div
-                  key={session.id}
-                  className="flex min-h-10 items-center justify-between gap-3 rounded-xl border border-tint-sky/20 bg-tint-sky/60 px-3 py-2.5 text-tint-sky-foreground"
-                >
-                  <span className="text-xs font-bold tabular-nums">
-                    {formatKstTimeLabel(session.scheduledAt)}
-                  </span>
-
-                  <span className="text-[11px] font-semibold">
-                    {session.status === "SCHEDULED"
-                      ? "예정"
-                      : session.status === "COMPLETED"
-                        ? "완료"
-                        : session.status === "NO_SHOW"
-                          ? "노쇼"
-                          : session.status === "CANCELLED"
-                            ? "취소"
-                            : session.status}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : null}
-
-        {/* 최근 기록 */}
-        <div className="mt-4 flex min-h-9 items-center gap-2 border-t border-border/70 pt-3.5 text-xs text-muted-foreground">
-          <NotebookPen className="size-4 shrink-0" aria-hidden />
-
-          <span className="min-w-0 flex-1 truncate">
-            {member.lastJournalAt
-              ? `마지막 알림장 ${formatKstDateLabel(member.lastJournalAt)}`
-              : "작성된 알림장이 없어요"}
           </span>
+          <span className="mt-0.5 block truncate text-xs text-muted-foreground tabular-nums">
+            {subline}
+          </span>
+        </span>
 
-          {contract.urgent ? (
-            <span className="shrink-0 rounded-full bg-status-urgent-bg px-2 py-1 text-[10px] font-bold text-status-urgent">
-              계약 만료 임박
+        {member.contract && variant === "bar" ? (
+          <span className="w-16 shrink-0 text-right">
+            <b
+              className={cn(
+                "block text-[0.9375rem] tabular-nums",
+                contract.urgent ? "text-status-urgent" : "text-ink",
+              )}
+            >
+              {member.contract.remaining}회
+            </b>
+            <span className="mt-1 block h-1.25 overflow-hidden rounded-full bg-line">
+              <span
+                className="block h-full rounded-full"
+                style={{
+                  width: `${Math.round(
+                    (member.contract.remaining / Math.max(member.contract.totalSessions, 1)) * 100,
+                  )}%`,
+                  background: ringColor,
+                }}
+              />
             </span>
-          ) : null}
-        </div>
+          </span>
+        ) : member.contract ? (
+          <ProgressRing
+            ratio={member.contract.remaining / Math.max(member.contract.totalSessions, 1)}
+            color={ringColor}
+          >
+            <span className="text-xs leading-none font-extrabold tabular-nums">
+              {member.contract.remaining}
+            </span>
+            <span className="sr-only">회 남음</span>
+          </ProgressRing>
+        ) : (
+          <span className="flex size-8 shrink-0 items-center justify-center rounded-full text-faint">
+            <ChevronRight className="size-4" aria-hidden />
+          </span>
+        )}
       </Link>
     </li>
   );
@@ -240,9 +217,9 @@ export function MemberCard({ member }: { member: TrainerMemberRow }) {
  */
 export function NoMembers() {
   return (
-    <section className="mt-6 overflow-hidden rounded-3xl border border-border/60 bg-card shadow-card">
+    <section className="mt-6 overflow-hidden rounded-[1.5rem] bg-surface">
       <div className="flex flex-col items-center px-6 pb-6 pt-8 text-center">
-        <div className="flex size-16 items-center justify-center rounded-2xl bg-accent text-brand-strong">
+        <div className="flex size-16 items-center justify-center rounded-full bg-brand-muted text-primary">
           <UserPlus className="size-7" aria-hidden />
         </div>
 
@@ -258,7 +235,7 @@ export function NoMembers() {
         <div className="mt-6 flex w-full flex-col gap-2 sm:flex-row sm:justify-center">
           <Link
             href="/trainer/profile"
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-border/70 px-4 text-sm font-semibold transition-colors hover:bg-secondary"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-ink px-5 text-sm font-bold text-white"
           >
             초대 코드 만들기
             <ChevronRight className="size-4" aria-hidden />

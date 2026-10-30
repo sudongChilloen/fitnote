@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 
 import { formatKstDateLabel } from "@/lib/date";
 
@@ -18,7 +18,7 @@ type Invitation = {
   expiresAt: Date;
 };
 
-function IssueButton() {
+function IssueButton({ subtle = false }: { subtle?: boolean }) {
   const [state, formAction, pending] = useActionState<
     CenterActionState | undefined
   >(issueTrainerCode, undefined);
@@ -28,9 +28,13 @@ function IssueButton() {
       <button
         type="submit"
         disabled={pending}
-        className="h-11 w-full rounded-xl border border-border font-semibold disabled:opacity-50"
+        className={
+          subtle
+            ? "px-0.5 py-1 text-xs text-muted-foreground disabled:opacity-50"
+            : "h-11 w-full rounded-full bg-ink text-sm font-bold text-white disabled:opacity-50"
+        }
       >
-        {pending ? "만드는 중" : "회원 연결 코드 만들기"}
+        {pending ? "만드는 중" : subtle ? "새 코드 만들기" : "회원 초대 코드 만들기"}
       </button>
       {state?.error ? (
         <p className="mt-1 text-xs text-destructive">{state.error}</p>
@@ -62,47 +66,68 @@ function RevokeButton({ invitationId }: { invitationId: string }) {
   );
 }
 
+function CopyButton({ code }: { code: string }) {
+  const [copied, setCopied] = useState(false);
+
+  return (
+    <button
+      type="button"
+      onClick={async () => {
+        try {
+          await navigator.clipboard.writeText(code);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 1500);
+        } catch {
+          setCopied(false);
+        }
+      }}
+      className="h-12 shrink-0 rounded-full border border-border bg-card px-4 text-[0.8125rem] font-bold"
+    >
+      {copied ? "복사됨" : "복사"}
+    </button>
+  );
+}
+
 /**
- * 회원 연결 코드 발급과 목록.
+ * 회원 초대 코드 (v3).
  *
  * 코드 하나를 여러 회원이 쓴다. 남은 자리를 함께 보여줘야 회원이 "코드가 안
  * 먹힌다" 고 연락해 오기 전에 트레이너가 먼저 안다.
  */
 export function InvitePanel({ invitations }: { invitations: Invitation[] }) {
   return (
-    <section className="rounded-2xl bg-card shadow-card p-5">
-      <h2 className="text-sm font-bold">회원 연결 코드</h2>
-      <p className="mt-1 text-xs text-muted-foreground">
-        회원에게 이 코드를 주면 내 담당 회원으로 연결돼요.
+    <section className="rounded-[1.375rem] border border-border p-4 text-ink">
+      <h2 className="text-[0.9375rem] font-bold">회원 초대 코드</h2>
+      <p className="mt-0.5 text-xs text-muted-foreground">
+        회원이 앱 내 정보에서 이 코드를 입력하면 담당 회원으로 연결돼요
       </p>
 
-      <div className="mt-3">
-        <IssueButton />
-      </div>
-
       {invitations.length === 0 ? (
-        <p className="mt-3 text-center text-xs text-muted-foreground">
-          아직 살아 있는 코드가 없어요
-        </p>
+        <div className="mt-3">
+          <IssueButton />
+        </div>
       ) : (
-        <ul className="mt-3 flex flex-col gap-2">
+        <ul className="mt-3 flex flex-col gap-2.5">
           {invitations.map((invitation) => (
-            <li
-              key={invitation.id}
-              className="flex items-center justify-between gap-3 rounded-xl bg-secondary px-3 py-2.5"
-            >
-              <div className="min-w-0">
-                <p className="font-mono text-base font-bold tracking-widest">
+            <li key={invitation.id}>
+              <div className="flex items-center gap-2">
+                <p className="flex h-12 min-w-0 flex-1 items-center justify-center truncate rounded-[0.875rem] bg-brand-muted font-mono text-xl font-bold tracking-[0.3em] text-primary">
                   {invitation.code}
                 </p>
-                <p className="mt-0.5 text-xs text-muted-foreground tabular-nums">
+                <CopyButton code={invitation.code} />
+              </div>
+              <div className="mt-1.5 flex items-center justify-between gap-2 px-0.5">
+                <p className="min-w-0 truncate text-[0.6875rem] text-faint tabular-nums">
                   {invitation.maxUses - invitation.usedCount}자리 남음 ·{" "}
                   {formatKstDateLabel(invitation.expiresAt)}까지
                 </p>
+                <RevokeButton invitationId={invitation.id} />
               </div>
-              <RevokeButton invitationId={invitation.id} />
             </li>
           ))}
+          <li>
+            <IssueButton subtle />
+          </li>
         </ul>
       )}
     </section>

@@ -37,38 +37,46 @@ export default async function NewDietPage({
   const message = typeof error === "string" ? ERROR_TEXT[error] : undefined;
 
   return (
-    <main className="mx-auto w-full max-w-md px-5 pt-6 pb-28">
-      <Link
-        href={`/diet?date=${dateKey}`}
-        className="-ml-1 inline-flex items-center gap-0.5 text-sm text-muted-foreground"
-      >
-        <ChevronLeft className="size-4" aria-hidden />
-        식단
-      </Link>
-
-      <h1 className="mt-2 text-xl font-bold">식단 남기기</h1>
-      <p className="mt-1 text-sm text-muted-foreground">
-        {formatKstDateLabel(new Date(`${dateKey}T00:00:00+09:00`))}
-      </p>
-
-      {message ? (
-        <p
-          role="alert"
-          className="mt-4 rounded-xl bg-destructive/10 px-4 py-3 text-sm font-medium text-destructive"
+    <main className="mx-auto w-full max-w-md pb-28">
+      <header className="flex items-center gap-2.5 px-4 pt-3.5 pb-2">
+        <Link
+          href={`/diet?date=${dateKey}`}
+          aria-label="식단으로"
+          className="flex size-10 shrink-0 items-center justify-center rounded-full border border-border text-ink"
         >
-          {message}
-        </p>
-      ) : null}
+          <ChevronLeft className="size-4.5" aria-hidden />
+        </Link>
+        <span className="min-w-0 flex-1">
+          <h1 className="text-[1.0625rem] font-bold">식단 남기기</h1>
+          <p className="truncate text-xs text-muted-foreground">
+            {formatKstDateLabel(new Date(`${dateKey}T00:00:00+09:00`))}
+          </p>
+        </span>
+      </header>
 
-      <form action={createDietRecord} className="mt-5">
+      <form action={createDietRecord} className="flex flex-col gap-4 px-4 pt-1.5">
         <input type="hidden" name="date" value={dateKey} />
 
+        {message ? (
+          <p
+            role="alert"
+            className="rounded-[0.875rem] bg-status-urgent-bg px-4 py-3 text-sm font-medium text-status-urgent"
+          >
+            {message}
+          </p>
+        ) : null}
+
+        <DietPhotoPicker />
+
         <fieldset>
-          <legend className="text-sm font-bold">끼니</legend>
+          <legend className="mx-1 mb-1.5 text-[0.8125rem] font-bold">끼니</legend>
           {/* 라디오라 자바스크립트 없이도 고를 수 있다. 하나는 반드시 켜져 있다. */}
-          <div className="mt-2 flex flex-wrap gap-2">
+          <div
+            className="grid gap-1.5"
+            style={{ gridTemplateColumns: `repeat(${MEAL_ORDER.length}, minmax(0, 1fr))` }}
+          >
             {MEAL_ORDER.map((meal) => (
-              <label key={meal} className="cursor-pointer">
+              <label key={meal} className="min-w-0 cursor-pointer">
                 <input
                   type="radio"
                   name="mealType"
@@ -76,7 +84,7 @@ export default async function NewDietPage({
                   defaultChecked={meal === selected}
                   className="peer sr-only"
                 />
-                <span className="flex h-11 items-center rounded-xl border border-border px-4 text-sm font-semibold peer-checked:border-brand-strong peer-checked:bg-accent peer-checked:text-brand-strong peer-focus-visible:ring-2 peer-focus-visible:ring-brand-strong">
+                <span className="flex h-10.5 items-center justify-center rounded-full border border-border text-[0.8125rem] font-bold whitespace-nowrap peer-checked:border-ink peer-checked:bg-ink peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-ring">
                   {MEAL_LABEL[meal]}
                 </span>
               </label>
@@ -84,12 +92,8 @@ export default async function NewDietPage({
           </div>
         </fieldset>
 
-        <div className="mt-5">
-          <DietPhotoPicker />
-        </div>
-
-        <div className="mt-5">
-          <label htmlFor="foodName" className="text-sm font-bold">
+        <div>
+          <label htmlFor="foodName" className="mx-1 mb-1.5 block text-[0.8125rem] font-bold">
             무엇을 먹었나요
           </label>
           <input
@@ -98,16 +102,13 @@ export default async function NewDietPage({
             type="text"
             maxLength={100}
             placeholder="현미밥, 닭가슴살, 샐러드"
-            className="mt-2 h-13 w-full rounded-2xl bg-card shadow-card px-4 text-sm"
+            className="h-12 w-full rounded-2xl border border-border bg-card px-3.5 text-sm outline-none focus:ring-2 focus:ring-ring/40"
           />
         </div>
 
-        <div className="mt-5">
-          <label htmlFor="memo" className="text-sm font-bold">
-            메모
-            <span className="ml-1 font-normal text-muted-foreground">
-              (선택)
-            </span>
+        <div>
+          <label htmlFor="memo" className="mx-1 mb-1.5 block text-[0.8125rem] font-bold">
+            메모 <span className="font-normal text-faint">(선택)</span>
           </label>
           <textarea
             id="memo"
@@ -115,16 +116,16 @@ export default async function NewDietPage({
             rows={3}
             maxLength={500}
             placeholder="운동 전에 먹었어요"
-            className="mt-2 w-full rounded-2xl bg-card shadow-card p-4 text-sm"
+            className="h-22 w-full resize-none rounded-2xl border border-border bg-card px-3.5 py-3 text-sm outline-none focus:ring-2 focus:ring-ring/40"
           />
         </div>
 
+        <p className="mx-1 text-xs leading-normal text-muted-foreground">
+          칼로리는 받지 않아요. 사진과 한 줄이면 트레이너가 볼 수 있어요.
+        </p>
+
         <SubmitDietButton />
       </form>
-
-      <p className="mt-3 text-center text-xs text-muted-foreground">
-        칼로리는 받지 않아요. 사진과 한 줄이면 트레이너가 볼 수 있어요.
-      </p>
     </main>
   );
 }

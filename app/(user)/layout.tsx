@@ -24,7 +24,7 @@ export default async function UserLayout({ children }: LayoutProps<"/">) {
       <div
         className="mx-auto w-full max-w-md flex-1"
         style={{
-          paddingBottom: "calc(6.25rem + env(safe-area-inset-bottom))",
+          paddingBottom: "calc(5.5rem + env(safe-area-inset-bottom))",
         }}
       >
         {children}

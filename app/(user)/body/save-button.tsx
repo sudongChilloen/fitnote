@@ -18,7 +18,7 @@ export function SaveButton({
     <button
       type="submit"
       disabled={pending}
-      className={`inline-flex h-12 items-center justify-center gap-1.5 rounded-xl bg-brand text-base font-bold text-brand-foreground disabled:opacity-50 ${className}`}
+      className={`inline-flex h-12 items-center justify-center gap-1.5 rounded-full bg-primary text-base font-bold text-primary-foreground disabled:opacity-50 ${className}`}
     >
       {pending ? <Loader2 className="size-4 animate-spin" aria-hidden /> : null}
       {children}

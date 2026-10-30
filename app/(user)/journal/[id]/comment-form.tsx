@@ -24,20 +24,20 @@ export function CommentForm({
     <form action={formAction} className="mt-3 flex flex-col gap-2">
       <input type="hidden" name="journalId" value={journalId} />
 
-      <div className="flex gap-2">
+      <div className="flex h-12 items-center gap-2 rounded-full border border-border pr-1.5 pl-4 focus-within:ring-2 focus-within:ring-ring/40">
         <input
           key={state?.token ?? "empty"}
           name="content"
           maxLength={1000}
           placeholder={placeholder}
           aria-label={placeholder}
-          className="h-12 min-w-0 flex-1 rounded-xl border border-border bg-background px-4 text-sm outline-none focus:ring-2 focus:ring-ring/40"
+          className="h-full min-w-0 flex-1 bg-transparent text-sm outline-none"
         />
 
         <button
           type="submit"
           disabled={pending}
-          className="h-12 shrink-0 rounded-xl bg-brand px-5 font-bold text-brand-foreground disabled:opacity-50"
+          className="h-9 shrink-0 rounded-full bg-primary px-3.5 text-[0.8125rem] font-bold text-primary-foreground disabled:opacity-50"
         >
           {pending ? "..." : submitLabel}
         </button>

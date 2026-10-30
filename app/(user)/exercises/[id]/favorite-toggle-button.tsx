@@ -20,10 +20,10 @@ export function FavoriteToggleButton({ on }: { on: boolean }) {
       disabled={pending}
       aria-pressed={on}
       className={cn(
-        "flex size-10 items-center justify-center rounded-xl border transition-colors",
+        "flex size-12 items-center justify-center rounded-full border transition-colors",
         on
-          ? "border-brand bg-accent text-brand-strong"
-          : "border-border text-muted-foreground hover:bg-secondary",
+          ? "border-brand bg-brand-muted text-primary"
+          : "border-border text-muted-foreground hover:bg-surface",
         pending && "opacity-50",
       )}
     >

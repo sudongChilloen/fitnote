@@ -1,25 +1,23 @@
 import Link from "next/link";
 
-import { Dumbbell, NotebookPen } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
-import { formatKstDateLabel, formatKstTimeLabel } from "@/lib/date";
+import { formatKstDateLabel, formatKstTimeLabel, kstWeekdayLabel } from "@/lib/date";
 import { cn } from "@/lib/utils";
 import type { MyPtSessionRow } from "@/server/pt/pt.service";
 
 /**
  * 회차 상태를 회원의 말로 옮긴다.
  *
- * 노쇼를 "노쇼" 라고 쓰지 않는다. 회원이 자기 기록에서 볼 말은 아니고,
- * 정작 알아야 하는 건 그래서 횟수가 빠졌는지다. 차감 여부는 상태에서
- * 유추하지 않고 기록된 값으로 따로 쓴다. 트레이너가 봐주기로 하고 안 뺀
- * 경우가 있는데, 화면이 "빠졌다" 고 단정하면 그게 거짓말이 된다.
+ * 차감 여부는 상태에서 유추하지 않고 기록된 값으로 따로 쓴다. 트레이너가 봐주기로
+ * 하고 안 뺀 경우가 있는데, 화면이 "빠졌다" 고 단정하면 그게 거짓말이 된다.
  */
 function labelOf(session: MyPtSessionRow) {
   switch (session.status) {
     case "COMPLETED":
       return { text: "완료", tone: "done" as const };
     case "NO_SHOW":
-      return { text: "미참석", tone: "bad" as const };
+      return { text: "노쇼", tone: "bad" as const };
     case "CANCELLED":
       return { text: "취소", tone: "muted" as const };
     default:
@@ -27,104 +25,127 @@ function labelOf(session: MyPtSessionRow) {
   }
 }
 
-const TONE = {
-  done: "bg-secondary text-foreground",
-  bad: "bg-destructive/10 text-destructive",
-  muted: "bg-secondary text-muted-foreground",
-  next: "bg-brand text-brand-foreground",
+const FILLED = {
+  done: "bg-brand-muted text-primary",
+  bad: "bg-status-urgent-bg text-status-urgent",
+  muted: "bg-surface text-muted-foreground",
+  next: "bg-surface text-muted-foreground",
 } as const;
 
-export function PtSessionRow({ session }: { session: MyPtSessionRow }) {
-  const label = labelOf(session);
-  const cancelled = session.status === "CANCELLED";
+function noteOf(session: MyPtSessionRow) {
   const moved = session.reschedules[0] ?? null;
+  if (session.status === "CANCELLED") {
+    return [
+      session.cancelledBy === "MEMBER" ? "회원 취소" : session.cancelledBy === "TRAINER" ? "트레이너 취소" : null,
+      session.deducted ? "1회 차감" : "차감 안 함",
+      session.cancelReason,
+    ]
+      .filter(Boolean)
+      .join(" · ");
+  }
+  if (session.status === "NO_SHOW") {
+    return session.deducted ? "당일 미참석 · 1회 차감" : "당일 미참석 · 차감 안 됨";
+  }
+  if (moved) {
+    return `${formatKstDateLabel(moved.fromScheduledAt)}에서 옮김`;
+  }
+  return null;
+}
+
+/** 앞으로 받을 회차. 큰 날짜 숫자 + 시간 + 상태 테두리 알약. */
+function kstMonthOf(date: Date) {
+  return new Date(date.getTime() + 9 * 60 * 60 * 1000).getUTCMonth();
+}
+
+function currentKstMonth() {
+  return kstMonthOf(new Date());
+}
+
+export function UpcomingPtRow({
+  session,
+  trainerName,
+}: {
+  session: MyPtSessionRow;
+  trainerName: string;
+}) {
+  const moved = session.reschedules[0] ?? null;
+  const cancelled = session.status === "CANCELLED";
+  const kst = new Date(session.scheduledAt.getTime() + 9 * 60 * 60 * 1000);
+  const sameMonth = kst.getUTCMonth() === currentKstMonth();
 
   return (
-    <li className="flex gap-3 py-3">
-      <span className="w-14 shrink-0 pt-0.5">
-        <span className="block text-xs font-bold tabular-nums">
-          {formatKstDateLabel(session.scheduledAt)}
-        </span>
-        <span className="mt-0.5 block text-[0.6875rem] text-muted-foreground tabular-nums">
-          {formatKstTimeLabel(session.scheduledAt)}
+    <li className="flex items-center gap-3 border-b border-line px-1 py-2.75">
+      <span className="w-12 shrink-0 text-center">
+        <b className="block text-lg leading-tight text-primary tabular-nums">{kst.getUTCDate()}</b>
+        <span className="text-[0.6875rem] text-muted-foreground">
+          {sameMonth ? "" : `${kst.getUTCMonth() + 1}월 `}
+          {kstWeekdayLabel(session.scheduledAt)}
         </span>
       </span>
-
       <span className="min-w-0 flex-1">
-        <span className="flex flex-wrap items-center gap-1.5">
-          <span
-            className={cn(
-              "text-sm font-bold tabular-nums",
-              cancelled && "text-muted-foreground line-through",
-            )}
-          >
-            {session.sessionNumber}회차
-          </span>
-          <span
-            className={cn(
-              "rounded-full px-1.5 py-0.5 text-[0.625rem] font-bold",
-              TONE[label.tone],
-            )}
-          >
-            {label.text}
-          </span>
-          {/*
-            빠진 회차에만 표시를 단다. 완료된 회차는 빠지는 게 당연해서 매 줄에
-            "차감" 을 달면 글자만 늘고, 정작 눈에 걸려야 하는 건 안 갔는데
-            빠진 회차다.
-          */}
-          {session.deducted && session.status !== "COMPLETED" ? (
-            <span className="rounded-full bg-destructive/10 px-1.5 py-0.5 text-[0.625rem] font-bold text-destructive">
-              횟수 차감
-            </span>
-          ) : null}
-          {!session.deducted && session.status === "NO_SHOW" ? (
-            <span className="rounded-full bg-secondary px-1.5 py-0.5 text-[0.625rem] font-bold text-muted-foreground">
-              차감 안 됨
-            </span>
-          ) : null}
+        <b className={cn("block text-sm tabular-nums", cancelled && "text-muted-foreground line-through")}>
+          {formatKstTimeLabel(session.scheduledAt)} · {session.durationMinutes}분
+        </b>
+        <span className="block truncate text-xs text-muted-foreground">
+          {session.sessionNumber}회차 · {trainerName} 트레이너
+          {cancelled && session.cancelReason ? ` · ${session.cancelReason}` : ""}
         </span>
+      </span>
+      <span
+        className={cn(
+          "shrink-0 rounded-full border px-2.25 py-0.5 text-[0.6875rem] font-bold",
+          cancelled || moved ? "border-coral text-status-urgent" : "border-input text-muted-foreground",
+        )}
+      >
+        {cancelled ? "취소됨" : moved ? "일정 변경" : "예정"}
+      </span>
+    </li>
+  );
+}
 
-        {moved ? (
-          <span className="mt-0.5 block text-xs text-muted-foreground tabular-nums">
-            {formatKstDateLabel(moved.fromScheduledAt)} →{" "}
-            {formatKstDateLabel(moved.toScheduledAt)} 로 옮김
-          </span>
-        ) : null}
+/** 지난 회차. 회차 · 날짜 · 사정 한 줄 · 상태 알약. 기록이 있으면 누르면 열린다. */
+export function PastPtRow({ session }: { session: MyPtSessionRow }) {
+  const label = labelOf(session);
+  const note = noteOf(session);
+  const href = session.journalId
+    ? `/journal/${session.journalId}`
+    : session.workoutSessionId
+      ? `/workouts/${session.workoutSessionId}`
+      : null;
 
-        {cancelled && session.cancelReason ? (
-          <span className="mt-0.5 block text-xs text-muted-foreground">
-            {session.cancelReason}
-          </span>
-        ) : null}
-
-        {/*
-          수업에서 남은 것으로 데려간다. 회차 줄에서 끝나면 "그날 뭐 했더라" 를
-          다시 캘린더에서 찾아야 한다.
-        */}
-        {session.workoutSessionId || session.journalId ? (
-          <span className="mt-1.5 flex flex-wrap gap-1.5">
-            {session.workoutSessionId ? (
-              <Link
-                href={`/workouts/${session.workoutSessionId}`}
-                className="inline-flex h-7 items-center gap-1 rounded-lg border border-border px-2 text-[0.6875rem] font-bold"
-              >
-                <Dumbbell className="size-3" aria-hidden />
-                운동 기록
-              </Link>
-            ) : null}
-            {session.journalId ? (
-              <Link
-                href={`/journal/${session.journalId}`}
-                className="inline-flex h-7 items-center gap-1 rounded-lg border border-border px-2 text-[0.6875rem] font-bold"
-              >
-                <NotebookPen className="size-3" aria-hidden />
-                알림장
-              </Link>
-            ) : null}
+  const body = (
+    <>
+      <span className="w-12 shrink-0 text-center text-xs font-bold text-muted-foreground tabular-nums">
+        {session.status === "CANCELLED" ? "—" : `${session.sessionNumber}회차`}
+      </span>
+      <span className="min-w-0 flex-1">
+        <b className="block truncate text-[0.8125rem] tabular-nums">
+          {formatKstDateLabel(session.scheduledAt)} {formatKstTimeLabel(session.scheduledAt)}
+        </b>
+        {note ? (
+          <span className="block truncate text-[0.6875rem] text-faint">{note}</span>
+        ) : href ? (
+          <span className="block truncate text-[0.6875rem] text-faint">
+            {session.journalId ? "알림장 보기" : "운동 기록 보기"}
           </span>
         ) : null}
       </span>
+      <span className={cn("shrink-0 rounded-full px-2.25 py-0.75 text-[0.6875rem] font-bold", FILLED[label.tone])}>
+        {label.text}
+      </span>
+      {href ? <ChevronRight className="size-4 shrink-0 text-faint" aria-hidden /> : null}
+    </>
+  );
+
+  return (
+    <li>
+      {href ? (
+        <Link href={href} className="flex items-center gap-3 border-b border-line px-1 py-2.5">
+          {body}
+        </Link>
+      ) : (
+        <div className="flex items-center gap-3 border-b border-line px-1 py-2.5">{body}</div>
+      )}
     </li>
   );
 }

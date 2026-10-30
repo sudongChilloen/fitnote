@@ -57,7 +57,7 @@ export function LogPastWorkoutButton({
         <Button
           variant="outline"
           className={cn(
-            "h-11 rounded-xl font-bold",
+            "h-10 rounded-full bg-card text-xs font-bold",
             hideDateInput ? "w-full" : "shrink-0",
           )}
           disabled={pending}
