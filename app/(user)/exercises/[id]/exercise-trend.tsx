@@ -26,8 +26,8 @@ export async function ExerciseTrend({
 
   if (trend.entries.length === 0) {
     return (
-      <section className="rounded-2xl bg-card shadow-card p-5">
-        <h2 className="text-sm font-bold">내 기록</h2>
+      <section className="rounded-[1.25rem] border border-border px-4 py-3.5">
+        <h2 className="text-[0.9375rem] font-bold">내 기록</h2>
         <p className="mt-3 text-sm text-muted-foreground">
           아직 이 운동을 기록한 적이 없어요.
         </p>
@@ -43,16 +43,16 @@ export async function ExerciseTrend({
   const hidden = trend.entries.length - shown.length;
 
   return (
-    <section className="rounded-2xl bg-card shadow-card p-5">
+    <section className="rounded-[1.25rem] border border-border px-4 py-3.5">
       <div className="flex items-baseline justify-between gap-3">
-        <h2 className="text-sm font-bold">내 기록</h2>
+        <h2 className="text-[0.9375rem] font-bold">내 기록</h2>
         <span className="text-xs text-muted-foreground tabular-nums">
           총 {trend.totalCount}회
         </span>
       </div>
 
       <dl className="mt-3 grid grid-cols-2 gap-2 text-center">
-        <div className="rounded-xl bg-secondary px-3 py-2.5">
+        <div className="rounded-2xl bg-[#f7f8f7] px-3 py-2.5">
           <dt className="text-xs text-muted-foreground">최고 중량</dt>
           <dd className="mt-0.5 font-bold tabular-nums">
             {trend.bestWeight !== null ? (
@@ -62,7 +62,7 @@ export async function ExerciseTrend({
             )}
           </dd>
         </div>
-        <div className="rounded-xl bg-secondary px-3 py-2.5">
+        <div className="rounded-2xl bg-[#f7f8f7] px-3 py-2.5">
           <dt className="text-xs text-muted-foreground">추정 1RM</dt>
           <dd className="mt-0.5 font-bold tabular-nums">
             {trend.bestOneRm !== null ? (
@@ -83,7 +83,7 @@ export async function ExerciseTrend({
             >
               <span
                 aria-hidden
-                className="absolute inset-y-0 left-0 bg-brand/20"
+                className="absolute inset-y-0 left-0 bg-brand-muted"
                 style={{
                   width: `${Math.max(4, (entry.volume / maxVolume) * 100)}%`,
                 }}
@@ -94,7 +94,7 @@ export async function ExerciseTrend({
                   {formatKstDateLabel(entry.performedAt)}
                 </span>
                 {entry.isPr ? (
-                  <span className="ml-1.5 rounded-full bg-accent px-1.5 py-0.5 text-[0.65rem] font-bold text-brand-strong">
+                  <span className="ml-1.5 rounded-full bg-brand-muted px-1.5 py-0.5 text-[0.65rem] font-bold text-primary">
                     신기록
                   </span>
                 ) : entry.firstTime ? (
@@ -125,7 +125,7 @@ export async function ExerciseTrend({
         <Link
           href={moreHref}
           scroll={false}
-          className="mt-3 flex h-10 items-center justify-center rounded-xl bg-secondary text-sm font-semibold"
+          className="mt-3 flex h-10 items-center justify-center rounded-full bg-secondary text-sm font-semibold"
         >
           {hidden}회 더 보기
         </Link>

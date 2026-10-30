@@ -4,15 +4,14 @@ import { notFound, redirect } from "next/navigation";
 
 import { requireUser } from "@/app/lib/dal";
 import { formatKstDateLabel } from "@/lib/date";
-import { buttonVariants } from "@/components/ui/button";
+import { EquipmentIcon } from "@/components/fitness/equipment-icon";
+import { BODY_PART_LABEL } from "@/lib/exercise-labels";
 import { cn } from "@/lib/utils";
 import { getSessionSummary } from "@/server/workouts/workout.service";
 
 export const metadata = {
   title: "운동 요약 | FitNote",
 };
-
-const ctaClass = "h-12 w-full rounded-xl font-bold";
 
 export default async function WorkoutSummaryPage({
   params,
@@ -33,138 +32,129 @@ export default async function WorkoutSummaryPage({
   }
 
   const manual = summary.entryMode === "MANUAL";
+  const parts = [
+    ...new Set(summary.records.map((record) => BODY_PART_LABEL[record.exercise.bodyPart])),
+  ].slice(0, 3);
 
   return (
-    <main className="flex flex-col gap-4 px-5 pt-8 pb-8">
+    <main className="flex flex-col gap-3.5 px-4 pt-8 pb-5">
       <header className="text-center">
-        <p className="text-sm text-muted-foreground">
-          {formatKstDateLabel(summary.startedAt)}
-        </p>
-        <h1 className="mt-1 text-2xl font-bold">
+        <span className="inline-flex size-21 items-center justify-center rounded-full bg-brand-muted text-primary">
+          <Trophy className="size-10.5" strokeWidth={1.8} aria-hidden />
+        </span>
+        <h1 className="mt-3.5 text-2xl font-extrabold">
           {manual ? "기록을 저장했어요" : "운동을 마쳤어요"}
         </h1>
+        <p className="mt-1 text-[0.8125rem] text-muted-foreground">
+          {formatKstDateLabel(summary.startedAt)}
+          {parts.length > 0 ? ` · ${parts.join("·")}` : ""}
+        </p>
       </header>
 
-      {summary.prCount > 0 ? (
-        <p className="flex items-center justify-center gap-1.5 rounded-2xl bg-accent px-4 py-3 text-sm font-semibold text-brand-strong">
-          <Trophy className="size-4" aria-hidden />
-          신기록 {summary.prCount}개를 세웠어요
+      <dl className="mt-1.5 grid grid-cols-3 gap-2 text-center">
+        <div className="min-w-0 rounded-[1.125rem] bg-[#f7f8f7] p-3">
+          <dt className="text-[0.6875rem] text-muted-foreground">시간</dt>
+          <dd className="truncate text-xl font-extrabold tabular-nums">
+            {summary.durationSec !== null ? (
+              // 1분 미만도 "0분" 보다는 "1분" 이 덜 이상하다.
+              <>
+                {Math.max(1, Math.round(summary.durationSec / 60))}
+                <span className="text-[0.6875rem]">분</span>
+              </>
+            ) : (
+              // 몰아서 입력한 기록에는 실제 운동 시간이 없다.
+              <span className="text-muted-foreground">—</span>
+            )}
+          </dd>
+        </div>
+        <div className="min-w-0 rounded-[1.125rem] bg-[#f7f8f7] p-3">
+          <dt className="text-[0.6875rem] text-muted-foreground">세트</dt>
+          <dd className="truncate text-xl font-extrabold tabular-nums">{summary.countedSets}</dd>
+        </div>
+        <div className="min-w-0 rounded-[1.125rem] bg-primary p-3 text-white">
+          <dt className="text-[0.6875rem] text-white/75">볼륨</dt>
+          <dd className="truncate text-xl font-extrabold tabular-nums">
+            {summary.totalVolume.toLocaleString()}
+            <span className="text-[0.6875rem]">kg</span>
+          </dd>
+        </div>
+      </dl>
+
+      {summary.prCount > 0 || summary.skippedSets > 0 ? (
+        <p className="text-center text-xs text-muted-foreground">
+          {summary.prCount > 0 ? (
+            <span className="font-bold text-primary">신기록 {summary.prCount}개를 세웠어요</span>
+          ) : null}
+          {summary.prCount > 0 && summary.skippedSets > 0 ? " · " : ""}
+          {summary.skippedSets > 0
+            ? `체크하지 않은 세트 ${summary.skippedSets}개는 합계에서 뺐어요`
+            : ""}
         </p>
       ) : null}
 
-      <section className="rounded-2xl bg-card shadow-card p-5">
-        <dl className="grid grid-cols-3 gap-2 text-center">
-          <div>
-            <dt className="text-xs text-muted-foreground">시간</dt>
-            <dd className="mt-1 text-lg font-bold tabular-nums">
-              {summary.durationSec !== null ? (
-                // 1분 미만도 "0분" 보다는 "1분" 이 덜 이상하다.
-                `${Math.max(1, Math.round(summary.durationSec / 60))}분`
-              ) : (
-                // 몰아서 입력한 기록에는 실제 운동 시간이 없다.
-                <span className="text-muted-foreground">—</span>
-              )}
-            </dd>
-          </div>
-          <div>
-            <dt className="text-xs text-muted-foreground">세트</dt>
-            <dd className="mt-1 text-lg font-bold tabular-nums">
-              {summary.countedSets}
-            </dd>
-          </div>
-          <div>
-            <dt className="text-xs text-muted-foreground">볼륨</dt>
-            <dd className="mt-1 text-lg font-bold tabular-nums">
-              {summary.totalVolume.toLocaleString()}
-              <span className="ml-0.5 text-xs font-medium text-muted-foreground">
-                kg
-              </span>
-            </dd>
-          </div>
-        </dl>
-
-        {summary.skippedSets > 0 ? (
-          <p className="mt-3 border-t border-border pt-3 text-center text-xs text-muted-foreground">
-            체크하지 않은 세트 {summary.skippedSets}개는 합계에서 뺐어요
-          </p>
-        ) : null}
-      </section>
-
       {summary.records.length === 0 ? (
-        <p className="rounded-2xl border border-dashed border-border px-5 py-10 text-center text-sm text-muted-foreground">
+        <p className="rounded-[1.375rem] border border-dashed border-border px-5 py-10 text-center text-sm text-muted-foreground">
           기록한 운동이 없어요
         </p>
       ) : (
-        <ul className="flex flex-col gap-2">
-          {summary.records.map((record) => (
-            <li
-              key={record.id}
-              className="rounded-2xl bg-card shadow-card p-4"
-            >
-              <div className="flex items-start justify-between gap-2">
-                <div className="min-w-0">
-                  <Link
-                    href={`/exercises/${record.exercise.id}`}
-                    className="block truncate font-semibold underline-offset-4 hover:underline"
-                  >
-                    {record.exercise.name}
-                  </Link>
-                  <p className="mt-0.5 text-xs text-muted-foreground tabular-nums">
-                    {record.countedSets}세트 ·{" "}
-                    {(record.totalVolume ?? 0).toLocaleString()}kg
-                  </p>
-                </div>
-
-                {record.weightPr || record.oneRmPr ? (
-                  <span className="shrink-0 rounded-full bg-accent px-2.5 py-1 text-xs font-semibold text-brand-strong">
-                    신기록
+        <ul className="rounded-[1.375rem] border border-border px-3.5 py-1.5">
+          {summary.records.map((record, index) => {
+            const badge =
+              record.weightPr || record.oneRmPr ? "신기록" : record.firstTime ? "첫 기록" : null;
+            return (
+              <li
+                key={record.id}
+                className={cn("flex items-center gap-3 py-3", index > 0 && "border-t border-line")}
+              >
+                <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand-muted text-primary">
+                  <EquipmentIcon name={record.exercise.name} className="size-5" />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="flex min-w-0 items-center gap-1.5">
+                    <Link
+                      href={`/exercises/${record.exercise.id}`}
+                      className="min-w-0 truncate text-sm font-bold"
+                    >
+                      {record.exercise.name}
+                    </Link>
+                    {badge ? (
+                      <span className="shrink-0 rounded-full bg-primary px-2 py-px text-[0.6875rem] font-bold text-white">
+                        {badge}
+                      </span>
+                    ) : null}
                   </span>
-                ) : record.firstTime ? (
-                  <span className="shrink-0 rounded-full border border-border px-2.5 py-1 text-xs font-medium text-muted-foreground">
-                    첫 기록
+                  <span className="block truncate text-xs text-muted-foreground tabular-nums">
+                    {record.topSet
+                      ? `${record.topSet.weight}kg × ${record.topSet.reps}회 · ${record.countedSets}세트`
+                      : `${record.countedSets}세트`}
+                    {record.weightPr && record.previousBestWeight !== null && record.topSet
+                      ? ` · +${
+                          Math.round((record.topSet.weight - record.previousBestWeight) * 10) / 10
+                        }kg`
+                      : ""}
                   </span>
-                ) : null}
-              </div>
-
-              {record.topSet ? (
-                <p className="mt-2 text-sm tabular-nums">
-                  최고 세트{" "}
-                  <span className="font-semibold">
-                    {record.topSet.weight}kg × {record.topSet.reps}회
-                  </span>
-                  {record.oneRm !== null ? (
-                    <span className="text-muted-foreground">
-                      {" · "}추정 1RM {record.oneRm}kg
-                    </span>
-                  ) : null}
-                </p>
-              ) : null}
-
-              {record.weightPr &&
-              record.previousBestWeight !== null &&
-              record.topSet ? (
-                <p className="mt-1 text-xs font-medium text-brand-strong tabular-nums">
-                  이전 최고 {record.previousBestWeight}kg에서{" "}
-                  {Math.round(
-                    (record.topSet.weight - record.previousBestWeight) * 10,
-                  ) / 10}
-                  kg 올랐어요
-                </p>
-              ) : null}
-            </li>
-          ))}
+                </span>
+                <b className="shrink-0 text-[0.8125rem] tabular-nums">
+                  {(record.totalVolume ?? 0).toLocaleString()}kg
+                </b>
+              </li>
+            );
+          })}
         </ul>
       )}
 
-      <div className="flex flex-col gap-2 pt-1">
-        <Link href="/home" className={cn(buttonVariants(), ctaClass)}>
-          홈으로
-        </Link>
+      <div className="mt-1 flex gap-2">
         <Link
           href={`/workouts/${summary.id}`}
-          className={cn(buttonVariants({ variant: "outline" }), ctaClass)}
+          className="flex h-13 min-w-0 flex-1 items-center justify-center rounded-full border border-border text-sm font-bold"
         >
           기록 수정
+        </Link>
+        <Link
+          href="/home"
+          className="flex h-13 min-w-0 flex-1 items-center justify-center rounded-full bg-ink text-sm font-bold text-white"
+        >
+          홈으로
         </Link>
       </div>
     </main>

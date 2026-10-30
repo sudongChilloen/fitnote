@@ -1,12 +1,12 @@
 import Link from "next/link";
 
-import { CalendarClock } from "lucide-react";
+import { CalendarClock, ChevronLeft, ChevronRight } from "lucide-react";
 
 import { requireUser } from "@/app/lib/dal";
 import { formatKstDateLabel } from "@/lib/date";
 import { getMyPt, type MyPtContract } from "@/server/pt/pt.service";
 
-import { PtSessionRow } from "./session-row";
+import { PastPtRow, UpcomingPtRow } from "./session-row";
 
 export const metadata = { title: "내 PT | FitNote" };
 
@@ -37,92 +37,111 @@ function split(contract: MyPtContract) {
   return { upcoming, past };
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
+function expiryText(contract: MyPtContract) {
+  if (contract.expiresAt === null) return `${formatKstDateLabel(contract.startedAt)} 시작 · 만료일 없음`;
+  if (contract.expired) return `${formatKstDateLabel(contract.expiresAt)} 만료됨`;
   return (
-    <span className="flex-1">
-      <span className="block text-lg font-bold tabular-nums">{value}</span>
-      <span className="mt-0.5 block text-[0.6875rem] text-muted-foreground">
-        {label}
-      </span>
-    </span>
+    `${formatKstDateLabel(contract.startedAt)} 시작 · ${formatKstDateLabel(contract.expiresAt)} 만료` +
+    (contract.daysLeft !== null
+      ? contract.daysLeft === 0
+        ? " · 오늘까지"
+        : ` · ${contract.daysLeft}일 남음`
+      : "")
   );
 }
 
-function ContractCard({ contract }: { contract: MyPtContract }) {
+/** 진행 중인 계약: 초록 카드 + 앞으로 / 지난 회차 목록. */
+function ActiveContract({ contract }: { contract: MyPtContract }) {
   const { upcoming, past } = split(contract);
-  const closed = contract.expired || contract.status !== "ACTIVE";
+  const used = contract.totalSessions - contract.remaining;
+  const ratio = contract.totalSessions > 0 ? used / contract.totalSessions : 0;
+  const ring = 2 * Math.PI * 33;
 
   return (
-    <section className="rounded-2xl bg-card shadow-card p-5">
-      <div className="flex items-baseline justify-between gap-2">
-        <h2 className="min-w-0 truncate text-base font-bold">
-          {contract.title}
-        </h2>
-        {closed ? (
-          <span className="shrink-0 rounded-full bg-secondary px-2 py-0.5 text-[0.6875rem] font-bold text-muted-foreground">
-            {contract.status === "CANCELLED" ? "해지" : "종료"}
+    <>
+      <section className="rounded-3xl bg-primary px-4.5 pt-4.5 pb-4 text-white">
+        <div className="flex items-center gap-3">
+          <span className="min-w-0 flex-1">
+            <span className="block truncate text-xs text-white/75">
+              {contract.title} · {contract.trainerName} 트레이너
+            </span>
+            <span className="mt-1 block text-xs text-white/75">남은 횟수</span>
+            {/*
+              남은 횟수와 예약된 횟수를 따로 쓴다. 한 숫자로 합치면 "12회 남음" 이
+              아직 안 받은 12회인지 더 잡을 수 있는 12회인지 알 수 없다.
+            */}
+            <b className="block text-[2.5rem] leading-none tracking-tight tabular-nums">
+              {contract.remaining}
+              <span className="text-[0.9375rem] font-semibold">회</span>
+            </b>
           </span>
-        ) : null}
-      </div>
-
-      <p className="mt-0.5 text-xs text-muted-foreground">
-        {contract.trainerName} 트레이너 · 총 {contract.totalSessions}회
-      </p>
-
-      {/*
-        남은 횟수와 예약된 횟수를 따로 쓴다. 한 숫자로 합치면 "12회 남음" 이
-        아직 안 받은 12회인지 더 잡을 수 있는 12회인지 알 수 없다.
-      */}
-      <div className="mt-4 flex gap-2">
-        <Stat label="남은 횟수" value={`${contract.remaining}회`} />
-        <Stat label="예약됨" value={`${contract.scheduledCount}회`} />
-        <Stat label="받은 횟수" value={`${contract.completedCount}회`} />
-        {contract.noShowCount > 0 ? (
-          <Stat label="미참석" value={`${contract.noShowCount}회`} />
-        ) : null}
-      </div>
-
-      <p className="mt-3 text-xs text-muted-foreground tabular-nums">
-        {contract.expiresAt === null
-          ? `${formatKstDateLabel(contract.startedAt)} 시작 · 만료일 없음`
-          : contract.expired
-            ? `${formatKstDateLabel(contract.expiresAt)} 만료됨`
-            : `${formatKstDateLabel(contract.expiresAt)} 만료` +
-              (contract.daysLeft !== null
-                ? contract.daysLeft === 0
-                  ? " · 오늘까지"
-                  : ` · ${contract.daysLeft}일 남음`
-                : "")}
-      </p>
+          <span className="relative size-21 shrink-0">
+            <svg viewBox="0 0 84 84" className="size-21" aria-hidden>
+              <circle cx="42" cy="42" r="33" fill="none" stroke="rgb(255 255 255 / 14%)" strokeWidth="8" />
+              <circle
+                cx="42"
+                cy="42"
+                r="33"
+                fill="none"
+                stroke="var(--brand)"
+                strokeWidth="8"
+                strokeLinecap="round"
+                strokeDasharray={ring}
+                strokeDashoffset={ring * (1 - Math.min(Math.max(ratio, 0), 1))}
+                transform="rotate(-90 42 42)"
+              />
+            </svg>
+            <span className="absolute inset-0 flex flex-col items-center justify-center">
+              <b className="text-[0.9375rem] tabular-nums">{used}</b>
+              <span className="text-[0.625rem] text-white/70 tabular-nums">
+                / {contract.totalSessions} 사용
+              </span>
+            </span>
+          </span>
+        </div>
+        <div className="mt-3.5 grid grid-cols-3 gap-1.5">
+          {[
+            ["예약됨", contract.scheduledCount],
+            ["받은 횟수", contract.completedCount],
+            ["미참석", contract.noShowCount],
+          ].map(([label, value]) => (
+            <span key={label} className="min-w-0 rounded-[0.875rem] bg-white/10 px-2.5 py-2">
+              <span className="block text-[0.6875rem] text-white/70">{label}</span>
+              <b className="text-[0.9375rem] tabular-nums">{value}회</b>
+            </span>
+          ))}
+        </div>
+        <p className="mt-3 text-xs text-white/80 tabular-nums">{expiryText(contract)}</p>
+      </section>
 
       {upcoming.length > 0 ? (
-        <div className="mt-5">
-          <h3 className="text-xs font-bold text-muted-foreground">앞으로</h3>
-          <ul className="mt-1 divide-y divide-border">
+        <section>
+          <h2 className="mx-1 mt-1.5 mb-1 text-base font-extrabold">앞으로</h2>
+          <ul>
             {upcoming.map((session) => (
-              <PtSessionRow key={session.id} session={session} />
+              <UpcomingPtRow key={session.id} session={session} trainerName={contract.trainerName} />
             ))}
           </ul>
-        </div>
+        </section>
       ) : null}
 
       {past.length > 0 ? (
-        <div className="mt-5">
-          <h3 className="text-xs font-bold text-muted-foreground">지난 회차</h3>
-          <ul className="mt-1 divide-y divide-border">
+        <section>
+          <h2 className="mx-1 mt-2.5 mb-1 text-base font-extrabold">지난 회차</h2>
+          <ul>
             {past.map((session) => (
-              <PtSessionRow key={session.id} session={session} />
+              <PastPtRow key={session.id} session={session} />
             ))}
           </ul>
-        </div>
+        </section>
       ) : null}
 
       {contract.sessions.length === 0 ? (
-        <p className="mt-5 text-xs text-muted-foreground">
+        <p className="rounded-[0.875rem] bg-[#f7f8f7] px-3.5 py-3 text-xs text-muted-foreground">
           아직 잡힌 수업이 없어요. 트레이너가 일정을 잡으면 여기에 보여요.
         </p>
       ) : null}
-    </section>
+    </>
   );
 }
 
@@ -144,48 +163,89 @@ export default async function MyPtPage() {
   const closed = contracts.filter((c) => c.expired || c.status !== "ACTIVE");
 
   return (
-    <main className="px-5 pt-5 pb-16">
-      <h1 className="text-2xl font-bold tracking-tight">내 PT</h1>
+    <main className="pb-16">
+      <header className="flex items-center gap-2.5 px-4 pt-3.5 pb-2">
+        <Link
+          href="/profile"
+          aria-label="내 정보"
+          className="flex size-10 shrink-0 items-center justify-center rounded-full border border-border text-ink"
+        >
+          <ChevronLeft className="size-4.5" aria-hidden />
+        </Link>
+        <h1 className="min-w-0 flex-1 text-[1.0625rem] font-bold">내 PT</h1>
+      </header>
 
-      {contracts.length === 0 ? (
-        <div className="mt-4 rounded-2xl bg-card shadow-card p-5">
-          <span className="flex size-9 items-center justify-center rounded-xl bg-accent text-brand-strong">
-            <CalendarClock className="size-4.5" aria-hidden />
-          </span>
-          <p className="mt-2.5 text-sm font-bold">등록된 PT가 없어요</p>
-          <p className="mt-1 text-xs text-muted-foreground">
-            트레이너와 연결하고 PT를 등록하면 남은 횟수와 수업 일정이 여기에
-            보여요. 내정보에서 트레이너 초대 코드를 넣을 수 있어요.
-          </p>
-          <Link
-            href="/profile"
-            className="mt-3 inline-flex h-10 items-center rounded-xl bg-brand px-4 text-sm font-bold text-brand-foreground"
-          >
-            내정보로 가기
-          </Link>
-        </div>
-      ) : (
-        <div className="mt-4 flex flex-col gap-4">
-          {active.map((contract) => (
-            <ContractCard key={contract.id} contract={contract} />
-          ))}
+      <div className="flex flex-col gap-3 px-4 pt-1.5">
+        {contracts.length === 0 ? (
+          <div className="rounded-[1.25rem] border border-border p-5">
+            <span className="flex size-9 items-center justify-center rounded-xl bg-brand-muted text-primary">
+              <CalendarClock className="size-4.5" aria-hidden />
+            </span>
+            <p className="mt-2.5 text-sm font-bold">등록된 PT가 없어요</p>
+            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+              트레이너와 연결하고 PT를 등록하면 남은 횟수와 수업 일정이 여기에 보여요. 내정보에서
+              트레이너 초대 코드를 넣을 수 있어요.
+            </p>
+            <Link
+              href="/profile"
+              className="mt-3 inline-flex h-10 items-center rounded-full bg-primary px-4 text-sm font-bold text-primary-foreground"
+            >
+              내정보로 가기
+            </Link>
+          </div>
+        ) : null}
 
-          {/*
-            끝난 계약은 아래로 민다. 지우지 않는 건 재등록할 때 지난번에 몇 회를
-            실제로 받았는지가 회원에게도 판단 근거라서다.
-          */}
-          {closed.length > 0 ? (
-            <>
-              <h2 className="mt-2 text-sm font-bold text-muted-foreground">
-                지난 PT
-              </h2>
+        {active.map((contract) => (
+          <ActiveContract key={contract.id} contract={contract} />
+        ))}
+
+        {/*
+          끝난 계약은 한 줄로 접어 둔다. 지우지 않는 건 재등록할 때 지난번에 몇 회를
+          실제로 받았는지가 회원에게도 판단 근거라서다.
+        */}
+        {closed.length > 0 ? (
+          <details className="group rounded-2xl bg-[#f7f8f7]">
+            <summary className="flex cursor-pointer list-none items-center gap-2.5 px-3.5 py-3">
+              <span className="min-w-0 flex-1">
+                <b className="block text-[0.8125rem]">지난 PT {closed.length}개</b>
+                <span className="block truncate text-xs text-muted-foreground">
+                  {closed
+                    .map(
+                      (contract) =>
+                        `${contract.title}${
+                          contract.expiresAt ? ` · ${formatKstDateLabel(contract.expiresAt)} 종료` : ""
+                        }`,
+                    )
+                    .join(" / ")}
+                </span>
+              </span>
+              <ChevronRight className="size-4 shrink-0 text-faint transition-transform group-open:rotate-90" aria-hidden />
+            </summary>
+            <div className="flex flex-col gap-2 px-2 pb-2">
               {closed.map((contract) => (
-                <ContractCard key={contract.id} contract={contract} />
+                <div key={contract.id} className="rounded-[0.875rem] bg-card px-3 py-2">
+                  <div className="flex items-baseline justify-between gap-2">
+                    <b className="min-w-0 truncate text-[0.8125rem]">{contract.title}</b>
+                    <span className="shrink-0 rounded-full bg-surface px-2 py-0.5 text-[0.6875rem] font-bold text-muted-foreground">
+                      {contract.status === "CANCELLED" ? "해지" : "종료"}
+                    </span>
+                  </div>
+                  <p className="text-[0.6875rem] text-muted-foreground tabular-nums">
+                    {contract.trainerName} 트레이너 · 받은 {contract.completedCount}회 / 총{" "}
+                    {contract.totalSessions}회
+                    {contract.noShowCount > 0 ? ` · 미참석 ${contract.noShowCount}회` : ""}
+                  </p>
+                  <ul>
+                    {split(contract).past.map((session) => (
+                      <PastPtRow key={session.id} session={session} />
+                    ))}
+                  </ul>
+                </div>
               ))}
-            </>
-          ) : null}
-        </div>
-      )}
+            </div>
+          </details>
+        ) : null}
+      </div>
     </main>
   );
 }

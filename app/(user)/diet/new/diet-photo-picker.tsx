@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 
-import { ImagePlus, Loader2, X } from "lucide-react";
+import { Camera, Loader2, X } from "lucide-react";
 
 import { resizeImage } from "@/lib/image-resize";
 
@@ -83,45 +83,42 @@ export function DietPhotoPicker() {
 
   return (
     <div>
-      <p className="text-sm font-bold">사진</p>
-
-      <div className="mt-2">
-        {preview ? (
-          <div className="relative w-32">
-            {/* 미리보기는 브라우저가 만든 blob 주소라 최적화할 대상이 없다. */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={preview}
-              alt="고른 사진"
-              className="aspect-square w-32 rounded-xl bg-secondary object-cover"
-            />
-            <button
-              type="button"
-              aria-label="사진 빼기"
-              onClick={remove}
-              className="absolute -top-1.5 -right-1.5 flex size-6 items-center justify-center rounded-full bg-primary text-primary-foreground"
-            >
-              <X className="size-3.5" aria-hidden />
-            </button>
-          </div>
-        ) : (
+      {preview ? (
+        <div className="relative">
+          {/* 미리보기는 브라우저가 만든 blob 주소라 최적화할 대상이 없다. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={preview}
+            alt="고른 사진"
+            className="h-42 w-full rounded-[1.375rem] bg-line object-cover"
+          />
           <button
             type="button"
-            disabled={busy}
-            onClick={() => inputRef.current?.click()}
-            className="flex size-32 flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-border text-muted-foreground disabled:opacity-50"
+            aria-label="사진 빼기"
+            onClick={remove}
+            className="absolute top-2.5 right-2.5 flex size-8 items-center justify-center rounded-full bg-ink/80 text-white"
           >
-            {busy ? (
-              <Loader2 className="size-5 animate-spin" aria-hidden />
-            ) : (
-              <ImagePlus className="size-5" aria-hidden />
-            )}
-            <span className="text-[0.6875rem]">
-              {busy ? "올리는 중" : "사진 고르기"}
-            </span>
+            <X className="size-4" aria-hidden />
           </button>
-        )}
-      </div>
+        </div>
+      ) : (
+        <button
+          type="button"
+          disabled={busy}
+          onClick={() => inputRef.current?.click()}
+          className="flex h-42 w-full flex-col items-center justify-center gap-2 rounded-[1.375rem] border-[1.5px] border-dashed border-brand-mid bg-[#f7fbf9] text-primary disabled:opacity-50"
+        >
+          <span className="flex size-13 items-center justify-center rounded-full bg-brand-muted">
+            {busy ? (
+              <Loader2 className="size-6 animate-spin" aria-hidden />
+            ) : (
+              <Camera className="size-6" strokeWidth={1.9} aria-hidden />
+            )}
+          </span>
+          <b className="text-sm">{busy ? "올리는 중" : "사진 올리기"}</b>
+          <span className="text-xs text-muted-foreground">사진 한 장이면 충분해요</span>
+        </button>
+      )}
 
       <input
         ref={inputRef}

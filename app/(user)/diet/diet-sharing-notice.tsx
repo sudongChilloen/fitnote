@@ -23,8 +23,8 @@ export async function DietSharingNotice({ userId }: { userId: string }) {
 
   return (
     <p
-      className={`flex items-start gap-2 rounded-xl px-4 py-3 text-xs ${
-        on ? "bg-accent text-primary" : "bg-secondary text-muted-foreground"
+      className={`flex items-start gap-2 rounded-[0.875rem] px-3.5 py-3 text-xs leading-relaxed ${
+        on ? "bg-brand-muted text-primary" : "bg-surface text-muted-foreground"
       }`}
     >
       {on ? (

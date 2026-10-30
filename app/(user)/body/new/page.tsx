@@ -1,6 +1,4 @@
-import Link from "next/link";
-
-import { ChevronLeft } from "lucide-react";
+import { PageHeader } from "@/components/layout/page-header";
 
 import { requireUser } from "@/app/lib/dal";
 import { toKstDateKey } from "@/lib/date";
@@ -43,36 +41,29 @@ export default async function NewBodyRecordPage({
   const message = bodyErrorMessage(error);
 
   return (
-    <main className="px-5 pt-8 pb-16">
-      <Link
-        href="/body"
-        className="-ml-1 inline-flex items-center gap-1 text-sm text-muted-foreground"
-      >
-        <ChevronLeft className="size-4" aria-hidden />
-        체성분
-      </Link>
-
-      <h1 className="mt-3 text-xl font-bold">오늘 잰 몸</h1>
-      <p className="mt-1 text-sm text-muted-foreground">
+    <main className="pb-16">
+      <PageHeader backHref="/body" backLabel="체성분으로" title="오늘 잰 몸" />
+      <div className="px-4 pt-1.5">
+      <p className="mx-1 text-[0.8125rem] leading-relaxed text-muted-foreground">
         아는 것만 채우면 돼요. 같은 날 다시 적으면 덮어써요.
       </p>
 
       {message ? (
-        <p className="mt-4 rounded-xl border border-destructive/40 bg-destructive/10 px-4 py-3 text-xs font-medium text-destructive">
+        <p className="mt-3 rounded-[0.875rem] bg-status-urgent-bg px-4 py-3 text-xs font-medium text-status-urgent">
           {message}
         </p>
       ) : null}
 
-      <form action={saveBodyRecordAction} className="mt-5 flex flex-col gap-4">
+      <form action={saveBodyRecordAction} className="mt-4 flex flex-col gap-3.5">
         <label className="flex flex-col gap-1.5">
-          <span className="text-sm font-bold">날짜</span>
+          <span className="mx-1 text-[0.8125rem] font-bold">날짜</span>
           <input
             name="dateKey"
             type="date"
             defaultValue={today}
             max={today}
             required
-            className="h-12 rounded-2xl bg-card shadow-card px-4 text-base"
+            className="h-12 rounded-2xl border border-border bg-card px-3.5 text-base outline-none focus:border-[1.5px] focus:border-primary"
           />
         </label>
 
@@ -81,7 +72,7 @@ export default async function NewBodyRecordPage({
 
           return (
             <label key={field.name} className="flex flex-col gap-1.5">
-              <span className="text-sm font-bold">
+              <span className="mx-1 text-[0.8125rem] font-bold">
                 {field.label}{" "}
                 <span className="font-medium text-muted-foreground">
                   ({field.unit})
@@ -96,14 +87,14 @@ export default async function NewBodyRecordPage({
                 placeholder={
                   previous === null ? "비워둬도 돼요" : `지난번 ${previous}`
                 }
-                className="h-12 rounded-2xl bg-card shadow-card px-4 text-base tabular-nums"
+                className="h-12 rounded-2xl border border-border bg-card px-3.5 text-base outline-none focus:border-[1.5px] focus:border-primary tabular-nums"
               />
             </label>
           );
         })}
 
         <label className="flex flex-col gap-1.5">
-          <span className="text-sm font-bold">
+          <span className="mx-1 text-[0.8125rem] font-bold">
             메모{" "}
             <span className="font-medium text-muted-foreground">(선택)</span>
           </span>
@@ -112,12 +103,13 @@ export default async function NewBodyRecordPage({
             rows={2}
             maxLength={300}
             placeholder="아침 공복 / 운동 후 같은 조건을 적어두면 나중에 비교하기 좋아요"
-            className="rounded-2xl bg-card shadow-card p-4 text-base"
+            className="resize-none rounded-2xl border border-border bg-card px-3.5 py-3 text-base outline-none focus:border-[1.5px] focus:border-primary"
           />
         </label>
 
         <SaveButton className="mt-2">저장하기</SaveButton>
       </form>
+      </div>
     </main>
   );
 }
