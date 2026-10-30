@@ -115,7 +115,7 @@ export function PushToggle({
   return (
     <div className="mt-4 flex items-center justify-between gap-3 rounded-2xl border border-border bg-card p-4">
       <div className="flex min-w-0 items-center gap-2.5">
-        <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-accent text-brand-strong">
+        <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-brand-muted text-primary">
           <BellRing className="size-4" aria-hidden />
         </span>
         <div className="min-w-0">
@@ -130,7 +130,7 @@ export function PushToggle({
         type="button"
         onClick={toggle}
         disabled={pending}
-        className="inline-flex h-9 shrink-0 items-center rounded-xl border border-border px-3 text-xs font-bold transition-colors hover:bg-secondary disabled:opacity-50"
+        className="inline-flex h-9 shrink-0 items-center rounded-full border border-border px-3 text-xs font-bold transition-colors hover:bg-secondary disabled:opacity-50"
       >
         {pending ? "처리 중" : on ? "끄기" : "켜기"}
       </button>
