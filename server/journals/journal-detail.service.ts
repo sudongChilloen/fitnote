@@ -94,6 +94,7 @@ export async function getJournalDetail(userId: string, journalId: string) {
       ptSession: {
         select: {
           scheduledAt: true,
+          sessionNumber: true,
           workoutSession: {
             select: {
               id: true,

@@ -10,6 +10,7 @@ export {
   listSessions,
   getRecentSessions,
   getRecentWorkoutDays,
+  getRecentDailySets,
   getMonthSummary,
   openManualSession,
   getSessionsByDate,

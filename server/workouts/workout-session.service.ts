@@ -350,6 +350,39 @@ export async function getRecentWorkoutDays(userId: string, days = 7) {
 }
 
 /**
+ * 최근 n 일간 날짜별 세트 수. 홈의 7일 막대와 연속 기록, 지난주 비교에 쓴다.
+ *
+ * 세트 내용은 필요 없으니 개수만 센다. 운동했지만 세트를 안 적은 날은
+ * 0 으로 남기지 않고 맵에 넣어서 "운동한 날" 로는 센다.
+ */
+export async function getRecentDailySets(userId: string, days = 30) {
+  const sessions = await prisma.workoutSession.findMany({
+    where: {
+      userId,
+      status: { not: WorkoutSessionStatus.CANCELLED },
+      startedAt: { gte: kstDaysAgo(days - 1) },
+    },
+    select: {
+      startedAt: true,
+      records: { select: { _count: { select: { sets: true } } } },
+    },
+  });
+
+  const byDate = new Map<string, number>();
+
+  for (const session of sessions) {
+    const key = toKstDateKey(session.startedAt);
+    const sets = session.records.reduce(
+      (sum, record) => sum + record._count.sets,
+      0,
+    );
+    byDate.set(key, (byDate.get(key) ?? 0) + sets);
+  }
+
+  return byDate;
+}
+
+/**
  * 한 달치 날짜별 요약.
  *
  * 달력의 점을 찍는 용도라 세션 전체를 끌어올 필요가 없다.
