@@ -10,6 +10,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "FitNote | 나의 운동 알림장",
   description: "트레이너와 회원을 위한 운동 기록, 식단, PT 일정 관리 서비스",
+  appleWebApp: {
+    capable: true,
+    title: "FitNote",
+    statusBarStyle: "default",
+  },
 };
 
 export const viewport: Viewport = {
